@@ -8,23 +8,19 @@
   "servers": [
     {
       "url": "https://wwwcie.ups.com/api/",
-	  "description": "Customer Integration Environment",
+	  "description": "Customer Integration Environment"
 
     },
 	{
 	  "url": "https://onlinetools.ups.com/api/",
 	  "description": "Production"
-	},
+	}
   ],
   "tags": [
     {
 		"name": "Rating_other",
 		"x-displayName": "Methods",
-		"description": "The Rating API is used when rating or shopping a shipment. <br /><a href=\"https://developer.ups.com/api/reference/rating/business-rules\" target=\"_blank\">Business Rules</a>
-		<br /><a href=\"https://developer.ups.com/api/reference/rating/appendix\" target=\"_blank\">Appendix</a>
-		<br /><a href=\"https://developer.ups.com/api/reference/rating/error-codes\" target=\"_blank\">Errors</a>
-		<br /><a href=\"https://developer.ups.com/api/reference/rating/faq\" target=\"_blank\">FAQ</a>
-		"
+		"description": "The Rating API is used when rating or shopping a shipment. <br /><a href=\"https://developer.ups.com/api/reference/rating/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/rating/appendix\" target=\"_blank\">Appendix</a><br /><a href=\"https://developer.ups.com/api/reference/rating/error-codes\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/rating/faq\" target=\"_blank\">FAQ</a>"
 	}
   ],
   "paths": {
@@ -865,7 +861,7 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 512,
-            "maximum":  1
+            "maximum": 1
           }
         },
         "xml": {
@@ -966,7 +962,7 @@
           "GoodsNotInFreeCirculationIndicator": {
             "description": "Goods Not In Free Circulation indicator.  This is an empty tag, any value inside is ignored. This indicator is invalid for a package type of UPS Letter and DocumentsOnly.",
             "maximum": 1,
-			"type": "string"
+            "type": "string"
           },
           "Service": {
             "$ref": "#/components/schemas/Shipment_Service"
@@ -984,7 +980,7 @@
           },
           "Package": {
             "type": "array",
-            "maximum":  200,
+            "maximum": 200,
             "items": {
               "$ref": "#/components/schemas/Shipment_Package"
             }
@@ -1084,9 +1080,9 @@
             "description": "Shipper's street address including name and number (when applicable).",
             "maximum": 3,
             "type": "array",
-			"items": {
-				"type": "string"
-			},
+            "items": {
+              "type": "string"
+            },
             "minLength": 1,
             "maxLength": 35
           },
@@ -1165,10 +1161,10 @@
           "AddressLine": {
             "description": "Destination street address including name and number (when applicable).",
             "maximum": 3,
-			"type": "array",
+            "type": "array",
             "items": {
-				"type": "string"
-			},
+              "type": "string"
+            },
             "minLength": 1,
             "maxLength": 35
           },
@@ -1254,8 +1250,8 @@
             "maximum": 3,
             "type": "array",
             "items": {
-				"type": "string"
-			},
+              "type": "string"
+            },
             "minLength": 1,
             "maxLength": 35
           },
@@ -1333,8 +1329,8 @@
             "maximum": 3,
             "type": "array",
             "items": {
-				      "type": "string"
-			      },
+              "type": "string"
+            },
             "minLength": 1,
             "maxLength": 35
           },
@@ -1417,10 +1413,10 @@
         "properties": {
           "ShipmentCharge": {
             "type": "array",
-			      "maximum": 2,
-			      "items": {
-				      "$ref": "#/components/schemas/PaymentDetails_ShipmentCharge"
-			      }
+            "maximum": 2,
+            "items": {
+              "$ref": "#/components/schemas/PaymentDetails_ShipmentCharge"
+            }
           },
           "SplitDutyVATIndicator": {
             "description": "Split Duty VAT Indicator. The presence indicates the payer specified for Transportation Charges will pay transportation charges and any duties that apply to the shipment. The payer specified for Duties and Taxes will pay the VAT (Value-Added Tax) only.  Empty Tag. The payment method for Transportation charges must be UPS account. The UPS account must be a daily pickup account or an occasional account.",
@@ -1436,7 +1432,7 @@
       },
       "PaymentDetails_ShipmentCharge": {
         "type": "object",
-		"maximum": 1,
+        "maximum": 1,
         "required": [
           "Type"
         ],
@@ -1561,8 +1557,8 @@
             "maximum": 3,
             "type": "array",
             "items": {
-				      "type": "string"
-			      },
+              "type": "string"
+            },
             "minLength": 1,
             "maxLength": 35
           },
@@ -1714,10 +1710,10 @@
             "$ref": "#/components/schemas/FreightDensityInfo_AdjustedHeight"
           },
           "HandlingUnits": {
-			"type": "array",
-			"items": {
-				"$ref": "#/components/schemas/FreightDensityInfo_HandlingUnits"
-			}            
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreightDensityInfo_HandlingUnits"
+            }
           }
         },
         "xml": {
@@ -1970,7 +1966,7 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 3,
-            "maximum":  1
+            "maximum": 1
           },
           "Description": {
             "description": "The Description for the Unit Of Measurement.",
@@ -2020,6 +2016,9 @@
             "description": "A flag indicating if the packages require additional handling. True if AdditionalHandlingIndicator tag exists; false otherwise. Additional Handling indicator indicates it\"s a non-corrugated package.  Empty Tag.",
             "maximum": 1,
             "type": "string"
+          },
+          "SimpleRate": {
+            "$ref": "#/components/schemas/Package_SimpleRate"
           },
           "UPSPremier": {
             "$ref": "#/components/schemas/Package_UPSPremier"
@@ -2464,10 +2463,6 @@
         },
         "description": "Shipper Paid Declared Value Charge at Package level.   Valid for UPS World Wide Express Freight shipments."
       },
-      "PackageServiceOptions_RefrigerationIndicator": {
-        "description": "Presence/Absence Indicator. Any value is ignored. If present, indicates that the package contains an item that needs refrigeration.  Shippers account needs to have a valid contract for Refrigeration.",
-        
-      },
       "Insurance_BasicFlexibleParcelIndicator": {
         "type": "object",
         "maximum": 1,
@@ -2581,11 +2576,11 @@
             "type": "string"
           },
           "HazMatChemicalRecord": {
-			"maximum": 3,
-			"type": "array",
-			"items": {
-				"$ref": "#/components/schemas/HazMat_HazMatChemicalRecord"
-			}
+            "maximum": 3,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HazMat_HazMatChemicalRecord"
+            }
           }
         },
         "xml": {
@@ -2848,6 +2843,33 @@
           "name": "UnitOfMeasurement"
         },
         "description": "Container for Unit Of Measurement for Dry Ice."
+      },
+      "Package_SimpleRate": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Simple Rate Package Size Valid values: XS -  Extra Small S -  Small M -  Medium L - Large XL - Extra Large",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "Description": {
+            "description": "Simple Rate Package Size Description",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "SimpleRate"
+        },
+        "description": "SimpleRate Container"
       },
       "Package_UPSPremier": {
         "type": "object",
@@ -3406,16 +3428,16 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-			"type": "array",
-			"items": {
-				"$ref": "#/components/schemas/Response_Alert"
-			}
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Response_Alert"
+            }
           },
           "AlertDetail": {
-			"type": "array",
-			"items": {
-				"$ref": "#/components/schemas/Response_AlertDetail"
-			}
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Response_AlertDetail"
+            }
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -3688,7 +3710,7 @@
           "TransportationCharges",
           "RatedPackage"
         ],
-        
+
         "maximum": 1,
         "description": "RatedShipment Container."
       },
@@ -3941,10 +3963,10 @@
             "$ref": "#/components/schemas/FRSShipmentData_FreightDensityRate"
           },
           "HandlingUnits": {
-			"type": "array",
-			"items": {
-				"$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
-			}
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
+            }
           }
         },
         "xml": {
@@ -4486,11 +4508,14 @@
           "NegotiatedCharges": {
             "$ref": "#/components/schemas/RatedPackage_NegotiatedCharges"
           },
+          "SimpleRate": {
+            "$ref": "#/components/schemas/RatedPackage_SimpleRate"
+          },
           "RateModifier": {
-			"type": "array",
-			"items": {
-				"$ref": "#/components/schemas/RatedPackage_RateModifier"
-			}
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RatedPackage_RateModifier"
+            }
           }
         },
         "xml": {
@@ -4772,6 +4797,26 @@
         },
         "description": "Negotiated Itemized Accessorial and Sur Charges.  These charges would be returned only when subversion is greater than or equal to 1607."
       },
+      "RatedPackage_SimpleRate": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Simple Rate Package Size Valid values: XS -  Extra Small S -  Small M -  Medium L - Large XL - Extra Large",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          }
+        },
+        "xml": {
+          "name": "SimpleRate"
+        },
+        "description": "SimpleRate will be returned if Simple Rate  present in request"
+      },
       "RatedShipment_TimeInTransit": {
         "type": "object",
         "maximum": 1,
@@ -4800,10 +4845,10 @@
             "maxLength": 2
           },
           "ServiceSummary": {
-			"type": "array",
-			"items": {
-				"$ref": "#/components/schemas/TimeInTransit_ServiceSummary"
-			}
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimeInTransit_ServiceSummary"
+            }
           },
           "AutoDutyCode": {
             "description": "Required output for International requests. If Documents indicator is set for Non-document a duty is automatically calculated. The possible values to be returned are: 01 - Dutiable02 - Non-Dutiable03 - Low-value04 - Courier Remission05 - Gift06 - Military07 - Exception08 - Line Release09 - Section 321 low value.",
@@ -4984,10 +5029,6 @@
           "name": "Arrival"
         },
         "description": "Container for the Time-In-Transit arrival information by service. This is the most accurate delivery information available via the Rating API and will reflect changes in delivery schedules due to peak business seasons or holidays."
-      },
-      "EstimatedArrival_BusinessDaysInTransit": {
-        "description": "Number of business days from Origin to Destination Locations.",
-        
       },
       "EstimatedArrival_Pickup": {
         "type": "object",
