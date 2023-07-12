@@ -15,6 +15,13 @@
       "description": "Production"
     }
   ],
+  "tags": [
+    {
+		"name": "Shipping_other",
+		"x-displayName": "Methods",
+		"description": "The Shipping Package API gives the application many ways to manage the shipment of packages to their destination. <br /><a href=\"https://developer.ups.com/api/reference/shipping/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/appendix1\" target=\"_blank\">Appendix 1</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/appendix2\" target=\"_blank\">Appendix 2</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/errors\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/faq\" target=\"_blank\">FAQ</a>"
+	}
+  ],
   "paths": {
     "/shipments/{version}/ship": {
       "post": {
@@ -1414,7 +1421,7 @@
                           "FaxNumber": "1234",
                           "EMailAddress": "",
                           "Address": {
-                            "AddressLine": "103 Avenue des Champs-Ã‰lysÃ©es",
+                            "AddressLine": "103 Avenue des Champs-Élysées",
                             "City": "Paris",
                             "StateProvinceCode": "",
                             "PostalCode": "75008",
@@ -1567,7 +1574,7 @@
                                 },
                                 "Option": "01",
                                 "Address": {
-                                  "AddressLine": "103 Avenue des Champs-Ã‰lysÃ©es",
+                                  "AddressLine": "103 Avenue des Champs-Élysées",
                                   "City": "Paris",
                                   "StateProvinceCode": "",
                                   "PostalCode": "75008",
@@ -2390,7 +2397,7 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Shipment_ReferenceNumber"
-            }            
+            }
           },
           "Service": {
             "$ref": "#/components/schemas/Shipment_Service"
@@ -2526,8 +2533,8 @@
             "description": "User can send up to 7 days in the future with current date as day zero. Format: YYYYMMDD",
             "type": "string",
             "maximum": 1,
-            "maxlength": 8,
-            "minlength": 8
+            "maxLength": 8,
+            "minLength": 8
           },
           "Package": {
             "type": "array",
@@ -2682,7 +2689,7 @@
         ],
         "properties": {
           "AddressLine": {
-            "description": "The Shipper street address including name and number (when applicable).Â  ",
+            "description": "The Shipper street address including name and number (when applicable).  ",
             "maximum": 3,
             "type": "array",
             "items": {
@@ -6585,6 +6592,9 @@
             "maximum": 1,
             "type": "string"
           },
+          "SimpleRate": {
+            "$ref": "#/components/schemas/Package_SimpleRate"
+          },
           "UPSPremier": {
             "$ref": "#/components/schemas/Package_UPSPremier"
           },
@@ -6695,7 +6705,7 @@
         "xml": {
           "name": "DimWeight"
         },
-        "maximum": 1      
+        "maximum": 1
 
       },
       "Package_DimWeight": {
@@ -6827,6 +6837,33 @@
           "Value"
         ],
         "description": "Package reference number information container.  For Mail Innovation shipments, up to 3 reference numbers are supported. If 5 reference numbers are specified (CostCenter, PackageID, and 3 ReferenceNumbers) the 3 desigated by the ReferenceNumber container will not be visible on 4x6 label supported by the API. These additional reference numbers are only be visible on the 4x8 label..\n\nFor non-Mail Innovation shipments only the first 2 reference numbers will be visible on labels."
+      },
+      "Package_SimpleRate": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Simple Rate Package Size Valid values: XS -  Extra Small S -  Small M -  Medium L - Large XL - Extra Large",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "Description": {
+            "description": "Simple Rate Package Size Description",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "SimpleRate"
+        },
+        "description": "SimpleRate Container"
       },
       "Package_UPSPremier": {
         "type": "object",
@@ -7014,7 +7051,7 @@
         ],
         "properties": {
           "Code": {
-            "description": "Declared value type. Valid values: 01=EVS, 02=DVS.Â  Defaults to 01 i.e. EVS if declared value type is not provided.",
+            "description": "Declared value type. Valid values: 01=EVS, 02=DVS.  Defaults to 01 i.e. EVS if declared value type is not provided.",
             "maximum": 1,
             "type": "string",
             "minLength": 2,
@@ -7687,7 +7724,7 @@
           },
           "Alert": {
             "type": "array",
-            "itmes": {
+            "items": {
               "$ref": "#/components/schemas/Response_Alert"
             }
           },
@@ -8672,6 +8709,9 @@
               "$ref": "#/components/schemas/PackageResults_Accessorial"
             }
           },
+          "SimpleRate": {
+            "$ref": "#/components/schemas/PackageResults_SimpleRate"
+          },
           "Form": {
             "$ref": "#/components/schemas/PackageResults_Form"
           },
@@ -8893,6 +8933,26 @@
           "name": "Accessorial"
         },
         "description": "The container for Accessorial indicators. This information would be returned only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Mid-day service request with Dry Ice or Oversize Pallet and SubVersion greater than or equal to 1707.  This is valid only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Mid-day service."
+      },
+      "PackageResults_SimpleRate": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Simple Rate Package Size Valid values: XS -  Extra Small S -  Small M -  Medium L - Large XL - Extra Large",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          }
+        },
+        "xml": {
+          "name": "SimpleRate"
+        },
+        "description": "SimpleRate will be returned if Simple Rate  present in request"
       },
       "PackageResults_Form": {
         "type": "object",
