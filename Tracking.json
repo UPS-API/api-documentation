@@ -61,7 +61,7 @@
           {
             "name": "transId",
             "in": "header",
-            "description": "transId",
+            "description": "An identifier unique to the request. Length 32",
             "required": true,
             "schema": {
               "type": "string"
@@ -70,7 +70,7 @@
           {
             "name": "transactionSrc",
             "in": "header",
-            "description": "transactionSrc",
+            "description": "An identifier of the client/source application that is making the request.Length 512",
             "required": true,
             "schema": {
               "type": "string",
