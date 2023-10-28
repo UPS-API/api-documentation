@@ -89,7 +89,7 @@
           "200": {
             "description": "Tracking Information found",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TrackApiResponse"
                 }
@@ -99,7 +99,7 @@
           "207": {
             "description": "Tracking Information not found for all inquiry numbers",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Response"
                 }
@@ -109,7 +109,7 @@
           "400": {
             "description": "Invalid request",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Response"
                 }
@@ -119,7 +119,7 @@
           "404": {
             "description": "Tracking number information not found",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Response"
                 }
@@ -129,7 +129,7 @@
           "500": {
             "description": "Internal server error",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Response"
                 }
@@ -139,7 +139,7 @@
           "503": {
             "description": "Resource is not available",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Response"
                 }
