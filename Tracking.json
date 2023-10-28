@@ -101,7 +101,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -111,7 +111,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -121,7 +121,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -131,7 +131,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -141,7 +141,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Response"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -563,8 +563,16 @@
           }
         }
       },
-      "Response": {
-        "title": "Response",
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "$ref": "#/components/schemas/ErrorResponseWrapper"
+          }
+        }
+      },
+      "ErrorResponseWrapper": {
+        "title": "ErrorResponseWrapper",
         "type": "object",
         "properties": {
           "errors": {
