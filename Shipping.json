@@ -7726,7 +7726,8 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Response_Alert"
-            }
+            },
+            "nullable": true
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -7818,7 +7819,8 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ShipmentResults_Disclaimer"
-            }
+            },
+            "nullable": true
           },
           "ShipmentCharges": {
             "$ref": "#/components/schemas/ShipmentResults_ShipmentCharges"
@@ -7834,14 +7836,16 @@
             "maximum": 1,
             "type": "string",
             "minLength": 2,
-            "maxLength": 2
+            "maxLength": 2,
+            "nullable": true
           },
           "BillableWeightCalculationMethod": {
             "description": "BillableWeightCalculationMethod is to indicate whether the billable weight calculation method utilized was - the package level or shipment level. This information will be returned only if RatingMethodRequestedIndicator is present in the request.  Valid values:\n01 = Shipment Billable Weight\n02 = Package Billable Weight",
             "maximum": 1,
             "type": "string",
             "minLength": 2,
-            "maxLength": 2
+            "maxLength": 2,
+            "nullable": true
           },
           "BillingWeight": {
             "$ref": "#/components/schemas/ShipmentResults_BillingWeight"
@@ -7851,31 +7855,36 @@
             "maximum": 1,
             "type": "string",
             "minLength": 18,
-            "maxLength": 18
+            "maxLength": 18,
+            "nullable": true
           },
           "MIDualReturnShipmentKey": {
             "description": "MIDualReturnShipmentKey is unique key required to process Mail Innovations Dual Return Shipment. \n\nThe unique identifier (key) would be returned in response of first phase of Mail Innovations Dual Return Shipments. \n\nThis unique identifier (key) would be part of request for second phase of Mail Innovations Dual Return Shipments and would be played back in response for second phase of Mail Innovations Dual Return Shipment.  If the shipment is a Package return shipment, the package tracking number will be concatenated with the system time (in the format YYYY-MM-DDHH.MM.SS.NNN) and followed by service code. \n\nIf the shipment is an MI Returns shipment, the Mail Manifest ID (MMI) will be concatenated with the system time.",
             "maximum": 1,
             "type": "string",
             "minLength": 4,
-            "maxLength": 50
+            "maxLength": 50,
+            "nullable": true
           },
           "BarCodeImage": {
             "description": "Bar Code Image will be returned as Base 64 encoded graphic image. Bar Code Image will be returned if BarCodeImageIndicator or BarCodeAndLabelIndicator is present.",
             "type": "string",
-            "maximum": 1
+            "maximum": 1,
+            "nullable": true
           },
           "PackageResults": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ShipmentResults_PackageResults"
-            }
+            },
+            "nullable": true
           },
           "ControlLogReceipt": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ShipmentResults_ControlLogReceipt"
-            }
+            },
+            "nullable": true
           },
           "Form": {
             "$ref": "#/components/schemas/ShipmentResults_Form"
@@ -7889,29 +7898,34 @@
           "LabelURL": {
             "description": "URL will point to a page wherein label, receipt and other documents, if applicable, such as HighValueReport, CustomsInvoice and ImportControl instructions can be requested. LabelURL is returned only if the LabelLinksIndicator is requested for following shipments:\nPrint/Electronic ImportControl shipment\nPrint/Electronic Return shipment. \nForward shipment except for Mail Innovations Forward.",
             "maximum": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "LocalLanguageLabelURL": {
             "description": "URL will point to a page wherein label, receipt and other documents, if applicable, such as HighValueReport, CustomsInvoice and ImportControl instructions can be requested. LocalLanguageLabelURL is returned only if the LabelLinksIndicator is requested for following shipments:\nPrint/Electronic ImportControl shipment\nPrint/Electronic Return shipment. \nForward shipment except for Mail Innovations Forward.  Not returned if LabelLinksIndicator is requested with Locale element.",
             "maximum": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "ReceiptURL": {
             "description": "URL will point to a page wherein label, receipt and other documents, if applicable, such as HighValueReport, CustomsInvoice and ImportControl instructions can be requested. ReceiptURL is returned only if the LabelLinksIndicator is requested for following shipments:\nPrint/Electronic ImportControl shipment\nPrint/Electronic Return shipment.",
             "maximum": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "LocalLanguageReceiptURL": {
             "description": "URL will point to a page wherein label, receipt and other documents, if applicable, such as HighValueReport, CustomsInvoice and ImportControl instructions can be requested. LocalLanguageReceiptURL is returned only if the LabelLinksIndicator is requested for following shipments:\nPrint/Electronic ImportControl shipment\nPrint/Electronic Return shipment.   Not returned if LabelLinksIndicator is requested with Locale element.",
             "maximum": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "DGPaperImage": {
             "description": "Dangrous Good Paper Image in pdf format. One multipage PDF document will be returned that will contain all required Dangrous Goods shipping paper copies for all Dangerous Goods packages.  Only returned when DGSignatoryInfo is present.",
             "type": "array",
             "items": {
               "type": "string"
-            }
+            },
+            "nullable": true
           },
           "MasterCartonID": {
             "description": "Master Carton ID. MasterCartonID will be return if MasterCartonIndicator is present in request.",
@@ -7922,7 +7936,8 @@
           },
           "RoarRatedIndicator": {
             "description": "Informational only",
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "xml": {
@@ -8007,7 +8022,8 @@
           "ServiceOptionsCharges",
           "TransportationCharges"
         ],
-        "description": "Shipment charges Container. Shipment charges info."
+        "description": "Shipment charges Container. Shipment charges info.",
+        "nullable": true
       },
       "ShipmentCharges_BaseServiceCharge": {
         "type": "object",
@@ -8253,7 +8269,8 @@
           "name": "NegotiatedRateCharges"
         },
         "description": "Negotiated Rates Charge Container.  For tiered rates and promotional discounts, if a particular shipment based on zone, origin, destination or even shipment size doesn't qualify for the existing discount then no negotiated rates container will be returned. Published rates will be the applicable rate.",
-        "maximum": 1
+        "maximum": 1,
+        "nullable": true
       },
       "NegotiatedRateCharges_ItemizedCharges": {
         "type": "object",
@@ -8412,7 +8429,8 @@
           "name": "FRSShipmentData"
         },
         "description": "Ground Freight Pricing Shipment data container. Ground Freight Pricing shipment data is only guaranteed to be returned for Ground Freight Pricing shipments only.",
-        "maximum": 1
+        "maximum": 1,
+        "nullable": true
       },
       "FRSShipmentData_TransportationCharges": {
         "type": "object",
@@ -8829,7 +8847,8 @@
           "name": "ShippingLabel"
         },
         "maximum": 1,
-        "description": "The container for UPS shipping label. Returned for following shipments -\nForward shipments,\nShipments with PRL returns service, \nElectronic Return Label or Electronic Import Control Label shipments with SubVersion greater than or equal to 1707. Shipping label wont be returned if BarCodeImageIndicator is present. Applicable only for ShipmentResponse and ShipAcceptResponse."
+        "description": "The container for UPS shipping label. Returned for following shipments -\nForward shipments,\nShipments with PRL returns service, \nElectronic Return Label or Electronic Import Control Label shipments with SubVersion greater than or equal to 1707. Shipping label wont be returned if BarCodeImageIndicator is present. Applicable only for ShipmentResponse and ShipAcceptResponse.",
+        "nullable": true
       },
       "ShippingLabel_ImageFormat": {
         "type": "object",
@@ -8997,7 +9016,8 @@
         "xml": {
           "name": "Form"
         },
-        "description": "Container tag for the International forms image.  Currently this container would be returned for UPS Premium Care shipments. Form is returned for following shipments -\nForward shipments,\nShipments with PRL ReturnService,\nElectronic Return Label or Electronic Import Control Label shipments with SubVersion greater than or equal to 1707. CN22 data for Worlwide economy services will be returned within the PDF417 barcode of the label."
+        "description": "Container tag for the International forms image.  Currently this container would be returned for UPS Premium Care shipments. Form is returned for following shipments -\nForward shipments,\nShipments with PRL ReturnService,\nElectronic Return Label or Electronic Import Control Label shipments with SubVersion greater than or equal to 1707. CN22 data for Worlwide economy services will be returned within the PDF417 barcode of the label.",
+        "nullable": true
       },
       "Form_Image": {
         "type": "object",
@@ -9289,7 +9309,8 @@
         "xml": {
           "name": "Form"
         },
-        "description": "Container tag for the International forms image.   Form is returned for following shipments -\nForward shipments,\nShipments with PRL ReturnService,\nElectronic Return Label or Electronic Import Control Label shipments with SubVersion greater than or equal to 1707."
+        "description": "Container tag for the International forms image.   Form is returned for following shipments -\nForward shipments,\nShipments with PRL ReturnService,\nElectronic Return Label or Electronic Import Control Label shipments with SubVersion greater than or equal to 1707.",
+        "nullable": true
       },
       "ShipmentResults_CODTurnInPage": {
         "type": "object",
@@ -9343,7 +9364,8 @@
           "name": "HighValueReport"
         },
         "description": "Container for the High Value Report generated for ImportControl or Return shipments with high package declared value.  Applicable for one pass ShipmentResponse and two-pass ShipAcceptResponse",
-        "maximum": 1
+        "maximum": 1,
+        "nullable": true
       },
       "HighValueReport_Image": {
         "type": "object",
