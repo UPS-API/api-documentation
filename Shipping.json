@@ -17,10 +17,10 @@
   ],
   "tags": [
     {
-		"name": "Shipping_other",
-		"x-displayName": "Methods",
-		"description": "The Shipping Package API gives the application many ways to manage the shipment of packages to their destination. <br /><a href=\"https://developer.ups.com/api/reference/shipping/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/appendix1\" target=\"_blank\">Appendix 1</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/appendix2\" target=\"_blank\">Appendix 2</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/errors\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/faq\" target=\"_blank\">FAQ</a>"
-	}
+      "name": "Shipping_other",
+      "x-displayName": "Methods",
+      "description": "The Shipping Package API gives the application many ways to manage the shipment of packages to their destination. <br /><a href=\"https://developer.ups.com/api/reference/shipping/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/appendix1\" target=\"_blank\">Appendix 1</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/appendix2\" target=\"_blank\">Appendix 2</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/errors\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/shipping/faq\" target=\"_blank\">FAQ</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
+    }
   ],
   "paths": {
     "/shipments/{version}/ship": {
@@ -80,7 +80,7 @@
               },
               "examples": {
                 "1": {
-                  "summary": "Shipping Request",
+                  "summary": "Shipping Request(Standard Example)",
                   "value": {
                     "ShipmentRequest": {
                       "Request": {
@@ -101,7 +101,9 @@
                           "ShipperNumber": " ",
                           "FaxNumber": "8002222222",
                           "Address": {
-                            "AddressLine": "2311 York Rd",
+                            "AddressLine": [
+                              "2311 York Rd"
+                            ],
                             "City": "Timonium",
                             "StateProvinceCode": "MD",
                             "PostalCode": "21093",
@@ -113,7 +115,7 @@
                           "AttentionName": "1160b_74",
                           "Phone": { "Number": "9225377171" },
                           "Address": {
-                            "AddressLine": "123 Main St",
+                            "AddressLine": [ "123 Main St" ],
                             "City": "timonium",
                             "StateProvinceCode": "MD",
                             "PostalCode": "21030",
@@ -127,7 +129,7 @@
                           "Phone": { "Number": "1234567890" },
                           "FaxNumber": "1234567890",
                           "Address": {
-                            "AddressLine": "2311 York Rd",
+                            "AddressLine": [ "2311 York Rd" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -186,8 +188,7 @@
                         "RequestOption": "nonvalidate",
                         "SubVersion": "1601",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": "?"
+                          "CustomerContext": ""
                         }
                       },
                       "Shipment": {
@@ -202,7 +203,7 @@
                           "ShipperNumber": "",
                           "Phone": { "Number": "5555555555" },
                           "Address": {
-                            "AddressLine": "Shipper_Addrline1",
+                            "AddressLine": [ "Shipper_Addrline1" ],
                             "City": "BERLIN",
                             "StateProvinceCode": "",
                             "PostalCode": "10785",
@@ -215,7 +216,7 @@
                           "CompanyDisplayableName": "ShipTo_company",
                           "Phone": { "Number": "5555555555" },
                           "Address": {
-                            "AddressLine": "Shipper_Addrline1",
+                            "AddressLine": [ "Shipper_Addrline1" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -227,7 +228,7 @@
                           "AttentionName": "ShipFrom_Attn.name",
                           "CompanyDisplayableName": "ShipFrom_company",
                           "Address": {
-                            "AddressLine": "ShipFrom_Addrline1",
+                            "AddressLine": [ "ShipFrom_Addrline1" ],
                             "City": "BERLIN",
                             "StateProvinceCode": "",
                             "PostalCode": "10785",
@@ -278,8 +279,7 @@
                       "Request": {
                         "RequestOption": "nonvalidate",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": "String"
+                          "CustomerContext": ""
                         }
                       },
                       "Shipment": {
@@ -291,7 +291,7 @@
                           "TaxIdentificationNumber": "456789",
                           "Phone": { "Number": "1234567890" },
                           "Address": {
-                            "AddressLine": "34 Queen St",
+                            "AddressLine": [ "34 Queen St" ],
                             "City": "Toronto",
                             "StateProvinceCode": "ON",
                             "PostalCode": "M5C2M6",
@@ -304,7 +304,7 @@
                           "TaxIdentificationNumber": "458889",
                           "Phone": { "Number": "1234567890" },
                           "Address": {
-                            "AddressLine": "B.B. King Blvd.",
+                            "AddressLine": [ "B.B. King Blvd." ],
                             "City": "Charlotte",
                             "StateProvinceCode": "NC",
                             "PostalCode": "28256",
@@ -318,7 +318,7 @@
                           "FaxNumber": "1234567999",
                           "TaxIdentificationNumber": "456999",
                           "Address": {
-                            "AddressLine": "34 Queen St",
+                            "AddressLine": [ "34 Queen St" ],
                             "City": "Toronto",
                             "StateProvinceCode": "ON",
                             "PostalCode": "M5C2M6",
@@ -355,7 +355,7 @@
                                 "TaxIdentificationNumber": " ",
                                 "Phone": { "Number": "5551479876" },
                                 "Address": {
-                                  "AddressLine": "123 Main St",
+                                  "AddressLine": [ "123 Main St" ],
                                   "City": "Phoenix",
                                   "StateProvinceCode": "GA",
                                   "PostalCode": "30076",
@@ -366,7 +366,7 @@
                                 "Option": " ",
                                 "CompanyName": "Tree Service",
                                 "Address": {
-                                  "AddressLine": "678 Elm St",
+                                  "AddressLine": [ "678 Elm St" ],
                                   "City": "Marietta",
                                   "StateProvinceCode": "GA",
                                   "PostalCode": "30066",
@@ -408,8 +408,7 @@
                       "Request": {
                         "RequestOption": "nonvalidate",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": "String"
+                          "CustomerContext": ""
                         },
                         "SubVersion": "1701"
                       },
@@ -430,7 +429,7 @@
                           "Phone": { "Number": "1234567890" },
                           "ShipperNumber": " ",
                           "Address": {
-                            "AddressLine": "12380 Morris Rd",
+                            "AddressLine": [ "12380 Morris Rd" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -444,7 +443,7 @@
                           "FaxNumber": "1234567890",
                           "TaxIdentificationNumber": "123456",
                           "Address": {
-                            "AddressLine": "793 Foothill Blvd",
+                            "AddressLine": [ "793 Foothill Blvd" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -458,7 +457,7 @@
                           "FaxNumber": "1234567890",
                           "TaxIdentificationNumber": "123456",
                           "Address": {
-                            "AddressLine": "12380 Morris Rd",
+                            "AddressLine": [ "12380 Morris Rd" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -602,7 +601,7 @@
                           "ShipperNumber": " ",
                           "FaxNumber": "8002222222",
                           "Address": {
-                            "AddressLine": "12380 Morris Road",
+                            "AddressLine": [ "12380 Morris Road" ],
                             "City": "LUTHERVILLE TIMONIUM",
                             "StateProvinceCode": "MD",
                             "PostalCode": "21093",
@@ -614,7 +613,7 @@
                           "AttentionName": "1160b_74",
                           "Phone": { "Number": "9225377171" },
                           "Address": {
-                            "AddressLine": "460 Rue du Valibout",
+                            "AddressLine": [ "460 Rue du Valibout" ],
                             "City": "SMITHFIELD",
                             "StateProvinceCode": "RI",
                             "PostalCode": "02917",
@@ -627,7 +626,7 @@
                           "Phone": { "Number": "1234567890" },
                           "FaxNumber": "1234567890",
                           "Address": {
-                            "AddressLine": "12380 Morris Road",
+                            "AddressLine": [ "12380 Morris Road" ],
                             "City": "LUTHERVILLE TIMONIUM",
                             "StateProvinceCode": "MD",
                             "PostalCode": "21093",
@@ -703,8 +702,7 @@
                         "RequestOption": "nonvalidate",
                         "SubVersion": "1901",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": " "
+                          "CustomerContext": ""
                         }
                       },
                       "Shipment": {
@@ -783,9 +781,6 @@
                               "InterchangeSystemCode": "SDI",
                               "SuppressPrintInvoiceIndicator": " ",
                               "Address": {
-                                "AddressLine": " ",
-                                "City": " ",
-                                "StateProvinceCode": " ",
                                 "PostalCode": "30005",
                                 "CountryCode": "US"
                               }
@@ -848,8 +843,7 @@
                         "RequestOption": "nonvalidate",
                         "SubVersion": "1701",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": "?"
+                          "CustomerContext": ""
                         }
                       },
                       "Shipment": {
@@ -938,7 +932,7 @@
                           "FaxNumber": "2134",
                           "EMailAddress": " ",
                           "Address": {
-                            "AddressLine": "address",
+                            "AddressLine": [ "address" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -957,7 +951,7 @@
                           "FaxNumber": "1234",
                           "EMailAddress": " ",
                           "Address": {
-                            "AddressLine": "AddressLine",
+                            "AddressLine": [ "AddressLine" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -976,7 +970,7 @@
                           },
                           "FaxNumber": "5555555555",
                           "Address": {
-                            "AddressLine": "AddressLine",
+                            "AddressLine": [ "AddressLine" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -1016,8 +1010,7 @@
                       "Request": {
                         "RequestOption": "nonvalidate",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": "String"
+                          "CustomerContext": ""
                         }
                       },
                       "Shipment": {
@@ -1031,7 +1024,7 @@
                           "ShipperNumber": " ",
                           "EMailAddress": " ",
                           "Address": {
-                            "AddressLine": "AddressLine1",
+                            "AddressLine": [ "AddressLine1" ],
                             "City": "BOLTON",
                             "StateProvinceCode": "ON",
                             "PostalCode": "20999",
@@ -1045,7 +1038,7 @@
                           "Phone": { "Number": "6787462345" },
                           "EMailAddress": " ",
                           "Address": {
-                            "AddressLine": "Morris Rd",
+                            "AddressLine": [ "Morris Rd" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "ON",
                             "PostalCode": "L7E5C1",
@@ -1057,7 +1050,7 @@
                           "Name": "Alt. Name",
                           "UPSAccessPointID": "GB00088",
                           "Address": {
-                            "AddressLine": "Morris RD",
+                            "AddressLine": [ "Morris RD" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "ON",
                             "PostalCode": "20999",
@@ -1071,7 +1064,7 @@
                           "Phone": { "Number": "6787463456" },
                           "ShipFromAccountNumber": " ",
                           "Address": {
-                            "AddressLine": "Old Alpharetta rd",
+                            "AddressLine": [ "Old Alpharetta rd" ],
                             "City": "BOLTON",
                             "StateProvinceCode": "ON",
                             "PostalCode": "20999",
@@ -1157,8 +1150,7 @@
                         "RequestOption": "nonvalidate",
                         "SubVersion": "2108",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": ""
+                          "CustomerContext": ""
                         }
                       },
                       "Shipment": {
@@ -1292,8 +1284,7 @@
                       "Request": {
                         "RequestOption": "nonvalidate",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": "String"
+                          "CustomerContext": ""
                         },
                         "SubVersion": "1701"
                       },
@@ -1306,7 +1297,7 @@
                           "Phone": { "Number": "1234567890" },
                           "ShipperNumber": "",
                           "Address": {
-                            "AddressLine": "12380 Morris Rd",
+                            "AddressLine": [ "12380 Morris Rd" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -1320,7 +1311,7 @@
                           "FaxNumber": "1234567890",
                           "TaxIdentificationNumber": "123456",
                           "Address": {
-                            "AddressLine": "793 Foothill Blvd",
+                            "AddressLine": [ "793 Foothill Blvd" ],
                             "City": "San Luis Obispo",
                             "StateProvinceCode": "CA",
                             "PostalCode": "93405",
@@ -1334,7 +1325,7 @@
                           "FaxNumber": "1234567890",
                           "TaxIdentificationNumber": "123456",
                           "Address": {
-                            "AddressLine": "12380 Morris Rd",
+                            "AddressLine": [ "12380 Morris Rd" ],
                             "City": "Alpharetta",
                             "StateProvinceCode": "GA",
                             "PostalCode": "30005",
@@ -1385,8 +1376,7 @@
                         "RequestOption": "nonvalidate",
                         "SubVersion": "1901",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": ""
+                          "CustomerContext": ""
                         }
                       },
                       "Shipment": {
@@ -1403,7 +1393,7 @@
                           "FaxNumber": "8002222222",
                           "EMailAddress": "",
                           "Address": {
-                            "AddressLine": "2 South Main Street",
+                            "AddressLine": [ "2 South Main Street" ],
                             "City": "LONDON",
                             "StateProvinceCode": "GA",
                             "PostalCode": "TW59NR",
@@ -1421,7 +1411,7 @@
                           "FaxNumber": "1234",
                           "EMailAddress": "",
                           "Address": {
-                            "AddressLine": "103 Avenue des Champs-Élysées",
+                            "AddressLine": [ "103 Avenue des Champs-Élysées" ],
                             "City": "Paris",
                             "StateProvinceCode": "",
                             "PostalCode": "75008",
@@ -1443,7 +1433,7 @@
                           },
                           "FaxNumber": "1234",
                           "Address": {
-                            "AddressLine": "2 South Main Street",
+                            "AddressLine": [ "2 South Main Street" ],
                             "City": "TW59NR",
                             "StateProvinceCode": "GA",
                             "PostalCode": "TW59NR",
@@ -1522,7 +1512,7 @@
                                 "CompanyName": "UPS",
                                 "TaxIdentificationNumber": "94-308351500",
                                 "Address": {
-                                  "AddressLine": "AddressLine",
+                                  "AddressLine": [ "AddressLine" ],
                                   "City": "Alpharetta",
                                   "StateProvinceCode": "GA",
                                   "Town": "Town",
@@ -1533,7 +1523,7 @@
                               "UltimateConsignee": {
                                 "CompanyName": "UPS",
                                 "Address": {
-                                  "AddressLine": "Address",
+                                  "AddressLine": [ "Address" ],
                                   "City": "Alpharetta",
                                   "StateProvinceCode": "GA",
                                   "Town": "TOWN",
@@ -1550,7 +1540,7 @@
                                 "CompanyName": "ProducerCompanyName",
                                 "TaxIdentificationNumber": "1234",
                                 "Address": {
-                                  "AddressLine": "Address",
+                                  "AddressLine": [ "Address" ],
                                   "City": "Marietta",
                                   "StateProvinceCode": "GA",
                                   "Town": "Town",
@@ -1574,7 +1564,7 @@
                                 },
                                 "Option": "01",
                                 "Address": {
-                                  "AddressLine": "103 Avenue des Champs-Élysées",
+                                  "AddressLine": [ "103 Avenue des Champs-Élysées" ],
                                   "City": "Paris",
                                   "StateProvinceCode": "",
                                   "PostalCode": "75008",
@@ -1717,8 +1707,7 @@
                         "RequestOption": "nonvalidate",
                         "SubVersion": "1901",
                         "TransactionReference": {
-                          "CustomerContext": "",
-                          "TransactionIdentifier": ""
+                          "CustomerContext": ""
                         }
                       },
                       "Shipment": {
@@ -1735,7 +1724,7 @@
                           "FaxNumber": "8002222222",
                           "EMailAddress": "",
                           "Address": {
-                            "AddressLine": "2 South Main Street",
+                            "AddressLine": [ "2 South Main Street" ],
                             "City": "LONDON",
                             "StateProvinceCode": "GA",
                             "PostalCode": "TW59NR",
@@ -1753,7 +1742,7 @@
                           "FaxNumber": "1234",
                           "EMailAddress": "",
                           "Address": {
-                            "AddressLine": "2311 York Rd",
+                            "AddressLine": [ "2311 York Rd" ],
                             "City": "STARZACH",
                             "StateProvinceCode": "GA",
                             "PostalCode": "72181",
@@ -1775,7 +1764,7 @@
                           },
                           "FaxNumber": "1234",
                           "Address": {
-                            "AddressLine": "2 South Main Street",
+                            "AddressLine": [ "2 South Main Street" ],
                             "City": "TW59NR",
                             "StateProvinceCode": "GA",
                             "PostalCode": "TW59NR",
@@ -1854,7 +1843,7 @@
                                 "CompanyName": "UPS",
                                 "TaxIdentificationNumber": "12345",
                                 "Address": {
-                                  "AddressLine": "AddressLine",
+                                  "AddressLine": [ "AddressLine" ],
                                   "City": "Alpharetta",
                                   "StateProvinceCode": "GA",
                                   "Town": "Town",
@@ -1865,7 +1854,7 @@
                               "UltimateConsignee": {
                                 "CompanyName": "UPS",
                                 "Address": {
-                                  "AddressLine": "Address",
+                                  "AddressLine": [ "Address" ],
                                   "City": "Alpharetta",
                                   "StateProvinceCode": "GA",
                                   "Town": "TOWN",
@@ -1882,7 +1871,7 @@
                                 "CompanyName": "ProducerCompanyName",
                                 "TaxIdentificationNumber": "1234",
                                 "Address": {
-                                  "AddressLine": "Address",
+                                  "AddressLine": [ "Address" ],
                                   "City": "Marietta",
                                   "StateProvinceCode": "GA",
                                   "Town": "Town",
@@ -1906,7 +1895,7 @@
                                 },
                                 "Option": "01",
                                 "Address": {
-                                  "AddressLine": "Address",
+                                  "AddressLine": [ "Address" ],
                                   "City": "STARZACH",
                                   "StateProvinceCode": "GA",
                                   "Town": "town",
@@ -2040,6 +2029,135 @@
                         "ShipmentValueThresholdCode": "01"
                       }
                     }
+                  }
+                }, 
+				"13": {
+                  "summary": "Shipping with Carbon Neutral",
+                  "value": {
+					    "ShipmentRequest": {
+							"Shipment": {
+								"Description": "DG",
+								"ShipmentDate":"20231012",
+								"Shipper": {
+									"Name": "Shipper_name",
+									"AttentionName": "Shipper_name",
+									"CompanyDisplayableName": "Shipper_name",
+									"Phone": {
+										"Number": "1234567890",
+										"Extension": "1234"
+									},
+									"ShipperNumber": "3217GG",
+									"FaxNumber": "1234",
+									"EMailAddress": "test@ups.com",
+									"Address": {
+										"AddressLine": [
+											"ShipperAddress",
+											"ShipperAddress",
+											"ShipperAddress"
+										],
+										"City": "Alpharetta",
+										"StateProvinceCode": "GA",
+										"PostalCode": "30005",
+										"CountryCode": "US"
+									}
+								},
+								"ShipTo": {
+									"Name": "ShipToName",
+									"AttentionName": "ShipToName",
+									"CompanyDisplayableName": "ShipToName",
+									"Phone": {
+										"Number": "1234567890",
+										"Extension": "1234"
+									},
+									"FaxNumber": "1234",
+									"EMailAddress": "test@ups.com",
+									"Address": {
+										"AddressLine": [
+											"ShipToAddress",
+											"ShipToAddress",
+											"ShipToAddress"
+										],
+										"City": "carrollton",
+										"StateProvinceCode": "GA",
+										"PostalCode": "30117",
+										"CountryCode": "US"
+									}
+								},
+								"ShipFrom": {
+									"Name": "ShipFromName",
+									"AttentionName": "ShipFromName",
+									"CompanyDisplayableName": "ShipFromName",
+									"TaxIdentificationNumber": "1234",
+									"TaxIDType": {
+										"Code": "EIN"
+									},
+									"Phone": {
+										"Number": "1234567890",
+										"Extension": "1234"
+									},
+									"FaxNumber": "1234",
+									"Address": {
+										"AddressLine": [
+											"ShipFromAddress",
+											"ShipFromAddress",
+											"ShipFromAddress"
+										],
+										"City": "Texas",
+										"StateProvinceCode": "TX",
+										"PostalCode": "77040",
+										"CountryCode": "US"
+									}
+								},
+								"PaymentInformation": {
+									"ShipmentCharge": {
+										"Type": "01",
+										"BillShipper": {
+											"AccountNumber": "3217GG"
+										}
+									}
+								},
+								"Service": {
+									"Code": "01",
+									"Description": "Next Day Air"
+								},
+								"InvoiceLineTotal": {
+									"CurrencyCode": "USD",
+									"MonetaryValue": "10"
+								},
+								"NumOfPiecesInShipment": "1",
+								"ShipmentServiceOptions": {
+									"UPScarbonneutralIndicator": ""
+								},
+								"Package": {
+									"Description": "DG",
+									"NumOfPieces": "10",
+									"Packaging": {
+										"Code": "02",
+										"Description": "desc"
+									},
+									"Dimensions": {
+										"UnitOfMeasurement": {
+											"Code": "IN",
+											"Description": "IN"
+										},
+										"Length": "2",
+										"Width": "2",
+										"Height": "2"
+									},
+									"PackageWeight": {
+										"UnitOfMeasurement": {
+											"Code": "LBS",
+											"Description": "LBS"
+										},
+										"Weight": "50"
+									},
+									"PackageServiceOptions": {
+										"PackedByStoreIndicator": "",
+										"PackageIdentifier": "123"
+									}
+								}
+							}
+						}
                   }
                 }
               }
@@ -2184,7 +2302,37 @@
               "examples": {
                 "json": {
                   "summary": "A sample JSON request",
-                  "value": "{\r\n  \"LabelRecoveryRequest\": {\r\n    \"Request\": {\r\n      \"RequestOption\": \"Non_Validate\",\r\n      \"SubVersion\": \"1903\",\r\n      \"TransactionReference\": {\r\n        \"CustomerContext\":\"\",\r\n        \"TransactionIdentifier\": \"\"\r\n      }\r\n    },\r\n    \"LabelSpecification\": {\r\n      \"HTTPUserAgent\": \"Mozilla/4.5\",\r\n      \"LabelImageFormat\": {\r\n        \"Code\": \"ZPL\"\r\n      },\r\n      \"LabelStockSize\": {\r\n        \"Height\": \"6\",\r\n        \"Width\": \"4\"\r\n      }\r\n    },\r\n    \"Translate\": {\r\n      \"LanguageCode\": \"eng\",\r\n      \"DialectCode\": \"US\",\r\n      \"Code\": \"01\"\r\n    },\r\n    \"LabelDelivery\": {\r\n      \"LabelLinkIndicator\": \"\",\r\n      \"ResendEmailIndicator\": \"\"\r\n    },\r\n    \"TrackingNumber\": \"1Z12345E8791315509\"\r\n  }\r\n}"
+                  "value": {
+                    "LabelRecoveryRequest": {
+                      "LabelDelivery": {
+                        "LabelLinkIndicator": "",
+                        "ResendEmailIndicator": ""
+                      },
+                      "LabelSpecification": {
+                        "HTTPUserAgent": "Mozilla/4.5",
+                        "LabelImageFormat": {
+                          "Code": "ZPL"
+                        },
+                        "LabelStockSize": {
+                          "Height": "6",
+                          "Width": "4"
+                        }
+                      },
+                      "Request": {
+                        "RequestOption": "Non_Validate",
+                        "SubVersion": "1903",
+                        "TransactionReference": {
+                          "CustomerContext": ""
+                        }
+                      },
+                      "TrackingNumber": "1Z12345E8791315509",
+                      "Translate": {
+                        "Code": "01",
+                        "DialectCode": "US",
+                        "LanguageCode": "eng"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -2217,7 +2365,7 @@
     "securitySchemes": {
       "oauth2": {
         "type": "oauth2",
-        "description": "Find your client_id and client_secret on your app info page. <br/> 1. Once your credentials are entered select \\\"Authorize\\\" and a bearer token will be generated.<br/> 2. Click \\\"Try it out\\\" and enter any required values.<br/> 3. Select an example request to use or provide your own.<br/> 4. Select \\\"Send the request using the values above\\\" to execute your API request.",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
         "flows": {
           "clientCredentials": {
             "x-tokenEndpointAuthMethod": "client_secret_basic",
@@ -2519,16 +2667,6 @@
             "maximum": 1,
             "type": "string"
           },
-          "BarCodeImageIndicator": {
-            "description": "Bar Code Image Indicator. Presence of this indicator means only bar code image will be created and returned to client. Shipping Label wont be returned when bar code image is returned.",
-            "maximum": 1,
-            "type": "string"
-          },
-          "BarCodeAndLabelIndicator": {
-            "description": "Bar Code And Label Indicator. Presence of this indicator means both bar code image and shipping label will be returned.",
-            "maximum": 1,
-            "type": "string"
-          },
           "ShipmentDate": {
             "description": "User can send up to 7 days in the future with current date as day zero. Format: YYYYMMDD",
             "type": "string",
@@ -2563,7 +2701,7 @@
         ],
         "properties": {
           "Code": {
-            "description": "Return Service types: \n 2 = UPS Print and Mail (PNM)\n 3 = UPS Return Service 1-Attempt (RS1)\n 5 = UPS Return Service 3-Attempt (RS3)\n 8 = UPS Electronic Return Label (ERL)\n 9 = UPS Print Return Label (PRL)\n 10 = UPS Exchange Print Return Label\n 11 = UPS Pack & Collect Service 1-Attempt Box 1\n 12 = UPS Pack & Collect Service 1-Attempt Box 2\n 13 = UPS Pack & Collect Service 1-Attempt Box 3\n 14 = UPS Pack & Collect Service 1-Attempt Box 4\n 15 = UPS Pack & Collect Service 1-Attempt Box 5\n 16 = UPS Pack & Collect Service 3-Attempt Box 1\n 17 = UPS Pack & Collect Service 3-Attempt Box 2\n 18 = UPS Pack & Collect Service 3-Attempt Box 3\n 19 = UPS Pack & Collect Service 3-Attempt Box 4\n 20 = UPS Pack & Collect Service 3-Attempt Box 5",
+            "description": "Return Service types: \n 3 = UPS Return Service 1-Attempt (RS1)\n 5 = UPS Return Service 3-Attempt (RS3)\n 8 = UPS Electronic Return Label (ERL)\n 9 = UPS Print Return Label (PRL)\n 10 = UPS Exchange Print Return Label\n 11 = UPS Pack & Collect Service 1-Attempt Box 1\n 12 = UPS Pack & Collect Service 1-Attempt Box 2\n 13 = UPS Pack & Collect Service 1-Attempt Box 3\n 14 = UPS Pack & Collect Service 1-Attempt Box 4\n 15 = UPS Pack & Collect Service 1-Attempt Box 5\n 16 = UPS Pack & Collect Service 3-Attempt Box 1\n 17 = UPS Pack & Collect Service 3-Attempt Box 2\n 18 = UPS Pack & Collect Service 3-Attempt Box 3\n 19 = UPS Pack & Collect Service 3-Attempt Box 4\n 20 = UPS Pack & Collect Service 3-Attempt Box 5",
             "maximum": 1,
             "type": "string",
             "minLength": 1,
@@ -2730,7 +2868,7 @@
         "xml": {
           "name": "Address"
         },
-        "description": "Address tag Container. The package should be returned to this address if the package is undeliverable.\n\nThis address appears on the upper left hand corner of the label.\n\nNote: If the ShipFrom container is not present then this address will be used as the ShipFrom address. \nIf this address is used as the ShipFrom the shipment will be rated from this origin address."
+        "description": "Address tag Container.\n\nThis address appears on the upper left hand corner of the label.\n\nNote: If the ShipFrom container is not present then this address will be used as the ShipFrom address. \nIf this address is used as the ShipFrom the shipment will be rated from this origin address."
       },
       "Shipment_ShipTo": {
         "type": "object",
@@ -4199,7 +4337,7 @@
         ],
         "properties": {
           "NotificationCode": {
-            "description": "Notification Code.  Valid values:\n3 - Receiver Return Notification\n6 - QV Email Notification\n7 - QV Exception Notification\n8 - QV Delivery Notification \nFor Mail Innovations forward shipments, QV Email Notifications are allowed for First Class, Priority Mail, and Expedited Mail Innovation services.",
+            "description": "The type of notification requested.  Valid values:\n 5 - QV In-transit Notification\n6 - QV Ship Notification\n7 - QV Exception Notification\n8 - QV Delivery Notification\n2 - Return Notification or Label Creation Notification\n012 - Alternate Delivery Location Notification\n013 - UAP Shipper Notification",
             "maximum": 1,
             "type": "string",
             "minLength": 1,
@@ -5506,8 +5644,8 @@
             "description": "The locations phone extension of the Producer.",
             "maximum": 1,
             "type": "string",
-            "minLength": 2,
-            "maxLength": 1
+            "minLength": 1,
+            "maxLength": 4
           }
         },
         "xml": {
@@ -5589,8 +5727,8 @@
             "description": "Sold To contacts phone extension.",
             "maximum": 1,
             "type": "string",
-            "minLength": 2,
-            "maxLength": 1
+            "minLength": 1,
+            "maxLength": 4
           }
         },
         "xml": {
@@ -5924,7 +6062,7 @@
       },
       "Product_ScheduleB": {
         "type": "object",
-        "maximum": 2,
+        "maximum": 1,
         "required": [
           "Number",
           "UnitOfMeasurement"
@@ -6321,7 +6459,7 @@
         ],
         "properties": {
           "DCISType": {
-            "description": "Type of delivery confirmation.  Valid values: \n1 - Delivery Confirmation\n2 - Delivery Confirmation Signature Required",
+            "description": "Type of delivery confirmation.  Valid values: \n1 - Delivery Confirmation Signature Required\n2 - Delivery Confirmation Adult Signature Required. Valid for forward shipments only.",
             "maximum": 1,
             "type": "string",
             "minLength": 1,
@@ -6687,7 +6825,7 @@
         "type": "object",
         "description": "Dimensions information container. Note: Currently dimensions are not applicable to Ground Freight Pricing.\tLength + 2*(Width + Height) must be less than or equal to 165 IN or 330 CM.Required for Heavy Goods service. Package Dimension will be ignored for Simple Rate ",
         "properties": {
-          "UnitOfMeasurement": {
+          "Code": {
             "description": "Package dimensions measurement code. Valid codes: IN = Inches CM = Centimeters 00 = Metric Units Of Measurement 01 = English Units of Measurement\tThe unit of measurement must be valid for the Shipper country or territory. ",
             "maximum": 1,
             "type": "string",
@@ -6993,7 +7131,7 @@
         ],
         "properties": {
           "DCISType": {
-            "description": "Type of delivery confirmation.  Valid values: 2 - Delivery Confirmation Signature Required\n3 - Delivery Confirmation Adult Signature Required",
+            "description": "Type of delivery confirmation.  Valid values: 1 - Unsupported\n 2 - Delivery Confirmation Signature Required\n3 - Delivery Confirmation Adult Signature Required",
             "maximum": 1,
             "type": "string",
             "minLength": 1,
@@ -7938,7 +8076,6 @@
         "type": "object",
         "maximum": 1,
         "required": [
-          "Description",
           "Code"
         ],
         "properties": {
@@ -8790,7 +8927,6 @@
         "type": "object",
         "required": [
           "GraphicImage",
-          "GraphicImagePart",
           "ImageFormat"
         ],
         "properties": {
@@ -9446,13 +9582,6 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 512
-          },
-          "TransactionIdentifier": {
-            "description": "The Unique TransactionIdentifier Information for that transaction. This will be present only if requested in the request.",
-            "maximum": 1,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 35
           }
         },
         "xml": {
@@ -9585,13 +9714,6 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 512
-          },
-          "TransactionIdentifier": {
-            "description": "The Unique TransactionIdentifier Information for that transaction. This will be present only if requested in the request.",
-            "maximum": 1,
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 35
           }
         },
         "xml": {

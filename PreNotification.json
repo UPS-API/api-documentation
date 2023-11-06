@@ -2,19 +2,31 @@
   "openapi": "3.0.3",
   "info": {
     "title": "PreNotification",
-    "description": "The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day.",
     "termsOfService": "https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html",
-    "version": "1.0.1"
+    "version": ""
   },
   "servers": [
     {
-      "url": "https://wwwcie.ups.com/api/"
+      "url": "https://wwwcie.ups.com/api/",
+      "description": "Customer Integration Environment"
+    },
+    {
+      "url": "https://onlinetools.ups.com/api/",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "PreNotification_other",
+      "x-displayName": "Methods",
+      "description": "The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day. <br /><a href=\"https://developer.ups.com/api/reference/prenotification/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/prenotification/errors\" target=\"_blank\">Errors</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
     }
   ],
   "paths": {
     "/dangerousgoods/{version}/prenotification": {
       "post": {
-        "summary": "The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day.",
+        "summary": "Pre-Notification",
+        "description": "The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day.",
         "operationId": "PreNotification",
         "parameters": [
           {
@@ -57,7 +69,7 @@
               },
               "examples": {
                 "json": {
-                  "summary": "A sample JSON request",
+                  "summary": "A sample JSON request (Standard Example)",
                   "value": {
                     "PreNotificationRequest": {
                       "Request": {
@@ -163,9 +175,10 @@
     "securitySchemes": {
       "oauth2": {
         "type": "oauth2",
-        "description": "Find your client_id and client_secret on your app info page. <br/> 1. Once your credentials are entered select \\\"Authorize\\\" and a bearer token will be generated.<br/> 2. Click \\\"Try it out\\\" and enter any required values.<br/> 3. Select an example request to use or provide your own.<br/> 4. Select \\\"Send the request using the values above\\\" to execute your API request.",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
         "flows": {
           "clientCredentials": {
+            "x-tokenEndpointAuthMethod": "client_secret_basic",
             "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
             "scopes": {}
           }
@@ -244,20 +257,16 @@
         "properties": {
           "CustomerContext": {
             "description": "The CustomerContext information which will be echoed during response.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
           }
         },
         "xml": {
           "name": "TransactionReference"
         },
         "description": "TransactionReference identifies transactions between client and server."
-      },
-      "TransactionReference_CustomerContext": {
-        "description": "The CustomerContext information which will be echoed during response.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 512
       },
       "PreNotificationRequest_Shipment": {
         "type": "object",
@@ -274,12 +283,18 @@
         ],
         "properties": {
           "ShipperNumber": {
-            "description": "Shipper\ufffds six digit account number.",
-            "type": "string"
+            "description": "Shipper's six digit account number.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 6
           },
           "ShipmentIdentificationNumber": {
             "description": "1Z Number of the first package in the shipment.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 18,
+            "maxLength": 18
           },
           "ShipToAddress": {
             "$ref": "#/components/schemas/Shipment_ShipToAddress"
@@ -289,17 +304,24 @@
           },
           "PickupDate": {
             "description": "Date of the On Call Air Pickup. Format is YYYYMMDD",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 8
           },
           "Service": {
             "$ref": "#/components/schemas/Shipment_Service"
           },
           "RegulationSet": {
-            "description": "The Regulatory set associated with every regulated shipment. It must be same across the shipment. Valid values are:                                                                                                                                                                                                                                                                                                         ADR \ufffd European Agreement concerning the International Carriage of Dangerous Goods by Road. \n49CFR \ufffd Title 49 of the United States Code of Federal Regulations.  \nIATA \ufffd International Air Transport Association (IATA) Dangerous Goods Regulations.",
-            "type": "string"
+            "description": "The Regulatory set associated with every regulated shipment. It must be same across the shipment. Valid values are: ADR - European Agreement concerning the International Carriage of Dangerous Goods by Road. \n49CFR - Title 49 of the United States Code of Federal Regulations.  \nIATA - International Air Transport Association (IATA) Dangerous Goods Regulations.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 5
           },
           "Package": {
             "type": "array",
+            "maximum": 1000,
             "items": {
               "$ref": "#/components/schemas/Shipment_Package"
             }
@@ -309,20 +331,6 @@
           "name": "Shipment"
         },
         "description": "Shipment Container"
-      },
-      "Shipment_ShipperNumber": {
-        "description": "Shipper\ufffds six digit account number.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 6,
-        "maxLength": 6
-      },
-      "Shipment_ShipmentIdentificationNumber": {
-        "description": "1Z Number of the first package in the shipment.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 18,
-        "maxLength": 18
       },
       "Shipment_ShipToAddress": {
         "type": "object",
@@ -335,66 +343,46 @@
           "AddressLine": {
             "description": "The Ship To street address including name and number (when applicable).",
             "type": "array",
+            "maximum": 4,
+            "minLength": 1,
+            "maxLength": 35,
             "items": {
               "type": "string"
             }
           },
           "City": {
             "description": "The Ship To city.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
           },
           "StateProvinceCode": {
             "description": "The Ship To location's state or province code.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 5
           },
           "PostalCode": {
             "description": "The Ship To location's postal code. 9 characters are accepted.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 9
           },
           "CountryCode": {
             "description": "The Ship To location's country or territory code.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
           }
         },
         "xml": {
           "name": "ShipToAddress"
         },
         "description": "Ship To address container."
-      },
-      "ShipToAddress_AddressLine": {
-        "description": "The Ship To street address including name and number (when applicable).",
-        "maximum": 4,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 35
-      },
-      "ShipToAddress_City": {
-        "description": "The Ship To city.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 30
-      },
-      "ShipToAddress_StateProvinceCode": {
-        "description": "The Ship To location's state or province code.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 2,
-        "maxLength": 5
-      },
-      "ShipToAddress_PostalCode": {
-        "description": "The Ship To location's postal code. 9 characters are accepted.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 9
-      },
-      "ShipToAddress_CountryCode": {
-        "description": "The Ship To location's country or territory code.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 2,
-        "maxLength": 2
       },
       "Shipment_ShipFromAddress": {
         "type": "object",
@@ -407,73 +395,46 @@
           "AddressLine": {
             "description": "The Ship From street address including name and number (when applicable).",
             "type": "array",
+            "maximum": 4,
+            "minLength": 1,
+            "maxLength": 35,
             "items": {
               "type": "string"
             }
           },
           "City": {
             "description": "The Ship From city.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
           },
           "StateProvinceCode": {
             "description": "The Ship From location's state or province code.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 5
           },
           "PostalCode": {
             "description": "The Ship From location's postal code. 9 characters are accepted.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 9
           },
           "CountryCode": {
             "description": "The Ship From location's country or territory code.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
           }
         },
         "xml": {
           "name": "ShipFromAddress"
         },
         "description": "Ship From address container."
-      },
-      "ShipFromAddress_AddressLine": {
-        "description": "The Ship From street address including name and number (when applicable).",
-        "maximum": 4,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 35
-      },
-      "ShipFromAddress_City": {
-        "description": "The Ship From city.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 30
-      },
-      "ShipFromAddress_StateProvinceCode": {
-        "description": "The Ship From location's state or province code.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 2,
-        "maxLength": 5
-      },
-      "ShipFromAddress_PostalCode": {
-        "description": "The Ship From location's postal code. 9 characters are accepted.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 9
-      },
-      "ShipFromAddress_CountryCode": {
-        "description": "The Ship From location's country or territory code.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 2,
-        "maxLength": 2
-      },
-      "Shipment_PickupDate": {
-        "description": "Date of the On Call Air Pickup. Format is YYYYMMDD",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 8,
-        "maxLength": 8
       },
       "Shipment_Service": {
         "type": "object",
@@ -484,38 +445,23 @@
         "properties": {
           "Code": {
             "description": "UPS service type code.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
           },
           "Description": {
             "description": "Description of the service code. Examples are Next Day Air, Worldwide Express, and Ground.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
           }
         },
         "xml": {
           "name": "Service"
         },
         "description": "UPS service type."
-      },
-      "Service_Code": {
-        "description": "UPS service type code.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 3,
-        "maxLength": 3
-      },
-      "Service_Description": {
-        "description": "Description of the service code. Examples are Next Day Air, Worldwide Express, and Ground.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 35
-      },
-      "Shipment_RegulationSet": {
-        "description": "The Regulatory set associated with every regulated shipment. It must be same across the shipment. Valid values are:                                                                                                                                                                                                                                                                                                         ADR \ufffd European Agreement concerning the International Carriage of Dangerous Goods by Road. \n49CFR \ufffd Title 49 of the United States Code of Federal Regulations.  \nIATA \ufffd International Air Transport Association (IATA) Dangerous Goods Regulations.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 3,
-        "maxLength": 5
       },
       "Shipment_Package": {
         "type": "object",
@@ -528,25 +474,36 @@
         "properties": {
           "TrackingNumber": {
             "description": "The packages tracking number.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 18,
+            "maxLength": 18
           },
           "PackageWeight": {
             "$ref": "#/components/schemas/Package_PackageWeight"
           },
           "TransportationMode": {
             "description": "Declares that a package was prepared according to ground, passenger aircraft, or cargo aircraft only. Only required when the CommodityRegulatedLevelCode is FR or LQ.  Valid entries include: GND, CAO, PAX.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
           },
           "VoidIndicator": {
             "description": "Indicator to specify that a Dangerous Goods package is voided. True if VoidIndicator tag exists; false otherwise.",
+            "maximum": 1,
             "type": "string"
           },
           "PackagePoints": {
             "description": "Regulated Commodity Transport Package Score Quantity",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 5
           },
           "ChemicalRecord": {
             "type": "array",
+            "maximum": 3,
             "items": {
               "$ref": "#/components/schemas/Package_ChemicalRecord"
             }
@@ -556,13 +513,6 @@
           "name": "Package"
         },
         "description": "Package Information container."
-      },
-      "Package_TrackingNumber": {
-        "description": "The packages tracking number.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 18,
-        "maxLength": 18
       },
       "Package_PackageWeight": {
         "type": "object",
@@ -576,7 +526,10 @@
           },
           "Weight": {
             "description": "Packages weight.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 15
           }
         },
         "xml": {
@@ -594,11 +547,17 @@
         "properties": {
           "Code": {
             "description": "Package weight unit of measurement code. \nCodes are: \nLBS = Pounds\nKGS = Kilograms",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
           },
           "Description": {
             "description": "Description of the unit of measurement for package weight.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
           }
         },
         "xml": {
@@ -606,136 +565,158 @@
         },
         "description": "Container to hold UnitOfMeasurement information for package weight."
       },
-      "UnitOfMeasurement_Code": {
-        "description": "Package weight unit of measurement code. \nCodes are: \nLBS = Pounds\nKGS = Kilograms",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 3,
-        "maxLength": 3
-      },
-      "UnitOfMeasurement_Description": {
-        "description": "Description of the unit of measurement for package weight.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 35
-      },
-      "PackageWeight_Weight": {
-        "description": "Packages weight.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 15,
-        "maxLength": 15
-      },
-      "Package_TransportationMode": {
-        "description": "Declares that a package was prepared according to ground, passenger aircraft, or cargo aircraft only. Only required when the CommodityRegulatedLevelCode is FR or LQ.  Valid entries include: GND, CAO, PAX.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 3,
-        "maxLength": 3
-      },
-      "Package_VoidIndicator": {
-        "description": "Indicator to specify that a Dangerous Goods package is voided. True if VoidIndicator tag exists; false otherwise.",
-        "maximum": 1,
-        "type": "string"
-      },
-      "Package_PackagePoints": {
-        "description": "Regulated Commodity Transport Package Score Quantity",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 5,
-        "maxLength": 5
-      },
       "Package_ChemicalRecord": {
         "type": "object",
         "maximum": 1,
         "properties": {
-          "ReportableQuantity": {
-            "description": "Indicates whether or not a material being transported meets the definition of a hazardous material and meets or exceeds a reportable quantity threshold. If reportable quantity is met, \ufffdRQ\ufffd should be entered.  Any other value will be  interpreted as \ufffdNon Reportable\ufffd quantity.",
-            "type": "string"
+          "ChemicalRecord_ReportableQuantity": {
+            "description": "Indicates whether or not a material being transported meets the definition of a hazardous material and meets or exceeds a reportable quantity threshold. If reportable quantity is met, \"RQ\" should be entered.  Any other value will be  interpreted as \"Non Reportable\" quantity.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2
           },
-          "ClassDivisionNumber": {
-            "description": "This is the hazard class associated to the specified commodity. Required if CommodityRegulatedLevelCode is \ufffdLQ\ufffd or \ufffdFR\ufffd",
-            "type": "string"
+          "ChemicalRecord_ClassDivisionNumber": {
+            "description": "This is the hazard class associated to the specified commodity. Required if CommodityRegulatedLevelCode is \"LQ\" or \"FR\"",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 7
           },
-          "SubRiskClass": {
-            "description": "Secondary hazardous characteristics of a package. (There can be more than one \ufffd separate each with a comma.)",
-            "type": "string"
+          "ChemicalRecord_SubRiskClass": {
+            "description": "Secondary hazardous characteristics of a package. (There can be more than one, separate each with a comma.)",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 7,
+            "maxLength": 7
           },
-          "IDNumber": {
+          "ChemicalRecord_IDNumber": {
             "description": "This is the ID number (UN/NA/ID) for the specified commodity.  UN/NA/ID Identification Number assigned to the specified regulated good. (Include the UN/NA/ID as part of the entry).",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6
           },
-          "PackagingGroupType": {
+          "ChemicalRecord_PackagingGroupType": {
             "description": "This is the packing group category associated to the specified commodity.  Must be shown in Roman Numerals.  Valid values are: I, II, III and blank.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 5
           },
-          "Quantity": {
+          "ChemicalRecord_Quantity": {
             "description": "Required if CommodityRegulatedLevelCode = LQ or FR. The numerical value of the mass capacity of the regulated good.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 5
           },
-          "UOM": {
+          "ChemicalRecord_UOM": {
             "description": "Required if CommodityRegulatedLevelCode = LQ or FR. The unit of measure used for the mass capacity of the regulated good.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
           },
-          "PackagingInstructionCode": {
+          "ChemicalRecord_PackagingInstructionCode": {
             "description": "The packing instructions related to the chemical record.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4
           },
-          "EmergencyPhone": {
-            "description": "24 Hour Emergency Phone Number of the shipper. \n\nValid values for this field are (0) through (9) with trailing blanks. \n\nFor numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries the layout is country code, area code, number.                                                                                                                                                                                                                                                                       The following are restricted in the phone number  \nperiod \ufffd.\ufffd, dash \ufffd-\ufffd, plus sign \ufffd+\ufffd and conventional parentheses \ufffd(\ufffd and \ufffd)\ufffd, \ufffdEXT\" or \"OPT\ufffd  The following are restricted in the phone number  \nperiod \ufffd.\ufffd, dash \ufffd-\ufffd, plus sign \ufffd+\ufffd and conventional parentheses \ufffd(\ufffd and \ufffd)\ufffd, \ufffdEXT\" or \"OPT\ufffd",
-            "type": "string"
+          "ChemicalRecord_EmergencyPhone": {
+            "description": "24 Hour Emergency Phone Number of the shipper. \n\nValid values for this field are (0) through (9) with trailing blanks. \n\nFor numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries the layout is country code, area code, number. The following are restricted in the phone number  \nperiod \".\", dash \"-\", plus sign \"+\" and conventional parentheses \"(\" and \")\", \"EXT\" or \"OPT\"  The following are restricted in the phone number  \nperiod \".\", dash \"-\", plus sign \"+\" and conventional parentheses \"(\" and \")\", \"EXT\" or \"OPT\"",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 25
           },
-          "EmergencyContact": {
+          "ChemicalRecord_EmergencyContact": {
             "description": "The emergency information, contact name and/or contract number, required to be communicated when a call is placed to the EmergencyPhoneNumber.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
           },
-          "ProperShippingName": {
+          "ChemicalRecord_ProperShippingName": {
             "description": "The Proper Shipping Name assigned by ADR, CFR or IATA. Required if CommodityRegulatedLevelCode = LQ or FR.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 150
           },
-          "TechnicalName": {
+          "ChemicalRecord_TechnicalName": {
             "description": "The technical name (when required) for the specified commodity.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 200,
+            "maxLength": 200
           },
-          "AdditionalDescription": {
+          "ChemicalRecord_AdditionalDescription": {
             "description": "Additional remarks or special provision information.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
           },
-          "PackagingType": {
+          "ChemicalRecord_PackagingType": {
             "description": "The type of package used to contain the regulated good. (Ex: Fiberboard Box).",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
           },
-          "HazardLabelRequired": {
+          "ChemicalRecord_HazardLabelRequired": {
             "description": "Defines the type of label that is required on the package for the commodity.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 50,
+            "maxLength": 50
           },
-          "PackagingTypeQuantity": {
+          "ChemicalRecord_PackagingTypeQuantity": {
             "description": "The number of pieces of the specific commodity. Required if CommodityRegulatedLevelCode = LQ or FR.  Valid values are 1 to 999.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3
           },
-          "CommodityRegulatedLevelCode": {
+          "ChemicalRecord_CommodityRegulatedLevelCode": {
             "description": "Indicates the type of commodity, Fully Regulated (FR), Limited Quantity (LQ), Lightly Regulated (LR)  Valid values are LR, FR and LQ.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
           },
-          "TransportCategory": {
+          "ChemicalRecord_TransportCategory": {
             "description": "Transport Category.   Valid values are 0 to 4.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1
           },
-          "TunnelRestrictionCode": {
+          "ChemicalRecord_TunnelRestrictionCode": {
             "description": "Defines what is restricted to pass through a tunnel.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
           },
-          "QValue": {
+          "ChemicalRecord_QValue": {
             "description": "When a HazMat shipment specifies AllPackedInOneIndicator and the regulation set for that shipment is IATA,  Q-Value specifies exactly one of the following values: 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1.0  Valid values are : 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1.0",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
           },
-          "OverPackedIndicator": {
+          "ChemicalRecord_OverPackedIndicator": {
             "description": "Presence/Absence Indicator. Any value is ignored. Presence indicates that shipment is overpack.",
+            "maximum": 1,
             "type": "string"
           },
-          "AllPackedInOneIndicator": {
+          "ChemicalRecord_AllPackedInOneIndicator": {
             "description": "Presence/Absence Indicator. Any value is ignored. Presence indicates if multiple, different hazmat/chemicals are contained within one box in a package",
+            "maximum": 1,
             "type": "string"
           }
         },
@@ -747,156 +728,7 @@
         ],
         "description": "Dangerous Goods Accessorial Commodity Container"
       },
-      "ChemicalRecord_ReportableQuantity": {
-        "description": "Indicates whether or not a material being transported meets the definition of a hazardous material and meets or exceeds a reportable quantity threshold. If reportable quantity is met, \ufffdRQ\ufffd should be entered.  Any other value will be  interpreted as \ufffdNon Reportable\ufffd quantity.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 2
-      },
-      "ChemicalRecord_ClassDivisionNumber": {
-        "description": "This is the hazard class associated to the specified commodity. Required if CommodityRegulatedLevelCode is \ufffdLQ\ufffd or \ufffdFR\ufffd",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 7
-      },
-      "ChemicalRecord_SubRiskClass": {
-        "description": "Secondary hazardous characteristics of a package. (There can be more than one \ufffd separate each with a comma.)",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 7,
-        "maxLength": 7
-      },
-      "ChemicalRecord_IDNumber": {
-        "description": "This is the ID number (UN/NA/ID) for the specified commodity.  UN/NA/ID Identification Number assigned to the specified regulated good. (Include the UN/NA/ID as part of the entry).",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 6
-      },
-      "ChemicalRecord_PackagingGroupType": {
-        "description": "This is the packing group category associated to the specified commodity.  Must be shown in Roman Numerals.  Valid values are: I, II, III and blank.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 5
-      },
-      "ChemicalRecord_Quantity": {
-        "description": "Required if CommodityRegulatedLevelCode = LQ or FR. The numerical value of the mass capacity of the regulated good.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 5
-      },
-      "ChemicalRecord_UOM": {
-        "description": "Required if CommodityRegulatedLevelCode = LQ or FR. The unit of measure used for the mass capacity of the regulated good.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 10
-      },
-      "ChemicalRecord_PackagingInstructionCode": {
-        "description": "The packing instructions related to the chemical record.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 4
-      },
-      "ChemicalRecord_EmergencyPhone": {
-        "description": "24 Hour Emergency Phone Number of the shipper. \n\nValid values for this field are (0) through (9) with trailing blanks. \n\nFor numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries the layout is country code, area code, number.                                                                                                                                                                                                                                                                       The following are restricted in the phone number  \nperiod \ufffd.\ufffd, dash \ufffd-\ufffd, plus sign \ufffd+\ufffd and conventional parentheses \ufffd(\ufffd and \ufffd)\ufffd, \ufffdEXT\" or \"OPT\ufffd  The following are restricted in the phone number  \nperiod \ufffd.\ufffd, dash \ufffd-\ufffd, plus sign \ufffd+\ufffd and conventional parentheses \ufffd(\ufffd and \ufffd)\ufffd, \ufffdEXT\" or \"OPT\ufffd",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 25
-      },
-      "ChemicalRecord_EmergencyContact": {
-        "description": "The emergency information, contact name and/or contract number, required to be communicated when a call is placed to the EmergencyPhoneNumber.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 35
-      },
-      "ChemicalRecord_ProperShippingName": {
-        "description": "The Proper Shipping Name assigned by ADR, CFR or IATA. Required if CommodityRegulatedLevelCode = LQ or FR.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 150
-      },
-      "ChemicalRecord_TechnicalName": {
-        "description": "The technical name (when required) for the specified commodity.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 200,
-        "maxLength": 200
-      },
-      "ChemicalRecord_AdditionalDescription": {
-        "description": "Additional remarks or special provision information.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 255
-      },
-      "ChemicalRecord_PackagingType": {
-        "description": "The type of package used to contain the regulated good. (Ex: Fiberboard Box).",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 255
-      },
-      "ChemicalRecord_HazardLabelRequired": {
-        "description": "Defines the type of label that is required on the package for the commodity.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 50,
-        "maxLength": 50
-      },
-      "ChemicalRecord_PackagingTypeQuantity": {
-        "description": "The number of pieces of the specific commodity. Required if CommodityRegulatedLevelCode = LQ or FR.  Valid values are 1 to 999.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 3
-      },
-      "ChemicalRecord_CommodityRegulatedLevelCode": {
-        "description": "Indicates the type of commodity, Fully Regulated (FR), Limited Quantity (LQ), Lightly Regulated (LR)  Valid values are LR, FR and LQ.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 2,
-        "maxLength": 2
-      },
-      "ChemicalRecord_TransportCategory": {
-        "description": "Transport Category.   Valid values are 0 to 4.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 1
-      },
-      "ChemicalRecord_TunnelRestrictionCode": {
-        "description": "Defines what is restricted to pass through a tunnel.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 10
-      },
-      "ChemicalRecord_QValue": {
-        "description": "When a HazMat shipment specifies AllPackedInOneIndicator and the regulation set for that shipment is IATA,  Q-Value specifies exactly one of the following values: 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1.0  Valid values are : 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1.0",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 3,
-        "maxLength": 3
-      },
-      "ChemicalRecord_OverPackedIndicator": {
-        "description": "Presence/Absence Indicator. Any value is ignored. Presence indicates that shipment is overpack.",
-        "maximum": 1,
-        "type": "string"
-      },
-      "ChemicalRecord_AllPackedInOneIndicator": {
-        "description": "Presence/Absence Indicator. Any value is ignored. Presence indicates if multiple, different hazmat/chemicals are contained within one box in a package",
-        "maximum": 1,
-        "type": "string"
-      },
+
       "PreNotificationResponse": {
         "type": "object",
         "required": [
@@ -923,7 +755,10 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "$ref": "#/components/schemas/Response_Alert"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Response_Alert"
+            }
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -945,31 +780,23 @@
         "properties": {
           "Code": {
             "description": "Identifies the success or failure of the transaction. Valid values 1 = Successful.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1
           },
           "Description": {
             "description": "Describes Response Status Code. Returns text of Success.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
           }
         },
         "xml": {
           "name": "ResponseStatus"
         },
         "description": "Response status container."
-      },
-      "ResponseStatus_Code": {
-        "description": "Identifies the success or failure of the transaction. Valid values 1 = Successful.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 1
-      },
-      "ResponseStatus_Description": {
-        "description": "Describes Response Status Code. Returns text of Success.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 35
       },
       "Response_Alert": {
         "type": "object",
@@ -981,11 +808,17 @@
         "properties": {
           "Code": {
             "description": "Warning code returned by the system.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
           },
           "Description": {
             "description": "Warning messages returned by the system.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 150
           }
         },
         "xml": {
@@ -993,27 +826,16 @@
         },
         "description": "Alert Container. There can be zero to many alert containers with code and description."
       },
-      "Alert_Code": {
-        "description": "Warning code returned by the system.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 10
-      },
-      "Alert_Description": {
-        "description": "Warning messages returned by the system.",
-        "maximum": 1,
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 150
-      },
       "Response_TransactionReference": {
         "type": "object",
         "maximum": 1,
         "properties": {
           "CustomerContext": {
             "description": "The CustomerContext information which will be echoed during response.",
-            "type": "string"
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
           }
         },
         "xml": {

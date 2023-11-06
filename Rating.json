@@ -8,25 +8,25 @@
   "servers": [
     {
       "url": "https://wwwcie.ups.com/api/",
-	  "description": "Customer Integration Environment"
+      "description": "Customer Integration Environment"
 
     },
-	{
-	  "url": "https://onlinetools.ups.com/api/",
-	  "description": "Production"
-	}
+    {
+      "url": "https://onlinetools.ups.com/api/",
+      "description": "Production"
+    }
   ],
   "tags": [
     {
-		"name": "Rating_other",
-		"x-displayName": "Methods",
-		"description": "The Rating API is used when rating or shopping a shipment. <br /><a href=\"https://developer.ups.com/api/reference/rating/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/rating/appendix\" target=\"_blank\">Appendix</a><br /><a href=\"https://developer.ups.com/api/reference/rating/error-codes\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/rating/faq\" target=\"_blank\">FAQ</a>"
-	}
+      "name": "Rating_other",
+      "x-displayName": "Methods",
+      "description": "The Rating API is used when rating or shopping a shipment. <br /><a href=\"https://developer.ups.com/api/reference/rating/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/rating/appendix\" target=\"_blank\">Appendix</a><br /><a href=\"https://developer.ups.com/api/reference/rating/error-codes\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/rating/faq\" target=\"_blank\">FAQ</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
+    }
   ],
   "paths": {
     "/rating/{version}/{requestoption}": {
       "post": {
-		"summary" : "Rating",
+        "summary": "Rating",
         "description": "The Rating API is used when rating or shopping a shipment.",
         "operationId": "Rate",
         "parameters": [
@@ -88,13 +88,12 @@
               },
               "examples": {
                 "1": {
-                  "summary": "Simple Rate Example",
+                  "summary": "Simple Rate Example (Standard Example)",
                   "value": {
                     "RateRequest": {
                       "Request": {
                         "TransactionReference": {
-                          "CustomerContext": "CustomerContext",
-                          "TransactionIdentifier": "TransactionIdentifier"
+                          "CustomerContext": "CustomerContext"
                         }
                       },
                       "Shipment": {
@@ -186,11 +185,180 @@
                 },
                 "2": {
                   "summary": "Negotiated Rate",
-                  "value": { "RateRequest": { "Request": { "TransactionReference": { "CustomerContext": "Verify Success response", "TransactionIdentifier": "?" } }, "Shipment": { "Shipper": { "Name": "Shipper_Name", "ShipperNumber": "", "Address": { "AddressLine": [ "Morris Road", "Morris Road", "Morris Road" ], "City": "Alpharetta", "StateProvinceCode": "GA", "PostalCode": "21093", "CountryCode": "US" } }, "ShipTo": { "Name": "France Company", "Address": { "AddressLine": [ "103 avenue des Champs-Elysees", "103 avenue des Champs-Elysees", "103 avenue des Champs-Elysees" ], "City": "STARZACH", "StateProvinceCode": "GA", "PostalCode": "30005", "CountryCode": "US" } }, "ShipFrom": { "Name": "ShipFromName", "Address": { "AddressLine": [ "ShipFromAddressLine", "ShipFromAddressLine", "ShipFromAddressLine" ], "City": "Alpharetta", "StateProvinceCode": "GA", "PostalCode": "30005", "CountryCode": "US" } }, "PaymentDetails": { "ShipmentCharge": { "Type": "01", "BillThirdParty": { "AttentionName": "Name", "Name": "TR", "AccountNumber": "", "Address": { "ResidentialAddressIndicator": "Y", "AddressLine": "AdressLine", "City": "NEW YORK", "StateProvinceCode": "NY", "PostalCode": "21093", "CountryCode": "US" } } } }, "ShipmentRatingOptions": { "TPFCNegotiatedRatesIndicator": "Y", "NegotiatedRatesIndicator": "Y" }, "Service": { "Code": "03", "Description": "UPS Worldwide Economy DDU" }, "NumOfPieces": "10", "Package": { "PackagingType": { "Code": "02", "Description": "Packaging" }, "Dimensions": { "UnitOfMeasurement": { "Code": "IN", "Description": "Inches" }, "Length": "5", "Width": "5", "Height": "5" }, "PackageWeight": { "UnitOfMeasurement": { "Code": "LBS", "Description": "Ounces" }, "Weight": "0.1" }, "OversizeIndicator": "X", "MinimumBillableWeightIndicator": "X" } } } }
+                  "value": {
+                    "RateRequest": {
+                      "Request": {
+                        "TransactionReference": {
+                          "CustomerContext": "Verify Success response"
+                        }
+                      },
+                      "Shipment": {
+                        "Shipper": {
+                          "Name": "Shipper_Name",
+                          "ShipperNumber": "",
+                          "Address": {
+                            "AddressLine": [ "Morris Road", "Morris Road", "Morris Road" ],
+                            "City": "Alpharetta",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "21093",
+                            "CountryCode": "US"
+                          }
+                        },
+                        "ShipTo": {
+                          "Name": "France Company",
+                          "Address": {
+                            "AddressLine": [ "103 avenue des Champs-Elysees", "103 avenue des Champs-Elysees", "103 avenue des Champs-Elysees" ],
+                            "City": "STARZACH",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "30005",
+                            "CountryCode": "US"
+                          }
+                        },
+                        "ShipFrom": {
+                          "Name": "ShipFromName",
+                          "Address": {
+                            "AddressLine": [ "ShipFromAddressLine", "ShipFromAddressLine", "ShipFromAddressLine" ],
+                            "City": "Alpharetta",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "30005",
+                            "CountryCode": "US"
+                          }
+                        },
+                        "PaymentDetails": {
+                          "ShipmentCharge": {
+                            "Type": "01",
+                            "BillThirdParty": {
+                              "AttentionName": "Name",
+                              "Name": "TR",
+                              "AccountNumber": "",
+                              "Address": {
+                                "ResidentialAddressIndicator": "Y",
+                                "AddressLine": "AdressLine",
+                                "City": "NEW YORK",
+                                "StateProvinceCode": "NY",
+                                "PostalCode": "21093",
+                                "CountryCode": "US"
+                              }
+                            }
+                          }
+                        },
+                        "ShipmentRatingOptions": {
+                          "TPFCNegotiatedRatesIndicator": "Y",
+                          "NegotiatedRatesIndicator": "Y"
+                        },
+                        "Service": {
+                          "Code": "03",
+                          "Description": "UPS Worldwide Economy DDU"
+                        },
+                        "NumOfPieces": "10",
+                        "Package": {
+                          "PackagingType": {
+                            "Code": "02",
+                            "Description": "Packaging"
+                          },
+                          "Dimensions": {
+                            "UnitOfMeasurement": {
+                              "Code": "IN",
+                              "Description": "Inches"
+                            },
+                            "Length": "5",
+                            "Width": "5",
+                            "Height": "5"
+                          },
+                          "PackageWeight": {
+                            "UnitOfMeasurement": {
+                              "Code": "LBS",
+                              "Description": "Ounces"
+                            },
+                            "Weight": "0.1"
+                          },
+                          "OversizeIndicator": "X",
+                          "MinimumBillableWeightIndicator": "X"
+                        }
+                      }
+                    }
+                  }
                 },
                 "3": {
                   "summary": "International Rate Example",
-                  "value": { "RateRequest": { "Request": { "TransactionReference": { "CustomerContext": "Verify Success response", "TransactionIdentifier": "?" } }, "Shipment": { "Shipper": { "Name": "Shipper_Name", "ShipperNumber": "", "Address": { "AddressLine": [ "Morris Road", "Morris Road", "Morris Road" ], "City": "Alpharetta", "StateProvinceCode": "GA", "PostalCode": "30005", "CountryCode": "US" } }, "ShipTo": { "Name": "France Company", "Address": { "AddressLine": [ "103 avenue des Champs-Elysees", "103 avenue des Champs-Elysees", "103 avenue des Champs-Elysees" ], "City": "STARZACH", "StateProvinceCode": "GA", "PostalCode": "72181", "CountryCode": "DE" } }, "ShipFrom": { "Name": "ShipFromName", "Address": { "AddressLine": [ "ShipFromAddressLine", "ShipFromAddressLine", "ShipFromAddressLine" ], "City": "Alpharetta", "StateProvinceCode": "GA", "PostalCode": "30005", "CountryCode": "US" } }, "PaymentDetails": { "ShipmentCharge": { "Type": "01", "BillShipper": { "AccountNumber": "" } } }, "Service": { "Code": "072", "Description": "UPS Worldwide Economy DDP" }, "NumOfPieces": "10", "Package": { "PackagingType": { "Code": "02", "Description": "Packaging" }, "Dimensions": { "UnitOfMeasurement": { "Code": "IN", "Description": "Inches" }, "Length": "5", "Width": "5", "Height": "5" }, "PackageWeight": { "UnitOfMeasurement": { "Code": "LBS", "Description": "LBS" }, "Weight": "0.1" }, "OversizeIndicator": "X", "MinimumBillableWeightIndicator": "X" }, "ShipmentRatingOptions": { "NegotiatedRatesIndicator": "Y" } } } }
+                  "value": {
+                    "RateRequest": {
+                      "Request": {
+                        "TransactionReference": {
+                          "CustomerContext": "Verify Success response"
+                        }
+                      },
+                      "Shipment": {
+                        "Shipper": {
+                          "Name": "Shipper_Name",
+                          "ShipperNumber": "",
+                          "Address": {
+                            "AddressLine": [ "Morris Road", "Morris Road", "Morris Road" ],
+                            "City": "Alpharetta",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "30005",
+                            "CountryCode": "US"
+                          }
+                        },
+                        "ShipTo": {
+                          "Name": "France Company",
+                          "Address": {
+                            "AddressLine": [ "103 avenue des Champs-Elysees", "103 avenue des Champs-Elysees", "103 avenue des Champs-Elysees" ],
+                            "City": "STARZACH",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "72181",
+                            "CountryCode": "DE"
+                          }
+                        },
+                        "ShipFrom": {
+                          "Name": "ShipFromName",
+                          "Address": {
+                            "AddressLine": [ "ShipFromAddressLine", "ShipFromAddressLine", "ShipFromAddressLine" ],
+                            "City": "Alpharetta",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "30005",
+                            "CountryCode": "US"
+                          }
+                        },
+                        "PaymentDetails": {
+                          "ShipmentCharge": {
+                            "Type": "01",
+                            "BillShipper": { "AccountNumber": "" }
+                          }
+                        },
+                        "Service": {
+                          "Code": "072",
+                          "Description": "UPS Worldwide Economy DDP"
+                        },
+                        "NumOfPieces": "10",
+                        "Package": {
+                          "PackagingType": {
+                            "Code": "02",
+                            "Description": "Packaging"
+                          },
+                          "Dimensions": {
+                            "UnitOfMeasurement": {
+                              "Code": "IN",
+                              "Description": "Inches"
+                            },
+                            "Length": "5",
+                            "Width": "5",
+                            "Height": "5"
+                          },
+                          "PackageWeight": {
+                            "UnitOfMeasurement": {
+                              "Code": "LBS",
+                              "Description": "LBS"
+                            },
+                            "Weight": "0.1"
+                          },
+                          "OversizeIndicator": "X",
+                          "MinimumBillableWeightIndicator": "X"
+                        },
+                        "ShipmentRatingOptions": { "NegotiatedRatesIndicator": "Y" }
+                      }
+                    }
+                  }
                 },
                 "4": {
                   "summary": "Multi-Piece Rate Example",
@@ -198,8 +366,7 @@
                     "RateRequest": {
                       "Request": {
                         "TransactionReference": {
-                          "CustomerContext": "CustomerContext",
-                          "TransactionIdentifier": "TransactionIdentifier"
+                          "CustomerContext": "CustomerContext"
                         }
                       },
                       "Shipment": {
@@ -322,8 +489,7 @@
                     "RateRequest": {
                       "Request": {
                         "TransactionReference": {
-                          "CustomerContext": "CustomerContext",
-                          "TransactionIdentifier": "TransactionIdentifier"
+                          "CustomerContext": "CustomerContext"
                         }
                       },
                       "Shipment": {
@@ -446,8 +612,7 @@
                     "RateRequest": {
                       "Request": {
                         "TransactionReference": {
-                          "CustomerContext": "CustomerContext",
-                          "TransactionIdentifier": "TransactionIdentifier"
+                          "CustomerContext": "CustomerContext"
                         }
                       },
                       "Shipment": {
@@ -548,8 +713,7 @@
                     "RateRequest": {
                       "Request": {
                         "TransactionReference": {
-                          "CustomerContext": "CustomerContext",
-                          "TransactionIdentifier": "TransactionIdentifier"
+                          "CustomerContext": "CustomerContext"
                         }
                       },
                       "Shipment": {
@@ -641,8 +805,7 @@
                     "RateRequest": {
                       "Request": {
                         "TransactionReference": {
-                          "CustomerContext": "CustomerContext",
-                          "TransactionIdentifier": "TransactionIdentifier"
+                          "CustomerContext": "CustomerContext"
                         }
                       },
                       "Shipment": {
@@ -719,10 +882,96 @@
                     }
                   }
                 },
-				"9": {
-					"summary": "Rate with Dry Ice",
-					"value": { "RateRequest": { "Request": { "TransactionReference": { "CustomerContext": "          ", "TransactionIdentifier": "" } }, "CustomerClassification": { "Code": "01", "Description": "Daily Rates" }, "Shipment": { "ShipmentCharges": { "BillShipper": { "AccountNumber": "" } }, "DeliveryTimeInformation": { "PackageBillType": "07" }, "Shipper": { "Name": "Shipper_Name19", "ShipperNumber": "", "Address": { "AddressLine": "Shipper_AddressLine", "City": "New York", "StateProvinceCode": "NY", "PostalCode": "10013", "CountryCode": "US" } }, "ShipTo": { "Name": "Shiptoname", "Address": { "ResidentialAddressIndicator": "x", "AddressLine": "12380 Morris Road", "City": "Alpharetta", "StateProvinceCode": "GA", "PostalCode": "30005", "CountryCode": "US" } }, "ShipFrom": { "Name": "Shipfromname", "Address": { "AddressLine": "Shipfromaddress", "City": "Texas", "StateProvinceCode": "TX", "PostalCode": "77040", "CountryCode": "US" } }, "Service": { "Code": "01", "Description": "Next Day Air" }, "ShipmentRatingOptions": { "NegotiatedRatesIndicator": "Y" }, "Package": { "LargePackageIndicator": "X", "PackagingType": { "Code": "02", "Description": "Package" }, "Dimensions": { "UnitOfMeasurement": { "Code": "IN", "Description": "INCHES" }, "Length": "6", "Width": "7", "Height": "8" }, "PackageWeight": { "UnitOfMeasurement": { "Code": "LBS" }, "Weight": "10" }, "PackageServiceOptions": { "DryIce": { "RegulationSet": "CFR", "DryIceWeight": { "UnitOfMeasurement": { "Code": "01", "Description": "LBS" }, "Weight": "5" }, "AuditRequired": "" } } } } } }
-				}
+                "9": {
+                  "summary": "Rate with Dry Ice",
+                  "value": {
+                    "RateRequest": {
+                      "Request": {
+                        "TransactionReference": {
+                          "CustomerContext": "          "
+                        }
+                      },
+                      "CustomerClassification": {
+                        "Code": "01",
+                        "Description": "Daily Rates"
+                      },
+                      "Shipment": {
+                        "ShipmentCharges": { "BillShipper": { "AccountNumber": "" } },
+                        "DeliveryTimeInformation": { "PackageBillType": "07" },
+                        "Shipper": {
+                          "Name": "Shipper_Name19",
+                          "ShipperNumber": "",
+                          "Address": {
+                            "AddressLine": "Shipper_AddressLine",
+                            "City": "New York",
+                            "StateProvinceCode": "NY",
+                            "PostalCode": "10013",
+                            "CountryCode": "US"
+                          }
+                        },
+                        "ShipTo": {
+                          "Name": "Shiptoname",
+                          "Address": {
+                            "ResidentialAddressIndicator": "x",
+                            "AddressLine": "12380 Morris Road",
+                            "City": "Alpharetta",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "30005",
+                            "CountryCode": "US"
+                          }
+                        },
+                        "ShipFrom": {
+                          "Name": "Shipfromname",
+                          "Address": {
+                            "AddressLine": "Shipfromaddress",
+                            "City": "Texas",
+                            "StateProvinceCode": "TX",
+                            "PostalCode": "77040",
+                            "CountryCode": "US"
+                          }
+                        },
+                        "Service": {
+                          "Code": "01",
+                          "Description": "Next Day Air"
+                        },
+                        "ShipmentRatingOptions": { "NegotiatedRatesIndicator": "Y" },
+                        "Package": {
+                          "LargePackageIndicator": "X",
+                          "PackagingType": {
+                            "Code": "02",
+                            "Description": "Package"
+                          },
+                          "Dimensions": {
+                            "UnitOfMeasurement": {
+                              "Code": "IN",
+                              "Description": "INCHES"
+                            },
+                            "Length": "6",
+                            "Width": "7",
+                            "Height": "8"
+                          },
+                          "PackageWeight": {
+                            "UnitOfMeasurement": { "Code": "LBS" },
+                            "Weight": "10"
+                          },
+                          "PackageServiceOptions": {
+                            "DryIce": {
+                              "RegulationSet": "CFR",
+                              "DryIceWeight": {
+                                "UnitOfMeasurement": {
+                                  "Code": "01",
+                                  "Description": "LBS"
+                                },
+                                "Weight": "5"
+                              },
+                              "AuditRequired": ""
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -754,10 +1003,10 @@
     "securitySchemes": {
       "oauth2": {
         "type": "oauth2",
-        "description": "Find your client_id and client_secret on your app info page. <br/> 1. Once your credentials are entered select \\\"Authorize\\\" and a bearer token will be generated.<br/> 2. Click \\\"Try it out\\\" and enter any required values.<br/> 3. Select an example request to use or provide your own.<br/> 4. Select \\\"Send the request using the values above\\\" to execute your API request.",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
         "flows": {
           "clientCredentials": {
-            "x-tokenEndpointAuthMethod":  "client_secret_basic",
+            "x-tokenEndpointAuthMethod": "client_secret_basic",
             "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
             "scopes": {}
           }
@@ -2316,7 +2565,7 @@
         ],
         "properties": {
           "DCISType": {
-            "description": "Type of delivery confirmation.  Valid values: 2 - Delivery Confirmation Signature Required 3 - Delivery Confirmation Adult Signature Required",
+            "description": "Type of delivery confirmation.  Valid values: 1 - Unsupported 2 - Delivery Confirmation Signature Required 3 - Delivery Confirmation Adult Signature Required",
             "maximum": 1,
             "type": "string",
             "minLength": 1,
@@ -4845,10 +5094,7 @@
             "maxLength": 2
           },
           "ServiceSummary": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TimeInTransit_ServiceSummary"
-            }
+            "$ref": "#/components/schemas/TimeInTransit_ServiceSummary"
           },
           "AutoDutyCode": {
             "description": "Required output for International requests. If Documents indicator is set for Non-document a duty is automatically calculated. The possible values to be returned are: 01 - Dutiable02 - Non-Dutiable03 - Low-value04 - Courier Remission05 - Gift06 - Military07 - Exception08 - Line Release09 - Section 321 low value.",

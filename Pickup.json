@@ -2,20 +2,31 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Pickup",
-    "description": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
     "termsOfService": "https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html",
-    "version": "1.0.1"
+    "version": ""
   },
   "servers": [
     {
-      "url": "https://wwwcie.ups.com/api/"
+      "url": "https://wwwcie.ups.com/api/",
+      "description": "Customer Integration Environment"
+    },
+    {
+      "url": "https://onlinetools.ups.com/api/",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Pickup_other",
+      "x-displayName": "Methods",
+      "description": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups. <br /><a href=\"https://developer.ups.com/api/reference/pickup/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/pickup/appendix\" target=\"_blank\">Appendix</a><br /><a href=\"https://developer.ups.com/api/reference/pickup/errors\" target=\"_blank\">Errors</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
     }
   ],
   "paths": {
     "/shipments/{version}/pickup/{pickuptype}": {
       "post": {
-        "summary": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
-        "description": "Pickup Rate",
+        "description": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
+        "summary": "Pickup Rate",
         "operationId": "Pickup Rate",
         "parameters": [
           {
@@ -69,9 +80,27 @@
               },
               "examples": {
                 "json": {
-                  "summary": "A sample JSON request",
-                  "value": "{\r\n \"PickupRateRequest\": {\r\n \"PickupAddress\": {\r\n \"AddressLine\": \"315 Saddle Bridge Drive\",\r\n \"City\": \"Allendale\",\r\n \"StateProvince\": \"NJ\",\r\n \"PostalCode\": \"07401\",\r\n \"CountryCode\": \"US\",\r\n \"ResidentialIndicator\": \"Y\"\r\n },\r\n \"AlternateAddressIndicator\": \"N\",\r\n \"ServiceDateOption\": \"02\",\r\n \"PickupDateInfo\": {\r\n \"CloseTime\": \"2000\",\r\n \"ReadyTime\": \"900\",\r\n \"PickupDate\": \"20160405\"\r\n }\r\n }\r\n}\r\n"
-                }
+                  "summary": "A sample JSON request(Standard Example)",
+                  "value": {
+					"PickupRateRequest": {
+						"PickupAddress": {
+							"AddressLine": "315 Saddle Bridge Drive",
+							"City": "Allendale",
+							"StateProvince": "NJ",
+							"PostalCode": "07401",
+							"CountryCode": "US",
+							"ResidentialIndicator": "Y"
+						},
+						"AlternateAddressIndicator": "N",
+						"ServiceDateOption": "02",
+						"PickupDateInfo": {
+							"CloseTime": "2000",
+							"ReadyTime": "900",
+							"PickupDate": "20160405"
+						}
+					}
+				  }
+			    }
               }
             }
           }
@@ -93,8 +122,8 @@
         }
       },
       "get": {
-        "summary": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
-        "description": "Pickup Pending Status",
+        "description": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
+        "summary": "Pickup Pending Status",
         "operationId": "Pickup Pending Status",
         "parameters": [
           {
@@ -166,8 +195,8 @@
     },
     "/shipments/{version}/pickup/{CancelBy}": {
       "delete": {
-        "summary": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
-        "description": "Pickup Cancel",
+        "description": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
+        "summary": "Pickup Cancel",
         "operationId": "Pickup Cancel",
         "parameters": [
           {
@@ -238,8 +267,8 @@
     },
     "/pickupcreation/{version}/pickup": {
       "post": {
-        "summary": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
-        "description": "Pickup Creation",
+        "description": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
+        "summary": "Pickup Creation",
         "operationId": "Pickup Creation",
         "parameters": [
           {
@@ -283,7 +312,7 @@
               },
               "examples": {
                 "json": {
-                  "summary": "A sample JSON request",
+                  "summary": "A sample JSON request (Standard Example)",
                   "value": {
                     "PickupCreationRequest": {
                       "RatePickupIndicator": "N",
@@ -338,15 +367,7 @@
                       "OverweightIndicator": "N",
                       "PaymentMethod": "01",
                       "SpecialInstruction": "Test ",
-                      "ReferenceNumber": "CreatePickupRef",
-                      "Notification": {
-                        "ConfirmationEmailAddress": "test@ups.com",
-                        "UndeliverableEmailAddress": "test@ups.com"
-                      },
-                      "CSR": {
-                        "ProfileId": "1 Q83 122",
-                        "ProfileCountryCode": "US"
-                      }
+                      "ReferenceNumber": "CreatePickupRef"
                     }
                   }
                 }
@@ -373,8 +394,8 @@
     },
     "/pickup/{version}/countries/{countrycode}": {
       "get": {
-        "summary": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
-        "description": "Pickup Get Political Division1 List",
+        "description": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
+        "summary": "Pickup Get Political Division1 List",
         "operationId": "Pickup Get Political Division1 List",
         "parameters": [
           {
@@ -437,8 +458,8 @@
     },
     "/pickup/{version}/servicecenterlocations": {
       "post": {
-        "summary": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
-        "description": "Pickup Get Service Center Facilities",
+        "description": "Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.",
+        "summary": "Pickup Get Service Center Facilities",
         "operationId": "Pickup Get Service Center Facilities",
         "parameters": [
           {
@@ -481,9 +502,24 @@
               },
               "examples": {
                 "json": {
-                  "summary": "A sample JSON request",
-                  "value": "{\r\n\"PickupGetServiceCenterFacilitiesRequest\": {\r\n \"PickupPiece\": {\r\n \"ServiceCode\": \"096\",\r\n \"ContainerCode\": \"03\"\r\n },\r\n \"DestinationAddress\": {\r\n \"City\": \"Allendale\",\r\n \"StateProvince\": \"NJ\",\r\n \"PostalCode\": \"07401\",\r\n \"CountryCode\": \"US\"\r\n },\r\n \"ProximitySearchIndicator\": \"\",\r\n \"Locale\": \"en_HK\"\r\n }\r\n}\r\n"
-                }
+                  "summary": "A sample JSON request (Standard Example)",
+                  "value": {
+					"PickupGetServiceCenterFacilitiesRequest": {
+						"PickupPiece": {
+							"ServiceCode": "096",
+							"ContainerCode": "03"
+						},
+						"DestinationAddress": {
+							"City": "Allendale",
+							"StateProvince": "NJ",
+							"PostalCode": "07401",
+							"CountryCode": "US"
+						},
+						"ProximitySearchIndicator": "",
+						"Locale": "en_HK"
+					}
+				  }
+				}
               }
             }
           }
@@ -515,9 +551,10 @@
     "securitySchemes": {
       "oauth2": {
         "type": "oauth2",
-        "description": "Find your client_id and client_secret on your app info page. <br/> 1. Once your credentials are entered select \\\"Authorize\\\" and a bearer token will be generated.<br/> 2. Click \\\"Try it out\\\" and enter any required values.<br/> 3. Select an example request to use or provide your own.<br/> 4. Select \\\"Send the request using the values above\\\" to execute your API request.",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
         "flows": {
           "clientCredentials": {
+            "x-tokenEndpointAuthMethod": "client_secret_basic",
             "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
             "scopes": {}
           }

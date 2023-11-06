@@ -1,0 +1,1057 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Freight Pickup",
+    "termsOfService": "https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html",
+    "version": ""
+  },
+  "servers": [
+    {
+      "url": "https://wwwcie.ups.com/api/",
+	  "description": "Customer Integration Environment"
+
+    },
+	{
+	  "url": "https://onlinetools.ups.com/api/",
+	  "description": "Production"
+	}
+  ],
+  "tags": [
+    {
+      "name": "TForceFreightPickup_other",
+      "x-displayName": "Methods",
+      "description": "API can be only used by users that plan to ship packages manifested, tendered, and delivered by TForce Freight. <br /><a href=\"https://developer.ups.com/api/reference/freightpickup/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/freightpickup/appendix\" target=\"_blank\">Appendix</a><br /><a href=\"https://developer.ups.com/api/reference/freightpickup/errors\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/freightpickup/faqs\" target=\"_blank\">FAQ</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
+    }
+  ],
+  "paths": {
+    "/freight/{version}/pickups": {
+      "post": {
+		"summary" :"TForce Freight Pickup",
+        "description": "API can be only used by users that plan to ship packages manifested, tendered, and delivered by TForce Freight",
+        "operationId": "FreightPickup",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "transId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "An identifier unique to the request. Length 32",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "transactionSrc",
+            "schema": {
+              "type": "string",
+              "default": "testing"
+            },
+            "description": "An identifier of the client/source application that is making the request.Length 512",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "version",
+            "schema": {
+              "type": "string",
+              "default": "v1"
+            },
+            "description": "Version of the API e.g v1",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Generate sample code for popular API requests by selecting an example below. To view a full sample request and response, first click \"Authorize\" and enter your application credentials, then populate the required parameters above and click \"Try it out\".",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FREIGHTPICKUPRequestWrapper"
+              },
+              "examples": {
+                "json": {
+                  "summary": "A sample JSON request(Standard Example)",
+                  "value": {
+                    "FreightPickupRequest": {
+                      "Request": {
+                        "TransactionReference": {
+                          "CustomerContext": ""
+                        }
+                      },
+                      "DestinationPostalCode": "20019",
+                      "DestinationCountryCode": "US",
+                      "Requester": {
+                        "ThirdPartyIndicator": "true",
+                        "AttentionName": "Pickup Testing",
+                        "EMailAddress": "test@ups.com",
+                        "Name": "Pickup Testing",
+                        "Phone": {
+                          "Number": "12345667890",
+                          "Extension": "122"
+                        }
+                      },
+                      "ShipFrom": {
+                        "AttentionName": "Pickup testing",
+                        "Name": "Pickup Testin",
+                        "Address": {
+                          "AddressLine": [
+                            "123 main st ",
+                            "address 2",
+                            "address 3"
+                          ],
+                          "City": "Roswell",
+                          "StateProvinceCode": "GA",
+                          "PostalCode": "30076",
+                          "CountryCode": "US"
+                        },
+                        "Phone": {
+                          "Number": "1290987654",
+                          "Extension": "123"
+                        },
+                        "EMailAddress": "test@ups.com"
+                      },
+                      "PickupDate": "20190228",
+                      "EarliestTimeReady": "0800",
+                      "LatestTimeReady": "1600",
+                      "ShipmentDetail": {
+                        "PackagingType": {
+                          "Code": "CAN",
+                          "Description": "can"
+                        },
+                        "NumberOfPieces": "20",
+                        "DescriptionOfCommodity": "twenty",
+                        "Weight": {
+                          "UnitOfMeasurement": {
+                            "Code": "LBS",
+                            "Description": "pounds"
+                          },
+                          "Value": "102"
+                        }
+                      },
+                      "PickupInstructions": "Pickup Instructions ",
+                      "AdditionalComments": "Additonal Instructions",
+                      "HandlingInstructions": "Handling Instructions",
+                      "SpecialInstructions": "Special Instructions ",
+                      "DeliveryInstructions": "Delivery Instructions"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FREIGHTPICKUPResponseWrapper"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Request"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
+        "flows": {
+          "clientCredentials": {
+            "x-tokenEndpointAuthMethod":  "client_secret_basic",
+            "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
+            "scopes": {}
+          }
+        }
+      }
+    },
+    "schemas": {
+      "FREIGHTPICKUPRequestWrapper": {
+        "xml": {
+          "name": "FreightPickupRequest"
+        },
+        "description": "N/A  ",
+        "maximum": 1,
+        "type": "object",
+        "required": [
+          "FreightPickupRequest"
+        ],
+        "properties": {
+          "FreightPickupRequest": {
+            "$ref": "#/components/schemas/FreightPickupRequest"
+          }
+        }
+      },
+      "FREIGHTPICKUPResponseWrapper": {
+        "xml": {
+          "name": "FreightPickupResponse"
+        },
+        "description": "N/A  ",
+        "maximum": 1,
+        "type": "object",
+        "required": [
+          "FreightPickupResponse"
+        ],
+        "properties": {
+          "FreightPickupResponse": {
+            "$ref": "#/components/schemas/FreightPickupResponse"
+          }
+        }
+      },
+      "FreightPickupRequest": {
+        "type": "object",
+        "required": [
+          "Requester",
+          "DestinationCountryCode",
+          "ShipFrom",
+          "LatestTimeReady",
+          "Request",
+          "EarliestTimeReady",
+          "PickupDate"
+        ],
+        "properties": {
+          "Request": {
+            "$ref": "#/components/schemas/FreightPickupRequest_Request"
+          },
+          "PickupRequestConfirmationNumber": {
+            "description": "Confirmation number of pickup ground freight shipment to modify.\ufffd Only use if requesting a pickup modification.\nIf this element is populated, it must contain a valid confirmation number and all previously supplied populated elements in the original request must be present.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "DestinationPostalCode": {
+            "description": "Destinations postal code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "DestinationCountryCode": {
+            "description": "Destinations country code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "Requester": {
+            "$ref": "#/components/schemas/FreightPickupRequest_Requester"
+          },
+          "ShipFrom": {
+            "$ref": "#/components/schemas/FreightPickupRequest_ShipFrom"
+          },
+          "ShipTo": {
+            "$ref": "#/components/schemas/FreightPickupRequest_ShipTo"
+          },
+          "PickupDate": {
+            "description": "Date of the Pickup. \nFormat:YYYYMMDD",
+            "type": "string"
+          },
+          "EarliestTimeReady": {
+            "description": "The earliest time a shipment is ready to be picked up.\nThe time is on a 24 hour clock. \nFormat: HHMM\nHH = Hour values 00 to 23\nMM = Minute values 00 to 59",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4
+          },
+          "LatestTimeReady": {
+            "description": "The latest time a shipment can be picked up. Can be also referred as the Closing Time for a pickup time window.\nThe time is on a 24 hour clock. \nFormat: HHMM\nHH = Hour values 00 to 23\nMM = Minute values 00 to 59",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4
+          },
+          "ShipmentServiceOptions": {
+            "$ref": "#/components/schemas/FreightPickupRequest_ShipmentServiceOptions"
+          },
+          "ShipmentDetail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreightPickupRequest_ShipmentDetail"
+            }
+          },
+          "ExistingShipmentID": {
+            "$ref": "#/components/schemas/FreightPickupRequest_ExistingShipmentID"
+          },
+          "POM": {
+            "$ref": "#/components/schemas/FreightPickupRequest_POM"
+          },
+          "PickupInstructions": {
+            "description": "Pickup Instructions.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 500,
+            "maxLength": 500
+          },
+          "AdditionalComments": {
+            "description": "The location of the freight.\nExample: Loading Dock A",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 500,
+            "maxLength": 500
+          },
+          "HandlingInstructions": {
+            "description": "Handling Instructions text",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 500,
+            "maxLength": 500
+          },
+          "SpecialInstructions": {
+            "description": "Special Instructions text",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 150,
+            "maxLength": 150
+          },
+          "DeliveryInstructions": {
+            "description": "Delivery Instructions text",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 500,
+            "maxLength": 500
+          }
+        },
+        "xml": {
+          "name": "FreightPickupRequest"
+        },
+        "maximum": 1,
+        "description": ""
+      },
+      "FreightPickupRequest_Request": {
+        "type": "object",
+        "properties": {
+          "RequestOption": {
+            "description": "Type of shipping. \nValid value: 1 - Ground",
+            "type": "string"
+          },
+          "TransactionReference": {
+            "$ref": "#/components/schemas/Request_TransactionReference"
+          }
+        },
+        "xml": {
+          "name": "Request"
+        },
+        "description": "Freight Pickup Request Container.",
+        "maximum": 1
+      },
+      "Request_RequestOption": {
+        "description": "Type of shipping. \nValid value: 1 - Ground",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 15
+      },
+      "Request_TransactionReference": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CustomerContext": {
+            "description": "The CustomerContext Information which will be echoed during response.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "xml": {
+          "name": "TransactionReference"
+        },
+        "description": "TransactionReference identifies transactions between client and server."
+      },
+      "FreightPickupRequest_Requester": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "ThirdPartyIndicator": {
+            "description": "Indicates whether the requester is Consignee, Third Party, Shipper, other.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "AttentionName": {
+            "description": "Requesters name.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "EMailAddress": {
+            "description": "Requesters email address.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 50,
+            "maxLength": 50
+          },
+          "Name": {
+            "description": "Requesters company name.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/Requester_Phone"
+          }
+        },
+        "xml": {
+          "name": "Requester"
+        },
+        "required": [
+          "AttentionName",
+          "Phone",
+          "EMailAddress",
+          "Name"
+        ],
+        "description": "Requester Container. Also referred to as caller."
+      },
+      "Requester_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Number": {
+            "description": "The ship to location\ufffds phone number.\nFormat: (###)###-###",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 15
+          },
+          "Extension": {
+            "description": "The ship to location\ufffds phone extension.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container"
+      },
+      "FreightPickupRequest_ShipFrom": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AttentionName",
+          "Address",
+          "Phone",
+          "Name"
+        ],
+        "properties": {
+          "AttentionName": {
+            "description": "Contact name at the ship from location.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Name": {
+            "description": "The ship from locations name or company name.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Address": {
+            "$ref": "#/components/schemas/ShipFrom_Address"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/ShipFrom_Phone"
+          },
+          "EMailAddress": {
+            "description": "Ship from email address.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 50,
+            "maxLength": 50
+          }
+        },
+        "xml": {
+          "name": "ShipFrom"
+        },
+        "description": "ShipFrom Container."
+      },
+      "ShipFrom_Address": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "AddressLine": {
+            "description": "The Ship to street address.",
+            "type": "array",
+            "maximum": 3,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            }
+          },
+          "City": {
+            "description": "The Ship to city.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "StateProvinceCode": {
+            "description": "The Ship to location\ufffds state or province code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 5
+          },
+          "PostalCode": {
+            "description": "The ship to location\ufffds postal code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "CountryCode": {
+            "description": "The ship to location\ufffds country code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Address Container."
+      },
+      "ShipFrom_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Number": {
+            "description": "The ship to location\ufffds phone number.\nFormat: (###)###-###",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 15
+          },
+          "Extension": {
+            "description": "The ship to location\ufffds phone extension.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container."
+      },
+      "FreightPickupRequest_ShipTo": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "AttentionName": {
+            "description": "Contact name at the ship to location.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 25,
+            "maxLength": 25
+          },
+          "Address": {
+            "$ref": "#/components/schemas/ShipTo_Address"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/ShipTo_Phone"
+          },
+          "EMailAddress": {
+            "description": "Ship to email address.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 50,
+            "maxLength": 50
+          }
+        },
+        "xml": {
+          "name": "ShipTo"
+        },
+        "description": "ShipTo Container.  Must be populated if request is a Pickup Notifications for LTL request and BOLID does not exist in the request."
+      },
+      "ShipTo_Address": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "AddressLine": {
+            "description": "The Ship to street address.",
+            "type": "array",
+            "maximum": 3,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            }
+          },
+          "City": {
+            "description": "The Ship to city.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "StateProvinceCode": {
+            "description": "The Ship to location\ufffds state or province code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 5
+          },
+          "PostalCode": {
+            "description": "The ship to location\ufffds postal code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "CountryCode": {
+            "description": "The ship to location\ufffds country code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Address Container."
+      },
+      "ShipTo_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Number": {
+            "description": "The ship to location\ufffds phone number.\nFormat: (###)###-###",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 15
+          },
+          "Extension": {
+            "description": "The ship to location\ufffds phone extension.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container."
+      },
+      "FreightPickupRequest_PickupDate": {
+        "description": "Date of the Pickup. \nFormat:YYYYMMDD",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 8
+      },
+
+      "FreightPickupRequest_ShipmentServiceOptions": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "FreezableProtectionIndicator": {
+            "description": "FreezableProtectionIndicator Container.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "LimitedAccessPickupIndicator": {
+            "description": "Indicates there is limited access for pickups.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "LimitedAccessDeliveryIndicator": {
+            "description": "Indicates there is limited access for deliveries.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "ExtremeLengthIndicator": {
+            "description": "ExtremeLengthIndicator Container (greater than 15ft)",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ShipmentServiceOptions"
+        },
+        "description": "ShipmentServiceOptions container."
+      },
+      "FreightPickupRequest_ShipmentDetail": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "HazmatIndicator": {
+            "description": "The presence of the tag HazmatIndicator indicates that the commodity is of type dangerous goods.\nRequired if one or more commodities within the shipment is hazardous.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "PackagingType": {
+            "$ref": "#/components/schemas/ShipmentDetail_PackagingType"
+          },
+          "NumberOfPieces": {
+            "description": "Number of pieces.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 6
+          },
+          "DescriptionOfCommodity": {
+            "description": "Description of the line item.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Weight": {
+            "$ref": "#/components/schemas/ShipmentDetail_Weight"
+          }
+        },
+        "xml": {
+          "name": "ShipmentDetail"
+        },
+        "required": [
+          "DescriptionOfCommodity",
+          "PackagingType",
+          "NumberOfPieces",
+          "Weight"
+        ],
+        "description": "ShipmentDetail Container.\nRequest will contain either ShipmentDetail or ExistingShipmentID container. Not both."
+      },
+      "ShipmentDetail_PackagingType": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code for the UPS packaging type associated with the shipment.\nFor valid values, see Package Type Codes in the Appendix.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "A text description of the code for the UPS packaging type associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "PackagingType"
+        },
+        "description": "PackagingType Container."
+      },
+      "ShipmentDetail_Weight": {
+        "type": "object",
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Weight_UnitOfMeasurement"
+          },
+          "Value": {
+            "description": "The value for the weight associated with the shipment.\nValid characters: 0-9 and \".\" (Decimal).\nMaximum of 2 digits after the decimal.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          }
+        },
+        "xml": {
+          "name": "Weight"
+        },
+        "maximum": 1,
+        "description": "Weight Container."
+      },
+      "Weight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the unit of measure for the weight.\nValid value: LBS - Pounds",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "A text description of the code for the unit of measure associated with the weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "Weight UnitOfMeasurement Container."
+      },
+      "FreightPickupRequest_ExistingShipmentID": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "ShipmentNumber",
+          "BOLID"
+        ],
+        "properties": {
+          "ShipmentNumber": {
+            "description": "The PRO Number assigned to the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 9,
+            "maxLength": 9
+          },
+          "BOLID": {
+            "description": "The retrieval key for the stored BOL.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "ExistingShipmentID"
+        },
+        "description": "ExistingShipmentID Container.\nRequest will contain either ShipmentDetail or ExistingShipmentID container. Not both."
+      },
+      "FreightPickupRequest_POM": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "POMNumber": {
+            "description": "Identifies the kind of number used to identify the Pickup Notifications for LTL shipment.\nMust provide a POMNumber if the POMNumberType field is populated.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          },
+          "POMNumberType": {
+            "description": "Identifies the type used to identify the Pickup Notifications for LTL shipments.  Must provide if POMNumber is populated.\nFor valid values, see POMNumberType Values in the Appendix.  The values must match a type defined, case sensitive.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 23,
+            "maxLength": 23
+          },
+          "PickupNotifications": {
+            "$ref": "#/components/schemas/POM_PickupNotifications"
+          }
+        },
+        "xml": {
+          "name": "POM"
+        },
+        "description": "An identifier associated to the pickup request when the user elects to include Pickup Notifications for LTL."
+      },
+      "POM_PickupNotifications": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CompanyName": {
+            "description": "Name of company",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "EMailNotification": {
+            "type": "array",
+            "maximum": 5,
+            "items": {
+              "$ref": "#/components/schemas/PickupNotifications_EMailNotification"
+            }
+          },
+          "FailedEMail": {
+            "description": "Alternate email address to receive notifications regarding a failed email.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 50,
+            "maxLength": 50
+          }
+        },
+        "xml": {
+          "name": "PickupNotifications"
+        },
+        "description": "Container for pre-pickup notifications events"
+      },
+      "PickupNotifications_EMailNotification": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "EMailAddress": {
+            "description": "Email address which should receive pre-pickup notification",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 50,
+            "maxLength": 50
+          },
+          "EventType": {
+            "description": "Type of event for Pickup Notifications for LTL. Allows up to four events.\nFor valid values, see LTL Event Types in the Appendix.  The values must match a type defined, case sensitive.",
+            "type": "array",
+            "maximum": 4,
+            "items": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 2
+            }
+          }
+        },
+        "xml": {
+          "name": "EMailNotification"
+        },
+        "description": "Container for email notifications"
+      },    
+      "FreightPickupResponse": {
+        "type": "object",
+        "required": [
+          "Response",
+          "PickupRequestConfirmationNumber"
+        ],
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/FreightPickupResponse_Response"
+          },
+          "PickupRequestConfirmationNumber": {
+            "description": "Shipment pickup number.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "FreightPickupResponse"
+        },
+        "maximum": 1,
+        "description": "Freight Pickup Response Container."
+      },
+      "FreightPickupResponse_Response": {
+        "type": "object",
+        "required": [
+          "ResponseStatus"
+        ],
+        "properties": {
+          "ResponseStatus": {
+            "$ref": "#/components/schemas/Response_ResponseStatus"
+          },
+          "Alert": {
+            "$ref": "#/components/schemas/Response_Alert"
+          },
+          "TransactionReference": {
+            "$ref": "#/components/schemas/Response_TransactionReference"
+          }
+        },
+        "xml": {
+          "name": "Response"
+        },
+        "description": "Response Container.",
+        "maximum": 1
+      },
+      "Response_ResponseStatus": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Identifies the success or failure of the transaction.1 = Successful",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1
+          },
+          "Description": {
+            "description": "Describes Response Status Code.  Returns text of Success.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "ResponseStatus"
+        },
+        "description": "Response Status Container."
+      },
+      "Response_Alert": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Warning code returned by the system.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
+          },
+          "Description": {
+            "description": "Warning messages returned by the system.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 150
+          }
+        },
+        "xml": {
+          "name": "Alert"
+        },
+        "description": "Alert Container. There can be zero to many alert containers with code and description"
+      },
+      "Response_TransactionReference": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CustomerContext": {
+            "description": "The CustomerContext Information which will be echoed during response.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "TransactionIdentifier": {
+            "description": "The Unique TransactionIdentifier Information for that transaction. This will be present only if requested in the request.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "TransactionReference"
+        },
+        "description": "Transaction Reference Container."
+      }
+    }
+  }
+}
