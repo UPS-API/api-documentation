@@ -1,0 +1,450 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OAuth",
+    "version": ""
+  },
+  "servers": [
+    {
+      "url": "https://wwwcie.ups.com/api/",
+      "description": "Customer Integration Environment"
+
+    },
+    {
+      "url": "https://onlinetools.ups.com/api/",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "OAuthAuthCode_other",
+      "x-displayName": "Methods",
+      "description": "Retrieve OAuth Bearer token on behalf of another user. <br /><a href=\"https://developer.ups.com/api/reference/oauth/authorization-code\" target=\"_blank\">Authorization Code</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
+    }
+  ],
+  "paths": {
+    "/v1/oauth/authorize": {
+      "get": {
+        "summary": "Authorize Client",
+        "description": "The Authorize Client endpoint initiates the OAuth flow by redirecting the user to UPS to log in and authorize the client application. It accepts the parameters listed below to facilitate the user authorization flow. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.",
+        "operationId": "AuthorizeClient",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "client_id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Client id for the requesting application.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "redirect_uri",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Callback URL for the requesting application.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "response_type",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Valid Values: code",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional value supplied by the client, will be returned during the redirection back to the client. Can be utilized to maintain state between Auth-Code request and callback event.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "scope",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional value supplied by the client, will be returned during the redirection back to the client.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "successful operation",
+            "headers": {
+              "location": {
+                "description": "The UPS login redirection URI. Will be in the following format: https://www.ups.com/lasso/signin?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code&scope={scope}&state={state}&type=ups_com_api",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "appname": {
+                "description": "App name of the application requesting the Auth-Code.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "displayname": {
+                "description": "Display name of the application requesting the Auth-Code.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/oauth/token": {
+      "post": {
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "description": "The Generate Token endpoint exchanges the authorization code received from Authorize Client for an access token and a refresh token. The client uses the access token to make API requests on behalf of the user by including it in the Authorization header. The access token will expire after a certain period and can be refreshed by using the RefreshToken endpoint.",
+        "operationId": "GenerateToken",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-merchant-id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Client merchant ID",
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "description": "Valid values: authorization_code",
+                    "default": "authorization_code"
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "Authorization code from the UPS login system."
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "description": "Callback URL for the requesting application."
+                  }
+                },
+                "required": [ "grant_type", "code", "redirect_uri" ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/generateTokenSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Blocked Merchant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Quota Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/oauth/refresh": {
+      "post": {
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "summary": "Refresh Token",
+        "operationId": "RefreshToken",
+        "description": "The RefreshToken endpoint is used to refresh an expired access token in order to continue accessing the UPS API on behalf of a user. The endpoint generates a new access/refresh token pair by exchanging a valid refresh token. A successful response returns new access and refresh tokens for ongoing API access without reprompting the user.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "description": "Valid values: refresh_token",
+                    "default": "refresh_token"
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "Refresh token from GenerateToken operation"
+                  }
+                },
+                "required": [ "grant_type", "refresh_token" ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/refreshTokenSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Quota Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/tokenErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+		"description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID as the Username and your Secret as the Password.<br/> 3. Enter any additional information in the Body and Parameters sections.<br/> 4. Select \\\"Send\\\" to execute your API request"
+      }
+    },
+    "schemas": {
+      "generateTokenSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "refresh_token_expires_in": {
+            "description": "Expiration time for requested refresh token in seconds.",
+            "type": "string"
+          },
+          "refresh_token_status": {
+            "description": "Status for requested refresh token.",
+            "type": "string"
+          },
+          "token_type": {
+            "description": "Type of requested access token",
+            "type": "string"
+          },
+          "issued_at": {
+            "description": "Issue time of requested token.",
+            "type": "string"
+          },
+          "client_id": {
+            "description": "Client id for requested token.",
+            "type": "string"
+          },
+          "access_token": {
+            "description": "Token to be used in API requests.",
+            "type": "string"
+          },
+          "refresh_token": {
+            "description": "Refresh token to be used in refresh requests when obtaining new access token.",
+            "type": "string"
+          },
+          "scope": {
+            "description": "Scope for requested token.",
+            "type": "string"
+          },
+          "refresh_token_issued_at": {
+            "description": "Time that refresh token was issued.",
+            "type": "string"
+          },
+          "expires_in": {
+            "description": "Expire time for requested token in seconds.",
+            "type": "string"
+          },
+          "refresh_count": {
+            "description": "Number of refreshes for requested token.",
+            "type": "string"
+          },
+          "status": {
+            "description": "Status for requested token.",
+            "type": "string"
+          }
+        }
+      },
+      "refreshTokenSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "refresh_token_expires_in": {
+            "description": "Expiration time for requested refresh token in seconds.",
+            "type": "string"
+          },
+          "refresh_token_status": {
+            "description": "Status for requested refresh token.",
+            "type": "string"
+          },
+          "token_type": {
+            "description": "Type for requested token.",
+            "type": "string"
+          },
+          "issued_at": {
+            "description": "Issue time for requested token.",
+            "type": "string"
+          },
+          "client_id": {
+            "description": "Client id for requested token.",
+            "type": "string"
+          },
+          "access_token": {
+            "description": "Token to be used in API requests.",
+            "type": "string"
+          },
+          "refresh_token": {
+            "description": "Token to be used in refresh requests.",
+            "type": "string"
+          },
+          "scope": {
+            "description": "Scope for requested token.",
+            "type": "string"
+          },
+          "refresh_token_issued_at": {
+            "description": "Issue time for requested refresh token.",
+            "type": "string"
+          },
+          "expires_in": {
+            "description": "Expiration time for requested access token in seconds.",
+            "type": "string"
+          },
+          "refresh_count": {
+            "description": "Number of refreshes for requested token.",
+            "type": "string"
+          },
+          "status": {
+            "description": "Status for requested token.",
+            "type": "string"
+          }
+        }
+      },
+      "tokenErrorResponse": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "$ref": "#/components/schemas/errorResponseWrapper"
+          }
+        }
+      },
+      "errorResponseWrapper": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/errors"
+            }
+          }
+        }
+      },
+      "errors": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "string"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2866 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Freight Rate",
+    "termsOfService": "https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html",
+    "version": ""
+  },
+  "servers": [
+    {
+      "url": "https://wwwcie.ups.com/api/",
+      "description": "Customer Integration Environment"
+
+    },
+    {
+      "url": "https://onlinetools.ups.com/api/",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "TForceFreightRating_other",
+      "x-displayName": "Methods",
+      "description": "The Rating Ground Freight API may only be used by brokers or resellers of transportation services with a current and active UPGF Master Transportation Agreement. <br /><a href=\"https://developer.ups.com/api/reference/freightrate/appendix\" target=\"_blank\">Appendix</a><br /><a href=\"https://developer.ups.com/api/reference/freightrate/error-codes\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/freightrate/faqs\" target=\"_blank\">FAQ</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
+    }
+  ],
+  "paths": {
+    "/freight/{version}/rating/{requestoption}": {
+      "post": {
+        "summary": "TForce Freight Rate",
+        "description": "The Rating Ground Freight API may only be used by brokers or resellers of transportation services with a current and active UPGF Master Transportation Agreement.",
+        "operationId": "FreightRate",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "transId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "An identifier unique to the request. Length 32",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "transactionSrc",
+            "schema": {
+              "type": "string",
+              "default": "testing"
+            },
+            "description": "An identifier of the client/source application that is making the request.Length 512",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "version",
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "default": "v1"
+            },
+            "description": "When TForce Freight introduces new elements \nin the response that are not associated with new \nrequest elements, Version is used. This ensures \nbackward compatibility.\nSupported values: v1, v1601, v1607, v1701, \nv1707, v1801. Length 5",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "requestoption",
+            "schema": {
+              "type": "string",
+              "minimum": 1
+            },
+            "description": "Valid Values: \nground,\nair. Length 15",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Generate sample code for popular API requests by selecting an example below. To view a full sample request and response, first click \"Authorize\" and enter your application credentials, then populate the required parameters above and click \"Try it out\".",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FREIGHTRATERequestWrapper"
+              },
+              "examples": {
+                "json": {
+                  "summary": "A sample JSON request(Standard Example)",
+                  "value": {
+                    "FreightRateRequest": {
+                      "ShipFrom": {
+                        "Name": "Test US Shipper",
+                        "Address": {
+                          "AddressLine": "123 Lane",
+                          "City": "TIMONIUM",
+                          "StateProvinceCode": "MD",
+                          "PostalCode": "21093",
+                          "CountryCode": "US",
+                          "ResidentialAddressIndicator": ""
+                        },
+                        "AttentionName": "Test Shipper",
+                        "Phone": {
+                          "Number": "4444444444",
+                          "Extension": "4444"
+                        },
+                        "EMailAddress": "gcc0htq@ups.com"
+                      },
+                      "ShipperNumber": "AT0123",
+                      "ShipTo": {
+                        "Name": "Dilbert's Derbies",
+                        "Address": {
+                          "AddressLine": "555 Main St",
+                          "City": "LOUISVILLE",
+                          "StateProvinceCode": "KY",
+                          "PostalCode": "40201",
+                          "CountryCode": "US"
+                        },
+                        "AttentionName": "Dilbert",
+                        "Phone": {
+                          "Number": "8459865555"
+                        }
+                      },
+                      "PaymentInformation": {
+                        "Payer": {
+                          "Name": "Test US Shipper",
+                          "Address": {
+                            "AddressLine": "123 Lane",
+                            "City": "LUTHERVILLE TIMONIUM",
+                            "StateProvinceCode": "MD",
+                            "PostalCode": "21093",
+                            "CountryCode": "US"
+                          },
+                          "ShipperNumber": "AT0123",
+                          "AccountType": "1",
+                          "AttentionName": "Test Shipper",
+                          "Phone": {
+                            "Number": "4444444444",
+                            "Extension": "4444"
+                          },
+                          "EMailAddress": "gcc0htq@ups.com"
+                        },
+                        "ShipmentBillingOption": {
+                          "Code": "10"
+                        }
+                      },
+                      "Service": {
+                        "Code": "308"
+                      },
+                      "Commodity": {
+                        "Description": "FRS-Freight",
+                        "Weight": {
+                          "UnitOfMeasurement": {
+                            "Code": "LBS"
+                          },
+                          "Value": "150"
+                        },
+                        "Dimensions": {
+                          "UnitOfMeasurement": {
+                            "Code": "IN",
+                            "Description": " "
+                          },
+                          "Length": "9",
+                          "Width": "5",
+                          "Height": "4"
+                        },
+                        "NumberOfPieces": "1",
+                        "PackagingType": {
+                          "Code": "PLT"
+                        },
+                        "FreightClass": "60"
+                      },
+                      "DensityEligibleIndicator": "",
+                      "AlternateRateOptions": {
+                        "Code": "3"
+                      },
+                      "PickupRequest": {
+                        "PickupDate": "20170923"
+                      },
+                      "GFPOptions": {
+                        "GPFAccesorialRateIndicator": ""
+                      },
+                      "TimeInTransitIndicator": ""
+                    }
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/FREIGHTRATERequestWrapper"
+              },
+              "examples": {
+                "xml": {
+                  "summary": "A sample XML request",
+                  "value": "<env:Envelope xmlns:env=\"http://schemas.xmlsoap.org/soap/envelope/\" \r\nxmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" \r\nxmlns:upss=\"http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0\" \r\nxmlns:wsf=\"http://www.ups.com/schema/wsf\" \r\nxmlns:common=\"http://www.ups.com/XMLSchema/XOLTWS/Common/v1.0\">\r\n <env:Header>\r\n <upss:UPSSecurity>\r\n <upss:UsernameToken>\r\n <upss:Username>Username</upss:Username>\r\n <upss:Password>Password</upss:Password>\r\n </upss:UsernameToken>\r\n <upss:ServiceAccessToken>\r\n <upss:AccessLicenseNumber>AccessLicenseNumber</upss:AccessLicenseNumber>\r\n </upss:ServiceAccessToken>\r\n </upss:UPSSecurity> \r\n </env:Header>\r\n <env:Body>\r\n <XOLTWS:FreightRateRequest \r\nxmlns:XOLTWS=\"http://www.ups.com/XMLSchema/XOLTWS/FreightRate/v1.0\">\r\n <common:Request>\r\n <common:RequestOption>1</common:RequestOption>\r\n <common:TransactionReference>\r\n <common:TransactionIdentifier>TransactionIdentifier</common:TransactionIdentifier>\r\n </common:TransactionReference>\r\n </common:Request>\r\n <XOLTWS:ShipFrom>\r\n <XOLTWS:Name>ShipFrom Name</XOLTWS:Name>\r\n <XOLTWS:Address>\r\n <XOLTWS:AddressLine>AddressLine</XOLTWS:AddressLine>\r\n <XOLTWS:City>City</XOLTWS:City>\r\n <XOLTWS:StateProvinceCode>StateProvinceCode</XOLTWS:StateProvinceCode>\r\n <XOLTWS:PostalCode>PostalCode</XOLTWS:PostalCode>\r\n <XOLTWS:CountryCode>CountryCode</XOLTWS:CountryCode>\r\n </XOLTWS:Address>\r\n <XOLTWS:AttentionName>Contact</XOLTWS:AttentionName>\r\n <XOLTWS:Phone>\r\n <XOLTWS:Number>Phone number</XOLTWS:Number>\r\n <XOLTWS:Extension>Extension number</XOLTWS:Extension>\r\n </XOLTWS:Phone>\r\n <XOLTWS:EMailAddress>EMailAddress</XOLTWS:EMailAddress>\r\n </XOLTWS:ShipFrom>\r\n <XOLTWS:ShipperNumber>ShipperNumber</XOLTWS:ShipperNumber>\r\n <XOLTWS:ShipTo>\r\n <XOLTWS:Name>ShipTo name</XOLTWS:Name>\r\n <XOLTWS:Address>\r\n <XOLTWS:AddressLine>AddressLine</XOLTWS:AddressLine>\r\n<XOLTWS:City>City</XOLTWS:City>\r\n <XOLTWS:StateProvinceCode>StateProvinceCode</XOLTWS:StateProvinceCode>\r\n <XOLTWS:PostalCode>PostalCode</XOLTWS:PostalCode>\r\n <XOLTWS:CountryCode>CountryCode</XOLTWS:CountryCode>\r\n </XOLTWS:Address>\r\n <XOLTWS:AttentionName>AttentionName</XOLTWS:AttentionName>\r\n <XOLTWS:Phone>\r\n <XOLTWS:Number>Phone number</XOLTWS:Number>\r\n <XOLTWS:Extension>Extension number</XOLTWS:Extension>\r\n </XOLTWS:Phone>\r\n </XOLTWS:ShipTo>\r\n <XOLTWS:PaymentInformation>\r\n <XOLTWS:Payer>\r\n <XOLTWS:Name>Payer Name</XOLTWS:Name>\r\n <XOLTWS:Address>\r\n <XOLTWS:AddressLine>AddressLine</XOLTWS:AddressLine>\r\n <XOLTWS:City>City</XOLTWS:City>\r\n <XOLTWS:StateProvinceCode>StateProvinceCode</XOLTWS:StateProvinceCode>\r\n <XOLTWS:PostalCode>PostalCode</XOLTWS:PostalCode>\r\n <XOLTWS:CountryCode>CountryCode</XOLTWS:CountryCode>\r\n </XOLTWS:Address>\r\n <XOLTWS:ShipperNumber>Payer's shipper Number</XOLTWS:ShipperNumber>\r\n <XOLTWS:AccountType>AccountType</XOLTWS:AccountType>\r\n <XOLTWS:AttentionName>AttentionName</XOLTWS:AttentionName>\r\n <XOLTWS:Phone>\r\n <XOLTWS:Number>Phone number</XOLTWS:Number>\r\n <XOLTWS:Extension>Extension number</XOLTWS:Extension>\r\n </XOLTWS:Phone>\r\n <XOLTWS:EMailAddress>EMailAddress</XOLTWS:EMailAddress>\r\n </XOLTWS:Payer>\r\n <XOLTWS:ShipmentBillingOption>\r\n <XOLTWS:Code>ShipmentBillingOption</XOLTWS:Code>\r\n </XOLTWS:ShipmentBillingOption>\r\n </XOLTWS:PaymentInformation>\r\n <XOLTWS:Service>\r\n <XOLTWS:Code>Service code</XOLTWS:Code>\r\n </XOLTWS:Service>\r\n <XOLTWS:HandlingUnitOne>\r\n <XOLTWS:Quantity>HandlingUnitOne quantity</XOLTWS:Quantity>\r\n <XOLTWS:Type>\r\n <XOLTWS:Code>HandlingUnitOne code</XOLTWS:Code>\r\n </XOLTWS:Type>\r\n </XOLTWS:HandlingUnitOne>\r\n <XOLTWS:Commodity>\r\n <XOLTWS:Description>Commodity description</XOLTWS:Description>\r\n <XOLTWS:Weight>\r\n <XOLTWS:UnitOfMeasurement>\r\n <XOLTWS:Code>UnitOfMeasurement code</XOLTWS:Code>\r\n </XOLTWS:UnitOfMeasurement>\r\n <XOLTWS:Value>Weight</XOLTWS:Value>\r\n</XOLTWS:Weight>\r\n <XOLTWS:NumberOfPieces>NumberOfPieces</XOLTWS:NumberOfPieces>\r\n <XOLTWS:PackagingType>\r\n <XOLTWS:Code>PackagingType code</XOLTWS:Code>\r\n </XOLTWS:PackagingType>\r\n <XOLTWS:FreightClass>FreightClass</XOLTWS:FreightClass>\r\n </XOLTWS:Commodity>\r\n <XOLTWS:ShipmentServiceOption>\r\n <XOLTWS:WeekendPickupIndicator/>\r\n </XOLTWS:ShipmentServiceOption>\r\n <XOLTWS:DensityEligibleIndicator/>\r\n <XOLTWS:AdjustedWeightIndicator/>\r\n <XOLTWS:HandlingUnitWeight>\r\n <XOLTWS:Value>HandlingUnitWeight</XOLTWS:Value>\r\n <XOLTWS:UnitOfMeasurement>\r\n <XOLTWS:Code>UnitOfMeasurement code</XOLTWS:Code>\r\n </XOLTWS:UnitOfMeasurement>\r\n </XOLTWS:HandlingUnitWeight>\r\n <XOLTWS:AlternateRateOptions>\r\n <XOLTWS:Code>AlternateRateOptions code</XOLTWS:Code>\r\n </XOLTWS:AlternateRateOptions>\r\n <XOLTWS:PickupRequest>\r\n <XOLTWS:PickupDate>PickupDate</XOLTWS:PickupDate>\r\n </XOLTWS:PickupRequest>\r\n <XOLTWS:TimeInTransitIndicator/>\r\n <XOLTWS:GFPOptions>\r\n <XOLTWS:OnCallInformation>\r\n <XOLTWS:OnCallPickupIndicator/>\r\n </XOLTWS:OnCallInformation>\r\n </XOLTWS:GFPOptions>\r\n </XOLTWS:FreightRateRequest>\r\n </env:Body>\r\n</env:Envelope>"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FREIGHTRATEResponseWrapper"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/FREIGHTRATEResponseWrapper"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Request"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
+        "flows": {
+          "clientCredentials": {
+            "x-tokenEndpointAuthMethod": "client_secret_basic",
+            "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
+            "scopes": {}
+          }
+        }
+      }
+    },
+    "schemas": {
+      "FREIGHTRATERequestWrapper": {
+        "xml": {
+          "name": "FreightRateRequest"
+        },
+        "description": "N/A  ",
+        "maximum": 1,
+        "type": "object",
+        "required": [
+          "FreightRateRequest"
+        ],
+        "properties": {
+          "FreightRateRequest": {
+            "$ref": "#/components/schemas/FreightRateRequest"
+          }
+        }
+      },
+      "FREIGHTRATEResponseWrapper": {
+        "xml": {
+          "name": "FreightRateResponse"
+        },
+        "description": "N/A  ",
+        "maximum": 1,
+        "type": "object",
+        "required": [
+          "FreightRateResponse"
+        ],
+        "properties": {
+          "FreightRateResponse": {
+            "$ref": "#/components/schemas/FreightRateResponse"
+          }
+        }
+      },
+      "FreightRateRequest": {
+        "type": "object",
+        "required": [
+          "Commodity",
+          "ShipFrom",
+          "Request",
+          "PaymentInformation",
+          "Service",
+          "ShipTo"
+        ],
+        "properties": {
+          "Request": {
+            "$ref": "#/components/schemas/FreightRateRequest_Request"
+          },
+          "ShipFrom": {
+            "$ref": "#/components/schemas/FreightRateRequest_ShipFrom"
+          },
+          "ShipTo": {
+            "$ref": "#/components/schemas/FreightRateRequest_ShipTo"
+          },
+          "PaymentInformation": {
+            "$ref": "#/components/schemas/FreightRateRequest_PaymentInformation"
+          },
+          "Service": {
+            "$ref": "#/components/schemas/FreightRateRequest_Service"
+          },
+          "HandlingUnitOne": {
+            "$ref": "#/components/schemas/FreightRateRequest_HandlingUnitOne"
+          },
+          "HandlingUnitTwo": {
+            "$ref": "#/components/schemas/FreightRateRequest_HandlingUnitTwo"
+          },
+          "Commodity": {
+            "type": "array",
+            "maxium": 99,
+            "items": {
+              "$ref": "#/components/schemas/FreightRateRequest_Commodity"
+            }
+          },
+          "ShipmentServiceOptions": {
+            "$ref": "#/components/schemas/FreightRateRequest_ShipmentServiceOptions"
+          },
+          "PickupRequest": {
+            "$ref": "#/components/schemas/FreightRateRequest_PickupRequest"
+          },
+          "AlternateRateOptions": {
+            "$ref": "#/components/schemas/FreightRateRequest_AlternateRateOptions"
+          },
+          "GFPOptions": {
+            "$ref": "#/components/schemas/FreightRateRequest_GFPOptions"
+          },
+          "HandlingUnitWeight": {
+            "$ref": "#/components/schemas/FreightRateRequest_HandlingUnitWeight"
+          },
+          "AdjustedWeightIndicator": {
+            "description": "Indicator used to specify if the user wants to subtract the handling unit weight.\nDefaults to false. \n\nWhen AdjustedWeightIndicator is set to \"true\":\n- If HandlingUnitWeight is present, the HandlingUnitWeight Value will be subtracted and prorated from the FreightLineItem Weight Value. The subtracted/prorated FreightLineItem Weight will be used for GFP rating.\n- If HandlingUnitWeight is not present and the AdjustedWeightValue is present, the adjusted weight value from the FreightLineItem object will be used to do a GFP rating request to UPGF.\n- If HandlingUnitWeight is not present and the AdjustedWeightValue is not present, the original weight from the FreightLineItem object will be used to do a GFP rating request to UPGF.In this case, the HandlingUnitWeight value  is assume to be zero.\n\nAdjustedWeightIndicator set to \"false\":\n- The FreightLineItem.Weight will be used for both LTL and GFP rating requests (current functionality). The HandlingUnitWeight or the FreightLineItem.AdjustedWeight will not be used.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "TimeInTransitIndicator": {
+            "description": "Presence of the tag indicates Time in Transit information is requested and will be returned.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "HandlingUnits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreightRateRequest_HandlingUnits"
+            }
+          },
+          "AdjustedHeightIndicator": {
+            "description": "The presence of the AdjustedHeightIndicator indicates that allow the height reduction adjustment for density based rate request.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "DensityEligibleIndicator": {
+            "description": "The presence of the tag indicates that the rate request is density based.\nFor Density Based Rating (DBR), the customer must have DBR Contract Service.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "QuoteNumberIndicator": {
+            "description": "The presence of this indicator means a Quote Number will be returned for this LTL Freight Rate quote request.",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "FreightRateRequest"
+        },
+        "maximum": 1,
+        "description": "Freight Rate Request Container."
+      },
+      "FreightRateRequest_Request": {
+        "type": "object",
+        "properties": {
+          "RequestOption": {
+            "description": "Valid Value: 1 = Ground",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 15
+          },
+          "SubVersion": {
+            "description": "When UPS introduces new elements in the response that are not associated with new request elements, Subversion is used. This ensures backward compatibility.\n\nTo get such elements you need to have the right Subversion. The value of the subversion is explained in the Response element Description.\n\nExample: Itemized Charges are returned only when the Subversion element is present and greater than or equal to '1601'. \n\nFormat: YYMM = Year and month of the release.\nExample: 1601 = 2016 January\n \nSupported values: 1601, 1607, 1701, 1707",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4
+          },
+          "TransactionReference": {
+            "$ref": "#/components/schemas/Request_TransactionReference"
+          }
+        },
+        "xml": {
+          "name": "Request"
+        },
+        "maximum": 1,
+        "description": "Request Container."
+      },
+      "Request_TransactionReference": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CustomerContext": {
+            "description": "The CustomerContext Information which will be echoed during response.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "xml": {
+          "name": "TransactionReference"
+        },
+        "description": "TransactionReference identifies transactions between client and server."
+      },
+      "FreightRateRequest_ShipFrom": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Name": {
+            "description": "The ship from location's name or company name.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Address": {
+            "$ref": "#/components/schemas/ShipFrom_Address"
+          },
+          "AttentionName": {
+            "description": "Contact name at the ship from location.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "ShipFrom"
+        },
+        "required": [
+          "Address"
+        ],
+        "description": "ShipFrom Container."
+      },
+      "ShipFrom_Address": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AddressLine",
+          "City",
+          "CountryCode"
+        ],
+        "properties": {
+          "AddressLine": {
+            "description": "The Ship from street address.",
+            "type": "array",
+            "maximum": 3,
+            "minLength": 1,
+            "maxLength": 35,
+            "items": {
+              "type": "string"
+            }
+          },
+          "City": {
+            "description": "The Ship from city.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "StateProvinceCode": {
+            "description": "The Ship from location’s state or province code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 5
+          },
+          "Town": {
+            "description": "The ship from location’s town code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "PostalCode": {
+            "description": "The ship from location’s postal code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "CountryCode": {
+            "description": "The ship from location’s country or territory code..",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "ResidentialAddressIndicator": {
+            "description": "The presence of the tag indicates that the ShipFrom address is residential",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Address Container."
+      },
+      "FreightRateRequest_ShipTo": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Name": {
+            "description": "Consignee's company name.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Address": {
+            "$ref": "#/components/schemas/ShipTo_Address"
+          },
+          "AttentionName": {
+            "description": "Contact name at the consignee's location.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "ShipTo"
+        },
+        "required": [
+          "Address"
+        ],
+        "description": "ShipTo Container."
+      },
+      "ShipTo_Address": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AddressLine",
+          "City",
+          "CountryCode"
+        ],
+        "properties": {
+          "AddressLine": {
+            "description": "Consignee's street address.",
+            "type": "array",
+            "maximum": 3,
+            "minLength": 1,
+            "maxLength": 35,
+            "items": {
+              "type": "string"
+            }
+          },
+          "City": {
+            "description": "Consignee's city.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "StateProvinceCode": {
+            "description": "Consignee's state or province code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 5
+          },
+          "Town": {
+            "description": "Consignee's town code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "PostalCode": {
+            "description": "Consignee's postal code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "CountryCode": {
+            "description": "Consignee's country or territory code..",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "ResidentialAddressIndicator": {
+            "description": "The presence of the tag indicates that the Consignee's address is residential",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Address Container."
+      },
+      "FreightRateRequest_PaymentInformation": {
+        "type": "object",
+        "required": [
+          "Payer",
+          "ShipmentBillingOption"
+        ],
+        "properties": {
+          "Payer": {
+            "$ref": "#/components/schemas/PaymentInformation_Payer"
+          },
+          "ShipmentBillingOption": {
+            "$ref": "#/components/schemas/PaymentInformation_ShipmentBillingOption"
+          }
+        },
+        "xml": {
+          "name": "PaymentInformation"
+        },
+        "description": "Payment Information Container.",
+        "maximum": 1
+      },
+      "PaymentInformation_Payer": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Address",
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "Payer's company name",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Address": {
+            "$ref": "#/components/schemas/Payer_Address"
+          },
+          "ShipperNumber": {
+            "description": "Payer's six digit account number.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "AttentionName": {
+            "description": "Contact name at the payer's location.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "Payer"
+        },
+        "description": "Payer Container."
+      },
+      "Payer_Address": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AddressLine",
+          "City",
+          "CountryCode"
+        ],
+        "properties": {
+          "AddressLine": {
+            "description": "Payer's street address.",
+            "type": "array",
+            "maximum": 3,
+            "minLength": 1,
+            "maxLength": 35,
+            "items": {
+              "type": "string"
+            }
+          },
+          "City": {
+            "description": "Payer's city.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "StateProvinceCode": {
+            "description": "Payer's state or province code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 5
+          },
+          "Town": {
+            "description": "Payer's town code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "PostalCode": {
+            "description": "Payer's postal code.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "CountryCode": {
+            "description": "Payer's country or territory code..",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Address Container."
+      },
+      "PaymentInformation_ShipmentBillingOption": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Billing Option Code.\nValid values:\n10 - Prepaid\n30 - Bill to Third Party\n40 - Freight Collect",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "Description": {
+            "description": "Billing Option Description.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "ShipmentBillingOption"
+        },
+        "description": "ShipmentBillingOption Container."
+      },
+      "FreightRateRequest_Service": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code for the UPS Service associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "A text description of the UPS Service associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "Service"
+        },
+        "description": "Service Container."
+      },
+      "FreightRateRequest_HandlingUnitOne": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Type",
+          "Quantity"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Quantity of the handling unit.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 8
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HandlingUnitOne_Type"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnitOne"
+        },
+        "description": "HandlingUnitOne Container.\nRequired, unless HandlingUnitTwo is present with a value of LOO -LOOSE."
+      },
+      "HandlingUnitOne_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with Handling Unit\nType.\nRefer to Handling Codes in the Appendix for valid values.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "A description of the code for the Handling Unit type.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Type container."
+      },
+      "FreightRateRequest_HandlingUnitTwo": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Type",
+          "Quantity"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Quantity of the handling unit.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 8
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HandlingUnitTwo_Type"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnitTwo"
+        },
+        "description": "HandlingUnit Container."
+      },
+      "HandlingUnitTwo_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with Handling Unit\nType.\nRefer to Handling Codes in the Appendix for valid values.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "A description of the code for the Handling Unit type.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Type container."
+      },
+      "FreightRateRequest_Commodity": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CommodityID": {
+            "description": "Unique identifier for the commodity.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Description": {
+            "description": "Description of the line item.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Weight": {
+            "$ref": "#/components/schemas/Commodity_Weight"
+          },
+          "AdjustedWeight": {
+            "$ref": "#/components/schemas/Commodity_AdjustedWeight"
+          },
+          "Dimensions": {
+            "$ref": "#/components/schemas/Commodity_Dimensions"
+          },
+          "NumberOfPieces": {
+            "description": "Number of piece of the commodity in the handling unit.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 6
+          },
+          "PackagingType": {
+            "$ref": "#/components/schemas/Commodity_PackagingType"
+          },
+          "DangerousGoodsIndicator": {
+            "description": "The presence of the tag DangerousGoodsIndicator indicates that the commodity is of type dangerous goods.\nRequired for at least one commodity when the dangerous goods accessorial is passed.",
+            "type": "string"
+          },
+          "CommodityValue": {
+            "$ref": "#/components/schemas/Commodity_CommodityValue"
+          },
+          "FreightClass": {
+            "description": "Freight Classification. \nRefer to Ground Freight Classes in the Appendix for valid values.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "NMFCCommodityCode": {
+            "description": "National Motor Freight Classification Commodity code.",
+            "maximum": 1,
+            "type": "string",
+            "maxLength": 8
+          },
+          "NMFCCommodity": {
+            "$ref": "#/components/schemas/Commodity_NMFCCommodity"
+          }
+        },
+        "xml": {
+          "name": "Commodity"
+        },
+        "required": [
+          "Description",
+          "Weight",
+          "NumberOfPieces",
+          "PackagingType"
+        ],
+        "description": "Commodity Container."
+      },
+      "Commodity_Weight": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "The value for the line item weight associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Weight_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "Weight"
+        },
+        "description": "Commodity Weight Container."
+      },
+      "Weight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "Description for the code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "CommodityWeight UnitOfMeasurement Container."
+      },
+      "Commodity_AdjustedWeight": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "Adjusted weight value for the commodity.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/AdjustedWeight_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "AdjustedWeight"
+        },
+        "description": "Adjusted Weight Container."
+      },
+      "AdjustedWeight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "Description for the code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "Unit of Measurement container for the Adjusted weight."
+      },
+      "Commodity_Dimensions": {
+        "type": "object",
+        "required": [
+          "UnitOfMeasurement",
+          "Length",
+          "Height",
+          "Width"
+        ],
+        "properties": {
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
+          },
+          "Length": {
+            "description": "The length of the line item used to determine dimensional weight.\nValid characters: 0-9 and \".\" (Decimal point). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          },
+          "Width": {
+            "description": "The width of the line item used to determine dimensional weight. \nFormat: See Length Description.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          },
+          "Height": {
+            "description": "The height of the line item used to determine dimensional weight.\nFormat: See Length Description.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          }
+        },
+        "xml": {
+          "name": "Dimensions"
+        },
+        "maximum": 1,
+        "description": "Dimensions Container."
+      },
+      "Dimensions_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "Description for the code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "UnitOfMeasurement container."
+      },
+      "Commodity_PackagingType": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code for the UPS packaging type associated with the shipment. \nRefer to Packaging Type Codes in the Appendix for valid values.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "A text description of the code for the UPS packaging type associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "PackagingType"
+        },
+        "description": "PackagingType Container."
+      },
+      "Commodity_DangerousGoodsIndicator": {
+        "description": "The presence of the tag DangerousGoodsIndicator indicates that the commodity is of type dangerous goods.\nRequired for at least one commodity when the dangerous goods accessorial is passed.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "Commodity_CommodityValue": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CurrencyCode": {
+            "description": "Commodity value currency code type.\nRequired when value of commodity is entered.\nValid value:\nUSD - United States Dollar",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "MonetaryValue": {
+            "description": "Commodity value amount.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          }
+        },
+        "xml": {
+          "name": "CommodityValue"
+        },
+        "required": [
+          "MonetaryValue"
+        ],
+        "description": "CommodityValue Container."
+      },
+      "Commodity_NMFCCommodity": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "PrimeCode": {
+            "description": "National Motor Freight Classification Commodity prime code.\nMust be 6 digits representing the NMFC prime code. \nThis field is required if NMFCCommodity/SubCode is supplied.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 6
+          },
+          "SubCode": {
+            "description": "National Motor Freight Classification Commodity sub code.\nMust be 2 digits representing the NMFC sub code.\nIf this field is supplied, NMFCCommodity/PrimeCode also has to be supplied.",
+            "maximum": 1,
+            "type": "string",
+            "maxLength": 2
+          }
+        },
+        "xml": {
+          "name": "NMFCCommodity"
+        },
+        "description": "Container for National Motor Freight Classification Commodity.This Container is for customers who choose to send the NMFC Prime and sub code as two different fields.\nThis container is mutually exclusive with NMFCCommodityCode element above."
+      },
+      "FreightRateRequest_ShipmentServiceOptions": {
+        "type": "object",
+        "properties": {
+          "PickupOptions": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_PickupOptions"
+          },
+          "DeliveryOptions": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_DeliveryOptions"
+          },
+          "OverSeasLeg": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_OverSeasLeg"
+          },
+          "COD": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_COD"
+          },
+          "DangerousGoods": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_DangerousGoods"
+          },
+          "SortingAndSegregating": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_SortingAndSegregating"
+          },
+          "ExcessDeclaredValue": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_ExcessDeclaredValue"
+          },
+          "HandlingCharge": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_HandlingCharge"
+          },
+          "FreezableProtectionIndicator": {
+            "description": "The presence of the tag FreezableProtectionIndicator indicates that the customs clearance is required.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "ExtremeLengthIndicator": {
+            "description": "The presence of the tag ExtremeLengthIndicator indicates that the customs clearance is required.\nIt is recommended to provide 'LinearFeet' if this indicator is sent.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "LinearFeet": {
+            "description": "Dimensional length of the article(s), in 'feet'.\nNumeric value greater than '0' (Zero) should be given in LinearFeet.\nIf Proper LinearFeet is not provided, accurate charge for extreme length articles might not be returned.\nIf linear feet '0' (Zero) or any non-numeric/invalid character is sent, accurate charge for extreme length articles might not be returned.\nIgnored if ExtremeLengthIndicator is not present.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "AdjustedHeight": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_AdjustedHeight"
+          }
+        },
+        "xml": {
+          "name": "ShipmentServiceOptions"
+        },
+        "maximum": 1,
+        "description": "ShipmentServiceOptions Container."
+      },
+      "ShipmentServiceOptions_PickupOptions": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "HolidayPickupIndicator": {
+            "description": "The presence of the tag HolidayPickupIndicator indicates that the shipment requires a holiday pickup.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "InsidePickupIndicator": {
+            "description": "The presence of the tag InsidePickupIndicator indicates that the shipment requires an inside pickup.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "ResidentialPickupIndicator": {
+            "description": "The presence of the tag ResidentialPickupIndicator indicates that the shipment requires a residential pickup.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "WeekendPickupIndicator": {
+            "description": "The presence of the tag WeekendPickupIndicator indicates that the shipment requires a weekend pickup.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "LiftGateRequiredIndicator": {
+            "description": "The presence of the tag LiftGateRequiredIndicator indicates that the shipment requires a lift gate.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "LimitedAccessPickupIndicator": {
+            "description": "The presence of the tag LimitedAccessPickupIndicator indicates that there is limited access for pickups",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "PickupOptions"
+        },
+        "description": "PickupOptions Container."
+      },
+      "ShipmentServiceOptions_DeliveryOptions": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CallBeforeDeliveryIndicator": {
+            "description": "The presence of the tag CallBeforeDeliveryIndicator indicates that the shipment is going to be delivered after calling the consignee.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "HolidayDeliveryIndicator": {
+            "description": "The presence of the tag HolidayDeliveryIndicator indicates that the shipment is going to be delivered on a holiday.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "InsideDeliveryIndicator": {
+            "description": "The presence of the tag InsideDeliveryIndicator indicates that the shipment requires an inside delivery.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "ResidentialDeliveryIndicator": {
+            "description": "The presence of the tag ResidentialDeliveryIndicator indicates that the shipment requires a residential delivery.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "WeekendDeliveryIndicator": {
+            "description": "The presence of the tag WeekendDeliveryIndicator indicates that the shipment is going to be delivered on a weekend.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "LiftGateRequiredIndicator": {
+            "description": "The presence of the tag LiftGateRequiredIndicator indicates that the shipment requires a lift gate.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "LimitedAccessDeliveryIndicator": {
+            "description": "The presence of the tag LimitedAccessDeliveryIndicator indicates that there is limited access for delivery.",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "DeliveryOptions"
+        },
+        "description": "DeliveryOptions Container."
+      },
+      "ShipmentServiceOptions_OverSeasLeg": {
+        "type": "object",
+        "required": [
+          "Value",
+          "Dimensions"
+        ],
+        "properties": {
+          "Dimensions": {
+            "$ref": "#/components/schemas/OverSeasLeg_Dimensions"
+          },
+          "Value": {
+            "$ref": "#/components/schemas/OverSeasLeg_Value"
+          }
+        },
+        "xml": {
+          "name": "OverSeasLeg"
+        },
+        "description": "OverSeasLeg Container.",
+        "maximum": 1
+      },
+      "OverSeasLeg_Dimensions": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Volume": {
+            "description": "Represents the size as volume.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 19
+          },
+          "Height": {
+            "description": "The height of the line item used to determine dimensional weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 18
+          },
+          "Length": {
+            "description": "The length of the line item used to determine dimensional weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 18
+          },
+          "Width": {
+            "description": "The width of the line item used to determine dimensional weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 18
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "Dimensions"
+        },
+        "required": [
+          "UnitOfMeasurement",
+          "Length",
+          "Height",
+          "Width"
+        ],
+        "description": "Dimensions Container."
+      },
+      "OverSeasLeg_Value": {
+        "type": "object",
+        "properties": {
+          "Cube": {
+            "$ref": "#/components/schemas/Value_Cube"
+          },
+          "CWT": {
+            "$ref": "#/components/schemas/Value_CWT"
+          }
+        },
+        "xml": {
+          "name": "Value"
+        },
+        "description": "Dimensions Value Container.",
+        "maximum": 1
+      },
+      "Value_Cube": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Currency code type for Price per cubic feet.\nValid value: USD - United States Dollar",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "MonetaryValue": {
+            "description": "Price per cubic feet.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          }
+        },
+        "xml": {
+          "name": "Cube"
+        },
+        "description": "Dimensions Value Cube Container."
+      },
+      "Value_CWT": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Currency code type for Price per CWT.\nValid value: USD - United States Dollar",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "MonetaryValue": {
+            "description": "Price per CWT.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          }
+        },
+        "xml": {
+          "name": "CWT"
+        },
+        "description": "Dimensions Value CWT Container."
+      },
+      "ShipmentServiceOptions_COD": {
+        "type": "object",
+        "required": [
+          "CODBillingOption",
+          "CODPaymentMethod",
+          "CODValue",
+          "RemitTo"
+        ],
+        "properties": {
+          "CODValue": {
+            "$ref": "#/components/schemas/COD_CODValue"
+          },
+          "CODPaymentMethod": {
+            "$ref": "#/components/schemas/COD_CODPaymentMethod"
+          },
+          "CODBillingOption": {
+            "$ref": "#/components/schemas/COD_CODBillingOption"
+          },
+          "RemitTo": {
+            "$ref": "#/components/schemas/COD_RemitTo"
+          }
+        },
+        "xml": {
+          "name": "COD"
+        },
+        "description": "COD Container.",
+        "maximum": 1
+      },
+      "COD_CODValue": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "COD amount currency code type.\nValid value: USD - United States Dollar",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "MonetaryValue": {
+            "description": "COD Amount.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          }
+        },
+        "xml": {
+          "name": "CODValue"
+        },
+        "description": "CODValue Container."
+      },
+      "COD_CODPaymentMethod": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the COD payment method for the shipment service options.\nValid values:\nM - Company Check\nR - Certified Check",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1
+          },
+          "Description": {
+            "description": "A text description of the code for the COD payment method associated with the shipment service options.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "CODPaymentMethod"
+        },
+        "description": "CODPaymentMethod Container."
+      },
+      "COD_CODBillingOption": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the COD billing option for the shipment service options.\nValid values:\n01 - Prepaid\n02 - Freight Collect",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "Description": {
+            "description": "A text description of the code for the COD billing option associated with the shipment service options.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "CODBillingOption"
+        },
+        "description": "CODBillingOption Container."
+      },
+      "COD_RemitTo": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Address",
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "The payee company name for the COD charges.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Address": {
+            "$ref": "#/components/schemas/RemitTo_Address"
+          },
+          "AttentionName": {
+            "description": "Payee contact name for the COD charges.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "RemitTo"
+        },
+        "description": "RemitTo Container."
+      },
+      "RemitTo_Address": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AddressLine",
+          "City",
+          "CountryCode"
+        ],
+        "properties": {
+          "AddressLine": {
+            "description": "Payee Street address for the COD charges.",
+            "type": "array",
+            "maximum": 3,
+            "minLength": 1,
+            "maxLength": 35,
+            "items": {
+              "type": "string"
+            }
+          },
+          "City": {
+            "description": "Payee city code for the COD charges.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "StateProvinceCode": {
+            "description": "Payee state or province code for the COD charges.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 5
+          },
+          "Town": {
+            "description": "Payee town code for the COD charges.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 30,
+            "maxLength": 30
+          },
+          "PostalCode": {
+            "description": "Payee postal code for the COD charges.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "CountryCode": {
+            "description": "Payee country or territory code for the COD charges.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Address Container."
+      },
+      "ShipmentServiceOptions_DangerousGoods": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Phone",
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "The contact name for question re: Dangerous Goods.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/DangerousGoods_Phone"
+          },
+          "TransportationMode": {
+            "$ref": "#/components/schemas/DangerousGoods_TransportationMode"
+          }
+        },
+        "xml": {
+          "name": "DangerousGoods"
+        },
+        "description": "DangerousGoods Container."
+      },
+      "DangerousGoods_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Number"
+        ],
+        "properties": {
+          "Number": {
+            "description": "The contact phone number for question re: Dangerous Goods",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 15,
+            "maxLength": 15
+          },
+          "Extension": {
+            "description": "The contact phone extension for question re: Dangerous Goods",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container."
+      },
+      "DangerousGoods_TransportationMode": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the transportation mode for the dangerous goods.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 10
+          },
+          "Description": {
+            "description": "A text description of the code for the transportation mode associated with the dangerous goods.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "TransportationMode"
+        },
+        "description": "TransportationMode Container."
+      },
+      "ShipmentServiceOptions_SortingAndSegregating": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Quantity"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Quantity of units to be sorted/segregated.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 6
+          }
+        },
+        "xml": {
+          "name": "SortingAndSegregating"
+        },
+        "description": "SortingAndSegregating Container."
+      },
+      "ShipmentServiceOptions_ExcessDeclaredValue": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Excess Declared value amount currency type.\nValid value: USD - United States Dollar",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "MonetaryValue": {
+            "description": "Excess Declared value amount.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          }
+        },
+        "xml": {
+          "name": "ExcessDeclaredValue"
+        },
+        "description": "ExcessDeclaredValue Container."
+      },
+      "ShipmentServiceOptions_HandlingCharge": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Percentage": {
+            "description": "Percentage amount consistent with the handling charge.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 7,
+            "maxLength": 7
+          },
+          "Amount": {
+            "$ref": "#/components/schemas/HandlingCharge_Amount"
+          }
+        },
+        "xml": {
+          "name": "HandlingCharge"
+        },
+        "description": "HandlingCharge Container."
+      },
+      "HandlingCharge_Amount": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Handling charge amount currency type.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "MonetaryValue": {
+            "description": "Handling Charge amount.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          }
+        },
+        "xml": {
+          "name": "Amount"
+        },
+        "description": "HandlingCharge Amount Container.\nEither Percentage or Amount needs to be present, not both."
+      },
+      "ShipmentServiceOptions_AdjustedHeight": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "Adjusted Height value for the handling unit.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "AdjustedHeight"
+        },
+        "description": "Adjusted Height container."
+      },
+      "AdjustedHeight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Unit of Measurement for the Adjusted weight.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description for the code associated with the Unit of Measurement for the Adjusted weight.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "Unit of Measurement container for the Adjusted height."
+      },
+      "FreightRateRequest_PickupRequest": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "PickupDate"
+        ],
+        "properties": {
+          "PickupDate": {
+            "description": "Date of the Pickup.\nFormat: YYYYMMDD",
+            "type": "string"
+          },
+          "AdditionalComments": {
+            "description": "Additional Pickup comments or instructions.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "PickupRequest"
+        },
+        "description": "Container for PickupRequest"
+      },
+      "PickupRequest_PickupDate": {
+        "description": "Date of the Pickup.\nFormat: YYYYMMDD",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 8
+      },
+      "PickupRequest_AdditionalComments": {
+        "description": "Additional Pickup comments or instructions.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 500,
+        "maxLength": 500
+      },
+      "FreightRateRequest_AlternateRateOptions": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code for the alternate rate type requested. \nValid values:\n1 = LTL only \n2 = GFP only\n3 = GFP and LTL",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the alternate rate type requested above.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "AlternateRateOptions"
+        },
+        "description": "Container to indicate that alternate rates are requested."
+      },
+      "AlternateRateOptions_Code": {
+        "description": "Code for the alternate rate type requested. \nValid values:\n1 = LTL only \n2 = GFP only\n3 = GFP and LTL",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "AlternateRateOptions_Description": {
+        "description": "Description of the alternate rate type requested above.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "FreightRateRequest_GFPOptions": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "GPFAccesorialRateIndicator": {
+            "description": "Indicator for GFP accessorial rate indicator.",
+            "type": "string"
+          },
+          "OnCallInformation": {
+            "$ref": "#/components/schemas/GFPOptions_OnCallInformation"
+          }
+        },
+        "xml": {
+          "name": "GFPOptions"
+        },
+        "description": "GFP Options container."
+      },
+      "GFPOptions_GPFAccesorialRateIndicator": {
+        "description": "Indicator for GFP accessorial rate indicator.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "GFPOptions_OnCallInformation": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "OnCallPickupIndicator": {
+            "description": "The presence of OnCallPickupIndicator is to request on call pickup fee in response",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "OnCallInformation"
+        },
+        "description": "Container for On-Call related elements"
+      },
+      "OnCallInformation_OnCallPickupIndicator": {
+        "description": "The presence of OnCallPickupIndicator is to request on call pickup fee in response",
+        "maximum": 1,
+        "type": "string"
+      },
+      "FreightRateRequest_HandlingUnitWeight": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "Handling unit weight value for the shipment.",
+            "type": "string"
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/HandlingUnitWeight_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnitWeight"
+        },
+        "description": "Handling unit weight container."
+      },
+      "HandlingUnitWeight_Value": {
+        "description": "Handling unit weight value for the shipment.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 9,
+        "maxLength": 9
+      },
+      "HandlingUnitWeight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "Description for the code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "Unit of Measurement container for the handling unit weight."
+      },
+      "FreightRateRequest_HandlingUnits": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Type",
+          "Quantity",
+          "Dimensions"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Handling Unit Quantity for Density based rating.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 8
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HandlingUnits_Type"
+          },
+          "Dimensions": {
+            "$ref": "#/components/schemas/HandlingUnits_Dimensions"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnits"
+        },
+        "description": "Handling Unit for Density based rating container.\nRequired if the Shipper is eligible for density based pricing."
+      },
+      "HandlingUnits_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with Handling Unit\nType.\nRefer to Handling Codes in the Appendix for valid values.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "A description of the code for the Handling Unit type.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Handling Unit Type for Density based rating."
+      },
+      "HandlingUnits_Dimensions": {
+        "type": "object",
+        "required": [
+          "UnitOfMeasurement",
+          "Length",
+          "Height",
+          "Width"
+        ],
+        "properties": {
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
+          },
+          "Length": {
+            "description": "The length of the line item used to determine dimensional weight.\nValid characters: 0-9 and \".\" (Decimal point). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          },
+          "Width": {
+            "description": "The width of the line item used to determine dimensional weight. \nFormat: See Length Description.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          },
+          "Height": {
+            "description": "The height of the line item used to determine dimensional weight.\nFormat: See Length Description.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          }
+        },
+        "xml": {
+          "name": "Dimensions"
+        },
+        "maximum": 1,
+        "description": "Dimension of the HandlingUnit container for density based pricing."
+      },
+      "FreightRateResponse": {
+        "type": "object",
+        "required": [
+          "Response",
+          "Commodity"
+        ],
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/FreightRateResponse_Response"
+          },
+          "Rate": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreightRateResponse_Rate"
+            }
+          },
+          "FreightDensityRate": {
+            "$ref": "#/components/schemas/FreightRateResponse_FreightDensityRate"
+          },
+          "Commodity": {
+            "type": "array",
+            "maximum": 99,
+            "items": {
+              "$ref": "#/components/schemas/FreightRateResponse_Commodity"
+            }
+          },
+          "TotalShipmentCharge": {
+            "$ref": "#/components/schemas/FreightRateResponse_TotalShipmentCharge"
+          },
+          "BillableShipmentWeight": {
+            "$ref": "#/components/schemas/FreightRateResponse_BillableShipmentWeight"
+          },
+          "DimensionalWeight": {
+            "$ref": "#/components/schemas/FreightRateResponse_DimensionalWeight"
+          },
+          "Service": {
+            "$ref": "#/components/schemas/FreightRateResponse_Service"
+          },
+          "GuaranteedIndicator": {
+            "description": "This is an empty tag. The presence of the indicator indicates the rate returned is guaranteed.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "MinimumChargeAppliedIndicator": {
+            "description": "This is an empty tag. The presence of the tag indicates the rate returned has a minimum charge applied to it.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "AlternateRatesResponse": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreightRateResponse_AlternateRatesResponse"
+            }
+          },
+          "TimeInTransit": {
+            "$ref": "#/components/schemas/FreightRateResponse_TimeInTransit"
+          },
+          "HandlingUnits": {
+            "$ref": "#/components/schemas/FreightRateResponse_HandlingUnits"
+          },
+          "QuoteNumber": {
+            "description": "The Quote Number returned in the response associated to the specific LTL Freight Rate returned in the response.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 9,
+            "maxLength": 9
+          }
+        },
+        "xml": {
+          "name": "FreightRateResponse"
+        },
+        "maximum": 1,
+        "description": "Freight Rate Response Container."
+      },
+      "FreightRateResponse_Response": {
+        "type": "object",
+        "required": [
+          "ResponseStatus"
+        ],
+        "properties": {
+          "ResponseStatus": {
+            "$ref": "#/components/schemas/Response_ResponseStatus"
+          },
+          "Alert": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Response_Alert"
+            }
+          },
+          "TransactionReference": {
+            "$ref": "#/components/schemas/Response_TransactionReference"
+          }
+        },
+        "xml": {
+          "name": "Response"
+        },
+        "description": "Response Container.",
+        "maximum": 1
+      },
+      "Response_ResponseStatus": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Identifies the success or failure of the transaction. \n1 = Successful",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1
+          },
+          "Description": {
+            "description": "Describes Response Status Code.Returns text of \"Success\" for a valid request.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "ResponseStatus"
+        },
+        "description": "Response Status Container."
+      },
+      "Response_Alert": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Warning code returned by the system.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
+          },
+          "Description": {
+            "description": "Warning messages returned by the system.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 150
+          }
+        },
+        "xml": {
+          "name": "Alert"
+        },
+        "description": "Alert Container. There can be zero to many alert containers with code and description."
+      },
+      "Response_TransactionReference": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CustomerContext": {
+            "description": "The CustomerContext Information which will be echoed during response.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "xml": {
+          "name": "TransactionReference"
+        },
+        "description": "Transaction Reference Container."
+      },
+      "FreightRateResponse_Rate": {
+        "type": "object",
+        "required": [
+          "Type",
+          "Factor"
+        ],
+        "properties": {
+          "Type": {
+            "$ref": "#/components/schemas/Rate_Type"
+          },
+          "Factor": {
+            "$ref": "#/components/schemas/Rate_Factor"
+          }
+        },
+        "xml": {
+          "name": "Rate"
+        },
+        "description": "Rate Container."
+      },
+      "Rate_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with Handling Unit\nType.\nRefer to Handling Codes in the Appendix for valid values.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
+          },
+          "Description": {
+            "description": "A description of the code for the Handling Unit type.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Rate Type Container"
+      },
+      "Rate_Factor": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "Contains value pertaining to rate type code. \nFor example: if the discount rate is 25% then the rate charge code will have code type as \"DISCOUNT_RATE\" and rate factor value will have 25.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Factor_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "Factor"
+        },
+        "description": "Factor Container."
+      },
+      "Factor_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "Description for the code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "Unit of measurement container for factors related to Rate Types."
+      },
+      "FreightRateResponse_FreightDensityRate": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "TotalCubicFeet",
+          "Density"
+        ],
+        "properties": {
+          "Density": {
+            "description": "Density is returned if the Shipper is eligible for Density based rate.",
+            "maximum": 1,
+            "type": "string"
+          },
+          "TotalCubicFeet": {
+            "description": "TotalCubic feet is returned if the Shipper is eligible for Density based rate.",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "FreightDensityRate"
+        },
+        "description": "FreightDensityRate container for Density based rating."
+      },
+      "FreightRateResponse_Commodity": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CommodityID": {
+            "description": "Unique identifier for the commodity.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Description": {
+            "description": "Description of the line item.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 35,
+            "maxLength": 35
+          },
+          "Weight": {
+            "$ref": "#/components/schemas/Commodity_Weight"
+          },
+          "AdjustedWeight": {
+            "$ref": "#/components/schemas/Commodity_AdjustedWeight"
+          }
+        },
+        "xml": {
+          "name": "Commodity"
+        },
+        "required": [
+          "Description",
+          "Weight"
+        ],
+        "description": "Commodity Container."
+      },
+      "FreightRateResponse_TotalShipmentCharge": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Total shipment Charge currency code type.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "MonetaryValue": {
+            "description": "Total shipment charge.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          }
+        },
+        "xml": {
+          "name": "TotalShipmentCharge"
+        },
+        "description": "TotalShipmentCharge Container."
+      },
+      "FreightRateResponse_BillableShipmentWeight": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "The value for the billable weight associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 16
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/BillableShipmentWeight_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "BillableShipmentWeight"
+        },
+        "description": "BillableShipmentWeight Container."
+      },
+      "BillableShipmentWeight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "Description for the code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "UnitOfMeasurement Container."
+      },
+      "FreightRateResponse_DimensionalWeight": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "The value for the dimensional weight associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 5
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/DimensionalWeight_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "DimensionalWeight"
+        },
+        "description": "DimensionalWeight Container."
+      },
+      "DimensionalWeight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "Description for the code associated with the Unit of Measurement for the Adjusted weight.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "UnitOfMeasurement Container."
+      },
+      "FreightRateResponse_Service": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code for the UPS Service associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3
+          },
+          "Description": {
+            "description": "A text description of the UPS Service associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "Service"
+        },
+        "description": "Service Container."
+      },
+      "FreightRateResponse_AlternateRatesResponse": {
+        "type": "object",
+        "required": [
+          "Rate",
+          "AlternateRateType"
+        ],
+        "properties": {
+          "AlternateRateType": {
+            "$ref": "#/components/schemas/AlternateRatesResponse_AlternateRateType"
+          },
+          "Rate": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlternateRatesResponse_Rate"
+            }
+          },
+          "FreightDensityRate": {
+            "$ref": "#/components/schemas/AlternateRatesResponse_FreightDensityRate"
+          },
+          "BillableShipmentWeight": {
+            "$ref": "#/components/schemas/AlternateRatesResponse_BillableShipmentWeight"
+          },
+          "TimeInTransit": {
+            "$ref": "#/components/schemas/AlternateRatesResponse_TimeInTransit"
+          }
+        },
+        "xml": {
+          "name": "AlternateRatesResponse"
+        },
+        "description": "Container for alternate rates including FRS rates"
+      },
+      "AlternateRatesResponse_AlternateRateType": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code for the Alternate Rate Type.\n1 = LTL only \n2 = GFP only \n3 = GFP and LTL",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 2
+          },
+          "Description": {
+            "description": "Alternate Rate Type description.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        },
+        "xml": {
+          "name": "AlternateRateType"
+        },
+        "description": "Container for the type of alternate rate"
+      },
+      "AlternateRatesResponse_Rate": {
+        "type": "object",
+        "required": [
+          "Type",
+          "Factor"
+        ],
+        "properties": {
+          "Type": {
+            "$ref": "#/components/schemas/Rate_Type"
+          },
+          "SubTypeCode": {
+            "description": "The subtype of itemized charges rate type. Please look at Appendix 1 Adding for 1800o_RFC8654",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3
+          },
+          "Factor": {
+            "$ref": "#/components/schemas/Rate_Factor"
+          }
+        },
+        "xml": {
+          "name": "Rate"
+        },
+        "maximum": 1,
+        "description": "Rate Container."
+      },
+      "AlternateRatesResponse_FreightDensityRate": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "TotalCubicFeet",
+          "Density"
+        ],
+        "properties": {
+          "Density": {
+            "description": "Density is returned if the Shipper is eligible for Density based rate.",
+            "type": "string",
+            "maximum": 1
+          },
+          "TotalCubicFeet": {
+            "description": "TotalCubic feet is returned if the Shipper is eligible for Density based rate.",
+            "type": "string",
+            "maximum": 1
+          }
+        },
+        "xml": {
+          "name": "FreightDensityRate"
+        },
+        "description": "FreightDensityRate container."
+      },
+      "AlternateRatesResponse_BillableShipmentWeight": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "The value for the billable weight associated with the shipment.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/BillableShipmentWeight_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "BillableShipmentWeight"
+        },
+        "description": "BillableShipmentWeight Container."
+      },
+      "AlternateRatesResponse_TimeInTransit": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "DaysInTransit"
+        ],
+        "properties": {
+          "DaysInTransit": {
+            "description": "Number of days in transit.",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "TimeInTransit"
+        },
+        "description": "Time In transit information."
+      },
+      "FreightRateResponse_TimeInTransit": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "DaysInTransit"
+        ],
+        "properties": {
+          "DaysInTransit": {
+            "description": "Number of days in transit.",
+            "maximum": 1,
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "TimeInTransit"
+        },
+        "description": "Time In transit information."
+      },
+      "FreightRateResponse_HandlingUnits": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Type",
+          "AdjustedHeight",
+          "Quantity",
+          "Dimensions"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Handling Unit Quantity for Density based rating.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 8
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HandlingUnits_Type"
+          },
+          "Dimensions": {
+            "$ref": "#/components/schemas/HandlingUnits_Dimensions"
+          },
+          "AdjustedHeight": {
+            "$ref": "#/components/schemas/HandlingUnits_AdjustedHeight"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnits"
+        },
+        "description": "Handling Unit Container for Density based rating.\nReturned if Shipper is eligible for density based pricing."
+      },
+      "HandlingUnits_AdjustedHeight": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "Adjusted Height value for the handling unit.",
+            "maximum": 1,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "AdjustedHeight"
+        },
+        "description": "Adjusted Height Container."
+      }
+    }
+  }
+}

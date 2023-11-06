@@ -2,39 +2,39 @@
   "openapi": "3.0.1",
   "info": {
     "title": "TrackService API",
-    "description": "This service is used to retrieve  package information",
-    "version": "0.1"
+    "termsOfService": "https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html",
+    "version": ""
   },
   "servers": [
     {
-      "url": "https://wwwcie.ups.com/api"
+      "url": "https://wwwcie.ups.com/api/",
+      "description": "Customer Integration Environment"
+    },
+    {
+      "url": "https://onlinetools.ups.com/api/",
+      "description": "Production"
     }
   ],
   "tags": [
     {
-      "name": "bulk-api-controller",
-      "description": "Bulk API Controller"
-    },
-    {
-      "name": "shipment-api-controller",
-      "description": "Shipment API Controller"
-    },
-    {
-      "name": "single-track-api-controller",
-      "description": "Single Track API Controller"
+      "name": "Tracking_other",
+      "x-displayName": "Methods",
+      "description": "This service is used to retrieve  package information. <br /><a href=\"https://developer.ups.com/api/reference/tracking/business-rules\" target=\"_blank\">Business Rules</a><br />
+	  <a href=\"https://developer.ups.com/api/reference/tracking/api-code\" target=\"_blank\">API Codes</a><br />
+	  <a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
     }
   ],
   "paths": {
     "/track/v1/details/{inquiryNumber}": {
       "get": {
-        "tags": ["single-track-api-controller"],
-        "summary": "gets single track API details",
+        "summary": "Tracking",
+        "description": "gets single track API details",
         "operationId": "getSingleTrackResponseUsingGET",
         "parameters": [
           {
             "name": "inquiryNumber",
             "in": "path",
-            "description": "Inquiry Number",
+            "description": "Tracking Number",
             "required": true,
             "schema": {
               "type": "string"
@@ -61,7 +61,7 @@
           {
             "name": "transId",
             "in": "header",
-            "description": "An identifier unique to the request. Length 32",
+            "description": "transId",
             "required": true,
             "schema": {
               "type": "string"
@@ -70,7 +70,7 @@
           {
             "name": "transactionSrc",
             "in": "header",
-            "description": "An identifier of the client/source application that is making the request.Length 512",
+            "description": "transactionSrc",
             "required": true,
             "schema": {
               "type": "string",
@@ -153,9 +153,10 @@
     "securitySchemes": {
       "oauth2": {
         "type": "oauth2",
-        "description": "Find your client_id and client_secret on your app info page. <br/> 1. Once your credentials are entered select \\\"Authorize\\\" and a bearer token will be generated.<br/> 2. Click \\\"Try it out\\\" and enter any required values.<br/> 3. Select an example request to use or provide your own.<br/> 4. Select \\\"Send the request using the values above\\\" to execute your API request.",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
         "flows": {
           "clientCredentials": {
+            "x-tokenEndpointAuthMethod": "client_secret_basic",
             "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
             "scopes": {}
           }
@@ -384,7 +385,7 @@
           "additionalAttributes": {
             "type": "array",
             "description": "type",
-            "example": ["SENSOR_EVENT"],
+            "example": [ "SENSOR_EVENT" ],
             "items": {
               "type": "string"
             }

@@ -1,0 +1,3927 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Freight Ship",
+    "termsOfService": "https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html",
+    "version": ""
+  },
+  "servers": [
+    {
+      "url": "https://wwwcie.ups.com/api/",
+      "description": "Customer Integration Environment"
+
+    },
+    {
+      "url": "https://onlinetools.ups.com/api/",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "TForceFreightShipping_other",
+      "x-displayName": "Methods",
+      "description": "Only users that plan to ship packages manifested, tendered, and delivered by TForce Freight can use the API. <br /><a href=\"https://developer.ups.com/api/reference/freightship/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/freightship/appendix\" target=\"_blank\">Appendix</a><br /><a href=\"https://developer.ups.com/api/reference/freightship/errors\" target=\"_blank\">Errors</a><br /><a href=\"https://developer.ups.com/api/reference/freightship/faqs\" target=\"_blank\">FAQ</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
+    }
+  ],
+  "paths": {
+    "/freight/{version}/shipments/{reqoption}": {
+      "post": {
+        "summary": "TForce Freight Ship",
+        "description": "Only users that plan to ship packages manifested, tendered, and delivered by TForce Freight can use the API.",
+        "operationId": "FreightShip",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "transId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "An identifier unique to the request. Length 32",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "transactionSrc",
+            "schema": {
+              "type": "string",
+              "default": "testing"
+            },
+            "description": "An identifier of the client/source application that is making the request.Length 512",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "version",
+            "schema": {
+              "type": "string",
+              "minimum": 1,
+              "default": "v1"
+            },
+            "description": "When TForce Freight introduces new elements \nin the response that are not associated with new \nrequest elements, version is used. This ensures \nbackward compatibility.\nTo get such elements you need to have the right \nversion. The value of the version is explained in \nthe Response element Description.\nExample: Itemized Charges are returned only \nwhen the version element is present and greater \nthan or equal to 'v1601'. \nFormat: YYMM = Year and month of the release.\nExample: v1601 = 2016 Januaryrelease. \nSupported values: v1, v1601, v1607. Length 5",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "reqoption",
+            "schema": {
+              "type": "string",
+              "minimum": 1
+            },
+            "description": "Valid Values: \nGround,\nAir . Length 15",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Generate sample code for popular API requests by selecting an example below. To view a full sample request and response, first click \"Authorize\" and enter your application credentials, then populate the required parameters above and click \"Try it out\".",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FREIGHTSHIPRequestWrapper"
+              },
+              "examples": {
+                "json": {
+                  "summary": "A sample JSON request(Standard Example)",
+                  "value": {
+                    "FreightShipRequest": {
+                      "Shipment": {
+                        "ShipFrom": {
+                          "Name": "ShipFromName",
+                          "Address": {
+                            "AddressLine": "1234 Main Street",
+                            "City": "Atlanta",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "30332",
+                            "CountryCode": "US"
+                          },
+                          "AttentionName": "AttentionName",
+                          "Phone": {
+                            "Number": "5555555555"
+                          }
+                        },
+                        "ShipperNumber": "7210A2",
+                        "ShipTo": {
+                          "Name": "ShipToName",
+                          "Address": {
+                            "AddressLine": "123 MAin Street",
+                            "City": "Canton",
+                            "StateProvinceCode": "GA",
+                            "PostalCode": "30115",
+                            "CountryCode": "US"
+                          },
+                          "AttentionName": "AttentionName",
+                          "Phone": {
+                            "Number": "5555555555"
+                          }
+                        },
+                        "PaymentInformation": {
+                          "Payer": {
+                            "Name": "PayerName",
+                            "Address": {
+                              "AddressLine": "123 MAin Street",
+                              "City": "Canton",
+                              "StateProvinceCode": "GA",
+                              "PostalCode": "30115",
+                              "CountryCode": "US"
+                            },
+                            "ShipperNumber": "7210A2",
+                            "AccountType": "1",
+                            "AttentionName": "AttentionName",
+                            "Phone": {
+                              "Number": "5555555555"
+                            }
+                          },
+                          "ShipmentBillingOption": {
+                            "Code": "10"
+                          }
+                        },
+                        "Service": {
+                          "Code": "308"
+                        },
+                        "HandlingUnitOne": {
+                          "Quantity": "2",
+                          "Type": {
+                            "Code": "PLT"
+                          }
+                        },
+                        "Commodity": {
+                          "Description": "Goods",
+                          "Weight": {
+                            "UnitOfMeasurement": {
+                              "Code": "LBS"
+                            },
+                            "Value": "190"
+                          },
+                          "Dimensions": {
+                            "UnitOfMeasurement": {
+                              "Code": "IN"
+                            },
+                            "Length": "11",
+                            "Width": "11",
+                            "Height": "11"
+                          },
+                          "NumberOfPieces": "10",
+                          "PackagingType": {
+                            "Code": "PKG"
+                          },
+                          "FreightClass": "110"
+                        },
+                        "DensityEligibleIndicator": "",
+                        "PickupRequest": {
+                          "Requester": {
+                            "AttentionName": "AttentionName",
+                            "EMailAddress": "test@ups.com",
+                            "Name": "DG",
+                            "Phone": {
+                              "Number": "5555555555"
+                            }
+                          },
+                          "PickupDate": "20220725",
+                          "EarliestTimeReady": "0723",
+                          "LatestTimeReady": "1700"
+                        },
+                        "TimeInTransitIndicator": ""
+                      },
+                      "Miscellaneous": {
+                        "WSVersion": "21.0.11",
+                        "ReleaseID": "07.12.2008"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FREIGHTSHIPResponseWrapper"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Request"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
+        "flows": {
+          "clientCredentials": {
+            "x-tokenEndpointAuthMethod": "client_secret_basic",
+            "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
+            "scopes": {}
+          }
+        }
+      }
+    },
+    "schemas": {
+      "FREIGHTSHIPRequestWrapper": {
+        "xml": {
+          "name": "FreightShipRequest"
+        },
+        "description": "N/A  ",
+        "maximum": 1,
+        "type": "object",
+        "required": [
+          "FreightShipRequest"
+        ],
+        "properties": {
+          "FreightShipRequest": {
+            "$ref": "#/components/schemas/FreightShipRequest"
+          }
+        }
+      },
+      "FREIGHTSHIPResponseWrapper": {
+        "xml": {
+          "name": "FreightShipResponse"
+        },
+        "description": "N/A  ",
+        "maximum": 1,
+        "type": "object",
+        "required": [
+          "FreightShipResponse"
+        ],
+        "properties": {
+          "FreightShipResponse": {
+            "$ref": "#/components/schemas/FreightShipResponse"
+          }
+        }
+      },
+      "FreightShipRequest": {
+        "type": "object",
+        "required": [
+          "Request",
+          "Shipment"
+        ],
+        "properties": {
+          "Request": {
+            "$ref": "#/components/schemas/FreightShipRequest_Request"
+          },
+          "Shipment": {
+            "$ref": "#/components/schemas/FreightShipRequest_Shipment"
+          }
+        },
+        "xml": {
+          "name": "FreightShipRequest"
+        },
+        "description": "",
+        "maximum": 1
+      },
+      "FreightShipRequest_Request": {
+        "type": "object",
+        "required": [
+          "RequestOption"
+        ],
+        "properties": {
+          "RequestOption": {
+            "description": "Type of Shipping desired.\nValid value: 1 - Ground Freight Shipping",
+            "type": "string"
+          },
+          "SubVersion": {
+            "description": "When UPS introduces new elements in the response that are not associated with new request elements, Subversion is used. This ensures backward compatibility.\n\nTo get such elements you need to have the right Subversion. The value of the subversion is explained in the Response element Description.\n\nExample: Itemized Charges are returned only when the Subversion element is present and greater than or equal to '1601'. \n\nFormat: YYMM = Year and month of the release.\nExample: 1601 = 2016 January\n \nSupported values: 1601, 1607",
+            "type": "string"
+          },
+          "TransactionReference": {
+            "$ref": "#/components/schemas/Request_TransactionReference"
+          }
+        },
+        "xml": {
+          "name": "Request"
+        },
+        "maximum": 1,
+        "description": "Freight Ship Request Container."
+      },
+      "Request_RequestOption": {
+        "description": "Type of Shipping desired.\nValid value: 1 - Ground Freight Shipping",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 15
+      },
+      "Request_SubVersion": {
+        "description": "When UPS introduces new elements in the response that are not associated with new request elements, Subversion is used. This ensures backward compatibility.\n\nTo get such elements you need to have the right Subversion. The value of the subversion is explained in the Response element Description.\n\nExample: Itemized Charges are returned only when the Subversion element is present and greater than or equal to '1601'. \n\nFormat: YYMM = Year and month of the release.\nExample: 1601 = 2016 January\n \nSupported values: 1601, 1607",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "Request_TransactionReference": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CustomerContext": {
+            "description": "The CustomerContext Information which will be echoed during response.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "TransactionReference"
+        },
+        "description": "TransactionReference identifies transactions between client and server."
+      },
+      "TransactionReference_CustomerContext": {
+        "description": "The CustomerContext Information which will be echoed during response.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      },
+      "FreightShipRequest_Shipment": {
+        "type": "object",
+        "required": [
+          "Commodity",
+          "ShipFrom",
+          "PaymentInformation",
+          "Service",
+          "ShipperNumber",
+          "ShipTo"
+        ],
+        "properties": {
+          "ShipFrom": {
+            "$ref": "#/components/schemas/Shipment_ShipFrom"
+          },
+          "ShipperNumber": {
+            "description": "Shipper\ufffds six digit account number.\nSize must be six alphanumeric characters. Must be associated with the User Id specified in the Access Request XML.",
+            "type": "string"
+          },
+          "ShipTo": {
+            "$ref": "#/components/schemas/Shipment_ShipTo"
+          },
+          "PaymentInformation": {
+            "$ref": "#/components/schemas/Shipment_PaymentInformation"
+          },
+          "Service": {
+            "$ref": "#/components/schemas/Shipment_Service"
+          },
+          "HandlingUnitOne": {
+            "$ref": "#/components/schemas/Shipment_HandlingUnitOne"
+          },
+          "HandlingUnitTwo": {
+            "$ref": "#/components/schemas/Shipment_HandlingUnitTwo"
+          },
+          "ExistingShipmentID": {
+            "$ref": "#/components/schemas/Shipment_ExistingShipmentID"
+          },
+          "HandlingInstructions": {
+            "description": "General purpose instructions to the driver.  \nExample: Call 30 minutes before",
+            "type": "string"
+          },
+          "DeliveryInstructions": {
+            "description": "Delivery Instructions.",
+            "type": "string"
+          },
+          "PickupInstructions": {
+            "description": "Pickup Instructions.",
+            "type": "string"
+          },
+          "Commodity": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Shipment_Commodity"
+            }
+          },
+          "Reference": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Shipment_Reference"
+            }
+          },
+          "ShipmentServiceOptions": {
+            "$ref": "#/components/schemas/Shipment_ShipmentServiceOptions"
+          },
+          "PickupRequest": {
+            "$ref": "#/components/schemas/Shipment_PickupRequest"
+          },
+          "Documents": {
+            "$ref": "#/components/schemas/Shipment_Documents"
+          },
+          "TimeInTransitIndicator": {
+            "description": "Presence of the tag indicates Time in Transit information is requested and will be returned if available.",
+            "type": "string"
+          },
+          "HandlingUnits": {
+            "$ref": "#/components/schemas/Shipment_HandlingUnits"
+          },
+          "DensityEligibleIndicator": {
+            "description": "The presence of the tag DensityEligibleIndicator indicates that the density based rate is requested.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Shipment"
+        },
+        "maximum": 1,
+        "description": "Shipment Container."
+      },
+      "Shipment_ShipFrom": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Phone",
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "The shipper\ufffds name or company name.",
+            "type": "string"
+          },
+          "TaxIdentificationNumber": {
+            "description": "Company\ufffds Tax Identification Number at the pickup location.\nRequired if SED form (International forms) is requested",
+            "type": "string"
+          },
+          "Address": {
+            "$ref": "#/components/schemas/ShipFrom_Address"
+          },
+          "AttentionName": {
+            "description": "Contact name at the ship from location.",
+            "type": "string"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/ShipFrom_Phone"
+          },
+          "FaxNumber": {
+            "description": "The ship from location\ufffds Fax Number.",
+            "type": "string"
+          },
+          "EMailAddress": {
+            "description": "Shipper\ufffds email address.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ShipFrom"
+        },
+        "description": "ShipFrom Container."
+      },
+      "ShipFrom_Name": {
+        "description": "The shipper\ufffds name or company name.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "ShipFrom_TaxIdentificationNumber": {
+        "description": "Company\ufffds Tax Identification Number at the pickup location.\nRequired if SED form (International forms) is requested",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 15
+      },
+      "ShipFrom_Address": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AddressLine",
+          "City",
+          "CountryCode"
+        ],
+        "properties": {
+          "AddressLine": {
+            "description": "The consignee\ufffds street address.",
+            "type": "string"
+          },
+          "City": {
+            "description": "The consignee\ufffds city.",
+            "type": "string"
+          },
+          "StateProvinceCode": {
+            "description": "The consignee\ufffds state or province code.",
+            "type": "string"
+          },
+          "Town": {
+            "description": "The consignee\ufffds town code.",
+            "type": "string"
+          },
+          "PostalCode": {
+            "description": "The consignee\ufffds postal code.",
+            "type": "string"
+          },
+          "CountryCode": {
+            "description": "The consignee\ufffds country or territory code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Shipper\ufffds Address Container."
+      },
+      "Address_AddressLine": {
+        "description": "The consignee\ufffds street address.",
+        "maximum": 3,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Address_City": {
+        "description": "The consignee\ufffds city.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 30,
+        "maxLength": 30
+      },
+      "Address_StateProvinceCode": {
+        "description": "The consignee\ufffds state or province code.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 5
+      },
+      "Address_Town": {
+        "description": "The consignee\ufffds town code.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 15
+      },
+      "Address_PostalCode": {
+        "description": "The consignee\ufffds postal code.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 9,
+        "maxLength": 9
+      },
+      "Address_CountryCode": {
+        "description": "The consignee\ufffds country or territory code.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "ShipFrom_AttentionName": {
+        "description": "Contact name at the ship from location.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "ShipFrom_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Number"
+        ],
+        "properties": {
+          "Number": {
+            "description": "Requester\ufffds phone number.",
+            "type": "string"
+          },
+          "Extension": {
+            "description": "Requester\ufffds phone extension.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container"
+      },
+      "Phone_Number": {
+        "description": "Requester\ufffds phone number.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 14,
+        "maxLength": 14
+      },
+      "Phone_Extension": {
+        "description": "Requester\ufffds phone extension.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "ShipFrom_FaxNumber": {
+        "description": "The ship from location\ufffds Fax Number.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 15
+      },
+      "ShipFrom_EMailAddress": {
+        "description": "Shipper\ufffds email address.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "Shipment_ShipperNumber": {
+        "description": "Shipper\ufffds six digit account number.\nSize must be six alphanumeric characters. Must be associated with the User Id specified in the Access Request XML.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 10
+      },
+      "Shipment_ShipTo": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "The Consignee\ufffds name or company name.",
+            "type": "string"
+          },
+          "TaxIdentificationNumber": {
+            "description": "Company's Tax Identification Number of the Consignee",
+            "type": "string"
+          },
+          "Address": {
+            "$ref": "#/components/schemas/ShipTo_Address"
+          },
+          "AttentionName": {
+            "description": "Contact name at the ship to location.",
+            "type": "string"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/ShipTo_Phone"
+          },
+          "FaxNumber": {
+            "description": "Consignee\ufffds fax number.",
+            "type": "string"
+          },
+          "EMailAddress": {
+            "description": "Consignee\ufffds email address.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ShipTo"
+        },
+        "description": "ShipTo Container."
+      },
+      "ShipTo_Name": {
+        "description": "The Consignee\ufffds name or company name.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "ShipTo_TaxIdentificationNumber": {
+        "description": "Company's Tax Identification Number of the Consignee",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 15
+      },
+      "ShipTo_Address": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AddressLine",
+          "City",
+          "CountryCode"
+        ],
+        "properties": {
+          "AddressLine": {
+            "description": "The consignee\ufffds street address.",
+            "type": "string"
+          },
+          "City": {
+            "description": "The consignee\ufffds city.",
+            "type": "string"
+          },
+          "StateProvinceCode": {
+            "description": "The consignee\ufffds state or province code.",
+            "type": "string"
+          },
+          "Town": {
+            "description": "The consignee\ufffds town code.",
+            "type": "string"
+          },
+          "PostalCode": {
+            "description": "The consignee\ufffds postal code.",
+            "type": "string"
+          },
+          "CountryCode": {
+            "description": "The consignee\ufffds country or territory code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Consignee\ufffds Address Container."
+      },
+      "ShipTo_AttentionName": {
+        "description": "Contact name at the ship to location.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "ShipTo_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Number"
+        ],
+        "properties": {
+          "Number": {
+            "description": "Requester\ufffds phone number.",
+            "type": "string"
+          },
+          "Extension": {
+            "description": "Requester\ufffds phone extension.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container."
+      },
+      "ShipTo_FaxNumber": {
+        "description": "Consignee\ufffds fax number.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 15
+      },
+      "ShipTo_EMailAddress": {
+        "description": "Consignee\ufffds email address.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "Shipment_PaymentInformation": {
+        "type": "object",
+        "required": [
+          "Payer",
+          "ShipmentBillingOption"
+        ],
+        "properties": {
+          "Payer": {
+            "$ref": "#/components/schemas/PaymentInformation_Payer"
+          },
+          "ShipmentBillingOption": {
+            "$ref": "#/components/schemas/PaymentInformation_ShipmentBillingOption"
+          }
+        },
+        "xml": {
+          "name": "PaymentInformation"
+        },
+        "description": "Payment Information Container.",
+        "maximum": 1
+      },
+      "PaymentInformation_Payer": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Address",
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "Payer\ufffds company name",
+            "type": "string"
+          },
+          "Address": {
+            "$ref": "#/components/schemas/Payer_Address"
+          },
+          "ShipperNumber": {
+            "description": "Payer\ufffds account number.\nUser\ufffds 6 digit UPS account number or 9 digit SCS account number.",
+            "type": "string"
+          },
+          "AttentionName": {
+            "description": "Contact name at the payer\ufffds location.",
+            "type": "string"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/Payer_Phone"
+          },
+          "FaxNumber": {
+            "description": "Payer\ufffds fax number.",
+            "type": "string"
+          },
+          "EMailAddress": {
+            "description": "Payer\ufffds email address.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Payer"
+        },
+        "description": "Payer Container."
+      },
+      "Payer_Name": {
+        "description": "Payer\ufffds company name",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Payer_Address": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AddressLine",
+          "City",
+          "CountryCode"
+        ],
+        "properties": {
+          "AddressLine": {
+            "description": "The consignee\ufffds street address.",
+            "type": "string"
+          },
+          "City": {
+            "description": "The consignee\ufffds city.",
+            "type": "string"
+          },
+          "StateProvinceCode": {
+            "description": "The consignee\ufffds state or province code.",
+            "type": "string"
+          },
+          "Town": {
+            "description": "The consignee\ufffds town code.",
+            "type": "string"
+          },
+          "PostalCode": {
+            "description": "The consignee\ufffds postal code.",
+            "type": "string"
+          },
+          "CountryCode": {
+            "description": "The consignee\ufffds country or territory code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Address Container."
+      },
+      "Payer_ShipperNumber": {
+        "description": "Payer\ufffds account number.\nUser\ufffds 6 digit UPS account number or 9 digit SCS account number.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 10
+      },
+      "Payer_AttentionName": {
+        "description": "Contact name at the payer\ufffds location.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Payer_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Number"
+        ],
+        "properties": {
+          "Number": {
+            "description": "Requester\ufffds phone number.",
+            "type": "string"
+          },
+          "Extension": {
+            "description": "Requester\ufffds phone extension.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container."
+      },
+      "Payer_FaxNumber": {
+        "description": "Payer\ufffds fax number.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 15
+      },
+      "Payer_EMailAddress": {
+        "description": "Payer\ufffds email address.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "PaymentInformation_ShipmentBillingOption": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Billing Option Code.\nValid values:\n10 - Prepaid\n30 - Bill to Third Party\n40 - Freight Collect",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Billing Option Description.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ShipmentBillingOption"
+        },
+        "description": "ShipmentBillingOption Container."
+      },
+      "ShipmentBillingOption_Code": {
+        "description": "Billing Option Code.\nValid values:\n10 - Prepaid\n30 - Bill to Third Party\n40 - Freight Collect",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "ShipmentBillingOption_Description": {
+        "description": "Billing Option Description.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Shipment_Service": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code for the UPS Service associated with the shipment.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "A text description of the UPS Service associated with the shipment.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Service"
+        },
+        "description": "Service Container."
+      },
+      "Service_Code": {
+        "description": "The code for the UPS Service associated with the shipment.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "Service_Description": {
+        "description": "A text description of the UPS Service associated with the shipment.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Shipment_HandlingUnitOne": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Type",
+          "Quantity"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Quantity of the handling unit.",
+            "type": "string"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HandlingUnitOne_Type"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnitOne"
+        },
+        "description": "HandlingUnit Container.\nRequired for Ground Shipments."
+      },
+      "HandlingUnitOne_Quantity": {
+        "description": "Quantity of the handling unit.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 8
+      },
+      "HandlingUnitOne_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the form type",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the form type code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "HandlingUnit Type Container."
+      },
+      "Type_Code": {
+        "description": "Code representing the form type",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "Type_Description": {
+        "description": "Description of the form type code.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Shipment_HandlingUnitTwo": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Type",
+          "Quantity"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Quantity of the handling unit.",
+            "type": "string"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HandlingUnitTwo_Type"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnitTwo"
+        },
+        "description": "HandlingUnit Container."
+      },
+      "HandlingUnitTwo_Quantity": {
+        "description": "Quantity of the handling unit.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 8
+      },
+      "HandlingUnitTwo_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the form type",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the form type code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "HandlingUnit Type Container."
+      },
+      "Shipment_ExistingShipmentID": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "ShipmentNumber"
+        ],
+        "properties": {
+          "ShipmentNumber": {
+            "description": "The PRO Number assigned to the shipment.",
+            "type": "string"
+          },
+          "ConfirmationNumber": {
+            "$ref": "#/components/schemas/ExistingShipmentID_ConfirmationNumber"
+          }
+        },
+        "xml": {
+          "name": "ExistingShipmentID"
+        },
+        "description": "ExistingShipmentID Container."
+      },
+      "ExistingShipmentID_ShipmentNumber": {
+        "description": "The PRO Number assigned to the shipment.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 9,
+        "maxLength": 9
+      },
+      "ExistingShipmentID_ConfirmationNumber": {
+        "type": "object",
+        "required": [
+          "Type",
+          "Value"
+        ],
+        "properties": {
+          "Type": {
+            "$ref": "#/components/schemas/ConfirmationNumber_Type"
+          },
+          "Value": {
+            "description": "The unique pickup confirmation number or BOLID value.\nRequired only for Shipment Updates.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ConfirmationNumber"
+        },
+        "maximum": 1,
+        "description": "Container for the existing shipment pickup confirmation number.\nRequired only for Shipment Updates."
+      },
+      "ConfirmationNumber_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the form type",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the form type code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Container for the type of unique pickup confirmation number.\nRequired only for Shipment Updates."
+      },
+      "ConfirmationNumber_Value": {
+        "description": "The unique pickup confirmation number or BOLID value.\nRequired only for Shipment Updates.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Shipment_HandlingInstructions": {
+        "description": "General purpose instructions to the driver.  \nExample: Call 30 minutes before",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 500,
+        "maxLength": 500
+      },
+      "Shipment_DeliveryInstructions": {
+        "description": "Delivery Instructions.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 500,
+        "maxLength": 500
+      },
+      "Shipment_PickupInstructions": {
+        "description": "Pickup Instructions.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 500,
+        "maxLength": 500
+      },
+      "Shipment_Commodity": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CommodityID": {
+            "description": "Unique identifier for the commodity.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of articles, special marks, freight codes.",
+            "type": "string"
+          },
+          "Weight": {
+            "description": "Weight of the package.",
+            "type": "string"
+          },
+          "Dimensions": {
+            "$ref": "#/components/schemas/Commodity_Dimensions"
+          },
+          "NumberOfPieces": {
+            "description": "Number of Pieces.",
+            "type": "string"
+          },
+          "PackagingType": {
+            "$ref": "#/components/schemas/Commodity_PackagingType"
+          },
+          "DangerousGoodsIndicator": {
+            "description": "Hazmat Indicator.",
+            "type": "string"
+          },
+          "CommodityValue": {
+            "description": "Unit price of the commodity.",
+            "type": "string"
+          },
+          "FreightClass": {
+            "description": "Class.",
+            "type": "string"
+          },
+          "NMFCCommodityCode": {
+            "description": "NMFC.",
+            "type": "string"
+          },
+          "NMFCCommodity": {
+            "$ref": "#/components/schemas/Commodity_NMFCCommodity"
+          }
+        },
+        "xml": {
+          "name": "Commodity"
+        },
+        "required": [
+          "FreightClass"
+        ],
+        "description": "Commodity Container."
+      },
+      "Commodity_CommodityID": {
+        "description": "Unique identifier for the commodity.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Commodity_Description": {
+        "description": "Description of articles, special marks, freight codes.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 150,
+        "maxLength": 150
+      },
+      "Commodity_Weight": {
+        "description": "Weight of the package.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 7,
+        "maxLength": 7
+      },
+      "Weight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the unit of measure for the billable weight of a shipment.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "The description for the billable weight associated with the shipment.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "Reference Weight UnitOfMeasurement Container."
+      },
+      "UnitOfMeasurement_Code": {
+        "description": "The code associated with the unit of measure for the billable weight of a shipment.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "UnitOfMeasurement_Description": {
+        "description": "The description for the billable weight associated with the shipment.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Weight_Value": {
+        "description": "The value for the total weight associated with this reference.\n\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "Commodity_Dimensions": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Length",
+          "Height",
+          "Width"
+        ],
+        "properties": {
+          "Length": {
+            "description": "The length of the line item used to determine density rate rating.",
+            "type": "string"
+          },
+          "Width": {
+            "description": "The width of the line item used to determine the density based rating.",
+            "type": "string"
+          },
+          "Height": {
+            "description": "The height of the line item used to determine density based rating.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Dimensions"
+        },
+        "description": "Dimensions Container."
+      },
+      "Dimensions_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the unit of measure for the billable weight of a shipment.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "The description for the billable weight associated with the shipment.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "UnitOfMeasurement Container."
+      },
+      "Dimensions_Length": {
+        "description": "The length of the line item used to determine density rate rating.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 19
+      },
+      "Dimensions_Width": {
+        "description": "The width of the line item used to determine the density based rating.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 19
+      },
+      "Dimensions_Height": {
+        "description": "The height of the line item used to determine density based rating.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 19
+      },
+      "Commodity_NumberOfPieces": {
+        "description": "Number of Pieces.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "Commodity_PackagingType": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code associated with the Packaging Type.\nRefer to Packaging Types in the Appendix for valid values.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description for the code associated with the Packaging Type.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "PackagingType"
+        },
+        "description": "PackagingType Container."
+      },
+      "PackagingType_Code": {
+        "description": "Code associated with the Packaging Type.\nRefer to Packaging Types in the Appendix for valid values.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "PackagingType_Description": {
+        "description": "Description for the code associated with the Packaging Type.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Commodity_DangerousGoodsIndicator": {
+        "description": "Hazmat Indicator.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "Commodity_CommodityValue": {
+        "description": "Unit price of the commodity.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 7,
+        "maxLength": 7
+      },
+      "CommodityValue_CurrencyCode": {
+        "description": "Commodity value currency code type.\nRequired when value of commodity is entered. \nValid values: USD \ufffd United States Dollar",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "CommodityValue_MonetaryValue": {
+        "description": "Commodity value amount.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "Commodity_FreightClass": {
+        "description": "Class.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "Commodity_NMFCCommodityCode": {
+        "description": "NMFC.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 8
+      },
+      "Commodity_NMFCCommodity": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "PrimeCode": {
+            "description": "National Motor Freight Classification Commodity prime code.\nMust be 6 digits representing the NMFC prime code. \nThis field is required if NMFCCommodity/SubCode is supplied.",
+            "type": "string"
+          },
+          "SubCode": {
+            "description": "National Motor Freight Classification Commodity sub code.\nMust be 2 digits representing the NMFC sub code.\nIf this field is supplied, NMFCCommodity/PrimeCode also has to be supplied.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "NMFCCommodity"
+        },
+        "description": "Container for National Motor Freight Classification Commodity.  This Container is for customers who choose to send the NMFC Prime and sub code as two different fields.\nThis container is mutually exclusive with NMFCCommodityCode element above."
+      },
+      "NMFCCommodity_PrimeCode": {
+        "description": "National Motor Freight Classification Commodity prime code.\nMust be 6 digits representing the NMFC prime code. \nThis field is required if NMFCCommodity/SubCode is supplied.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 6
+      },
+      "NMFCCommodity_SubCode": {
+        "description": "National Motor Freight Classification Commodity sub code.\nMust be 2 digits representing the NMFC sub code.\nIf this field is supplied, NMFCCommodity/PrimeCode also has to be supplied.",
+        "maximum": 1,
+        "type": "string",
+        "maxLength": 2
+      },
+      "Shipment_Reference": {
+        "type": "object",
+        "required": [
+          "Number"
+        ],
+        "properties": {
+          "Number": {
+            "$ref": "#/components/schemas/Reference_Number"
+          },
+          "BarCodeIndicator": {
+            "description": "The presence of the tag BarCodeIndicator indicates that the reference at index 1 is bar-coded.",
+            "type": "string"
+          },
+          "NumberOfCartons": {
+            "description": "Number of cartons attached to this reference.\nStrongly recommended for ground services.",
+            "type": "string"
+          },
+          "Weight": {
+            "$ref": "#/components/schemas/Reference_Weight"
+          }
+        },
+        "xml": {
+          "name": "Reference"
+        },
+        "maximum": 1,
+        "description": "Reference Container.\nMax number of references allowed: 200"
+      },
+      "Reference_Number": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Value",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Reference number type code for the entire shipment.\nFor valid values, see Reference Codes in the Appendix.",
+            "type": "string"
+          },
+          "Value": {
+            "description": "Customer supplied reference number.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Number"
+        },
+        "description": "Reference Number Container."
+      },
+      "Number_Code": {
+        "description": "Reference number type code for the entire shipment.\nFor valid values, see Reference Codes in the Appendix.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 5
+      },
+      "Number_Value": {
+        "description": "Customer supplied reference number.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Reference_BarCodeIndicator": {
+        "description": "The presence of the tag BarCodeIndicator indicates that the reference at index 1 is bar-coded.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "Reference_NumberOfCartons": {
+        "description": "Number of cartons attached to this reference.\nStrongly recommended for ground services.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 6,
+        "maxLength": 6
+      },
+      "Reference_Weight": {
+        "type": "object",
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Weight_UnitOfMeasurement"
+          },
+          "Value": {
+            "description": "The value for the total weight associated with this reference.\n\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Weight"
+        },
+        "maximum": 1,
+        "description": "Reference Weight Container.\nStrongly recommended for ground services.Ignored for air services."
+      },
+      "Shipment_ShipmentServiceOptions": {
+        "type": "object",
+        "properties": {
+          "EMailInformation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipmentServiceOptions_EMailInformation"
+            }
+          },
+          "PickupOptions": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_PickupOptions"
+          },
+          "DeliveryOptions": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_DeliveryOptions"
+          },
+          "OverSeasLeg": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_OverSeasLeg"
+          },
+          "COD": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_COD"
+          },
+          "DangerousGoods": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_DangerousGoods"
+          },
+          "SortingAndSegregating": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_SortingAndSegregating"
+          },
+          "DeclaredValue": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_DeclaredValue"
+          },
+          "ExcessDeclaredValue": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_ExcessDeclaredValue"
+          },
+          "HandlingCharge": {
+            "$ref": "#/components/schemas/ShipmentServiceOptions_HandlingCharge"
+          },
+          "FreezableProtectionIndicator": {
+            "description": "The presence of the tag FreezableProtectionIndicator indicates that the customs clearance is required.",
+            "type": "string"
+          },
+          "ExtremeLengthIndicator": {
+            "description": "The presence of the tag ExtremeLengthIndicator indicates that the customs clearance is required.\nIt is recommended to provide 'LinearFeet' if this indicator is sent.",
+            "type": "string"
+          },
+          "LinearFeet": {
+            "description": "Dimensional length of the article(s), in 'feet'.\nNumeric value greater than \ufffd0\ufffd (Zero) should be given in LinearFeet.\nIf Proper LinearFeet is not provided, accurate charge for extreme length articles might not be returned.\nIf linear feet \ufffd0\ufffd (Zero) or any non-numeric/invalid character is sent, accurate charge for extreme length articles might not be returned.\nIgnored if ExtremeLengthIndicator is not present.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ShipmentServiceOptions"
+        },
+        "maximum": 1,
+        "description": "ShipmentServiceOptions Container."
+      },
+      "ShipmentServiceOptions_EMailInformation": {
+        "type": "object",
+        "required": [
+          "EMailType",
+          "EMail"
+        ],
+        "properties": {
+          "EMailType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EMailInformation_EMailType"
+            }
+          },
+          "EMail": {
+            "$ref": "#/components/schemas/EMailInformation_EMail"
+          }
+        },
+        "xml": {
+          "name": "EMailInformation"
+        },
+        "description": "EmailInformation Container.\nMultiple Email Information Containers with the same EMail Type Code is not allowed."
+      },
+      "EMailInformation_EMailType": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the email type for the shipment service options.\nValid values:\n001- Ship Notification\n002- Delivery Notification\n003 \ufffd Exception Notification\n004 \ufffd BOL/Labels(Ground Only)",
+            "type": "string"
+          },
+          "Description": {
+            "description": "A text description of the code for the email type associated with the shipment service options.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "EMailType"
+        },
+        "description": "EmailType Container."
+      },
+      "EMailType_Code": {
+        "description": "The code associated with the email type for the shipment service options.\nValid values:\n001- Ship Notification\n002- Delivery Notification\n003 \ufffd Exception Notification\n004 \ufffd BOL/Labels(Ground Only)",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "EMailType_Description": {
+        "description": "A text description of the code for the email type associated with the shipment service options.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "EMailInformation_EMail": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "EMailAddress",
+          "UndeliverableEMailAddress"
+        ],
+        "properties": {
+          "EMailAddress": {
+            "description": "Email address where the notification is sent.",
+            "type": "string"
+          },
+          "EMailText": {
+            "description": "Contents of the email to be sent.\nOnly used for BOL Email Types. Otherwise ignored.",
+            "type": "string"
+          },
+          "UndeliverableEMailAddress": {
+            "description": "The address where an undeliverable email message is sent if the email with the notification is undeliverable.",
+            "type": "string"
+          },
+          "Subject": {
+            "description": "Email subject line.\nOnly used for BOL Email Types. Otherwise ignored.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "EMail"
+        },
+        "description": "Email Container."
+      },
+      "EMail_EMailAddress": {
+        "description": "Email address where the notification is sent.",
+        "maximum": 5,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "EMail_EMailText": {
+        "description": "Contents of the email to be sent.\nOnly used for BOL Email Types. Otherwise ignored.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 400,
+        "maxLength": 400
+      },
+      "EMail_UndeliverableEMailAddress": {
+        "description": "The address where an undeliverable email message is sent if the email with the notification is undeliverable.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "EMail_Subject": {
+        "description": "Email subject line.\nOnly used for BOL Email Types. Otherwise ignored.",
+        "maximum": 1,
+        "type": "string",
+        "maxLength": 256
+      },
+      "ShipmentServiceOptions_PickupOptions": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "HolidayPickupIndicator": {
+            "description": "The presence of the tag HolidayPickupIndicator indicates that the shipment requires a holiday pickup.",
+            "type": "string"
+          },
+          "InsidePickupIndicator": {
+            "description": "The presence of the tag InsidePickupIndicator indicates that the shipment requires an inside pickup.",
+            "type": "string"
+          },
+          "ResidentialPickupIndicator": {
+            "description": "The presence of the tag ResidentialPickupIndicator indicates that the shipment requires a residential pickup.",
+            "type": "string"
+          },
+          "WeekendPickupIndicator": {
+            "description": "The presence of the tag WeekendPickupIndicator indicates that the shipment requires a weekend pickup.",
+            "type": "string"
+          },
+          "LiftGateRequiredIndicator": {
+            "description": "The presence of the tag LiftGateRequiredIndicator indicates that the shipment requires a lift gate.",
+            "type": "string"
+          },
+          "LimitedAccessPickupIndicator": {
+            "description": "The presence of the tag LimitedAccessPickupIndicator indicates that there is limited access for pickups.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "PickupOptions"
+        },
+        "description": "PickupOptions Container."
+      },
+      "PickupOptions_HolidayPickupIndicator": {
+        "description": "The presence of the tag HolidayPickupIndicator indicates that the shipment requires a holiday pickup.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "PickupOptions_InsidePickupIndicator": {
+        "description": "The presence of the tag InsidePickupIndicator indicates that the shipment requires an inside pickup.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "PickupOptions_ResidentialPickupIndicator": {
+        "description": "The presence of the tag ResidentialPickupIndicator indicates that the shipment requires a residential pickup.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "PickupOptions_WeekendPickupIndicator": {
+        "description": "The presence of the tag WeekendPickupIndicator indicates that the shipment requires a weekend pickup.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "PickupOptions_LiftGateRequiredIndicator": {
+        "description": "The presence of the tag LiftGateRequiredIndicator indicates that the shipment requires a lift gate.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "PickupOptions_LimitedAccessPickupIndicator": {
+        "description": "The presence of the tag LimitedAccessPickupIndicator indicates that there is limited access for pickups.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "ShipmentServiceOptions_DeliveryOptions": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CallBeforeDeliveryIndicator": {
+            "description": "The presence of the tag CallBeforeDeliveryIndicator indicates that the shipment is going to be delivered after calling the consignee.",
+            "type": "string"
+          },
+          "HolidayDeliveryIndicator": {
+            "description": "The presence of the tag HolidayDeliveryIndicator indicates that the shipment is going to be delivered on a holiday.",
+            "type": "string"
+          },
+          "InsideDeliveryIndicator": {
+            "description": "The presence of the tag InsideDeliveryIndicator indicates that the shipment requires an inside delivery.",
+            "type": "string"
+          },
+          "ResidentialDeliveryIndicator": {
+            "description": "The presence of the tag ResidentialDeliveryIndicator indicates that the shipment requires a residential delivery.",
+            "type": "string"
+          },
+          "WeekendDeliveryIndicator": {
+            "description": "The presence of the tag WeekendDeliveryIndicator indicates that the shipment is going to be delivered on a weekend.",
+            "type": "string"
+          },
+          "LiftGateRequiredIndicator": {
+            "description": "The presence of the tag LiftGateRequiredIndicator indicates that the shipment requires a lift gate.",
+            "type": "string"
+          },
+          "LimitedAccessDeliveryIndicator": {
+            "description": "The presence of the tag LimitedAccessDeliveryIndicator indicates that there is limited access for delivery.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "DeliveryOptions"
+        },
+        "description": "DeliveryOptions Container."
+      },
+      "DeliveryOptions_CallBeforeDeliveryIndicator": {
+        "description": "The presence of the tag CallBeforeDeliveryIndicator indicates that the shipment is going to be delivered after calling the consignee.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "DeliveryOptions_HolidayDeliveryIndicator": {
+        "description": "The presence of the tag HolidayDeliveryIndicator indicates that the shipment is going to be delivered on a holiday.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "DeliveryOptions_InsideDeliveryIndicator": {
+        "description": "The presence of the tag InsideDeliveryIndicator indicates that the shipment requires an inside delivery.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "DeliveryOptions_ResidentialDeliveryIndicator": {
+        "description": "The presence of the tag ResidentialDeliveryIndicator indicates that the shipment requires a residential delivery.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "DeliveryOptions_WeekendDeliveryIndicator": {
+        "description": "The presence of the tag WeekendDeliveryIndicator indicates that the shipment is going to be delivered on a weekend.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "DeliveryOptions_LiftGateRequiredIndicator": {
+        "description": "The presence of the tag LiftGateRequiredIndicator indicates that the shipment requires a lift gate.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "DeliveryOptions_LimitedAccessDeliveryIndicator": {
+        "description": "The presence of the tag LimitedAccessDeliveryIndicator indicates that there is limited access for delivery.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "ShipmentServiceOptions_OverSeasLeg": {
+        "type": "object",
+        "required": [
+          "Value",
+          "Dimensions"
+        ],
+        "properties": {
+          "Dimensions": {
+            "$ref": "#/components/schemas/OverSeasLeg_Dimensions"
+          },
+          "Value": {
+            "$ref": "#/components/schemas/OverSeasLeg_Value"
+          }
+        },
+        "xml": {
+          "name": "OverSeasLeg"
+        },
+        "description": "OverSeasLeg Container.\nAccessorial required when origin or destination is Hawaii, Alaska, and Puerto Rico.",
+        "maximum": 1
+      },
+      "OverSeasLeg_Dimensions": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Volume": {
+            "description": "Represents the size as volume.\n\nVolume being required if height, length, width is not specified. \nIf volume is present then height, length, width is ignored.\n\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "type": "string"
+          },
+          "Height": {
+            "description": "The height of the line item used to determine density based rating.",
+            "type": "string"
+          },
+          "Length": {
+            "description": "The length of the line item used to determine density rate rating.",
+            "type": "string"
+          },
+          "Width": {
+            "description": "The width of the line item used to determine the density based rating.",
+            "type": "string"
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "Dimensions"
+        },
+        "required": [
+          "UnitOfMeasurement",
+          "Length",
+          "Height",
+          "Width"
+        ],
+        "description": "Dimensions Container."
+      },
+      "Dimensions_Volume": {
+        "description": "Represents the size as volume.\n\nVolume being required if height, length, width is not specified. \nIf volume is present then height, length, width is ignored.\n\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "OverSeasLeg_Value": {
+        "type": "object",
+        "properties": {
+          "Cube": {
+            "$ref": "#/components/schemas/Value_Cube"
+          },
+          "CWT": {
+            "$ref": "#/components/schemas/Value_CWT"
+          }
+        },
+        "xml": {
+          "name": "Value"
+        },
+        "description": "Dimensions Value Container.",
+        "maximum": 1
+      },
+      "Value_Cube": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Currency code type for Price per cubic feet.\nValid value: USD - United States Dollar",
+            "type": "string"
+          },
+          "MonetaryValue": {
+            "description": "Price per cubic feet.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Cube"
+        },
+        "description": "Dimensions Value Cube Container.\nRequest should contain PricerPerCubicFoot, PricerPerCWT, or both."
+      },
+      "Cube_CurrencyCode": {
+        "description": "Currency code type for Price per cubic feet.\nValid value: USD - United States Dollar",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "Cube_MonetaryValue": {
+        "description": "Price per cubic feet.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "Value_CWT": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Currency code type for Price per CWT.\nValid value: USD - United States Dollar",
+            "type": "string"
+          },
+          "MonetaryValue": {
+            "description": "Price per CWT.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "CWT"
+        },
+        "description": "Dimensions Value CWT Container.\nRequest should contain PricerPerCubicFoot, PricerPerCWT, or both."
+      },
+      "CWT_CurrencyCode": {
+        "description": "Currency code type for Price per CWT.\nValid value: USD - United States Dollar",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "CWT_MonetaryValue": {
+        "description": "Price per CWT.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "ShipmentServiceOptions_COD": {
+        "type": "object",
+        "required": [
+          "CODBillingOption",
+          "CODPaymentMethod",
+          "CODValue",
+          "RemitTo"
+        ],
+        "properties": {
+          "CODValue": {
+            "$ref": "#/components/schemas/COD_CODValue"
+          },
+          "CODPaymentMethod": {
+            "$ref": "#/components/schemas/COD_CODPaymentMethod"
+          },
+          "CODBillingOption": {
+            "$ref": "#/components/schemas/COD_CODBillingOption"
+          },
+          "RemitTo": {
+            "$ref": "#/components/schemas/COD_RemitTo"
+          }
+        },
+        "xml": {
+          "name": "COD"
+        },
+        "description": "COD Container.",
+        "maximum": 1
+      },
+      "COD_CODValue": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "COD amount currency code type.\nValid value: USD \ufffd United States Dollar",
+            "type": "string"
+          },
+          "MonetaryValue": {
+            "description": "COD Amount.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "CODValue"
+        },
+        "description": "CODValue Container."
+      },
+      "CODValue_CurrencyCode": {
+        "description": "COD amount currency code type.\nValid value: USD \ufffd United States Dollar",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "CODValue_MonetaryValue": {
+        "description": "COD Amount.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "COD_CODPaymentMethod": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the COD payment method for the shipment service options.\nValid values:\nM - Company Check\nR - Certified Check",
+            "type": "string"
+          },
+          "Description": {
+            "description": "A text description of the code for the COD payment method associated with the shipment service options.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "CODPaymentMethod"
+        },
+        "description": "CODPaymentMethod Container."
+      },
+      "CODPaymentMethod_Code": {
+        "description": "The code associated with the COD payment method for the shipment service options.\nValid values:\nM - Company Check\nR - Certified Check",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1
+      },
+      "CODPaymentMethod_Description": {
+        "description": "A text description of the code for the COD payment method associated with the shipment service options.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "COD_CODBillingOption": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the COD billing option for the shipment service options.\nValid values:\n01 - Prepaid\n02 - Freight Collect",
+            "type": "string"
+          },
+          "Description": {
+            "description": "A text description of the code for the COD billing option associated with the shipment service options.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "CODBillingOption"
+        },
+        "description": "CODBillingOption Container."
+      },
+      "CODBillingOption_Code": {
+        "description": "The code associated with the COD billing option for the shipment service options.\nValid values:\n01 - Prepaid\n02 - Freight Collect",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "CODBillingOption_Description": {
+        "description": "A text description of the code for the COD billing option associated with the shipment service options.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "COD_RemitTo": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Address",
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "The payee company name for the COD charges.",
+            "type": "string"
+          },
+          "Address": {
+            "$ref": "#/components/schemas/RemitTo_Address"
+          },
+          "AttentionName": {
+            "description": "Payee contact name for the COD charges.",
+            "type": "string"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/RemitTo_Phone"
+          },
+          "FaxNumber": {
+            "description": "Payee fax number for the COD charges.",
+            "type": "string"
+          },
+          "EMailAddress": {
+            "description": "Payee email address for the COD charges.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "RemitTo"
+        },
+        "description": "RemitTo Container."
+      },
+      "RemitTo_Name": {
+        "description": "The payee company name for the COD charges.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "RemitTo_Address": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "AddressLine",
+          "City",
+          "CountryCode"
+        ],
+        "properties": {
+          "AddressLine": {
+            "description": "The consignee\ufffds street address.",
+            "type": "string"
+          },
+          "City": {
+            "description": "The consignee\ufffds city.",
+            "type": "string"
+          },
+          "StateProvinceCode": {
+            "description": "The consignee\ufffds state or province code.",
+            "type": "string"
+          },
+          "Town": {
+            "description": "The consignee\ufffds town code.",
+            "type": "string"
+          },
+          "PostalCode": {
+            "description": "The consignee\ufffds postal code.",
+            "type": "string"
+          },
+          "CountryCode": {
+            "description": "The consignee\ufffds country or territory code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Address"
+        },
+        "description": "Address Container."
+      },
+      "RemitTo_AttentionName": {
+        "description": "Payee contact name for the COD charges.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "RemitTo_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Number"
+        ],
+        "properties": {
+          "Number": {
+            "description": "Requester\ufffds phone number.",
+            "type": "string"
+          },
+          "Extension": {
+            "description": "Requester\ufffds phone extension.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container."
+      },
+      "RemitTo_FaxNumber": {
+        "description": "Payee fax number for the COD charges.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 15
+      },
+      "RemitTo_EMailAddress": {
+        "description": "Payee email address for the COD charges.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "ShipmentServiceOptions_DangerousGoods": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Phone",
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "The contact name for question re: Dangerous Goods.",
+            "type": "string"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/DangerousGoods_Phone"
+          }
+        },
+        "xml": {
+          "name": "DangerousGoods"
+        },
+        "description": "DangerousGoods Container."
+      },
+      "DangerousGoods_Name": {
+        "description": "The contact name for question re: Dangerous Goods.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "DangerousGoods_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Number"
+        ],
+        "properties": {
+          "Number": {
+            "description": "Requester\ufffds phone number.",
+            "type": "string"
+          },
+          "Extension": {
+            "description": "Requester\ufffds phone extension.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container."
+      },
+      "ShipmentServiceOptions_SortingAndSegregating": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Quantity"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Quantity of units to be sorted/segregated.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "SortingAndSegregating"
+        },
+        "description": "SortingAndSegregating Container."
+      },
+      "SortingAndSegregating_Quantity": {
+        "description": "Quantity of units to be sorted/segregated.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 6,
+        "maxLength": 6
+      },
+      "ShipmentServiceOptions_DeclaredValue": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Declared value amount currency type.\nValid value: USD - United States Dollar",
+            "type": "string"
+          },
+          "MonetaryValue": {
+            "description": "Declared value amount.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "DeclaredValue"
+        },
+        "description": "DeclaredValue Container."
+      },
+      "DeclaredValue_CurrencyCode": {
+        "description": "Declared value amount currency type.\nValid value: USD - United States Dollar",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "DeclaredValue_MonetaryValue": {
+        "description": "Declared value amount.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "ShipmentServiceOptions_ExcessDeclaredValue": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Excess Declared value amount currency type.\nValid value: USD - United States Dollar",
+            "type": "string"
+          },
+          "MonetaryValue": {
+            "description": "Excess Declared value amount.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ExcessDeclaredValue"
+        },
+        "description": "ExcessDeclaredValue Container."
+      },
+      "ExcessDeclaredValue_CurrencyCode": {
+        "description": "Excess Declared value amount currency type.\nValid value: USD - United States Dollar",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "ExcessDeclaredValue_MonetaryValue": {
+        "description": "Excess Declared value amount.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "ShipmentServiceOptions_HandlingCharge": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Percentage": {
+            "description": "Percentage amount consistent with the handling charge.\nEither Percentage or Amount needs to be present, not both.\nNegative value allowed.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 7 characters. The decimal \".\", does not count as a character.",
+            "type": "string"
+          },
+          "Amount": {
+            "$ref": "#/components/schemas/HandlingCharge_Amount"
+          }
+        },
+        "xml": {
+          "name": "HandlingCharge"
+        },
+        "description": "HandlingCharge Container."
+      },
+      "HandlingCharge_Percentage": {
+        "description": "Percentage amount consistent with the handling charge.\nEither Percentage or Amount needs to be present, not both.\nNegative value allowed.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 7 characters. The decimal \".\", does not count as a character.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 7,
+        "maxLength": 7
+      },
+      "HandlingCharge_Amount": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Handling charge amount currency type.",
+            "type": "string"
+          },
+          "MonetaryValue": {
+            "description": "Handling Charge amount.\nNegative value allowed.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Amount"
+        },
+        "description": "HandlingCharge Amount Container.\nEither Percentage or Amount needs to be present, not both."
+      },
+      "Amount_CurrencyCode": {
+        "description": "Handling charge amount currency type.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "Amount_MonetaryValue": {
+        "description": "Handling Charge amount.\nNegative value allowed.\nValid characters: 0-9 and \".\" (Decimal). \nMaximum of 2 digits after the decimal. \nMaximum field length: 16 characters. The decimal \".\", does not count as a character.\nExamples:\n##############.##\n###############.#\n################",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "ShipmentServiceOptions_FreezableProtectionIndicator": {
+        "description": "The presence of the tag FreezableProtectionIndicator indicates that the customs clearance is required.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "ShipmentServiceOptions_ExtremeLengthIndicator": {
+        "description": "The presence of the tag ExtremeLengthIndicator indicates that the customs clearance is required.\nIt is recommended to provide 'LinearFeet' if this indicator is sent.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "ShipmentServiceOptions_LinearFeet": {
+        "description": "Dimensional length of the article(s), in 'feet'.\nNumeric value greater than \ufffd0\ufffd (Zero) should be given in LinearFeet.\nIf Proper LinearFeet is not provided, accurate charge for extreme length articles might not be returned.\nIf linear feet \ufffd0\ufffd (Zero) or any non-numeric/invalid character is sent, accurate charge for extreme length articles might not be returned.\nIgnored if ExtremeLengthIndicator is not present.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "Shipment_PickupRequest": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "AdditionalComments": {
+            "description": "Additional pickup comments or instructions",
+            "type": "string"
+          },
+          "Requester": {
+            "$ref": "#/components/schemas/PickupRequest_Requester"
+          },
+          "PickupDate": {
+            "description": "Date of the Pickup. \nFormat: YYYYMMDD.\nGround pickup may be scheduled up to 42 days in the future.\nNote: This element will act as PickupDate or DropOffDate based on the presence of PickupTimeReady or DropOffTimeReady element.",
+            "type": "string"
+          },
+          "EarliestTimeReady": {
+            "description": "The earliest time a shipment is ready to be picked up.\nThe time is on a 24 hour clock. \nFormat: HHMM\nHH = Hour values 00 to 23\nMM = Minute values 00 to 59",
+            "type": "string"
+          },
+          "LatestTimeReady": {
+            "description": "The latest time a shipment can be picked up. Can be also referred as the Closing Time for a pickup time window.\nThe time is on a 24 hour clock. \nFormat: HHMM\nHH = Hour values 00 to 23\nMM = Minute values 00 to 59\nOptional if the account type is House.",
+            "type": "string"
+          },
+          "POM": {
+            "$ref": "#/components/schemas/PickupRequest_POM"
+          }
+        },
+        "xml": {
+          "name": "PickupRequest"
+        },
+        "required": [
+          "LatestTimeReady",
+          "PickupDate"
+        ],
+        "description": "PickupRequest Container."
+      },
+      "PickupRequest_AdditionalComments": {
+        "description": "Additional pickup comments or instructions",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 500,
+        "maxLength": 500
+      },
+      "PickupRequest_Requester": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "ThirdPartyIndicator": {
+            "description": "Indicates whether the requester is Consignee, Third Party, Shipper, other.",
+            "type": "string"
+          },
+          "AttentionName": {
+            "description": "Requester\ufffds name.",
+            "type": "string"
+          },
+          "EMailAddress": {
+            "description": "Requester\ufffds email address.",
+            "type": "string"
+          },
+          "Name": {
+            "description": "Requester\ufffds company name.",
+            "type": "string"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/Requester_Phone"
+          }
+        },
+        "xml": {
+          "name": "Requester"
+        },
+        "required": [
+          "AttentionName",
+          "Phone",
+          "EMailAddress",
+          "Name"
+        ],
+        "description": "Requester Container. Also referred to as caller.\nRequired for ground shipments if PickupRequest container is present."
+      },
+      "Requester_ThirdPartyIndicator": {
+        "description": "Indicates whether the requester is Consignee, Third Party, Shipper, other.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "Requester_AttentionName": {
+        "description": "Requester\ufffds name.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Requester_EMailAddress": {
+        "description": "Requester\ufffds email address.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "Requester_Name": {
+        "description": "Requester\ufffds company name.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Requester_Phone": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Number"
+        ],
+        "properties": {
+          "Number": {
+            "description": "Requester\ufffds phone number.",
+            "type": "string"
+          },
+          "Extension": {
+            "description": "Requester\ufffds phone extension.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Phone"
+        },
+        "description": "Phone Container"
+      },
+      "PickupRequest_PickupDate": {
+        "description": "Date of the Pickup. \nFormat: YYYYMMDD.\nGround pickup may be scheduled up to 42 days in the future.\nNote: This element will act as PickupDate or DropOffDate based on the presence of PickupTimeReady or DropOffTimeReady element.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 8
+      },
+      "PickupRequest_EarliestTimeReady": {
+        "description": "The earliest time a shipment is ready to be picked up.\nThe time is on a 24 hour clock. \nFormat: HHMM\nHH = Hour values 00 to 23\nMM = Minute values 00 to 59",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "PickupRequest_LatestTimeReady": {
+        "description": "The latest time a shipment can be picked up. Can be also referred as the Closing Time for a pickup time window.\nThe time is on a 24 hour clock. \nFormat: HHMM\nHH = Hour values 00 to 23\nMM = Minute values 00 to 59\nOptional if the account type is House.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "PickupRequest_POM": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "POMNumber",
+          "POMNumberType",
+          "PickupNotifications"
+        ],
+        "properties": {
+          "POMNumber": {
+            "description": "An identifier associated to the pickup request (may or may not be created by the user)",
+            "type": "string"
+          },
+          "POMNumberType": {
+            "description": "Identifies the kind of number used to identify the POM shipment.\nFor valid values, see POMNumberType Values in the Appendix.",
+            "type": "string"
+          },
+          "PickupNotifications": {
+            "$ref": "#/components/schemas/POM_PickupNotifications"
+          }
+        },
+        "xml": {
+          "name": "POM"
+        },
+        "description": "Pickup Order Management (POM) container."
+      },
+      "POM_POMNumber": {
+        "description": "An identifier associated to the pickup request (may or may not be created by the user)",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "POM_POMNumberType": {
+        "description": "Identifies the kind of number used to identify the POM shipment.\nFor valid values, see POMNumberType Values in the Appendix.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "POM_PickupNotifications": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CompanyName": {
+            "description": "Name of company",
+            "type": "string"
+          },
+          "EMailNotification": {
+            "$ref": "#/components/schemas/PickupNotifications_EMailNotification"
+          },
+          "FailedEMail": {
+            "description": "Alternate email address to receive failure notifications",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "PickupNotifications"
+        },
+        "required": [
+          "EMailNotification",
+          "FailedEMail"
+        ],
+        "description": "Container for pre-pickup notifications events"
+      },
+      "PickupNotifications_CompanyName": {
+        "description": "Name of company",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 35
+      },
+      "PickupNotifications_EMailNotification": {
+        "type": "object",
+        "maximum": 4,
+        "required": [
+          "EventType",
+          "EMailAddress"
+        ],
+        "properties": {
+          "EMailAddress": {
+            "description": "Email address which should receive pre-pickup notification",
+            "type": "string"
+          },
+          "EventType": {
+            "description": "Type of event for POM Notification. Add up to four events.\n01 = PICKUP_REQUEST_CONFIRM\n02 = DRIVER_EN_ROUTE\n03 = PICKUP_SECURED\n04 = PICKUP_EXCEPTION",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "EMailNotification"
+        },
+        "description": "Container for email notifications"
+      },
+      "EMailNotification_EMailAddress": {
+        "description": "Email address which should receive pre-pickup notification",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "EMailNotification_EventType": {
+        "description": "Type of event for POM Notification. Add up to four events.\n01 = PICKUP_REQUEST_CONFIRM\n02 = DRIVER_EN_ROUTE\n03 = PICKUP_SECURED\n04 = PICKUP_EXCEPTION",
+        "maximum": 4,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "PickupNotifications_FailedEMail": {
+        "description": "Alternate email address to receive failure notifications",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 50,
+        "maxLength": 50
+      },
+      "Shipment_Documents": {
+        "type": "object",
+        "properties": {
+          "Image": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Documents_Image"
+            }
+          },
+          "PackingList": {
+            "$ref": "#/components/schemas/Documents_PackingList"
+          }
+        },
+        "xml": {
+          "name": "Documents"
+        },
+        "description": "Documents Container.",
+        "maximum": 1
+      },
+      "Documents_Image": {
+        "type": "object",
+        "required": [
+          "Type",
+          "GraphicImage",
+          "Format"
+        ],
+        "properties": {
+          "Type": {
+            "$ref": "#/components/schemas/Image_Type"
+          },
+          "GraphicImage": {
+            "description": "Base 64 encoded graphic image.",
+            "type": "string"
+          },
+          "Format": {
+            "$ref": "#/components/schemas/Image_Format"
+          }
+        },
+        "xml": {
+          "name": "Image"
+        },
+        "maximum": 1,
+        "description": "Image Container."
+      },
+      "Image_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the form type",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the form type code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Image Type Container."
+      },
+      "Image_LabelsPerPage": {
+        "description": "Number of Labels to print per page.\nRequired when label type is \ufffdLabel\ufffd. Otherwise the element and child elements are ignored.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1
+      },
+      "Image_Format": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the format of the form. Currently only pdf is supported.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the format code of the form.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Format"
+        },
+        "description": "ImageFormat Container."
+      },
+      "Format_Code": {
+        "description": "Code representing the format of the form. Currently only pdf is supported.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "Format_Description": {
+        "description": "Description of the format code of the form.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Image_PrintFormat": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Print Format of the image contained in Documents Image.\nValid values:  \n01 \ufffd Laser\n02 - Thermal",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the print format of the image contained in Documents Image.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "PrintFormat"
+        },
+        "description": "PrintFormat Container.\nRequired when label type is \ufffdLabel\ufffd. Otherwise the element and child elements are ignored."
+      },
+      "PrintFormat_Code": {
+        "description": "Print Format of the image contained in Documents Image.\nValid values:  \n01 \ufffd Laser\n02 - Thermal",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "PrintFormat_Description": {
+        "description": "Description of the print format of the image contained in Documents Image.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "Image_PrintSize": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Length",
+          "Width"
+        ],
+        "properties": {
+          "Length": {
+            "description": "The lengths of the image print size.",
+            "type": "string"
+          },
+          "Width": {
+            "description": "The widths of the image print size.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "PrintSize"
+        },
+        "description": "PrintSize Container.\nRequired when label type is \ufffdLabel\ufffd. Otherwise the element and child elements are ignored.\nValid combination of Length and Width children are:\n(Length X Width) \n4 X 64 X 88 X 11 (Recommended for Laser Printer type)"
+      },
+      "PrintSize_Length": {
+        "description": "The lengths of the image print size.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "PrintSize_Width": {
+        "description": "The widths of the image print size.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "Documents_PackingList": {
+        "type": "object",
+        "properties": {
+          "ShipFrom": {
+            "$ref": "#/components/schemas/PackingList_ShipFrom"
+          },
+          "ShipTo": {
+            "$ref": "#/components/schemas/PackingList_ShipTo"
+          },
+          "Reference": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PackingList_Reference"
+            }
+          },
+          "HandlingUnit": {
+            "$ref": "#/components/schemas/PackingList_HandlingUnit"
+          }
+        },
+        "xml": {
+          "name": "PackingList"
+        },
+        "description": "PackingList Container.",
+        "maximum": 1
+      },
+      "PackingList_ShipFrom": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "The shipper\ufffds name or company name.",
+            "type": "string"
+          },
+          "AttentionName": {
+            "description": "Contact name at the ship from location.",
+            "type": "string"
+          },
+          "Address": {
+            "$ref": "#/components/schemas/ShipFrom_Address"
+          },
+          "PhoneNumber": {
+            "description": "The shipper\ufffds phone number.  \ufffd",
+            "type": "string"
+          },
+          "EMailAddress": {
+            "description": "Shipper\ufffds email address.",
+            "type": "string"
+          },
+          "PhoneExtension": {
+            "description": "The shipper\ufffds phone extension.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ShipFrom"
+        },
+        "description": "PackingList ShipFrom Container."
+      },
+      "ShipFrom_PhoneNumber": {
+        "description": "The shipper\ufffds phone number.  \ufffd",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 15
+      },
+      "ShipFrom_PhoneExtension": {
+        "description": "The shipper\ufffds phone extension.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "PackingList_ShipTo": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Name"
+        ],
+        "properties": {
+          "Name": {
+            "description": "The Consignee\ufffds name or company name.",
+            "type": "string"
+          },
+          "AttentionName": {
+            "description": "Contact name at the ship to location.",
+            "type": "string"
+          },
+          "Address": {
+            "$ref": "#/components/schemas/ShipTo_Address"
+          },
+          "PhoneNumber": {
+            "description": "The consignee\ufffds phone number.",
+            "type": "string"
+          },
+          "EMailAddress": {
+            "description": "Consignee\ufffds email address.",
+            "type": "string"
+          },
+          "PhoneExtension": {
+            "description": "The consignee\ufffds phone extension.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ShipTo"
+        },
+        "description": "PackingList ShipTo Container."
+      },
+      "ShipTo_PhoneNumber": {
+        "description": "The consignee\ufffds phone number.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 15,
+        "maxLength": 15
+      },
+      "ShipTo_PhoneExtension": {
+        "description": "The consignee\ufffds phone extension.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4
+      },
+      "PackingList_Reference": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Label": {
+            "description": "Reference Label.",
+            "type": "string"
+          },
+          "Value": {
+            "description": "Reference Value.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Reference"
+        },
+        "required": [
+          "Value"
+        ],
+        "description": "Reference Container. Only two references are allowed. If more than 2 references are provided, then only the first two will be used and the subsequent reference containers will be ignored."
+      },
+      "Reference_Label": {
+        "description": "Reference Label.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 30,
+        "maxLength": 30
+      },
+      "Reference_Value": {
+        "description": "Reference Value.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 30,
+        "maxLength": 30
+      },
+      "PackingList_HandlingUnit": {
+        "type": "object",
+        "properties": {
+          "Commodity": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HandlingUnit_Commodity"
+            }
+          },
+          "SpecialInstructions": {
+            "description": "Special instructions or special memo.",
+            "type": "string"
+          },
+          "TotalNumberOfPieces": {
+            "description": "Total number of pieces.",
+            "type": "string"
+          },
+          "TotalWeight": {
+            "description": "Total weight of all the commodities.",
+            "type": "string"
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/HandlingUnit_UnitOfMeasurement"
+          },
+          "CurrencyCode": {
+            "description": "Currency code. This value applies to the unit price of all the commodities.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnit"
+        },
+        "maximum": 1,
+        "description": "HandlingUnit Container."
+      },
+      "HandlingUnit_Commodity": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "NumberOfPieces": {
+            "description": "Number of Pieces.",
+            "type": "string"
+          },
+          "PackagingType": {
+            "$ref": "#/components/schemas/Commodity_PackagingType"
+          },
+          "DangerousGoodsIndicator": {
+            "description": "Hazmat Indicator.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of articles, special marks, freight codes.",
+            "type": "string"
+          },
+          "NMFCCommodityCode": {
+            "description": "NMFC.",
+            "type": "string"
+          },
+          "FreightClass": {
+            "description": "Class.",
+            "type": "string"
+          },
+          "Dimensions": {
+            "$ref": "#/components/schemas/Commodity_Dimensions"
+          },
+          "Weight": {
+            "description": "Weight of the package.",
+            "type": "string"
+          },
+          "CommodityValue": {
+            "description": "Unit price of the commodity.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Commodity"
+        },
+        "required": [
+          "FreightClass"
+        ],
+        "description": "Commodity Container."
+      },
+      "HandlingUnit_SpecialInstructions": {
+        "description": "Special instructions or special memo.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 500,
+        "maxLength": 500
+      },
+      "HandlingUnit_TotalNumberOfPieces": {
+        "description": "Total number of pieces.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 5
+      },
+      "HandlingUnit_TotalWeight": {
+        "description": "Total weight of all the commodities.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 12,
+        "maxLength": 12
+      },
+      "HandlingUnit_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the unit of measure for the billable weight of a shipment.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "The description for the billable weight associated with the shipment.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "UnitOfMeasurement Container."
+      },
+      "HandlingUnit_CurrencyCode": {
+        "description": "Currency code. This value applies to the unit price of all the commodities.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "Shipment_TimeInTransitIndicator": {
+        "description": "Presence of the tag indicates Time in Transit information is requested and will be returned if available.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "Shipment_HandlingUnits": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Type",
+          "Quantity",
+          "Dimensions"
+        ],
+        "properties": {
+          "Quantity": {
+            "description": "Handling Unit Quantity for Density based Rating",
+            "type": "string"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/HandlingUnits_Type"
+          },
+          "Dimensions": {
+            "$ref": "#/components/schemas/HandlingUnits_Dimensions"
+          }
+        },
+        "xml": {
+          "name": "HandlingUnits"
+        },
+        "description": "Handling Unit for Density based Rating."
+      },
+      "HandlingUnits_Quantity": {
+        "description": "Handling Unit Quantity for Density based Rating",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 8
+      },
+      "HandlingUnits_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the form type",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the form type code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Handling Unit Type for Density based Rating."
+      },
+      "HandlingUnits_Dimensions": {
+        "type": "object",
+        "required": [
+          "UnitOfMeasurement",
+          "Length",
+          "Height",
+          "Width"
+        ],
+        "properties": {
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
+          },
+          "Length": {
+            "description": "The length of the line item used to determine density rate rating.",
+            "type": "string"
+          },
+          "Width": {
+            "description": "The width of the line item used to determine the density based rating.",
+            "type": "string"
+          },
+          "Height": {
+            "description": "The height of the line item used to determine density based rating.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Dimensions"
+        },
+        "maximum": 1,
+        "description": "Dimension of the handling unit for density based pricing."
+      },
+      "Shipment_DensityEligibleIndicator": {
+        "description": "The presence of the tag DensityEligibleIndicator indicates that the density based rate is requested.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "FreightShipResponse": {
+        "type": "object",
+        "required": [
+          "Response",
+          "ShipmentResults"
+        ],
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/FreightShipResponse_Response"
+          },
+          "ShipmentResults": {
+            "$ref": "#/components/schemas/FreightShipResponse_ShipmentResults"
+          }
+        },
+        "xml": {
+          "name": "FreightShipResponse"
+        },
+        "description": "Freight Ship Response Container.",
+        "maximum": 1
+      },
+      "FreightShipResponse_Response": {
+        "type": "object",
+        "required": [
+          "ResponseStatus"
+        ],
+        "properties": {
+          "ResponseStatus": {
+            "$ref": "#/components/schemas/Response_ResponseStatus"
+          },
+          "Alert": {
+            "$ref": "#/components/schemas/Response_Alert"
+          },
+          "TransactionReference": {
+            "$ref": "#/components/schemas/Response_TransactionReference"
+          }
+        },
+        "xml": {
+          "name": "Response"
+        },
+        "description": "Response Container.",
+        "maximum": 1
+      },
+      "Response_ResponseStatus": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Identifies the success or failure of the transaction. \n1 = Successful",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Describes Response Status Code.Returns text of \"Success\".",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "ResponseStatus"
+        },
+        "description": "Response Status Container."
+      },
+      "ResponseStatus_Code": {
+        "description": "Identifies the success or failure of the transaction. \n1 = Successful",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1
+      },
+      "ResponseStatus_Description": {
+        "description": "Describes Response Status Code.Returns text of \"Success\".",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 35
+      },
+      "Response_Alert": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Warning code returned by the system.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Warning messages returned by the system.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Alert"
+        },
+        "description": "Alert Container. There can be zero to many alert containers with code and description."
+      },
+      "Alert_Code": {
+        "description": "Warning code returned by the system.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10
+      },
+      "Alert_Description": {
+        "description": "Warning messages returned by the system.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 150
+      },
+      "Response_TransactionReference": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "CustomerContext": {
+            "description": "The CustomerContext Information which will be echoed during response.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "TransactionReference"
+        },
+        "description": "Transaction Reference Container."
+      },
+      "FreightShipResponse_ShipmentResults": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "PickupRequestConfirmationNumber": {
+            "description": "Shipment pickup number.",
+            "type": "string"
+          },
+          "DeliveryDate": {
+            "description": "Estimated date that the shipment will be delivered.  \nFormat: YYYYMMDD.",
+            "type": "string"
+          },
+          "ShipmentNumber": {
+            "description": "The shipment Number assigned to the shipment.",
+            "type": "string"
+          },
+          "BOLID": {
+            "description": "The retrieval key for the stored BOL.",
+            "type": "string"
+          },
+          "GuaranteedIndicator": {
+            "description": "This indicator indicates that the rate returned is guaranteed. Can only be returned if the billing option is prepaid.",
+            "type": "string"
+          },
+          "MinimumChargeAppliedIndicator": {
+            "description": "This is an empty tag. The presence of the tag indicates the rate returned has a minimum charge applied to it. Can only be returned if the billing option is prepaid.",
+            "type": "string"
+          },
+          "Rate": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipmentResults_Rate"
+            }
+          },
+          "FreightDensityRate": {
+            "$ref": "#/components/schemas/ShipmentResults_FreightDensityRate"
+          },
+          "TotalShipmentCharge": {
+            "$ref": "#/components/schemas/ShipmentResults_TotalShipmentCharge"
+          },
+          "BillableShipmentWeight": {
+            "$ref": "#/components/schemas/ShipmentResults_BillableShipmentWeight"
+          },
+          "Service": {
+            "$ref": "#/components/schemas/ShipmentResults_Service"
+          },
+          "Documents": {
+            "$ref": "#/components/schemas/ShipmentResults_Documents"
+          },
+          "TimeInTransit": {
+            "$ref": "#/components/schemas/ShipmentResults_TimeInTransit"
+          }
+        },
+        "xml": {
+          "name": "ShipmentResults"
+        },
+        "description": "ShipmentResults Container."
+      },
+      "ShipmentResults_PickupRequestConfirmationNumber": {
+        "description": "Shipment pickup number.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "ShipmentResults_DeliveryDate": {
+        "description": "Estimated date that the shipment will be delivered.  \nFormat: YYYYMMDD.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 8,
+        "maxLength": 8
+      },
+      "ShipmentResults_ShipmentNumber": {
+        "description": "The shipment Number assigned to the shipment.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 9,
+        "maxLength": 9
+      },
+      "ShipmentResults_BOLID": {
+        "description": "The retrieval key for the stored BOL.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 35,
+        "maxLength": 35
+      },
+      "ShipmentResults_GuaranteedIndicator": {
+        "description": "This indicator indicates that the rate returned is guaranteed. Can only be returned if the billing option is prepaid.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "ShipmentResults_MinimumChargeAppliedIndicator": {
+        "description": "This is an empty tag. The presence of the tag indicates the rate returned has a minimum charge applied to it. Can only be returned if the billing option is prepaid.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "ShipmentResults_Rate": {
+        "type": "object",
+        "required": [
+          "Type",
+          "Factor"
+        ],
+        "properties": {
+          "Type": {
+            "$ref": "#/components/schemas/Rate_Type"
+          },
+          "Factor": {
+            "$ref": "#/components/schemas/Rate_Factor"
+          }
+        },
+        "xml": {
+          "name": "Rate"
+        },
+        "description": "Rate Container. Returned only if the billing option is prepaid."
+      },
+      "Rate_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the form type",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the form type code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Rate Type Container."
+      },
+      "Rate_Factor": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Value"
+        ],
+        "properties": {
+          "Value": {
+            "description": "Contains value pertaining to rate type code. For e.g. if discount rate is 25% then rate type code will have code type as DISCOUNT_RATE\" and rate factor value will have 25\"",
+            "type": "string"
+          },
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/Factor_UnitOfMeasurement"
+          }
+        },
+        "xml": {
+          "name": "Factor"
+        },
+        "description": "Factor Container."
+      },
+      "Factor_Value": {
+        "description": "Contains value pertaining to rate type code. For e.g. if discount rate is 25% then rate type code will have code type as DISCOUNT_RATE\" and rate factor value will have 25\"",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "Factor_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the unit of measure for the billable weight of a shipment.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "The description for the billable weight associated with the shipment.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "Unit of measurement container for factors related to Rate Types."
+      },
+      "ShipmentResults_FreightDensityRate": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "Density": {
+            "description": "Density is returned if the Shipper is eligible for Density based rate.",
+            "type": "string"
+          },
+          "TotalCubicFeet": {
+            "description": "TotalCubic feet is returned if the Shipper is eligible for Density based rate.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "FreightDensityRate"
+        },
+        "description": "FreightDensityRate container for Density based rating."
+      },
+      "FreightDensityRate_Density": {
+        "description": "Density is returned if the Shipper is eligible for Density based rate.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "FreightDensityRate_TotalCubicFeet": {
+        "description": "TotalCubic feet is returned if the Shipper is eligible for Density based rate.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "ShipmentResults_TotalShipmentCharge": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "CurrencyCode",
+          "MonetaryValue"
+        ],
+        "properties": {
+          "CurrencyCode": {
+            "description": "Total shipment Charge currency code type.",
+            "type": "string"
+          },
+          "MonetaryValue": {
+            "description": "Total shipment charge.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "TotalShipmentCharge"
+        },
+        "description": "TotalShipmentCharge Container. Can only be returned if the billing option is prepaid."
+      },
+      "TotalShipmentCharge_CurrencyCode": {
+        "description": "Total shipment Charge currency code type.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3
+      },
+      "TotalShipmentCharge_MonetaryValue": {
+        "description": "Total shipment charge.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 19
+      },
+      "ShipmentResults_BillableShipmentWeight": {
+        "type": "object",
+        "required": [
+          "UnitOfMeasurement",
+          "Value"
+        ],
+        "properties": {
+          "UnitOfMeasurement": {
+            "$ref": "#/components/schemas/BillableShipmentWeight_UnitOfMeasurement"
+          },
+          "Value": {
+            "description": "The value for the billable weight associated with the shipment.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "BillableShipmentWeight"
+        },
+        "maximum": 1,
+        "description": "BillableShipmentWeight Container. Can only be returned if the billing option is prepaid."
+      },
+      "BillableShipmentWeight_UnitOfMeasurement": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code associated with the unit of measure for the billable weight of a shipment.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "The description for the billable weight associated with the shipment.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "UnitOfMeasurement"
+        },
+        "description": "UnitOfMeasurement Container."
+      },
+      "BillableShipmentWeight_Value": {
+        "description": "The value for the billable weight associated with the shipment.",
+        "maximum": 1,
+        "type": "string",
+        "minLength": 16,
+        "maxLength": 16
+      },
+      "ShipmentResults_Service": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "The code for the UPS Service associated with the shipment.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "A text description of the UPS Service associated with the shipment.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Service"
+        },
+        "description": "Service Container."
+      },
+      "ShipmentResults_Documents": {
+        "type": "object",
+        "properties": {
+          "Image": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Documents_Image"
+            }
+          },
+          "Forms": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Documents_Forms"
+            }
+          }
+        },
+        "xml": {
+          "name": "Documents"
+        },
+        "description": "Documents Container.",
+        "maximum": 1
+      },
+      "Image_GraphicImage": {
+        "description": "Base 64 encoded graphic image.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "Documents_Forms": {
+        "type": "object",
+        "required": [
+          "Type",
+          "GraphicImage",
+          "Format"
+        ],
+        "properties": {
+          "Type": {
+            "$ref": "#/components/schemas/Forms_Type"
+          },
+          "GraphicImage": {
+            "description": "Base 64 encoded graphic image.",
+            "type": "string"
+          },
+          "Format": {
+            "$ref": "#/components/schemas/Forms_Format"
+          }
+        },
+        "xml": {
+          "name": "Forms"
+        },
+        "maximum": 1,
+        "description": "Forms Container."
+      },
+      "Forms_Type": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the form type",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the form type code.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Type"
+        },
+        "description": "Forms Type Container."
+      },
+      "Forms_GraphicImage": {
+        "description": "Base 64 encoded graphic image.",
+        "maximum": 1,
+        "type": "string"
+      },
+      "Forms_Format": {
+        "type": "object",
+        "maximum": 1,
+        "required": [
+          "Description",
+          "Code"
+        ],
+        "properties": {
+          "Code": {
+            "description": "Code representing the format of the form. Currently only pdf is supported.",
+            "type": "string"
+          },
+          "Description": {
+            "description": "Description of the format code of the form.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Format"
+        },
+        "description": "Forms Format Container."
+      },
+      "ShipmentResults_TimeInTransit": {
+        "type": "object",
+        "maximum": 1,
+        "properties": {
+          "DaysInTransit": {
+            "description": "Number of days in transit.",
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "TimeInTransit"
+        },
+        "description": "Time In transit information."
+      },
+      "TimeInTransit_DaysInTransit": {
+        "description": "Number of days in transit.",
+        "maximum": 1,
+        "type": "string"
+      }
+    }
+  }
+}

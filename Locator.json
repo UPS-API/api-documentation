@@ -2,19 +2,31 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Locator",
-    "description": "The Locator API provides UPS full-service and self-service locations, hours of operation and pickup times.",
     "termsOfService": "https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html",
-    "version": "1.0.1"
+    "version": ""
   },
   "servers": [
     {
-      "url": "https://wwwcie.ups.com/api/"
+      "url": "https://wwwcie.ups.com/api/",
+      "description": "Customer Integration Environment"
+    },
+    {
+      "url": "https://onlinetools.ups.com/api/",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Locator_other",
+      "x-displayName": "Methods",
+      "description": "The Locator API provides UPS full-service and self-service locations, hours of operation and pickup times. <br /><a href=\"https://developer.ups.com/api/reference/locator/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/locator/appendix\" target=\"_blank\">Appendix</a><br /><a href=\"https://developer.ups.com/api/reference/locator/errors\" target=\"_blank\">Errors</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
     }
   ],
   "paths": {
     "/locations/{version}/search/availabilities/{reqOption}": {
       "post": {
-        "summary": "Get Locator Response",
+        "summary": "Locator",
+        "description": "Get Locator Response",
         "operationId": "Locator",
         "parameters": [
           {
@@ -75,8 +87,78 @@
               },
               "examples": {
                 "json": {
-                  "summary": "A sample JSON request",
-                  "value": "{\r\n  \"LocatorRequest\": {\r\n    \"Request\": {\r\n      \"TransactionReference\": {\r\n        \"CustomerContext\":\"\" \r\n      },\r\n      \"RequestAction\": \"Locator\",\r\n      \"RequestOption\": \"56\"\r\n    },\r\n    \"OriginAddress\": {\r\n      \"AddressKeyFormat\": {\r\n        \"AddressLine\": \"123 Fork rd\",\r\n        \"PoliticalDivision2\": \"Atlanta\",\r\n        \"PoliticalDivision1\": \"PE\",\r\n        \"PostcodePrimaryLow\": \"30005\",\r\n        \"PostcodeExtendedLow\": \"30005\",\r\n        \"CountryCode\": \"US\"\r\n      },\r\n      \"MaximumListSize\": \"10\"\r\n    },\r\n    \"Translate\": {\r\n      \"LanguageCode\": \"ENG\",\r\n      \"Locale\": \"en_US\"\r\n    },\r\n    \"UnitOfMeasurement\": {\r\n      \"Code\": \"MI\"\r\n    },\r\n    \"LocationSearchCriteria\": {\r\n      \"SearchOption\": [\r\n        {\r\n          \"OptionType\": {\r\n            \"Code\": \"01\"\r\n          },\r\n          \"OptionCode\": {\r\n            \"Code\": \"001\"\r\n          },\r\n          \"Relation\": {\r\n            \"Code\": \"01\"\r\n          }\r\n        },\r\n        {\r\n          \"OptionType\": {\r\n            \"Code\": \"01\"\r\n          },\r\n          \"OptionCode\": [\r\n            {\r\n              \"Code\": \"001\"\r\n            },\r\n            {\r\n              \"Code\": \"001\"\r\n            }\r\n          ],\r\n          \"Relation\": {\r\n            \"Code\": \"01\"\r\n          }\r\n        }\r\n      ],\r\n      \"MaximumListSize\": \"10\",\r\n      \"SearchRadius\": \"75\",\r\n      \"ServiceSearch\": {\r\n        \"Time\": \"1030\",\r\n        \"ServiceCode\": {\r\n          \"Code\": \"01\"\r\n        }\r\n      }\r\n    },\r\n    \"SortCriteria\": {\r\n      \"SortType\": \"01\"\r\n    }\r\n  }\r\n}"
+                  "summary": "A sample JSON request (Standard Example)",
+                  "value": {
+						"LocatorRequest": {
+							"Request": {
+								"TransactionReference": {
+									"CustomerContext": ""
+								},
+								"RequestAction": "Locator",
+								"RequestOption": "56"
+							},
+							"OriginAddress": {
+								"AddressKeyFormat": {
+									"AddressLine": "123 Fork rd",
+									"PoliticalDivision2": "Atlanta",
+									"PoliticalDivision1": "PE",
+									"PostcodePrimaryLow": "30005",
+									"PostcodeExtendedLow": "30005",
+									"CountryCode": "US"
+								},
+								"MaximumListSize": "10"
+							},
+							"Translate": {
+								"LanguageCode": "ENG",
+								"Locale": "en_US"
+							},
+							"UnitOfMeasurement": {
+								"Code": "MI"
+							},
+							"LocationSearchCriteria": {
+								"SearchOption": [
+									{
+										"OptionType": {
+											"Code": "01"
+										},
+										"OptionCode": {
+											"Code": "001"
+										},
+										"Relation": {
+											"Code": "01"
+										}
+									},
+									{
+										"OptionType": {
+											"Code": "01"
+										},
+										"OptionCode": [
+											{
+												"Code": "001"
+											},
+											{
+												"Code": "001"
+											}
+										],
+										"Relation": {
+											"Code": "01"
+										}
+									}
+								],
+								"MaximumListSize": "10",
+								"SearchRadius": "75",
+								"ServiceSearch": {
+									"Time": "1030",
+									"ServiceCode": {
+										"Code": "01"
+									}
+								}
+							},
+							"SortCriteria": {
+								"SortType": "01"
+							}
+						}
+					}
                 }
               }
             }
@@ -109,9 +191,10 @@
     "securitySchemes": {
       "oauth2": {
         "type": "oauth2",
-        "description": "Find your client_id and client_secret on your app info page. <br/> 1. Once your credentials are entered select \\\"Authorize\\\" and a bearer token will be generated.<br/> 2. Click \\\"Try it out\\\" and enter any required values.<br/> 3. Select an example request to use or provide your own.<br/> 4. Select \\\"Send the request using the values above\\\" to execute your API request.",
+        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
         "flows": {
           "clientCredentials": {
+            "x-tokenEndpointAuthMethod": "client_secret_basic",
             "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
             "scopes": {}
           }
