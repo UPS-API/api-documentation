@@ -6,12 +6,12 @@
   },
   "servers": [
     {
-      "url": "https://wwwcie.ups.com/api/",
+      "url": "https://wwwcie.ups.com/",
       "description": "Customer Integration Environment"
 
     },
     {
-      "url": "https://onlinetools.ups.com/api/",
+      "url": "https://onlinetools.ups.com/",
       "description": "Production"
     }
   ],
@@ -23,7 +23,7 @@
     }
   ],
   "paths": {
-    "/v1/oauth/authorize": {
+    "/security/v1/oauth/authorize": {
       "get": {
         "summary": "Authorize Client",
         "description": "The Authorize Client endpoint initiates the OAuth flow by redirecting the user to UPS to log in and authorize the client application. It accepts the parameters listed below to facilitate the user authorization flow. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.",
@@ -122,7 +122,7 @@
         }
       }
     },
-    "/v1/oauth/token": {
+    "/security/v1/oauth/token": {
       "post": {
         "security": [
           {
@@ -221,7 +221,7 @@
         }
       }
     },
-    "/v1/oauth/refresh": {
+    "/security/v1/oauth/refresh": {
       "post": {
         "security": [
           {
