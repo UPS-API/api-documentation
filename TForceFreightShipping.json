@@ -3512,10 +3512,17 @@
             "type": "string"
           },
           "Rate": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShipmentResults_Rate"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/ShipmentResults_Rate"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/ShipmentResults_Rate"
+				}
+			]
           },
           "FreightDensityRate": {
             "$ref": "#/components/schemas/ShipmentResults_FreightDensityRate"
@@ -3806,16 +3813,30 @@
         "type": "object",
         "properties": {
           "Image": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Documents_Image"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/Documents_Image"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/Documents_Image"
+				}
+			]
           },
           "Forms": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Documents_Forms"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/Documents_Forms"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/Documents_Forms"
+				}
+			]
           }
         },
         "xml": {

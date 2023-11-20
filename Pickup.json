@@ -2577,16 +2577,30 @@
             "type": "string"
           },
           "ChargeDetail": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RateResult_ChargeDetail"
-            }
+          "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/RateResult_ChargeDetail"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/RateResult_ChargeDetail"
+				}
+			]
           },
           "TaxCharges": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RateResult_TaxCharges"
-            }
+		  "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/RateResult_TaxCharges"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/RateResult_TaxCharges"
+				}
+			]
           },
           "TotalTax": {
             "description": "The sum of all taxes.",
@@ -2738,10 +2752,17 @@
           },
           "PoliticalDivision1": {
             "description": "The Political Division 1/State Field.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "oneOf": [
+				{
+				"items": {
+					"type": "string"
+					},
+					"type": "array"
+				},
+				{
+				"type": "string"
+				}
+			]
           }
         },
         "xml": {
@@ -3094,10 +3115,17 @@
         "type": "object",
         "properties": {
           "DropOffFacilities": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
-            }
+          "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
+				}
+			]
           },
           "PickupFacilities": {
             "$ref": "#/components/schemas/ServiceCenterLocation_PickupFacilities"
@@ -3158,10 +3186,17 @@
             "type": "string"
           },
           "LocalizedInstruction": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DropOffFacilities_LocalizedInstruction"
-            }
+           "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/DropOffFacilities_LocalizedInstruction"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/DropOffFacilities_LocalizedInstruction"
+				}
+			]
           },
           "Distance": {
             "$ref": "#/components/schemas/DropOffFacilities_Distance"
@@ -3191,10 +3226,17 @@
         "properties": {
           "AddressLine": {
             "description": "Address Line of the Facility.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				{
+					"type": "string"
+				}
+			]
           },
           "City": {
             "description": "Facilities City.",
@@ -3304,11 +3346,18 @@
         ],
         "properties": {
           "DayOfWeek": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FacilityTime_DayOfWeek"
-            }
-          }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/FacilityTime_DayOfWeek"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/FacilityTime_DayOfWeek"
+				}
+			]
+		  }
         },
         "xml": {
           "name": "FacilityTime"
@@ -3742,10 +3791,17 @@
             "$ref": "#/components/schemas/PickupPendingStatusResponse_Response"
           },
           "PendingStatus": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
-            }
+          "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
+				}
+			]
           }
         },
         "xml": {

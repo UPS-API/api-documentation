@@ -515,10 +515,17 @@
             "$ref": "#/components/schemas/Candidate_AddressClassification"
           },
           "AddressKeyFormat": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Candidate_AddressKeyFormat"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/Candidate_AddressKeyFormat"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/Candidate_AddressKeyFormat"
+				}
+			]
           }
         },
         "xml": {

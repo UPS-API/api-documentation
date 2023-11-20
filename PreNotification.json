@@ -755,10 +755,17 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Alert"
-            }
+           "oneOf": [
+				{
+					"items": {
+						 "$ref": "#/components/schemas/Response_Alert"
+					},
+					"type": "array"
+				},
+				{
+					   "$ref": "#/components/schemas/Response_Alert"
+				}
+			]
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"

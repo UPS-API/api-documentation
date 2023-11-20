@@ -3655,10 +3655,17 @@
             "$ref": "#/components/schemas/RateResponse_Response"
           },
           "RatedShipment": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RateResponse_RatedShipment"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RateResponse_RatedShipment"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RateResponse_RatedShipment"
+              }
+            ]
           }
         },
         "xml": {
@@ -3677,16 +3684,30 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Alert"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Response_Alert"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/Response_Alert"
+              }
+            ]
           },
           "AlertDetail": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_AlertDetail"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Response_AlertDetail"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/Response_AlertDetail"
+              }
+            ]
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -3798,10 +3819,17 @@
             "maxLength": 1
           },
           "ElementIdentifier": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ElementLevelInformation_ElementIdentifier"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ElementLevelInformation_ElementIdentifier"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/ElementLevelInformation_ElementIdentifier"
+              }
+            ]
           }
         },
         "xml": {
@@ -3857,10 +3885,17 @@
         "type": "object",
         "properties": {
           "Disclaimer": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatedShipment_Disclaimer"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RatedShipment_Disclaimer"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RatedShipment_Disclaimer"
+              }
+            ]
           },
           "Service": {
             "$ref": "#/components/schemas/RatedShipment_Service"
@@ -3873,10 +3908,17 @@
             "maxLength": 1
           },
           "RatedShipmentAlert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatedShipment_RatedShipmentAlert"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RatedShipment_RatedShipmentAlert"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RatedShipment_RatedShipmentAlert"
+              }
+            ]
           },
           "BillableWeightCalculationMethod": {
             "description": "Indicates whether the billable weight calculation method is utilized at the package or shipment level.  This information will be returned only if RatingMethodRequestedIndicator is present in the request.  Possible values:01 = Shipment Billable Weight02 = Package Billable Weight",
@@ -3902,10 +3944,17 @@
             "$ref": "#/components/schemas/RatedShipment_BaseServiceCharge"
           },
           "ItemizedCharges": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatedShipment_ItemizedCharges"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RatedShipment_ItemizedCharges"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RatedShipment_ItemizedCharges"
+              }
+            ]
           },
           "FRSShipmentData": {
             "$ref": "#/components/schemas/RatedShipment_FRSShipmentData"
@@ -3914,10 +3963,17 @@
             "$ref": "#/components/schemas/RatedShipment_ServiceOptionsCharges"
           },
           "TaxCharges": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatedShipment_TaxCharges"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RatedShipment_TaxCharges"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RatedShipment_TaxCharges"
+              }
+            ]
           },
           "TotalCharges": {
             "$ref": "#/components/schemas/RatedShipment_TotalCharges"
@@ -3929,10 +3985,17 @@
             "$ref": "#/components/schemas/RatedShipment_NegotiatedRateCharges"
           },
           "RatedPackage": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatedShipment_RatedPackage"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RatedShipment_RatedPackage"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RatedShipment_RatedPackage"
+              }
+            ]
           },
           "TimeInTransit": {
             "$ref": "#/components/schemas/RatedShipment_TimeInTransit"
@@ -4212,10 +4275,17 @@
             "$ref": "#/components/schemas/FRSShipmentData_FreightDensityRate"
           },
           "HandlingUnits": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
+              }
+            ]
           }
         },
         "xml": {
@@ -4565,16 +4635,30 @@
         "type": "object",
         "properties": {
           "ItemizedCharges": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
+              }
+            ]
           },
           "TaxCharges": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NegotiatedRateCharges_TaxCharges"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/NegotiatedRateCharges_TaxCharges"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/NegotiatedRateCharges_TaxCharges"
+              }
+            ]
           },
           "TotalCharge": {
             "$ref": "#/components/schemas/NegotiatedRateCharges_TotalCharge"
@@ -4743,16 +4827,30 @@
             "$ref": "#/components/schemas/RatedPackage_BillingWeight"
           },
           "Accessorial": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatedPackage_Accessorial"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RatedPackage_Accessorial"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RatedPackage_Accessorial"
+              }
+            ]
           },
           "ItemizedCharges": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatedPackage_ItemizedCharges"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RatedPackage_ItemizedCharges"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RatedPackage_ItemizedCharges"
+              }
+            ]
           },
           "NegotiatedCharges": {
             "$ref": "#/components/schemas/RatedPackage_NegotiatedCharges"
@@ -4761,10 +4859,17 @@
             "$ref": "#/components/schemas/RatedPackage_SimpleRate"
           },
           "RateModifier": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatedPackage_RateModifier"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RatedPackage_RateModifier"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/RatedPackage_RateModifier"
+              }
+            ]
           }
         },
         "xml": {
@@ -4985,10 +5090,17 @@
         "type": "object",
         "properties": {
           "ItemizedCharges": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
-            }
+            "oneOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
+                },
+                "type": "array"
+              },
+              {
+                "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
+              }
+            ]
           }
         },
         "xml": {
