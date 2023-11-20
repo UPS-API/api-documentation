@@ -453,10 +453,17 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Alert"
-            }
+            "oneOf": [
+			  {
+			   "items": {
+				  "$ref": "#/components/schemas/Response_Alert"
+				},
+				 "type": "array"
+			  },
+			  {
+				  "$ref": "#/components/schemas/Response_Alert"
+			   }
+			]
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -743,10 +750,17 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Alert"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Response_Alert"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Response_Alert"
+			   }
+			]
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -848,7 +862,7 @@
       },
       "UploadRequest_UserCreatedForm": {
         "type": "object",
-        "maxium": 1,
+        "maximum": 1,
         "required": [
           "UserCreatedFormFile",
           "UserCreatedFormFileName",
@@ -917,10 +931,17 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Alert"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Response_Alert"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Response_Alert"
+			   }
+			]
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"

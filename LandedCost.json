@@ -522,11 +522,18 @@
                 "description": "(TotalDutyAndTax+ totalBrokerageFees)"
               },
               "shipmentItems": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Response_ShipmentItems"
-                },
-                "maximum": 99,
+                "oneOf": [
+					{
+						"items": {
+							"$ref": "#/components/schemas/Response_ShipmentItems"
+						},
+						"type": "array",
+						"maximum":  99
+					},
+					{
+						"$ref": "#/components/schemas/Response_ShipmentItems"
+					}
+				],
                 "description": "An Array or List of Landed Cost result for all valid commodities"
               },
               "transID": {

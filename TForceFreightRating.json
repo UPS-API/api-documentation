@@ -303,7 +303,7 @@
           },
           "Commodity": {
             "type": "array",
-            "maxium": 99,
+            "maximum": 99,
             "items": {
               "$ref": "#/components/schemas/FreightRateRequest_Commodity"
             }
@@ -2164,20 +2164,34 @@
             "$ref": "#/components/schemas/FreightRateResponse_Response"
           },
           "Rate": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FreightRateResponse_Rate"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/FreightRateResponse_Rate"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/FreightRateResponse_Rate"
+				}
+			]
           },
           "FreightDensityRate": {
             "$ref": "#/components/schemas/FreightRateResponse_FreightDensityRate"
           },
           "Commodity": {
-            "type": "array",
-            "maximum": 99,
-            "items": {
-              "$ref": "#/components/schemas/FreightRateResponse_Commodity"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/FreightRateResponse_Commodity"
+					},
+					"type": "array",
+					"maximum": 99,
+				},
+				{
+					"$ref": "#/components/schemas/FreightRateResponse_Commodity"
+				}
+			]
           },
           "TotalShipmentCharge": {
             "$ref": "#/components/schemas/FreightRateResponse_TotalShipmentCharge"
@@ -2202,10 +2216,17 @@
             "type": "string"
           },
           "AlternateRatesResponse": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FreightRateResponse_AlternateRatesResponse"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/FreightRateResponse_AlternateRatesResponse"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/FreightRateResponse_AlternateRatesResponse"
+				}
+			]
           },
           "TimeInTransit": {
             "$ref": "#/components/schemas/FreightRateResponse_TimeInTransit"
@@ -2237,10 +2258,17 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Alert"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/Response_Alert"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/Response_Alert"
+				}
+			]
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -2647,10 +2675,17 @@
             "$ref": "#/components/schemas/AlternateRatesResponse_AlternateRateType"
           },
           "Rate": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AlternateRatesResponse_Rate"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/AlternateRatesResponse_Rate"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/AlternateRatesResponse_Rate"
+				}
+			]
           },
           "FreightDensityRate": {
             "$ref": "#/components/schemas/AlternateRatesResponse_FreightDensityRate"

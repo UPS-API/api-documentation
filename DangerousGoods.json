@@ -382,10 +382,17 @@
             "$ref": "#/components/schemas/ChemicalReferenceDataResponse_Response"
           },
           "ChemicalData": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChemicalReferenceDataResponse_ChemicalData"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/ChemicalReferenceDataResponse_ChemicalData"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/ChemicalReferenceDataResponse_ChemicalData"
+				}
+			]
           }
         },
         "xml": {
@@ -404,10 +411,17 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Alert"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/Response_Alert"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/Response_Alert"
+				}
+			]
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -501,10 +515,17 @@
             "$ref": "#/components/schemas/ChemicalData_ProperShippingNameDetail"
           },
           "PackageQuantityLimitDetail": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ChemicalData_PackageQuantityLimitDetail"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/ChemicalData_PackageQuantityLimitDetail"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/ChemicalData_PackageQuantityLimitDetail"
+				}
+			]
           }
         },
         "xml": {
@@ -1220,11 +1241,18 @@
             "maxLength": 5
           },
           "PackageResults": {
-            "type": "array",
-            "maximum":  20,
-            "items": {
-              "$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_PackageResults"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_PackageResults"
+					},
+					"type": "array",
+					"maximum":  20
+				},
+				{
+					"$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_PackageResults"
+				}
+			]
           }
         },
         "xml": {
@@ -1243,16 +1271,30 @@
             "$ref": "#/components/schemas/Response_ResponseStatus"
           },
           "Alert": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Alert"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/Response_Alert"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/Response_Alert"
+				}
+			]
           },
           "AlertDetail": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_AlertDetail"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/Response_AlertDetail"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/Response_AlertDetail"
+				}
+			]
           },
           "TransactionReference": {
             "$ref": "#/components/schemas/Response_TransactionReference"
@@ -1392,11 +1434,18 @@
             "maxLength": 1
           },
           "ChemicalRecordResults": {
-            "type": "array",
-            "maximum":  3,
-            "items": {
-              "$ref": "#/components/schemas/PackageResults_ChemicalRecordResults"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/PackageResults_ChemicalRecordResults"
+					},
+					"type": "array",
+					"maximum":  3
+				},
+				{
+					"$ref": "#/components/schemas/PackageResults_ChemicalRecordResults"
+				}
+			]
           }
         },
         "xml": {

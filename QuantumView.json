@@ -330,10 +330,17 @@
             "type": "string"
           },
           "Error": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Response_Error"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Response_Error"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Response_Error"
+			   }
+			]
           }
         },
         "xml": {
@@ -413,17 +420,31 @@
             "type": "string"
           },
           "ErrorLocation": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Error_ErrorLocation"
-            }
+            "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/Error_ErrorLocation"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/Error_ErrorLocation"
+				   }
+			]
           },
           "ErrorDigest": {
             "description": "The contents of the element in error.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "oneOf": [
+				 {
+				   "items": {
+					  "type": "string"
+					},
+					 "type": "array"
+				  },
+				  {
+					  "type": "string"
+				   }
+			]
           }
         },
         "xml": {
@@ -511,10 +532,17 @@
             "type": "string"
           },
           "SubscriptionEvents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/QuantumViewEvents_SubscriptionEvents"
-            }
+            "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/QuantumViewEvents_SubscriptionEvents"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/QuantumViewEvents_SubscriptionEvents"
+				   }
+			]
           }
         },
         "xml": {
@@ -548,10 +576,17 @@
             "$ref": "#/components/schemas/SubscriptionEvents_DateRange"
           },
           "SubscriptionFile": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SubscriptionEvents_SubscriptionFile"
-            }
+            "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/SubscriptionEvents_SubscriptionFile"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/SubscriptionEvents_SubscriptionFile"
+				   }
+			]
           }
         },
         "xml": {
@@ -666,34 +701,69 @@
           {
             "properties": {
               "Manifest": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/SubscriptionFile_Manifest"
-                }
+                "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/SubscriptionFile_Manifest"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/SubscriptionFile_Manifest"
+				   }
+				]
               },
               "Origin": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/SubscriptionFile_Origin"
-                }
+                "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/SubscriptionFile_Origin"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/SubscriptionFile_Origin"
+				   }
+				]
               },
               "Exception": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/SubscriptionFile_Exception"
-                }
+                "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/SubscriptionFile_Exception"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/SubscriptionFile_Exception"
+				   }
+				]
               },
               "Delivery": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/SubscriptionFile_Delivery"
-                }
+                "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/SubscriptionFile_Delivery"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/SubscriptionFile_Delivery"
+				   }
+				]	
               },
               "Generic": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/SubscriptionFile_Generic"
-                }
+                "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/SubscriptionFile_Generic"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/SubscriptionFile_Generic"
+				   }
+				]
               }
             }
           }
@@ -762,10 +832,17 @@
             "$ref": "#/components/schemas/Manifest_ShipTo"
           },
           "ReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Manifest_ReferenceNumber"
-            }
+            "oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/Manifest_ReferenceNumber"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/Manifest_ReferenceNumber"
+				   }
+			]
           },
           "Service": {
             "$ref": "#/components/schemas/Manifest_Service"
@@ -787,10 +864,17 @@
             "type": "string"
           },
           "Package": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Manifest_Package"
-            }
+				"oneOf": [
+				 {
+				   "items": {
+					  "$ref": "#/components/schemas/Manifest_Package"
+					},
+					 "type": "array"
+				  },
+				  {
+					 "$ref": "#/components/schemas/Manifest_Package"
+				   }
+			]
           },
           "ShipmentServiceOptions": {
             "$ref": "#/components/schemas/Manifest_ShipmentServiceOptions"
@@ -1423,10 +1507,17 @@
         "type": "object",
         "properties": {
           "Activity": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Package_Activity"
-            }
+            "oneOf": [
+				{
+					"items": {
+						"$ref": "#/components/schemas/Package_Activity"
+					},
+					"type": "array"
+				},
+				{
+					"$ref": "#/components/schemas/Package_Activity"
+				}
+			]
           },
           "Description": {
             "description": "Description of package merchandise.",
@@ -2289,16 +2380,30 @@
         "type": "object",
         "properties": {
           "PackageReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Origin_PackageReferenceNumber"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Origin_PackageReferenceNumber"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Origin_PackageReferenceNumber"
+			   }
+			]
           },
           "ShipmentReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Origin_ShipmentReferenceNumber"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Origin_ShipmentReferenceNumber"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Origin_ShipmentReferenceNumber"
+			   }
+			]
           },
           "ShipperNumber": {
             "description": "Shipper's six digit alphanumeric account number.",
@@ -2580,16 +2685,30 @@
         "type": "object",
         "properties": {
           "PackageReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Exception_PackageReferenceNumber"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Exception_PackageReferenceNumber"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Exception_PackageReferenceNumber"
+			   }
+			]
           },
           "ShipmentReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Exception_ShipmentReferenceNumber"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Exception_ShipmentReferenceNumber"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Exception_ShipmentReferenceNumber"
+			   }
+			]
           },
           "ShipperNumber": {
             "description": "Shipper's six digit alphanumeric account number.",
@@ -2775,10 +2894,17 @@
             "type": "string"
           },
           "AddressExtendedInformation": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
+			   }
+			]
           },
           "PoliticalDivision3": {
             "description": "The neighborhood, town, barrio etc. It will be returned if there is any update due to exception.",
@@ -3051,16 +3177,30 @@
         "type": "object",
         "properties": {
           "PackageReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Delivery_PackageReferenceNumber"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Delivery_PackageReferenceNumber"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Delivery_PackageReferenceNumber"
+			   }
+			]
           },
           "ShipmentReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Delivery_ShipmentReferenceNumber"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Delivery_ShipmentReferenceNumber"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Delivery_ShipmentReferenceNumber"
+			   }
+			]
           },
           "ShipperNumber": {
             "description": "Shipper's six digit alphanumeric account number.",
@@ -3285,10 +3425,17 @@
             "type": "string"
           },
           "AddressExtendedInformation": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
+			   }
+			]
           },
           "PoliticalDivision3": {
             "description": "The neighborhood, town, barrio etc.",
@@ -3515,16 +3662,30 @@
             "type": "string"
           },
           "ShipmentReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Generic_ShipmentReferenceNumber"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Generic_ShipmentReferenceNumber"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Generic_ShipmentReferenceNumber"
+			   }
+			]
           },
           "PackageReferenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Generic_PackageReferenceNumber"
-            }
+            "oneOf": [
+			 {
+			   "items": {
+				  "$ref": "#/components/schemas/Generic_PackageReferenceNumber"
+				},
+				 "type": "array"
+			  },
+			  {
+				 "$ref": "#/components/schemas/Generic_PackageReferenceNumber"
+			   }
+			]
           },
           "Service": {
             "$ref": "#/components/schemas/Generic_Service"
