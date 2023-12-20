@@ -1,717 +1,790 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "TrackService API",
-    "termsOfService": "https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html",
-    "version": ""
-  },
-  "servers": [
-    {
-      "url": "https://wwwcie.ups.com/api/",
-      "description": "Customer Integration Environment"
+    "openapi": "3.0.1",
+    "info": {
+        "title": "TrackService API",
+        "description": "This service is used to retrieve  package information",
+        "version": "0.1"
     },
-    {
-      "url": "https://onlinetools.ups.com/api/",
-      "description": "Production"
-    }
-  ],
-  "tags": [
-    {
-      "name": "Tracking_other",
-      "x-displayName": "Methods",
-      "description": "This service is used to retrieve  package information. <br /><a href=\"https://developer.ups.com/api/reference/tracking/business-rules\" target=\"_blank\">Business Rules</a><br />
-	  <a href=\"https://developer.ups.com/api/reference/tracking/api-code\" target=\"_blank\">API Codes</a><br />
-	  <a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
-    }
-  ],
-  "paths": {
-    "/track/v1/details/{inquiryNumber}": {
-      "get": {
-        "summary": "Tracking",
-        "description": "gets single track API details",
-        "operationId": "getSingleTrackResponseUsingGET",
-        "parameters": [
-          {
-            "name": "inquiryNumber",
-            "in": "path",
-            "description": "Tracking Number",
-            "required": true,
-            "schema": {
-              "type": "string"
+    "servers": [
+        {
+		  "url": "https://wwwcie.ups.com/api/",
+		  "description": "Customer Integration Environment"
+		},
+		{
+		  "url": "https://onlinetools.ups.com/api/",
+		  "description": "Production"
+		}
+    ],
+    "tags": [
+        {
+		  "name": "Tracking_other",
+		  "x-displayName": "Methods",
+		  "description": "This service is used to retrieve  package information. <br /><a href=\"https://developer.ups.com/api/reference/tracking/business-rules\" target=\"_blank\">Business Rules</a><br /><a href=\"https://developer.ups.com/api/reference/tracking/api-code\" target=\"_blank\">API Codes</a><br /><a href=\"https://github.com/UPS-API\" target=\"_blank\">GitHub - view sample integration code</a>"
+		}
+    ],
+    "paths": {
+        "/trackservice/tracking/v1/details/{inquiryNumber}": {
+            "get": {
+                "description": "Single Track API Controller",
+                "summary": "gets single track API details",
+                "operationId": "getSingleTrackResponseUsingGET",
+                "parameters": [
+                    {
+                        "name": "inquiryNumber",
+                        "in": "path",
+                        "description": "Inquiry Number",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isCIE",
+                        "in": "header",
+                        "description": "isCIE",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "locale",
+                        "in": "query",
+                        "description": "locale",
+                        "schema": {
+                            "type": "string",
+                            "default": "en_US"
+                        }
+                    },
+                    {
+                        "name": "returnMilestones",
+                        "in": "query",
+                        "description": "returnMilestones",
+                        "schema": {
+                            "type": "string",
+                            "default": "false"
+                        }
+                    },
+                    {
+                        "name": "returnSignature",
+                        "in": "query",
+                        "description": "returnSignature",
+                        "schema": {
+                            "type": "string",
+                            "default": "false"
+                        }
+                    },
+                    {
+                        "name": "transactionSrc",
+                        "in": "header",
+                        "description": "transactionSrc",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "transId",
+                        "in": "header",
+                        "description": "transId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Username",
+                        "in": "header",
+                        "description": "Username",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "UUID",
+                        "in": "header",
+                        "description": "UUID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tracking Information found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrackApiResponse"
+                                }
+                            }
+                        }
+                    },
+                    "207": {
+                        "description": "Tracking Information not found for all inquiry numbers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tracking number information not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Resource is not available",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response"
+                                }
+                            }
+                        }
+                    }
+                },
+               "security": [
+				{
+				  "oauth2": []
+				}
+			  ]
             }
-          },
-          {
-            "name": "locale",
-            "in": "query",
-            "description": "locale",
-            "schema": {
-              "type": "string",
-              "default": "en_US"
-            }
-          },
-          {
-            "name": "returnSignature",
-            "in": "query",
-            "description": "returnSignature",
-            "schema": {
-              "type": "string",
-              "default": "false"
-            }
-          },
-          {
-            "name": "transId",
-            "in": "header",
-            "description": "transId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "transactionSrc",
-            "in": "header",
-            "description": "transactionSrc",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "default": "testing"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Tracking Information found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/TrackApiResponse"
-                }
-              }
-            }
-          },
-          "207": {
-            "description": "Tracking Information not found for all inquiry numbers",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Tracking number information not found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Resource is not available",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response"
-                }
-              }
-            }
-          }
-        },
-        "deprecated": false
-      }
-    }
-  },
-  "security": [
-    {
-      "oauth2": []
-    }
-  ],
-  "components": {
-    "securitySchemes": {
-      "oauth2": {
-        "type": "oauth2",
-        "description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
-        "flows": {
-          "clientCredentials": {
-            "x-tokenEndpointAuthMethod": "client_secret_basic",
-            "tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
-            "scopes": {}
-          }
         }
-      }
     },
-    "schemas": {
-      "AccessPointInformation": {
-        "title": "AccessPointInformation",
-        "type": "object",
-        "properties": {
-          "pickupByDate": {
-            "type": "string"
-          }
-        }
-      },
-      "Activity": {
-        "title": "Activity",
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "description": "type",
-            "example": "20210210"
-          },
-          "location": {
-            "$ref": "#/components/schemas/Location"
-          },
-          "status": {
-            "$ref": "#/components/schemas/Status"
-          },
-          "time": {
-            "type": "string",
-            "description": "type",
-            "example": "071356"
-          }
-        }
-      },
-      "Address": {
-        "title": "Address",
-        "type": "object",
-        "properties": {
-          "addressLine1": {
-            "type": "string",
-            "description": "addressLine1",
-            "example": "100 Main St"
-          },
-          "addressLine2": {
-            "type": "string",
-            "description": "addressLine2",
-            "example": "Warehouse"
-          },
-          "addressLine3": {
-            "type": "string",
-            "description": "addressLine3",
-            "example": "Building 1"
-          },
-          "city": {
-            "type": "string",
-            "description": "city",
-            "example": "Wayne"
-          },
-          "country": {
-            "type": "string",
-            "description": "country",
-            "example": "US"
-          },
-          "countryCode": {
-            "type": "string",
-            "description": "countryCode",
-            "example": "US"
-          },
-          "postalCode": {
-            "type": "string",
-            "description": "postalCode",
-            "example": "07470"
-          },
-          "stateProvince": {
-            "type": "string",
-            "description": "stateProvince",
-            "example": "NJ"
-          }
-        }
-      },
-      "AlternateTrackingNumber": {
-        "title": "AlternateTrackingNumber",
-        "type": "object",
-        "properties": {
-          "number": {
-            "type": "string",
-            "description": "number",
-            "example": "92419900000033499522966220"
-          },
-          "type": {
-            "type": "string",
-            "description": "type",
-            "example": "USPS_PIC"
-          }
-        }
-      },
-      "DeliveryDate": {
-        "title": "DeliveryDate",
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        }
-      },
-      "DeliveryInformation": {
-        "title": "DeliveryInformation",
-        "type": "object",
-        "properties": {
-          "location": {
-            "type": "string",
-            "description": "location",
-            "example": "Front Door"
-          },
-          "receivedBy": {
-            "type": "string",
-            "description": "receivedBy",
-            "example": ""
-          },
-          "signature": {
-            "$ref": "#/components/schemas/Signature"
-          }
-        }
-      },
-      "DeliveryTime": {
-        "title": "DeliveryTime",
-        "type": "object",
-        "properties": {
-          "endTime": {
-            "type": "string"
-          },
-          "startTime": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        }
-      },
-      "Error": {
-        "title": "Error",
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "InquireNumbers": {
-        "title": "InquireNumbers",
-        "type": "object",
-        "properties": {
-          "inquiryNumbers": {
-            "type": "array",
-            "items": {
-              "type": "string"
+    "components": {
+        "schemas": {
+            "AccessPointInformation": {
+                "title": "AccessPointInformation",
+                "type": "object",
+                "properties": {
+                    "pickupByDate": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Activity": {
+                "title": "Activity",
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "description": "type",
+                        "example": "20210210"
+                    },
+                    "gmtDate": {
+                        "type": "string",
+                        "description": "gmtDate",
+                        "example": "20210210"
+                    },
+                    "gmtOffset": {
+                        "type": "string",
+                        "description": "gmtOffset",
+                        "example": "-05:00"
+                    },
+                    "gmtTime": {
+                        "type": "string",
+                        "description": "gmtTime",
+                        "example": 74700
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/Status"
+                    },
+                    "time": {
+                        "type": "string",
+                        "description": "type",
+                        "example": "071356"
+                    }
+                }
+            },
+            "Address": {
+                "title": "Address",
+                "type": "object",
+                "properties": {
+                    "addressLine1": {
+                        "type": "string",
+                        "description": "addressLine1",
+                        "example": "100 Main St"
+                    },
+                    "addressLine2": {
+                        "type": "string",
+                        "description": "addressLine2",
+                        "example": "Warehouse"
+                    },
+                    "addressLine3": {
+                        "type": "string",
+                        "description": "addressLine3",
+                        "example": "Building 1"
+                    },
+                    "city": {
+                        "type": "string",
+                        "description": "city",
+                        "example": "Wayne"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "country",
+                        "example": "US"
+                    },
+                    "countryCode": {
+                        "type": "string",
+                        "description": "countryCode",
+                        "example": "US"
+                    },
+                    "postalCode": {
+                        "type": "string",
+                        "description": "postalCode",
+                        "example": "07470"
+                    },
+                    "stateProvince": {
+                        "type": "string",
+                        "description": "stateProvince",
+                        "example": "NJ"
+                    }
+                }
+            },
+            "AlternateTrackingNumber": {
+                "title": "AlternateTrackingNumber",
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "string",
+                        "description": "number",
+                        "example": "92419900000033499522966220"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "type",
+                        "example": "USPS_PIC"
+                    }
+                }
+            },
+            "DeliveryDate": {
+                "title": "DeliveryDate",
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DeliveryInformation": {
+                "title": "DeliveryInformation",
+                "type": "object",
+                "properties": {
+                    "deliveryPhoto": {
+                        "$ref": "#/components/schemas/DeliveryPhoto"
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "location",
+                        "example": "Front Door"
+                    },
+                    "receivedBy": {
+                        "type": "string",
+                        "description": "receivedBy",
+                        "example": ""
+                    },
+                    "signature": {
+                        "$ref": "#/components/schemas/Signature"
+                    }
+                }
+            },
+            "DeliveryPhoto": {
+                "title": "DeliveryPhoto",
+                "type": "object",
+                "properties": {
+                    "isNonPostalCodeCountry": {
+                        "type": "boolean"
+                    },
+                    "photo": {
+                        "type": "string"
+                    },
+                    "photoCaptureInd": {
+                        "type": "string"
+                    },
+                    "photoDispositionCode": {
+                        "type": "string"
+                    }
+                }
+            },
+            "DeliveryTime": {
+                "title": "DeliveryTime",
+                "type": "object",
+                "properties": {
+                    "endTime": {
+                        "type": "string"
+                    },
+                    "startTime": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Error": {
+                "title": "Error",
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "InquireNumbers": {
+                "title": "InquireNumbers",
+                "type": "object",
+                "properties": {
+                    "inquiryNumbers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "description": "Inquiry number"
+            },
+            "Location": {
+                "title": "Location",
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "$ref": "#/components/schemas/Address"
+                    },
+                    "slic": {
+                        "type": "string",
+                        "description": "slic",
+                        "example": "8566"
+                    }
+                }
+            },
+            "Milestones": {
+                "title": "Milestones",
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "current": {
+                        "type": "boolean"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "linkedActivity": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "subMilestone": {
+                        "$ref": "#/components/schemas/SubMilestone"
+                    }
+                }
+            },
+            "Package": {
+                "title": "Package",
+                "type": "object",
+                "properties": {
+                    "accessPointInformation": {
+                        "$ref": "#/components/schemas/AccessPointInformation"
+                    },
+                    "activity": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Activity"
+                        }
+                    },
+                    "additionalAttributes": {
+                        "type": "array",
+                        "description": "type",
+                        "example": [
+                            "SENSOR_EVENT"
+                        ],
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalServices": {
+                        "type": "array",
+                        "description": "type",
+                        "example": [
+                            "ADULT_SIGNATURE_REQUIRED",
+                            "SIGNATURE_REQUIRED",
+                            "ADDITIONAL_HANDLING",
+                            "CARBON_NEUTRAL",
+                            "UPS_PREMIER_SILVER",
+                            "UPS_PREMIER_GOLD",
+                            "UPS_PREMIER_PLATINUM"
+                        ],
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "alternateTrackingNumber": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AlternateTrackingNumber"
+                        }
+                    },
+                    "currentStatus": {
+                        "$ref": "#/components/schemas/Status"
+                    },
+                    "deliveryDate": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeliveryDate"
+                        }
+                    },
+                    "deliveryInformation": {
+                        "$ref": "#/components/schemas/DeliveryInformation"
+                    },
+                    "deliveryTime": {
+                        "$ref": "#/components/schemas/DeliveryTime"
+                    },
+                    "milestones": {
+                        "type": "array",
+                        "description": "milestones",
+                        "items": {
+                            "$ref": "#/components/schemas/Milestones"
+                        }
+                    },
+                    "packageAddress": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PackageAddress"
+                        }
+                    },
+                    "packageCount": {
+                        "type": "integer",
+                        "description": "packageCount",
+                        "format": "int32",
+                        "example": 2
+                    },
+                    "paymentInformation": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PaymentInformation"
+                        }
+                    },
+                    "referenceNumber": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReferenceNumber"
+                        }
+                    },
+                    "service": {
+                        "$ref": "#/components/schemas/Service"
+                    },
+                    "statusCode": {
+                        "type": "string"
+                    },
+                    "statusDescription": {
+                        "type": "string"
+                    },
+                    "suppressionIndicators": {
+                        "type": "array",
+                        "description": "suppressionIndicators",
+                        "example": "DETAIL",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "trackingNumber": {
+                        "type": "string"
+                    },
+                    "weight": {
+                        "$ref": "#/components/schemas/Weight"
+                    }
+                }
+            },
+            "PackageAddress": {
+                "title": "PackageAddress",
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "$ref": "#/components/schemas/Address"
+                    },
+                    "attentionName": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name",
+                        "example": "Sears"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "type",
+                        "example": "ORIGIN/DESTINATION"
+                    }
+                }
+            },
+            "PaymentInformation": {
+                "title": "PaymentInformation",
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "string",
+                        "description": "amount",
+                        "example": "243.5"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "description": "currency",
+                        "example": "EUR"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "id",
+                        "example": "3S35571M1L381K5O0P316L0M1R2E6H14"
+                    },
+                    "paid": {
+                        "type": "boolean",
+                        "description": "paid",
+                        "example": false
+                    },
+                    "paymentMethod": {
+                        "type": "string",
+                        "description": "paymentMethod",
+                        "example": "C0, C1, ... C9"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "type",
+                        "example": "ICOD/COD"
+                    }
+                }
+            },
+            "ReferenceNumber": {
+                "title": "ReferenceNumber",
+                "type": "object",
+                "properties": {
+                    "number": {
+                        "type": "string",
+                        "description": "number",
+                        "example": "ShipRef123"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "type",
+                        "example": "SHIPMENT"
+                    }
+                }
+            },
+            "Response": {
+                "title": "Response",
+                "type": "object",
+                "properties": {
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Error"
+                        }
+                    }
+                }
+            },
+            "Service": {
+                "title": "Service",
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "description": "code",
+                        "example": "518"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "description",
+                        "example": "UPS Ground"
+                    },
+                    "levelCode": {
+                        "type": "string",
+                        "description": "levelCode",
+                        "example": "011"
+                    }
+                }
+            },
+            "Shipment": {
+                "title": "Shipment",
+                "type": "object",
+                "properties": {
+                    "inquiryNumber": {
+                        "type": "string",
+                        "description": "inquiryNumber",
+                        "example": "1Z023E2X0214323462"
+                    },
+                    "package": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Package"
+                        }
+                    },
+                    "userRelation": {
+                        "type": "array",
+                        "description": "userRelation",
+                        "example": "MYCHOICE_HOME",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "warnings": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Warning"
+                        }
+                    }
+                }
+            },
+            "Signature": {
+                "title": "Signature",
+                "type": "object",
+                "properties": {
+                    "image": {
+                        "type": "string",
+                        "description": "image",
+                        "example": "encoding Base64"
+                    }
+                }
+            },
+            "Status": {
+                "title": "Status",
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "description": "code",
+                        "example": "SR"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "description",
+                        "example": "Your package was released by the customs agency."
+                    },
+                    "simplifiedTextDescription": {
+                        "type": "string",
+                        "description": "simplifiedTextDescription",
+                        "example": "Delivered"
+                    },
+                    "statusCode": {
+                        "type": "string",
+                        "description": "statusCode",
+                        "example": "003"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "type",
+                        "example": "X"
+                    }
+                }
+            },
+            "SubMilestone": {
+                "title": "SubMilestone",
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TrackApiResponse": {
+                "title": "TrackApiResponse",
+                "type": "object",
+                "properties": {
+                    "trackResponse": {
+                        "$ref": "#/components/schemas/TrackResponse"
+                    }
+                }
+            },
+            "TrackResponse": {
+                "title": "TrackResponse",
+                "type": "object",
+                "properties": {
+                    "shipment": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Shipment"
+                        }
+                    }
+                }
+            },
+            "Warning": {
+                "title": "Warning",
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Weight": {
+                "title": "Weight",
+                "type": "object",
+                "properties": {
+                    "unitOfMeasurement": {
+                        "type": "string"
+                    },
+                    "weight": {
+                        "type": "string"
+                    }
+                }
             }
-          }
         },
-        "description": "Inquiry number"
-      },
-      "Location": {
-        "title": "Location",
-        "type": "object",
-        "properties": {
-          "address": {
-            "$ref": "#/components/schemas/Address"
-          },
-          "slic": {
-            "type": "string",
-            "description": "slic",
-            "example": "8566"
-          }
-        }
-      },
-      "Milestones": {
-        "title": "Milestones",
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          },
-          "current": {
-            "type": "boolean"
-          },
-          "description": {
-            "type": "string"
-          },
-          "linkedActivity": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "subMilestone": {
-            "$ref": "#/components/schemas/SubMilestone"
-          }
-        }
-      },
-      "Package": {
-        "title": "Package",
-        "type": "object",
-        "properties": {
-          "accessPointInformation": {
-            "$ref": "#/components/schemas/AccessPointInformation"
-          },
-          "activity": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Activity"
-            }
-          },
-          "additionalAttributes": {
-            "type": "array",
-            "description": "type",
-            "example": [ "SENSOR_EVENT" ],
-            "items": {
-              "type": "string"
-            }
-          },
-          "additionalServices": {
-            "type": "array",
-            "description": "type",
-            "example": [
-              "ADULT_SIGNATURE_REQUIRED",
-              "SIGNATURE_REQUIRED",
-              "ADDITIONAL_HANDLING",
-              "CARBON_NEUTRAL",
-              "UPS_PREMIER_SILVER",
-              "UPS_PREMIER_GOLD",
-              "UPS_PREMIER_PLATINUM"
-            ],
-            "items": {
-              "type": "string"
-            }
-          },
-          "alternateTrackingNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AlternateTrackingNumber"
-            }
-          },
-          "currentStatus": {
-            "$ref": "#/components/schemas/Status"
-          },
-          "deliveryDate": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeliveryDate"
-            }
-          },
-          "deliveryInformation": {
-            "$ref": "#/components/schemas/DeliveryInformation"
-          },
-          "deliveryTime": {
-            "$ref": "#/components/schemas/DeliveryTime"
-          },
-          "milestones": {
-            "type": "array",
-            "description": "milestones",
-            "items": {
-              "$ref": "#/components/schemas/Milestones"
-            }
-          },
-          "packageAddress": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PackageAddress"
-            }
-          },
-          "packageCount": {
-            "type": "integer",
-            "description": "packageCount",
-            "format": "int32",
-            "example": 2
-          },
-          "paymentInformation": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PaymentInformation"
-            }
-          },
-          "referenceNumber": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReferenceNumber"
-            }
-          },
-          "service": {
-            "$ref": "#/components/schemas/Service"
-          },
-          "statusCode": {
-            "type": "string"
-          },
-          "statusDescription": {
-            "type": "string"
-          },
-          "suppressionIndicators": {
-            "type": "array",
-            "description": "suppressionIndicators",
-            "example": "DETAIL",
-            "items": {
-              "type": "string"
-            }
-          },
-          "trackingNumber": {
-            "type": "string"
-          },
-          "weight": {
-            "$ref": "#/components/schemas/Weight"
-          }
-        }
-      },
-      "PackageAddress": {
-        "title": "PackageAddress",
-        "type": "object",
-        "properties": {
-          "address": {
-            "$ref": "#/components/schemas/Address"
-          },
-          "attentionName": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string",
-            "description": "name",
-            "example": "Sears"
-          },
-          "type": {
-            "type": "string",
-            "description": "type",
-            "example": "ORIGIN/DESTINATION"
-          }
-        }
-      },
-      "PaymentInformation": {
-        "title": "PaymentInformation",
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "string",
-            "description": "amount",
-            "example": "243.5"
-          },
-          "currency": {
-            "type": "string",
-            "description": "currency",
-            "example": "EUR"
-          },
-          "id": {
-            "type": "string",
-            "description": "id",
-            "example": "3S35571M1L381K5O0P316L0M1R2E6H14"
-          },
-          "paid": {
-            "type": "boolean",
-            "description": "paid",
-            "example": false
-          },
-          "paymentMethod": {
-            "type": "string",
-            "description": "paymentMethod",
-            "example": "C0, C1, ... C9"
-          },
-          "type": {
-            "type": "string",
-            "description": "type",
-            "example": "ICOD/COD"
-          }
-        }
-      },
-      "ReferenceNumber": {
-        "title": "ReferenceNumber",
-        "type": "object",
-        "properties": {
-          "number": {
-            "type": "string",
-            "description": "number",
-            "example": "ShipRef123"
-          },
-          "type": {
-            "type": "string",
-            "description": "type",
-            "example": "SHIPMENT"
-          }
-        }
-      },
-      "Response": {
-        "title": "Response",
-        "type": "object",
-        "properties": {
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "Service": {
-        "title": "Service",
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "code",
-            "example": "518"
-          },
-          "description": {
-            "type": "string",
-            "description": "description",
-            "example": "UPS Ground"
-          }
-        }
-      },
-      "Shipment": {
-        "title": "Shipment",
-        "type": "object",
-        "properties": {
-          "inquiryNumber": {
-            "type": "string",
-            "description": "inquiryNumber",
-            "example": "1Z023E2X0214323462"
-          },
-          "package": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Package"
-            }
-          },
-          "userRelation": {
-            "type": "array",
-            "description": "userRelation",
-            "example": "MYCHOICE_HOME",
-            "items": {
-              "type": "string"
-            }
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Warning"
-            }
-          }
-        }
-      },
-      "Signature": {
-        "title": "Signature",
-        "type": "object",
-        "properties": {
-          "image": {
-            "type": "string",
-            "description": "image",
-            "example": "encoding Base64"
-          }
-        }
-      },
-      "Status": {
-        "title": "Status",
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "code",
-            "example": "SR"
-          },
-          "description": {
-            "type": "string",
-            "description": "description",
-            "example": "Your package was released by the customs agency."
-          },
-          "simplifiedTextDescription": {
-            "type": "string",
-            "description": "simplifiedTextDescription",
-            "example": "Delivered"
-          },
-          "statusCode": {
-            "type": "string",
-            "description": "statusCode",
-            "example": "003"
-          },
-          "type": {
-            "type": "string",
-            "description": "type",
-            "example": "X"
-          }
-        }
-      },
-      "SubMilestone": {
-        "title": "SubMilestone",
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string"
-          }
-        }
-      },
-      "TrackApiResponse": {
-        "title": "TrackApiResponse",
-        "type": "object",
-        "properties": {
-          "trackResponse": {
-            "$ref": "#/components/schemas/TrackResponse"
-          }
-        }
-      },
-      "TrackResponse": {
-        "title": "TrackResponse",
-        "type": "object",
-        "properties": {
-          "shipment": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Shipment"
-            }
-          }
-        }
-      },
-      "Warning": {
-        "title": "Warning",
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "Weight": {
-        "title": "Weight",
-        "type": "object",
-        "properties": {
-          "unitOfMeasurement": {
-            "type": "string"
-          },
-          "weight": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  }
+        "securitySchemes": {
+		  "oauth2": {
+			"type": "oauth2",
+			"description": "Find your Client ID and Secret on your app info page. <br/> 1. Select \\\"Try It\\\" <br/>  2. In the Security section enter your Client ID and Secret.<br/> 3. Select \\\"Request Token\\\"<br/> 4. Enter any additional information in the Body and Parameters sections.<br/> 5. Select \\\"Send\\\" to execute your API request",
+			"flows": {
+			  "clientCredentials": {
+				"x-tokenEndpointAuthMethod": "client_secret_basic",
+				"tokenUrl": "https://wwwcie.ups.com/security/v1/oauth/token",
+				"scopes": {}
+			  }
+			}
+		  }
+		}
+    },
+    "x-original-swagger-version": "2.0"
 }
