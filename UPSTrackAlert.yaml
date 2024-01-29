@@ -6,7 +6,8 @@ info:
     # Product Info
     
     The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
-    Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency.
+    Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency.<br /><a href="https://developer.ups.com/api/reference/trackalert/product-info"
+    target="_blank">Product Info</a>
     
     # Business Values
     
@@ -59,19 +60,19 @@ info:
     >  look up all codes on the Track Alert Codes file “X” type: exception codes “I” type: in transit codes “M” and “MV” type”: manifest codes “U” type: delivery update codes “D” type: delivery codes These codes can appear in more than one type (for example, a type X code may also appear with a type D code in the Track Alert message These codes typically appear with a different type code when a package is delivered to a UPS access point, returned to sender, or rerouted. The codes are updated monthly Ask for an updated listed if you discover a new code that does not have a description on the list. The primary or more common codes rarely change.
 
 servers:
-  - url: https://onlinetools.ups.com/api/track/{version}
-    description: UPS Production Oauth.
-    variables:
-      version:
-        default: v1
-        enum:
-          - v1
   - url: https://wwwcie.ups.com/api/track/{version}
     description: UPS Production CIE Oauth. This is for integration testing only and it will not create any subscription.
     variables:
       version:
        default: v1
        enum:
+          - v1
+  - url: https://onlinetools.ups.com/api/track/{version}
+    description: UPS Production Oauth.
+    variables:
+      version:
+        default: v1
+        enum:
           - v1
 security: 
   - oauth2: [] 
@@ -152,7 +153,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response'
+                $ref: '#/components/schemas/TrackSubsServiceErrorResponse'
               example:
                 errors:
                   - code: UJ0001
@@ -167,6 +168,12 @@ paths:
                 errors:
                   - code: "404"
                     message: The requested resource was not found.
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/TrackSubsServiceErrorResponse"
         '405':
           description: Method Not Allowed
           content:
@@ -177,6 +184,12 @@ paths:
                 errors:
                   - code: "405"
                     message: The requested method is not allowed for this resource.
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/TrackSubsServiceErrorResponse"
         '500':
           description: Internal Server Error
 components:
@@ -185,15 +198,15 @@ components:
       type: oauth2
       description: |
         "Find your Client ID and Secret on your app info page. <br/> 
-         1. Select \\\"Try It\\\" <br/>  
+         1. Select "Try It" <br/>  
          2. In the Security section enter your Client ID and Secret.<br/> 
-         3. Select \\\"Request Token\\\"<br/> 
+         3. Select \"Request Token\"<br/> 
          4. Enter any additional information in the Body and Parameters sections.<br/> 
-         5. Select \\\"Send\\\" to execute your API request"
+         5. Select "Send" to execute your API request"
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
-          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
+          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
           scopes: {}
   schemas:
     Destination:
