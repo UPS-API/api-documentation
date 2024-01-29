@@ -1,0 +1,653 @@
+openapi: 3.0.3
+info:
+  title: Landed Cost Quote API
+  description: |
+    The Landed Cost Quote API allows you to estimate the all-inclusive cost of international shipments - including applicable duties, VAT, taxes, brokerage fees, and other fees. Required parameters include the currency and shipment details, such as the commodity ID, price, quantity, and country code of origin.
+
+    Key Business Values:
+    - **Enhanced Customer Experience**: Get a quick and accurate quote on the landed cost of a shipment, including the cost of goods, transportation, and any other fees associated with getting the goods to their destination.
+    - **Operational Efficiency**: Simplify the process of calculating landed costs by eliminating the need to manually research and calculate all of the different fees involved.
+    - **Data-Driven Decision Making**: Improve decision-making by having a clear understanding of the total cost of shipping goods before you commit to a purchase..
+    - **Optimizing Cash Flow**: Streamline your shipping process by integrating the Landed Cost Quote API into your existing systems.
+  termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
+  version: ''
+servers:
+- url: https://wwwcie.ups.com/api/
+  description: Customer Integration Environment
+- url: https://onlinetools.ups.com/api/
+  description: Production
+tags:
+- name: LandedCost_other
+  x-displayName: Methods
+  description: |
+    Landed Cost provides an all-inclusive cost estimate of international shipments. 
+    - <a href="https://developer.ups.com/api/reference/landedcostquoting/business-rules" target="_blank">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/landedcostquoting/appendix" target="_blank">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/landedcostquoting/errors" target="_blank">Errors</a>
+    - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+paths:
+  "/landedcost/{version}/quotes":
+    post:
+      summary: Landed Cost Quote API
+      description: The Landed Cost Quote API allows you to estimate the all-inclusive
+        cost of international shipments - including applicable duties, VAT, taxes,
+        brokerage fees, and other fees. Required parameters include the currency and
+        shipment details, such as the commodity ID, price, quantity, and country code
+        of origin.
+      operationId: LandedCost
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: 'An identifier unique to the request. Length: 32'
+        required: true
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: 'An identifier of the client/source application that is making
+          the request. Length: 512'
+        required: true
+      - in: path
+        name: version
+        schema:
+          type: string
+          default: v1
+        description: Version of the API.
+        required: true
+      - in: header
+        name: AccountNumber
+        schema:
+          type: string
+        description: The UPS account number.
+      requestBody:
+        description: Generate sample code for popular API requests by selecting an
+          example below. To view a full sample request and response, first click "Authorize"
+          and enter your application credentials, then populate the required parameters
+          above and click "Try it out".
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/LandedCostRequest"
+            examples:
+              json:
+                summary: A sample JSON request (Standard Example)
+                value:
+                  currencyCode: GBP
+                  transID: '325467165'
+                  allowPartialLandedCostResult: false
+                  shipment:
+                    id: ShipmentID83
+                    importCountryCode: GB
+                    importProvince: ''
+                    shipDate: ''
+                    exportCountryCode: US
+                    incoterms: ''
+                    shipmentItems:
+                    - commodityId: '1'
+                      grossWeight: ''
+                      grossWeightUnit: ''
+                      priceEach: '125'
+                      hsCode: '400932'
+                      quantity: 24
+                      UOM: Each
+                      originCountryCode: GB
+                      commodityCurrencyCode: GBP
+                      description: ''
+                    - commodityId: '4'
+                      grossWeight: ''
+                      grossWeightUnit: ''
+                      priceEach: '0.5'
+                      hsCode: ''
+                      quantity: 900
+                      UOM: Each
+                      originCountryCode: GB
+                      commodityCurrencyCode: GBP
+                      description: Cord5mm{PK50Yellow/Red
+                    transModes: ''
+                    transportCost: ''
+                    shipmentType: Sale
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LandedCostResponse"
+              examples:
+                json:
+                  summary: A sample JSON response
+                  value:
+                    shipment:
+                      currencyCode: GBP
+                      id: ShipmentID83
+                      brokerageFeeItems:
+                      - chargeName: DisbursementFee
+                        chargeAmount: 19.05
+                      - chargeName: EntryPreparationFee
+                        chargeAmount: 5.6
+                      totalBrokerageFees: 24.65
+                      totalDuties: 60
+                      totalCommodityLevelTaxesAndFees: 0
+                      totalShipmentLevelTaxesAndFees: 0
+                      totalVAT: 702
+                      totalDutyandTax: 762
+                      grandTotal: 786.65
+                      importCountryCode: GB
+                      shipmentItems:
+                      - commodityId: '1'
+                        commodityDuty: 60
+                        totalCommodityTaxesAndFees: 0
+                        commodityVAT: 612
+                        totalCommodityDutyandTax: 672
+                        commodityCurrencyCode: GBP
+                        isCalculable: true
+                        hsCode: '4009320090'
+                      - commodityId: '4'
+                        commodityDuty: 0
+                        totalCommodityTaxesAndFees: 0
+                        commodityVAT: 90
+                        totalCommodityDutyandTax: 90
+                        commodityCurrencyCode: GBP
+                        isCalculable: true
+                        hsCode: '8546901000'
+                    alversion: 0
+                    dpversion:
+                    transID: '325467165'
+                    error:
+                    perfStats:
+                      absLayerTime: '139'
+                      fulfillTime: ThuFeb027:56:53.231-05:002023
+                      receiptTime: ThuFeb027:56:53.091-05:002023
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+security:
+- oauth2: []
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page.
+        1. Select \"Try It\"
+        2. In the Security section enter your Client ID and Secret.
+        3. Select \"Request Token\"
+        4. Enter any additional information in the Body and Parameters sections. 
+        5. Select \"Send\" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
+          scopes: {}
+  schemas:
+    LandedCostRequest:
+      type: object
+      required:
+      - currencyCode
+      - transID
+      - alversion
+      - shipment
+      properties:
+        currencyCode:
+          type: string
+          maximum: 1
+          maxLength: 3
+          description: Specifies the currency of transaction or purchase.
+          example: USD, CAD, EUR
+        transID:
+          type: string
+          maximum: 1
+          maxLength: 50
+          description: Unique transaction ID for the request.
+          example: LCUAT20220208053048_197985278292494
+        allowPartialLandedCostResult:
+          type: boolean
+          maximum: 1
+          description: |-
+            An optional flag to indicate that partial landed cost calculations are acceptable to be used by upstream systems.
+            When set to *false*, the system will return an error when at least one commodity in the shipment is invalid (all or none), and no results  will be sent back for that request. When set to *true*, the system will return partial calculations when applicable.
+
+            Valid values: true = Partial Landed Cost result will return. false = All or No result will return (default).
+        alversion:
+          type: integer
+          maximum: 1
+          description: Version number of the instance that processed this request.
+            This must match the major number of the corresponding ICD version.
+          example: 1, 2, 3
+        shipment:
+          "$ref": "#/components/schemas/LandedCostRequest_Shipment"
+      xml:
+        name: LandedCostRequest
+      maximum: 1
+      description: The root element for the Landed Cost document.
+    LandedCostRequest_Shipment:
+      type: object
+      maximum: 1
+      description: Every Landed Cost request must be based on a shipment.
+      required:
+      - id
+      - importCountryCode
+      - exportCountryCode
+      - shipmentItems
+      properties:
+        id:
+          maximum: 1
+          maxLength: 100
+          type: string
+          description: Specifies the Shipment ID in the Landed Cost quote. It is an
+            arbitrary string provided by the user of the API and will be  returned
+            with the Landed Cost Quote to indicate which shipment the tariffs apply
+            to. There are similar IDs associated with the Product and Order objects.
+        importCountryCode:
+          maximum: 1
+          maxLength: 2
+          type: string
+          description: Specifies the Import/Ship-To/Destination/Final country of the
+            shipment. Please check country list in the Appendix.
+          example: US, MX, CA
+        importProvince:
+          maximum: 1
+          type: string
+          maxLength: 100
+          description: Province/State is supported only for a few countries such as
+            Mexico, Canada, etc. Please check Province list in the Appendix
+          example: Alberta, Ontario, North Frontier Zone
+        shipDate:
+          type: string
+          maximum: 1
+          maxLength: 10
+          description: 'Defaults to current date if not provided. Date format: YYYY-MM-DD.'
+          example: '2022-02-28'
+        incoterms:
+          type: string
+          maximum: 1
+          maxLength: 3
+          description: "Supported Incoterm Values:\n1. CFR - Cost & Freight \n2. CIF
+            - Cost, Insurance & Freight \n3. CIP - Carriage and Insurance Paid-To
+            \n4. CPT - Carriage Paid-To \n5. DAP - Delivered At Place \n6. DAT - Delivered
+            At Terminal \n7. DDP - Delivered Duty Paid \n8. DPU - Delivered at Place
+            Unloaded \n9. EXW - Ex Works \n10. FAS - Free Alongside Ship \n11. FCA
+            - Free Carrier \n12. FOB - Free On Board (Default)"
+          default: FOB
+          example: FOB, CFR
+        exportCountryCode:
+          type: string
+          maximum: 1
+          maxLength: 2
+          description: |-
+            Specifies the export/ship-from/origin country of the shipment. Please check country List in the Appendix section.
+
+            **Note:** Export country code must be different from the import country code.
+          example: DE, CN, JP
+        transModes:
+          type: string
+          maximum: 1
+          maxLength: 9
+          description: "The modes of transportation (in upper case).\nSupported Values:
+            \n1. INT_AIR 2. \nINT_OCEAN \n3. INT_RAIL \n4. INT_TRUCK \n5. DOM_AIR
+            \n6. DOM_OCEAN \n7. DOM_RAIL \n8. DOM_TRUCK \n\nDefault value will vary
+            based on the import country."
+        transportCost:
+          maximum: 1
+          type: number
+          description: "Specifies the Freight charge or transport costs, which are
+            used for tariff calculations. Landed cost result might have some dependency
+            on the freight charges in some countries. Therefore, freight amount should
+            be always provided for accurate Landed Cost result. \n\nAllowed values:\n
+            1. Any non-negative floating-point number. \n2. Numeric value with optional
+            decimal value."
+          example: 100.6
+        shipmentType:
+          type: string
+          maximum: 1
+          maxLength: 35
+          description: "Specifies the shipment type such as Gift, Document, Commercial
+            (Sale), etc.\n\nSupported Shipment Types: \n1. GIFT \n2. COMMERCIAL \n3.
+            SALE \n4. SAMPLE \n5. REPAIR \n6. RETURN \n7. OTHER \n\nDefault value
+            will vary and based on import country."
+        shipmentItems:
+          type: array
+          maximum: 99
+          items:
+            "$ref": "#/components/schemas/Request_ShipmentItems"
+          description: Array of shipment item objects (commodities), that are in a
+            shipment.
+    Request_ShipmentItems:
+      type: object
+      required:
+      - commodityId
+      - priceEach
+      - commodityCurrencyCode
+      - quantity
+      - UOM
+      - originCountryCode
+      properties:
+        commodityId:
+          type: string
+          maximum: 1
+          maxLength: 100
+          description: Commodity ID is used to associate tariffs with product in the
+            output. Should be unique for each commodity in a request. It is an arbitrary
+            string provided by the user of the API that will be returned with the
+            Landed Cost Quote to indicate which commodity the tariffs apply to.
+        grossWeight:
+          type: number
+          maximum: 1
+          description: Specifies the gross weight of the commodity as any non-negative
+            value.
+          example: 10.34
+        grossWeightUnit:
+          type: string
+          maximum: 1
+          maxLength: 2
+          description: 'Specifies the units of the gross weight. Required if GrossWeight
+            is used. If GrossWeight is not specified, this value must not be set to
+            anything but null. Supported values: LB, KG'
+          example: KG
+        priceEach:
+          type: number
+          maximum: 1
+          description: Specifies the price for each commodity unit in the settlement
+            currency. The total price of the entire number of shipmentItems may not
+            exceed 999999999999.99
+          example: 346.32
+        commodityCurrencyCode:
+          type: string
+          maximum: 1
+          maxLength: 3
+          description: Specifies the Currency Code used for commodity price. All commodities
+            must have the same currency code.
+          example: USD, CAD, EUR
+        quantity:
+          type: integer
+          maximum: 1
+          description: Specifies the number of product units to be shipped. The total
+            price of the entire number of shipmentItems may not exceed 999999999999.99,
+            1 or greater than 1
+        UOM:
+          type: string
+          maximum: 1
+          description: Specifies unit of measure. Check UOM List in the Appendices
+            section.
+          example: KILOGRAM, BAG
+        hsCode:
+          type: string
+          maximum: 1
+          maxLength: 40
+          description: Specifies a valid HS or HTS code for the shipment's destination
+            or import country. This field is required if description is not provided.
+          example: '0901.90.00.10'
+        description:
+          type: string
+          maximum: 1
+          maxLength: 150
+          description: This field is populated with description of the commodity.
+            This field is required if hsCode is not provided.
+        originCountryCode:
+          type: string
+          maximum: 1
+          maxLength: 2
+          description: Country of Manufacture or origin.
+          example: US, CA, JP, MX
+    LandedCostResponse:
+      type: object
+      required:
+      - shipment
+      - alVersion
+      - perfStats
+      - transID
+      properties:
+        shipment:
+          type: object
+          required:
+          - currencyCode
+          - importCountryCode
+          - id
+          - brokerageFeeItems
+          - totalBrokerageFees
+          - totalDuties
+          - totalCommodityLevelTaxesAndFees
+          - totalShipmentLevelTaxesAndFees
+          - totalVAT
+          - totalDutyAndTax
+          - grandTotal
+          - shipmentItems
+          description: Every Landed Cost response must be based on a shipment.
+          properties:
+            currencyCode:
+              type: string
+              maximum: 1
+              maxLength: 3
+              description: Specifies the Currency Code set at the commodity level.
+                This currency is applicable for all duty, tax, VAT, and fee at the
+                shipment and commodity level.
+              example: USD, CAD, EUR
+            importCountryCode:
+              type: string
+              maximum: 1
+              maxLength: 2
+              description: Specifies the Import/Ship-To/Destination/Final country
+                of the shipment. Please check country list in the Appendices section.
+              example: US, CA, MX
+            id:
+              type: string
+              maximum: 1
+              maxLength: 100
+              description: Specifies the Shipment ID in the Landed Cost quote.
+            brokerageFeeItems:
+              type: array
+              maximum: 1
+              items:
+                "$ref": "#/components/schemas/brokerageFeeItems"
+              description: An array of Brokerage fees.
+            totalBrokerageFees:
+              type: number
+              maximum: 1
+              description: Grand total of all applicable Brokerage fees.
+            totalDuties:
+              type: number
+              maximum: 1
+              description: Total duty amount of this shipment.
+            totalCommodityLevelTaxesAndFees:
+              type: number
+              maximum: 1
+              description: Total tax and other fees at commodity level.
+            totalShipmentLevelTaxesAndFees:
+              type: number
+              maximum: 1
+              description: Total tax and other fees at shipment level.
+            totalVAT:
+              type: number
+              maximum: 1
+              description: Total VAT of the shipment.
+            totalDutyAndTax:
+              type: number
+              maximum: 1
+              description: Grand total of the combined duty, VAT, tax, and other fees
+                of all commodities in this shipment including shipment level taxes
+                and fees.
+            grandTotal:
+              type: number
+              maximum: 1
+              description: Sum of totalDutyAndTax + totalBrokerageFees
+            shipmentItems:
+              type: array
+              items:
+                "$ref": "#/components/schemas/Response_ShipmentItems"
+              maximum: 99
+              description: An array of Landed Cost for all valid commodities.
+            transID:
+              type: string
+              maxLength: 50
+              description: An identifier unique to the request.
+            perfStats:
+              type: object
+              maximum: 1
+              required:
+              - absLayerTime
+              - fulfillTime
+              - receiptTime
+              description: See ALPerfStats
+              properties:
+                absLayerTime:
+                  type: string
+                  maximum: 1
+                  maxLength: 20
+                  description: Time taken through the abstraction layer in milliseconds.
+                fulfillTime:
+                  type: string
+                  maximum: 1
+                  maxLength: 32
+                  description: Time taken to complete the request.
+                receiptTime:
+                  type: string
+                  maximum: 1
+                  maxLength: 32
+                  description: Time taken to receive the request.
+            alVersion:
+              type: integer
+              maximum: 1
+              maxLength: 10
+              description: Version number of the instance that processed this request.
+                Default is 1.
+            errors:
+              "$ref": "#/components/schemas/Errors"
+      xml:
+        name: LandedCostResponse
+      maximum: 1
+    brokerageFeeItems:
+      properties:
+        chargeName:
+          type: string
+          maximum: 1
+          maxLength: 50
+          description: "Brokerage charge name for this shipment. Possible Values:\n1.
+            Entry Preparation Fee \n2. Disbursement Fee \n3. Additional Line Fee"
+        chargeAmount:
+          type: number
+          maximum: 1
+          description: Fee amount for the brokerage charges.
+          example: 10.56
+    Response_ShipmentItems:
+      required:
+      - commodityID
+      - hsCode
+      - commodityDuty
+      - commodityVAT
+      - totalCommodityDutyAndTax
+      - commodityCurrencyCode
+      - isCalculable
+      properties:
+        commodityID:
+          type: string
+          maximum: 1
+          description: Specifies the commodity ID.
+        hsCode:
+          type: string
+          maxLength: 40
+          maximum: 1
+          description: Specifies the HTS code of the commodity.
+        commodityDuty:
+          type: number
+          maximum: 1
+          description: Duty amount for this commodity.
+        totalCommodityTaxAndFee:
+          type: number
+          maximum: 1
+          description: Total tax and other fees for this commodity (excluding commodity
+            duty and VAT).
+        commodityVAT:
+          type: number
+          maximum: 1
+          description: VAT amount for this commodity.
+        totalCommodityDutyAndTax:
+          type: number
+          maximum: 1
+          description: Sum of commodity duty, VAT, tax, and other fees for this commodity.
+        commodityCurrencyCode:
+          type: string
+          maximum: 1
+          maxLength: 3
+          description: Specifies the currency code used for commodity's price.
+        isCalculable:
+          type: boolean
+          maximum: 1
+          description: True/False. Indicates if Landed Cost can successful calculated
+            for this commodity.
+          example: true, false
+    Errors:
+      type: object
+      maximum: 99
+      description: Error code and description
+      properties:
+        code:
+          type: string
+          maximum: 1
+          maxLength: 20
+          description: Error Code
+        description:
+          type: string
+          maximum: 1
+          maxLength: 128
+          description: Description of the error.
+        message:
+          type: string
+          maximum: 1
+          maxLength: 128
+          description: Consumer tailored error message.
+        value:
+          type: string
+          maximum: 1
+          maxLength: 128
+          description: The value that caused the error.
+        field:
+          type: string
+          maximum: 1
+          maxLength: 256
+          description: The path to the field causing the error, as returned from the
+            backend services.
+    ErrorResponse:
+      type: object
+      properties:
+         errors: 
+          type: array
+          description: The error response containing any errors that occurred.
+          items: 
+            $ref: '#/components/schemas/ErrorMessage'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: Locale is required. The Subscription request has been rejected.
+      description: The error response containing any errors that occurred
