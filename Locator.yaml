@@ -14,10 +14,10 @@ tags:
   description: |
     The Locator API allows you to find UPS locations - such as drop-off points, retail locations, and UPS access points (third-party retail locations that offer UPS package drop-off, or delivery services). The API provides capabilities to search by location, services offered, program types, and related criteria. You can also retrieve hours of operation, location details, and additional UPS services offered at specific locations.
 
-    - <a href="https://developer.ups.com/api/reference/locator/business-rules" target="_blank">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/locator/appendix" target="_blank">Appendix</a>
-    - <a href="https://developer.ups.com/api/reference/locator/errors" target="_blank">Errors</a>
-    - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/locator/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/locator/appendix" target="_blank" rel="noopener">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/locator/errors" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 paths:
   "/locations/{version}/search/availabilities/{reqOption}":
     post:
@@ -41,8 +41,150 @@ paths:
         name: version
         schema:
           type: string
+          default: v2
+        description: |
+            Version of API
+
+            Valid values:
+            - v2
+        required: true
+      - in: path
+        name: reqOption
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 4
+        description: "Indicates the type of request.\nValid values:\n1-Locations (Drop
+          Locations and Will call locations)\n8-All available Additional Services\n16-All
+          available Program Types\n24-All available Additional Services and Program
+          types\n32-All available Retail Locations\n40-All available Retail Locations
+          and Additional Services \n48-All available Retail Locations and Program
+          Types \n56-All available Retail Locations, Additional Services and Program
+          Types \n64-Search for UPS Access Point Locations.  "
+        required: true
+      - in: query
+        name: Locale
+        schema:
+          type: string
+          default: en_US
+        description: Locale of request
+      requestBody:
+        description: Generate sample code for popular API requests by selecting an
+          example below. To view a full sample request and response, first click "Authorize"
+          and enter your application credentials, then populate the required parameters
+          above and click "Try it out".
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/LOCATORRequestWrapper"
+            examples:
+              json:
+                summary: A sample JSON request (Standard Example)
+                value:
+                  LocatorRequest:
+                    Request:
+                      TransactionReference:
+                        CustomerContext: ''
+                      RequestAction: Locator
+                      RequestOption: '56'
+                    OriginAddress:
+                      AddressKeyFormat:
+                        AddressLine: 123 Fork rd
+                        PoliticalDivision2: Atlanta
+                        PoliticalDivision1: PE
+                        PostcodePrimaryLow: '30005'
+                        PostcodeExtendedLow: '30005'
+                        CountryCode: US
+                      MaximumListSize: '10'
+                    Translate:
+                      LanguageCode: ENG
+                      Locale: en_US
+                    UnitOfMeasurement:
+                      Code: MI
+                    LocationSearchCriteria:
+                      SearchOption:
+                      - OptionType:
+                          Code: '01'
+                        OptionCode:
+                          Code: '001'
+                        Relation:
+                          Code: '01'
+                      - OptionType:
+                          Code: '01'
+                        OptionCode:
+                        - Code: '001'
+                        - Code: '001'
+                        Relation:
+                          Code: '01'
+                      MaximumListSize: '10'
+                      SearchRadius: '75'
+                      ServiceSearch:
+                        Time: '1030'
+                        ServiceCode:
+                          Code: '01'
+                    SortCriteria:
+                      SortType: '01'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LOCATORResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/locations/{deprecatedVersion}/search/availabilities/{reqOption}":
+    post:
+      deprecated: true
+      summary: Locator
+      description: The Locator API allows you to find UPS locations - such as drop-off points, retail locations, and UPS access points (third-party retail locations that offer UPS package drop-off, or delivery services). The API provides capabilities to search by location, services offered, program types, and related criteria. You can also retrieve hours of operation, location details, and additional UPS services offered at specific locations.
+      operationId: Locator
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: An identifier unique to the request. Length 32
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: An identifier of the client/source application that is making
+          the request.Length 512
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
           default: v1
-        description: Version of API
+        description: |
+            Version of API
+
+            Valid values:
+            - v1
         required: true
       - in: path
         name: reqOption
@@ -926,7 +1068,6 @@ components:
           maxLength: 35
       xml:
         name: ServiceOffering
-      description: Container for Service offering code.  
     AccessPointSearch_ExcludeFromResult:
       type: object
       maximum: 1
@@ -1183,19 +1324,21 @@ components:
           minLength: 1
           maxLength: 5
         ErrorLocation:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Error_ErrorLocation"
-            type: array
-          - "$ref": "#/components/schemas/Error_ErrorLocation"
+          description: |
+              Identifies the element in error.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Error_ErrorLocation"
         ErrorDigest:
-          description: The contents of the element in error.
-          oneOf:
-          - items:
-              type: string
-            type: array
-            maximum: 1
-          - type: string
+          description: |
+              The contents of the element in error.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            type: string
       xml:
         name: Error
       description: If an error is encountered during the interchange, the Response
@@ -1221,7 +1364,6 @@ components:
           maxLength: 50
       xml:
         name: ErrorLocation
-      description: Identifies the element in error.
     LocatorResponse_Geocode:
       type: object
       maximum: 1
@@ -1245,17 +1387,15 @@ components:
       type: object
       properties:
         GeocodeCandidate:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/SearchResults_GeocodeCandidate"
-            type: array
-          - "$ref": "#/components/schemas/SearchResults_GeocodeCandidate"
+          description: |
+              If the origin address provided in the location request document does not have a match, a list of candidate addresses, geocodes and optionally a landmark will be returned.
+              
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SearchResults_GeocodeCandidate"
         Disclaimer:
-          oneOf:
-          - items:
-              type: object
-            type: array
-          - type: object
+          type: string
           description: "Disclaimer. In the event the user requested Ground and Air
             service types and the maximum UPS locations list size has not been met,
             the list of locations will continue with locations that provide either
@@ -1265,13 +1405,21 @@ components:
             pickup option if the first location is greater than 20 miles from the
             origin."
         DropLocation:
-          "$ref": "#/components/schemas/SearchResults_DropLocation"
+          description: |
+              When a location request is submitted with a valid origin address, UPS locations will be returned.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SearchResults_DropLocation"
         AvailableLocationAttributes:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/SearchResults_AvailableLocationAttributes"
-            type: array
-          - "$ref": "#/components/schemas/SearchResults_AvailableLocationAttributes"
+          description: |
+              This container contains the information about the currently existing Retail Locations or Additional Services or Program types.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SearchResults_AvailableLocationAttributes"
         ActiveAvailableAccessPointIndicator:
           description: "Indicates whether the country or territory has AccessPoints
             or not. \n\nThis tag is populated in the Response only if tag \"ExistIndicator\"
@@ -1303,9 +1451,6 @@ components:
       xml:
         name: GeocodeCandidate
       maximum: 1
-      description: If the origin address provided in the location request document
-        does not have a match, a list of candidate addresses, geocodes and optionally
-        a landmark will be returned.
     GeocodeCandidate_AddressKeyFormat:
       type: object
       maximum: 1
@@ -1394,19 +1539,19 @@ components:
         AddressKeyFormat:
           "$ref": "#/components/schemas/DropLocation_AddressKeyFormat"
         PhoneNumber:
-          description: "The UPS locations Phone number. A phone number of the location
-            will be returned. \n10 digits allowed for US, otherwise 1..15 digits allowed.
-            \nThe phone number will be returned as a string."
-          oneOf:
-          - items:
-              type: string
-              minLength: 1
-              maxLength: 15
-              maximum: 1
-            type: array
-          - minLength: 1
-            maxLength: 15
+          description: |
+              The UPS locations Phone number. A phone number of the location will be returned. 
+              
+              10 digits allowed for US, otherwise 1..15 digits allowed. 
+              
+              The phone number will be returned as a string.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
             type: string
+            minLength: 1
+            maxLength: 15
         FaxNumber:
           description: "The UPS location's Fax number. A fax number of the location
             will be returned when available. \n10 digits allowed for US, otherwise
@@ -1422,50 +1567,49 @@ components:
           minLength: 1
           maxLength: 50
         LocationAttribute:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/DropLocation_LocationAttribute"
-            type: array
-          - "$ref": "#/components/schemas/DropLocation_LocationAttribute"
+          description: |
+              OptionType is a container that indicates the type of the location attribute. 
+              
+              There are 4 types of attributes. 
+              
+              They are: Location, Retail Location, Additional Services and Program Type.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/DropLocation_LocationAttribute"
         Distance:
           "$ref": "#/components/schemas/DropLocation_Distance"
         SpecialInstructions:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/DropLocation_SpecialInstructions"
-            type: array
-          - "$ref": "#/components/schemas/DropLocation_SpecialInstructions"
+          description: |
+              Walking directions.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/DropLocation_SpecialInstructions"
         LatestGroundDropOffTime:
-          description: "The latest ground time the users can Drop-off the package
-            at the location to be picked up. The time information is based on the
-            time at the UPS location. \nWhen a user specifies a Drop-off Time and
-            Ground as the Service Type, the locations that have latest Drop-off times
-            equal to or later than the specified Drop-off time and service type are
-            returned."
-          oneOf:
-          - items:
-              maximum: 1
-              minLength: 4
-              maxLength: 6
-              type: string
-            type: array
-          - minLength: 4
+          description: |
+              The latest ground time the users can Drop-off the package at the location to be picked up. The time information is based on the time at the UPS location.
+              
+              When a user specifies a Drop-off Time and Ground as the Service Type, the locations that have latest Drop-off times equal to or later than the specified Drop-off time and service type are returned.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            minLength: 4
             maxLength: 6
             type: string
         LatestAirDropOffTime:
-          description: "The latest airtime the users can Drop-off the package at the
-            location to be picked up. The time information is based on the time at
-            the UPS location. \nWhen a user specifies a Drop-off Time and Air as the
-            Service Type, the locations that have latest Drop-off times equal to or
-            later than the specified Drop-off time and service type are returned."
-          oneOf:
-          - items:
-              maximum: 1
-              minLength: 4
-              maxLength: 6
-              type: string
-            type: array
-          - minLength: 4
+          description: |
+              The latest airtime the users can Drop-off the package at the location to be picked up. The time information is based on the time at the UPS location.
+              
+              When a user specifies a Drop-off Time and Air as the Service Type, the locations that have latest Drop-off times equal to or later than the specified Drop-off time and service type are returned.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            minLength: 4
             maxLength: 6
             type: string
         AdditionalChargeIndicator:
@@ -1514,12 +1658,13 @@ components:
         AdditionalComments:
           "$ref": "#/components/schemas/DropLocation_AdditionalComments"
         Disclaimer:
-          description: Textual disclaimer about the drop location.
-          oneOf:
-          - items:
-              type: string
-            type: array
-          - type: string
+          description: |
+              Textual disclaimer about the drop location.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            type: string
         SLIC:
           description: SLIC.
           maximum: 1
@@ -1541,17 +1686,21 @@ components:
         OperatingHours:
           "$ref": "#/components/schemas/DropLocation_OperatingHours"
         LocalizedInstruction:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/DropLocation_LocalizedInstruction"
-            type: array
-          - "$ref": "#/components/schemas/DropLocation_LocalizedInstruction"
+          description: |
+              LocalizedInstruction container. Applicable for SearchOptionCode 01, 02, 03.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/DropLocation_LocalizedInstruction"
         PromotionInformation:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/DropLocation_PromotionInformation"
-            type: array
-          - "$ref": "#/components/schemas/DropLocation_PromotionInformation"
+          description: |
+              Container to hold any promotion text for the location. Text will be displayed in English or the locale given in the request.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/DropLocation_PromotionInformation"
         SortCode:
           "$ref": "#/components/schemas/DropLocation_SortCode"
         ServiceOfferingList:
@@ -1597,8 +1746,6 @@ components:
           maxLength: 1
       xml:
         name: DropLocation
-      description: When a location request is submitted with a valid origin address,
-        UPS locations will be returned.
     DropLocation_IVR:
       type: object
       maximum: 1
@@ -1693,11 +1840,17 @@ components:
         OptionType:
           "$ref": "#/components/schemas/LocationAttribute_OptionType"
         OptionCode:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/LocationAttribute_OptionCode"
-            type: array
-          - "$ref": "#/components/schemas/LocationAttribute_OptionCode"
+           description: |
+               Option code is a container that contains the information of a particular type of Location or retail location or additional service or program type that the drop location contains.
+               
+               If the OptionType is Location or Retail Location Type there will be one code since each location has only one location type or retail location type.
+               
+               If the Option type is additional services or program types there can be one or more option codes.
+
+               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+           type: array
+           items:
+             "$ref": "#/components/schemas/LocationAttribute_OptionCode"
       xml:
         name: LocationAttribute
       description: LocationAttribute is a container that contains the information
@@ -1727,9 +1880,6 @@ components:
           maxLength: 50
       xml:
         name: OptionType
-      description: "OptionType is a container that indicates the type of the location
-        attribute. \nThere are 4 types of attributes. \nThey are: Location, Retail
-        Location, Additional Services and Program Type."
     LocationAttribute_OptionCode:
       type: object
       properties:
@@ -1765,23 +1915,19 @@ components:
       required:
       - Description
       - Code
-      description: "Option code is a container that contains the information of a
-        particular type of Location or retail location or additional service or program
-        type that the drop location contains. \nIf the OptionType is Location or Retail
-        Location Type there will be one code since each location has only one location
-        type or retail location type. \nIf the Option type is additional services
-        or program types there can be one or more option codes."
     OptionCode_TransportationPickUpSchedule:
       type: object
       required:
       - PickUp
       properties:
         PickUp:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/TransportationPickUpSchedule_PickUp"
-            type: array
-          - "$ref": "#/components/schemas/TransportationPickUpSchedule_PickUp"
+          description: |
+              PickUp container contains details of day of week and corresponding pickup times for that service.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/TransportationPickUpSchedule_PickUp"
       xml:
         name: TransportationPickUpSchedule
       description: TransportationPickUpSchedule container contains details of Latest Drop Off time/Pickup Time for the transportation services (Ground/Air/Standard/Express/International) of the location. 
@@ -1809,7 +1955,6 @@ components:
           "$ref": "#/components/schemas/PickUp_PickUpDetails"
       xml:
         name: PickUp
-      description: PickUp container contains details of day of week and corresponding pickup times for that service.
     PickUp_PickUpDetails:
       type: object
       properties:
@@ -1881,18 +2026,19 @@ components:
           maximum: 1
       xml:
         name: SpecialInstructions
-      description: Walking directions.
     DropLocation_AdditionalComments:
       type: object
       required:
       - CommentType
       properties:
         CommentType:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/AdditionalComments_CommentType"
-            type: array
-          - "$ref": "#/components/schemas/AdditionalComments_CommentType"
+          description: |
+              Container for CommentType Code and Text.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/AdditionalComments_CommentType"
       xml:
         name: AdditionalComments
       description: Container for Additional Comments about Location.Text will be displayed
@@ -1919,16 +2065,17 @@ components:
           maxLength: 255
       xml:
         name: CommentType
-      description: Container for CommentType Code and Text.
     DropLocation_OperatingHours:
       type: object
       properties:
         StandardHours:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/OperatingHours_StandardHours"
-            type: array
-          - "$ref": "#/components/schemas/OperatingHours_StandardHours"
+          description: |
+              StandardHours Container.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/OperatingHours_StandardHours"
       xml:
         name: OperatingHours
       description: Operating Hours.
@@ -1949,14 +2096,15 @@ components:
           minLength: 2
           maxLength: 2
         DayOfWeek:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/StandardHours_DayOfWeek"
-            type: array
-          - "$ref": "#/components/schemas/StandardHours_DayOfWeek"
+          description: |
+              Container for the Day of Week.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/StandardHours_DayOfWeek"
       xml:
         name: StandardHours
-      description: StandardHours Container.
     StandardHours_DayOfWeek:
       type: object
       maximum: 1
@@ -2016,7 +2164,6 @@ components:
           maxLength: 5
       xml:
         name: DayOfWeek
-      description: Container for the Day of Week.
     DropLocation_LocalizedInstruction:
       type: object
       maximum: 1
@@ -2040,8 +2187,6 @@ components:
           maxLength: 750
       xml:
         name: LocalizedInstruction
-      description: LocalizedInstruction container. Applicable for SearchOptionCode
-        01,02,03.
     DropLocation_PromotionInformation:
       type: object
       maximum: 1
@@ -2063,8 +2208,6 @@ components:
           maxLength: 100
       xml:
         name: PromotionInformation
-      description: Container to hold any promotion text for the location. Text will
-        be displayed in English or the locale given in the request
     DropLocation_SortCode:
       type: object
       maximum: 1
@@ -2090,11 +2233,13 @@ components:
       - ServiceOffering
       properties:
         ServiceOffering:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/ServiceOfferingList_ServiceOffering"
-            type: array
-          - "$ref": "#/components/schemas/ServiceOfferingList_ServiceOffering"
+          description: |
+              Container for Service offering code.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/ServiceOfferingList_ServiceOffering"
       xml:
         name: ServiceOfferingList
       description: Container to hold the list of service offerings at the end point.
@@ -2139,11 +2284,13 @@ components:
       - BusinessClassification
       properties:
         BusinessClassification:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/BusinessClassificationList_BusinessClassification"
-            type: array
-          - "$ref": "#/components/schemas/BusinessClassificationList_BusinessClassification"
+          description: |
+              Container to hold Business classification of UPS access point.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/BusinessClassificationList_BusinessClassification"
       xml:
         name: BusinessClassificationList
       description: Container to hold list for business classification.
@@ -2169,7 +2316,6 @@ components:
           maxLength: 35
       xml:
         name: BusinessClassification
-      description: Container to hold Business classification of UPS access point.
     AccessPointInformation_AccessPointStatus:
       type: object
       maximum: 1
@@ -2198,11 +2344,13 @@ components:
       - PrivateNetwork
       properties:
         PrivateNetwork:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/PrivateNetworkList_PrivateNetwork"
-            type: array
-          - "$ref": "#/components/schemas/PrivateNetworkList_PrivateNetwork"
+          description: |
+              Container to hold the private network details.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/PrivateNetworkList_PrivateNetwork"
       xml:
         name: PrivateNetworkList
       description: Container to hold the list of private networks.
@@ -2228,7 +2376,6 @@ components:
           maxLength: 50
       xml:
         name: PrivateNetwork
-      description: Container to hold the private network details.
     AccessPointInformation_Availability:
       type: object
       properties:
@@ -2342,8 +2489,6 @@ components:
           "$ref": "#/components/schemas/AvailableLocationAttributes_OptionCode"
       xml:
         name: AvailableLocationAttributes
-      description: This container contains the information about the currently existing
-        Retail Locations or Additional Services or Program types.
     AvailableLocationAttributes_OptionType:
       type: object
       maximum: 1
@@ -2405,11 +2550,13 @@ components:
       - PickUp
       properties:
         PickUp:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/AvailableLocationAttributes_TransportationPickUpSchedule_PickUp"
-            type: array
-          - "$ref": "#/components/schemas/AvailableLocationAttributes_TransportationPickUpSchedule_PickUp"
+          description: |
+              Container to hold information regarding pickup day of the week and details. 
+              
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/AvailableLocationAttributes_TransportationPickUpSchedule_PickUp"
       xml:
         name: TransportationPickUpSchedule
       description: Container to hold information regarding pickup details for each day of the week.
@@ -2437,7 +2584,6 @@ components:
           "$ref": "#/components/schemas/AvailableLocationAttributes_PickUp_PickUpDetails"
       xml:
         name: PickUp
-      description: Container to hold information regarding pickup day of the week and details.  
     AvailableLocationAttributes_PickUp_PickUpDetails:
       type: object
       properties:
@@ -2461,20 +2607,24 @@ components:
     ErrorResponse:
       type: object
       properties:
-         errors: 
+        response:
+          "$ref": "#/components/schemas/CommonErrorResponse"
+    CommonErrorResponse:
+      type: object
+      description: The error response containing any errors that occurred.
+      properties:
+        errors: 
           type: array
-          description: The error response containing any errors that occurred.
+          description: The error array containing any errors that occurred.
           items: 
-            $ref: '#/components/schemas/ErrorMessage'
+            "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
         code:
           type: string
           description: The error code.
-          example: VSS300
         message:
           type: string
           description: The error message.
-          example: Locale is required. The Subscription request has been rejected.
-      description: The error response containing any errors that occurred
+      description: The error response containing any errors that occurred.

@@ -14,9 +14,9 @@ tags:
   description: |
     The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day. 
 
-    - <a href="https://developer.ups.com/api/reference/prenotification/business-rules" target="_blank">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/prenotification/errors" target="_blank">Errors</a>
-    - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/prenotification/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/prenotification/errors" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 paths:
   "/dangerousgoods/{version}/prenotification":
     post:
@@ -45,8 +45,12 @@ paths:
         name: version
         schema:
           type: string
-          default: v1
-        description: Version of API, such as v1
+          default: v2
+        description: |
+            Version of API.
+            
+            Valid values:
+            - v2
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -68,7 +72,145 @@ paths:
                       SubVersion: '3'
                       TransactionReference:
                         CustomerContext: ''
-                        TransactionIdentifier: ''
+                    Shipment:
+                      ShipperNumber: ''
+                      ShipmentIdentificationNumber: 1Z2398YY81288
+                      ShipFromAddress:
+                        AddressLine: MY STREET 12
+                        City: BOGOTA
+                        StateProvinceCode: NJ
+                        PostalCode: K1A0B1
+                        CountryCode: CA
+                      ShipToAddress:
+                        AddressLine: MY STREET 12
+                        City: BOGOTA
+                        StateProvinceCode: NJ
+                        PostalCode: K1A0B1
+                        CountryCode: CA
+                      PickupDate: '20171101'
+                      Service:
+                        Code: GND
+                        Description: Ground
+                      RegulationSet: TDG
+                      Package:
+                        TrackingNumber: 1Z33445567001
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: KGS
+                            Description: Kilo
+                          Weight: '12'
+                        TransportationMode: GND
+                        VoidIndicator: ''
+                        PackagePoints: '12'
+                        ChemicalRecord:
+                          ReportableQuantity: '1'
+                          ClassDivisionNumber: I
+                          SubRiskClass: '1234'
+                          IDNumber: UN2761
+                          PackagingGroupType: '0'
+                          Quantity: '1'
+                          UOM: LBS
+                          PackagingInstructionCode: TEST
+                          EmergencyPhone: ''
+                          EmergencyContact: ''
+                          ProperShippingName: TEST SHIPPING
+                          TechnicalName: ''
+                          AdditionalDescription: ''
+                          PackagingType: ''
+                          HazardLabelRequired: LABEL
+                          PackagingTypeQuantity: '1'
+                          CommodityRegulatedLevelCode: LR
+                          TransportCategory: '0'
+                          TunnelRestrictionCode: '1'
+                          QValue: '0.1'
+                          OverPackedIndicator: ''
+                          AllPackedInOneIndicator: ''
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PRENOTIFICATIONResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/dangerousgoods/{deprecatedVersion}/prenotification":
+    post:
+      deprecated: true
+      summary: Pre-Notification
+      description: The Pre-Notification API allows customer applications to inform
+        UPS operations of Dangerous Goods shipments as they are processed and will
+        enter the UPS transportation network prior to an upload of manifest information
+        at the end of the day.
+      operationId: PreNotification
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: An identifier unique to the request. Length 32
+        required: false
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: An identifier of the client/source application that is making
+          the request.Length 512
+        required: false
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
+          default: v1
+        description: |
+            Version of API.
+            
+            Valid values:
+            - v1
+        required: true
+      requestBody:
+        description: Generate sample code for popular API requests by selecting an
+          example below. To view a full sample request and response, first click "Authorize"
+          and enter your application credentials, then populate the required parameters
+          above and click "Try it out".
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PRENOTIFICATIONRequestWrapper"
+            examples:
+              json:
+                summary: A sample JSON request (Standard Example)
+                value:
+                  PreNotificationRequest:
+                    Request:
+                      RequestOption: RequestOption
+                      SubVersion: '3'
+                      TransactionReference:
+                        CustomerContext: ''
                     Shipment:
                       ShipperNumber: ''
                       ShipmentIdentificationNumber: 1Z2398YY81288
@@ -649,11 +791,12 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Response_Alert"
-            type: array
-          - "$ref": "#/components/schemas/Response_Alert"
+          description: |
+            Alert Container.  There can be zero to many alert containers with code and description.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          items:
+            "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -723,20 +866,24 @@ components:
     ErrorResponse:
       type: object
       properties:
-         errors: 
+        response:
+          "$ref": "#/components/schemas/CommonErrorResponse"
+    CommonErrorResponse:
+      type: object
+      description: The error response containing any errors that occurred.
+      properties:
+        errors: 
           type: array
-          description: The error response containing any errors that occurred.
+          description: The error array containing any errors that occurred.
           items: 
-            $ref: '#/components/schemas/ErrorMessage'
+            "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
         code:
           type: string
           description: The error code.
-          example: VSS300
         message:
           type: string
           description: The error message.
-          example: Locale is required. The Subscription request has been rejected.
-      description: The error response containing any errors that occurred
+      description: The error response containing any errors that occurred.

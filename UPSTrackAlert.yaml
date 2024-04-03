@@ -7,7 +7,7 @@ info:
     
     The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
     Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency.<br /><a href="https://developer.ups.com/api/reference/trackalert/product-info"
-    target="_blank">Product Info</a>
+    target="_blank" rel="noopener">Product Info</a>
     
     # Business Values
     
@@ -57,7 +57,7 @@ info:
     >  A message will be sent via the API call with details about any successful and failed subscriptions.
     
     - **What does this Track Alert code mean?**
-    >  look up all codes on the Track Alert Codes file “X” type: exception codes “I” type: in transit codes “M” and “MV” type”: manifest codes “U” type: delivery update codes “D” type: delivery codes These codes can appear in more than one type (for example, a type X code may also appear with a type D code in the Track Alert message These codes typically appear with a different type code when a package is delivered to a UPS access point, returned to sender, or rerouted. The codes are updated monthly Ask for an updated listed if you discover a new code that does not have a description on the list. The primary or more common codes rarely change.
+    >  look up all codes on the Track Alert Codes file "X" type: exception codes "I" type: in transit codes "M" and "MV" type": manifest codes "U" type: delivery update codes "D" type: delivery codes These codes can appear in more than one type (for example, a type X code may also appear with a type D code in the Track Alert message These codes typically appear with a different type code when a package is delivered to a UPS access point, returned to sender, or rerouted. The codes are updated monthly Ask for an updated listed if you discover a new code that does not have a description on the list. The primary or more common codes rarely change.
 
 servers:
   - url: https://wwwcie.ups.com/api/track/{version}
@@ -74,8 +74,6 @@ servers:
         default: v1
         enum:
           - v1
-security: 
-  - oauth2: [] 
 paths:
   /subscription/{type}/package:
     post:
@@ -90,6 +88,8 @@ paths:
         - UPS Track Alert
       summary: API to create subscriptions by tracking numbers.
       operationId: processSubscriptionTypeForTrackingNumber
+      security: 
+        - oauth2: [] 
       parameters:
         - name: type
           in: path
@@ -192,16 +192,31 @@ paths:
                     "$ref": "#/components/schemas/TrackSubsServiceErrorResponse"
         '500':
           description: Internal Server Error
+webhooks:
+  TrackingEvent:
+    post:
+      tags:
+        - UPS Track Alert
+      requestBody:
+        summary: New tracking event update.
+        description: This schema describes the request format that UPS will POST back to the subscription's configured destination.url endpoint.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackingEventRequest'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully
 components:
   securitySchemes:
     oauth2:
       type: oauth2
       description: |
-        "Find your Client ID and Secret on your app info page. <br/> 
-         1. Select "Try It" <br/>  
-         2. In the Security section enter your Client ID and Secret.<br/> 
-         3. Select \"Request Token\"<br/> 
-         4. Enter any additional information in the Body and Parameters sections.<br/> 
+        "Find your Client ID and Secret on your app info page.  
+         1. Select "Try It"   
+         2. In the Security section enter your Client ID and Secret. 
+         3. Select \"Request Token\" 
+         4. Enter any additional information in the Body and Parameters sections. 
          5. Select "Send" to execute your API request"
       flows:
         clientCredentials:
@@ -291,7 +306,6 @@ components:
           items:
             type: string
           example: ["1Z1234567$8"]
-
     TrackSubsServiceErrorResponse: 
       type: object
       properties: 
@@ -301,7 +315,6 @@ components:
           $ref: "#/components/schemas/TrackSubsServiceResponse/properties/invalidTrackingNumbers"
       required: 
        - response
-
     Response:
       type: object
       properties:
@@ -310,4 +323,75 @@ components:
           description: The error response containing any errors that occurred.
           items: 
             $ref: '#/components/schemas/ErrorMessage'
-            
+    TrackingEventRequest:
+      type: object
+      description: Package event update payload.
+      properties:
+        trackingNumber:
+          type: string
+          description: The package's tracking number.
+        localActivityDate:
+          type: string
+          description: 'The localized date of the activity. Format: YYYYMMDD'
+        localActivityTime:
+          type: string
+          description: 'The localized time of the activity. Format: HHMMSS (24 hr)'
+        activityLocation:
+          "$ref": "#/components/schemas/ActivityLocation"
+        activityStatus:
+          "$ref": "#/components/schemas/ActivityStatus"
+        scheduledDeliveryDate:
+          type: string
+          description: 'Original scheduled delivery date of the package. Format: YYYYMMDD'
+        actualDeliveryDate:
+          type: string
+          description: 'Actual delivery date of the package. Format: YYYYMMDD'
+        actualDeliveryTime:
+          type: string
+          description: 'Actual delivery time of the package. Format: HHMMSS (24 hr)'
+        gmtActivityDate:
+          type: string
+          description: 'The GMT date of the activity. Format: YYYYMMDD'
+        gmtActivityTime:
+          type: string
+          description: 'The GMT time of the activity. Format: HHMMSS (24 hr)'
+        deliveryStartTime:
+          type: string
+          description: 'The start time of a delivery. Format: HHMMSS (24 hr).'
+        deliveryEndTime:
+          type: string
+          description: 'The end time of a window or the committed time or the delivered
+            time. Format: HHMMSS (24 hr)'
+        deliveryTimeDescription:
+          type: string
+          description: The date of this delivery detail.
+    ActivityLocation:
+      type: object
+      description: The container which has the current package activity location.
+      properties:
+        city:
+          type: string
+          description: The physical address city.
+        stateProvince:
+          type: string
+          description: The physical address state or province.
+        postalCode:
+          type: string
+          description: The physical address postal code.
+        country:
+          type: string
+          description: The physical address country.
+    ActivityStatus:
+      type: object
+      description: The container which has the current package activity status.
+      properties:
+        type:
+          type: string
+          description: The current activity status type.
+        code:
+          type: string
+          description: The current activity status code.
+        description:
+          type: string
+          description: The current activity status description.
+        

@@ -13,12 +13,12 @@ tags:
   x-displayName: Methods
   description: |
     The Shipping Package API gives the application many ways to manage the shipment of packages to their destination. 
-    - <a href="https://developer.ups.com/api/reference/shipping/business-rules" target="_blank">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/appendix1" target="_blank">Appendix 1</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/appendix2" target="_blank">Appendix 2</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/errors" target="_blank">Errors</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/faq" target="_blank">FAQ</a>
-    - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/shipping/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/shipping/appendix1" target="_blank" rel="noopener">Appendix 1</a>
+    - <a href="https://developer.ups.com/api/reference/shipping/appendix2" target="_blank" rel="noopener">Appendix 2</a>
+    - <a href="https://developer.ups.com/api/reference/shipping/errors" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/shipping/faq" target="_blank" rel="noopener">FAQ</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 paths:
   "/shipments/{version}/ship":
     post:
@@ -53,11 +53,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
-        description: "Indicates Ship API to display the new release features in \nRate
-          API response based on Ship release. See the New \nsection for the latest
-          Ship release. Supported values: v1, v1601, v1607, v1701, v1707, v1801, v1807,
-          v2108, v2205 . Length 5"
+          default: v2403
+        description: |
+            Indicates Ship API to display the new release features in Ship API response based on Ship release. 
+            
+            Valid values:
+            - v2403
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -166,7 +167,6 @@ paths:
                       TaxInformationIndicator: ''
                       ShipmentRatingOptions:
                         NegotiatedRatesIndicator: X
-                      ItemizedChargesRequestedIndicator: X
                       Description: 1507 US shipment
                       Shipper:
                         Name: Shipper_name
@@ -557,7 +557,6 @@ paths:
                       Service:
                         Code: '03'
                         Description: UPS Worldwide Saver
-                      ItemizedChargesRequestedIndicator: " "
                       Package:
                         Description: UPS Worldwide Saver
                         Packaging:
@@ -1891,8 +1890,12 @@ paths:
         name: version
         schema:
           type: string
-          default: v1
-        description: API Version
+          default: v2403
+        description: |
+            API Version
+
+            Valid values:
+            - v2403
         required: true
       - in: path
         name: shipmentidentificationnumber
@@ -2009,6 +2012,1932 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/LABELRECOVERYResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/shipments/{deprecatedVersion}/ship":
+    post:
+      deprecated: true
+      description: "The Shipping API makes UPS shipping services available to client
+        applications that communicate with UPS \nusing the Internet"
+      summary: Shipment
+      operationId: Deprecated Shipment
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: An identifier unique to the request. Length 32
+        required: false
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: An identifier of the client/source application that is making
+          the request.Length 512
+        required: false
+      - in: query
+        name: additionaladdressvalidation
+        schema:
+          type: string
+          minimum: 1
+        description: "Valid Values: \ncity = validation will include city.Length 15"
+        required: false
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
+          minimum: 1
+          default: v1
+        description: |
+            Indicates Ship API to display the new release features in Ship API response based on Ship release.
+            
+            Valid values: 
+            - v1
+            - v1601
+            - v1607
+            - v1701
+            - v1707
+            - v1801
+            - v1807
+            - v2108
+            - v2205
+        required: true
+      requestBody:
+        description: Generate sample code for popular API requests by selecting an
+          example below. To view a full sample request and response, first click "Authorize"
+          and enter your application credentials, then populate the required parameters
+          above and click "Try it out".
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SHIPRequestWrapper"
+            examples:
+              '1':
+                summary: Shipping Request(Standard Example)
+                value:
+                  ShipmentRequest:
+                    Request:
+                      SubVersion: '1801'
+                      RequestOption: nonvalidate
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      Description: Ship WS test
+                      Shipper:
+                        Name: ShipperName
+                        AttentionName: ShipperZs Attn Name
+                        TaxIdentificationNumber: '123456'
+                        Phone:
+                          Number: '1115554758'
+                          Extension: " "
+                        ShipperNumber: " "
+                        FaxNumber: '8002222222'
+                        Address:
+                          AddressLine:
+                          - 2311 York Rd
+                          City: Timonium
+                          StateProvinceCode: MD
+                          PostalCode: '21093'
+                          CountryCode: US
+                      ShipTo:
+                        Name: Happy Dog Pet Supply
+                        AttentionName: 1160b_74
+                        Phone:
+                          Number: '9225377171'
+                        Address:
+                          AddressLine:
+                          - 123 Main St
+                          City: timonium
+                          StateProvinceCode: MD
+                          PostalCode: '21030'
+                          CountryCode: US
+                        Residential: " "
+                      ShipFrom:
+                        Name: T and T Designs
+                        AttentionName: 1160b_74
+                        Phone:
+                          Number: '1234567890'
+                        FaxNumber: '1234567890'
+                        Address:
+                          AddressLine:
+                          - 2311 York Rd
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: " "
+                      Service:
+                        Code: '03'
+                        Description: Express
+                      Package:
+                        Description: " "
+                        Packaging:
+                          Code: '02'
+                          Description: Nails
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: IN
+                            Description: Inches
+                          Length: '10'
+                          Width: '30'
+                          Height: '45'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                            Description: Pounds
+                          Weight: '5'
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+                        Description: GIF
+                      HTTPUserAgent: Mozilla/4.5
+              '2':
+                summary: Shipping Request with Negotiated Rates
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      SubVersion: '1601'
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      TaxInformationIndicator: ''
+                      ShipmentRatingOptions:
+                        NegotiatedRatesIndicator: X
+                      Description: 1507 US shipment
+                      Shipper:
+                        Name: Shipper_name
+                        AttentionName: Shipper_Attn.name
+                        CompanyDisplayableName: Shipper_company
+                        ShipperNumber: ''
+                        Phone:
+                          Number: '5555555555'
+                        Address:
+                          AddressLine:
+                          - Shipper_Addrline1
+                          City: BERLIN
+                          StateProvinceCode: ''
+                          PostalCode: '10785'
+                          CountryCode: DE
+                      ShipTo:
+                        Name: ShipTo_name
+                        AttentionName: ShipTo_Attn.name
+                        CompanyDisplayableName: ShipTo_company
+                        Phone:
+                          Number: '5555555555'
+                        Address:
+                          AddressLine:
+                          - Shipper_Addrline1
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      ShipFrom:
+                        Name: ShipFrom_name
+                        AttentionName: ShipFrom_Attn.name
+                        CompanyDisplayableName: ShipFrom_company
+                        Address:
+                          AddressLine:
+                          - ShipFrom_Addrline1
+                          City: BERLIN
+                          StateProvinceCode: ''
+                          PostalCode: '10785'
+                          CountryCode: DE
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: ''
+                      Service:
+                        Code: '07'
+                        Description: UPS
+                      Package:
+                        Description: Package1
+                        Packaging:
+                          Code: '02'
+                          Description: Customer Supplied Package
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: CM
+                            Description: Centimeters
+                          Length: '8'
+                          Width: '2'
+                          Height: '2'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: KGS
+                            Description: Kilograms
+                          Weight: '20.2'
+              '3':
+                summary: Shipping Request with International Forms
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      Description: Description of Goods
+                      Shipper:
+                        Name: Henry Lee Thomson
+                        AttentionName: John Smith
+                        ShipperNumber: " "
+                        TaxIdentificationNumber: '456789'
+                        Phone:
+                          Number: '1234567890'
+                        Address:
+                          AddressLine:
+                          - 34 Queen St
+                          City: Toronto
+                          StateProvinceCode: 'ON'
+                          PostalCode: M5C2M6
+                          CountryCode: CA
+                      ShipTo:
+                        Name: Happy Dog Pet Supply
+                        AttentionName: Marley Brinson
+                        TaxIdentificationNumber: '458889'
+                        Phone:
+                          Number: '1234567890'
+                        Address:
+                          AddressLine:
+                          - B.B. King Blvd.
+                          City: Charlotte
+                          StateProvinceCode: NC
+                          PostalCode: '28256'
+                          CountryCode: US
+                      ShipFrom:
+                        Name: T and T Designs
+                        AttentionName: Mike
+                        Phone:
+                          Number: '1234567890'
+                        FaxNumber: '1234567999'
+                        TaxIdentificationNumber: '456999'
+                        Address:
+                          AddressLine:
+                          - 34 Queen St
+                          City: Toronto
+                          StateProvinceCode: 'ON'
+                          PostalCode: M5C2M6
+                          CountryCode: CA
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: " "
+                      Service:
+                        Code: '08'
+                        Description: Expedited
+                      Package:
+                        Description: International Goods
+                        Packaging:
+                          Code: '02'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: KGS
+                          Weight: '10'
+                      ShipmentServiceOptions:
+                        InternationalForms:
+                          FormType: '04'
+                          FormGroupIdName: NAFTA Form
+                          Contacts:
+                            SoldTo:
+                              Option: " "
+                              Name: ACME Designs
+                              AttentionName: Wile E Coyote
+                              TaxIdentificationNumber: " "
+                              Phone:
+                                Number: '5551479876'
+                              Address:
+                                AddressLine:
+                                - 123 Main St
+                                City: Phoenix
+                                StateProvinceCode: GA
+                                PostalCode: '30076'
+                                CountryCode: US
+                            Producer:
+                              Option: " "
+                              CompanyName: Tree Service
+                              Address:
+                                AddressLine:
+                                - 678 Elm St
+                                City: Marietta
+                                StateProvinceCode: GA
+                                PostalCode: '30066'
+                                CountryCode: US
+                              Phone:
+                                Number: '5555555555'
+                              EmailAddress: " "
+                              TaxIdentificationNumber: " "
+                          Product:
+                            Description: Today is the best day of the week
+                            CommodityCode: '12345678'
+                            OriginCountryCode: US
+                            JointProductionIndicator: " "
+                            NetCostCode: NC
+                            NetCostDateRange:
+                              BeginDate: '20050801'
+                              EndDate: '20051015'
+                            PreferenceCriteria: A
+                            ProducerInfo: No[1]
+                          BlanketPeriod:
+                            BeginDate: '20050115'
+                            EndDate: '20050816'
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+              '4':
+                summary: Shipping Dry Ice or Lithium Batteries
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      TransactionReference:
+                        CustomerContext: ''
+                      SubVersion: '1701'
+                    Shipment:
+                      DGSignatoryInfo:
+                        UploadOnlyIndicator: Y
+                        ShipperDeclaration: '01'
+                        Date: '20200112'
+                        Place: GA
+                        Title: DGPaperImage
+                        Name: DGSignatory
+                      Description: ER1703
+                      Shipper:
+                        Name: Shipper_Name
+                        AttentionName: Shipper_AttentionName
+                        TaxIdentificationNumber: '123456'
+                        Phone:
+                          Number: '1234567890'
+                        ShipperNumber: " "
+                        Address:
+                          AddressLine:
+                          - 12380 Morris Rd
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      ShipTo:
+                        Name: ShipTo_CompanyName
+                        AttentionName: ShipTo_AttentionName
+                        Phone:
+                          Number: '1234567890'
+                        FaxNumber: '1234567890'
+                        TaxIdentificationNumber: '123456'
+                        Address:
+                          AddressLine:
+                          - 793 Foothill Blvd
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      ShipFrom:
+                        Name: ShipFrom_CompanyName
+                        AttentionName: ShipFrom_AttentionName
+                        Phone:
+                          Number: '1234567890'
+                        FaxNumber: '1234567890'
+                        TaxIdentificationNumber: '123456'
+                        Address:
+                          AddressLine:
+                          - 12380 Morris Rd
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: " "
+                      Service:
+                        Code: '03'
+                        Description: Ground
+                      Package:
+                      - HazMatPackageInformation:
+                          OuterPackagingType: FIBERBOARD BOX
+                          QValue: '0.1'
+                          OverPackedIndicator: " "
+                          AllPackedInOneIndicator: " "
+                        Description: Package Description
+                        Packaging:
+                          Code: '02'
+                          Description: Customer Supplied Package
+                        Dimensions:
+                          Length: '10'
+                          Width: '10'
+                          Height: '10'
+                          UnitOfMeasurement:
+                            Code: IN
+                            Description: Inches
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                            Description: Pounds
+                          Weight: '10'
+                        PackageServiceOptions:
+                          HazMat:
+                            LocalProperShippingName: Ship
+                            LocalTechnicalName: Local
+                            EmergencyPhone: '1234567890'
+                            ReferenceNumber: '12345'
+                            HazardLabelRequired: Y
+                            aDRPackingGroupLetter: '1'
+                            PackagingTypeQuantity: '100'
+                            SubRiskClass: SubRisk
+                            aDRItemNumber: '1234567890'
+                            TechnicalName: Hazmat TechnicalName
+                            ClassDivisionNumber: '12345'
+                            Quantity: '100.0'
+                            UOM: IN
+                            PackagingType: Box
+                            IDNumber: UN3480
+                            ProperShippingName: Lithium ion batteries
+                            AdditionalDescription: Hazmat AdditionalDescription
+                            PackagingGroupType: III
+                            PackagingInstructionCode: '1234'
+                            ReportableQuantity: RQ
+                            RegulationSet: CFR
+                            TransportationMode: Ground
+                            CommodityRegulatedLevelCode: LQ
+                            TransportCategory: '0'
+                            TunnelRestrictionCode: Nothing
+                            ChemicalRecordIdentifier: '100'
+                          PackageIdentifier: '123'
+                      - Description: DG
+                        NumOfPieces: '10'
+                        Packaging:
+                          Code: '02'
+                          Description: desc
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: IN
+                            Description: IN
+                          Length: '2'
+                          Width: '2'
+                          Height: '2'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                            Description: LBS
+                          Weight: '50'
+                        PackageServiceOptions:
+                          DryIce:
+                            RegulationSet: CFR
+                            DryIceWeight:
+                              UnitOfMeasurement:
+                                Code: '01'
+                                Description: LBS
+                              Weight: '50'
+                          PackedByStoreIndicator: " "
+                          PackageIdentifier: '123'
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+              '5':
+                summary: Shipping Hazmat Goods
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      TransactionReference:
+                        CustomerContext: ''
+                      SubVersion: '1701'
+                    Shipment:
+                      Description: Ship WS test
+                      Shipper:
+                        Name: ShipperName
+                        AttentionName: ShipperZs Attn Name
+                        TaxIdentificationNumber: '123456'
+                        Phone:
+                          Number: '1115554758'
+                          Extension: '1'
+                        ShipperNumber: " "
+                        FaxNumber: '8002222222'
+                        Address:
+                          AddressLine:
+                          - 12380 Morris Road
+                          City: LUTHERVILLE TIMONIUM
+                          StateProvinceCode: MD
+                          PostalCode: '21093'
+                          CountryCode: US
+                      ShipTo:
+                        Name: Happy Dog Pet Supply
+                        AttentionName: 1160b_74
+                        Phone:
+                          Number: '9225377171'
+                        Address:
+                          AddressLine:
+                          - 460 Rue du Valibout
+                          City: SMITHFIELD
+                          StateProvinceCode: RI
+                          PostalCode: '02917'
+                          CountryCode: US
+                      ShipFrom:
+                        Name: T and T Designs
+                        AttentionName: 1160b_74
+                        Phone:
+                          Number: '1234567890'
+                        FaxNumber: '1234567890'
+                        Address:
+                          AddressLine:
+                          - 12380 Morris Road
+                          City: LUTHERVILLE TIMONIUM
+                          StateProvinceCode: MD
+                          PostalCode: '21093'
+                          CountryCode: US
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: " "
+                      Service:
+                        Code: '03'
+                        Description: UPS Worldwide Saver
+                      Package:
+                        Description: UPS Worldwide Saver
+                        Packaging:
+                          Code: '02'
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: IN
+                          Length: '6'
+                          Width: '9'
+                          Height: '7'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                          Weight: '68'
+                        PackageServiceOptions:
+                          PackageIdentifier: '12380'
+                          HazMat:
+                            PackagingTypeQuantity: '1'
+                            SubRiskClass: " "
+                            TechnicalName: OXYGEN/NITROGEN
+                            ClassDivisionNumber: '2.2'
+                            Quantity: '6'
+                            UOM: kg
+                            PackagingType: Fibreboard Box
+                            IDNumber: UN3480
+                            ProperShippingName: Lithium Ion Batteries
+                            PackagingGroupType: " "
+                            PackagingInstructionCode: Pack
+                            EmergencyPhone: '9253702575'
+                            EmergencyContact: Shipping Dept.
+                            RegulationSet: CFR
+                            TransportationMode: CAO
+                            CommodityRegulatedLevelCode: FR
+                            TransportCategory: xyz
+                            TunnelRestrictionCode: xyz
+                            ChemicalRecordIdentifier: '40'
+                      NumOfPiecesInShipment: '10000'
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+                        Description: GIF
+                      HTTPUserAgent: Mozilla/4.5
+              '6':
+                summary: Billing Third Party
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      SubVersion: '1901'
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      Description: Payments
+                      Shipper:
+                        Name: Shipper_name
+                        AttentionName: Shipper_name
+                        CompanyDisplayableName: Shipper_name
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        ShipperNumber: " "
+                        FaxNumber: '1234'
+                        EMailAddress: " "
+                        Address:
+                          AddressLine:
+                          - ShipperAddress
+                          - ShipperAddress
+                          - ShipperAddress
+                          City: 01-222 Warszawa
+                          StateProvinceCode: GA
+                          PostalCode: '1222'
+                          CountryCode: PL
+                      ShipTo:
+                        Name: ShipToName
+                        AttentionName: ShipToName
+                        CompanyDisplayableName: ShipToName
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        FaxNumber: '1234'
+                        EMailAddress: " "
+                        Address:
+                          AddressLine:
+                          - ShipToAddress
+                          - ShipToAddress
+                          - ShipToAddress
+                          City: 01-222 Warszawa
+                          StateProvinceCode: GA
+                          PostalCode: '1222'
+                          CountryCode: PL
+                      ShipFrom:
+                        Name: ShipFromName
+                        AttentionName: ShipFromName
+                        CompanyDisplayableName: ShipFromName
+                        TaxIdentificationNumber: '1234'
+                        TaxIDType:
+                          Code: EIN
+                          Description: EIN
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        ShipFromAccountNumber: " "
+                        FaxNumber: '1234'
+                        Address:
+                          AddressLine:
+                          - ShipFromAddress
+                          - ShipFromAddress
+                          - ShipFromAddress
+                          City: 01-222 Warszawa
+                          StateProvinceCode: GA
+                          PostalCode: '1222'
+                          CountryCode: PL
+                        EMailAddress: " "
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillThirdParty:
+                            AccountNumber: " "
+                            Name: " "
+                            AttentionName: " "
+                            VatTaxID: 1234AB
+                            TaxIDType: '01'
+                            CertifiedElectronicMail: abc@123.123
+                            InterchangeSystemCode: SDI
+                            SuppressPrintInvoiceIndicator: " "
+                            Address:
+                              PostalCode: '30005'
+                              CountryCode: US
+                      Service:
+                        Code: '011'
+                        Description: Standard
+                      InvoiceLineTotal:
+                        CurrencyCode: USD
+                        MonetaryValue: '10'
+                      NumOfPiecesInShipment: '1'
+                      USPSEndorsement: '5'
+                      CostCenter: '123'
+                      PackageID: '1'
+                      InformationSourceCode: A3
+                      ShipmentServiceOptions: "            "
+                      Package:
+                        Description: IF
+                        NumOfPieces: '10'
+                        Packaging:
+                          Code: '02'
+                          Description: desc
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: CM
+                            Description: CM
+                          Length: '2'
+                          Width: '2'
+                          Height: '3'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: KGS
+                            Description: LBS
+                          Weight: '50'
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+                        Description: GIF
+              '7':
+                summary: Multi-Piece Shipping
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      SubVersion: '1701'
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      Package:
+                      - PackageWeight:
+                          Weight: '50'
+                          UnitOfMeasurement:
+                            Description: desc
+                            Code: LBS
+                        Dimensions:
+                          Height: '2'
+                          Width: '2'
+                          Length: '02'
+                          UnitOfMeasurement:
+                            Description: desc
+                            Code: IN
+                        Packaging:
+                          Description: desc
+                          Code: '02'
+                        Description: desc
+                      - PackageWeight:
+                          Weight: '50'
+                          UnitOfMeasurement:
+                            Description: desc
+                            Code: LBS
+                        Dimensions:
+                          Height: '2'
+                          Width: '2'
+                          Length: '02'
+                          UnitOfMeasurement:
+                            Description: desc
+                            Code: IN
+                        Packaging:
+                          Description: desc
+                          Code: '02'
+                        Description: desc
+                      - Description: desc
+                        Packaging:
+                          Code: '02'
+                          Description: desc
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: IN
+                            Description: desc
+                          Length: '02'
+                          Width: '2'
+                          Height: '2'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                            Description: desc
+                          Weight: '50'
+                      Description: UPS Premier
+                      Shipper:
+                        Name: ShipperName
+                        AttentionName: GA
+                        CompanyDisplayableName: GA
+                        TaxIdentificationNumber: '12345'
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '12'
+                        ShipperNumber: " "
+                        FaxNumber: '2134'
+                        EMailAddress: " "
+                        Address:
+                          AddressLine:
+                          - address
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      ShipTo:
+                        Name: ship
+                        AttentionName: GA
+                        CompanyDisplayableName: GA
+                        TaxIdentificationNumber: '1234'
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '12'
+                        FaxNumber: '1234'
+                        EMailAddress: " "
+                        Address:
+                          AddressLine:
+                          - AddressLine
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                          ResidentialAddressIndicator: Y
+                      ShipFrom:
+                        Name: ship
+                        AttentionName: GA
+                        CompanyDisplayableName: ShipFrom_CompanyDisplayableName
+                        TaxIdentificationNumber: '5555555555'
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '12'
+                        FaxNumber: '5555555555'
+                        Address:
+                          AddressLine:
+                          - AddressLine
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                        EMailAddress: " "
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: " "
+                      Service:
+                        Code: '01'
+                        Description: desc
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: ZPL
+                        Description: desc
+                      HTTPUserAgent: Mozilla/4.5
+                      LabelStockSize:
+                        Height: '6'
+                        Width: '4'
+              '8':
+                summary: Ship to a UPS Access Point
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      Description: D2R shipments
+                      Shipper:
+                        Name: Shipper Name
+                        AttentionName: Attn. Name
+                        CompanyDisplayableName: Shipper company
+                        TaxIdentificationNumber: '456789'
+                        Phone:
+                          Number: '5555555555'
+                        ShipperNumber: " "
+                        EMailAddress: " "
+                        Address:
+                          AddressLine:
+                          - AddressLine1
+                          City: BOLTON
+                          StateProvinceCode: 'ON'
+                          PostalCode: '20999'
+                          CountryCode: DE
+                      ShipTo:
+                        Name: ShipTo Name
+                        AttentionName: ShipTo Attn. Name
+                        CompanyDisplayableName: ShipTo Company
+                        Phone:
+                          Number: '6787462345'
+                        EMailAddress: " "
+                        Address:
+                          AddressLine:
+                          - Morris Rd
+                          City: Alpharetta
+                          StateProvinceCode: 'ON'
+                          PostalCode: L7E5C1
+                          CountryCode: CA
+                      AlternateDeliveryAddress:
+                        AttentionName: Attn. Name
+                        Name: Alt. Name
+                        UPSAccessPointID: GB00088
+                        Address:
+                          AddressLine:
+                          - Morris RD
+                          City: Alpharetta
+                          StateProvinceCode: 'ON'
+                          PostalCode: '20999'
+                          CountryCode: DE
+                      ShipFrom:
+                        Name: ShipFrom Name
+                        AttentionName: ShipFrom Attn. Name
+                        CompanyDisplayableName: ShipFrom company
+                        Phone:
+                          Number: '6787463456'
+                        ShipFromAccountNumber: " "
+                        Address:
+                          AddressLine:
+                          - Old Alpharetta rd
+                          City: BOLTON
+                          StateProvinceCode: 'ON'
+                          PostalCode: '20999'
+                          CountryCode: DE
+                        EMailAddress: " "
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: " "
+                      Service:
+                        Code: '11'
+                        Description: Express
+                      ShipmentIndicationType:
+                        Code: '01'
+                        Description: D2R shipment
+                      ShipmentServiceOptions:
+                        Notification:
+                          NotificationCode: '012'
+                          EMail:
+                            EMailAddress: " "
+                          VoiceMessage:
+                            PhoneNumber: '5555555555'
+                          TextMessage:
+                            PhoneNumber: '5555555555'
+                          Locale:
+                            Language: ENG
+                            Dialect: US
+                      Package:
+                        Description: D2R shipment
+                        Packaging:
+                          Code: '02'
+                          Description: D2R package
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: CM
+                            Description: Centemeters
+                          Length: '5'
+                          Width: '6'
+                          Height: '7'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: KGS
+                            Description: Kilograms
+                          Weight: '15'
+                        PackageServiceOptions:
+                          DeclaredValue:
+                            Type:
+                              Code: '01'
+                              Description: Declared value
+                            CurrencyCode: EUR
+                            MonetaryValue: '10.30'
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+                      LabelStockSize:
+                        Height: '6'
+                        Width: '4'
+              '9':
+                summary: World Wide Economy Shipping
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      SubVersion: '2108'
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      Description: Worldwide econmoy Parcel
+                      Shipper:
+                        Name: Shipper_name
+                        AttentionName: UPS
+                        CompanyDisplayableName: Shipper_name
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        ShipperNumber: ''
+                        FaxNumber: '1234'
+                        EMailAddress: ''
+                        Address:
+                          AddressLine:
+                          - 2311 York Rd
+                          - 2311 York Rd
+                          - 2311 York Rd
+                          City: Lutherville Timonium
+                          StateProvinceCode: MD
+                          PostalCode: '21093'
+                          CountryCode: US
+                      ShipTo:
+                        Name: Happy Dog Pet Supply
+                        AttentionName: ShipToName
+                        CompanyDisplayableName: ShipToName
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        FaxNumber: '1234'
+                        EMailAddress: ''
+                        Address:
+                          AddressLine:
+                          - 12380 Morris Road
+                          - 12380 Morris Road
+                          - 12380 Morris Road
+                          City: STARZACH
+                          StateProvinceCode: GA
+                          PostalCode: '72181'
+                          CountryCode: DE
+                      ShipFrom:
+                        Name: UPS
+                        AttentionName: ShipFromName
+                        CompanyDisplayableName: ShipFromName
+                        TaxIdentificationNumber: '1234'
+                        TaxIDType:
+                          Code: EIN
+                          Description: EIN
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        ShipFromAccountNumber: ''
+                        FaxNumber: '1234'
+                        Address:
+                          AddressLine:
+                          - 2311 York Rd
+                          - 2311 York Rd
+                          - 2311 York Rd
+                          City: Lutherville Timonium
+                          StateProvinceCode: MD
+                          PostalCode: '21093'
+                          CountryCode: US
+                        EMailAddress: ''
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: ''
+                      ShipmentRatingOptions:
+                        NegotiatedRatesIndicator: Y
+                      Service:
+                        Code: '072'
+                        Description: UPS Worldwide Economy DDP
+                      NumOfPiecesInShipment: ''
+                      ShipmentValueThresholdCode: ''
+                      ShipmentServiceOptions:
+                        Notification:
+                          NotificationCode: '6'
+                          EMail:
+                            EMailAddress: ''
+                            UndeliverableEMailAddress: ''
+                            FromEMailAddress: ''
+                            FromName: ''
+                            Memo: '1905'
+                        MasterCartonIndicator: Y
+                      Package:
+                        Description: Worldwide econmoy Postal
+                        NumOfPieces: '10'
+                        Packaging:
+                          Code: '02'
+                          Description: Customer Supplied Package
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: IN
+                            Description: IN
+                          Length: '10'
+                          Width: '10'
+                          Height: '10'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                            Description: Pounds
+                          Weight: '0.1'
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+                        Description: GIF
+                      HTTPUserAgent: Mozilla/4.5
+              '10':
+                summary: Proactive Response Shipping
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      TransactionReference:
+                        CustomerContext: ''
+                      SubVersion: '1701'
+                    Shipment:
+                      Description: '1701'
+                      Shipper:
+                        Name: Shipper_Name
+                        AttentionName: Shipper_AttentionName
+                        TaxIdentificationNumber: '123456'
+                        Phone:
+                          Number: '1234567890'
+                        ShipperNumber: ''
+                        Address:
+                          AddressLine:
+                          - 12380 Morris Rd
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      ShipTo:
+                        Name: ShipTo_CompanyName
+                        AttentionName: ShipTo_AttentionName
+                        Phone:
+                          Number: '1234567890'
+                        FaxNumber: '1234567890'
+                        TaxIdentificationNumber: '123456'
+                        Address:
+                          AddressLine:
+                          - 793 Foothill Blvd
+                          City: San Luis Obispo
+                          StateProvinceCode: CA
+                          PostalCode: '93405'
+                          CountryCode: US
+                      ShipFrom:
+                        Name: ShipFrom_CompanyName
+                        AttentionName: ShipFrom_AttentionName
+                        Phone:
+                          Number: '1234567890'
+                        FaxNumber: '1234567890'
+                        TaxIdentificationNumber: '123456'
+                        Address:
+                          AddressLine:
+                          - 12380 Morris Rd
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: ''
+                      Service:
+                        Code: '03'
+                        Description: Ground
+                      Package:
+                        Description: Package Description
+                        Packaging:
+                          Code: '02'
+                          Description: Customer Supplied Package
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: IN
+                            Description: Inches
+                          Length: '10'
+                          Width: '10'
+                          Height: '10'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                          Weight: '1'
+                        PackageServiceOptions:
+                          ProactiveIndicator: X
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+              '11':
+                summary: Shipping with EEI Form
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      SubVersion: '1901'
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      Description: IF
+                      Shipper:
+                        Name: Shipper_name
+                        AttentionName: Shipper_name
+                        CompanyDisplayableName: Shipper_name
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        ShipperNumber: ''
+                        FaxNumber: '8002222222'
+                        EMailAddress: ''
+                        Address:
+                          AddressLine:
+                          - 2 South Main Street
+                          City: LONDON
+                          StateProvinceCode: GA
+                          PostalCode: TW59NR
+                          CountryCode: GB
+                      ShipTo:
+                        Name: ShipToName
+                        AttentionName: ShipToName
+                        CompanyDisplayableName: ShipToName
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        FaxNumber: '1234'
+                        EMailAddress: ''
+                        Address:
+                          AddressLine:
+                          - 103 Avenue des Champs-Élysées
+                          City: Paris
+                          StateProvinceCode: ''
+                          PostalCode: '75008'
+                          CountryCode: FR
+                      ShipFrom:
+                        Name: ShipFromName
+                        AttentionName: ShipFromName
+                        CompanyDisplayableName: ShipFromName
+                        TaxIdentificationNumber: '1234'
+                        TaxIDType:
+                          Code: EIN
+                          Description: IF
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        FaxNumber: '1234'
+                        Address:
+                          AddressLine:
+                          - 2 South Main Street
+                          City: TW59NR
+                          StateProvinceCode: GA
+                          PostalCode: TW59NR
+                          CountryCode: GB
+                        EMailAddress: ''
+                        VendorInfo:
+                          VendorCollectIDTypeCode: '0356'
+                          VendorCollectIDNumber: IMDEU1234567
+                          ConsigneeType: '01'
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: ''
+                      Service:
+                        Code: '96'
+                        Description: IF
+                      InvoiceLineTotal:
+                        CurrencyCode: USD
+                        MonetaryValue: '10'
+                      NumOfPiecesInShipment: '1'
+                      ShipmentServiceOptions:
+                        InternationalForms:
+                          FormType: '01'
+                          CN22Form:
+                            LabelSize: '6'
+                            PrintsPerPage: '1'
+                            LabelPrintType: pdf
+                            CN22Type: '1'
+                            CN22OtherDescription: test cn22
+                            FoldHereText: fold
+                            CN22Content:
+                              CN22ContentQuantity: '300'
+                              CN22ContentDescription: desc
+                              CN22ContentWeight:
+                                UnitOfMeasurement:
+                                  Code: LBS
+                                  Description: LBS
+                                Weight: '70'
+                              CN22ContentTotalValue: '2'
+                              CN22ContentCurrencyCode: USD
+                              CN22ContentCountryOfOrigin: US
+                              CN22ContentTariffNumber: '4565655'
+                          FormGroupIdName: Invoice
+                          SEDFilingOption: ''
+                          EEIFilingOption:
+                            Code: '1'
+                            EMailAddress: ''
+                            Description: EEI
+                            UPSFiled:
+                              POA:
+                                Code: '1'
+                                Description: POA
+                            ShipperFiled:
+                              Code: B
+                              Description: ShipperFiled
+                              PreDepartureITNNumber: ''
+                              ExemptionLegend: ''
+                              EEIShipmentReferenceNumber: '1234'
+                          Contacts:
+                            ForwardAgent:
+                              CompanyName: UPS
+                              TaxIdentificationNumber: 94-308351500
+                              Address:
+                                AddressLine:
+                                - AddressLine
+                                City: Alpharetta
+                                StateProvinceCode: GA
+                                Town: Town
+                                PostalCode: '30005'
+                                CountryCode: US
+                            UltimateConsignee:
+                              CompanyName: UPS
+                              Address:
+                                AddressLine:
+                                - Address
+                                City: Alpharetta
+                                StateProvinceCode: GA
+                                Town: TOWN
+                                PostalCode: '30005'
+                                CountryCode: US
+                              UltimateConsigneeType:
+                                Code: D
+                                Description: Direct Consumer
+                            Producer:
+                              Option: ''
+                              CompanyName: ProducerCompanyName
+                              TaxIdentificationNumber: '1234'
+                              Address:
+                                AddressLine:
+                                - Address
+                                City: Marietta
+                                StateProvinceCode: GA
+                                Town: Town
+                                PostalCode: '166222'
+                                CountryCode: CA
+                              AttentionName: Name
+                              Phone:
+                                Number: '1234567890'
+                                Extension: '1234'
+                              EMailAddress: ''
+                            SoldTo:
+                              Name: ACME Designs
+                              AttentionName: ACME Designs
+                              TaxIdentificationNumber: '1234'
+                              Phone:
+                                Number: '1234567890'
+                                Extension: '1234'
+                              Option: '01'
+                              Address:
+                                AddressLine:
+                                - 103 Avenue des Champs-Élysées
+                                City: Paris
+                                StateProvinceCode: ''
+                                PostalCode: '75008'
+                                CountryCode: FR
+                              EMailAddress: ''
+                          Product:
+                            Description: Widgets
+                            Unit:
+                              Number: '1'
+                              UnitOfMeasurement:
+                                Code: KGS
+                                Description: LBS
+                              Value: '1'
+                            CommodityCode: '12345679'
+                            PartNumber: '1234'
+                            OriginCountryCode: US
+                            JointProductionIndicator: ''
+                            NetCostCode: NC
+                            NetCostDateRange:
+                              BeginDate: '20220115'
+                              EndDate: '20220816'
+                            PreferenceCriteria: A
+                            ProducerInfo: 'Yes'
+                            MarksAndNumbers: '1'
+                            NumberOfPackagesPerCommodity: '1'
+                            ProductWeight:
+                              UnitOfMeasurement:
+                                Code: KGS
+                                Description: Description
+                              Weight: '10'
+                            ScheduleB:
+                              Number: '12345'
+                              Quantity: '5'
+                              UnitOfMeasurement:
+                                Code: PCS
+                                Description: PCS
+                            ExportType: D
+                            SEDTotalValue: '123.45'
+                            PackingListInfo:
+                              PackageAssociated:
+                                PackageNumber: '01'
+                                ProductAmount: '147'
+                            EEIInformation:
+                              ExportInformation: OS
+                              License:
+                                Number: 123.16B2
+                                Code: C30
+                                LicenseLineValue: ''
+                                ECCNNumber: EAR99
+                          InvoiceNumber: asdf123
+                          InvoiceDate: '20130410'
+                          PurchaseOrderNumber: 999jjj777
+                          TermsOfShipment: CFR
+                          ReasonForExport: Sale
+                          Comments: Enter in any extra information about the current
+                            shipment.
+                          Discount:
+                            MonetaryValue: '100'
+                          FreightCharges:
+                            MonetaryValue: '75'
+                          InsuranceCharges:
+                            MonetaryValue: '789'
+                          OtherCharges:
+                            MonetaryValue: '10'
+                            Description: '10'
+                          CurrencyCode: USD
+                          BlanketPeriod:
+                            BeginDate: '20130420'
+                            EndDate: '20130430'
+                          ExportDate: '20210406'
+                          ExportingCarrier: A
+                          CarrierID: IATA
+                          InBondCode: '70'
+                          EntryNumber: 1A34567876545360
+                          PointOfOrigin: MS
+                          PointOfOriginType: MS
+                          ModeOfTransport: Rail
+                          PortOfExport: Overland
+                          PortOfUnloading: Germany
+                          LoadingPier: Pier 17 Dock 31
+                          PartiesToTransaction: N
+                          License:
+                            Number: ''
+                            Date: ''
+                            ExceptionCode: ''
+                          ECCNNumber: ''
+                      Package:
+                        Description: IF
+                        Packaging:
+                          Code: '30'
+                          Description: IF
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: CM
+                            Description: IF
+                          Length: '50'
+                          Width: '37'
+                          Height: '40'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: KGS
+                            Description: IF
+                          Weight: '50'
+                      USPSEndorsement: ''
+                      CostCenter: '123'
+                      PackageID: ''
+                      InformationSourceCode: ''
+                      ShipmentValueThresholdCode: '01'
+              '12':
+                summary: Shipping with Tax ID
+                value:
+                  ShipmentRequest:
+                    Request:
+                      RequestOption: nonvalidate
+                      SubVersion: '1901'
+                      TransactionReference:
+                        CustomerContext: ''
+                    Shipment:
+                      Description: IF
+                      Shipper:
+                        Name: Shipper_name
+                        AttentionName: Shipper_name
+                        CompanyDisplayableName: Shipper_name
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        ShipperNumber: ''
+                        FaxNumber: '8002222222'
+                        EMailAddress: ''
+                        Address:
+                          AddressLine:
+                          - 2 South Main Street
+                          City: LONDON
+                          StateProvinceCode: GA
+                          PostalCode: TW59NR
+                          CountryCode: GB
+                      ShipTo:
+                        Name: ShipToName
+                        AttentionName: ShipToName
+                        CompanyDisplayableName: ShipToName
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        FaxNumber: '1234'
+                        EMailAddress: ''
+                        Address:
+                          AddressLine:
+                          - 2311 York Rd
+                          City: STARZACH
+                          StateProvinceCode: GA
+                          PostalCode: '72181'
+                          CountryCode: DE
+                      ShipFrom:
+                        Name: ShipFromName
+                        AttentionName: ShipFromName
+                        CompanyDisplayableName: ShipFromName
+                        TaxIdentificationNumber: '1234'
+                        TaxIDType:
+                          Code: EIN
+                          Description: IF
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        FaxNumber: '1234'
+                        Address:
+                          AddressLine:
+                          - 2 South Main Street
+                          City: TW59NR
+                          StateProvinceCode: GA
+                          PostalCode: TW59NR
+                          CountryCode: GB
+                        EMailAddress: ''
+                        VendorInfo:
+                          VendorCollectIDTypeCode: '0356'
+                          VendorCollectIDNumber: IMDEU1234567
+                          ConsigneeType: '01'
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: ''
+                      Service:
+                        Code: '96'
+                        Description: IF
+                      InvoiceLineTotal:
+                        CurrencyCode: USD
+                        MonetaryValue: '10'
+                      NumOfPiecesInShipment: '1'
+                      ShipmentServiceOptions:
+                        InternationalForms:
+                          FormType: '01'
+                          CN22Form:
+                            LabelSize: '6'
+                            PrintsPerPage: '1'
+                            LabelPrintType: pdf
+                            CN22Type: '1'
+                            CN22OtherDescription: test cn22
+                            FoldHereText: fold
+                            CN22Content:
+                              CN22ContentQuantity: '300'
+                              CN22ContentDescription: desc
+                              CN22ContentWeight:
+                                UnitOfMeasurement:
+                                  Code: LBS
+                                  Description: LBS
+                                Weight: '70'
+                              CN22ContentTotalValue: '2'
+                              CN22ContentCurrencyCode: USD
+                              CN22ContentCountryOfOrigin: US
+                              CN22ContentTariffNumber: '4565655'
+                          FormGroupIdName: Invoice
+                          SEDFilingOption: ''
+                          EEIFilingOption:
+                            Code: '1'
+                            EMailAddress: ''
+                            Description: EEI
+                            UPSFiled:
+                              POA:
+                                Code: '1'
+                                Description: POA
+                            ShipperFiled:
+                              Code: B
+                              Description: ShipperFiled
+                              PreDepartureITNNumber: ''
+                              ExemptionLegend: ''
+                              EEIShipmentReferenceNumber: '1234'
+                          Contacts:
+                            ForwardAgent:
+                              CompanyName: UPS
+                              TaxIdentificationNumber: '12345'
+                              Address:
+                                AddressLine:
+                                - AddressLine
+                                City: Alpharetta
+                                StateProvinceCode: GA
+                                Town: Town
+                                PostalCode: '30005'
+                                CountryCode: US
+                            UltimateConsignee:
+                              CompanyName: UPS
+                              Address:
+                                AddressLine:
+                                - Address
+                                City: Alpharetta
+                                StateProvinceCode: GA
+                                Town: TOWN
+                                PostalCode: '30005'
+                                CountryCode: US
+                              UltimateConsigneeType:
+                                Code: D
+                                Description: Direct Consumer
+                            Producer:
+                              Option: ''
+                              CompanyName: ProducerCompanyName
+                              TaxIdentificationNumber: '1234'
+                              Address:
+                                AddressLine:
+                                - Address
+                                City: Marietta
+                                StateProvinceCode: GA
+                                Town: Town
+                                PostalCode: '166222'
+                                CountryCode: CA
+                              AttentionName: Name
+                              Phone:
+                                Number: '1234567890'
+                                Extension: '1234'
+                              EMailAddress: ''
+                            SoldTo:
+                              Name: ACME Designs
+                              AttentionName: ACME Designs
+                              TaxIdentificationNumber: '1234'
+                              Phone:
+                                Number: '1234567890'
+                                Extension: '1234'
+                              Option: '01'
+                              Address:
+                                AddressLine:
+                                - Address
+                                City: STARZACH
+                                StateProvinceCode: GA
+                                Town: town
+                                PostalCode: '72181'
+                                CountryCode: DE
+                              EMailAddress: ''
+                          Product:
+                            Description: Description
+                            Unit:
+                              Number: '1'
+                              UnitOfMeasurement:
+                                Code: KGS
+                                Description: LBS
+                              Value: '1'
+                            CommodityCode: '12345679'
+                            PartNumber: '1234'
+                            OriginCountryCode: US
+                            JointProductionIndicator: ''
+                            NetCostCode: NC
+                            NetCostDateRange:
+                              BeginDate: '20110115'
+                              EndDate: '20110816'
+                            PreferenceCriteria: A
+                            ProducerInfo: 'Yes'
+                            MarksAndNumbers: '1'
+                            NumberOfPackagesPerCommodity: '1'
+                            ProductWeight:
+                              UnitOfMeasurement:
+                                Code: KGS
+                                Description: Desc
+                              Weight: '10'
+                            ScheduleB:
+                              Number: '12345'
+                              Quantity: '5'
+                              UnitOfMeasurement:
+                                Code: PCS
+                                Description: PCS
+                            ExportType: D
+                            SEDTotalValue: '123.45'
+                            PackingListInfo:
+                              PackageAssociated:
+                                PackageNumber: '01'
+                                ProductAmount: '147'
+                            EEIInformation:
+                              ExportInformation: OS
+                              License:
+                                Number: 123.16B2
+                                Code: C30
+                                LicenseLineValue: ''
+                                ECCNNumber: EAR99
+                          InvoiceNumber: asdf123
+                          InvoiceDate: '20130410'
+                          PurchaseOrderNumber: 999jjj777
+                          TermsOfShipment: CFR
+                          ReasonForExport: Sale
+                          Comments: Enter in any extra information about the current
+                            shipment.
+                          Discount:
+                            MonetaryValue: '100'
+                          FreightCharges:
+                            MonetaryValue: '75'
+                          InsuranceCharges:
+                            MonetaryValue: '789'
+                          OtherCharges:
+                            MonetaryValue: '10'
+                            Description: '10'
+                          CurrencyCode: USD
+                          BlanketPeriod:
+                            BeginDate: '20130420'
+                            EndDate: '20130430'
+                          ExportDate: '20210406'
+                          ExportingCarrier: A
+                          CarrierID: IATA
+                          InBondCode: '70'
+                          EntryNumber: 1A34567876545360
+                          PointOfOrigin: MS
+                          PointOfOriginType: MS
+                          ModeOfTransport: Rail
+                          PortOfExport: Overland
+                          PortOfUnloading: Germany
+                          LoadingPier: Pier 17 Dock 31
+                          PartiesToTransaction: N
+                          License:
+                            Number: ''
+                            Date: ''
+                            ExceptionCode: ''
+                          ECCNNumber: ''
+                      Package:
+                        Description: IF
+                        Packaging:
+                          Code: '30'
+                          Description: IF
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: CM
+                            Description: IF
+                          Length: '50'
+                          Width: '37'
+                          Height: '40'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: KGS
+                            Description: IF
+                          Weight: '50'
+                      USPSEndorsement: ''
+                      CostCenter: '123'
+                      PackageID: ''
+                      InformationSourceCode: ''
+                      ShipmentValueThresholdCode: '01'
+              '13':
+                summary: Shipping with Carbon Neutral
+                value:
+                  ShipmentRequest:
+                    Shipment:
+                      Description: DG
+                      ShipmentDate: '20231012'
+                      Shipper:
+                        Name: Shipper_name
+                        AttentionName: Shipper_name
+                        CompanyDisplayableName: Shipper_name
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        ShipperNumber: 3217GG
+                        FaxNumber: '1234'
+                        EMailAddress: test@ups.com
+                        Address:
+                          AddressLine:
+                          - ShipperAddress
+                          - ShipperAddress
+                          - ShipperAddress
+                          City: Alpharetta
+                          StateProvinceCode: GA
+                          PostalCode: '30005'
+                          CountryCode: US
+                      ShipTo:
+                        Name: ShipToName
+                        AttentionName: ShipToName
+                        CompanyDisplayableName: ShipToName
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        FaxNumber: '1234'
+                        EMailAddress: test@ups.com
+                        Address:
+                          AddressLine:
+                          - ShipToAddress
+                          - ShipToAddress
+                          - ShipToAddress
+                          City: carrollton
+                          StateProvinceCode: GA
+                          PostalCode: '30117'
+                          CountryCode: US
+                      ShipFrom:
+                        Name: ShipFromName
+                        AttentionName: ShipFromName
+                        CompanyDisplayableName: ShipFromName
+                        TaxIdentificationNumber: '1234'
+                        TaxIDType:
+                          Code: EIN
+                        Phone:
+                          Number: '1234567890'
+                          Extension: '1234'
+                        FaxNumber: '1234'
+                        Address:
+                          AddressLine:
+                          - ShipFromAddress
+                          - ShipFromAddress
+                          - ShipFromAddress
+                          City: Texas
+                          StateProvinceCode: TX
+                          PostalCode: '77040'
+                          CountryCode: US
+                      PaymentInformation:
+                        ShipmentCharge:
+                          Type: '01'
+                          BillShipper:
+                            AccountNumber: 3217GG
+                      Service:
+                        Code: '01'
+                        Description: Next Day Air
+                      InvoiceLineTotal:
+                        CurrencyCode: USD
+                        MonetaryValue: '10'
+                      NumOfPiecesInShipment: '1'
+                      ShipmentServiceOptions:
+                        UPScarbonneutralIndicator: ''
+                      Package:
+                        Description: DG
+                        NumOfPieces: '10'
+                        Packaging:
+                          Code: '02'
+                          Description: desc
+                        Dimensions:
+                          UnitOfMeasurement:
+                            Code: IN
+                            Description: IN
+                          Length: '2'
+                          Width: '2'
+                          Height: '2'
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                            Description: LBS
+                          Weight: '50'
+                        PackageServiceOptions:
+                          PackedByStoreIndicator: ''
+                          PackageIdentifier: '123'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SHIPResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/shipments/{deprecatedVersion}/void/cancel/{shipmentidentificationnumber}":
+    delete:
+      deprecated: true
+      description: The Void Shipping API is used to cancel the previously scheduled
+        shipment
+      summary: Void Shipment
+      operationId: Deprecated VoidShipment
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: An identifier unique to the request. Length 32
+        required: false
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: An identifier of the client/source application that is making
+          the request.Length 512
+        required: false
+      - in: query
+        name: trackingnumber
+        schema:
+          type: string
+          minimum: 1
+        description: "The package's tracking number. You may have \nup to 20 different
+          tracking numbers listed.\nIf more than one tracking number, pass this \nvalue
+          as: trackingnumber= \n[\"1ZISUS010330563105\",\"1ZISUS01033056310\n8\"]
+          with a coma separating each number.\nAlpha-numeric. Must pass 1Z rules.
+          Must be \nupper case. Length 18"
+        required: false
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
+          default: v1
+        description: |
+            API Version.
+
+            Valid values:
+            - v1
+        required: true
+      - in: path
+        name: shipmentidentificationnumber
+        schema:
+          type: string
+          minimum: 1
+        description: "The shipment's identification number \nAlpha-numeric. Must pass
+          1Z rules. Must be \nupper case. Length 18"
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/VOIDSHIPMENTResponseWrapper"
         '400':
             description: Invalid Request
             content:
@@ -7737,11 +9666,12 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Response_Alert"
-            type: array
-          - "$ref": "#/components/schemas/Response_Alert"
+          description: |
+            Alert Container.  There can be zero to many alert containers with code and description.
+
+            **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          items:
+            "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -7811,11 +9741,13 @@ components:
       type: object
       properties:
         Disclaimer:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/ShipmentResults_Disclaimer"
-            type: array
-          - "$ref": "#/components/schemas/ShipmentResults_Disclaimer"
+          description: |
+              Disclaimer would be used to provide more information to shipper regarding the processed shipment. This would be used to notify shipper about possible taxes and duties that might have been added or might apply to the shipment. This field would be returned only if TaxInformationIndicator is present in a request.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/ShipmentResults_Disclaimer"
         ShipmentCharges:
           "$ref": "#/components/schemas/ShipmentResults_ShipmentCharges"
         NegotiatedRateCharges:
@@ -7871,17 +9803,21 @@ components:
           type: string
           maximum: 1
         PackageResults:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/ShipmentResults_PackageResults"
-            type: array
-          - "$ref": "#/components/schemas/ShipmentResults_PackageResults"
+          description: |
+              Returned Package Information.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/ShipmentResults_PackageResults"
         ControlLogReceipt:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/ShipmentResults_ControlLogReceipt"
-            type: array
-          - "$ref": "#/components/schemas/ShipmentResults_ControlLogReceipt"
+          description: |
+              Container for the High Value reports when forward shipments have declared value between $999 and $50,000 USD. \nTwo copies of high value report needs to be pointed out.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/ShipmentResults_ControlLogReceipt"
         Form:
           "$ref": "#/components/schemas/ShipmentResults_Form"
         CODTurnInPage:
@@ -7922,19 +9858,13 @@ components:
           maximum: 1
           type: string
         DGPaperImage:
-          description: Dangrous Good Paper Image in pdf format. One multipage PDF
-            document will be returned that will contain all required Dangrous Goods
-            shipping paper copies for all Dangerous Goods packages.  Only returned
-            when DGSignatoryInfo is present.
-          oneOf:
-          - description: Dangrous Good Paper Image in pdf format. One multipage PDF
-              document will be returned that will contain all required Dangrous Goods
-              shipping paper copies for all Dangerous Goods packages.  Only returned
-              when DGSignatoryInfo is present.
-            items:
-              type: string
-            type: array
-          - type: string
+          description: |
+              Dangerous Good Paper Image in pdf format. One multipage PDF document will be returned that will contain all required Dangrous Goods shipping paper copies for all Dangerous Goods packages. Only returned when DGSignatoryInfo is present.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          items:
+            type: string
+          type: array
         MasterCartonID:
           description: Master Carton ID. MasterCartonID will be return if MasterCartonIndicator
             is present in request.
@@ -7974,11 +9904,6 @@ components:
           type: string
       xml:
         name: Disclaimer
-      description: Disclaimer would be used to provide more information to shipper
-        regarding the processed shipment. This would be used to notify shipper about
-        possible taxes and duties that might have been added or might apply to the
-        shipment.  This field would be returned only if TaxInformationIndicator is
-        present in a request.
     ShipmentResults_ShipmentCharges:
       type: object
       maximum: 1
@@ -8011,19 +9936,23 @@ components:
         TransportationCharges:
           "$ref": "#/components/schemas/ShipmentCharges_TransportationCharges"
         ItemizedCharges:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/ShipmentCharges_ItemizedCharges"
-            type: array
-          - "$ref": "#/components/schemas/ShipmentCharges_ItemizedCharges"
+          description: |
+              Itemized Charges are returned only when the Subversion element is present and greater than or equal to 1601.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/ShipmentCharges_ItemizedCharges"
         ServiceOptionsCharges:
           "$ref": "#/components/schemas/ShipmentCharges_ServiceOptionsCharges"
         TaxCharges:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/ShipmentCharges_TaxCharges"
-            type: array
-          - "$ref": "#/components/schemas/ShipmentCharges_TaxCharges"
+          description: |
+              TaxCharges container are returned only when TaxInformationIndicator is present in request and when Negotiated Rates are not applicable. TaxCharges container contains Tax information for a given shipment.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/ShipmentCharges_TaxCharges"
         TotalCharges:
           "$ref": "#/components/schemas/ShipmentCharges_TotalCharges"
         TotalChargesWithTaxes:
@@ -8125,8 +10054,6 @@ components:
           maxLength: 50
       xml:
         name: ItemizedCharges
-      description: Itemized Charges are returned only when the Subversion element
-        is present and greater than or equal to 1601.
     ShipmentCharges_ServiceOptionsCharges:
       type: object
       maximum: 1
@@ -8173,9 +10100,6 @@ components:
           maxLength: 19
       xml:
         name: TaxCharges
-      description: TaxCharges container are returned only when TaxInformationIndicator
-        is present in request and when Negotiated Rates are not applicable. TaxCharges
-        container contains Tax information for a given shipment.
     ShipmentCharges_TotalCharges:
       type: object
       maximum: 1
@@ -8228,17 +10152,23 @@ components:
       type: object
       properties:
         ItemizedCharges:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
-            type: array
-          - "$ref": "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
+          description: |
+               Itemized Charges are returned only when the Subversion element is present and greater than or equal to 1601.
+
+               Negotiated itemized charges are only returned for certain contract-only shipments as well as Worldwide Express Freight, Ground Freight Pricing, and Hazmat movements.
+
+               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
         TaxCharges:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/NegotiatedRateCharges_TaxCharges"
-            type: array
-          - "$ref": "#/components/schemas/NegotiatedRateCharges_TaxCharges"
+          description: |
+              TaxCharges container are returned only when TaxInformationIndicator is present in request. TaxCharges container contains Tax information for a given shipment.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/NegotiatedRateCharges_TaxCharges"
         TotalCharge:
           "$ref": "#/components/schemas/NegotiatedRateCharges_TotalCharge"
         TotalChargesWithTaxes:
@@ -8290,10 +10220,6 @@ components:
           maxLength: 50
       xml:
         name: ItemizedCharges
-      description: |-
-        Itemized Charges are returned only when the Subversion element is present and greater than or equal to 1601.
-
-        Negotiated itemized charges are only returned for certain contract-only shipments as well as Worldwide Express Freight, Ground Freight Pricing, and Hazmat movements.
     NegotiatedRateCharges_TaxCharges:
       type: object
       maximum: 1
@@ -8318,9 +10244,6 @@ components:
           maxLength: 19
       xml:
         name: TaxCharges
-      description: TaxCharges container are returned only when TaxInformationIndicator
-        is present in request. TaxCharges container contains Tax information for a
-        given shipment.
     NegotiatedRateCharges_TotalCharge:
       type: object
       maximum: 1
@@ -8381,11 +10304,13 @@ components:
         FreightDensityRate:
           "$ref": "#/components/schemas/FRSShipmentData_FreightDensityRate"
         HandlingUnits:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
-            type: array
-          - "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
+          description: |
+                Handling Unit for Density based rating container.
+
+                **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
       xml:
         name: FRSShipmentData
       description: Ground Freight Pricing Shipment data container. Ground Freight
@@ -8535,7 +10460,6 @@ components:
           "$ref": "#/components/schemas/HandlingUnits_AdjustedHeight"
       xml:
         name: HandlingUnits
-      description: Handling Unit for Density based rating container.
     HandlingUnits_AdjustedHeight:
       type: object
       maximum: 1
@@ -8609,7 +10533,7 @@ components:
         TrackingNumber:
           description: "Package 1Z number.  \nFor Mail Innovations shipments, please
             use the USPSPICNumber when tracking packages (a non-1Z number Mail Manifest
-            Id is returned).  Applicable only for ShipmentResponse and ShipAcceptResponse."
+            Id is returned)."
           maximum: 1
           type: string
           minLength: 18
@@ -8636,27 +10560,29 @@ components:
           maximum: 1
           type: string
         Accessorial:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/PackageResults_Accessorial"
-            type: array
-          - "$ref": "#/components/schemas/PackageResults_Accessorial"
+          description: |
+              The container for Accessorial indicators. This information would be returned only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Mid-day service request with Dry Ice or Oversize Pallet and SubVersion greater than or equal to 1707. This is valid only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Mid-day service.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/PackageResults_Accessorial"
         SimpleRate:
           "$ref": "#/components/schemas/PackageResults_SimpleRate"
         Form:
           "$ref": "#/components/schemas/PackageResults_Form"
         ItemizedCharges:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/PackageResults_ItemizedCharges"
-            type: array
-          - "$ref": "#/components/schemas/PackageResults_ItemizedCharges"
+          description: |
+              Itemized Charges are returned only when the subversion element is present and greater than or equal to 1607. Package level itemized charges are only returned for US domestic movements.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/PackageResults_ItemizedCharges"
         NegotiatedCharges:
           "$ref": "#/components/schemas/PackageResults_NegotiatedCharges"
       xml:
         name: PackageResults
-      description: Returned Package Information.   Applicable only for ShipmentResponse
-        and ShipAcceptResponse.
     PackageResults_BaseServiceCharge:
       type: object
       maximum: 1
@@ -8692,15 +10618,15 @@ components:
       properties:
         CurrencyCode:
           description: Package accessorial charges currency code type. The currency
-            code used in the Shipment request is returned.   Applicable only for ShipmentResponse
-            and ShipAcceptResponse.
+            code used in the Shipment request is returned.
           maximum: 1
           type: string
           minLength: 3
           maxLength: 3
         MonetaryValue:
           description: |-
-            Package accessorial charges value amount.   Applicable only for ShipmentResponse and ShipAcceptResponse.
+            Package accessorial charges value amount.
+            
             Valid values are from 0 to 99999999999999.99
           maximum: 1
           type: string
@@ -8710,7 +10636,7 @@ components:
         name: ServiceOptionsCharges
       description: Shipment charges info. Shipment charges are only guaranteed to
         be returned for shipments whose origin country or territory is US or Puerto
-        Rico. Applicable only for ShipmentResponse and ShipAcceptResponse.
+        Rico.
     PackageResults_ShippingLabel:
       type: object
       required:
@@ -8720,34 +10646,27 @@ components:
         ImageFormat:
           "$ref": "#/components/schemas/ShippingLabel_ImageFormat"
         GraphicImage:
-          description: Base 64 encoded graphic image.   Applicable only for ShipmentResponse
-            and ShipAcceptResponse.
+          description: Base 64 encoded graphic image.
           maximum: 1
           type: string
         GraphicImagePart:
-          description: Base 64 encoded graphic image.  Applicable only for ShipmentResponse
-            and ShipAcceptResponse for Mail Innovations CN22 Combination Forward Label
-            with more than 3 commodities.
-          oneOf:
-          - description: Base 64 encoded graphic image.  Applicable only for ShipmentResponse
-              and ShipAcceptResponse for Mail Innovations CN22 Combination Forward
-              Label with more than 3 commodities.
-            items:
-              type: string
-            type: array
-          - type: string
+          description: |
+              Base 64 encoded graphic image. Applicable only for Mail Innovations CN22 Combination Forward Label with more than 3 commodities.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          items:
+            type: string
+          type: array
         InternationalSignatureGraphicImage:
           description: Base 64 encoded graphic image of the Warsaw text and signature
             box. EPL2, ZPL and SPL labels. The image will be returned for non-US based
             shipments. One image will be given per shipment and it will be in the
-            first PackageResults container.   Applicable only for ShipmentResponse
-            and ShipAcceptResponse.
+            first PackageResults container.
           maximum: 1
           type: string
         HTMLImage:
           description: Base 64 encoded html browser image rendering software. This
-            is only returned for gif and png image formats.   Applicable only for
-            ShipmentResponse and ShipAcceptResponse.
+            is only returned for gif and png image formats.
           maximum: 1
           type: string
         PDF417:
@@ -8755,7 +10674,7 @@ components:
             about 1,800 printable ASCII characters or 1,100 binary characters per
             symbol. The symbol is rectangular. The image is Base 64 encoded and returned
             if the LabelImageFormat code is GIF. Shipment with PRL return service
-            only. Applicable only for ShipmentResponse and ShipAcceptResponse.
+            only.
           maximum: 1
           type: string
       xml:
@@ -8765,7 +10684,7 @@ components:
         -\nForward shipments,\nShipments with PRL returns service, \nElectronic Return
         Label or Electronic Import Control Label shipments with SubVersion greater
         than or equal to 1707. Shipping label wont be returned if BarCodeImageIndicator
-        is present. Applicable only for ShipmentResponse and ShipAcceptResponse."
+        is present."
     ShippingLabel_ImageFormat:
       type: object
       maximum: 1
@@ -8777,8 +10696,7 @@ components:
             EPL = EPL2 SPL = SPL ZPL = ZPL GIF = gif images PNG = PNG images. Only
             EPL, SPL, ZPL and GIF are currently supported. For multi piece COD shipments,
             the label image format for the first package will always be a GIF for
-            any form of label requested. Applicable only for ShipmentResponse and
-            ShipAcceptResponse.'
+            any form of label requested.'
           maximum: 1
           type: string
           minLength: 3
@@ -8791,8 +10709,7 @@ components:
           maxLength: 35
       xml:
         name: ImageFormat
-      description: The container image format.   Applicable only for ShipmentResponse
-        and ShipAcceptResponse.
+      description: The container image format.
     PackageResults_ShippingReceipt:
       type: object
       required:
@@ -8802,8 +10719,7 @@ components:
         ImageFormat:
           "$ref": "#/components/schemas/ShippingReceipt_ImageFormat"
         GraphicImage:
-          description: "Base 64 encoded receipt in HTML format. \n  Applicable only
-            for ShipmentResponse and ShipAcceptResponse.\n\nThe receipt image is only
+          description: "Base 64 encoded receipt in HTML format.\n\nThe receipt image is only
             returned for the first 5 packages."
           maximum: 1
           type: string
@@ -8813,7 +10729,7 @@ components:
       description: |-
         Supported for following shipments -
         PRL shipments,
-        Electronic Return Label or Electronic Import Control Label shipments with SubVersion greater than or equal to 1707.  Applicable only for ShipmentResponse and ShipAcceptResponse.
+        Electronic Return Label or Electronic Import Control Label shipments with SubVersion greater than or equal to 1707.
     ShippingReceipt_ImageFormat:
       type: object
       maximum: 1
@@ -8836,8 +10752,7 @@ components:
           maxLength: 35
       xml:
         name: ImageFormat
-      description: Container for a Image Format.  Applicable only for ShipmentResponse
-        and ShipAcceptResponse.
+      description: Container for a Image Format.
     PackageResults_Accessorial:
       type: object
       maximum: 1
@@ -8858,11 +10773,6 @@ components:
           maxLength: 50
       xml:
         name: Accessorial
-      description: The container for Accessorial indicators. This information would
-        be returned only for UPS Worldwide Express Freight and UPS Worldwide Express
-        Freight Mid-day service request with Dry Ice or Oversize Pallet and SubVersion
-        greater than or equal to 1707.  This is valid only for UPS Worldwide Express
-        Freight and UPS Worldwide Express Freight Mid-day service.
     PackageResults_SimpleRate:
       type: object
       maximum: 1
@@ -9091,18 +11001,21 @@ components:
           maxLength: 50
       xml:
         name: ItemizedCharges
-      description: Itemized Charges are returned only when the subversion element
-        is present and greater than or equal to 1607.  Package level itemized charges
-        are only returned for US domestic movements
     PackageResults_NegotiatedCharges:
       type: object
       properties:
         ItemizedCharges:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
-            type: array
-          - "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
+          description: |
+              Negotiated Itemized Accessorial and SurCharges.
+              
+              Negotiated itemized charges are only returned for certain contract-only shipments as well as Worldwide Express Freight, Ground Freight Pricing, and Hazmat movements. Negotiated Itemized Accessorial and Sur Charges are returned only when the subversion element is present and greater than or equal to 1607.
+              
+              Package level itemized charges are only returned for US domestic movements
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
       xml:
         name: NegotiatedCharges
       description: |-
@@ -9151,12 +11064,6 @@ components:
           maxLength: 50
       xml:
         name: ItemizedCharges
-      description: |-
-        Negotiated Itemized Accessorial and SurCharges.
-
-        Negotiated itemized charges are only returned for certain contract-only shipments as well as Worldwide Express Freight, Ground Freight Pricing, and Hazmat movements.  Negotiated Itemized Accessorial and Sur Charges are returned only when the subversion element is present and greater than or equal to 1607.
-
-        Package level itemized charges are only returned for US domestic movements
     PackageResults_RateModifier:
       type: object
       required:
@@ -9199,15 +11106,11 @@ components:
         GraphicImage:
           description: |-
             Base 64 encoded html, EPL2, ZPL or SPL image.
-               Applicable only for ShipmentResponse and ShipAcceptResponse.
           maximum: 1
           type: string
       xml:
         name: ControlLogReceipt
       maximum: 1
-      description: "Container for the High Value reports when forward shipments have
-        declared value between $999 and $50,000 USD. \nTwo copies of high value report
-        needs to be pointed out.    Applicable only for ShipmentResponse and ShipAcceptResponse."
     ControlLogReceipt_ImageFormat:
       type: object
       maximum: 1
@@ -9235,8 +11138,7 @@ components:
           maxLength: 35
       xml:
         name: ImageFormat
-      description: Container for the High Value report format required if parent exist.    Applicable
-        only for ShipmentResponse and ShipAcceptResponse.
+      description: Container for the High Value report format required if parent exist.
     ShipmentResults_Form:
       type: object
       maximum: 1
@@ -9246,7 +11148,7 @@ components:
       properties:
         Code:
           description: |-
-            Code that indicates the type of form. Applicable only for ShipmentResponse and ShipAcceptResponse.
+            Code that indicates the type of form.
 
             Valid values: 01 - All Requested International Forms.
           maximum: 1
@@ -9255,8 +11157,7 @@ components:
           maxLength: 2
         Description:
           description: "Description that indicates the type of form. Possible Values.
-            All Requested International Forms. \n   Applicable only for ShipmentResponse
-            and ShipAcceptResponse."
+            All Requested International Forms."
           maximum: 1
           type: string
           minLength: 1
@@ -9266,7 +11167,7 @@ components:
         FormGroupId:
           description: "Unique Id for later retrieval of saved version of the completed
             international forms. Always returned when code = 01. 01 represents international
-            forms. \n   Applicable only for ShipmentResponse and ShipAcceptResponse."
+            forms."
           maximum: 1
           type: string
           minLength: 1
@@ -9274,8 +11175,7 @@ components:
         FormGroupIdName:
           description: Contains description text which identifies the group of International
             forms. This element is part of both request and response. This element
-            does not appear on the forms.    Applicable only for ShipmentResponse
-            and ShipAcceptResponse.
+            does not appear on the forms.
           maximum: 1
           type: string
           minLength: 1
@@ -9296,8 +11196,7 @@ components:
           "$ref": "#/components/schemas/CODTurnInPage_Image"
       xml:
         name: CODTurnInPage
-      description: The container of the COD Turn In Page.    Applicable only for ShipmentResponse
-        and ShipAcceptResponse.
+      description: The container of the COD Turn In Page.
       maximum: 1
     CODTurnInPage_Image:
       type: object
@@ -9314,8 +11213,7 @@ components:
       xml:
         name: Image
       maximum: 1
-      description: The container of the image for COD Turn In Page.    Applicable
-        only for ShipmentResponse and ShipAcceptResponse.
+      description: The container of the image for COD Turn In Page.
     ShipmentResults_HighValueReport:
       type: object
       required:
@@ -9326,8 +11224,7 @@ components:
       xml:
         name: HighValueReport
       description: Container for the High Value Report generated for ImportControl
-        or Return shipments with high package declared value.  Applicable for one
-        pass ShipmentResponse and two-pass ShipAcceptResponse
+        or Return shipments with high package declared value.
       maximum: 1
     HighValueReport_Image:
       type: object
@@ -9454,11 +11351,14 @@ components:
         SummaryResult:
           "$ref": "#/components/schemas/VoidShipmentResponse_SummaryResult"
         PackageLevelResult:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/VoidShipmentResponse_PackageLevelResult"
+          description: |
+              Contains the Package Level Results.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/VoidShipmentResponse_PackageLevelResult"
             type: array
-          - "$ref": "#/components/schemas/VoidShipmentResponse_PackageLevelResult"
       xml:
         name: VoidShipmentResponse
       description: Void Response Container.
@@ -9511,12 +11411,6 @@ components:
           type: string
           minLength: 1
           maxLength: 512
-        TransactionIdentifier:
-          description: The Unique TransactionIdentifier Information for that transaction. This will be present only if requested in the request.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 35
       xml:
         name: TransactionReference
       description: Transaction Reference Container.
@@ -9570,7 +11464,6 @@ components:
           "$ref": "#/components/schemas/PackageLevelResult_Status"
       xml:
         name: PackageLevelResult
-      description: Contains the Package Level Results
     PackageLevelResult_Status:
       type: object
       maximum: 1
@@ -10442,20 +12335,24 @@ components:
     ErrorResponse:
       type: object
       properties:
-         errors: 
+        response:
+          "$ref": "#/components/schemas/CommonErrorResponse"
+    CommonErrorResponse:
+      type: object
+      description: The error response containing any errors that occurred.
+      properties:
+        errors: 
           type: array
-          description: The error response containing any errors that occurred.
+          description: The error array containing any errors that occurred.
           items: 
-            $ref: '#/components/schemas/ErrorMessage'
+            "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
         code:
           type: string
           description: The error code.
-          example: VSS300
         message:
           type: string
           description: The error message.
-          example: Locale is required. The Subscription request has been rejected.
-      description: The error response containing any errors that occurred
+      description: The error response containing any errors that occurred.

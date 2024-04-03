@@ -13,10 +13,10 @@ tags:
   x-displayName: Methods
   description: |
     Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups. 
-    - <a href="https://developer.ups.com/api/reference/pickup/business-rules" target="_blank">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/pickup/appendix" target="_blank">Appendix</a>
-    - <a href="https://developer.ups.com/api/reference/pickup/errors" target="_blank">Errors</a>
-    - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/pickup/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/pickup/appendix" target="_blank" rel="noopener">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/pickup/errors" target="_blank"rel="noopener">Errors</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 paths:
   "/shipments/{version}/pickup/{pickuptype}":
     post:
@@ -44,7 +44,11 @@ paths:
           type: string
           minimum: 1
           default: v1
-        description: Version of the API. Valid values v1
+        description: |
+            Version of the API. 
+            
+            Valid values:
+            - v1
         required: true
       - in: path
         name: pickuptype
@@ -148,7 +152,11 @@ paths:
           type: string
           minimum: 1
           default: v1
-        description: version of API e.g v1
+        description: |
+            Version of API 
+
+            Valid values:
+            - v1
         required: true
       - in: path
         name: pickuptype
@@ -230,8 +238,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
-        description: version of API e.g v1
+          default: v2403
+        description: |
+            Version of API.
+
+            Valid values:
+            - v2403
         required: true
       responses:
         '200':
@@ -290,9 +302,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
-        description: "Version of the API. Valid values: \nv1\nv1607\nv1707.\nLength
-          5"
+          default: v2403
+        description: |
+            Version of the API. 
+            
+            Valid values:
+            - v2403
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -408,7 +423,11 @@ paths:
           type: string
           minimum: 1
           default: v1
-        description: Version of API e.g. v1
+        description: |
+            Version of API.
+            
+            Valid values:
+            - v1
         required: true
       - in: path
         name: countrycode
@@ -474,7 +493,11 @@ paths:
         schema:
           type: string
           default: v1
-        description: Version of API e.g v1
+        description: |
+            Version of API.
+            
+            Valid values:
+            - v1
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -508,6 +531,207 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/PICKUPServCenterResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/shipments/{deprecatedVersion}/pickup/{CancelBy}":
+    delete:
+      deprecated: true
+      description: Using the CancelBy endpoint of the Pickup API, users can request cancellation of a UPS on-demand package pickup. When the PRN (pickup request number), transaction ID, and the transaction source are supplied as required parameters, the endpoint returns confirmation that the pickup has been cancelled.
+      summary: Pickup Cancel
+      operationId: Deprecated Pickup Cancel
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: An identifier unique to the request. Length 32
+        required: false
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: An identifier of the client/source application that is making
+          the request.Length 512
+        required: false
+      - in: header
+        name: Prn
+        schema:
+          type: string
+        description: "The pickup equest number (PRN) generated by \nUPS pickup system.\nRequired
+          if CancelBy = prn.Length 26"
+        required: false
+      - in: path
+        name: CancelBy
+        schema:
+          type: string
+        description: 'Valid Values: 01 = AccountNumber, 02 = PRN'
+        required: true
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
+          minimum: 1
+          default: v1
+        description: |
+            Version of API.
+            
+            Valid values:
+            - v1
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PICKUPCancelResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/pickupcreation/{deprecatedVersion}/pickup":
+    post:
+      deprecated: true
+      description: Using the Pickup API, applications can schedule pickups, manage
+        previously scheduled pickups, or cancel previously scheduled pickups.
+      summary: Pickup Creation
+      operationId: Deprecated Pickup Creation
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: An identifier unique to the request. Length 32
+        required: false
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: An identifier of the client/source application that is making
+          the request.Length 512
+        required: false
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
+          minimum: 1
+          default: v1
+        description: |
+            Version of the API.
+            
+            Valid values:
+            - v1
+            - v1607
+            - v1707
+        required: true
+      requestBody:
+        description: Generate sample code for popular API requests by selecting an
+          example below. To view a full sample request and response, first click "Authorize"
+          and enter your application credentials, then populate the required parameters
+          above and click "Try it out".
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PICKUPCreationRequestWrapper"
+            examples:
+              json:
+                summary: A sample JSON request (Standard Example)
+                value:
+                  PickupCreationRequest:
+                    RatePickupIndicator: N
+                    Shipper:
+                      Account:
+                        AccountNumber: ShipperNumber
+                        AccountCountryCode: US
+                    PickupDateInfo:
+                      CloseTime: '1400'
+                      ReadyTime: '0500'
+                      PickupDate: '20221214'
+                    PickupAddress:
+                      CompanyName: Pickup Proxy
+                      ContactName: Pickup Manager
+                      AddressLine: 123 Main Street
+                      Room: R01
+                      Floor: '2'
+                      City: Allendale
+                      StateProvince: NJ
+                      Urbanization: ''
+                      PostalCode: '07401'
+                      CountryCode: US
+                      ResidentialIndicator: Y
+                      PickupPoint: Lobby
+                      Phone:
+                        Number: '5555555555'
+                        Extension: '911'
+                    AlternateAddressIndicator: Y
+                    PickupPiece:
+                    - ServiceCode: '001'
+                      Quantity: '27'
+                      DestinationCountryCode: US
+                      ContainerCode: '01'
+                    - ServiceCode: '012'
+                      Quantity: '4'
+                      DestinationCountryCode: US
+                      ContainerCode: '01'
+                    TotalWeight:
+                      Weight: '5.5'
+                      UnitOfMeasurement: LBS
+                    OverweightIndicator: N
+                    PaymentMethod: '01'
+                    SpecialInstruction: 'Test '
+                    ReferenceNumber: CreatePickupRef
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/PICKUPCreationResponseWrapper"
         '400':
             description: Invalid Request
             content:
@@ -2144,17 +2368,21 @@ components:
           minLength: 3
           maxLength: 3
         ChargeDetail:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/RateResult_ChargeDetail"
-            type: array
-          - "$ref": "#/components/schemas/RateResult_ChargeDetail"
+          description: |
+              Container to hold taxes when, detailed taxes are request via RateTaxIndicator.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/RateResult_ChargeDetail"
         TaxCharges:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/RateResult_TaxCharges"
-            type: array
-          - "$ref": "#/components/schemas/RateResult_TaxCharges"
+          description: |
+              Container to hold taxes when, detailed taxes are request via RateTaxIndicator.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/RateResult_TaxCharges"
         TotalTax:
           description: The sum of all taxes.
           maximum: 1
@@ -2290,11 +2518,9 @@ components:
           description: The Political Division 1/State Field.
           minLength: 1
           maxLength: 50
-          oneOf:
-          - items:
-              type: string
-            type: array
-          - type: string
+          type: array
+          items:
+            type: string
       xml:
         name: PickupGetPoliticalDivision1ListResponse
       description: The response for getting a list of valid Political Division 1 or
@@ -2716,11 +2942,9 @@ components:
       - DayOfWeek
       properties:
         DayOfWeek:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/FacilityTime_DayOfWeek"
-            type: array
-          - "$ref": "#/components/schemas/FacilityTime_DayOfWeek"
+          type: array
+          items:
+            "$ref": "#/components/schemas/FacilityTime_DayOfWeek"
       xml:
         name: FacilityTime
       description: Facility Time Container
@@ -3208,20 +3432,24 @@ components:
     ErrorResponse:
       type: object
       properties:
-         errors: 
+        response:
+          "$ref": "#/components/schemas/CommonErrorResponse"
+    CommonErrorResponse:
+      type: object
+      description: The error response containing any errors that occurred.
+      properties:
+        errors: 
           type: array
-          description: The error response containing any errors that occurred.
+          description: The error array containing any errors that occurred.
           items: 
-            $ref: '#/components/schemas/ErrorMessage'
+            "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
         code:
           type: string
           description: The error code.
-          example: VSS300
         message:
           type: string
           description: The error message.
-          example: Locale is required. The Subscription request has been rejected.
-      description: The error response containing any errors that occurred
+      description: The error response containing any errors that occurred.

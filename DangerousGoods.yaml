@@ -14,11 +14,11 @@ tags:
   description: |
         The Dangerous Goods API provides the ability to determine if certain materials, such as dangerous goods or hazardous materials, can be shipped with UPS. The API's two endpoints - Chemical Reference Data and Acceptance Audit Precheck, help perform pre-checks before shipping any dangerous goods.
         
-        - <a href="https://developer.ups.com/api/reference/dangerousgoods/business-rules" target="_blank">Business Rules</a>
-        - <a href="https://developer.ups.com/api/reference/dangerousgoods/appendix" target="_blank">Appendix</a>
-        - <a href="https://developer.ups.com/api/reference/dangerousgoods/errors" target="_blank">Errors</a>
-        - <a href="https://developer.ups.com/api/reference/dangerousgoods/faq" target="_blank">FAQ</a>
-        - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+        - <a href="https://developer.ups.com/api/reference/dangerousgoods/business-rules" target="_blank" rel="noopener">Business Rules</a>
+        - <a href="https://developer.ups.com/api/reference/dangerousgoods/appendix" target="_blank" rel="noopener">Appendix</a>
+        - <a href="https://developer.ups.com/api/reference/dangerousgoods/errors" target="_blank" rel="noopener">Errors</a>
+        - <a href="https://developer.ups.com/api/reference/dangerousgoods/faq" target="_blank" rel="noopener">FAQ</a>
+        - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 paths:
   "/dangerousgoods/{version}/chemicalreferencedata":
     post:
@@ -45,11 +45,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
-        description: |-
-          Version of the API. Valid values:
-          v1
-          v1801. Length 5
+          default: v2403
+        description: |
+          Version of the API. 
+          
+          Valid values:
+          - v2403
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -124,8 +125,12 @@ paths:
         name: version
         schema:
           type: string
-          default: v1
-        description: API version
+          default: v2
+        description: |
+            API version
+
+            Valid values:
+            - v2
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -146,7 +151,220 @@ paths:
                       RequestOption: Request
                       TransactionReference:
                         CustomerContext: ''
-                        TransactionIdentifier: TransactionIdentifier
+                    OriginRecordTransactionTimestamp: "      "
+                    Shipment:
+                      ShipperNumber: " "
+                      ShipFromAddress:
+                        AddressLine: 226 ELMWOOD AVE
+                        City: BOGOTA
+                        StateProvinceCode: NJ
+                        PostalCode: '7603'
+                        CountryCode: US
+                      ShipToAddress:
+                        AddressLinde: MY STREET 11
+                        City: DIEGEM
+                        StateProvinceCode: "          "
+                        PostalCode: '1831'
+                        CountryCode: BE
+                      Service:
+                        Code: '01'
+                        Description: 'GROUND '
+                      RegulationSet: IATA
+                      Package:
+                        PackageIdentifier: '12'
+                        PackageWeight:
+                          Weight: '12'
+                          UnitOfMeasurement:
+                            Code: KGS
+                            Description: KILOS
+                        QValue: '0'
+                        OverPackedIndicator: I
+                        TransportationMode: PAX
+                        EmergencyContact: SELF
+                        ChemicalRecord:
+                          ChemicalRecordIdentifier: '12'
+                          ReportableQuantity: RQ
+                          ClassDivisionNumber: '3'
+                          SubRiskClass: "            "
+                          IDNumber: UN2621
+                          PackagingGroupType: III
+                          Quantity: '10'
+                          UOM: KGS
+                          PackagingInstructionCode: Y344
+                          ProperShippingName: ACETYL METHYL CARBINOL
+                          TechnicalName: "            "
+                          AdditionalDescription: N
+                          PackagingType: Fiberboard Box
+                          HazardLabelRequired: LABEL IT
+                          PackagingTypeQuantity: '22'
+                          CommodityRegulatedLevelCode: LQ
+                          TransportCategory: '3'
+                          TunnelRestrictionCode: '1'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYAPCResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/dangerousgoods/{deprecatedVersion}/chemicalreferencedata":
+    post:
+      deprecated: true
+      summary: Chemical Reference Data
+      description: The Chemical Reference Data endpoint of the Dangerous Goods API allows shippers look up hazardous material reference information by ID number and shipping name of the specified regulated good.
+      operationId: Deprecated Chemical Reference Data
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: An identifier unique to the request. Length 32
+        required: true
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: An identifier of the client/source application that is making
+          the request.Length 512
+        required: true
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
+          minimum: 1
+          default: v1
+        description: |
+          Version of the API.
+          
+          Valid values:
+          - v1
+          - v1801.
+        required: true
+      requestBody:
+        description: Generate sample code for popular API requests by selecting an
+          example below. To view a full sample request and response, first click "Authorize"
+          and enter your application credentials, then populate the required parameters
+          above and click "Try it out".
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYRequestWrapper"
+            examples:
+              json:
+                summary: A sample JSON request (Standard Example)
+                value:
+                  ChemicalReferenceDataRequest:
+                    IDNumber: UN1088
+                    ProperShippingName: Acetal
+                    ShipperNumber: Your Shipper Number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
+    post:
+      deprecated: true
+      description: Enables shippers perform pre-checks before shipping dangerous goods using the chemical record identifier and the commodity's regulated level code.
+      summary: Acceptance Audit Pre-check
+      operationId: Deprecated Acceptance Audit Pre-Check
+      parameters:
+      - in: header
+        name: transId
+        schema:
+          type: string
+        description: An identifier unique to the request. Length 32
+        required: true
+      - in: header
+        name: transactionSrc
+        schema:
+          type: string
+          default: testing
+        description: An identifier of the client/source application that is making
+          the request.Length 512
+        required: true
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
+          default: v1
+        description: |
+            API version
+
+            Valid values:
+            - v1
+        required: true
+      requestBody:
+        description: Generate sample code for popular API requests by selecting an
+          example below. To view a full sample request and response, first click "Authorize"
+          and enter your application credentials, then populate the required parameters
+          above and click "Try it out".
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYAPCRequestWrapper"
+            examples:
+              json:
+                summary: A sample JSON request
+                value:
+                  AcceptanceAuditPreCheckRequest:
+                    Request:
+                      RequestOption: Request
+                      TransactionReference:
+                        CustomerContext: ''
                     OriginRecordTransactionTimestamp: "      "
                     Shipment:
                       ShipperNumber: " "
@@ -354,11 +572,13 @@ components:
         Response:
           "$ref": "#/components/schemas/ChemicalReferenceDataResponse_Response"
         ChemicalData:
-          oneOf:
-          - items:
+          description: |
+              Container to hold Chemical Data information.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
               "$ref": "#/components/schemas/ChemicalReferenceDataResponse_ChemicalData"
-            type: array
-          - "$ref": "#/components/schemas/ChemicalReferenceDataResponse_ChemicalData"
       xml:
         name: ChemicalReferenceDataResponse
       description: Dangerous Goods Utility Response container for Chemical Reference
@@ -372,11 +592,13 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Response_Alert"
-            type: array
-          - "$ref": "#/components/schemas/Response_Alert"
+          description: |
+            Alert Container.  There can be zero to many alert containers with code and description.
+
+            **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -452,14 +674,15 @@ components:
         ProperShippingNameDetail:
           "$ref": "#/components/schemas/ChemicalData_ProperShippingNameDetail"
         PackageQuantityLimitDetail:
-          oneOf:
-          - items:
+          description: |
+              Container to hold Package Quantity Limit Detail information.  It will be returned if applies for a given chemical record.
+
+              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
               "$ref": "#/components/schemas/ChemicalData_PackageQuantityLimitDetail"
-            type: array
-          - "$ref": "#/components/schemas/ChemicalData_PackageQuantityLimitDetail"
       xml:
         name: ChemicalData
-      description: Container to hold Chemical Data information.
     ChemicalData_ChemicalDetail:
       type: object
       maximum: 1
@@ -665,8 +888,6 @@ components:
           maxLength: 353
       xml:
         name: PackageQuantityLimitDetail
-      description: Container to hold Package Quantity Limit Detail information.  It
-        will be returned if applies for a given chemical record.
     DANGEROUSGOODSUTILITYAPCRequestWrapper:
       xml:
         name: AcceptanceAuditPreCheckRequest
@@ -1165,12 +1386,14 @@ components:
           minLength: 3
           maxLength: 5
         PackageResults:
-          oneOf:
-          - items:
+          description: |
+            Package Results container.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          maximum: 20
+          items:
               "$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_PackageResults"
-            type: array
-            maximum: 20
-          - "$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_PackageResults"
       xml:
         name: AcceptanceAuditPreCheckResponse
       maximum: 1
@@ -1184,17 +1407,22 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Response_Alert"
-            type: array
-          - "$ref": "#/components/schemas/Response_Alert"
+          description: |
+            Alert Container.  There can be zero to many alert containers with code and description.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Response_Alert"
         AlertDetail:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Response_AlertDetail"
-            type: array
-          - "$ref": "#/components/schemas/Response_AlertDetail"
+          description: |
+              Alert Detail Container.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Response_AlertDetail"
+            
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -1225,7 +1453,6 @@ components:
           "$ref": "#/components/schemas/AlertDetail_ElementLevelInformation"
       xml:
         name: AlertDetail
-      description: Alert Detail Container.
     AlertDetail_ElementLevelInformation:
       type: object
       maximum: 1
@@ -1311,15 +1538,16 @@ components:
           minLength: 1
           maxLength: 1
         ChemicalRecordResults:
-          oneOf:
-          - items:
+          description: |
+            Chemical Records Results container.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          maximum: 3
+          items:
               "$ref": "#/components/schemas/PackageResults_ChemicalRecordResults"
-            type: array
-            maximum: 3
-          - "$ref": "#/components/schemas/PackageResults_ChemicalRecordResults"
       xml:
         name: PackageResults
-      description: Package Results container.
     PackageResults_ChemicalRecordResults:
       type: object
       maximum: 1
@@ -1360,24 +1588,27 @@ components:
           maxLength: 7
       xml:
         name: ChemicalRecordResults
-      description: Chemical Records Results container.
     ErrorResponse:
       type: object
       properties:
-         errors: 
+        response:
+          "$ref": "#/components/schemas/CommonErrorResponse"
+    CommonErrorResponse:
+      type: object
+      description: The error response containing any errors that occurred.
+      properties:
+        errors: 
           type: array
-          description: The error response containing any errors that occurred.
+          description: The error array containing any errors that occurred.
           items: 
-            $ref: '#/components/schemas/ErrorMessage'
+            "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
         code:
           type: string
           description: The error code.
-          example: VSS300
         message:
           type: string
           description: The error message.
-          example: Locale is required. The Subscription request has been rejected.
-      description: The error response containing any errors that occurred
+      description: The error response containing any errors that occurred.
