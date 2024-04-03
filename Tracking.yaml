@@ -1,4 +1,3 @@
----
 openapi: 3.0.1
 info:
   title: UPS TrackService API
@@ -23,9 +22,9 @@ tags:
     - **Improved cash flow**: Reduce the time it takes to collect payments by tracking shipments and invoices electronically.
 
     Additional Info:
-    - <a href="https://developer.ups.com/api/reference/tracking/business-rules" target="_blank">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/tracking/api-code" target="_blank">API Codes</a>
-    - <a href="https://github.com/UPS-API" target="_blank">GitHub - Sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/tracking/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/tracking/api-code" target="_blank" rel="noopener">API Codes</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - Sample integration code</a>
 paths:
   "/track/v1/details/{inquiryNumber}":
     get:
@@ -61,6 +60,12 @@ paths:
         schema:
           type: string
           default: 'false'
+      - name: returnPOD
+        in: query
+        description: Return Proof of Delivery
+        schema:
+          type: string
+          default: 'false'
       - name: transId
         in: header
         description: An identifier unique to the request.
@@ -81,12 +86,6 @@ paths:
             "application/json":
               schema:
                 "$ref": "#/components/schemas/TrackApiResponse"
-        '207':
-          description: Tracking Information not found for all inquiry numbers
-          content:
-            "application/json":
-              schema:
-                "$ref": "#/components/schemas/Response"
         '400':
           description: Invalid request
           content:
@@ -252,6 +251,14 @@ components:
           example: ''
         signature:
           "$ref": "#/components/schemas/Signature"
+        pod:
+           title: POD
+           type: object
+           description: Container which contains Proof of Delivery.
+           properties:
+            content:
+              type: string
+              description: 'The base64 encoded string representation of the Delivery Proof. Note: This is considered sensitive data and may only be returned for a user that has rights to the package.'
     DeliveryTime:
       title: DeliveryTime
       type: object
@@ -500,6 +507,12 @@ components:
             is associated with the package.
           example: SHIPMENT
     Response:
+      title: Response
+      type: object
+      properties:
+        response:
+          "$ref": "#/components/schemas/ErrorResponse"
+    ErrorResponse:
       title: Response
       type: object
       properties:

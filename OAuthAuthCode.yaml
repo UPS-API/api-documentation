@@ -45,7 +45,7 @@ tags:
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API" target="_blank">Sample integration code on GitHub</a>
 paths:
-  "/v1/oauth/authorize":
+  "security/v1/oauth/authorize":
     get:
       summary: Authorize Client
       description: |-
@@ -132,7 +132,7 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/tokenErrorResponse"
-  "/v1/oauth/token":
+  "security/v1/oauth/token":
     post:
       security:
       - basicAuth: []
@@ -193,7 +193,7 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/tokenErrorResponse"
-  "/v1/oauth/refresh":
+  "security/v1/oauth/refresh":
     post:
       security:
       - basicAuth: []

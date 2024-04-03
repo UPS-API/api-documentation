@@ -21,10 +21,10 @@ tags:
   x-displayName: Methods
   description: |
     Landed Cost provides an all-inclusive cost estimate of international shipments. 
-    - <a href="https://developer.ups.com/api/reference/landedcostquoting/business-rules" target="_blank">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/landedcostquoting/appendix" target="_blank">Appendix</a>
-    - <a href="https://developer.ups.com/api/reference/landedcostquoting/errors" target="_blank">Errors</a>
-    - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/landedcostquoting/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/landedcostquoting/appendix" target="_blank" rel="noopener">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/landedcostquoting/errors" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 paths:
   "/landedcost/{version}/quotes":
     post:
@@ -634,20 +634,24 @@ components:
     ErrorResponse:
       type: object
       properties:
-         errors: 
+        response:
+          "$ref": "#/components/schemas/CommonErrorResponse"
+    CommonErrorResponse:
+      type: object
+      description: The error response containing any errors that occurred.
+      properties:
+        errors: 
           type: array
-          description: The error response containing any errors that occurred.
+          description: The error array containing any errors that occurred.
           items: 
-            $ref: '#/components/schemas/ErrorMessage'
+            "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
         code:
           type: string
           description: The error code.
-          example: VSS300
         message:
           type: string
           description: The error message.
-          example: Locale is required. The Subscription request has been rejected.
-      description: The error response containing any errors that occurred
+      description: The error response containing any errors that occurred.

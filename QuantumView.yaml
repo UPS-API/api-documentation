@@ -13,11 +13,11 @@ tags:
   x-displayName: Methods
   description: |
     UPS Quantum View is a suite of services that gives you and your customers details regarding UPS shipments. 
-    - <a href="https://developer.ups.com/api/reference/quantumview/business-rules" target="_blank">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/quantumview/appendix" target="_blank">Appendix</a>
-    - <a href="https://developer.ups.com/api/reference/quantumview/errors" target="_blank">Errors</a>
-    - <a href="https://developer.ups.com/api/reference/quantumview/faq" target="_blank">FAQ</a>
-    - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/quantumview/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/quantumview/appendix" target="_blank" rel="noopener">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/quantumview/errors" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/quantumview/faq" target="_blank" rel="noopener">FAQ</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 paths:
   "/quantumview/{version}/events":
     post:
@@ -29,8 +29,84 @@ paths:
         name: version
         schema:
           type: string
+          default: v2
+        description: |
+            Version of API.
+
+            Valid values:
+            - v2
+        required: true
+      requestBody:
+        description: Generate sample code for popular API requests by selecting an
+          example below. To view a full sample request and response, first click "Authorize"
+          and enter your application credentials, then populate the required parameters
+          above and click "Try it out".
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/QUANTUMVIEWRequestWrapper"
+            examples:
+              json:
+                summary: A sample JSON request (Standard Example)
+                value:
+                  QuantumViewRequest:
+                    Request:
+                      TransactionReference:
+                        CustomerContext: ''
+                        XpciVersion: '1.0007'
+                      RequestAction: QVEvents
+                    SubscriptionRequest:
+                      FileName: '220104_140019001'
+                      Name: OutboundXML
+                      Bookmark: WE9MVFFBMQ==
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/QUANTUMVIEWResponseWrapper"
+        '400':
+            description: Invalid Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '401':
+            description: Unauthorized Request
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+        '429':
+            description: Rate Limit Exceeded
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/ErrorResponse"
+  "/quantumview/{deprecatedVersion}/events":
+    post:
+      summary: Quantum View
+      description: Get Quantum View Response
+      operationId: QuantumView
+      parameters:
+      - in: path
+        name: deprecatedVersion
+        schema:
+          type: string
           default: v1
-        description: Version of API
+        description: |
+            Version of API.
+
+            Valid values:
+            - v1
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -275,11 +351,13 @@ components:
           minLength: 1
           maxLength: 15
         Error:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Response_Error"
-            type: array
-          - "$ref": "#/components/schemas/Response_Error"
+          description: |
+              If an error is encountered during the interchange, the Response contains an error. If the error is present, then the ErrorSeverity and ErrorCodes are required. 
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Response_Error"
       xml:
         name: Response
       maximum: 1
@@ -336,23 +414,25 @@ components:
           minLength: 1
           maxLength: 5
         ErrorLocation:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Error_ErrorLocation"
-            type: array
-          - "$ref": "#/components/schemas/Error_ErrorLocation"
+          description: |
+              Identifies the element in error.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Error_ErrorLocation"
         ErrorDigest:
-          description: The contents of the element in error.
-          oneOf:
-          - items:
-              type: string
-            type: array
-          - type: string
+          description: |
+              The contents of the element in error.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            type: string
       xml:
         name: Error
       required:
-      - ErrorLocation
-      description: If an error is encountered during the interchange, the Response contains an error. If the error is present, then the ErrorSeverity and ErrorCodes are required.  
+      - ErrorLocation 
     Error_ErrorLocation:
       type: object
       maximum: 1
@@ -371,7 +451,6 @@ components:
           maxLength: 50
       xml:
         name: ErrorLocation
-      description: Identifies the element in error.
     Error_ErrorDigest:
       description: The contents of the element in error.
       type: string
@@ -389,11 +468,13 @@ components:
           minLength: 1
           maxLength: 16
         SubscriptionEvents:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/QuantumViewEvents_SubscriptionEvents"
-            type: array
-          - "$ref": "#/components/schemas/QuantumViewEvents_SubscriptionEvents"
+          description: |
+              The event that a user receives a subset of Tracking information specific to either packages coming or packages going, after subscription request is made.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/QuantumViewEvents_SubscriptionEvents"
       xml:
         name: QuantumViewEvents
       description: The event that a user receives echoing Subscriber ID and information
@@ -421,18 +502,17 @@ components:
         DateRange:
           "$ref": "#/components/schemas/SubscriptionEvents_DateRange"
         SubscriptionFile:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/SubscriptionEvents_SubscriptionFile"
-            type: array
-          - "$ref": "#/components/schemas/SubscriptionEvents_SubscriptionFile"
+          description: |
+              Container holds all of the unread files associated with the subscription.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SubscriptionEvents_SubscriptionFile"
       xml:
         name: SubscriptionEvents
       required:
       - SubscriptionStatus
-      description: The event that a user receives a subset of Tracking information
-        specific to either packages coming or packages going, after subscription request
-        is made.
     SubscriptionEvents_SubscriptionStatus:
       type: object
       maximum: 1
@@ -510,41 +590,48 @@ components:
           maxLength: 16
         StatusType:
           "$ref": "#/components/schemas/SubscriptionFile_StatusType"
-      oneOf:
-      - properties:
-          Manifest:
-            oneOf:
-            - items:
-                "$ref": "#/components/schemas/SubscriptionFile_Manifest"
-              type: array
-            - "$ref": "#/components/schemas/SubscriptionFile_Manifest"
-          Origin:
-            oneOf:
-            - items:
-                "$ref": "#/components/schemas/SubscriptionFile_Origin"
-              type: array
-            - "$ref": "#/components/schemas/SubscriptionFile_Origin"
-          Exception:
-            oneOf:
-            - items:
-                "$ref": "#/components/schemas/SubscriptionFile_Exception"
-              type: array
-            - "$ref": "#/components/schemas/SubscriptionFile_Exception"
-          Delivery:
-            oneOf:
-            - items:
-                "$ref": "#/components/schemas/SubscriptionFile_Delivery"
-              type: array
-            - "$ref": "#/components/schemas/SubscriptionFile_Delivery"
-          Generic:
-            oneOf:
-            - items:
-                "$ref": "#/components/schemas/SubscriptionFile_Generic"
-              type: array
-            - "$ref": "#/components/schemas/SubscriptionFile_Generic"
+        Manifest:
+          description: |
+            Container represents all data that is relevant for the shipment, such as origin, destination, shipper, payment method etc. It will be returned when available.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SubscriptionFile_Manifest"
+        Origin:
+          description: |
+            Information about shipment's origin.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SubscriptionFile_Origin"
+        Exception:
+          description: |
+            Shipment exception data.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SubscriptionFile_Exception"
+        Delivery:
+          description: |
+            Container for delivery information.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SubscriptionFile_Delivery"
+        Generic:
+          description: |
+            Container for generic record information.
+
+            **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/SubscriptionFile_Generic"
       xml:
         name: SubscriptionFile
-      description: Container holds all of the unread files associated with the subscription.
     SubscriptionFile_StatusType:
       type: object
       maximum: 1
@@ -583,11 +670,13 @@ components:
         ShipTo:
           "$ref": "#/components/schemas/Manifest_ShipTo"
         ReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Manifest_ReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Manifest_ReferenceNumber"
+          description: |
+              Shipment-level reference numbers.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Manifest_ReferenceNumber"
         Service:
           "$ref": "#/components/schemas/Manifest_Service"
         PickupDate:
@@ -623,11 +712,13 @@ components:
           minLength: 1
           maxLength: 1
         Package:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Manifest_Package"
-            type: array
-          - "$ref": "#/components/schemas/Manifest_Package"
+          description: |
+              Defines a package.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Manifest_Package"
         ShipmentServiceOptions:
           "$ref": "#/components/schemas/Manifest_ShipmentServiceOptions"
         ManufactureCountry:
@@ -902,9 +993,6 @@ components:
       xml:
         name: Manifest
       maximum: 1
-      description: Container represents all data that is relevant for the shipment,
-        such as origin, destination, shipper, payment method etc. It will be return
-        when available.
     Manifest_Shipper:
       type: object
       maximum: 1
@@ -1174,7 +1262,6 @@ components:
         name: ReferenceNumber
       required:
       - Value
-      description: Shipment-level reference numbers.
     Manifest_Service:
       type: object
       maximum: 1
@@ -1199,11 +1286,13 @@ components:
       type: object
       properties:
         Activity:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Package_Activity"
-            type: array
-          - "$ref": "#/components/schemas/Package_Activity"
+          description: |
+              Information about package delivery activity.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Package_Activity"
         Description:
           description: Description of package merchandise.
           maximum: 1
@@ -1233,11 +1322,13 @@ components:
           minLength: 1
           maxLength: 35
         ReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Package_ReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Package_ReferenceNumber"
+          description: |
+              Container tag for information about the package-level reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Package_ReferenceNumber"
         PackageServiceOptions:
           "$ref": "#/components/schemas/Package_PackageServiceOptions"
         UPSPremiumCareIndicator:
@@ -1249,7 +1340,6 @@ components:
       xml:
         name: Package
       maximum: 1
-      description: Defines a package.
     Package_Activity:
       type: object
       maximum: 1
@@ -1268,7 +1358,6 @@ components:
           maxLength: 6
       xml:
         name: Activity
-      description: Information about package delivery activity.
     Package_Dimensions:
       type: object
       maximum: 1
@@ -1406,8 +1495,6 @@ components:
         name: ReferenceNumber
       required:
       - Value
-      description: Container tag for information about the package-level reference
-        number.
     Package_PackageServiceOptions:
       type: object
       properties:
@@ -1704,17 +1791,21 @@ components:
       type: object
       properties:
         PackageReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Origin_PackageReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Origin_PackageReferenceNumber"
+          description: |
+              Package-level reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Origin_PackageReferenceNumber"
         ShipmentReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Origin_ShipmentReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Origin_ShipmentReferenceNumber"
+          description: |
+              Container tag for shipment reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Origin_ShipmentReferenceNumber"
         ShipperNumber:
           description: Shipper's six digit alphanumeric account number.
           maximum: 1
@@ -1767,7 +1858,6 @@ components:
       - ShipperNumber
       - Time
       - Date
-      description: Information about shipment's origin.
     Origin_PackageReferenceNumber:
       type: object
       maximum: 1
@@ -1802,7 +1892,6 @@ components:
         name: PackageReferenceNumber
       required:
       - Value
-      description: Package-level reference number.
     Origin_ShipmentReferenceNumber:
       type: object
       maximum: 1
@@ -1837,7 +1926,6 @@ components:
         name: ShipmentReferenceNumber
       required:
       - Value
-      description: Container tag for shipment reference number.
     Origin_ActivityLocation:
       type: object
       required:
@@ -1912,17 +2000,21 @@ components:
       type: object
       properties:
         PackageReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Exception_PackageReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Exception_PackageReferenceNumber"
+          description: |
+              Package-level reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Exception_PackageReferenceNumber"
         ShipmentReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Exception_ShipmentReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Exception_ShipmentReferenceNumber"
+          description: |
+              Container tag for shipment reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Exception_ShipmentReferenceNumber"
         ShipperNumber:
           description: Shipper's six digit alphanumeric account number.
           maximum: 1
@@ -2006,7 +2098,6 @@ components:
       - ShipperNumber
       - Time
       - Date
-      description: Shipment exception data.
     Exception_PackageReferenceNumber:
       type: object
       maximum: 1
@@ -2041,7 +2132,6 @@ components:
         name: PackageReferenceNumber
       required:
       - Value
-      description: Package-level reference number.
     Exception_ShipmentReferenceNumber:
       type: object
       maximum: 1
@@ -2076,7 +2166,6 @@ components:
         name: ShipmentReferenceNumber
       required:
       - Value
-      description: Container tag for shipment reference number.
     Exception_UpdatedAddress:
       type: object
       maximum: 1
@@ -2124,11 +2213,13 @@ components:
           minLength: 1
           maxLength: 2
         AddressExtendedInformation:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
-            type: array
-          - "$ref": "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
+          description: |
+              Container for information about updated shipping address. It will be returned if there is any update due to exception.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
         PoliticalDivision3:
           description: The neighborhood, town, barrio etc. It will be returned if
             there is any update due to exception.
@@ -2191,8 +2282,6 @@ components:
           maxLength: 3
       xml:
         name: AddressExtendedInformation
-      description: Container for information about updated shipping address. It will
-        be returned if there is any update due to exception.
     Exception_Resolution:
       type: object
       maximum: 1
@@ -2263,17 +2352,21 @@ components:
       type: object
       properties:
         PackageReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Delivery_PackageReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Delivery_PackageReferenceNumber"
+          description: |
+              Package-level reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Delivery_PackageReferenceNumber"
         ShipmentReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Delivery_ShipmentReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Delivery_ShipmentReferenceNumber"
+          description: |
+              Container tag for shipment reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Delivery_ShipmentReferenceNumber"
         ShipperNumber:
           description: Shipper's six digit alphanumeric account number.
           maximum: 1
@@ -2332,7 +2425,6 @@ components:
       - ShipperNumber
       - Time
       - Date
-      description: Container for delivery information.
     Delivery_PackageReferenceNumber:
       type: object
       maximum: 1
@@ -2366,7 +2458,6 @@ components:
         name: PackageReferenceNumber
       required:
       - Value
-      description: Package-level reference number.
     Delivery_ShipmentReferenceNumber:
       type: object
       maximum: 1
@@ -2400,7 +2491,6 @@ components:
         name: ShipmentReferenceNumber
       required:
       - Value
-      description: Container tag for shipment reference number.
     Delivery_ActivityLocation:
       type: object
       required:
@@ -2492,11 +2582,13 @@ components:
           minLength: 1
           maxLength: 40
         AddressExtendedInformation:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
-            type: array
-          - "$ref": "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
+          description: |
+              Container tag for additional address information where package is delivered.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
         PoliticalDivision3:
           description: The neighborhood, town, barrio etc.
           maximum: 1
@@ -2568,8 +2660,6 @@ components:
           maxLength: 3
       xml:
         name: AddressExtendedInformation
-      description: Container tag for additional address information where package
-        is delivered.
     Delivery_COD:
       type: object
       properties:
@@ -2650,17 +2740,21 @@ components:
           minLength: 1
           maxLength: 10
         ShipmentReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Generic_ShipmentReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Generic_ShipmentReferenceNumber"
+          description: |
+              Container tag for shipment reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Generic_ShipmentReferenceNumber"
         PackageReferenceNumber:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/Generic_PackageReferenceNumber"
-            type: array
-          - "$ref": "#/components/schemas/Generic_PackageReferenceNumber"
+          description: |
+              Package-level reference number.
+
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/Generic_PackageReferenceNumber"
         Service:
           "$ref": "#/components/schemas/Generic_Service"
         Activity:
@@ -2684,7 +2778,6 @@ components:
           "$ref": "#/components/schemas/Generic_FailureNotification"
       xml:
         name: Generic
-      description: Container for generic record information.
     Generic_ShipmentReferenceNumber:
       type: object
       maximum: 1
@@ -2716,7 +2809,6 @@ components:
         name: ShipmentReferenceNumber
       required:
       - Value
-      description: Container tag for shipment reference number.
     Generic_PackageReferenceNumber:
       type: object
       maximum: 1
@@ -2748,7 +2840,6 @@ components:
         name: PackageReferenceNumber
       required:
       - Value
-      description: Package-level reference number.
     Generic_Service:
       type: object
       maximum: 1
@@ -2866,7 +2957,7 @@ components:
             - 01 – Package is ready to pickup at UPS Access Point - Original
             - 02 – Package is ready to pickup at UPS Access Point - Reminder
             - 03 – Package is delivery to alternate delivery location
-            - 04 –Package is returned to Sender from UPS Access Point Location
+            - 04 – Package is returned to Sender from UPS Access Point Location
           maximum: 1
           type: string
           minLength: 2
@@ -2881,20 +2972,24 @@ components:
     ErrorResponse:
       type: object
       properties:
-         errors: 
+        response:
+          "$ref": "#/components/schemas/CommonErrorResponse"
+    CommonErrorResponse:
+      type: object
+      description: The error response containing any errors that occurred.
+      properties:
+        errors: 
           type: array
-          description: The error response containing any errors that occurred.
+          description: The error array containing any errors that occurred.
           items: 
-            $ref: '#/components/schemas/ErrorMessage'
+            "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
         code:
           type: string
           description: The error code.
-          example: VSS300
         message:
           type: string
           description: The error message.
-          example: Locale is required. The Subscription request has been rejected.
-      description: The error response containing any errors that occurred
+      description: The error response containing any errors that occurred.
