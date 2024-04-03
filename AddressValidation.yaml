@@ -321,9 +321,7 @@ components:
           minLength: 1
           maxLength: 2
         AddressKeyFormat:
-          type: array
-          items:
-            "$ref": "#/components/schemas/XAVRequest_AddressKeyFormat"
+          "$ref": "#/components/schemas/XAVRequest_AddressKeyFormat"
       xml:
         name: XAVRequest
       maximum: 1
