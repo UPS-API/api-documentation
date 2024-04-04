@@ -4,9 +4,9 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
 servers:
-- url: https://wwwcie.ups.com/api/
+- url: https://wwwcie.ups.com/api
   description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api/
+- url: https://onlinetools.ups.com/api
   description: Production
 tags:
   - name: AddressValidation_other

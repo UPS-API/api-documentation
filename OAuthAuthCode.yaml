@@ -20,9 +20,9 @@ info:
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
   version: '1.0'
 servers:
-- url: https://wwwcie.ups.com/
+- url: https://wwwcie.ups.com
   description: Customer Integration Environment
-- url: https://onlinetools.ups.com/
+- url: https://onlinetools.ups.com
   description: Production
 tags:
 - name: OAuthAuthCode_other
