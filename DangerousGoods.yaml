@@ -13,7 +13,7 @@ tags:
   x-displayName: Methods
   description: |
         The Dangerous Goods API provides the ability to determine if certain materials, such as dangerous goods or hazardous materials, can be shipped with UPS. The API's two endpoints - Chemical Reference Data and Acceptance Audit Precheck, help perform pre-checks before shipping any dangerous goods.
-        
+
         - <a href="https://developer.ups.com/api/reference/dangerousgoods/business-rules" target="_blank" rel="noopener">Business Rules</a>
         - <a href="https://developer.ups.com/api/reference/dangerousgoods/appendix" target="_blank" rel="noopener">Appendix</a>
         - <a href="https://developer.ups.com/api/reference/dangerousgoods/errors" target="_blank" rel="noopener">Errors</a>
@@ -47,8 +47,8 @@ paths:
           minimum: 1
           default: v2403
         description: |
-          Version of the API. 
-          
+          Version of the API.
+
           Valid values:
           - v2403
         required: true
@@ -260,7 +260,7 @@ paths:
           default: v1
         description: |
           Version of the API.
-          
+
           Valid values:
           - v1
           - v1801.
@@ -1033,7 +1033,7 @@ components:
       maximum: 1
       properties:
         AddressLine:
-          description: The Ship To street address including name and number (when applicable).   
+          description: The Ship To street address including name and number (when applicable).
           maximum: 1
           type: string
           minLength: 1
@@ -1045,19 +1045,19 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: The Ship To locations state or province code. 
+          description: The Ship To locations state or province code.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 30
         PostalCode:
-          description: The Ship To locations postal code. 9 characters are accepted.  
+          description: The Ship To locations postal code. 9 characters are accepted.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 9
         CountryCode:
-          description: The Ship To locations country or territory code.  
+          description: The Ship To locations country or territory code.
           maximum: 1
           type: string
           minLength: 2
@@ -1128,11 +1128,11 @@ components:
           maxLength: 3
         EmergencyPhone:
           description: |
-            24 Hour Emergency Phone Number of the shipper. 
+            24 Hour Emergency Phone Number of the shipper.
 
-            Valid values for this field are (0) through (9) with trailing blanks. 
+            Valid values for this field are (0) through (9) with trailing blanks.
 
-            For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries or territories the layout is country or territory code, area code, number.  The Emergency Phone Number can only include the following allowable characters  
+            For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries or territories the layout is country or territory code, area code, number.  The Emergency Phone Number can only include the following allowable characters
             “period “.”, dash “-“, plus sign “+” and conventional parentheses “(“ and “)”, “EXT or OPT”
 
             Required when (TDG regulation set and CommodityRegulatedLevelCode = FR)
@@ -1223,7 +1223,7 @@ components:
         ClassDivisionNumber:
           description: |
                 This is the hazard class associated to the specified commodity.
-                
+
                 Required if CommodityRegulatedLevelCode is 'LQ' or 'FR'
           maximum: 1
           type: string
@@ -1231,9 +1231,9 @@ components:
           maxLength: 10
         SubRiskClass:
           description: |
-            Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation. 
+            Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation.
 
-            Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma).  
+            Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma).
           maximum: 1
           type: string
           minLength: 1
@@ -1297,7 +1297,7 @@ components:
           maxLength: 300
         AdditionalDescription:
           description: |
-            Additional remarks or special provision information. Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation. 
+            Additional remarks or special provision information. Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation.
 
             Additional information that may be required by regulation about a hazardous material, such as, “Limited Quantity”, DOT-SP numbers, EX numbers.
           maximum: 1
@@ -1422,7 +1422,7 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/Response_AlertDetail"
-            
+
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -1597,10 +1597,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object

@@ -12,7 +12,7 @@ tags:
 - name: Pickup_other
   x-displayName: Methods
   description: |
-    Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups. 
+    Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.
     - <a href="https://developer.ups.com/api/reference/pickup/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/pickup/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/pickup/errors" target="_blank"rel="noopener">Errors</a>
@@ -45,8 +45,8 @@ paths:
           minimum: 1
           default: v1
         description: |
-            Version of the API. 
-            
+            Version of the API.
+
             Valid values:
             - v1
         required: true
@@ -153,7 +153,7 @@ paths:
           minimum: 1
           default: v1
         description: |
-            Version of API 
+            Version of API
 
             Valid values:
             - v1
@@ -304,8 +304,8 @@ paths:
           minimum: 1
           default: v2403
         description: |
-            Version of the API. 
-            
+            Version of the API.
+
             Valid values:
             - v2403
         required: true
@@ -425,7 +425,7 @@ paths:
           default: v1
         description: |
             Version of API.
-            
+
             Valid values:
             - v1
         required: true
@@ -495,7 +495,7 @@ paths:
           default: v1
         description: |
             Version of API.
-            
+
             Valid values:
             - v1
         required: true
@@ -597,7 +597,7 @@ paths:
           default: v1
         description: |
             Version of API.
-            
+
             Valid values:
             - v1
         required: true
@@ -662,7 +662,7 @@ paths:
           default: v1
         description: |
             Version of the API.
-            
+
             Valid values:
             - v1
             - v1607
@@ -767,7 +767,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
@@ -824,8 +824,8 @@ components:
             Indicates the pickup timeframe.
             - 01 = Same-Day Pickup
             - 02 = Future-Day Pickup
-            - 03 = A Specific-Day Pickup  
-            
+            - 03 = A Specific-Day Pickup
+
             If 03 is selected, then PickupDate, EarliestReadyTime, and LatestClosetime must be specified.
           maximum: 1
           type: string
@@ -835,22 +835,22 @@ components:
           "$ref": "#/components/schemas/PickupRateRequest_PickupDateInfo"
         RateChartType:
           description: |
-            Rate Type with which pickup is rated. Possible RateChart values for different regions will be: 
+            Rate Type with which pickup is rated. Possible RateChart values for different regions will be:
 
-            US 48 origin: 
-            1 – Daily Rates 
-            3 – Standard List Rates 
+            US 48 origin:
+            1 – Daily Rates
+            3 – Standard List Rates
             4 – Retail Rates.
 
              Alaska/Hawaii origin:
-            1 – Daily Rates 
-            3 – Standard List Rates 
-            4 – Retail Rates. 
-             
+            1 – Daily Rates
+            3 – Standard List Rates
+            4 – Retail Rates.
+
             All Other origins:
-            1 – Rates 
-            5 - Regional Rates 
-            6 - General List Rates. 
+            1 – Rates
+            5 - Regional Rates
+            6 - General List Rates.
 
             3 and 4 do not apply
           maximum: 1
@@ -1051,8 +1051,8 @@ components:
           "$ref": "#/components/schemas/PickupRateResponse_RateResult"
         WeekendServiceTerritoryIndicator:
           description: |-
-            Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Saturday and subversion greater or equal to 1607. Valid Values: 
-            - Y = WST 
+            Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Saturday and subversion greater or equal to 1607. Valid Values:
+            - Y = WST
             - N = Non-WST
           maximum: 1
           type: string
@@ -1092,7 +1092,7 @@ components:
       properties:
         Code:
           description: |
-            Identifies the success of the transaction. 
+            Identifies the success of the transaction.
             - 1=Success
             - 0=failed
           maximum: 1
@@ -1299,8 +1299,8 @@ components:
       properties:
         SatWST:
           description: |
-            Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Saturday and subversion greater or equal to 2007. Valid Values: 
-            - Y = Saturday WST 
+            Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Saturday and subversion greater or equal to 2007. Valid Values:
+            - Y = Saturday WST
             - N = Non-Saturday WST
           maximum: 1
           type: string
@@ -1308,8 +1308,8 @@ components:
           maxLength: 1
         SunWST:
           description: |
-            Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Sunday and subversion greater or equal to 2007. Valid Values: 
-            - Y = Sunday WST 
+            Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Sunday and subversion greater or equal to 2007. Valid Values:
+            - Y = Sunday WST
             - N = Non-Sunday WST
           maximum: 1
           type: string
@@ -1491,22 +1491,22 @@ components:
           maxLength: 1
         RateChartType:
           description: |
-            Rate Type with which pickup is rated. Possible RateChart values for different regions will be: 
+            Rate Type with which pickup is rated. Possible RateChart values for different regions will be:
 
-            US 48 origin: 
-            - 1 – Daily Rates 
-            - 3 – Standard List Rates 
+            US 48 origin:
+            - 1 – Daily Rates
+            - 3 – Standard List Rates
             - 4 – Retail Rates.
 
              Alaska/Hawaii origin:
-            - 1 – Daily Rates 
-            - 3 – Standard List Rates 
-            - 4 – Retail Rates. 
-             
+            - 1 – Daily Rates
+            - 3 – Standard List Rates
+            - 4 – Retail Rates.
+
             All Other origins:
-            - 1 – Rates 
-            - 5 - Regional Rates 
-            - 6 - General List Rates. 
+            - 1 – Rates
+            - 5 - Regional Rates
+            - 6 - General List Rates.
 
             3 and 4 do not apply
           maximum: 1
@@ -1779,7 +1779,7 @@ components:
         CountryCode:
           description: |-
             Charge card billing address country or territory code defined by ISO-3166.
-            
+
             Upper-case two letter string. For Discover card it should be US.
           maximum: 1
           type: string
@@ -1801,10 +1801,10 @@ components:
         CloseTime:
           description: |
             Pickup location's local close time.
-            - User provided Close Time must be later than the Earliest Allowed Customer Close Time. 
-            - Earliest Allowed Customer Close Time is defined by UPS pickup operation system. 
-            - CloseTime minus ReadyTime must be greater than the LeadTime. 
-            - LeadTime is determined by UPS pickup operation system. LeadTime is the minimum amount of time UPS requires between customer's request for a pickup and driver arriving at the location for the pickup.  
+            - User provided Close Time must be later than the Earliest Allowed Customer Close Time.
+            - Earliest Allowed Customer Close Time is defined by UPS pickup operation system.
+            - CloseTime minus ReadyTime must be greater than the LeadTime.
+            - LeadTime is determined by UPS pickup operation system. LeadTime is the minimum amount of time UPS requires between customer's request for a pickup and driver arriving at the location for the pickup.
 
             Format: HHmm
             - Hour: 0-23
@@ -2305,7 +2305,7 @@ components:
           minLength: 1
           maxLength: 1
         SunWST:
-          description: "Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Sunday and subversion greater or equal to 2007. Valid Values: 
+          description: "Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Sunday and subversion greater or equal to 2007. Valid Values:
             - Y = Sunday WST
             - N = Non-Sunday WST"
           maximum: 1
@@ -2329,7 +2329,7 @@ components:
             - 02 = Rate not available
             - 03 = Rate not apply
             - 04 = Rate not requested
-            
+
             - If 01 is returned, then OnCallPickupRateResult will also be returned with rate details.
             - If 02 is returned, then OnCallPickupRateResult will not be returned.
             - If 03 is returned, then OnCallPickupRateResult will not be returned. The rate option is not appliable to this return pickup. The requester will not be charged.
@@ -2691,9 +2691,9 @@ components:
       properties:
         SearchRadius:
           description: |-
-            Search Request range. Valied values: 
+            Search Request range. Valied values:
             - 1 to 200
-            
+
             Default: 200
           maximum: 1
           type: string
@@ -2708,9 +2708,9 @@ components:
           maxLength: 2
         MaximumLocation:
           description: |-
-            Maximum Number of locations. Valied values: 
+            Maximum Number of locations. Valied values:
             - 1 to 100
-            
+
             Default: 100
           maximum: 1
           type: string
@@ -2964,13 +2964,13 @@ components:
           minLength: 10
           maxLength: 10
         EarliestDropOfforPickup:
-          description: Earliest time that a customer can drop-off a package.  
+          description: Earliest time that a customer can drop-off a package.
           maximum: 1
           type: string
           minLength: 10
           maxLength: 10
         LatestDropOfforPickup:
-          description: Latest time that a customer can drop-off a package. 
+          description: Latest time that a customer can drop-off a package.
           maximum: 1
           type: string
           minLength: 10
@@ -2994,13 +2994,13 @@ components:
           minLength: 20
           maxLength: 20
         PrepTime:
-          description: Time required by the facility to prepare your shipment for movement 
+          description: Time required by the facility to prepare your shipment for movement
           maximum: 1
           type: string
           minLength: 20
           maxLength: 20
         LastDrop:
-          description: Cut-off time for drop off that day.  
+          description: Cut-off time for drop off that day.
           maximum: 1
           type: string
           minLength: 20
@@ -3211,7 +3211,7 @@ components:
           minLength: 10
           maxLength: 10
         LatestDropOfforPickup:
-          description: Latest time that a customer can pick up a package.   
+          description: Latest time that a customer can pick up a package.
           maximum: 1
           type: string
           minLength: 10
@@ -3241,7 +3241,7 @@ components:
           minLength: 20
           maxLength: 20
         LastDrop:
-          description: Latest time a package, requiring preparation can be dropped off (Close time - Prep time). 
+          description: Latest time a package, requiring preparation can be dropped off (Close time - Prep time).
           maximum: 1
           type: string
           minLength: 20
@@ -3389,8 +3389,8 @@ components:
         PickupStatusMessage:
           description: |
             The status for on-callpickup.
-            
-            PickupPendingStatusResponse will only display incomplete status for today and tomorrow only. 
+
+            PickupPendingStatusResponse will only display incomplete status for today and tomorrow only.
             - 002 and 012 are the most common responses.
             - 001 = Received at dispatch
             - 002 = Dispatched to driver
@@ -3438,10 +3438,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object

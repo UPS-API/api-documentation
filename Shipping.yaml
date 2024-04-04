@@ -12,7 +12,7 @@ tags:
 - name: Shipping_other
   x-displayName: Methods
   description: |
-    The Shipping Package API gives the application many ways to manage the shipment of packages to their destination. 
+    The Shipping Package API gives the application many ways to manage the shipment of packages to their destination.
     - <a href="https://developer.ups.com/api/reference/shipping/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/shipping/appendix1" target="_blank" rel="noopener">Appendix 1</a>
     - <a href="https://developer.ups.com/api/reference/shipping/appendix2" target="_blank" rel="noopener">Appendix 2</a>
@@ -55,8 +55,8 @@ paths:
           minimum: 1
           default: v2403
         description: |
-            Indicates Ship API to display the new release features in Ship API response based on Ship release. 
-            
+            Indicates Ship API to display the new release features in Ship API response based on Ship release.
+
             Valid values:
             - v2403
         required: true
@@ -2073,8 +2073,8 @@ paths:
           default: v1
         description: |
             Indicates Ship API to display the new release features in Ship API response based on Ship release.
-            
-            Valid values: 
+
+            Valid values:
             - v1
             - v1601
             - v1607
@@ -3973,7 +3973,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
@@ -4341,7 +4341,7 @@ components:
       properties:
         Code:
           description: |
-            Return Service types: 
+            Return Service types:
             - 2 = UPS Print and Mail (PNM)
             - 3 = UPS Return Service 1-Attempt (RS1)
             - 5 = UPS Return Service 3-Attempt (RS3)
@@ -4455,13 +4455,13 @@ components:
       properties:
         Number:
           description: |
-            Shipper's phone Number.  Valid values are 0 - 9. 
+            Shipper's phone Number.  Valid values are 0 - 9.
 
-            If Shipper country or territory is US, PR, CA, and VI, the layout is: 
-            area code, 7 digit PhoneNumber or 
+            If Shipper country or territory is US, PR, CA, and VI, the layout is:
+            area code, 7 digit PhoneNumber or
             area code, 7 digit PhoneNumber, 4 digit extension number.
 
-            For other countries or territories, the layout is: country or territory code, area code, 7 digit number. 
+            For other countries or territories, the layout is: country or territory code, area code, 7 digit number.
 
             A phone number is required if destination is international.
           maximum: 1
@@ -4504,7 +4504,7 @@ components:
           maxLength: 30
         StateProvinceCode:
           description: |
-            Shipper's state or province code. 
+            Shipper's state or province code.
 
             For forward Shipment 5 characters are accepted, but only 2 characters will be printed on the label.  For US, PR and CA accounts, the account must be either a daily pickup account, an occasional account, or a customer B.I.N account.
           maximum: 1
@@ -4519,7 +4519,7 @@ components:
           maxLength: 9
         CountryCode:
           description: |
-            Shipper's country or territory code.  
+            Shipper's country or territory code.
 
             Refer to country or territory Codes in the Appendix for valid values.
 
@@ -4552,7 +4552,7 @@ components:
           maxLength: 35
         AttentionName:
           description: |
-            Contact name at the consignee's location.  Required for: UPS Next Day Air® Early service, and when ShipTo country or territory is different than ShipFrom country or territory. 
+            Contact name at the consignee's location.  Required for: UPS Next Day Air® Early service, and when ShipTo country or territory is different than ShipFrom country or territory.
 
             Required if Invoice International form is requested.
           maximum: 1
@@ -4607,10 +4607,10 @@ components:
       properties:
         Number:
           description: |
-            Consignee's phone Number.  Required for: UPS Next Day Air® Early service, and when Ship To country or territory is different than the ShipFrom country or territory. 
+            Consignee's phone Number.  Required for: UPS Next Day Air® Early service, and when Ship To country or territory is different than the ShipFrom country or territory.
 
-            If ShipTo country or territory is US, PR, CA, and VI, the layout is: 
-            area code, 7 digit PhoneNumber or 
+            If ShipTo country or territory is US, PR, CA, and VI, the layout is:
+            area code, 7 digit PhoneNumber or
             area code, 7 digit PhoneNumber, 4 digit extension number; number.
 
             For other countries or territories, the layout is: country or territory code, area code, 7 digit number.
@@ -4652,7 +4652,7 @@ components:
           maxLength: 30
         StateProvinceCode:
           description: |
-            Consignee's state or province code. Required for US or Canada.  If destination is US or CA, then the value must be a valid US State/ Canadian Province code. 
+            Consignee's state or province code. Required for US or Canada.  If destination is US or CA, then the value must be a valid US State/ Canadian Province code.
 
             If the country or territory is Ireland, the StateProvinceCode will contain the county.
           maximum: 1
@@ -4661,9 +4661,9 @@ components:
           maxLength: 5
         PostalCode:
           description: |
-            Consignee's postal code.  If the ShipTo country or territory is US or Puerto Rico, 5 or 9 digits are required. 
+            Consignee's postal code.  If the ShipTo country or territory is US or Puerto Rico, 5 or 9 digits are required.
 
-            If the ShipTo country or territory is CA, then the postal code is required and must be 6 alphanumeric characters whose format is A#A#A# where A is an uppercase letter and # is a digit. 
+            If the ShipTo country or territory is CA, then the postal code is required and must be 6 alphanumeric characters whose format is A#A#A# where A is an uppercase letter and # is a digit.
 
             Otherwise optional. For all other countries or territories the postal code is optional and must be no more than 9 alphanumeric characters long.
           maximum: 1
@@ -4673,9 +4673,9 @@ components:
         CountryCode:
           description: |
             Consignee's country or territory code.  Must be a valid UPS Billing country or territory code.
-            For Return Shipment the country or territory code must meet the following conditions: 
+            For Return Shipment the country or territory code must meet the following conditions:
             - At least two of the following country or territory codes are the same: ShipTo, ShipFrom, and Shipper.
-            - None of the following country or territory codes are the same and are a member of the EU: ShipTo, ShipFrom, and Shipper. 
+            - None of the following country or territory codes are the same and are a member of the EU: ShipTo, ShipFrom, and Shipper.
             - If any of the two following country or territory codes: ShipTo/ ShipFrom/ Shipper are members in EU otherwise check if the shipper has Third country or territory Contract.
           maximum: 1
           type: string
@@ -4747,7 +4747,7 @@ components:
         StateProvinceCode:
           description: |
             Retail Location state or province code. Required for US or Canada.  If destination is US or CA, then the value must be a valid US State/Canadian Province code.
-             
+
             If the country or territory is Ireland, the StateProvinceCode will contain the county.
           maximum: 1
           type: string
@@ -4908,8 +4908,8 @@ components:
           maxLength: 35
         City:
           description: |
-            The Ship from city. 
-            
+            The Ship from city.
+
             30 characters are accepted, but for return Shipment only 15 characters will be printed on the label.  Required if ShipFrom is supplied
           maximum: 1
           type: string
@@ -4917,7 +4917,7 @@ components:
           maxLength: 30
         StateProvinceCode:
           description: |
-            Origin location's state or province code.  Required if ShipFrom is supplied, and ShipFrom country or territory is US. 
+            Origin location's state or province code.  Required if ShipFrom is supplied, and ShipFrom country or territory is US.
 
             If ShipFrom country or territory is US or CA, then the value must be a valid US State/ Canadian Province code. If the country or territory is Ireland, the StateProvinceCode will contain the county or territory.
           maximum: 1
@@ -4926,12 +4926,12 @@ components:
           maxLength: 5
         PostalCode:
           description: |
-            The ship from locations postal code. 
-            9 characters are accepted.  Required if ShipFrom is supplied and the ShipFrom country or territory is the US and Puerto Rico. 
+            The ship from locations postal code.
+            9 characters are accepted.  Required if ShipFrom is supplied and the ShipFrom country or territory is the US and Puerto Rico.
 
-            For US and Puerto Rico, it must be valid 5 or 9 digit postal code. The character "-" may be used to separate the first five digits and the last four digits. 
+            For US and Puerto Rico, it must be valid 5 or 9 digit postal code. The character "-" may be used to separate the first five digits and the last four digits.
 
-            If the ShipFrom country or territory is CA, then the postal code must be 6 alphanumeric characters whose format is A#A#A# where A is an uppercase letter and # is a digit. 
+            If the ShipFrom country or territory is CA, then the postal code must be 6 alphanumeric characters whose format is A#A#A# where A is an uppercase letter and # is a digit.
 
             For all other countries or territories the postal code is optional and must be no more than 9 alphanumeric characters long.
           maximum: 1
@@ -4940,10 +4940,10 @@ components:
           maxLength: 9
         CountryCode:
           description: |
-            Origin locations country or territory code.  Required if ShipFrom tag is supplied. For Return Shipment the country or territory code must meet the following conditions: 
+            Origin locations country or territory code.  Required if ShipFrom tag is supplied. For Return Shipment the country or territory code must meet the following conditions:
 
-            - At least two of the following country or territory codes are the same: ShipTo, ShipFrom, and Shipper. 
-            - None of the following country or territory codes are the same and are a member of the EU: ShipTo, ShipFrom, and Shipper. 
+            - At least two of the following country or territory codes are the same: ShipTo, ShipFrom, and Shipper.
+            - None of the following country or territory codes are the same and are a member of the EU: ShipTo, ShipFrom, and Shipper.
             - If any of the two following country or territory codes: ShipTo/ShipFrom/ Shipper are members in EU otherwise check if the shipper has Third country or territory Contract.
           maximum: 1
           type: string
@@ -4975,9 +4975,9 @@ components:
           maxLength: 4
         VendorCollectIDNumber:
           description: |
-            Shipper's VAT Tax collection registration number to be entered by Shipper at time of shipment creation. Presence of this number as part of the shipment information implies the shipper has collected/paid the required VAT tax (outside of UPS/UPS systems). Vendor Colect ID Number will be printed on commercial invoice if present.                                  
+            Shipper's VAT Tax collection registration number to be entered by Shipper at time of shipment creation. Presence of this number as part of the shipment information implies the shipper has collected/paid the required VAT tax (outside of UPS/UPS systems). Vendor Colect ID Number will be printed on commercial invoice if present.
 
-            Sample Values:   'IMDEU1234567' (IOSS #),  'VOEC1234567' (VOEC #),  'GB1234567' (HMRC #)     
+            Sample Values:   'IMDEU1234567' (IOSS #),  'VOEC1234567' (VOEC #),  'GB1234567' (HMRC #)
 
             Required if the shipment is subject to Vendor Collect ID collection
           maximum: 1
@@ -5167,7 +5167,7 @@ components:
       - CountryCode
       properties:
         AddressLine:
-          description: Address Line 1 of the credit card billing address. Usually Street address information. 
+          description: Address Line 1 of the credit card billing address. Usually Street address information.
           maximum: 3
           type: array
           items:
@@ -5234,12 +5234,12 @@ components:
       properties:
         PostalCode:
           description: |
-            The postal code for the UPS accounts pickup address. The pickup postal code was entered in the UPS system when the account was set-up.  The postal code must be the same as the UPS Bill Receiver account number pickup address postal code. 
+            The postal code for the UPS accounts pickup address. The pickup postal code was entered in the UPS system when the account was set-up.  The postal code must be the same as the UPS Bill Receiver account number pickup address postal code.
 
-            Required for United States and Canadian UPS accounts and/or if the UPS account pickup address has a postal code. 
-            If the UPS accounts pickup country or territory is US or Puerto Rico, the postal code is 5 or 9 digits. 
+            Required for United States and Canadian UPS accounts and/or if the UPS account pickup address has a postal code.
+            If the UPS accounts pickup country or territory is US or Puerto Rico, the postal code is 5 or 9 digits.
 
-            The character - may be used to separate the first five digits and the last four digits. 
+            The character - may be used to separate the first five digits and the last four digits.
 
             If the UPS accounts pickup country or territory is CA, the postal code is 6 alphanumeric characters whose format is A#A#A# where A is an uppercase letter and # is a digit
           maximum: 1
@@ -5294,12 +5294,12 @@ components:
       properties:
         PostalCode:
           description: |
-            The postal code for the UPS accounts pickup address. The pickup postal code is the one that was entered in the UPS system when the account was set-up.  The postal code must be the same as the UPS Bill Third Party account number pickup address postal code. 
+            The postal code for the UPS accounts pickup address. The pickup postal code is the one that was entered in the UPS system when the account was set-up.  The postal code must be the same as the UPS Bill Third Party account number pickup address postal code.
 
-            Required for United States and Canadian UPS accounts and/or if the UPS account pickup address has a postal code. 
-            If the UPS accounts pickup country or territory is US or Puerto Rico, the postal code is 5 or 9 digits. 
+            Required for United States and Canadian UPS accounts and/or if the UPS account pickup address has a postal code.
+            If the UPS accounts pickup country or territory is US or Puerto Rico, the postal code is 5 or 9 digits.
 
-            The character - may be used to separate the first five digits and the last four digits. 
+            The character - may be used to separate the first five digits and the last four digits.
 
             If the UPS accounts pickup country or territory is CA, the postal code is 6 alphanumeric characters whose format is A#A#A# where A is an uppercase letter and # is a digit.
           maximum: 1
@@ -5350,8 +5350,8 @@ components:
           description: |
             Valid codes:
             - 01 = Prepaid
-            - 02 = FreightCollect 
-            - 03 = ThirdParty 
+            - 02 = FreightCollect
+            - 03 = ThirdParty
           maximum: 1
           type: string
           minLength: 1
@@ -5451,14 +5451,14 @@ components:
       properties:
         Code:
           description: |
-            Code associated with Unit of Measurement for the Adjusted height. 
+            Code associated with Unit of Measurement for the Adjusted height.
             Valid value: IN  Unit of measurement code for Adjusted height is validated only when Handling unit type is SKD = Skid or PLT = Pallet.
           maximum: 1
           type: string
           minLength: 2
           maxLength: 2
         Description:
-          description: Description for UnitOfMeasurement for the adjusted height.  
+          description: Description for UnitOfMeasurement for the adjusted height.
           maximum: 1
           type: string
           minLength: 1
@@ -5554,7 +5554,7 @@ components:
       - Code
       properties:
         Code:
-          description: Code for UnitOfMeasurement for the line item dimension. Valid value is IN  
+          description: Code for UnitOfMeasurement for the line item dimension. Valid value is IN
           maximum: 1
           type: string
           minLength: 2
@@ -5728,7 +5728,7 @@ components:
       properties:
         Code:
           description: |
-            Valid values: 
+            Valid values:
             - 01 = Next Day Air
             - 02 = 2nd Day Air
             - 03 = Ground
@@ -5737,21 +5737,21 @@ components:
             - 11 = UPS Standard
             - 12 = 3 Day Select
             - 13 = Next Day Air Saver
-            - 14 = UPS Next Day Air® Early                           
+            - 14 = UPS Next Day Air® Early
             - 17 = UPS Worldwide Economy DDU
             - 54 = Express Plus
-            - 59 = 2nd Day Air A.M. 
+            - 59 = 2nd Day Air A.M.
             - 65 = UPS Saver
             - M2 = First Class Mail
             - M3 = Priority Mail
             - M4 = Expedited MaiI Innovations
             - M5 = Priority Mail Innovations
-            - M6 = Economy Mail Innovations 
+            - M6 = Economy Mail Innovations
             - M7 = MaiI Innovations (MI) Returns
             - 70 = UPS Access Point™ Economy
-            - 71 = UPS Worldwide Express Freight Midday            
+            - 71 = UPS Worldwide Express Freight Midday
             - 72 = UPS Worldwide Economy DDP
-            - 74 = UPS Express®12:00                                    
+            - 74 = UPS Express®12:00
             - 75 = UPS Heavy Goods
             - 82 = UPS Today Standard
             - 83 = UPS Today Dedicated Courier
@@ -5808,7 +5808,7 @@ components:
       properties:
         Code:
           description: |
-            Valid values: 
+            Valid values:
             - '01' - Hold for Pickup at UPS Access Point aka Direct to Retail (D2R)
             - '02' - UPS Access Point™ Delivery aka Retail to Retail (R2R)  If '01' code is present indicates shipment will be send to Retail location where it is held to consignee to claim.
           maximum: 1
@@ -6051,18 +6051,18 @@ components:
           description: |-
             The type of notification requested.
 
-            Note: 
-            - QVN Exception notification and return notification are not applicable to GFP. 
-            - QV In-transit and Return Notifications are only valid for ImportControl and Return shipment. 
+            Note:
+            - QVN Exception notification and return notification are not applicable to GFP.
+            - QV In-transit and Return Notifications are only valid for ImportControl and Return shipment.
             - QV In-transit Notification is allowed for return shipments only.
-            - QV Ship Notification is allowed for forward moving shipments only.  
+            - QV Ship Notification is allowed for forward moving shipments only.
 
-            Valid values: 
-            - 5 - QV In-transit Notification 
-            - 6 - QV Ship Notification 
-            - 7 - QV Exception Notification 
-            - 8 - QV Delivery Notification 
-            - 2 - Return Notification or Label Creation Notification 
+            Valid values:
+            - 5 - QV In-transit Notification
+            - 6 - QV Ship Notification
+            - 7 - QV Exception Notification
+            - 8 - QV Delivery Notification
+            - 2 - Return Notification or Label Creation Notification
             - 012 - Alternate Delivery Location Notification
             - 013 - UAP Shipper Notification.
           maximum: 1
@@ -6132,7 +6132,7 @@ components:
       - PhoneNumber
       properties:
         PhoneNumber:
-          description: Phone number for receiving Voice Alternate Delivery Location notification and UAP Shipper notification.  
+          description: Phone number for receiving Voice Alternate Delivery Location notification and UAP Shipper notification.
           maximum: 1
           type: string
           minLength: 1
@@ -6244,34 +6244,34 @@ components:
           minLength: 1
           maxLength: 35
         Memo:
-          description: User defined text that will be included in the email.  
+          description: User defined text that will be included in the email.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 150
         Subject:
-          description: The eMails subject. Defaults to the Label Delivery Notification plus the shipment ID. Defaults to text provided by UPS.  
+          description: The eMails subject. Defaults to the Label Delivery Notification plus the shipment ID. Defaults to text provided by UPS.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 75
         SubjectCode:
           description: |
-            Specifies a reference code and reference number to display in the subject of the Label Delivery notification. 
+            Specifies a reference code and reference number to display in the subject of the Label Delivery notification.
 
             When the subject code is provided, the subject will contain the following: UPS Label Delivery, the reference code (the reference code will be mapped to the corresponding ANSI value) and the reference number.
 
             The valid subject codes are:
-            - 01 - Shipment Reference Number 1, 
-            - 02 - Shipment Reference Number 2,  
-            - 03 - package Reference Number 1, 
+            - 01 - Shipment Reference Number 1,
+            - 02 - Shipment Reference Number 2,
+            - 03 - package Reference Number 1,
             - 04 - package Reference Number 2,
             - 05 - package Reference Number 3,
             - 06 - package Reference Number 4,
             - 07 - package Reference Number 5,
-            - 08 - Subject Text (Return Notification only).  
+            - 08 - Subject Text (Return Notification only).
 
-            If the subject code tag is not provided and the subject text is provided, the subject of the notification will be the subject text. 
+            If the subject code tag is not provided and the subject text is provided, the subject of the notification will be the subject text.
 
             If the subject text is provided, and the subject code tag exists, then the subject code value must be 08. If Subject code is 08, subject text must exist. If a subject code is provided that refers to a nonexistent reference number, the subject will default to the shipment identification number.
           maximum: 1
@@ -6292,7 +6292,7 @@ components:
           description: |
             Indicates the name of the International Form requested.
 
-            Valid values:  
+            Valid values:
             - 01 - Invoice
             - 03 - CO
             - 04 - NAFTA CO
@@ -6534,13 +6534,13 @@ components:
           maxLength: 35
         PartiesToTransaction:
           description: |
-            Information about parties to transaction. Use Related, if the parties to the transaction are related. A related party is an export from a U.S. businessperson or business to a foreign business or from a U.S. business to a foreign person or business where the person has at least 10 percent of the voting shares of the business during the fiscal year. If unincorporated, then an equivalent interest in the business.  Applies to EEI forms only. 
+            Information about parties to transaction. Use Related, if the parties to the transaction are related. A related party is an export from a U.S. businessperson or business to a foreign business or from a U.S. business to a foreign person or business where the person has at least 10 percent of the voting shares of the business during the fiscal year. If unincorporated, then an equivalent interest in the business.  Applies to EEI forms only.
 
-            Valid values: 
+            Valid values:
             - R - Related
             - N - Non-related.
 
-            Parties to transaction is required if EEIFilingOption Code is 3 and if valid UPSFiled POA Code present in request. 
+            Parties to transaction is required if EEIFilingOption Code is 3 and if valid UPSFiled POA Code present in request.
 
             Default will be set to N - Non-related if invalid code present with length of one.
           maximum: 1
@@ -7517,7 +7517,7 @@ components:
           type: string
         NetCostCode:
           description: |
-            For each good described in the Description of Goods field, where the good is subject to a regional value content (RVC) requirement, indicate NC if the RVC is calculated according to the net cost method; otherwise, indicate NO. If the RVC is calculated over a period of time then indicate "NC with begin/end date" by passing code "ND"  Applies to NAFTA CO only. Required for NAFTA CO.  Valid values: 
+            For each good described in the Description of Goods field, where the good is subject to a regional value content (RVC) requirement, indicate NC if the RVC is calculated according to the net cost method; otherwise, indicate NO. If the RVC is calculated over a period of time then indicate "NC with begin/end date" by passing code "ND"  Applies to NAFTA CO only. Required for NAFTA CO.  Valid values:
             - NC
             - ND
             - NO
@@ -7595,7 +7595,7 @@ components:
           maxLength: 1
         SEDTotalValue:
           description: |
-            This amount will always be USD.  Applies to EEI forms only. Required for EEI form. Valid characters are 0-9 and \'.\' (Decimal point). Limit to 2 digit after the decimal. The maximum length of the field is 15 including \'.\' and can hold up to 2 decimal places.  
+            This amount will always be USD.  Applies to EEI forms only. Required for EEI form. Valid characters are 0-9 and \'.\' (Decimal point). Limit to 2 digit after the decimal. The maximum length of the field is 15 including \'.\' and can hold up to 2 decimal places.
 
             Note: This value is calculated based on the Product/Unit/Value and /Product/Unit/Number (Number of Units * Price per Unit). If the total value is incorrect it will be replaced by the actual calculated total value.
           maximum: 1
@@ -7663,7 +7663,7 @@ components:
         Code:
           description: |
             Code for the Unit of measurement of the commodity units.  Required for Invoice forms and optional for Partial Invoice.
-             
+
             Refer to Product Unit of Measure Codes in the Appendix for valid values.
           maximum: 1
           type: string
@@ -7735,7 +7735,7 @@ components:
       properties:
         Code:
           description: |
-            Code for unit of Measurement of weight.  Applies to CO and EEI forms only.  Valid values: 
+            Code for unit of Measurement of weight.  Applies to CO and EEI forms only.  Valid values:
             - KGS
             - LBS
           maximum: 1
@@ -7798,7 +7798,7 @@ components:
       properties:
         Code:
           description: |
-            The unit of measure indicated on the Export License. Enter an X if there is no unit of measure in the Schedule B Unit field.  Applies to EEI forms only. Required for the EEI form. 
+            The unit of measure indicated on the Export License. Enter an X if there is no unit of measure in the Schedule B Unit field.  Applies to EEI forms only. Required for the EEI form.
 
             Refer to ScheduleB Unit of Measure Codes in the Appendix for valid values.
           maximum: 1
@@ -8245,9 +8245,9 @@ components:
 
             If the country or territory of the message recipient is US, PR, CA, and VI, the layout is:
 
-            1, area code, 7 digit phone number or 
+            1, area code, 7 digit phone number or
 
-            1, area code, 7 digit phone number, 4 digit extension number. 
+            1, area code, 7 digit phone number, 4 digit extension number.
 
             For other countries or territories, the layout is country or territory code, area code, 7 digit number.
           maximum: 1
@@ -8270,9 +8270,9 @@ components:
 
             If the country or territory of the message recipient is US, PR, CA, and VI, the layout is:
 
-            1, area code, 7 digit phone number or 
+            1, area code, 7 digit phone number or
 
-            1, area code, 7 digit phone number, 4 digit extension number. 
+            1, area code, 7 digit phone number, 4 digit extension number.
 
             For other countries or territories, the layout is country or territory code, area code, 7 digit number.
           maximum: 1
@@ -8497,13 +8497,13 @@ components:
           minLength: 1
           maxLength: 3
         Width:
-          description: Package width.  
+          description: Package width.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 3
         Height:
-          description: Package height.  
+          description: Package height.
           maximum: 1
           type: string
           minLength: 1
@@ -8517,7 +8517,7 @@ components:
         Package Dimension will be ignored for Simple Rate'
     Dimensions_UnitOfMeasurement:
       type: object
-      description: UnitOfMeasurement container for dimensions.  
+      description: UnitOfMeasurement container for dimensions.
       properties:
         Code:
           description: "Package dimensions measurement code. Valid codes: IN = Inches
@@ -8563,7 +8563,7 @@ components:
       properties:
         Code:
           description: |
-            Code representing the unit of measure associated with the package weight.   
+            Code representing the unit of measure associated with the package weight.
 
             Valid values:
             - LBS = Pounds (default)
@@ -8610,14 +8610,14 @@ components:
       properties:
         Code:
           description: |
-            Package weight unit of measurement code. 
+            Package weight unit of measurement code.
 
-            Valid values: 
+            Valid values:
             - LBS = Pounds
             - KGS = Kilograms
             - OZS = Ounces
 
-            Unit of Measurement "OZS" is the only valid UOM for some of the Mail Innovations Forward and Worldwide Economy DDU Shipments. 
+            Unit of Measurement "OZS" is the only valid UOM for some of the Mail Innovations Forward and Worldwide Economy DDU Shipments.
 
             Please refer to Appendix for more details regarding the valid combination of Mail Innovation Forward Shipment services, Package Type and Unit of Measurement.
           maximum: 1
@@ -8769,21 +8769,21 @@ components:
           "$ref": "#/components/schemas/PackageServiceOptions_DryIce"
         UPSPremiumCareIndicator:
           description: |
-            An UPSPremiumCareIndicator indicates special handling is required for shipment having controlled substances. Empty Tag means indicator is present. 
+            An UPSPremiumCareIndicator indicates special handling is required for shipment having controlled substances. Empty Tag means indicator is present.
 
-            The UPSPremiumCareIndicator cannot be requested for package with Delivery Confirmation - Adult Signature Required and Delivery Confirmation- Signature Required. 
+            The UPSPremiumCareIndicator cannot be requested for package with Delivery Confirmation - Adult Signature Required and Delivery Confirmation- Signature Required.
 
             UPSPremiumCareIndicator is valid for following Return services:
             - Returns Exchange (available with a contract)
             - Print Return Label
             - Print and Mail
-            - Electronic Return Label 
+            - Electronic Return Label
             - Return Service Three Attempt
 
-            The UPSPremiumCareIndicator can be requested with following UPS services: 
+            The UPSPremiumCareIndicator can be requested with following UPS services:
             - UPS Express® Early
             - UPS Express
-            - UPS Express Saver 
+            - UPS Express Saver
             - UPS Standard
             - Valid only for Canada to Canada movements.
           maximum: 1
@@ -8827,7 +8827,7 @@ components:
       properties:
         DCISType:
           description: |-
-            Type of delivery confirmation.  Valid values: 
+            Type of delivery confirmation.  Valid values:
             - 1 - Unsupported
             - 2 - Delivery Confirmation Signature Required
             - 3 - Delivery Confirmation Adult Signature Required
@@ -8881,12 +8881,12 @@ components:
       properties:
         Code:
           description: |
-            Declared value type. Valid values: 
+            Declared value type. Valid values:
             - 01=EVS
-            - 02=DVS 
-            
-            Defaults to 01 i.e. EVS if declared value type is not provided.  The user cannot specify different type of declared value for the shipment. User can either have shipper declared value (DVS) or declared value (EVS) but not both at package level. 
-            
+            - 02=DVS
+
+            Defaults to 01 i.e. EVS if declared value type is not provided.  The user cannot specify different type of declared value for the shipment. User can either have shipper declared value (DVS) or declared value (EVS) but not both at package level.
+
             Note: The Shipper Declared Value is applicable for forward shipments when the billing option is freight collect or third party.
           maximum: 1
           type: string
@@ -9014,18 +9014,18 @@ components:
             The reference code (the reference code will be mapped to the corresponding ANSI value) Plus the reference number.
 
             The valid subject codes are:
-            - 01 - Shipment Reference Number 1, 
-            - 02 - Shipment Reference Number 2,  
-            - 03 - package Reference Number 1, 
+            - 01 - Shipment Reference Number 1,
+            - 02 - Shipment Reference Number 2,
+            - 03 - package Reference Number 1,
             - 04 - package Reference Number 2,
             - 05 - package Reference Number 3,
             - 06 - package Reference Number 4,
             - 07 - package Reference Number 5,
-            - 08 - Subject Text (Return Notification only).  
-            
+            - 08 - Subject Text (Return Notification only).
+
             If the subject code tag is not provided and the subject text is provided, the subject of the notification will be the subject text.
 
-            If the subject text is provided, and subject code tag exists, then the subject code value must be 08. 
+            If the subject text is provided, and subject code tag exists, then the subject code value must be 08.
 
             If the subject code is 08, the subject text must exist. If a subject code is provided that refers to a nonexistent reference number, the subject will default to the tracking number. Only allowed at the first package.
           type: string
@@ -9033,7 +9033,7 @@ components:
           minLength: 1
           maxLength: 2
         EMailAddress:
-          description: The destination email address of the receiver returns notification email.  
+          description: The destination email address of the receiver returns notification email.
           type: array
           maximum: 5
           items:
@@ -9092,7 +9092,7 @@ components:
           type: string
         SubRiskClass:
           description: |
-            Recommended if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation. 
+            Recommended if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation.
 
             Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma).
           maximum: 1
@@ -9108,9 +9108,9 @@ components:
           maxLength: 10
         aDRPackingGroupLetter:
           description: |
-            Required if the field applies to the material by regulation. Field input is Arabic numerals, output is Roman numerals. Will be shown in Roman Numerals.  Valid values: 
-            - "1" = "I", 
-            - "2" = "II", 
+            Required if the field applies to the material by regulation. Field input is Arabic numerals, output is Roman numerals. Will be shown in Roman Numerals.  Valid values:
+            - "1" = "I",
+            - "2" = "II",
             - "3" = "III",
             - and blank.
           maximum: 1
@@ -9135,7 +9135,7 @@ components:
           maxLength: 50
         ClassDivisionNumber:
           description: |
-            This is the hazard class associated to the specified commodity. 
+            This is the hazard class associated to the specified commodity.
 
             Required if CommodityRegulatedLevelCode is 'EQ', 'LQ' or 'FR'
           maximum: 1
@@ -9198,7 +9198,7 @@ components:
           maxLength: 150
         AdditionalDescription:
           description: |
-            Additional remarks or special provision information. Recommended if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation. 
+            Additional remarks or special provision information. Recommended if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation.
 
             Additional information that may be required by regulation about a hazardous material, such as, "Limited Quantity", DOT-SP numbers, EX numbers.
           maximum: 1
@@ -9227,7 +9227,7 @@ components:
           maxLength: 4
         EmergencyPhone:
           description: |
-            24 Hour Emergency Phone Number of the shipper. Valid values for this field are (0) through (9) with trailing blanks. For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries or territories the layout is country or territory code, area code, number.                        
+            24 Hour Emergency Phone Number of the shipper. Valid values for this field are (0) through (9) with trailing blanks. For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries or territories the layout is country or territory code, area code, number.
 
             The following are restricted in the phone number period ".", dash "-", plus sign "+" and conventional parentheses "(" and ")", "EXT" or "OPT"
           maximum: 1
@@ -9380,11 +9380,11 @@ components:
         Code:
           description: |
             DryIce weight unit of measurement code. Valid values:
-            - 00 = KG (Metric Unit of Measurements) or KGS 
+            - 00 = KG (Metric Unit of Measurements) or KGS
             - 01 = LB (English Unit of Measurements) or LBS  The following values are valid : 00, 01, KG, KGS, LBS.
           type: string
         Description:
-          description: Description for unit of measurement for Dry Ice Weight.  
+          description: Description for unit of measurement for Dry Ice Weight.
           type: string
       xml:
         name: UnitOfMeasurement
@@ -9910,21 +9910,21 @@ components:
       properties:
         RateChart:
           description: |
-            Rate Type with which Shipment is rated. Possible RateChart values for different regions will be: 
-            US 48 origin: 
-            - 1 – Daily Rates 
-            - 3 – Standard List Rates 
-            - 4 – Retail Rates. 
+            Rate Type with which Shipment is rated. Possible RateChart values for different regions will be:
+            US 48 origin:
+            - 1 – Daily Rates
+            - 3 – Standard List Rates
+            - 4 – Retail Rates.
 
-            Alaska/Hawaii origin: 
-            - 1 – Daily Rates 
-            - 3 – Standard List Rates 
-            - 4 – Retail Rates.  
+            Alaska/Hawaii origin:
+            - 1 – Daily Rates
+            - 3 – Standard List Rates
+            - 4 – Retail Rates.
 
-            All Other origins: 
-            - 1 – Rates 
-            - 5 - Regional Rates 
-            - 6 - General List Rates. 
+            All Other origins:
+            - 1 – Rates
+            - 5 - Regional Rates
+            - 6 - General List Rates.
 
             3 and 4 do not apply.
           maximum: 1
@@ -10035,7 +10035,7 @@ components:
           minLength: 1
           maxLength: 50
         CurrencyCode:
-          description: Itemized Charges currency code type. The currency code used in the Shipment request is returned.  
+          description: Itemized Charges currency code type. The currency code used in the Shipment request is returned.
           maximum: 1
           type: string
           minLength: 3
@@ -10062,7 +10062,7 @@ components:
       - MonetaryValue
       properties:
         CurrencyCode:
-          description: Accessorial charges currency code type. The currency code used in the Shipment request is returned.  
+          description: Accessorial charges currency code type. The currency code used in the Shipment request is returned.
           maximum: 1
           type: string
           minLength: 3
@@ -10201,7 +10201,7 @@ components:
           minLength: 1
           maxLength: 50
         CurrencyCode:
-          description: Itemized Charges currency code type. The currency code used in the Shipment request is returned.  
+          description: Itemized Charges currency code type. The currency code used in the Shipment request is returned.
           maximum: 1
           type: string
           minLength: 3
@@ -10626,7 +10626,7 @@ components:
         MonetaryValue:
           description: |-
             Package accessorial charges value amount.
-            
+
             Valid values are from 0 to 99999999999999.99
           maximum: 1
           type: string
@@ -10738,14 +10738,14 @@ components:
       properties:
         Code:
           description: |
-            Code representing the format in which a receipt is delivered. Valid values: 
+            Code representing the format in which a receipt is delivered. Valid values:
             - HTML = HTML format
           maximum: 1
           type: string
           minLength: 1
           maxLength: 4
         Description:
-          description: Description of the image format code. 
+          description: Description of the image format code.
           maximum: 1
           type: string
           minLength: 1
@@ -10798,7 +10798,7 @@ components:
       properties:
         Code:
           description: |
-            Code that indicates the type of form.  Valid values: 
+            Code that indicates the type of form.  Valid values:
             - 01 - All Requested International Forms.
           maximum: 1
           type: string
@@ -10813,13 +10813,13 @@ components:
         Image:
           "$ref": "#/components/schemas/Form_Image"
         FormGroupId:
-          description: Unique Id for later retrieval of saved version of the completed international forms.  
+          description: Unique Id for later retrieval of saved version of the completed international forms.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 26
         FormGroupIdName:
-          description: Contains description text which identifies the group of International forms. This element is part of both request and response. This element does not appear on the forms.  
+          description: Contains description text which identifies the group of International forms. This element is part of both request and response. This element does not appear on the forms.
           maximum: 1
           type: string
           minLength: 1
@@ -10840,7 +10840,7 @@ components:
         ImageFormat:
           "$ref": "#/components/schemas/ShipmentResults_Image_ImageFormat"
         GraphicImage:
-          description: Base 64 encoded International forms image.  
+          description: Base 64 encoded International forms image.
           maximum: 1
           type: string
       xml:
@@ -10856,13 +10856,13 @@ components:
         ImageFormat:
           "$ref": "#/components/schemas/Image_ImageFormat"
         GraphicImage:
-          description: Base 64 encoded International forms image.  
+          description: Base 64 encoded International forms image.
           maximum: 1
           type: string
       xml:
         name: Image
       maximum: 1
-      description: Container tag for the International forms image.  
+      description: Container tag for the International forms image.
     HighValueReport_Image_ImageFormat:
       type: object
       maximum: 1
@@ -10871,16 +10871,16 @@ components:
       properties:
         Code:
           description: |
-            Code representing the format in which the High Value Report is generated.  
+            Code representing the format in which the High Value Report is generated.
 
-            Valid values: 
-            - PDF = pdf. 
+            Valid values:
+            - PDF = pdf.
           maximum: 1
           type: string
           minLength: 3
           maxLength: 3
         Description:
-          description: Description of the High Value Report image format code. 
+          description: Description of the High Value Report image format code.
           maximum: 1
           type: string
           minLength: 1
@@ -10896,10 +10896,10 @@ components:
       properties:
         Code:
           description: |
-            Format code of the generated COD Turn In Page. 
+            Format code of the generated COD Turn In Page.
 
-            Valid values: 
-            - HTML = HTML format. 
+            Valid values:
+            - HTML = HTML format.
 
             Only HTML format is supported for COD Turn In Page.
           maximum: 1
@@ -10907,14 +10907,14 @@ components:
           minLength: 3
           maxLength: 3
         Description:
-          description: Description of the form image format code.  
+          description: Description of the form image format code.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
       xml:
         name: ImageFormat
-      description: The container for format of COD Turn In Page.   
+      description: The container for format of COD Turn In Page.
     ShipmentResults_Image_ImageFormat:
       type: object
       maximum: 1
@@ -10923,21 +10923,21 @@ components:
       properties:
         Code:
           description: |
-            Code representing the format in which the forms are generated. Valid values: 
+            Code representing the format in which the forms are generated. Valid values:
             - PDF = pdf
           maximum: 1
           type: string
           minLength: 3
           maxLength: 3
         Description:
-          description: Description of the form image format code.  
+          description: Description of the form image format code.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
       xml:
         name: ImageFormat
-      description: Container tag for the International forms image format information. 
+      description: Container tag for the International forms image format information.
     Image_ImageFormat:
       type: object
       maximum: 1
@@ -10952,14 +10952,14 @@ components:
           minLength: 3
           maxLength: 3
         Description:
-          description: Description of the form image format code.  
+          description: Description of the form image format code.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
       xml:
         name: ImageFormat
-      description: Container tag for the International forms image format information.  
+      description: Container tag for the International forms image format information.
     PackageResults_ItemizedCharges:
       type: object
       maximum: 1
@@ -11007,9 +11007,9 @@ components:
         ItemizedCharges:
           description: |
               Negotiated Itemized Accessorial and SurCharges.
-              
+
               Negotiated itemized charges are only returned for certain contract-only shipments as well as Worldwide Express Freight, Ground Freight Pricing, and Hazmat movements. Negotiated Itemized Accessorial and Sur Charges are returned only when the subversion element is present and greater than or equal to 1607.
-              
+
               Package level itemized charges are only returned for US domestic movements
 
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
@@ -11123,7 +11123,7 @@ components:
 
             Valid values:
             - EPL = EPL2 (when user requests label in EPL2 format)
-            - SPL = SPL (when user requests label in SPL format) 
+            - SPL = SPL (when user requests label in SPL format)
             - ZPL = ZPL (when user requests label in ZPL format)
             - HTML= HTML (when user requests label in HTML format)
           maximum: 1
@@ -11235,13 +11235,13 @@ components:
         ImageFormat:
           "$ref": "#/components/schemas/HighValueReport_Image_ImageFormat"
         GraphicImage:
-          description: Base 64 encoded High Value Report image. 
+          description: Base 64 encoded High Value Report image.
           type: string
           maximum: 1
       xml:
         name: Image
       maximum: 1
-      description: Container tag for the High Value Report image. 
+      description: Container tag for the High Value Report image.
     VOIDSHIPMENTRequestWrapper:
       xml:
         name: VoidShipmentRequest
@@ -11337,7 +11337,7 @@ components:
         name: VoidShipment
       required:
       - ShipmentIdentificationNumber
-      description: The container for the Ship Void Request. 
+      description: The container for the Ship Void Request.
       minLength: 1
       maxLength: 1
     VoidShipmentResponse:
@@ -11433,13 +11433,13 @@ components:
       - Code
       properties:
         Code:
-          description: Code for the status of the Summary Result  
+          description: Code for the status of the Summary Result
           maximum: 1
           type: string
           minLength: 1
           maxLength: 1
         Description:
-          description: Description of the status of the Summary Result  
+          description: Description of the status of the Summary Result
           maximum: 1
           type: string
           minLength: 1
@@ -11632,12 +11632,12 @@ components:
       properties:
         Code:
           description: |
-            File type that the label is to be generated in. Valid values are:  
+            File type that the label is to be generated in. Valid values are:
             - GIF -- label is in HTML format.
             - PDF -- label is in PDF format.
             - ZPL -- Thermal label in ZPL format.
             - EPL -- Thermal label in EPL2 format.
-            - SPL -- Thermal label in SPL format.  
+            - SPL -- Thermal label in SPL format.
 
             Default is GIF
           maximum: 1
@@ -11652,7 +11652,7 @@ components:
           maxLength: 35
       xml:
         name: LabelImageFormat
-      description: The file format of the label and receipt. Defaults to HTML format if this node does not exist.  
+      description: The file format of the label and receipt. Defaults to HTML format if this node does not exist.
     LabelRecovery_LabelSpecification_LabelStockSize:
       type: object
       maximum: 1
@@ -11691,17 +11691,17 @@ components:
       properties:
         LanguageCode:
           description: |
-            The Language code. The language codes are three letter language codes. Supported languages are: 
-            - eng - English 
-            - spa - Spanish 
+            The Language code. The language codes are three letter language codes. Supported languages are:
+            - eng - English
+            - spa - Spanish
             - ita - Italian
-            - fra - French 
-            - deu - German 
-            - por -Portuguese 
+            - fra - French
+            - deu - German
+            - por -Portuguese
             - nld – Dutch
-            - dan - Danish 
-            - fin - Finnish 
-            - swe – Swedish 
+            - dan - Danish
+            - fin - Finnish
+            - swe – Swedish
             - nor – Norwegian
           maximum: 1
           type: string
@@ -11709,7 +11709,7 @@ components:
           maxLength: 3
         DialectCode:
           description: |
-            Valid dialect codes are: 
+            Valid dialect codes are:
             - CA - Canada
             - GB - Great Britain
             - US - United States
@@ -11771,7 +11771,7 @@ components:
         ReferenceNumber:
           "$ref": "#/components/schemas/ReferenceValues_ReferenceNumber"
         ShipperNumber:
-          description: Required if ReferenceNumber/Value is populated. Shipper's six digit account number. Must be six alphanumeric characters. Must be associated with the Internet account used to login.  
+          description: Required if ReferenceNumber/Value is populated. Shipper's six digit account number. Must be six alphanumeric characters. Must be associated with the Internet account used to login.
           maximum: 1
           type: string
           minLength: 6
@@ -11890,7 +11890,7 @@ components:
           minLength: 1
           maxLength: 1
         Description:
-          description: Describes Response Status Code. Returns the text "Success" 
+          description: Describes Response Status Code. Returns the text "Success"
           maximum: 1
           type: string
           minLength: 1
@@ -12113,7 +12113,7 @@ components:
       properties:
         Code:
           description: |
-            Code representing the format in which a receipt is returned. Valid values: 
+            Code representing the format in which a receipt is returned. Valid values:
             - HTML = HTML format
             - PDF = pdf
           maximum: 1
@@ -12121,7 +12121,7 @@ components:
           minLength: 3
           maxLength: 3
         Description:
-          description: Description of the form image format code.  
+          description: Description of the form image format code.
           maximum: 1
           type: string
           minLength: 1
@@ -12182,7 +12182,7 @@ components:
         ImageFormat:
           "$ref": "#/components/schemas/LR_CODTurnInPage_Image_ImageFormat"
         GraphicImage:
-          description: Base64 Encoded COD Turnin Page image. 
+          description: Base64 Encoded COD Turnin Page image.
           maximum: 1
           type: string
       xml:
@@ -12202,14 +12202,14 @@ components:
           minLength: 3
           maxLength: 3
         Description:
-          description: Description for code.    
+          description: Description for code.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
       xml:
         name: ImageFormat
-      description: Container for the format of image.  
+      description: Container for the format of image.
     LabelRecoveryResponse_Form:
       type: object
       required:
@@ -12254,14 +12254,14 @@ components:
           minLength: 3
           maxLength: 3
         Description:
-          description: Description of the form image format code.  
+          description: Description of the form image format code.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
       xml:
         name: ImageFormat
-      description: Container tag for the International forms image format information. 
+      description: Container tag for the International forms image format information.
     LabelRecoveryResponse_HighValueReport:
       type: object
       required:
@@ -12341,10 +12341,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object

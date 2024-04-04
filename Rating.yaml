@@ -12,7 +12,7 @@ tags:
 - name: Rating_other
   x-displayName: Methods
   description: |
-    The Rating API is used when rating or shopping a shipment. 
+    The Rating API is used when rating or shopping a shipment.
     - <a href="https://developer.ups.com/api/reference/rating/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/rating/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/rating/error-codes" target="_blank" rel="noopener">Errors</a>
@@ -52,8 +52,8 @@ paths:
           minimum: 1
           default: v2403
         description: |
-            Indicates Rate API to display the new release features in Rate API response based on Rate release. See the New section for the latest Rate release. 
-            
+            Indicates Rate API to display the new release features in Rate API response based on Rate release. See the New section for the latest Rate release.
+
             Valid values:
             - v2403
         required: true
@@ -66,9 +66,9 @@ paths:
         description: |
             Valid Values:
             - Rate = The server rates (The default Request option is Rate if a Request Option is not provided).
-            - Shop = The server validates the shipment, and returns rates for all UPS products from the ShipFrom to the ShipTo addresses. 
+            - Shop = The server validates the shipment, and returns rates for all UPS products from the ShipFrom to the ShipTo addresses.
             - Ratetimeintransit = The server rates with transit time information
-            - Shoptimeintransit = The server validates the shipment, and returns rates and transit times for all UPS products from the ShipFrom to the ShipTo addresses. 
+            - Shoptimeintransit = The server validates the shipment, and returns rates and transit times for all UPS products from the ShipFrom to the ShipTo addresses.
 
             Rate is the only valid request option for UPS Ground Freight Pricing requests.
         required: true
@@ -819,9 +819,9 @@ paths:
           minimum: 1
           default: v1
         description: |
-            Indicates Rate API to display the new release features in Rate API response based on Rate release. See the New section for the latest Rate release. 
-          
-            Valid values: 
+            Indicates Rate API to display the new release features in Rate API response based on Rate release. See the New section for the latest Rate release.
+
+            Valid values:
             - v1
             - v1601
             - v1607
@@ -839,9 +839,9 @@ paths:
         description: |
             Valid Values:
             - Rate = The server rates (The default Request option is Rate if a Request Option is not provided).
-            - Shop = The server validates the shipment, and returns rates for all UPS products from the ShipFrom to the ShipTo addresses. 
+            - Shop = The server validates the shipment, and returns rates for all UPS products from the ShipFrom to the ShipTo addresses.
             - Ratetimeintransit = The server rates with transit time information
-            - Shoptimeintransit = The server validates the shipment, and returns rates and transit times for all UPS products from the ShipFrom to the ShipTo addresses. 
+            - Shoptimeintransit = The server validates the shipment, and returns rates and transit times for all UPS products from the ShipFrom to the ShipTo addresses.
 
             Rate is the only valid request option for UPS Ground Freight Pricing requests.
         required: true
@@ -1569,7 +1569,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
@@ -1615,7 +1615,7 @@ components:
           "$ref": "#/components/schemas/RateRequest_Shipment"
       xml:
         name: RateRequest
-      description: Rate Request container. 
+      description: Rate Request container.
       maximum: 1
     RateRequest_Request:
       type: object
@@ -1626,9 +1626,9 @@ components:
           description: |
             Used to define the request type. Valid Values:
             - Rate = The server rates (The default Request option is Rate if a Request Option is not provided).
-            - Shop = The server validates the shipment, and returns rates for all UPS products from the ShipFrom to the ShipTo addresses. 
+            - Shop = The server validates the shipment, and returns rates for all UPS products from the ShipFrom to the ShipTo addresses.
             - Ratetimeintransit = The server rates with transit time information
-            - Shoptimeintransit = The server validates the shipment, and returns rates and transit times for all UPS products from the ShipFrom to the ShipTo addresses. 
+            - Shoptimeintransit = The server validates the shipment, and returns rates and transit times for all UPS products from the ShipFrom to the ShipTo addresses.
 
             Rate is the only valid request option for UPS Ground Freight Pricing requests.
           type: string
@@ -1882,7 +1882,7 @@ components:
           minLength: 1
           maxLength: 9
         CountryCode:
-          description: Country or Territory code. Refer to the Supported Country or Territory Tables located in Appendix.  
+          description: Country or Territory code. Refer to the Supported Country or Territory Tables located in Appendix.
           maximum: 1
           type: string
           minLength: 2
@@ -1938,7 +1938,7 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: Destination state code.  
+          description: Destination state code.
           maximum: 1
           type: string
           minLength: 2
@@ -1950,7 +1950,7 @@ components:
           minLength: 1
           maxLength: 9
         CountryCode:
-          description: Destination country or territory code. Refer to the Supported Country or Territory Tables located in the Appendix.  
+          description: Destination country or territory code. Refer to the Supported Country or Territory Tables located in the Appendix.
           maximum: 1
           type: string
           minLength: 2
@@ -2051,7 +2051,7 @@ components:
 
         Required for the following ShipmentIndicationType values:
         - 01 - Hold for Pickup at UPS Access Point™
-        - 02 - UPS Access Point™ Delivery  
+        - 02 - UPS Access Point™ Delivery
     AlternateDeliveryAddress_Name:
       description: UPS Access Point™ location name.
       maximum: 1
@@ -2087,13 +2087,13 @@ components:
           minLength: 2
           maxLength: 2
         PostalCode:
-          description: UPS Access Point Postal code.  
+          description: UPS Access Point Postal code.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 9
         CountryCode:
-          description: UPS Access Point country or territory code.  
+          description: UPS Access Point country or territory code.
           maximum: 1
           type: string
           minLength: 2
@@ -2109,7 +2109,7 @@ components:
           description: |
             Presence/Absence Indicator. Any value inside is ignored.
 
-            This field is a flag to indicate if the Alternate Delivery location is a PO box location. 
+            This field is a flag to indicate if the Alternate Delivery location is a PO box location.
 
             True if POBoxIndicator tag exists; false otherwise.  Not valid with Shipment Indication Types:
             - 01 - Hold for Pickup at UPS Access Point
@@ -2129,9 +2129,9 @@ components:
           description: |
             Code for Shipment Indication Type.
 
-            Valid values: 
-            - 01 - Hold for Pickup at UPS Access Point 
-            - 02 - UPS Access Point™ Delivery  
+            Valid values:
+            - 01 - Hold for Pickup at UPS Access Point
+            - 02 - UPS Access Point™ Delivery
           maximum: 1
           type: string
           minLength: 2
@@ -2450,7 +2450,7 @@ components:
       - Value
       properties:
         Value:
-          description: Adjusted Height value for the handling unit.  
+          description: Adjusted Height value for the handling unit.
           maximum: 1
           type: string
           minLength: 1
@@ -2475,7 +2475,7 @@ components:
           minLength: 1
           maxLength: 2
         Description:
-          description: Description for Code associated with Unit of Measurement for the Adjusted height.  
+          description: Description for Code associated with Unit of Measurement for the Adjusted height.
           maximum: 1
           type: string
           minLength: 1
@@ -2565,20 +2565,20 @@ components:
       - Code
       properties:
         Code:
-          description: Code for UnitOfMeasurement for the line item dimension. Valid value - IN = Inches  
+          description: Code for UnitOfMeasurement for the line item dimension. Valid value - IN = Inches
           maximum: 1
           type: string
           minLength: 1
           maxLength: 2
         Description:
-          description: Description for UnitOfMeasurement for the line item dimension. 
+          description: Description for UnitOfMeasurement for the line item dimension.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
       xml:
         name: UnitOfMeasurement
-      description: UnitOfMeasurement container. 
+      description: UnitOfMeasurement container.
     Dimensions_UnitOfMeasurement:
       type: object
       maximum: 1
@@ -2589,7 +2589,7 @@ components:
         Code:
           description: |
             Package dimensions unit of measurement code.
-            
+
             Valid values:
             - IN
             - CM
@@ -2614,30 +2614,30 @@ components:
       properties:
         Code:
           description: |
-            The code for the UPS Service associated with the shipment. 
+            The code for the UPS Service associated with the shipment.
 
             NOTE: For a complete listing of values, refer to Service Codes in the Appendix
 
-            Valid domestic values: 
-            - 01 = Next Day Air  
-            - 02 = 2nd Day Air 
-            - 03 = Ground 
-            - 12 = 3 Day Select 
-            - 13 = Next Day Air Saver 
-            - 14 = UPS Next Day Air Early 
-            - 59 = 2nd Day Air A.M.       
+            Valid domestic values:
+            - 01 = Next Day Air
+            - 02 = 2nd Day Air
+            - 03 = Ground
+            - 12 = 3 Day Select
+            - 13 = Next Day Air Saver
+            - 14 = UPS Next Day Air Early
+            - 59 = 2nd Day Air A.M.
             - 75 = UPS Heavy Goods
-            
-            Valid international values:  
-            - 07 = Worldwide Express  
-            - 08 = Worldwide Expedited 
-            - 11= Standard  
-            - 54 = Worldwide Express Plus  
-            - 65 = Saver                        
-            - 96 = UPS Worldwide Express Freight
-            - 71 = UPS Worldwide Express Freight Midday        
 
-            Required for Rating and ignored for Shopping.  
+            Valid international values:
+            - 07 = Worldwide Express
+            - 08 = Worldwide Expedited
+            - 11= Standard
+            - 54 = Worldwide Express Plus
+            - 65 = Saver
+            - 96 = UPS Worldwide Express Freight
+            - 71 = UPS Worldwide Express Freight Midday
+
+            Required for Rating and ignored for Shopping.
           maximum: 1
           type: string
           minLength: 3
@@ -2686,17 +2686,17 @@ components:
       properties:
         Code:
           description: |
-            Code representing the unit of measure associated with the package weight. 
-            
-            Valid values: 
+            Code representing the unit of measure associated with the package weight.
+
+            Valid values:
             - LBS = Pounds
-            - KGS = Kilograms.  
+            - KGS = Kilograms.
           type: string
           minLength: 1
           maxLength: 3
           maximum: 1
         Description:
-          description: Text description of the code representing the unit of measure associated with the shipment weight.  
+          description: Text description of the code representing the unit of measure associated with the shipment weight.
           maximum: 1
           type: string
           minLength: 1
@@ -2763,19 +2763,19 @@ components:
       properties:
         Code:
           description: |
-            The code for the UPS packaging type associated with the package.  Valid values: 
-            - 00 - UNKNOWN  
-            - 01 - UPS Letter  
-            - 02 - Package  
-            - 03 - Tube  
-            - 04 - Pak  
-            - 21 - Express Box  
-            - 24 - 25KG Box  
-            - 25 - 10KG Box  
-            - 30 - Pallet  
-            - 2a - Small Express Box  
-            - 2b - Medium Express Box 
-            - 2c - Large Express Box. 
+            The code for the UPS packaging type associated with the package.  Valid values:
+            - 00 - UNKNOWN
+            - 01 - UPS Letter
+            - 02 - Package
+            - 03 - Tube
+            - 04 - Pak
+            - 21 - Express Box
+            - 24 - 25KG Box
+            - 25 - 10KG Box
+            - 30 - Pallet
+            - 2a - Small Express Box
+            - 2b - Medium Express Box
+            - 2c - Large Express Box.
 
             For FRS rating requests the only valid value is customer supplied packaging “02”.
           maximum: 1
@@ -2805,7 +2805,7 @@ components:
         Length:
           description: |
             Length of the package used to determine dimensional weight.  Required for GB to GB and Poland to Poland shipments.
-            
+
             6 digits in length with 2 digits of significance after the decimal point.
           maximum: 1
           type: string
@@ -2814,7 +2814,7 @@ components:
         Width:
           description: |
             Width of the package used to determine dimensional weight.  Required for GB to GB and Poland to Poland shipments.
-            
+
             6 digits in length with 2 digits of significance after the decimal point.
           maximum: 1
           type: string
@@ -2823,7 +2823,7 @@ components:
         Height:
           description: |
             Height of the package used to determine dimensional weight.  Required for GB to GB and Poland to Poland shipments.
-            
+
             6 digits in length with 2 digits of significance after the decimal point.
           maximum: 1
           type: string
@@ -2863,9 +2863,9 @@ components:
       properties:
         Code:
           description: |
-            Code representing the unit of measure associated with the package weight. 
-            
-            Valid values: 
+            Code representing the unit of measure associated with the package weight.
+
+            Valid values:
             - LBS - Pounds
             - KGS - Kilograms.
           type: string
@@ -2912,9 +2912,9 @@ components:
           description: |
             Code representing the unit of measure associated with the package weight.
 
-            Unit of Measurement "OZS" is the only valid UOM for Worldwide Economy DDU Shipments.  
+            Unit of Measurement "OZS" is the only valid UOM for Worldwide Economy DDU Shipments.
 
-            Valid values: 
+            Valid values:
             - LBS - Pounds (default)
             - KGS - Kilograms
             - OZS - Ounces
@@ -2930,7 +2930,7 @@ components:
           maxLength: 35
       xml:
         name: UnitOfMeasurement
-      description: UnitOfMeasurement Container. 
+      description: UnitOfMeasurement Container.
     Package_Commodity:
       type: object
       maximum: 1
@@ -3015,7 +3015,7 @@ components:
           "$ref": "#/components/schemas/PackageServiceOptions_Insurance"
         UPSPremiumCareIndicator:
           description: |
-            The UPSPremiumCareIndicator indicates special handling is required for shipment having controlled substances.  Empty Tag means indicator is present. 
+            The UPSPremiumCareIndicator indicates special handling is required for shipment having controlled substances.  Empty Tag means indicator is present.
 
             Valid only for Canada to Canada movements.
 
@@ -3026,11 +3026,11 @@ components:
             - Electronic Return Label
             - Return Service Three Attempt
 
-            May be requested with following UPS services: 
+            May be requested with following UPS services:
             - UPS Express® Early
             - UPS Express
             - UPS Express Saver
-            - UPS Standard. 
+            - UPS Standard.
 
             Not available for packages with the following:
             - Delivery Confirmation - Signature Required
@@ -3081,8 +3081,8 @@ components:
           maxLength: 3
         MonetaryValue:
           description: |
-            Access Point COD Monetary Value.  Required if Access Point COD container is present. 
-            
+            Access Point COD Monetary Value.  Required if Access Point COD container is present.
+
             8 digits prior to the decimal place and 2 after.
           maximum: 1
           type: string
@@ -3468,8 +3468,8 @@ components:
           maxLength: 300
         AdditionalDescription:
           description: |
-            Additional remarks or special provision information. Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation. 
-            
+            Additional remarks or special provision information. Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation.
+
             Additional information that may be required by regulation about a hazardous material, such as, "Limited Quantity", DOT-SP numbers, EX numbers.  Applies only if SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3595,7 +3595,7 @@ components:
           description: |
             DryIce weight unit of measurement code. Valid values:
             - 00 - KG (Metric Unit of Measurements) or KGS
-            - 01 - LB (English Unit of Measurements) or LBS 
+            - 01 - LB (English Unit of Measurements) or LBS
           maximum: 1
           type: string
           minLength: 1
@@ -3680,9 +3680,9 @@ components:
           "$ref": "#/components/schemas/ShipmentServiceOptions_AccessPointCOD"
         DeliverToAddresseeOnlyIndicator:
           description: |
-            Presence/Absence Indicator. Any value inside is ignored. 
+            Presence/Absence Indicator. Any value inside is ignored.
 
-            DeliverToAddresseeOnlyIndicator is shipper specified restriction that requires the addressee to be the one who takes final delivery of the "Hold For PickUp at UPS Access Point" package.  
+            DeliverToAddresseeOnlyIndicator is shipper specified restriction that requires the addressee to be the one who takes final delivery of the "Hold For PickUp at UPS Access Point" package.
 
             Presence of indicator means shipper restriction will apply to the shipment.  Only valid for Shipment Indication type "01 - Hold For PickUp at UPS Access Point".
           maximum: 1
@@ -3690,7 +3690,7 @@ components:
         DirectDeliveryOnlyIndicator:
           description: |
             Presence/Absence Indicator. Any value inside is ignored. Direct Delivery Only (DDO) accessorial in a request would ensure that delivery is made only to the Ship To address on the shipping label.  This accessorial is not valid with Shipment Indication Types:
-            - 01 - Hold For Pickup At UPS Access Point 
+            - 01 - Hold For Pickup At UPS Access Point
             - 02 - UPS Access Point™ Delivery
           maximum: 1
           type: string
@@ -3746,14 +3746,14 @@ components:
           type: string
         EPRAIndicator:
           description: |
-            For valid values, refer to Rating and Shipping COD Supported Countries or Territories in the Appendix.Presence/Absence Indicator. Any value inside is ignored. This field is a flag to indicate Package Release Code is requested for shipment. 
+            For valid values, refer to Rating and Shipping COD Supported Countries or Territories in the Appendix.Presence/Absence Indicator. Any value inside is ignored. This field is a flag to indicate Package Release Code is requested for shipment.
 
-            This accessorial is only valid with ShipmentIndicationType '01' - Hold for Pickup at UPS Access Point™.  
+            This accessorial is only valid with ShipmentIndicationType '01' - Hold for Pickup at UPS Access Point™.
           maximum: 1
           type: string
         InsideDelivery:
           description: |
-            Inside Delivery accessory. Valid values:                                         
+            Inside Delivery accessory. Valid values:
             - 01 - White Glove
             - 02 - Room of Choice
             - 03 - Installation  Shippers account needs to have a valid contract for Heavy Goods Service.
@@ -3787,8 +3787,8 @@ components:
           maxLength: 3
         MonetaryValue:
           description: |
-            Access Point COD Monetary Value.  Required if Access Point COD container is present. 
-            
+            Access Point COD Monetary Value.  Required if Access Point COD container is present.
+
             8 digits prior to the decimal place and 2 after.
           maximum: 1
           type: string
@@ -3797,11 +3797,11 @@ components:
       xml:
         name: AccessPointCOD
       description: |
-        Access Point COD indicates Shipment level Access Point COD is requested for a shipment.  Valid only for "01 - Hold For Pickup At UPS Access Point" Shipment Indication type. 
+        Access Point COD indicates Shipment level Access Point COD is requested for a shipment.  Valid only for "01 - Hold For Pickup At UPS Access Point" Shipment Indication type.
 
-        Shipment Access Point COD is valid only for countries or territories within E.U. 
+        Shipment Access Point COD is valid only for countries or territories within E.U.
 
-        Not valid with (Shipment) COD. 
+        Not valid with (Shipment) COD.
 
         Not available to shipment with return service.
     ShipmentServiceOptions_COD:
@@ -4064,7 +4064,7 @@ components:
           type: string
       xml:
         name: ShipmentRatingOptions
-      description: Shipment Rating Options container. 
+      description: Shipment Rating Options container.
     Shipment_InvoiceLineTotal:
       type: object
       maximum: 1
@@ -4129,7 +4129,7 @@ components:
         PackageBillType:
           description: |
             Valid values are:
-            - 02 - Document only 
+            - 02 - Document only
             - 03 - Non-Document
             - 04 - WWEF Pallet
             - 07 - Domestic Pallet
@@ -4317,10 +4317,10 @@ components:
       properties:
         Level:
           description: |
-            Define type of element in request. Possible values are - 
-            - 'H' for the header details level,  
-            - 'S' for the shipment level, 
-            - 'P' for the package level, 
+            Define type of element in request. Possible values are -
+            - 'H' for the header details level,
+            - 'S' for the shipment level,
+            - 'P' for the package level,
             - 'C' for the commodity level.
           maximum: 1
           type: string
@@ -4388,22 +4388,22 @@ components:
           "$ref": "#/components/schemas/RatedShipment_Service"
         RateChart:
           description: |
-            Rate Type with which Shipment is rated. Possible RateChart values for different regions will be: 
+            Rate Type with which Shipment is rated. Possible RateChart values for different regions will be:
 
-            US 48 origin: 
-            - 1 – Daily Rates 
-            - 3 – Standard List Rates 
+            US 48 origin:
+            - 1 – Daily Rates
+            - 3 – Standard List Rates
             - 4 – Retail Rates.
 
             Alaska/Hawaii origin:
-            - 1 – Daily Rates 
-            - 3 – Standard List Rates 
-            - 4 – Retail Rates.  
+            - 1 – Daily Rates
+            - 3 – Standard List Rates
+            - 4 – Retail Rates.
 
             All Other origins:
-            - 1 – Rates 
-            - 5 - Regional Rates 
-            - 6 - General List Rates. 
+            - 1 – Rates
+            - 5 - Regional Rates
+            - 6 - General List Rates.
             - 3 and 4 do not apply
           maximum: 1
           type: string
@@ -4530,7 +4530,7 @@ components:
           minLength: 3
           maxLength: 3
         Description:
-          description: The UPS service Description.  
+          description: The UPS service Description.
           maximum: 1
           type: string
           minLength: 1
@@ -4584,7 +4584,7 @@ components:
       - Code
       properties:
         Code:
-          description: The code associated with the unit of measure for the billable weight of a shipment. Possible values are KGS or LBS.  
+          description: The code associated with the unit of measure for the billable weight of a shipment. Possible values are KGS or LBS.
           maximum: 1
           type: string
           minLength: 3
@@ -5251,7 +5251,7 @@ components:
       - Code
       properties:
         Code:
-          description: The code associated with the unit of measure for the billable weight of a package.   
+          description: The code associated with the unit of measure for the billable weight of a package.
           maximum: 1
           type: string
           minLength: 3
@@ -5669,10 +5669,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object

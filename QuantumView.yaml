@@ -12,7 +12,7 @@ tags:
 - name: QuantumView_other
   x-displayName: Methods
   description: |
-    UPS Quantum View is a suite of services that gives you and your customers details regarding UPS shipments. 
+    UPS Quantum View is a suite of services that gives you and your customers details regarding UPS shipments.
     - <a href="https://developer.ups.com/api/reference/quantumview/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/quantumview/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/quantumview/errors" target="_blank" rel="noopener">Errors</a>
@@ -174,7 +174,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
@@ -352,7 +352,7 @@ components:
           maxLength: 15
         Error:
           description: |
-              If an error is encountered during the interchange, the Response contains an error. If the error is present, then the ErrorSeverity and ErrorCodes are required. 
+              If an error is encountered during the interchange, the Response contains an error. If the error is present, then the ErrorSeverity and ErrorCodes are required.
 
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -390,7 +390,7 @@ components:
       maximum: 1
       properties:
         ErrorSeverity:
-          description: Describes the severity of the error. Required if the error is present. 
+          description: Describes the severity of the error. Required if the error is present.
           maximum: 1
           type: string
           minLength: 1
@@ -432,19 +432,19 @@ components:
       xml:
         name: Error
       required:
-      - ErrorLocation 
+      - ErrorLocation
     Error_ErrorLocation:
       type: object
       maximum: 1
       properties:
         ErrorLocationElementName:
-          description: The Xpath name of the element in error. This is a valid Xpath pointing to an element in the request document.  
+          description: The Xpath name of the element in error. This is a valid Xpath pointing to an element in the request document.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 512
         ErrorLocationAttributeName:
-          description: The name of the attribute in error. This is the name of the attribute contained by the Error Location element.  
+          description: The name of the attribute in error. This is the name of the attribute contained by the Error Location element.
           maximum: 1
           type: string
           minLength: 1
@@ -702,7 +702,7 @@ components:
           maxLength: 6
         DocumentsOnly:
           description: |
-            If the tag is present then the shipment is a document, otherwise the shipment is a non-document. Valid values: 
+            If the tag is present then the shipment is a document, otherwise the shipment is a non-document. Valid values:
             - 1 = Letter
             - 2 = Document (Non-Letter Document)
             - 3 = Non-Document
@@ -826,7 +826,7 @@ components:
           minLength: 1
           maxLength: 1
         Product:
-          description: This element will have value "PAC" for CAR shipments. For no CAR shipments this element will not be appeared. 
+          description: This element will have value "PAC" for CAR shipments. For no CAR shipments this element will not be appeared.
           maximum: 1
           type: string
         UPSReturnsExchange:
@@ -982,7 +982,7 @@ components:
           maxLength: 1
         UPSPremierCategoryCode:
           description: |
-            Indicates the UPS Premier category applied to the package Valid values: 
+            Indicates the UPS Premier category applied to the package Valid values:
             - 'PRS' – UPS Premier Silver
             - 'PRG' – UPS Premier Gold
             - 'PRP' - UPS Premier Platinum
@@ -1061,13 +1061,13 @@ components:
           minLength: 1
           maxLength: 35
         AddressLine2:
-          description: Address Line 2 of the Shipper. Usually room/floor information.  
+          description: Address Line 2 of the Shipper. Usually room/floor information.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         AddressLine3:
-          description: Address Line 3 of the shipper. Usually department information.  
+          description: Address Line 3 of the shipper. Usually department information.
           maximum: 1
           type: string
           minLength: 1
@@ -1079,7 +1079,7 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: Shipper's state or province code. Must be valid US state. If the Shipper's country or territory is US or CA a two character code is required, otherwise the StateProvinceCode is optional. 
+          description: Shipper's state or province code. Must be valid US state. If the Shipper's country or territory is US or CA a two character code is required, otherwise the StateProvinceCode is optional.
           maximum: 1
           type: string
           minLength: 1
@@ -1093,7 +1093,7 @@ components:
           maxLength: 9
         CountryCode:
           description: |
-            Shipper's country or territory code. 
+            Shipper's country or territory code.
 
             Valid values: CA,MX, PR, US, AT, BE, DE, DK, ES, FI, FR, GB, IE, IT, NL, PT, SE, MC and VA
           maximum: 1
@@ -1168,7 +1168,7 @@ components:
           minLength: 3
           maxLength: 10
         ReceivingAddressName:
-          description: Name of the location where the package is received. 
+          description: Name of the location where the package is received.
           maximum: 1
           type: string
           minLength: 1
@@ -1188,25 +1188,25 @@ components:
           minLength: 1
           maxLength: 35
         AddressLine1:
-          description: Address Line 1 of the Consignee. 
+          description: Address Line 1 of the Consignee.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         AddressLine2:
-          description: Address Line 2 of the Consignee.  
+          description: Address Line 2 of the Consignee.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         AddressLine3:
-          description: Address Line 3 of the Consignee. 
+          description: Address Line 3 of the Consignee.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         City:
-          description: Consignee's City. 
+          description: Consignee's City.
           maximum: 1
           type: string
           minLength: 1
@@ -1226,9 +1226,9 @@ components:
           maxLength: 9
         CountryCode:
           description: |
-            Consignee's country or territory  code. 
+            Consignee's country or territory  code.
 
-            Valid values: CA,MX, PR, US, AT, BE, DE, DK, ES, FI, FR, GB, IE, IT, NL, PT, SE, MC and VA  
+            Valid values: CA,MX, PR, US, AT, BE, DE, DK, ES, FI, FR, GB, IE, IT, NL, PT, SE, MC and VA
           maximum: 1
           type: string
           minLength: 2
@@ -1247,13 +1247,13 @@ components:
           minLength: 1
           maxLength: 1
         Code:
-          description: Reflects what will go on the label as the name of the reference. For additional information, refer to the Reference Codes table in the Appendix. 
+          description: Reflects what will go on the label as the name of the reference. For additional information, refer to the Reference Codes table in the Appendix.
           maximum: 1
           type: string
           minLength: 2
           maxLength: 2
         Value:
-          description: Customer supplied reference number. Reference numbers are defined by the shipper and can contain any character string. 
+          description: Customer supplied reference number. Reference numbers are defined by the shipper and can contain any character string.
           maximum: 1
           type: string
           minLength: 1
@@ -1276,7 +1276,7 @@ components:
           minLength: 3
           maxLength: 3
         Description:
-          description: Description of the service code. Examples are Next Day Air, Worldwide Express, and Ground.  
+          description: Description of the service code. Examples are Next Day Air, Worldwide Express, and Ground.
           maximum: 1
           type: string
       xml:
@@ -1310,7 +1310,7 @@ components:
             Values for LargePackage are:
             - 1 - Oversize 1
             - 2 - Oversize 2
-            - 4 - Large package  
+            - 4 - Large package
           maximum: 1
           type: string
           minLength: 1
@@ -1345,13 +1345,13 @@ components:
       maximum: 1
       properties:
         Date:
-          description: "Date of package delivery activity. Date format: YYYYMMDD."  
+          description: "Date of package delivery activity. Date format: YYYYMMDD."
           maximum: 1
           type: string
           minLength: 8
           maxLength: 8
         Time:
-          description: "Time of package delivery activity. Time format: HHMMSS" 
+          description: "Time of package delivery activity. Time format: HHMMSS"
           maximum: 1
           type: string
           minLength: 6
@@ -1510,7 +1510,7 @@ components:
           maxLength: 6
         HazardousMaterialsCode:
           description: |
-            Indicates if the package contains hazardous materials. Valid values: 
+            Indicates if the package contains hazardous materials. Valid values:
             - 1 - Hazardous Material
             - 2 - Electronically billed hazardous material.
 
@@ -1567,11 +1567,11 @@ components:
       properties:
         CurrencyCode:
           description: |
-            The IATA currency code associated with the COD amount for the package. 
+            The IATA currency code associated with the COD amount for the package.
 
-            Required if the value for COD amount exists in MonetaryValue tag. 
+            Required if the value for COD amount exists in MonetaryValue tag.
 
-            Must match one of the IATA currency codes. 
+            Must match one of the IATA currency codes.
 
             For addition information, refer to the Currency Codes table in the Appendix.
           maximum: 1
@@ -1678,7 +1678,7 @@ components:
       properties:
         Option:
           description: |
-            Indicates how shipping charges for the package were billed. Valid values: 
+            Indicates how shipping charges for the package were billed. Valid values:
             - 01 - Shipper
             - 02 - Consignee Billing
             - 03 - Third Party
@@ -1874,8 +1874,8 @@ components:
           maxLength: 1
         Code:
           description: |
-            Reflects what will go on the label as the name of the reference. 
-            
+            Reflects what will go on the label as the name of the reference.
+
             For additional information, refer to the Reference Codes table in the Appendix.
           maximum: 1
           type: string
@@ -1909,7 +1909,7 @@ components:
         Code:
           description: |
             Reflects what will go on the label as the name of the reference.
-            
+
             For additional information, refer to the Reference Codes table in the Appendix.
           maximum: 1
           type: string
@@ -1946,7 +1946,7 @@ components:
       maximum: 1
       properties:
         PoliticalDivision2:
-          description: City of an activity occurred during a package shipment.  
+          description: City of an activity occurred during a package shipment.
           maximum: 1
           type: string
           minLength: 1
@@ -1976,7 +1976,7 @@ components:
       properties:
         Option:
           description: |
-            Indicates how shipping charges for the package were billed. Valid Values: 
+            Indicates how shipping charges for the package were billed. Valid Values:
             - 01 - Shipper
             - 02 - Consignee Billing
             - 03 - Third Party
@@ -2115,7 +2115,7 @@ components:
         Code:
           description: |
             Reflects what will go on the label as the name of the reference.
-            
+
             For additional information, refer to the Reference Codes table in the Appendix.
           maximum: 1
           type: string
@@ -2263,7 +2263,7 @@ components:
       maximum: 1
       properties:
         Type:
-          description: Allows for secondary address information such as s suite or apartment. It will be returned if there is any update due to exception. 
+          description: Allows for secondary address information such as s suite or apartment. It will be returned if there is any update due to exception.
           maximum: 1
           type: string
           minLength: 1
@@ -2327,12 +2327,12 @@ components:
       properties:
         Option:
           description: |
-            Indicates how shipping charges for the package were billed. Valid Values: 
+            Indicates how shipping charges for the package were billed. Valid Values:
             - 01 - Shipper
             - 02 - Consignee Billing
             - 03 - Third Party
             - 04 - Freight Collect
-          Indicates how shipping charges for the package were billed. Valid Values: 01 Shipper, 02 Consignee Billing ,03 Third Party, 04 Freight Collect 
+          Indicates how shipping charges for the package were billed. Valid Values: 01 Shipper, 02 Consignee Billing ,03 Third Party, 04 Freight Collect
           maximum: 1
           type: string
           minLength: 2
@@ -2440,8 +2440,8 @@ components:
           maxLength: 1
         Code:
           description: |
-            Reflects what will go on the label as the name of the reference. 
-            
+            Reflects what will go on the label as the name of the reference.
+
             For additional information, refer to the Reference Codes table in the Appendix.
           maximum: 1
           type: string
@@ -2473,7 +2473,7 @@ components:
           maxLength: 1
         Code:
           description: |
-            Reflects what will go on the label as the name of the reference. 
+            Reflects what will go on the label as the name of the reference.
 
             For additional information, refer to the Reference Codes table in the Appendix.
           maximum: 1
@@ -2618,7 +2618,7 @@ components:
           minLength: 1
           maxLength: 15
         PostcodeExtendedLow:
-          description: 4 Digit postal code extension where package is delivered. Valid for US only.  
+          description: 4 Digit postal code extension where package is delivered. Valid for US only.
           maximum: 1
           type: string
           minLength: 1
@@ -2678,7 +2678,7 @@ components:
       properties:
         Option:
           description: |
-            Indicates how shipping charges for the package were billed. Valid Values: 
+            Indicates how shipping charges for the package were billed. Valid Values:
             - 01 - Shipper
             - 02 - Consignee Billing
             - 03 - Third Party
@@ -2707,22 +2707,22 @@ components:
       properties:
         ActivityType:
           description: |
-            Unique identifier that defines the type of activity. 
-            - VM = Void for Manifest 
+            Unique identifier that defines the type of activity.
+            - VM = Void for Manifest
             - UR = Undeliverable Returns
-            - IR = Invoice Removal Successful 
+            - IR = Invoice Removal Successful
             - TC = Transport Company USPS scan PS = 'Postal Service Possession Scan'
             - FN = UPS Access Point/Alternate Delivery Location Email Notification Failure
             - DS = Destination Scan
             - AG = Package is in transit to a UPS facility
-            - RE = UPS Returns Exchange 
+            - RE = UPS Returns Exchange
             - RP = Retail Pickup
-            - UD = Updated delivery date                                                                                             
-            - OD = Out for Delivery                                                                                                        
-            - SD = Scheduled for Delivery                                                                                              
+            - UD = Updated delivery date
+            - OD = Out for Delivery
+            - SD = Scheduled for Delivery
             - FM = Tendered to FMP
             - PT = UPS Courier Handoff (Package Tendered) DIALS -VX
-            - PC = UPS Courier Confirmation – XPLD -VX 
+            - PC = UPS Courier Confirmation – XPLD -VX
           maximum: 1
           type: string
           minLength: 1
@@ -2765,9 +2765,9 @@ components:
           "$ref": "#/components/schemas/Generic_ShipTo"
         RescheduledDeliveryDate:
           description: |
-            If Activity Type is "DS" or "UD", this element will contain Rescheduled Delivery Date. Format will be YYYYMMDD. 
+            If Activity Type is "DS" or "UD", this element will contain Rescheduled Delivery Date. Format will be YYYYMMDD.
 
-            If Activity Type is "OD", this element will contain Rescheduled Delivery Date. Format will be YYYYMMDD. 
+            If Activity Type is "OD", this element will contain Rescheduled Delivery Date. Format will be YYYYMMDD.
 
             If Activity Type is "SD", this element will contain agreed upon date with Customer for delivery Date. Format will be YYYYMMDD.
           maximum: 1
@@ -2865,13 +2865,13 @@ components:
       maximum: 1
       properties:
         Date:
-          description: Date of package activity (i.e. YYYYMMDD). If generic record ActivityType is TC then event date is the date of first USPS scan. 
+          description: Date of package activity (i.e. YYYYMMDD). If generic record ActivityType is TC then event date is the date of first USPS scan.
           maximum: 1
           type: string
           minLength: 8
           maxLength: 8
         Time:
-          description: Time of package activity(i.e. HHMMSS). If generic record ActivityType is TC then event time is the time of first USPS scan. 
+          description: Time of package activity(i.e. HHMMSS). If generic record ActivityType is TC then event time is the time of first USPS scan.
           maximum: 1
           type: string
           minLength: 6
@@ -2978,10 +2978,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object

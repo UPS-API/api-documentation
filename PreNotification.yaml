@@ -12,7 +12,7 @@ tags:
 - name: PreNotification_other
   x-displayName: Methods
   description: |
-    The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day. 
+    The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day.
 
     - <a href="https://developer.ups.com/api/reference/prenotification/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/prenotification/errors" target="_blank" rel="noopener">Errors</a>
@@ -48,7 +48,7 @@ paths:
           default: v2
         description: |
             Version of API.
-            
+
             Valid values:
             - v2
         required: true
@@ -187,7 +187,7 @@ paths:
           default: v1
         description: |
             Version of API.
-            
+
             Valid values:
             - v1
         required: true
@@ -306,7 +306,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
@@ -414,8 +414,8 @@ components:
         RegulationSet:
           description: |
             The Regulatory set associated with every regulated shipment. It must be same across the shipment. Valid values are:
-            - ADR – European Agreement concerning the International Carriage of Dangerous Goods by Road. 
-            - 49CFR – Title 49 of the United States Code of Federal Regulations.  
+            - ADR – European Agreement concerning the International Carriage of Dangerous Goods by Road.
+            - 49CFR – Title 49 of the United States Code of Federal Regulations.
             - IATA – International Air Transport Association (IATA) Dangerous Goods Regulations.
           maximum: 1
           type: string
@@ -631,26 +631,26 @@ components:
           minLength: 1
           maxLength: 2
         ClassDivisionNumber:
-          description: This is the hazard class associated to the specified commodity. Required if CommodityRegulatedLevelCode is 'LQ' or 'FR'  
+          description: This is the hazard class associated to the specified commodity. Required if CommodityRegulatedLevelCode is 'LQ' or 'FR'
           maximum: 1
           type: string
           minLength: 1
           maxLength: 7
         SubRiskClass:
-          description: Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma.)  
+          description: Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma.)
           maximum: 1
           type: string
           minLength: 7
           maxLength: 7
         IDNumber:
-          description: This is the ID number (UN/NA/ID) for the specified commodity.  UN/NA/ID Identification Number assigned to the specified regulated good. (Include the UN/NA/ID as part of the entry).  
+          description: This is the ID number (UN/NA/ID) for the specified commodity.  UN/NA/ID Identification Number assigned to the specified regulated good. (Include the UN/NA/ID as part of the entry).
           maximum: 1
           type: string
           minLength: 1
           maxLength: 6
         PackagingGroupType:
           description: |
-            This is the packing group category associated to the specified commodity. Must be shown in Roman Numerals. Valid values are: 
+            This is the packing group category associated to the specified commodity. Must be shown in Roman Numerals. Valid values are:
             - I
             - II
             - III
@@ -660,7 +660,7 @@ components:
           minLength: 1
           maxLength: 5
         Quantity:
-          description: Required if CommodityRegulatedLevelCode = LQ or FR. The numerical value of the mass capacity of the regulated good.  
+          description: Required if CommodityRegulatedLevelCode = LQ or FR. The numerical value of the mass capacity of the regulated good.
           maximum: 1
           type: string
           minLength: 1
@@ -679,12 +679,12 @@ components:
           maxLength: 4
         EmergencyPhone:
           description: |
-            24 Hour Emergency Phone Number of the shipper. 
+            24 Hour Emergency Phone Number of the shipper.
 
-            Valid values for this field are (0) through (9) with trailing blanks. 
+            Valid values for this field are (0) through (9) with trailing blanks.
 
-            For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries the layout is country code, area code, number.                                                                                                                                                                                                                                                                       The following are restricted in the phone number  
-            period ".", dash "-", plus sign "+" and conventional parentheses "(" and ")", "EXT" or "OPT"  The following are restricted in the phone number  
+            For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries the layout is country code, area code, number.                                                                                                                                                                                                                                                                       The following are restricted in the phone number
+            period ".", dash "-", plus sign "+" and conventional parentheses "(" and ")", "EXT" or "OPT"  The following are restricted in the phone number
             period ".", dash "-", plus sign "+" and conventional parentheses "(" and ")", "EXT" or "OPT"
           maximum: 1
           type: string
@@ -697,19 +697,19 @@ components:
           minLength: 1
           maxLength: 35
         ProperShippingName:
-          description: The Proper Shipping Name assigned by ADR, CFR or IATA. Required if CommodityRegulatedLevelCode = LQ or FR.  
+          description: The Proper Shipping Name assigned by ADR, CFR or IATA. Required if CommodityRegulatedLevelCode = LQ or FR.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 150
         TechnicalName:
-          description: The technical name (when required) for the specified commodity.   
+          description: The technical name (when required) for the specified commodity.
           maximum: 1
           type: string
           minLength: 200
           maxLength: 200
         AdditionalDescription:
-          description: Additional remarks or special provision information.   
+          description: Additional remarks or special provision information.
           maximum: 1
           type: string
           minLength: 1
@@ -872,10 +872,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
