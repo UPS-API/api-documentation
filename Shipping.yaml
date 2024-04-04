@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: Ship
+  version: v2403
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
-  version: ''
 servers:
 - url: https://wwwcie.ups.com/api/
   description: Customer Integration Environment
@@ -2084,6 +2084,7 @@ paths:
             - v1807
             - v2108
             - v2205
+            - v2403
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an

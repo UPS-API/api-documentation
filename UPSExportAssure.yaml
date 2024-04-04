@@ -1,7 +1,7 @@
 openapi: 3.1.0
-
 info:
   title: Export Assure API—Cross-Border Trade Guidance-v1
+  version: v1
   description: |
     This API offers businesses a powerful tool to manage shipping compliance with **Description Guidance**, **Power of Attorney (POA) Requirements**, and **Import and Export Compliance** in order to help prevent delays, avoid fines, and keep your customers happy with fast, hassle-free customs clearances.
         
@@ -39,7 +39,6 @@ info:
   license: 
     name: Apache 2.0 License
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: "1.0"
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
 security: 
   - OAuth2: []

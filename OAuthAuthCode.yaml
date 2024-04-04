@@ -1,6 +1,7 @@
 openapi: 3.0.3
 info:
   title: OAuth Authorization Code API
+  version: v1
   description: |-
     The UPS OAuth Authorization Code API helps integrate UPS services into your business application for providing the service your application grants your customers. For example, you can create UPS shipping labels with shipping rates for merchants from within your application.
     Since your application will not have access to your customer's UPS login credentials, the OAuth authorization code flow is used to let your customer use their UPS credentials, within your application, in a simple and secure way.
@@ -18,7 +19,6 @@ info:
     
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
-  version: '1.0'
 servers:
 - url: https://wwwcie.ups.com/
   description: Customer Integration Environment
@@ -45,13 +45,20 @@ tags:
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
 paths:
-  "/security/v1/oauth/authorize":
+  "/security/{version}/oauth/authorize":
     get:
       summary: Authorize Client
       description: |-
         The Authorize Client endpoint initiates the OAuth Authorization Code flow by redirecting the user to UPS for logging-in and authorize the client application. To begin the authorization flow, the application constructs a URL using the application's client Id, the redirect URI, the scope of permissions requested, and a random string used for subsequent verification. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.
       operationId: AuthorizeClient
       parameters:
+      - in: path
+        name: version
+        schema:
+          type: string
+          minimum: 1
+          default: v1
+        required: true
       - in: query
         name: client_id
         schema:
@@ -132,7 +139,7 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/tokenErrorResponse"
-  "/security/v1/oauth/token":
+  "/security/{version}/oauth/token":
     post:
       security:
       - basicAuth: []
@@ -193,7 +200,7 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/tokenErrorResponse"
-  "/security/v1/oauth/refresh":
+  "/security/{version}/oauth/refresh":
     post:
       security:
       - basicAuth: []

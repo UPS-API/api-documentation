@@ -9,8 +9,8 @@ info:
     - **Operational Efficiency**: Simplify the process of calculating landed costs by eliminating the need to manually research and calculate all of the different fees involved.
     - **Data-Driven Decision Making**: Improve decision-making by having a clear understanding of the total cost of shipping goods before you commit to a purchase..
     - **Optimizing Cash Flow**: Streamline your shipping process by integrating the Landed Cost Quote API into your existing systems.
+  version: v2403
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
-  version: ''
 servers:
 - url: https://wwwcie.ups.com/api/
   description: Customer Integration Environment

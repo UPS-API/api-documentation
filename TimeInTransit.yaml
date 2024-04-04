@@ -7,8 +7,8 @@ info:
     Key Business Values:
     - **Enhanced Customer Experience**: Allows businesses provide accurate delivery estimates to their customers, enhancing customer service.
     - **Operational Efficiency**: Helps in logistics planning by providing transit times for different UPS services.
+  version: v2403
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
-  version: ''
 servers:
 - url: https://wwwcie.ups.com/api/
   description: Customer Integration Environment

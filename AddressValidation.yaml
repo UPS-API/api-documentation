@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: Address Validation - Street Level
+  version: v2403
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
-  version: ''
 servers:
 - url: https://wwwcie.ups.com/api/
   description: Customer Integration Environment
