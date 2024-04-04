@@ -20,9 +20,9 @@ info:
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
   version: '1.0'
 servers:
-- url: https://wwwcie.ups.com/api/
+- url: https://wwwcie.ups.com/
   description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api/
+- url: https://onlinetools.ups.com/
   description: Production
 tags:
 - name: OAuthAuthCode_other
@@ -277,7 +277,7 @@ components:
           description: Type of requested access token
           type: string
         issued_at:
-          description: Issue time of requested token.
+          description: Issue time of requested token in milliseconds.
           type: string
         client_id:
           description: Client id for requested token.
@@ -293,7 +293,7 @@ components:
           description: Scope for requested token.
           type: string
         refresh_token_issued_at:
-          description: Time that refresh token was issued.
+          description: Time that refresh token was issued in milliseconds.
           type: string
         expires_in:
           description: Expire time for requested token in seconds.
@@ -317,7 +317,7 @@ components:
           description: Type for requested token.
           type: string
         issued_at:
-          description: Issue time for requested token.
+          description: Issue time for requested token in milliseconds.
           type: string
         client_id:
           description: Client id for requested token.
@@ -332,7 +332,7 @@ components:
           description: Scope for requested token.
           type: string
         refresh_token_issued_at:
-          description: Issue time for requested refresh token.
+          description: Issue time for requested refresh token in milliseconds.
           type: string
         expires_in:
           description: Expiration time for requested access token in seconds.
