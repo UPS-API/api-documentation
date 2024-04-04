@@ -16,8 +16,8 @@ info:
     (4) The authorization server's /token endpoint verifies the authorization code and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
     (5) The Client application uses the access token to request information from an UPS API.    
     
-    - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank">Setting-up OAuth Authorization Code flow</a>
-    - <a href="https://github.com/UPS-API" target="_blank">Sample integration code on GitHub</a>
+    - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
   version: '1.0'
 servers:
 - url: https://wwwcie.ups.com/
@@ -42,10 +42,10 @@ tags:
     (4) The authorization server's /token endpoint verifies the authorization code and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
     (5) The Client application uses the access token to request information from an UPS API.
     
-    - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank">Setting-up OAuth Authorization Code flow</a>
-    - <a href="https://github.com/UPS-API" target="_blank">Sample integration code on GitHub</a>
+    - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
 paths:
-  "security/v1/oauth/authorize":
+  "/security/v1/oauth/authorize":
     get:
       summary: Authorize Client
       description: |-
@@ -132,7 +132,7 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/tokenErrorResponse"
-  "security/v1/oauth/token":
+  "/security/v1/oauth/token":
     post:
       security:
       - basicAuth: []
@@ -193,7 +193,7 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/tokenErrorResponse"
-  "security/v1/oauth/refresh":
+  "/security/v1/oauth/refresh":
     post:
       security:
       - basicAuth: []
