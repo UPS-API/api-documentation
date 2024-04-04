@@ -305,7 +305,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
@@ -460,7 +460,7 @@ components:
       - Longitude
       properties:
         Latitude:
-          description: The latitude of the origin address or the center point of the area code.  
+          description: The latitude of the origin address or the center point of the area code.
           maximum: 1
           type: string
           minLength: 15
@@ -485,7 +485,7 @@ components:
           maxLength: 40
           maximum: 1
         AddressLine:
-          description: Address Line Information. The user may submit street level address information or provide Intersection information.  
+          description: Address Line Information. The user may submit street level address information or provide Intersection information.
           maximum: 1
           type: string
           minLength: 1
@@ -509,13 +509,13 @@ components:
           minLength: 1
           maxLength: 35
         PoliticalDivision2:
-          description: City or Town.  
+          description: City or Town.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 50
         PoliticalDivision1:
-          description: State or province  
+          description: State or province
           maximum: 1
           type: string
           minLength: 1
@@ -533,19 +533,19 @@ components:
           minLength: 1
           maxLength: 10
         CountryCode:
-          description: Two-character country or territory abbreviation 
+          description: Two-character country or territory abbreviation
           maximum: 1
           type: string
           minLength: 1
           maxLength: 2
-        SingleLineAddress: 
-          description: |        
+        SingleLineAddress:
+          description: |
             Single line search information. Can contain values of origin address in a single line. Will override other origin address information.
 
             Conditionally Required for Non-Postal Code Countries. Applicable Country Ireland (IE)
-            
+
             SingleLineAddress used for the lookup
-            
+
             SingleLineAddress (Format - CSV) (\"Values:\" + postalCode + city + state + address + landmark	+ phoneNumber)
           type: string
           maximum: 1
@@ -584,8 +584,8 @@ components:
       properties:
         Code:
           description: |
-            Valid values are: 
-            
+            Valid values are:
+
             - MI-Miles
             - KM-Kilometers
           type: string
@@ -658,10 +658,10 @@ components:
       xml:
         name: SearchOption
       description: |
-        SearchOption contains the information that forms the basis of the location search, It contains the criteria for search by Locations, Retail Locations, Additional Services, or Program Types. 
-        
-        There should be one container for each type of search the user may wish to do. The user can specify either search by Locations or Retail Locations, but not both. 
-        
+        SearchOption contains the information that forms the basis of the location search, It contains the criteria for search by Locations, Retail Locations, Additional Services, or Program Types.
+
+        There should be one container for each type of search the user may wish to do. The user can specify either search by Locations or Retail Locations, but not both.
+
         If this container is missing, the default search would be for The UPS Store, UPS Center, UPS Drop Box, and Authorized Shipping Outlet location types.
     SearchOption_OptionType:
       type: object
@@ -672,13 +672,13 @@ components:
         Code:
           description: |
             Code for Option type valid values are:
-            
+
             - 01-Location
             - 02-Retail Location
             - 03-Additional Services
-            - 04-Program Type 
+            - 04-Program Type
             - 05-Service Level Option.
-            - 06-End Point Service Offering  
+            - 06-End Point Service Offering
           maximum: 1
           type: string
           minLength: 2
@@ -699,7 +699,7 @@ components:
       properties:
         Code:
           description: |
-            These codes vary by country. It is strongly recommended that clients contact UPS to retrieve the primary search indicator and the valid Location Types and Service Level Options for each country or territory. 
+            These codes vary by country. It is strongly recommended that clients contact UPS to retrieve the primary search indicator and the valid Location Types and Service Level Options for each country or territory.
 
             Refer to Location Search Option Codes in the Appendix for additional information.
           maximum: 1
@@ -720,10 +720,10 @@ components:
       properties:
         Code:
           description: |
-            Applicable for Additional Services and Program Types. 
-            
-            Valid values: 
-            
+            Applicable for Additional Services and Program Types.
+
+            Valid values:
+
             - 01 - And (Default)
             - 02 - Or
           maximum: 1
@@ -790,11 +790,11 @@ components:
       properties:
         Code:
           description: |
-            Code that defines the optional service. 
-            
+            Code that defines the optional service.
+
             Valid values:
             - 01 - Saturday pickup.
-            
+
             Only valid for air service.
           maximum: 1
           type: string
@@ -1017,7 +1017,7 @@ components:
           minLength: 1
           maxLength: 1
         ClickAndCollectSortWithDistance:
-          description: This contains the distance (in given UnitOfMeasurement) wherin to sort the click and collect access point locations above other access point locations when a UPS Access Point candidate list is obtained in search by address or geocode search.  
+          description: This contains the distance (in given UnitOfMeasurement) wherin to sort the click and collect access point locations above other access point locations when a UPS Access Point candidate list is obtained in search by address or geocode search.
           maximum: 1
           type: string
           maxLength: 3
@@ -1273,7 +1273,7 @@ components:
       maximum: 1
       properties:
         CustomerContext:
-          description: Customer provided data. If this data is present in the request, it is echoed back to the customer.  
+          description: Customer provided data. If this data is present in the request, it is echoed back to the customer.
           maximum: 1
           type: string
           maxLength: 512
@@ -1372,10 +1372,10 @@ components:
       - Longitude
       properties:
         Latitude:
-          description: The latitude of the origin address, center point of the exchange, center point of the postal code, or center point of the city.  
+          description: The latitude of the origin address, center point of the exchange, center point of the postal code, or center point of the city.
           type: string
         Longitude:
-          description: The longitude of the origin address, center point of the exchange, center point of the postal code, or center point of the city.  
+          description: The longitude of the origin address, center point of the exchange, center point of the postal code, or center point of the city.
           type: string
       xml:
         name: Geocode
@@ -1389,7 +1389,7 @@ components:
         GeocodeCandidate:
           description: |
               If the origin address provided in the location request document does not have a match, a list of candidate addresses, geocodes and optionally a landmark will be returned.
-              
+
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
@@ -1456,13 +1456,13 @@ components:
       maximum: 1
       properties:
         ConsigneeName:
-          description: Name. Not relevant for candidate list.  
+          description: Name. Not relevant for candidate list.
           type: string
         AddressLine:
-          description: Address Line Information. The address level or Intersection information must be returned if provided in the request. The AddressLine will be a combination of up to 3 separate address lines, each separated by a new line character. 
+          description: Address Line Information. The address level or Intersection information must be returned if provided in the request. The AddressLine will be a combination of up to 3 separate address lines, each separated by a new line character.
           type: string
         PoliticalDivision3:
-          description: Subdivision within a City. e.g., a Barrio. 
+          description: Subdivision within a City. e.g., a Barrio.
           type: string
         PoliticalDivision2:
           description: City.
@@ -1496,10 +1496,10 @@ components:
       - Longitude
       properties:
         Latitude:
-          description: The latitude of the origin address, center point of the exchange, center point of the postal code, or center point of the city.  
+          description: The latitude of the origin address, center point of the exchange, center point of the postal code, or center point of the city.
           type: string
         Longitude:
-          description: The longitude of the origin address, center point of the exchange, center point of the postal code, or center point of the city.  
+          description: The longitude of the origin address, center point of the exchange, center point of the postal code, or center point of the city.
           type: string
       xml:
         name: Geocode
@@ -1540,10 +1540,10 @@ components:
           "$ref": "#/components/schemas/DropLocation_AddressKeyFormat"
         PhoneNumber:
           description: |
-              The UPS locations Phone number. A phone number of the location will be returned. 
-              
-              10 digits allowed for US, otherwise 1..15 digits allowed. 
-              
+              The UPS locations Phone number. A phone number of the location will be returned.
+
+              10 digits allowed for US, otherwise 1..15 digits allowed.
+
               The phone number will be returned as a string.
 
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
@@ -1568,10 +1568,10 @@ components:
           maxLength: 50
         LocationAttribute:
           description: |
-              OptionType is a container that indicates the type of the location attribute. 
-              
-              There are 4 types of attributes. 
-              
+              OptionType is a container that indicates the type of the location attribute.
+
+              There are 4 types of attributes.
+
               They are: Location, Retail Location, Additional Services and Program Type.
 
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
@@ -1591,7 +1591,7 @@ components:
         LatestGroundDropOffTime:
           description: |
               The latest ground time the users can Drop-off the package at the location to be picked up. The time information is based on the time at the UPS location.
-              
+
               When a user specifies a Drop-off Time and Ground as the Service Type, the locations that have latest Drop-off times equal to or later than the specified Drop-off time and service type are returned.
 
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
@@ -1603,7 +1603,7 @@ components:
         LatestAirDropOffTime:
           description: |
               The latest airtime the users can Drop-off the package at the location to be picked up. The time information is based on the time at the UPS location.
-              
+
               When a user specifies a Drop-off Time and Air as the Service Type, the locations that have latest Drop-off times equal to or later than the specified Drop-off time and service type are returned.
 
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
@@ -1736,7 +1736,7 @@ components:
         WillCallLocationIndicator:
           description: |
             Will Call Location Indicator values:
-            - Y – Signifies a Will Call location that serves the customers address. 
+            - Y – Signifies a Will Call location that serves the customers address.
             - N - Signifies it is not a Will Call location.
 
             Will Call locations are only returned with a \"Y\" indicator if the request included EnhancedSearchOption code 10.
@@ -1802,7 +1802,7 @@ components:
             suite, and room.
           type: string
         PoliticalDivision3:
-          description: Subdivision within a City. e.g., a Barrio.  
+          description: Subdivision within a City. e.g., a Barrio.
           type: string
         PoliticalDivision2:
           description: City.
@@ -1842,9 +1842,9 @@ components:
         OptionCode:
            description: |
                Option code is a container that contains the information of a particular type of Location or retail location or additional service or program type that the drop location contains.
-               
+
                If the OptionType is Location or Retail Location Type there will be one code since each location has only one location type or retail location type.
-               
+
                If the Option type is additional services or program types there can be one or more option codes.
 
                **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
@@ -1894,15 +1894,15 @@ components:
           type: string
         Description:
           description: |
-            Description is only applicable for Location and Retail Location. The description for Program types and additional service is not provided with Location detail. 
-            
-            It is only provided when the request is for 8, 24, 40, 56-All available additional services or 16, 24, 48, 56-all available Program types.  
+            Description is only applicable for Location and Retail Location. The description for Program types and additional service is not provided with Location detail.
+
+            It is only provided when the request is for 8, 24, 40, 56-All available additional services or 16, 24, 48, 56-all available Program types.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 50
         Name:
-          description: Name will indicate the name of any Additional Services/ Program Types depending on the option code. Text will be displayed in the locale selected.  
+          description: Name will indicate the name of any Additional Services/ Program Types depending on the option code. Text will be displayed in the locale selected.
           maximum: 1
           type: string
           minLength: 1
@@ -1930,7 +1930,7 @@ components:
             "$ref": "#/components/schemas/TransportationPickUpSchedule_PickUp"
       xml:
         name: TransportationPickUpSchedule
-      description: TransportationPickUpSchedule container contains details of Latest Drop Off time/Pickup Time for the transportation services (Ground/Air/Standard/Express/International) of the location. 
+      description: TransportationPickUpSchedule container contains details of Latest Drop Off time/Pickup Time for the transportation services (Ground/Air/Standard/Express/International) of the location.
       maximum: 1
     TransportationPickUpSchedule_PickUp:
       type: object
@@ -1940,7 +1940,7 @@ components:
       properties:
         DayOfWeek:
           description: |
-            Day of week. 
+            Day of week.
             - 1 - Sunday
             - 2 - Monday
             - 3 - Tuesday
@@ -1959,18 +1959,18 @@ components:
       type: object
       properties:
         PickUpTime:
-          description: Pickup time of transportation service for a location in military format (HHMM) e.g. 0930, 1700, 1845 etc. with exception for midnight. For midnight the time will be returned as 0.  
+          description: Pickup time of transportation service for a location in military format (HHMM) e.g. 0930, 1700, 1845 etc. with exception for midnight. For midnight the time will be returned as 0.
           type: string
           minLength: 4
           maxLength: 4
         NoPickUpIndicator:
-          description: Presence or Absence Indicator. If present, Indicates that there is no pickup time for the day.  
+          description: Presence or Absence Indicator. If present, Indicates that there is no pickup time for the day.
           type: string
       xml:
         name: PickUpDetails
       required:
       - NoPickUpIndicator
-      description: PickUpDetails container contains either pickup time or NoPickupIndicator. Either PickUpTime or NoPickupIndicator  
+      description: PickUpDetails container contains either pickup time or NoPickupIndicator. Either PickUpTime or NoPickupIndicator
       maximum: 1
     DropLocation_Distance:
       type: object
@@ -2411,9 +2411,9 @@ components:
       properties:
         Code:
           description: |
-            Code for shipping unavailability. Code for DCR/DCO unavailability. 
+            Code for shipping unavailability. Code for DCR/DCO unavailability.
 
-            Valid values: 
+            Valid values:
             - 01 - Temporarily Unavailable
             - 02 - Location Full
             - 03 - Unavailable
@@ -2444,7 +2444,7 @@ components:
           "$ref": "#/components/schemas/DCRAvailability_UnavailableReason"
       xml:
         name: DCRAvailability
-      description: Holds status of DCR/DCO availability.  
+      description: Holds status of DCR/DCO availability.
     DCRAvailability_UnavailableReason:
       type: object
       maximum: 1
@@ -2551,8 +2551,8 @@ components:
       properties:
         PickUp:
           description: |
-              Container to hold information regarding pickup day of the week and details. 
-              
+              Container to hold information regarding pickup day of the week and details.
+
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
@@ -2569,7 +2569,7 @@ components:
       properties:
         DayOfWeek:
           description: |
-            Day of the week for scheduled pickup. Valid values are:  
+            Day of the week for scheduled pickup. Valid values are:
             - 1 - Sunday
             - 2 - Monday
             - 3 - Tuesday
@@ -2588,21 +2588,21 @@ components:
       type: object
       properties:
         PickUpTime:
-          description: Time of pickup in military format (HHMM) e.g. 0930, 1700, 1845 etc. with exception for midnight. For midnight the time will be returned as 0.  
+          description: Time of pickup in military format (HHMM) e.g. 0930, 1700, 1845 etc. with exception for midnight. For midnight the time will be returned as 0.
           type: string
           minLength: 4
           maxLength: 4
         NoPickUpIndicator:
           description: |
-            Indicates whether or not there is a pickup time for the specified day of the week. Valid values: 
+            Indicates whether or not there is a pickup time for the specified day of the week. Valid values:
             - True-there is a pickup time
-            - False-there is not a pickup time.          
+            - False-there is not a pickup time.
           type: string
       xml:
         name: PickUpDetails
       required:
       - NoPickUpIndicator
-      description: Container to hold information regarding pickup time and pickup availability indicator.  
+      description: Container to hold information regarding pickup time and pickup availability indicator.
       maximum: 1
     ErrorResponse:
       type: object
@@ -2613,10 +2613,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object

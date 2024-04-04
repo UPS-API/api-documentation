@@ -14,8 +14,8 @@ info:
     (2) The Authorization Server authenticates the user by asking for their login credentials, and after successful login, the authorization server responds back to the application with an authorization code contained within a redirection URI.
     (3) The application then sends the authorization code and the redirection URI to the authorization server's /oauth/token endpoint.
     (4) The authorization server's /token endpoint verifies the authorization code and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
-    (5) The Client application uses the access token to request information from an UPS API.    
-    
+    (5) The Client application uses the access token to request information from an UPS API.
+
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
   version: '1.0'
@@ -41,7 +41,7 @@ tags:
     (3) The application then sends the authorization code and the redirection URI to the authorization server's /oauth/token endpoint.
     (4) The authorization server's /token endpoint verifies the authorization code and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
     (5) The Client application uses the access token to request information from an UPS API.
-    
+
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
 paths:
@@ -258,7 +258,7 @@ components:
       type: http
       scheme: basic
       description: |
-        Find your Client ID and Secret on your app info page. 
+        Find your Client ID and Secret on your app info page.
         1. Select \"Try It\"
         2. In the Security section enter your Client ID as the Username and your Secret as the Password.
         3. Enter any additional information in the Body and Parameters sections.

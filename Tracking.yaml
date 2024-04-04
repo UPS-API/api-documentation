@@ -13,7 +13,7 @@ tags:
   x-displayName: Methods
   description: |-
     The Track API helps retrieves current status of shipments such as Small Package 1Z, Infonotice, Mail Innovations, FGV, or UPS Freight shipments using the package number or the reference number. The tracking response data typically includes package movements/activities, destination UPS access point information, expected delivery dates/times, etc. Required parameters are the inquiryNumber, transaction ID, and transaction source.<br />The response returns an array of shipment objects containing detailed tracking information and status for the package(s) associated with the inquiryNumber, including current status, activity history, delivery details, package details, and more.
-    
+
     **Note:** Data is rolled off after the 120 day retention period and may not be returned in the response after the retention period.
 
     Key Business Values:
@@ -128,7 +128,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:

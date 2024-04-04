@@ -20,7 +20,7 @@ tags:
 - name: LandedCost_other
   x-displayName: Methods
   description: |
-    Landed Cost provides an all-inclusive cost estimate of international shipments. 
+    Landed Cost provides an all-inclusive cost estimate of international shipments.
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/errors" target="_blank" rel="noopener">Errors</a>
@@ -197,7 +197,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
@@ -640,10 +640,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object

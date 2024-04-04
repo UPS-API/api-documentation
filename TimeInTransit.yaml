@@ -131,7 +131,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:

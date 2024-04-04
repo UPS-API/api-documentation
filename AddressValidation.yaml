@@ -15,10 +15,10 @@ tags:
       The Address Validation Street Level API can be used to.
       check addresses against the United States Postal Service database of valid addresses in the U.S. and Puerto Rico.
 
-      - <a href="https://developer.ups.com/api/reference/addressvalidation/business-rules" target="_blank" rel="noopener">Business Rules</a>  
+      - <a href="https://developer.ups.com/api/reference/addressvalidation/business-rules" target="_blank" rel="noopener">Business Rules</a>
       - <a href="https://developer.ups.com/api/reference/addressvalidation/errors" target="_blank" rel="noopener">Errors</a>
       - <a href="https://developer.ups.com/api/reference/addressvalidation/faq" target="_blank" rel="noopener">FAQ</a>
-      - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>      
+      - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 paths:
   "/addressvalidation/{version}/{requestoption}":
     post:
@@ -54,13 +54,13 @@ paths:
           minimum: 1
         description: |
             Identifies the optional processing to be performed. If not present or invalid value then an error will be sent back.
- 
-            Valid values: 
+
+            Valid values:
             - 1 - Address Validation
             - 2 - Address Classification
-            - 3 - Address Validation and Address Classification. 
+            - 3 - Address Validation and Address Classification.
 
-            For a list of valid values, refer to Address Validation API Supported Countries or Territories in the Appendix.   
+            For a list of valid values, refer to Address Validation API Supported Countries or Territories in the Appendix.
         required: true
       - in: path
         name: version
@@ -69,9 +69,9 @@ paths:
           minimum: 1
           default: v2
         description: |
-            Identifies the version of the API. 
-            
-            Valid  values:  
+            Identifies the version of the API.
+
+            Valid  values:
             - v2
         required: true
       requestBody:
@@ -169,14 +169,14 @@ paths:
           minimum: 1
         description: |
             Identifies the optional processing to be performed. If not present or invalid value then an error will be sent back.
- 
-            Valid values: 
+
+            Valid values:
 
             - 1 - Address Validation
             - 2 - Address Classification
-            - 3 - Address Validation and Address Classification. 
+            - 3 - Address Validation and Address Classification.
 
-            For a list of valid values, refer to Address Validation API Supported Countries or Territories in the Appendix.   
+            For a list of valid values, refer to Address Validation API Supported Countries or Territories in the Appendix.
         required: true
       - in: path
         name: deprecatedVersion
@@ -185,9 +185,9 @@ paths:
           minimum: 1
           default: v1
         description: |
-            Identifies the version of the API. 
-            
-            Valid  values:  
+            Identifies the version of the API.
+
+            Valid  values:
             - v1
         required: true
       requestBody:
@@ -261,7 +261,7 @@ components:
         1. Select \"Try It\"
         2. In the Security section enter your Client ID and Secret.
         3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections. 
+        4. Enter any additional information in the Body and Parameters sections.
         5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
@@ -339,14 +339,14 @@ components:
         RequestOption:
           description: |
             Identifies the optional processing to be performed. If not present or invalid value then an error will be sent back.
- 
-            Valid values: 
+
+            Valid values:
 
             - 1 - Address Validation
             - 2 - Address Classification
-            - 3 - Address Validation and Address Classification. 
+            - 3 - Address Validation and Address Classification.
 
-            For a list of valid values, refer to Address Validation API Supported Countries or Territories in the Appendix.  
+            For a list of valid values, refer to Address Validation API Supported Countries or Territories in the Appendix.
           maximum: 1
           type: string
           minLength: 1
@@ -398,14 +398,14 @@ components:
             type: string
         Region:
             description: |
-                If this node is present the following tags will be ignored: 
+                If this node is present the following tags will be ignored:
 
                 - Political Division 2
                 - Political Division 1
                 - PostcodePrimaryLow
                 - PostcodeExtendedLow
 
-                Valid only for US or PR origins only.  Using this tag for non US/PR origins may cause address format errors.  
+                Valid only for US or PR origins only.  Using this tag for non US/PR origins may cause address format errors.
             maximum: 1
             type: string
             minLength: 1
@@ -417,7 +417,7 @@ components:
           minLength: 1
           maxLength: 30
         PoliticalDivision1:
-          description: State or Province/Territory name.  
+          description: State or Province/Territory name.
           maximum: 1
           type: string
           minLength: 1
@@ -729,10 +729,10 @@ components:
       type: object
       description: The error response containing any errors that occurred.
       properties:
-        errors: 
+        errors:
           type: array
           description: The error array containing any errors that occurred.
-          items: 
+          items:
             "$ref": "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
