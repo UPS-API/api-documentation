@@ -154,10 +154,14 @@ components:
           type: string
           description: 'The date of the activity. Format: YYYYMMDD'
           example: '20210210'
+        time:
+          type: string
+          description: 'The time of the activity. Format: HHMMSS (24 hr)'
+          example: '071356'
         gmtDate:
           type: string
           description: 'gmtDate'
-          example: '20210210'
+          example: '2021-02-10'
         gmtOffset:
           type: string
           description: 'gmtOffset'
@@ -165,15 +169,11 @@ components:
         gmtTime:
           type: string
           description: 'gmtTime'
-          example: '74700'
+          example: '07:13:56'
         location:
           "$ref": "#/components/schemas/Location"
         status:
           "$ref": "#/components/schemas/Status"
-        time:
-          type: string
-          description: 'The time of the activity. Format: HHMMSS (24 hr)'
-          example: '071356'
     Address:
       title: Address
       type: object
