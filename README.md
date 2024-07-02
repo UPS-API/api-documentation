@@ -78,9 +78,9 @@ UPS World Ease shipments must be rated using the worldwide service rates.
 
 - Rate and price each child shipment separately using the current worldwide service rates. All surcharges and accessorials available to the current worldwide and Transborder movements must be valid for UPS World Ease shipments with the following exceptions.
 
--- Early A.M.
+    - Early A.M.
 
--- Collect on Delivery
+    - Collect on Delivery
 
 
 UPS World Ease shipments must not be eligible for UPS Returns services; i.e., UPS Returns services cannot be added to UPS World Ease master shipments.
@@ -93,11 +93,11 @@ The shipping system must allow the user to designate a maximum of nine copies, i
 
 - The minimum number of copies for the NAFTA, CO, and SED must be one.
 
--- Note: These documents are optional.
+    - Note: These documents are optional.
 
 - The minimum number of copies for child invoice must be zero.
 
--- A child invoice is not required.
+    - A child invoice is not required.
 
 The POE for each destination country (or multiple European Union countries) will be defined based on the UPS World Ease service contract.
 
@@ -109,11 +109,11 @@ In addition to all currently required shipment data, the following must be creat
 
 - UPS World Ease number (Global consolidated clearance number –GCCN) – the master shipment ID.
 
--- This field contains an 11-digit alphanumeric that identifies the shipment as being a UPS World Ease shipment.
+    - This field contains an 11-digit alphanumeric that identifies the shipment as being a UPS World Ease shipment.
 
--- The UPS World Ease number (GCCN) must be identical to the shipment ID on the lead (i.e., master) shipment.
+    - The UPS World Ease number (GCCN) must be identical to the shipment ID on the lead (i.e., master) shipment.
 
--- The UPS World Ease number (GCCN) must be used to identify all the child shipments associated with the consolidated shipment.
+    - The UPS World Ease number (GCCN) must be used to identify all the child shipments associated with the consolidated shipment.
 
 
 - Clearance country (Port of entry country)
@@ -122,23 +122,23 @@ In addition to all currently required shipment data, the following must be creat
 
 - Number of shipments consolidated.
 
--- This field must contain the total number of shipments (the lead doc box and all the child shipments) associated with the consolidated shipment.
+    - This field must contain the total number of shipments (the lead doc box and all the child shipments) associated with the consolidated shipment.
 
 - Number of packages consolidated.
 
--- The number of packages must include the lead doc box and packages in the consolidation clearance count.
+    - The number of packages must include the lead doc box and packages in the consolidation clearance count.
 
 - Total weight consolidated.
 
--- The total weight must include the lead doc box and all packages.
+    - The total weight must include the lead doc box and all packages.
 
 - Total value consolidated
 
--- The value of the entire consolidated clearance movement must be shown in only one currency.
+    - The value of the entire consolidated clearance movement must be shown in only one currency.
 
 - Weight unit of measure in LBS or KGS (Represents the unit of measure used for the total actual weights of the consolidated shipment, as found on the master invoice).
 
--- Valid entries are “LBS” for Pounds and “KGS” for Kilograms.
+    - Valid entries are “LBS” for Pounds and “KGS” for Kilograms.
 
 
 The user must provide an importer of record (sold to) name and address for any UPS World Ease shipment process.
@@ -149,7 +149,7 @@ The user must provide the importer of record account number for all valid UPS Wo
 
 - If the origin of the shipment is US, the destination is Canada, and a non-resident importer, the user must enter the non-resident importer account number in place of the importer of record account number.
 
--- Note: The importer of record (sold to address) is typically different than the ship to address for UPS World Ease shipments. Therefore, the user should be able to select from an existing list or add another importer of record for each shipment.
+    - Note: The importer of record (sold to address) is typically different than the ship to address for UPS World Ease shipments. Therefore, the user should be able to select from an existing list or add another importer of record for each shipment.
 
 - If the origin of the shipment is Canada, the destination is US, and a non-resident importer, the user must enter the non-resident importer account number in place of the importer of record account number.
 
