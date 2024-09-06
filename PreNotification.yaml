@@ -3,24 +3,29 @@ info:
   title: PreNotification
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: PreNotification_other
-  x-displayName: Methods
   description: |
     The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day.
 
     - <a href="https://developer.ups.com/api/reference/prenotification/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/prenotification/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-cfd29893-3a81-425c-bc42-328766d9fb6b?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-cfd29893-3a81-425c-bc42-328766d9fb6b%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/dangerousgoods/{version}/prenotification":
     post:
       summary: Pre-Notification
+      tags:
+        - Pre-Notification
+      security:
+        - OAuth2: []
       description: The Pre-Notification API allows customer applications to inform
         UPS operations of Dangerous Goods shipments as they are processed and will
         enter the UPS transportation network prior to an upload of manifest information
@@ -160,11 +165,15 @@ paths:
     post:
       deprecated: true
       summary: Pre-Notification
+      tags:
+        - Pre-Notification
+      security:
+        - OAuth2: []
       description: The Pre-Notification API allows customer applications to inform
         UPS operations of Dangerous Goods shipments as they are processed and will
         enter the UPS transportation network prior to an upload of manifest information
         at the end of the day.
-      operationId: PreNotification
+      operationId: Deprecated PreNotification
       parameters:
       - in: header
         name: transId
@@ -295,11 +304,9 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/ErrorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.

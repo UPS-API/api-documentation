@@ -3,14 +3,6 @@ info:
   title: Quantum View
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: QuantumView_other
-  x-displayName: Methods
   description: |
     UPS Quantum View is a suite of services that gives you and your customers details regarding UPS shipments.
     - <a href="https://developer.ups.com/api/reference/quantumview/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -18,10 +10,23 @@ tags:
     - <a href="https://developer.ups.com/api/reference/quantumview/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/quantumview/faq" target="_blank" rel="noopener">FAQ</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-84cbd22f-67ec-4c9c-b500-620b266922c9?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-84cbd22f-67ec-4c9c-b500-620b266922c9%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/quantumview/{version}/events":
     post:
       summary: Quantum View
+      tags:
+        - Quantum View
+      security:
+        - OAuth2: []
       description: Get Quantum View Response
       operationId: QuantumView
       parameters:
@@ -93,9 +98,14 @@ paths:
                     "$ref": "#/components/schemas/ErrorResponse"
   "/quantumview/{deprecatedVersion}/events":
     post:
+      deprecated: true
       summary: Quantum View
+      tags:
+        - Quantum View
+      security:
+        - OAuth2: []
       description: Get Quantum View Response
-      operationId: QuantumView
+      operationId: Deprecated QuantumView
       parameters:
       - in: path
         name: deprecatedVersion
@@ -163,11 +173,9 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/ErrorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.

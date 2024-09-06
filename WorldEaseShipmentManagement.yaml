@@ -1,0 +1,434 @@
+openapi: 3.1.0
+info: 
+  title: WorldEase Shipment Management API v1
+  description: |
+    ## Purpose
+    The WorldEase Shipment Management API facilitates the consolidation of packages into a single shipment to reduce the brokerage fees and streamline international shipping processes. It offers users the ability to manage the shipment lifecycle including aggregating individual packages, closing out shipments once consolidation is completed and managing master and child shipments with options to delete as necessary.
+  version: "1.0"
+  termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
+tags:
+  - name: Shipment Closeout
+    description: For endpoint that allows user to finalize the close out shipments
+  - name: Shipment Modification 
+    description: For endpoints that allow deletion of master and child shipments
+
+servers:
+  - url: "https://wwwcie.ups.com/api/ship/{version}"
+    description: "Customer Integration Environment"
+    variables:
+      version: 
+        description: Indicates WorldEase Shipment Management API to display the new release features
+        default: v1
+        enum:  
+           - v1
+  - url: "https://onlinetools.ups.com/api/ship/{version}"
+    description: "Production"
+    variables:
+      version: 
+        description: Indicates WorldEase Shipment Management API to display the new release features
+        default: v1
+        enum:  
+           - v1
+ 
+paths:
+  /master-shipment/closeout/{shipment-gccn}/:
+    post:
+      tags:
+        - Shipment Closeout
+      operationId: saveCloseOutShipment
+      summary: Close Out Shipment
+      description: |
+        Finalizes the shipment process by marking a package or set of packages as ready for dispatch, effectively ending the consolidation stage.
+      parameters: 
+        - name: shipment-gccn
+          in: path
+          required: true
+          description: The unique identifier of the shipment to close Out. It also known as GCCN.
+          schema: 
+            type: string
+            maxLength: 11
+            pattern: '^[A-Za-z0-9]{11}$'
+        - name: transId
+          in: header
+          required: true
+          schema:
+              $ref: "#/components/schemas/CustomTransactionId" 
+        - name: transactionSrc 
+          in: header
+          required: true
+          schema:
+              $ref: "#/components/schemas/CustomTransactionSrc" 
+
+      security:
+        - oauth2: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRequest'
+            examples:
+              CloseOutRequest:
+                value:
+                  shipperAccountNumber: "ISUS01"
+      responses:
+        '202':
+          description: "Request accepted"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostResponse'
+              examples:
+                CloseOutResponse:
+                  value:
+                    transId: "4ce27ff5-8e17-4797-a8c1-089796db"
+                    label: 
+                       opTyp: "PNG" 
+                       lblNmbr: "MVpJU1VTMDE2NzIzODc4Mjc3" 
+                       lblData: "asdfhkjuiovrtyuiopfghjkxcv"
+                         
+                          
+                  
+        '400':
+          description: "Missing required values or incorrect values or validation fails"
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BadGCCNExample: 
+                  value:
+                    errors:
+                      - code: "20007"
+                        message: "Missing GCCN" 
+                    
+        '401': 
+            description: Unauthorized
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/ErrorResponse"
+                examples:
+                  Invalid Token: 
+                    value:
+                      errors:
+                        - code: "250002"
+                          message: "Invalid Authentication Information" 
+
+        '404':
+          description: Not Found 
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+               GCCNNotFound:
+                  value:
+                    errors:
+                      -  code: "20008"
+                         message: "GCCN Not Found"   
+               AccountNumberNotFound:
+                  value:
+                    errors:
+                      - code: "20008"
+                        message: "Shipper Account Number Not Found"                
+          
+            
+  /master-shipment/{shipment-gccn}:
+    delete:
+      tags:
+        - "Shipment Modification"
+      operationId: "deleteMasterShipment"
+      summary: "Deletes the master shipment"
+      description: " Deletes the specified master shipment from the system. Once deleted system cannot be recovered"
+      parameters: 
+        - name: shipment-gccn
+          in: path
+          required: true
+          description: The unique identifier of the shipment to delete the master shipment. It is also known as GCCN.
+          schema: 
+            type: string
+            maxLength: 11
+            pattern: '^[A-Za-z0-9]{11}$'
+        - name: transId
+          in: header
+          required: true
+          schema:
+             $ref: "#/components/schemas/CustomTransactionId" 
+        - name: transactionSrc 
+          in: header
+          required: true
+          schema:
+             $ref: "#/components/schemas/CustomTransactionSrc"         
+      security:
+        - oauth2: []
+      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRequest'
+            examples:
+              DeleteRequest:
+                value:
+                  shipperAccountNumber: "ISUS01"            
+      responses:
+        '200':
+          description: "Successful Operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteResponse'
+              examples:
+                WeDeleteResponseSummary:
+                 value:
+                  code: "1"
+                  message: "The Delete request has been done successfully for the following GCCN - 12345678901 "
+                  
+        '400':
+          description: "Missing required values or incorrect values or validation fails"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BadGCCNExample: 
+                  value:
+                    errors:
+                      - code: "20007"
+                        message: "Missing GCCN" 
+                    
+        '401': 
+            description: Unauthorized
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/ErrorResponse"
+                examples:
+                  Invalid Token: 
+                    value:
+                      errors:
+                        - code: "250002"
+                          message: "Invalid Authentication Information"    
+        '404':
+          description: Not Found 
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                GCCNNotFound:
+                  value: 
+                    errors:
+                      -  code: "20008"
+                         message: "GCCN Not Found" 
+                AccountNumberNotFound:
+                  value:
+                    errors:
+                      - code: "20008"
+                        message: "Shipper Account Number Not Found"          
+                                         
+              
+  /child-shipment/{shipment-gccn}/{tracking-number}:
+    delete:
+      tags:
+        - "Shipment Modification"
+      operationId: "deleteChildShipment"
+      summary: "Delete the child shipment "
+      description: " This is used to delete the child shipment record from the database"
+      parameters: 
+        - name: shipment-gccn
+          in: path
+          required: true
+          description: The unique identifier of the shipment to identify the master shipment. It is also known as GCCN.  
+          schema: 
+            type: string
+            maxLength: 11
+            pattern: '^[A-Za-z0-9]{11}$'
+        - name: trackingNumber
+          in: path
+          required: true
+          description: The identifier of the shipment to identify the child shipment. It is also known as 1Z Tracking Number.
+          schema: 
+            type: string  
+        - name: transId
+          in: header
+          required: true
+          schema:
+            $ref: "#/components/schemas/CustomTransactionId" 
+        - name: transactionSrc 
+          in: header
+          required: true
+          schema:
+            $ref: "#/components/schemas/CustomTransactionSrc" 
+
+
+            
+      security:
+        - oauth2: []
+     
+                  
+      responses:
+        '200':
+          description: "Successful Operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteResponse'
+              examples:
+                WeDeleteResponseSummary:
+                 value:
+                  code: "1"
+                  message: "The Delete request has been done successfully for the following 1Z tracking Number- 1Z9991450419000046 "
+        '400':
+          description: "Missing required values or incorrect values or validation fails"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                BadGCCNExample: 
+                  value:
+                    errors:
+                      - code: "20007"
+                        message: "Missing GCCN" 
+        '401': 
+            description: Unauthorized
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/ErrorResponse"
+                examples:
+                  Invalid Token: 
+                    value:
+                      errors:
+                        - code: "250002"
+                          message: "Invalid Authentication Information"    
+                      
+        '404':
+          description: Not Found 
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                GCCNNotFound:
+                  value:
+                     errors:
+                       - code: "20008"
+                         message: "GCCN Not Found" 
+                TrackingNumberNotFound:
+                  value:
+                     errors:
+                      -  code: "20008"
+                         message: "1Z Tracking Number Not Found"        
+
+                            
+  
+                        
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page. 
+          1. Select "Try It" 
+          2. In the Security section enter your Client ID and Secret 
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request"
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
+          scopes: {}
+
+  schemas:
+    
+ 
+    PostRequest:
+      type: "object"
+      required:
+        - shipperAccountNumber
+      properties:
+        shipperAccountNumber:
+          type: "string"
+          description: "This is the unique account number associated with the Shipper. It is also known as UPS Shipper Account Number"
+          
+                
+    PostResponse:
+      type: "object"
+      required:
+        - transId
+        - label
+      properties:
+        transId:
+          $ref: "#/components/schemas/CustomTransactionId"
+        label:
+          type:  "object"
+          description: "This will contain master shipment label"
+          properties:
+            opTyp:
+              type: 'string'
+              enum: [PNG, GIF, PDF, ZPL, EPL, STAR, SPL]
+              description: "The is the output type in which label is generated "
+            lblNmbr: 
+              type: "string"
+              description: "The label number assigned to this label"
+            lblData: 
+              type: "string"
+              description: "Base64 encoded label image"
+            
+          
+    deleteResponse:
+      type: "object"
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: "string"
+          description: "Identifies the success or failure of the transaction. 1 = Successful"
+        message:
+          type: "string"
+          description: "Succesful text message"
+  
+    
+
+    ErrorResponse: 
+      description: Error response entity
+      type: object
+      required:
+        - errors
+      properties:
+        errors:  
+          type: array
+          description: error payload - array containing one or more Errors  
+          items:
+            $ref: "#/components/schemas/Error" 
+
+    Error:  
+     type: object   
+     properties:
+      code:
+        type: "string"
+        description: "The code is specific to the error "
+      message:
+        type: "string"
+        description: "The message that associated with the above error code "   
+
+
+    CustomTransactionId:
+      description: Client generated id which is treated as the Transaction ID 
+      type: string
+      minLength: 32
+      maxLength: 32
+      pattern: '^[a-fA-F0-9\-]+$'
+      example:
+        4ce27ff5-8e17-4797-a8c1-089796db
+
+    CustomTransactionSrc:
+      description: An identifier of the client/source application that is making the request.Length 512
+      type: string
+      maxLength: 512  
+      example:
+        SAM

@@ -3,14 +3,6 @@ info:
   title: Rate
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: Rating_other
-  x-displayName: Methods
   description: |
     The Rating API is used when rating or shopping a shipment.
     - <a href="https://developer.ups.com/api/reference/rating/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -18,10 +10,23 @@ tags:
     - <a href="https://developer.ups.com/api/reference/rating/error-codes" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/rating/faq" target="_blank" rel="noopener">FAQ</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-ac21ef26-eecf-4841-b0b2-737d615b6809?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-ac21ef26-eecf-4841-b0b2-737d615b6809%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/rating/{version}/{requestoption}":
     post:
       summary: Rating
+      tags:
+        - Rating
+      security:
+        - OAuth2: []
       description: The Rating API is used when rating or shopping a shipment.
       operationId: Rate
       parameters:
@@ -127,9 +132,9 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillShipper:
-                            AccountNumber: ShipperNumber
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       Service:
                         Code: '03'
                         Description: Ground
@@ -184,6 +189,7 @@ paths:
                           StateProvinceCode: GA
                           PostalCode: '30005'
                           CountryCode: US
+                          ResidentialAddressIndicator: Y
                       ShipFrom:
                         Name: ShipFromName
                         Address:
@@ -197,18 +203,17 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillThirdParty:
-                            AttentionName: Name
-                            Name: TR
-                            AccountNumber: ''
-                            Address:
-                              ResidentialAddressIndicator: Y
-                              AddressLine: AdressLine
-                              City: NEW YORK
-                              StateProvinceCode: NY
-                              PostalCode: '21093'
-                              CountryCode: US
+                          - Type: '01'
+                            BillThirdParty:
+                              AttentionName: Name
+                              Name: TR
+                              AccountNumber: ''
+                              Address:
+                                AddressLine: AdressLine
+                                City: NEW YORK
+                                StateProvinceCode: NY
+                                PostalCode: '21093'
+                                CountryCode: US
                       ShipmentRatingOptions:
                         TPFCNegotiatedRatesIndicator: Y
                         NegotiatedRatesIndicator: Y
@@ -278,9 +283,9 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillShipper:
-                            AccountNumber: ''
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       Service:
                         Code: '072'
                         Description: UPS Worldwide Economy DDP
@@ -349,9 +354,9 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillShipper:
-                            AccountNumber: ShipperNumber
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       Service:
                         Code: '03'
                         Description: Ground
@@ -435,30 +440,29 @@ paths:
                           PostalCode: '21093'
                           CountryCode: US
                       PaymentDetails:
-                      - ShipmentCharge:
-                          Type: '01'
-                          BillThirdParty:
-                            AttentionName: AttentionName
-                            Name: Name
-                            AccountNumber: ThirdPartyAccount
-                            Address:
-                              AddressLine: AdressLine
-                              City: NEW YORK
-                              StateProvinceCode: NY
-                              PostalCode: '21093'
-                              CountryCode: US
-                      - ShipmentCharge:
-                          Type: '02'
-                          BillThirdParty:
-                            AttentionName: AttentionName
-                            Name: Name
-                            AccountNumber: ThirdPartyAccount
-                            Address:
-                              AddressLine: AdressLine
-                              City: NEW YORK
-                              StateProvinceCode: NY
-                              PostalCode: '21093'
-                              CountryCode: US
+                        ShipmentCharge:
+                          - Type: '01'
+                            BillThirdParty:
+                              AttentionName: AttentionName
+                              Name: Name
+                              AccountNumber: ThirdPartyAccount
+                              Address:
+                                AddressLine: AdressLine
+                                City: NEW YORK
+                                StateProvinceCode: NY
+                                PostalCode: '21093'
+                                CountryCode: US
+                          - Type: '02'
+                            BillThirdParty:
+                              AttentionName: AttentionName
+                              Name: Name
+                              AccountNumber: ThirdPartyAccount
+                              Address:
+                                AddressLine: AdressLine
+                                City: NEW YORK
+                                StateProvinceCode: NY
+                                PostalCode: '21093'
+                                CountryCode: US
                       Service:
                         Code: '03'
                         Description: Ground
@@ -526,9 +530,9 @@ paths:
                             CountryCode: US
                         PaymentDetails:
                           ShipmentCharge:
-                            Type: '01'
-                            BillShipper:
-                              AccountNumber: ShipperNumber
+                            - Type: '01'
+                              BillShipper:
+                                AccountNumber: ''
                         Service:
                           Code: '03'
                           Description: Ground
@@ -598,9 +602,9 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillShipper:
-                            AccountNumber: ShipperNumber
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       Service:
                         Code: '03'
                         Description: Ground
@@ -693,9 +697,11 @@ paths:
                       Code: '01'
                       Description: Daily Rates
                     Shipment:
-                      ShipmentCharges:
-                        BillShipper:
-                          AccountNumber: ''
+                      PaymentDetails:
+                        ShipmentCharge:
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       DeliveryTimeInformation:
                         PackageBillType: '07'
                       Shipper:
@@ -789,6 +795,10 @@ paths:
     post:
       deprecated: true
       summary: Rating
+      tags:
+        - Rating
+      security:
+        - OAuth2: []
       description: The Rating API is used when rating or shopping a shipment.
       operationId: Deprecated Rate
       parameters:
@@ -900,9 +910,9 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillShipper:
-                            AccountNumber: ShipperNumber
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       Service:
                         Code: '03'
                         Description: Ground
@@ -970,18 +980,18 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillThirdParty:
-                            AttentionName: Name
-                            Name: TR
-                            AccountNumber: ''
-                            Address:
-                              ResidentialAddressIndicator: Y
-                              AddressLine: AdressLine
-                              City: NEW YORK
-                              StateProvinceCode: NY
-                              PostalCode: '21093'
-                              CountryCode: US
+                          - Type: '01'
+                            BillThirdParty:
+                              AttentionName: Name
+                              Name: TR
+                              AccountNumber: ''
+                              Address:
+                                ResidentialAddressIndicator: Y
+                                AddressLine: AdressLine
+                                City: NEW YORK
+                                StateProvinceCode: NY
+                                PostalCode: '21093'
+                                CountryCode: US
                       ShipmentRatingOptions:
                         TPFCNegotiatedRatesIndicator: Y
                         NegotiatedRatesIndicator: Y
@@ -1051,9 +1061,9 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillShipper:
-                            AccountNumber: ''
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       Service:
                         Code: '072'
                         Description: UPS Worldwide Economy DDP
@@ -1122,9 +1132,9 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillShipper:
-                            AccountNumber: ShipperNumber
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       Service:
                         Code: '03'
                         Description: Ground
@@ -1208,30 +1218,29 @@ paths:
                           PostalCode: '21093'
                           CountryCode: US
                       PaymentDetails:
-                      - ShipmentCharge:
-                          Type: '01'
-                          BillThirdParty:
-                            AttentionName: AttentionName
-                            Name: Name
-                            AccountNumber: ThirdPartyAccount
-                            Address:
-                              AddressLine: AdressLine
-                              City: NEW YORK
-                              StateProvinceCode: NY
-                              PostalCode: '21093'
-                              CountryCode: US
-                      - ShipmentCharge:
-                          Type: '02'
-                          BillThirdParty:
-                            AttentionName: AttentionName
-                            Name: Name
-                            AccountNumber: ThirdPartyAccount
-                            Address:
-                              AddressLine: AdressLine
-                              City: NEW YORK
-                              StateProvinceCode: NY
-                              PostalCode: '21093'
-                              CountryCode: US
+                        ShipmentCharge:
+                          - Type: '01'
+                            BillThirdParty:
+                              AttentionName: AttentionName
+                              Name: Name
+                              AccountNumber: ThirdPartyAccount
+                              Address:
+                                AddressLine: AdressLine
+                                City: NEW YORK
+                                StateProvinceCode: NY
+                                PostalCode: '21093'
+                                CountryCode: US
+                          - Type: '02'
+                            BillThirdParty:
+                              AttentionName: AttentionName
+                              Name: Name
+                              AccountNumber: ThirdPartyAccount
+                              Address:
+                                AddressLine: AdressLine
+                                City: NEW YORK
+                                StateProvinceCode: NY
+                                PostalCode: '21093'
+                                CountryCode: US
                       Service:
                         Code: '03'
                         Description: Ground
@@ -1299,9 +1308,9 @@ paths:
                             CountryCode: US
                         PaymentDetails:
                           ShipmentCharge:
-                            Type: '01'
-                            BillShipper:
-                              AccountNumber: ShipperNumber
+                            - Type: '01'
+                              BillShipper:
+                                AccountNumber: ''
                         Service:
                           Code: '03'
                           Description: Ground
@@ -1371,9 +1380,9 @@ paths:
                           CountryCode: US
                       PaymentDetails:
                         ShipmentCharge:
-                          Type: '01'
-                          BillShipper:
-                            AccountNumber: ShipperNumber
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       Service:
                         Code: '03'
                         Description: Ground
@@ -1466,9 +1475,11 @@ paths:
                       Code: '01'
                       Description: Daily Rates
                     Shipment:
-                      ShipmentCharges:
-                        BillShipper:
-                          AccountNumber: ''
+                      PaymentDetails:
+                        ShipmentCharge:
+                          - Type: '01'
+                            BillShipper:
+                              AccountNumber: ''
                       DeliveryTimeInformation:
                         PackageBillType: '07'
                       Shipper:
@@ -1558,11 +1569,9 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/ErrorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.
@@ -2052,12 +2061,6 @@ components:
         Required for the following ShipmentIndicationType values:
         - 01 - Hold for Pickup at UPS Access Point™
         - 02 - UPS Access Point™ Delivery
-    AlternateDeliveryAddress_Name:
-      description: UPS Access Point™ location name.
-      maximum: 1
-      type: string
-      minLength: 1
-      maxLength: 35
     AlternateDeliveryAddress_Address:
       type: object
       maximum: 1
@@ -2846,7 +2849,7 @@ components:
             115 = 11.5).
           maximum: 1
           type: string
-          minLength: 6
+          minLength: 1
           maxLength: 6
       xml:
         name: DimWeight
@@ -2893,7 +2896,7 @@ components:
           description: Actual package weight.  Weight accepted for letters/envelopes.
           maximum: 1
           type: string
-          minLength: 6
+          minLength: 1
           maxLength: 6
       xml:
         name: PackageWeight
@@ -3651,6 +3654,11 @@ components:
       type: object
       maximum: 1
       properties:
+        GlobalCheckoutIndicator:
+          description: A flag indicating if the shipment requires a GlobalCheckoutIndicator.
+            True if GlobalCheckoutIndicator tag exists; false otherwise  Empty Tag.
+          maximum: 1
+          type: string
         SaturdayPickupIndicator:
           description: A flag indicating if the shipment requires a Saturday pickup.
             True if SaturdayPickupIndicator tag exists; false otherwise. Not available
@@ -4477,6 +4485,8 @@ components:
             "$ref": "#/components/schemas/RatedShipment_RatedPackage"
         TimeInTransit:
           "$ref": "#/components/schemas/RatedShipment_TimeInTransit"
+        GuaranteedDelivery:
+          "$ref": "#/components/schemas/RatedShipment_GuaranteedDelivery"
         ScheduledDeliveryDate:
           description: The rated shipments scheduled delivery date, ScheduledDeliveryDate
             returned only when Subversion of 2205 was sent in the request and the
@@ -4527,7 +4537,7 @@ components:
           description: The UPS service code.
           maximum: 1
           type: string
-          minLength: 3
+          minLength: 1
           maxLength: 3
         Description:
           description: The UPS service Description.
@@ -4570,7 +4580,7 @@ components:
           description: The value for the billable weight associated with the shipment.  When using a negotiated divisor different from the published UPS divisor (139 for inches and 5,000 for cm), the weight returned is based on the published divisor. Rates, however, are based on the negotiated divisor.
           maximum: 1
           type: string
-          minLength: 5
+          minLength: 1
           maxLength: 5
       xml:
         name: BillingWeight
@@ -4615,7 +4625,7 @@ components:
           description: The value for the transportation costs associated with the shipment.
           maximum: 1
           type: string
-          minLength: 16
+          minLength: 1
           maxLength: 16
       xml:
         name: TransportationCharges
@@ -4639,7 +4649,7 @@ components:
             is equal to transportation charges - fuel surcharges.
           maximum: 1
           type: string
-          minLength: 16
+          minLength: 1
           maxLength: 16
       xml:
         name: BaseServiceCharge
@@ -5099,7 +5109,7 @@ components:
         the shipment.
       maximum: 1
       type: string
-      minLength: 16
+      minLength: 1
       maxLength: 16
     NegotiatedRateCharges_TotalChargesWithTaxes:
       type: object
@@ -5660,6 +5670,20 @@ components:
       xml:
         name: Pickup
       description: The date and pick up time container.
+    RatedShipment_GuaranteedDelivery:
+      type: object
+      maximum: 1
+      properties:
+        BusinessDaysInTransit:
+          description: 'The rated shipments guaranteed delivery date. Denotes UPS published guarantee times. (i.e. 3DaySelect = 3)'
+          type: string
+        DeliveryByTime:
+          description: The rated shipments committed delivery time.
+          type: string
+        ScheduledDeliveryDate:
+          description: The rated shipments scheduled delivery date.
+          type: string
+      description: Guaranteed Delivery Container.
     ErrorResponse:
       type: object
       properties:

@@ -3,24 +3,29 @@ info:
   title: Paperless Document
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: Paperless_other
-  x-displayName: Methods
   description: |
-        The Paperless Documents API allows users to upload specific trade documents for paperless processing of international shipments. <br />The /upload endpoint of the API requires document details, including file name, file format, and document type (such as authorization form, commercial invoice, certificate of origin, export license, etc).<br />The /image endpoint helps users upload document images as support documents for shipping<br />The /delete endpoint of the API helps delete a specific document the user has uploaded.
-        - <a href="https://developer.ups.com/api/reference/paperlessdocument/business-rules" target="_blank" rel="noopener">Business Rules</a>
-        - <a href="https://developer.ups.com/api/reference/paperlessdocument/errors" target="_blank" rel="noopener">Errors</a>
-        - <a href="https://developer.ups.com/api/reference/paperlessdocument/faq" target="_blank" rel="noopener">FAQ</a>
-        - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+    The Paperless Documents API allows users to upload specific trade documents for paperless processing of international shipments. <br />The /upload endpoint of the API requires document details, including file name, file format, and document type (such as authorization form, commercial invoice, certificate of origin, export license, etc).<br />The /image endpoint helps users upload document images as support documents for shipping<br />The /delete endpoint of the API helps delete a specific document the user has uploaded.
+    - <a href="https://developer.ups.com/api/reference/paperlessdocument/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/paperlessdocument/errors" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/paperlessdocument/faq" target="_blank" rel="noopener">FAQ</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-ee617b20-f052-4f25-9eca-7f7b8a1c5146?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-ee617b20-f052-4f25-9eca-7f7b8a1c5146%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/paperlessdocuments/{version}/upload":
     post:
       summary: Upload Paperless Document
+      tags:
+        - Paperless
+      security:
+        - OAuth2: []
       description: 'The Paperless Document API web service allows the users to upload,delete
         and push to image repository their own customized trade documents for customs
         clearance to Forms History. '
@@ -139,6 +144,10 @@ paths:
   "/paperlessdocuments/{version}/image":
     post:
       summary: Paperless Document Push Image
+      tags:
+        - Paperless
+      security:
+        - OAuth2: []
       description: 'The Paperless Document API web service allows the users to upload
         their own customized trade documents for customs clearance to Forms History. '
       operationId: PushToImageRepository
@@ -230,6 +239,10 @@ paths:
   "/paperlessdocuments/{version}/DocumentId/ShipperNumber":
     delete:
       summary: Delete Paperless Document
+      tags:
+        - Paperless
+      security:
+        - OAuth2: []
       description: The Paperless Document API web service allows the users to upload their own customized trade documents for customs clearance to Forms History.
       operationId: Delete
       parameters:
@@ -303,6 +316,10 @@ paths:
     post:
       deprecated: true
       summary: Upload Paperless Document
+      tags:
+        - Paperless
+      security:
+        - OAuth2: []
       description: 'The Paperless Document API web service allows the users to upload,delete
         and push to image repository their own customized trade documents for customs
         clearance to Forms History. '
@@ -422,6 +439,10 @@ paths:
     post:
       deprecated: true
       summary: Paperless Document Push Image
+      tags:
+        - Paperless
+      security:
+        - OAuth2: []
       description: 'The Paperless Document API web service allows the users to upload
         their own customized trade documents for customs clearance to Forms History. '
       operationId: Deprecated PushToImageRepository
@@ -514,6 +535,10 @@ paths:
     delete:
       deprecated: true
       summary: Delete Paperless Document
+      tags:
+        - Paperless
+      security:
+        - OAuth2: []
       description: The Paperless Document API web service allows the users to upload their own customized trade documents for customs clearance to Forms History.
       operationId: Deprecated Delete
       parameters:
@@ -583,11 +608,9 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/ErrorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.

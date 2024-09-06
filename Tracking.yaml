@@ -3,15 +3,7 @@ info:
   title: UPS TrackService API
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: Tracking_other
-  x-displayName: Methods
-  description: |-
+  description: |
     The Track API helps retrieves current status of shipments such as Small Package 1Z, Infonotice, Mail Innovations, FGV, or UPS Freight shipments using the package number or the reference number. The tracking response data typically includes package movements/activities, destination UPS access point information, expected delivery dates/times, etc. Required parameters are the inquiryNumber, transaction ID, and transaction source.<br />The response returns an array of shipment objects containing detailed tracking information and status for the package(s) associated with the inquiryNumber, including current status, activity history, delivery details, package details, and more.
 
     **Note:** Data is rolled off after the 120 day retention period and may not be returned in the response after the retention period.
@@ -21,14 +13,28 @@ tags:
     - **Proof of Delivery**: Automated proof of delivery updates with signature verification to help prevent fraud and theft.
     - **Improved cash flow**: Reduce the time it takes to collect payments by tracking shipments and invoices electronically.
 
-    Additional Info:
+    Additional Resources:
     - <a href="https://developer.ups.com/api/reference/tracking/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/tracking/api-code" target="_blank" rel="noopener">API Codes</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - Sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/trackingapi/errors" target="_blank" rel="noopener noreferrer">Errors</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-003f5ace-291f-4d93-b2a2-6be86eb9961d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-003f5ace-291f-4d93-b2a2-6be86eb9961d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/track/v1/details/{inquiryNumber}":
     get:
       summary: Tracking
+      tags:
+        - Tracking
+      security:
+        - OAuth2: []
       description: ''
       operationId: getSingleTrackResponseUsingGET
       parameters:
@@ -117,11 +123,101 @@ paths:
               schema:
                 "$ref": "#/components/schemas/Response"
       deprecated: false
-security:
-- oauth2: []
+  "/track/v1/reference/details/{referenceNumber}":
+    get:
+      summary: Track by Reference Number
+      tags:
+        - Tracking
+      security:
+        - OAuth2: []
+      description: ''
+      operationId: Reference Tracking API
+      parameters:
+      - name: referenceNumber
+        in: path
+        description: The reference number for which tracking information is requested.
+        required: true
+        schema:
+          type: string
+      - name: locale
+        in: query
+        description: Language and country code of the user, separated by an underscore.
+          Default value is 'en_US'
+        schema:
+          type: string
+          default: en_US
+      - name: fromPickUpDate
+        in: query
+        description: The tracking information for the above reference number will be searched from this date
+        schema:
+          type: string
+          default: currentDate-14
+      - name: toPickUpDate
+        in: query
+        description: The tracking information for the above reference number will be searched till this date
+        schema:
+          type: string
+          default: currentDate
+      - name: refNumType
+        in: query
+        description: The Reference number type which will define the tracking information is related to small package or fgv
+        schema:
+          type: string
+          default: 'SmallPackage. Valid values: SmallPackage, fgv'
+      - name: transId
+        in: header
+        description: An identifier unique to the request.
+        required: true
+        schema:
+          type: string
+      - name: transactionSrc
+        in: header
+        description: Identifies the client/source application that is calling
+        required: true
+        schema:
+          type: string
+          default: testing
+      responses:
+        '200':
+          description: Tracking Information found
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/TrackApiResponse"
+        '400':
+          description: Invalid request
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Response"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/Response"
+        '404':
+          description: Tracking number information not found
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Response"
+        '500':
+          description: Internal server error
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Response"
+        '503':
+          description: Resource is not available
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Response"
+      deprecated: false
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.
@@ -232,14 +328,22 @@ components:
       properties:
         date:
           type: string
+          description: The date of this delivery detail. Format - YYYYMMDD
         type:
           type: string
+          description: 'The list of delivery dates associated with the package. 
+            Valid values:
+              SDD - Scheduled Delivery Date
+              RDD - Rescheduled Delivery Date
+              DEL - Delivered Date'
     DeliveryInformation:
       title: DeliveryInformation
       type: object
       description: Container with all information related to the delivery of the package.
         Populated only when the package is delivered.
       properties:
+        deliveryPhoto:
+          "$ref": "#/components/schemas/DeliveryPhoto"
         location:
           type: string
           description: 'The location where the package was dropped off. For example:
@@ -259,6 +363,27 @@ components:
             content:
               type: string
               description: 'The base64 encoded string representation of the Delivery Proof. Note: This is considered sensitive data and may only be returned for a user that has rights to the package.'
+    DeliveryPhoto:
+      title: DeliveryPhoto
+      type: object
+      description: Container with all information related to the delivery photo of the 
+        package.
+      properties:
+        isNonPostalCodeCountry:
+          type: boolean
+          description: 'The indication if the country does not use postal code. 
+            Valid values: ''true'' this country does not use postal code.
+            ''false'' this country uses postal code'
+        photo:
+          type: string
+        photoCaptureInd:
+          type: string
+          description: 'The photo capture indicator. Valid values: ''Y'' the photo is an
+            photo capture. ''N'' the photo is not a capture'
+        photoDispositionCode:
+          type: string
+          description: 'The photo disposition code. Valid values: ''V'' the photo is 
+            viewable. ''N'' the photo is not viewable. ''U'' the photo is not stored'
     DeliveryTime:
       title: DeliveryTime
       type: object
@@ -286,6 +411,22 @@ components:
             CDW - Confirmed Delivery Window **
             IDW - Imminent Delivery Window **
             DEL - Delivered Time
+    Dimension:
+      title: Dimension
+      type: object
+      properties:
+        height:
+          type: string
+          description: 'Height of the package'
+        length:
+          type: string
+          description: 'Length of the package'
+        unitOfDimension:
+          type: string
+          description: 'The unit of the dimensions'
+        width:
+          type: string
+          description: 'Width of the package'
     Error:
       title: Error
       type: object
@@ -394,6 +535,11 @@ components:
           "$ref": "#/components/schemas/DeliveryInformation"
         deliveryTime:
           "$ref": "#/components/schemas/DeliveryTime"
+        dimension:
+          "$ref": "#/components/schemas/Dimension"
+        isSmartPackage:
+          type: boolean
+          description: 'Indicator of whether the package is a smart package'
         milestones:
           type: array
           description: milestones
@@ -436,6 +582,10 @@ components:
             type: string
         trackingNumber:
           type: string
+        ucixStatus:
+          type: string
+          description: 'This indicator provides UCIX (UPS Customer Information Exchange) status
+            Valid values: ''O'' means open. ''C'' means closed.'
         weight:
           "$ref": "#/components/schemas/Weight"
     PackageAddress:

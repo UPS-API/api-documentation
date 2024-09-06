@@ -7,31 +7,30 @@ info:
     Key Business Values:
     - **Enhanced Customer Experience**: Allows businesses provide accurate delivery estimates to their customers, enhancing customer service.
     - **Operational Efficiency**: Helps in logistics planning by providing transit times for different UPS services.
+
+    Additional Resources:
+    - <a href="https://developer.ups.com/api/reference/timeintransit/appendix" target="_blank" rel="noopener">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/timeintransit/errors" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-44cb52ab-0a54-46a2-ad40-b299c8c0b2fb?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-44cb52ab-0a54-46a2-ad40-b299c8c0b2fb%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
 servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: TimeInTransit_other
-  x-displayName: Methods
-  description: |
-    The Time In Transit API is used to determine the length of time required to ship a particular package, and compare  delivery times for various UPS services.
-    - <a href="https://developer.ups.com/api/reference/timeintransit/appendix" target="_blank">Appendix</a>
-    - <a href="https://developer.ups.com/api/reference/timeintransit/errors" target="_blank">Errors</a>
-    - <a href="https://github.com/UPS-API" target="_blank">GitHub - view sample integration code</a>
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/shipments/{version}/transittimes":
     post:
       summary: TimeInTransit
-      description: |-
-        The Time In Transit API provides estimated delivery times for various UPS shipping services, between specified locations.
-
-        Key Business Values:
-        - **Enhanced Customer Experience**: Allows businesses provide accurate delivery estimates to their customers, enhancing customer service.
-        - **Operational Efficiency**: Helps in logistics planning by providing transit times for different UPS services.
+      tags:
+        - Time in Transit
+      security:
+        - OAuth2: []
       operationId: TimeInTransit
       parameters:
       - in: path
@@ -120,11 +119,9 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/errorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.
