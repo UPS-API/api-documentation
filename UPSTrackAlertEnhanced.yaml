@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: UPS Track Alert API
+  title: UPS Track Alert API with Photo
   description: |
 
     # Product Info
@@ -8,7 +8,7 @@ info:
     The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
     Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency.
     
-    <a href="https://developer.ups.com/api/reference/trackalert/product-info" target="_blank" rel="noopener">Product Info</a>
+    <a href="https://developer.ups.com/api/reference/trackalertenhanced/product-info" target="_blank" rel="noopener">Product Info</a>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
@@ -90,7 +90,7 @@ paths:
          - List of valid tracking number for which subscription created.
          - List of invalid tracking number for which subscription not created.
       tags:
-        - UPS Track Alert
+        - UPS Track Alert with Photo
       summary: API to create subscriptions by tracking numbers.
       operationId: processSubscriptionTypeForTrackingNumber
       security:
@@ -100,11 +100,11 @@ paths:
           in: path
           required: true
           description: |
-              - 'Standard' - Represents a standard subscription type that provides near real time updates on tracking status.
+              - 'Enhanced' - Represents a enhanced subscription type that provides near real time updates on tracking status.
           schema:
             type: string
             enum:
-              - standard
+              - enhanced
         - name: transId
           in: header
           description: An identifier unique to the request.
@@ -203,183 +203,183 @@ webhooks:
       summary: Tracking Event
       description: This is an HTTP POST request that will relay information about a new tracking event in the system. Please ensure that the URL endpoint passed in the subscription request is ready to accept this POST request.
       tags:
-        - UPS Track Alert
+        - UPS Track Alert with Photo
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/TrackingEventRequest'
             examples:
-                '1':
-                  summary: Manifest (label created or billing information received) message
-                  value:
-                    activityLocation:
-                      city: ''
-                      country: US
-                      postalCode: ''
-                      stateProvince: ''
-                    activityStatus:
-                      code: MP
-                      description: Shipment Ready for UPS
-                      descriptionCode: '003'
-                      type: M
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    deliveryEndTime: ''
-                    deliveryPhoto: ''
-                    deliveryStartTime: ''
-                    deliveryTimeDescription: ''
-                    gmtActivityDate: '20240422'
-                    gmtActivityTime: '041230'
-                    localActivityDate: '20240422'
-                    localActivityTime: '091230'
-                    scheduledDeliveryDate: ''
-                    trackingNumber: " 1ZABCXYZ0112346789"
-                '2':
-                  summary: UPS has your package message
-                  value:
-                    activityLocation:
-                      city: Hickory
-                      country: US
-                      postalCode: ''
-                      stateProvince: NC
-                    activityStatus:
-                      code: OR
-                      description: On the Way
-                      descriptionCode: '005'
-                      type: I
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    deliveryEndTime: ''
-                    deliveryPhoto: ''
-                    deliveryStartTime: ''
-                    deliveryTimeDescription: end of day
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '012901'
-                    localActivityDate: '20240422'
-                    localActivityTime: '212901'
-                    scheduledDeliveryDate: '20240423'
-                    trackingNumber: 1ZABCXYZ0112346789
-                '3':
-                  summary: On the way (arrival or departure from a UPS building) message
-                  value:
-                    activityLocation:
-                      city: Hickory
-                      country: US
-                      postalCode: ''
-                      stateProvince: NC
-                    activityStatus:
-                      code: DP
-                      description: On the Way
-                      descriptionCode: '005'
-                      type: I
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    deliveryEndTime: ''
-                    deliveryStartTime: ''
-                    deliveryTimeDescription: end of day
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '025400'
-                    localActivityDate: '20240422'
-                    localActivityTime: '225400'
-                    scheduledDeliveryDate: '20240423'
-                    trackingNumber: 1ZABCXYZ0112346789
-                '4':
-                  summary: Preparing for delivery message
-                  value:
-                    trackingNumber: 1ZABCXYZ0112346789
-                    localActivityDate: '20240423'
-                    localActivityTime: '003052'
-                    activityLocation:
-                      city: Charlotte
-                      stateProvince: NC
-                      postalCode: ''
-                      country: US
-                    activityStatus:
-                      type: I
-                      code: YP
-                      description: Preparing for Delivery
-                      descriptionCode: '071'
-                    scheduledDeliveryDate: '20240423'
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '043052'
-                    deliveryStartTime: ''
-                    deliveryEndTime: ''
-                    deliveryTimeDescription: end of day
-                '5':
-                  summary: Preparing for delivery/loaded on vehicle message
-                  value:
-                    trackingNumber: 1ZABCXYZ0112346789
-                    localActivityDate: '20240423'
-                    localActivityTime: '063936'
-                    activityLocation:
-                      city: Charlotte
-                      stateProvince: NC
-                      postalCode: ''
-                      country: US
-                    activityStatus:
-                      type: I
-                      code: YP
-                      description: Preparing for Delivery
-                      descriptionCode: '071'
-                    scheduledDeliveryDate: '20240423'
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '103936'
-                    deliveryStartTime: ''
-                    deliveryEndTime: ''
-                    deliveryTimeDescription: end of day
-                '6':
-                  summary: Out for delivery message
-                  value:
-                    trackingNumber: 1Z204W4R0308071865
-                    localActivityDate: '20240423'
-                    localActivityTime: '091519'
-                    activityLocation:
-                      city: Charlotte
-                      stateProvince: NC
-                      postalCode: ''
-                      country: US
-                    activityStatus:
-                      type: I
-                      code: OT
-                      description: Out for Delivery
-                      descriptionCode: '021'
-                    scheduledDeliveryDate: '20240423'
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '131519'
-                    deliveryStartTime: ''
-                    deliveryEndTime: ''
-                    deliveryTimeDescription: end of day
-                '7':
-                  summary: Delivery message
-                  value:
-                    trackingNumber: 1Z204W4R0308071865
-                    localActivityDate: '20240423'
-                    localActivityTime: '095004'
-                    activityLocation:
-                      city: CHARLOTTE
-                      stateProvince: NC
-                      postalCode: '28209'
-                      country: US
-                    activityStatus:
-                      type: D
-                      code: FS
-                      description: Delivered
-                      descriptionCode: '011'
-                    scheduledDeliveryDate: ''
-                    actualDeliveryDate: '20240423'
-                    actualDeliveryTime: '095004'
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '135004'
-                    deliveryStartTime: ''
-                    deliveryEndTime: ''
-                    deliveryTimeDescription: ''
+              '1':
+                summary: Manifest (label created or billing information received) message
+                value:
+                  activityLocation:
+                    city: ''
+                    country: US
+                    postalCode: ''
+                    stateProvince: ''
+                  activityStatus:
+                    code: MP
+                    description: Shipment Ready for UPS
+                    descriptionCode: '003'
+                    type: M
+                  actualDeliveryDate: ''
+                  actualDeliveryTime: ''
+                  deliveryEndTime: ''
+                  deliveryPhoto: ''
+                  deliveryStartTime: ''
+                  deliveryTimeDescription: ''
+                  gmtActivityDate: '20240422'
+                  gmtActivityTime: '041230'
+                  localActivityDate: '20240422'
+                  localActivityTime: '091230'
+                  scheduledDeliveryDate: ''
+                  trackingNumber: " 1ZABCXYZ0112346789"
+              '2':
+                summary: UPS has your package message
+                value:
+                  activityLocation:
+                    city: Hickory
+                    country: US
+                    postalCode: ''
+                    stateProvince: NC
+                  activityStatus:
+                    code: OR
+                    description: On the Way
+                    descriptionCode: '005'
+                    type: I
+                  actualDeliveryDate: ''
+                  actualDeliveryTime: ''
+                  deliveryEndTime: ''
+                  deliveryPhoto: ''
+                  deliveryStartTime: ''
+                  deliveryTimeDescription: end of day
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '012901'
+                  localActivityDate: '20240422'
+                  localActivityTime: '212901'
+                  scheduledDeliveryDate: '20240423'
+                  trackingNumber: 1ZABCXYZ0112346789
+              '3':
+                summary: On the way (arrival or departure from a UPS building) message
+                value:
+                  activityLocation:
+                    city: Hickory
+                    country: US
+                    postalCode: ''
+                    stateProvince: NC
+                  activityStatus:
+                    code: DP
+                    description: On the Way
+                    descriptionCode: '005'
+                    type: I
+                  actualDeliveryDate: ''
+                  actualDeliveryTime: ''
+                  deliveryEndTime: ''
+                  deliveryStartTime: ''
+                  deliveryTimeDescription: end of day
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '025400'
+                  localActivityDate: '20240422'
+                  localActivityTime: '225400'
+                  scheduledDeliveryDate: '20240423'
+                  trackingNumber: 1ZABCXYZ0112346789
+              '4':
+                summary: Preparing for delivery message
+                value:
+                  trackingNumber: 1ZABCXYZ0112346789
+                  localActivityDate: '20240423'
+                  localActivityTime: '003052'
+                  activityLocation:
+                    city: Charlotte
+                    stateProvince: NC
+                    postalCode: ''
+                    country: US
+                  activityStatus:
+                    type: I
+                    code: YP
+                    description: Preparing for Delivery
+                    descriptionCode: '071'
+                  scheduledDeliveryDate: '20240423'
+                  actualDeliveryDate: ''
+                  actualDeliveryTime: ''
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '043052'
+                  deliveryStartTime: ''
+                  deliveryEndTime: ''
+                  deliveryTimeDescription: end of day
+              '5':
+                summary: Preparing for delivery/loaded on vehicle message
+                value:
+                  trackingNumber: 1ZABCXYZ0112346789
+                  localActivityDate: '20240423'
+                  localActivityTime: '063936'
+                  activityLocation:
+                    city: Charlotte
+                    stateProvince: NC
+                    postalCode: ''
+                    country: US
+                  activityStatus:
+                    type: I
+                    code: YP
+                    description: Preparing for Delivery
+                    descriptionCode: '071'
+                  scheduledDeliveryDate: '20240423'
+                  actualDeliveryDate: ''
+                  actualDeliveryTime: ''
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '103936'
+                  deliveryStartTime: ''
+                  deliveryEndTime: ''
+                  deliveryTimeDescription: end of day
+              '6':
+                summary: Out for delivery message
+                value:
+                  trackingNumber: 1Z204W4R0308071865
+                  localActivityDate: '20240423'
+                  localActivityTime: '091519'
+                  activityLocation:
+                    city: Charlotte
+                    stateProvince: NC
+                    postalCode: ''
+                    country: US
+                  activityStatus:
+                    type: I
+                    code: OT
+                    description: Out for Delivery
+                    descriptionCode: '021'
+                  scheduledDeliveryDate: '20240423'
+                  actualDeliveryDate: ''
+                  actualDeliveryTime: ''
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '131519'
+                  deliveryStartTime: ''
+                  deliveryEndTime: ''
+                  deliveryTimeDescription: end of day
+              '7':
+                summary: Delivery message
+                value:
+                  trackingNumber: 1Z204W4R0308071865
+                  localActivityDate: '20240423'
+                  localActivityTime: '095004'
+                  activityLocation:
+                    city: CHARLOTTE
+                    stateProvince: NC
+                    postalCode: '28209'
+                    country: US
+                  activityStatus:
+                    type: D
+                    code: FS
+                    description: Delivered
+                    descriptionCode: '011'
+                  scheduledDeliveryDate: ''
+                  actualDeliveryDate: '20240423'
+                  actualDeliveryTime: '095004'
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '135004'
+                  deliveryStartTime: ''
+                  deliveryEndTime: ''
+                  deliveryTimeDescription: ''
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully
@@ -579,6 +579,9 @@ components:
         deliveryTimeDescription:
           type: string
           description: The date of this delivery detail.
+        deliveryPhoto:
+              type: string
+              description: Base64 encoded image of the delivery photo.
     ActivityLocation:
       type: object
       description: The container which has the current package activity location.

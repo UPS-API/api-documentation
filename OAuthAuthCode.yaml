@@ -4,10 +4,13 @@ info:
   description: |-
     The UPS OAuth Authorization Code API helps integrate UPS services into your business application for providing the service your application grants your customers. For example, you can create UPS shipping labels with shipping rates for merchants from within your application.
     Since your application will not have access to your customer's UPS login credentials, the OAuth authorization code flow is used to let your customer use their UPS credentials, within your application, in a simple and secure way.
-
+    
+    The PKCE-enhanced Authorization Code Flow introduces a secret created by the calling application that can be verified by the authorization server; this secret is called the Code Verifier. Additionally, the calling app creates a transform value of the Code Verifier called the Code Challenge 
+    and sends this value over HTTPS to retrieve an Authorization Code. This way, a malicious attacker can only intercept the Authorization Code, and they cannot exchange it for a token without the Code Verifier.
+    
     Key Business Values:
-    - **Enhanced Transaction Security**: The OAuth Authorization Code flow is more secure and reliable since the access token and the refresh token are never exposed in the browser's URL, thus reducing the risk of leakage or theft.
-    - **Operational Efficiency**: With the ability to obtain a refresh token when the token expires, your application can maintain a long-term and uninterrupted access to the protected resources, without requiring the user to re-authenticate or re-login.
+      - **Enhanced Transaction Security**: The OAuth Authorization Code flow is more secure and reliable since the access token and the refresh token are never exposed in the browser's URL, thus reducing the risk of leakage or theft.
+      - **Operational Efficiency**: With the ability to obtain a refresh token when the token expires, your application can maintain a long-term and uninterrupted access to the protected resources, without requiring the user to re-authenticate or re-login.
 
     Overview of steps in OAuth Authorization Code flow:
     (1) When user selects Login, the client application redirects to the authorization server's /authorize endpoint.
@@ -16,37 +19,30 @@ info:
     (4) The authorization server's /token endpoint verifies the authorization code and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
     (5) The Client application uses the access token to request information from an UPS API.
 
+    Overview of steps in OAuth Authorization Code PKCE flow:
+    (1) When user selects Login, the client application redirects to the authorization server's /authorize endpoint with Code Challenge
+    (2) The Authorization Server authenticates the user by asking for their login credentials, and after successful login, the authorization server responds back to the application with an authorization code contained within a redirection URI.
+    (3) The application then sends the authorization code , code_verifer and the redirection URI to the authorization server's /oauth/token endpoint.
+    (4) The authorization server's /token endpoint verifies the authorization code, code_verifier and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
+    (5) The Client application uses the access token to request information from an UPS API.
+
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
   version: '1.0'
-servers:
-- url: https://wwwcie.ups.com
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com
-  description: Production
-tags:
-- name: OAuthAuthCode_other
-  x-displayName: Methods
-  description: |-
-    The UPS OAuth Authorization Code API helps integrate UPS services into your business application for providing the service your application grants your customers. For example, you can create UPS shipping labels with shipping rates for merchants from within your application.
-    Since your application will not have access to your customer's UPS login credentials, the OAuth authorization code flow is used to let your customer use their UPS credentials, within your application, in a simple and secure way.
-
-    Key Business Values:
-    - **Enhanced Transaction Security**: The OAuth Authorization Code flow is more secure and reliable since the access token and the refresh token are never exposed in the browser's URL, thus reducing the risk of leakage or theft.
-    - **Operational Efficiency**: With the ability to obtain a refresh token when the token expires, your application can maintain a long-term and uninterrupted access to the protected resources, without requiring the user to re-authenticate or re-login.
-
-    Overview of steps in OAuth Authorization Code flow:
-    (1) When user selects Login, the client application redirects to the authorization server's /authorize endpoint.
-    (2) The Authorization Server authenticates the user by asking for their login credentials, and after successful login, the authorization server responds back to the application with an authorization code contained within a redirection URI.
-    (3) The application then sends the authorization code and the redirection URI to the authorization server's /oauth/token endpoint.
-    (4) The authorization server's /token endpoint verifies the authorization code and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
-    (5) The Client application uses the access token to request information from an UPS API.
-
-    - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
-    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
 paths:
-  "/security/v1/oauth/authorize":
+  "/v1/oauth/authorize":
     get:
+      servers:
+        - url: https://wwwcie.ups.com/security
+          description: Customer Integration Environment
+        - url: https://onlinetools.ups.com/security
+          description: Production
+      tags:
+        - OAuth Auth Code
       summary: Authorize Client
       description: |-
         The Authorize Client endpoint initiates the OAuth Authorization Code flow by redirecting the user to UPS for logging-in and authorize the client application. To begin the authorization flow, the application constructs a URL using the application's client Id, the redirect URI, the scope of permissions requested, and a random string used for subsequent verification. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.
@@ -86,6 +82,12 @@ paths:
           type: string
         description: One or more space-separated strings indicating which permissions
           the application is requesting.
+        required: false
+      - in: query
+        name: code_challenge
+        schema:
+          type: string
+        description: Base64, URL-Encoded sh256 value of Code Verifier.
         required: false
       responses:
         '302':
@@ -132,10 +134,17 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/tokenErrorResponse"
-  "/security/v1/oauth/token":
+  "/v1/oauth/token":
     post:
+      servers:
+        - url: https://wwwcie.ups.com/security
+          description: Customer Integration Environment
+        - url: https://onlinetools.ups.com/security
+          description: Production
+      tags:
+        - OAuth Auth Code
       security:
-      - basicAuth: []
+      - BasicAuth: []
       description: The Generate Token endpoint exchanges the authorization code received
         from the client application for an access token and a refresh token. The client
         uses the access token to make API requests on behalf of the user by including
@@ -158,6 +167,9 @@ paths:
                 redirect_uri:
                   type: string
                   description: Callback URL for the requesting application.
+                code_verifier:
+                  type: string
+                  description: a secret created by the calling application using sh256.
               required:
               - grant_type
               - code
@@ -193,11 +205,18 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/tokenErrorResponse"
-  "/security/v1/oauth/refresh":
+  "/v1/oauth/refresh":
     post:
+      servers:
+        - url: https://wwwcie.ups.com/security
+          description: Customer Integration Environment
+        - url: https://onlinetools.ups.com/security
+          description: Production
       security:
-      - basicAuth: []
+      - BasicAuth: []
       summary: Refresh Token
+      tags:
+        - OAuth Auth Code
       operationId: RefreshToken
       description: The /refresh endpoint is used to refresh an expired access token
         in order to continue accessing a UPS API on behalf of a user. The endpoint
@@ -254,7 +273,7 @@ paths:
                     "$ref": "#/components/schemas/tokenErrorResponse"
 components:
   securitySchemes:
-    basicAuth:
+    BasicAuth:
       type: http
       scheme: basic
       description: |

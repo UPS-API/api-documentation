@@ -3,26 +3,31 @@ info:
   title: Dangerous Goods Utility
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: DangerousGoods_other
-  x-displayName: Methods
   description: |
-        The Dangerous Goods API provides the ability to determine if certain materials, such as dangerous goods or hazardous materials, can be shipped with UPS. The API's two endpoints - Chemical Reference Data and Acceptance Audit Precheck, help perform pre-checks before shipping any dangerous goods.
+    The Dangerous Goods API provides the ability to determine if certain materials, such as dangerous goods or hazardous materials, can be shipped with UPS. The API's two endpoints - Chemical Reference Data and Acceptance Audit Precheck, help perform pre-checks before shipping any dangerous goods.
 
-        - <a href="https://developer.ups.com/api/reference/dangerousgoods/business-rules" target="_blank" rel="noopener">Business Rules</a>
-        - <a href="https://developer.ups.com/api/reference/dangerousgoods/appendix" target="_blank" rel="noopener">Appendix</a>
-        - <a href="https://developer.ups.com/api/reference/dangerousgoods/errors" target="_blank" rel="noopener">Errors</a>
-        - <a href="https://developer.ups.com/api/reference/dangerousgoods/faq" target="_blank" rel="noopener">FAQ</a>
-        - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/dangerousgoods/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    - <a href="https://developer.ups.com/api/reference/dangerousgoods/appendix" target="_blank" rel="noopener">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/dangerousgoods/errors" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/dangerousgoods/faq" target="_blank" rel="noopener">FAQ</a>
+    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-bb17460a-ed1a-4267-8c58-a8cc50a48f7a?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-bb17460a-ed1a-4267-8c58-a8cc50a48f7a%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/dangerousgoods/{version}/chemicalreferencedata":
     post:
       summary: Chemical Reference Data
+      tags:
+        - Dangerous Goods
+      security:
+        - OAuth2: []
       description: The Chemical Reference Data endpoint of the Dangerous Goods API allows shippers look up hazardous material reference information by ID number and shipping name of the specified regulated good.
       operationId: Chemical Reference Data
       parameters:
@@ -104,6 +109,10 @@ paths:
   "/dangerousgoods/{version}/acceptanceauditprecheck":
     post:
       description: Enables shippers perform pre-checks before shipping dangerous goods using the chemical record identifier and the commodity's regulated level code.
+      tags:
+        - Dangerous Goods
+      security:
+        - OAuth2: []
       summary: Acceptance Audit Pre-check
       operationId: Acceptance Audit Pre-Check
       parameters:
@@ -235,6 +244,10 @@ paths:
     post:
       deprecated: true
       summary: Chemical Reference Data
+      tags:
+        - Dangerous Goods
+      security:
+        - OAuth2: []
       description: The Chemical Reference Data endpoint of the Dangerous Goods API allows shippers look up hazardous material reference information by ID number and shipping name of the specified regulated good.
       operationId: Deprecated Chemical Reference Data
       parameters:
@@ -317,6 +330,10 @@ paths:
   "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
     post:
       deprecated: true
+      tags:
+        - Dangerous Goods
+      security:
+        - OAuth2: []
       description: Enables shippers perform pre-checks before shipping dangerous goods using the chemical record identifier and the commodity's regulated level code.
       summary: Acceptance Audit Pre-check
       operationId: Deprecated Acceptance Audit Pre-Check
@@ -445,17 +462,17 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/ErrorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
-      description: Find your Client ID and Secret on your app info page. <br/> 1.
-        Select \"Try It\" <br/>  2. In the Security section enter your Client ID and
-        Secret.<br/> 3. Select \"Request Token\"<br/> 4. Enter any additional information
-        in the Body and Parameters sections.<br/> 5. Select \"Send\" to execute your
-        API request
+      description: |
+        Find your Client ID and Secret on your app info page.
+        1. Select \"Try It\"
+        2. In the Security section enter your Client ID and Secret.
+        3. Select \"Request Token\"
+        4. Enter any additional information in the Body and Parameters sections.
+        5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic

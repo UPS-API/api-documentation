@@ -3,14 +3,6 @@ info:
   title: Locator
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: Locator_other
-  x-displayName: Methods
   description: |
     The Locator API allows you to find UPS locations - such as drop-off points, retail locations, and UPS access points (third-party retail locations that offer UPS package drop-off, or delivery services). The API provides capabilities to search by location, services offered, program types, and related criteria. You can also retrieve hours of operation, location details, and additional UPS services offered at specific locations.
 
@@ -18,10 +10,23 @@ tags:
     - <a href="https://developer.ups.com/api/reference/locator/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/locator/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-8637d9f1-5e40-4a1e-aa95-82376e268638?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-8637d9f1-5e40-4a1e-aa95-82376e268638%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/locations/{version}/search/availabilities/{reqOption}":
     post:
       summary: Locator
+      tags:
+        - Locator
+      security:
+        - OAuth2: []
       description: The Locator API allows you to find UPS locations - such as drop-off points, retail locations, and UPS access points (third-party retail locations that offer UPS package drop-off, or delivery services). The API provides capabilities to search by location, services offered, program types, and related criteria. You can also retrieve hours of operation, location details, and additional UPS services offered at specific locations.
       operationId: Locator
       parameters:
@@ -87,7 +92,6 @@ paths:
                       TransactionReference:
                         CustomerContext: ''
                       RequestAction: Locator
-                      RequestOption: '56'
                     OriginAddress:
                       AddressKeyFormat:
                         AddressLine: 123 Fork rd
@@ -160,8 +164,12 @@ paths:
     post:
       deprecated: true
       summary: Locator
+      tags:
+        - Locator
+      security:
+        - OAuth2: []
       description: The Locator API allows you to find UPS locations - such as drop-off points, retail locations, and UPS access points (third-party retail locations that offer UPS package drop-off, or delivery services). The API provides capabilities to search by location, services offered, program types, and related criteria. You can also retrieve hours of operation, location details, and additional UPS services offered at specific locations.
-      operationId: Locator
+      operationId: Deprecated Locator
       parameters:
       - in: header
         name: transId
@@ -225,7 +233,6 @@ paths:
                       TransactionReference:
                         CustomerContext: ''
                       RequestAction: Locator
-                      RequestOption: '56'
                     OriginAddress:
                       AddressKeyFormat:
                         AddressLine: 123 Fork rd
@@ -294,11 +301,9 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/ErrorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.
@@ -396,24 +401,11 @@ components:
           type: string
           minLength: 13
           maxLength: 13
-        RequestOption:
-          description: "Indicates the type of request.\nValid values:\n1-Locations
-            (Drop Locations and Will call locations)\n8-All available Additional Services\n16-All
-            available Program Types\n24-All available Additional Services and Program
-            types\n32-All available Retail Locations\n40-All available Retail Locations
-            and Additional Services \n48-All available Retail Locations and Program
-            Types \n56-All available Retail Locations, Additional Services and Program
-            Types \n64-Search for UPS Access Point Locations."
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 4
       xml:
         name: Request
       maximum: 1
       required:
       - RequestAction
-      - RequestOption
       description: N/A
     Request_TransactionReference:
       type: object

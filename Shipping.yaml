@@ -3,14 +3,6 @@ info:
   title: Ship
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: Shipping_other
-  x-displayName: Methods
   description: |
     The Shipping Package API gives the application many ways to manage the shipment of packages to their destination.
     - <a href="https://developer.ups.com/api/reference/shipping/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -19,12 +11,25 @@ tags:
     - <a href="https://developer.ups.com/api/reference/shipping/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/shipping/faq" target="_blank" rel="noopener">FAQ</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-af2f70b3-405b-4aee-af8d-1eb715e4cebc?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-af2f70b3-405b-4aee-af8d-1eb715e4cebc%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/shipments/{version}/ship":
     post:
       description: "The Shipping API makes UPS shipping services available to client
         applications that communicate with UPS \nusing the Internet"
       summary: Shipment
+      tags: 
+        - Shipping
+      security:
+        - OAuth2: []
       operationId: Shipment
       parameters:
       - in: header
@@ -1823,6 +1828,80 @@ paths:
                         PackageServiceOptions:
                           PackedByStoreIndicator: ''
                           PackageIdentifier: '123'
+              '14':
+                summary: WorldEase Shipment
+                description: A basic WorldEase shipment request with a single package
+                value:
+                  Request:
+                    RequestOption: Validate
+                    SubVersion: "1607"
+                    TransactionReference: 
+                      CustomerContext: GovTest
+                      TransactionIdentifier: UPS123
+                  Shipment:
+                    Shipper:
+                      Name: UPS Corporate
+                      AttentionName: Governance Team
+                      Address:
+                        AddressLine1: 55 Glenlake Parkway NorthEast
+                        City: Atlanta
+                        CountryCode: US
+                        PostalCode: "30028"
+                        StateProvinceCode: GA
+                      Phone: "1234567890"
+                      ShipperNumber: 34BY43
+                      TaxIdentificationNumber: "12344"
+                    ShipFrom:
+                      Name: UPS Corporate
+                      Address:
+                        AddressLine1: 55 Glenlake Parkway NorthEast
+                        City: Atlanta
+                        CountryCode: US
+                        PostalCode: "30028"
+                        StateProvinceCode: GA
+                      Phone: "1234567890"
+                      FaxNumber: "1234567999"
+                      TaxIdentificationNumber: "12344"
+                    ShipTo:
+                      Name: ShipToName
+                      AttentionName: MIG Team
+                      Address:
+                        AddressLine1: 2311 York Rd.
+                        City: Lutherville-Timonium
+                        CountryCode: US
+                        PostalCode: "21093"
+                        StateProvinceCode: MD
+                      Phone: "1234567890"   
+                      FaxNumber: "1234567999"
+                      TaxIdentificationNumber: "456999"
+                    Package:
+                      - Description: International Goods
+                        PackageWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                          Weight: "10"
+                        Packaging:
+                          Code: "02"
+                    Service:
+                      Code: "01"
+                      Description: Expedited
+                    WorldEase:
+                      DestinationCountryCode: FR
+                      DestinationPostalCode: 30005-4616
+                      GCCN: 123X56GPFWZ
+                      MasterEUConsolidationIndicator: "0"
+                      MasterHasDocBox: "0"
+                      MasterShipmentChgType: FOB
+                      VendorCollectIDNumberExemptIndicator: false
+                      PortOfEntry:
+                        Name: Seagirt Terminal, Port of Baltimore
+                        Consignee: John Doe
+                        Address:
+                          AddressLine1: 2600 Broening Hwy
+                          City: Baltimore
+                          CountryCode: US
+                          PostalCode: "21224"
+                          StateProvinceCode: MD
       responses:
         '200':
           description: successful operation
@@ -1859,6 +1938,10 @@ paths:
       description: The Void Shipping API is used to cancel the previously scheduled
         shipment
       summary: Void Shipment
+      tags: 
+        - Shipping
+      security:
+        - OAuth2: []
       operationId: VoidShipment
       parameters:
       - in: header
@@ -1941,6 +2024,10 @@ paths:
       description: The Label Shipping API allows us to retrieve forward and return
         labels.
       summary: Label Recovery
+      tags: 
+        - Shipping
+      security:
+        - OAuth2: []
       operationId: LabelRecovery
       parameters:
       - in: header
@@ -2042,6 +2129,10 @@ paths:
       description: "The Shipping API makes UPS shipping services available to client
         applications that communicate with UPS \nusing the Internet"
       summary: Shipment
+      tags: 
+        - Shipping
+      security:
+        - OAuth2: []
       operationId: Deprecated Shipment
       parameters:
       - in: header
@@ -3885,6 +3976,10 @@ paths:
       description: The Void Shipping API is used to cancel the previously scheduled
         shipment
       summary: Void Shipment
+      tags: 
+        - Shipping
+      security:
+        - OAuth2: []
       operationId: Deprecated VoidShipment
       parameters:
       - in: header
@@ -3962,11 +4057,9 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/ErrorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.
@@ -4016,10 +4109,141 @@ components:
           "$ref": "#/components/schemas/ShipmentRequest_LabelSpecification"
         ReceiptSpecification:
           "$ref": "#/components/schemas/ShipmentRequest_ReceiptSpecification"
+        WorldEase:
+          "$ref": "#/components/schemas/WorldEase"
       xml:
         name: ShipmentRequest
       description: Shipment Request.
       maximum: 1
+    Address_POE:
+      properties:
+        AddressLine1:
+          type: string
+          description: Address Line 1
+          maxLength: 35          
+          example: 12380 Morris Rd.
+        AddressLine2:
+          type: string
+          description:  Address Line 2
+          maxLength: 35
+          example: "ATTN: Governance Team"
+        City:
+          type: string
+          description: City
+          maxLength: 30
+          example: Alpharetta        
+        StateProvinceCode:
+          type: string
+          description: |
+            The code of the address's admininstrative division (state, province, distict, prefecture, etc...). 
+            Click <a href="/api-hub/catalog/dct/api/guest-shipment-v1/docs/code-tables/administrative-divisions/" target="_blank">here</a> for more details.
+          minLength: 2
+          maxLength: 5
+          example: GA
+        PostalCode:
+          type: string
+          description: Postal code
+          minLength: 5
+          maxLength: 10
+          pattern: ^\d{5}(?:[-\s]\d{4})?$
+          example:
+            1: 30005
+            2: 30005-4616
+        CountryCode:
+          type: string
+          description: Country code
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+          example: US
+      required:
+        - AddressLine1
+        - City
+        - CountryCode
+      type: object
+    WorldEase:
+                                                                
+      description: |
+        WorldEase is a contract service offering in the UPS shipping that decreases brokerage fees by consolidating
+        loose packages into one shipment for customs clearance.
+      properties:
+        DestinationCountryCode:
+          type: string
+          description: The final destination country code.
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+          example: FR
+        DestinationPostalCode:
+          type: string
+          description: The final destination postal code.
+          minLength: 5
+          maxLength: 10
+          pattern: ^\d{5}(?:[-\s]\d{4})?$
+          example:
+            1: 30005
+            2: 30005-4616
+        GCCN:
+          type: string
+          description: The Global Consolidation Clearance Number(GCCN) generated for the master shipment. This is required for child shipment.
+          maxLength: 18
+          example: 123X56GPFWZ
+        MasterEUConsolidationIndicator:
+          type: string
+          description: 1 indicates a Master Consolidation request for the European Union. 
+        MasterHasDocBox:
+          type: string
+          description: This field is a flag to indicate if the request is a master shipment. This is required for Master shipment only. If MasterHasDocBox is "0" then request is considered a master shipment.
+        MasterShipmentChgType:
+          type: string
+          description: |
+            Code that indicates how shipping charges will be paid.
+
+            | Code  | Name                | Description:                                                              |
+            | :--:  | :--                 | :--                                                                       |
+            | CAF   | Cost And Freight    | Shipper pays to point of import, conignee pays balance.                   |
+            | COL   | Freight Collect     | Consignee (with valid UPS account) pays all shipping charges              |
+            | DDP   | Delivered Duty Paid | Shipper pays shipping and duty, consignee pays the Value Added Tax (VAT)  |
+            | FOB   | Free On Board       | Shipper pays to point to export, consignee pays balance                   |
+            | PRE   | Prepaid             | Shipper pays all shipping charges                                         |
+            | SDT   | Free Domicile       | Child Shipper pays for shipping, duities and taxes                        |
+          enum: ["CAF","COL","DDP","FOB","PRE","SDT"]
+        VendorCollectIDNumberExemptIndicator:
+          type: string
+          description: This field indicates if VendorCollectIDTypeCode and VendorCollectIDNumber should be exempt from validation. "0" indicates VendorCollectIDTypeCode and VendorCollectIDNumber fields are required. 
+                                                                                                                                                                             
+        PortOfEntry:
+          type: object
+          description: Container for port of entry details
+          properties:
+            Name:
+              type: string
+              description: Port of entry name
+              maxLength: 35
+              example: Seagirt Terminal, Port of Baltimore
+            ClearancePortCode:
+              type: string
+              description: Port code
+              example: 56982
+            Consignee:
+              type: string
+              description: Port of entry consignee
+              maxLength: 35
+              example: John Doe
+            Address:
+              description: Address of the POE. For Master/Child Shipment
+              "$ref": "#/components/schemas/Address_POE"
+          required:
+            - Name
+            - ClearancePortCode
+            - Consignee
+            - Address
+      required:
+        - DestinationCountryCode
+        - MasterShipmentChgType
+                               
+        - PortOfEntry
+      type: object 
     ShipmentRequest_Request:
       type: object
       maximum: 1
@@ -4115,6 +4339,8 @@ components:
           "$ref": "#/components/schemas/Shipment_PaymentInformation"
         FRSPaymentInformation:
           "$ref": "#/components/schemas/Shipment_FRSPaymentInformation"
+        GlobalTaxInformation:
+          $ref: '#/components/schemas/Shipment_GlobalTaxInformation'
         FreightShipmentInformation:
           "$ref": "#/components/schemas/Shipment_FreightShipmentInformation"
         GoodsNotInFreeCirculationIndicator:
@@ -7602,6 +7828,9 @@ components:
           type: string
           minLength: 1
           maxLength: 15
+        TaxesPaid:
+          description: 'Invoice Commodity Level Tax Collected Code for each shipment commodity line. [TaxesPaid = 0 - No on Report], [TaxesPaid = 1 -Yes on Report], [TaxesPaid = empty - null on Report], [If TaxesPaid is not passed in input request = null on Report]'
+          type: string
         ExcludeFromForm:
           "$ref": "#/components/schemas/Product_ExcludeFromForm"
         PackingListInfo:
@@ -7847,7 +8076,7 @@ components:
       xml:
         name: PackingListInfo
       description: Data Container holding package related information.  Required for
-        packaging list and Air Freight Packing list.
+        packaging list, Air Freight Packing list and multi-piece Economy shipments.
       maximum: 1
     PackingListInfo_PackageAssociated:
       type: object
@@ -8765,6 +8994,10 @@ components:
           maximum: 3
           items:
             "$ref": "#/components/schemas/PackageServiceOptions_HazMat"
+        HazMatTypeCode:
+          description: Field to be used when a shipment contains a HazMat. It will specify the existence of HazMat, and what type. Initially this will be used for SurePost and Mail Innovations 'USPS Limited Quantities HazMat' Shipments (but may be extended for other types of HazMat in the future).
+          maximum: 2
+          type: string
         DryIce:
           "$ref": "#/components/schemas/PackageServiceOptions_DryIce"
         UPSPremiumCareIndicator:
@@ -9549,7 +9782,7 @@ components:
             supported.
           maximum: 1
           type: string
-          minLength: 4
+          minLength: 1
           maxLength: 4
         Description:
           description: Description of the label image format code.
@@ -9874,6 +10107,9 @@ components:
           maxLength: 24
         RoarRatedIndicator:
           description: Informational only
+          type: string
+        GCCN:
+          description: Global Consolidation Carton Number
           type: string
       xml:
         name: ShipmentResults
@@ -11358,7 +11594,6 @@ components:
           type: array
           items:
             "$ref": "#/components/schemas/VoidShipmentResponse_PackageLevelResult"
-            type: array
       xml:
         name: VoidShipmentResponse
       description: Void Response Container.
@@ -12297,7 +12532,7 @@ components:
           maxLength: 9
         DestinationCountryCode:
           description: Destination country or territory code candidate, like US =
-            USA, CA = Canada  Must be valid ups country or territory code
+            USA, CA = Canada  Must be valid ups country or territory code. This is required, if MasterEUConsolidationIndicator is "1".
           maximum: 1
           type: string
           minLength: 2
@@ -12332,6 +12567,161 @@ components:
       xml:
         name: PickupDateRange
       description: A range of time the package was picked up.
+    GlobalTaxInformation_AgentTaxIdentificationNumber:
+      description: Container to specify the GlobalTax ID
+      maximum: 1
+      properties:
+        AgentRole:
+          description: '(SHIP_FROM=20, CONSIGNEE=30)'
+          type: string
+        TaxIdentificationNumber:
+          $ref: >-
+            #/components/schemas/AgentTaxIdentificationNumber_TaxIdentificationNumber
+      required:
+        - AgentRole
+      type: object
+      xml:
+        name: AgentTaxIdentificationNumber
+    GlobalTaxInformation_DestinationCountryShipmentValue:
+      description: "The value for destination_Country_ShipmentValue which satisfies Tax-ID Threshold Code is \_‘01’=Yes,\_‘02’=No,‘NA’= ‘Not Applicable’\_"
+      maximum: 1
+      type: string
+    GlobalTaxInformation_OriginCountryShipmentValue:
+      description: "The value for origin_country_shipment_value which satisfies Tax-ID Threshold Code is  ‘01’=Yes,\_‘02’=No,\_‘NA’= ‘Not Applicable’"
+      maximum: 1
+      type: string
+    GlobalTaxInformation_ShipperTypeValue:
+      description: "The value for idNumber_Consumer_TypeCode which satisfies Tax-ID Threshold Code is \_‘01’=Business,\_‘02’=Consumer/Individual,     \_‘NA’= ‘Not Applicable’"
+      maximum: 1
+      type: string
+    AgentTaxIdentificationNumber_TaxIdentificationNumber:
+      description: "The value for flexibility and future extensibility of these Identification\_Numberrequirements,the\_recommendation\_is\_to\_support\_up\_to\_eight\_Identification\_Numbers\_per\_shipment\_party/role."
+      maximum: 1
+      properties:
+        IdentificationNumber:
+          description: >-
+            The code or number that a shipper or consignee has registered with a
+            particular country’s authority for doing business, or for
+            identification purposes.
+          type: string
+        IDNumberCustomerRole:
+          description: >-
+            A business or individual identification type description (Future
+            Use).specifies the relationship of the customer/ID Number to the
+            shipment  05 =importer Address, 06=Exporter Address  ,
+            18=DeliverTo/Consignee/Reciever Address,  37= Shipper Address.
+          type: string
+        IDNumberEncryptionIndicator:
+          description: >-
+            to determine if decryption is required. 0 = Identification number is
+            not 
+
+            Encrypted
+
+            1 = Identification number is 
+
+            Encrypted
+          type: string
+        IDNumberIssuingCntryCd:
+          description: >-
+            The ISO-defined country code of the country where the Identification
+            Number was issued, when applicable (as per business requirements).
+            Needed for certain types of Identification Numbers (e.g., Passport
+            Number).
+
+            Sample Values: 'ID' = Indonesia,
+
+            'VN' = Vietnam,
+
+            'DE' = Germany
+          type: string
+        IDNumberPurposeCode:
+          description: >-
+            Code that specifies the purpose of the Identification Number. For
+            all tax ID that are not EORI = ‘01’
+
+            Valid values:
+
+            00/ Spaces = Unknown
+
+            01= Customs/Brokerage (Default)
+
+            02= Customs/Brokerage EORI
+
+            99= Other
+          type: string
+        IDNumberRequestingCntryCd:
+          description: >-
+            The ISO-defined country code of the country whose regulatory agency
+            is requesting the Identification Number.
+
+            Typically for Import, the Consignee ID is requested by the Ship To
+            country
+
+            For export, the Shipper ID is requested by the Ship From country.
+
+
+            Required when a country (e.g., Origin country, Destination country)
+            is requesting an ID Number for a shipment.
+          type: string
+        IDNumberTypeCode:
+          description: >-
+            Valid Values are:
+
+            0000 = Unknown
+
+            IDNumberTypeCode equal to ‘0000’ (unknown) is to be used when an ‘ID
+            Number Type’ is not applicable, or when the front-end/client system
+            cannot determine the type of IdentificationNumber (for any reason).
+
+            0001 = Exporter Tax ID Number
+
+            0002 = Importer Tax ID Number or
+
+            EORI Number – When
+
+            IdentificationNumberPurposeCode
+
+            = 02
+
+            0005 = Personal Tax ID Number
+
+            1001 = Other / Free Form
+
+            1002 = Company/Business Tax ID Number
+
+            1003 = National ID Number
+
+            1004 = Passport Number
+
+            1005 = Personal ID Number
+
+            1006 = Phone Number
+          type: string
+        IncludeIDNumberOnShippingBrokerageDocs:
+          description: >-
+            field to determine if the Identification Number should be excluded
+            from Shipping/Brokerage documents (not be passed to Document
+            Services)  ‘00’ -> Do Not include 01-> Include.
+          type: string
+      required:
+        - IDNumberTypeCode
+        - IdentificationNumber
+        - IDNumberEncryptionIndicator
+        - IDNumberPurposeCode
+      type: object
+      xml:
+        name: TaxIdentificationNumber
+    Shipment_GlobalTaxInformation:
+      description: Container used to define the properties required for GlobalTaxID.
+      maximum: 1
+      properties:
+        OriginCountryShipmentValue:
+          description: "The value for origin_country_shipment_value which satisfies Tax-ID Threshold Code is  ‘01’=Yes,\_‘02’=No,\_‘NA’= ‘Not Applicable’"
+          type: string
+      type: object
+      xml:
+        name: GlobalTaxInformation
     ErrorResponse:
       type: object
       properties:

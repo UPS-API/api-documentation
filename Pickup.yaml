@@ -3,25 +3,30 @@ info:
   title: Pickup
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
-servers:
-- url: https://wwwcie.ups.com/api
-  description: Customer Integration Environment
-- url: https://onlinetools.ups.com/api
-  description: Production
-tags:
-- name: Pickup_other
-  x-displayName: Methods
   description: |
     Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.
     - <a href="https://developer.ups.com/api/reference/pickup/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/pickup/appendix" target="_blank" rel="noopener">Appendix</a>
-    - <a href="https://developer.ups.com/api/reference/pickup/errors" target="_blank"rel="noopener">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/pickup/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-d7dd9c32-e6de-47ec-9a91-35312b92931e?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-d7dd9c32-e6de-47ec-9a91-35312b92931e%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+    </a>
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
 paths:
   "/shipments/{version}/pickup/{pickuptype}":
     post:
       description: Using the POST operation of the pickuptype endpoint within the Pickup API, users can request rates for UPS on-demand package pickup. The endpoint allows users to specify pickup details like address, date/time, and other options, and returns pricing information for booking that pickup.
       summary: Pickup Rate
+      tags:
+        - Pickup
+      security:
+        - OAuth2: []
       operationId: Pickup Rate
       parameters:
       - in: header
@@ -123,6 +128,10 @@ paths:
     get:
       description: Using the GET operation of the pickuptype endpoint within the Pickup API, users can retrieve the status of shipments sent via UPS pickup service. The endpoint uses the account number as a required parameter and returns a status of received/dispatched/completed/incomplete/updated ETA, or cancelled.
       summary: Pickup Pending Status
+      tags:
+        - Pickup
+      security:
+        - OAuth2: []
       operationId: Pickup Pending Status
       parameters:
       - in: header
@@ -204,6 +213,10 @@ paths:
     delete:
       description: Using the CancelBy endpoint of the Pickup API, users can request cancellation of a UPS on-demand package pickup. When the PRN (pickup request number), transaction ID, and the transaction source are supplied as required parameters, the endpoint returns confirmation that the pickup has been cancelled.
       summary: Pickup Cancel
+      tags:
+        - Pickup
+      security:
+        - OAuth2: []
       operationId: Pickup Cancel
       parameters:
       - in: header
@@ -281,6 +294,10 @@ paths:
       description: Using the Pickup API, applications can schedule pickups, manage
         previously scheduled pickups, or cancel previously scheduled pickups.
       summary: Pickup Creation
+      tags:
+        - Pickup
+      security:
+        - OAuth2: []
       operationId: Pickup Creation
       parameters:
       - in: header
@@ -401,6 +418,10 @@ paths:
     get:
       description: The countrycode endpoint of the Pickup API helps retrieve a list of political divisions (states) in a specified country or territory.
       summary: Pickup Get Political Division1 List
+      tags:
+        - Pickup
+      security:
+        - OAuth2: []
       operationId: Pickup Get Political Division1 List
       parameters:
       - in: header
@@ -472,6 +493,10 @@ paths:
     post:
       description: The servicecenterlocations endpoint of the Pickup API helps retrieve service center information in a specified area - including location address, phone number, SLIC (Standard Location Identification Code), and hours of operation for pick-up and drop-off requests
       summary: Pickup Get Service Center Facilities
+      tags:
+        - Pickup
+      security:
+        - OAuth2: []
       operationId: Pickup Get Service Center Facilities
       parameters:
       - in: header
@@ -560,6 +585,10 @@ paths:
       deprecated: true
       description: Using the CancelBy endpoint of the Pickup API, users can request cancellation of a UPS on-demand package pickup. When the PRN (pickup request number), transaction ID, and the transaction source are supplied as required parameters, the endpoint returns confirmation that the pickup has been cancelled.
       summary: Pickup Cancel
+      tags:
+        - Pickup
+      security:
+        - OAuth2: []
       operationId: Deprecated Pickup Cancel
       parameters:
       - in: header
@@ -638,6 +667,10 @@ paths:
       description: Using the Pickup API, applications can schedule pickups, manage
         previously scheduled pickups, or cancel previously scheduled pickups.
       summary: Pickup Creation
+      tags:
+        - Pickup
+      security:
+        - OAuth2: []
       operationId: Deprecated Pickup Creation
       parameters:
       - in: header
@@ -756,11 +789,9 @@ paths:
                 application/json:
                   schema:
                     "$ref": "#/components/schemas/ErrorResponse"
-security:
-- oauth2: []
 components:
   securitySchemes:
-    oauth2:
+    OAuth2:
       type: oauth2
       description: |
         Find your Client ID and Secret on your app info page.
