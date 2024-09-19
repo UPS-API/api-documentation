@@ -362,7 +362,7 @@ components:
            properties:
             content:
               type: string
-              description: 'The base64 encoded string representation of the Delivery Proof. Note: This is considered sensitive data and may only be returned for a user that has rights to the package.'
+              description: 'The base64 encoded string representation of the Delivery Proof in HTML format. Note: This is considered sensitive data and may only be returned for a user that has rights to the package.'
     DeliveryPhoto:
       title: DeliveryPhoto
       type: object
