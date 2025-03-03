@@ -1,18 +1,22 @@
 openapi: 3.0.3
 info:
   title: Quantum View
-  termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
+  
     UPS Quantum View is a suite of services that gives you and your customers details regarding UPS shipments.
+    # Reference
     - <a href="https://developer.ups.com/api/reference/quantumview/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/quantumview/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/quantumview/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/quantumview/faq" target="_blank" rel="noopener">FAQ</a>
-    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-84cbd22f-67ec-4c9c-b500-620b266922c9?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-84cbd22f-67ec-4c9c-b500-620b266922c9%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -34,12 +38,12 @@ paths:
         name: version
         schema:
           type: string
-          default: v2
+          default: v3
         description: |
             Version of API.
 
             Valid values:
-            - v2
+            - v3
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -681,7 +685,7 @@ components:
           description: |
               Shipment-level reference numbers.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Manifest_ReferenceNumber"
@@ -723,7 +727,7 @@ components:
           description: |
               Defines a package.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Manifest_Package"
@@ -1114,8 +1118,6 @@ components:
           type: string
       xml:
         name: Address
-      required:
-      - ResidentialAddressIndicator
       description: Information that specifies a physical location.
     Manifest_ShipTo:
       type: object
@@ -1297,7 +1299,7 @@ components:
           description: |
               Information about package delivery activity.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Package_Activity"
@@ -1333,7 +1335,7 @@ components:
           description: |
               Container tag for information about the package-level reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Package_ReferenceNumber"
@@ -1802,7 +1804,7 @@ components:
           description: |
               Package-level reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Origin_PackageReferenceNumber"
@@ -1810,7 +1812,7 @@ components:
           description: |
               Container tag for shipment reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Origin_ShipmentReferenceNumber"
@@ -2011,7 +2013,7 @@ components:
           description: |
               Package-level reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Exception_PackageReferenceNumber"
@@ -2019,7 +2021,7 @@ components:
           description: |
               Container tag for shipment reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Exception_ShipmentReferenceNumber"
@@ -2224,7 +2226,7 @@ components:
           description: |
               Container for information about updated shipping address. It will be returned if there is any update due to exception.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
@@ -2363,7 +2365,7 @@ components:
           description: |
               Package-level reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Delivery_PackageReferenceNumber"
@@ -2371,7 +2373,7 @@ components:
           description: |
               Container tag for shipment reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Delivery_ShipmentReferenceNumber"
@@ -2593,7 +2595,7 @@ components:
           description: |
               Container tag for additional address information where package is delivered.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
@@ -2639,8 +2641,6 @@ components:
           type: string
       xml:
         name: AddressArtifactFormat
-      required:
-      - ResidentialAddressIndicator
       description: Information that specifies a physical location where package is
         delivered.
     AddressArtifactFormat_AddressExtendedInformation:
@@ -2751,7 +2751,7 @@ components:
           description: |
               Container tag for shipment reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Generic_ShipmentReferenceNumber"
@@ -2759,7 +2759,7 @@ components:
           description: |
               Package-level reference number.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/Generic_PackageReferenceNumber"

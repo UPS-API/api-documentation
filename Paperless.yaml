@@ -1,17 +1,21 @@
 openapi: 3.0.3
 info:
   title: Paperless Document
-  termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
+  
     The Paperless Documents API allows users to upload specific trade documents for paperless processing of international shipments. <br />The /upload endpoint of the API requires document details, including file name, file format, and document type (such as authorization form, commercial invoice, certificate of origin, export license, etc).<br />The /image endpoint helps users upload document images as support documents for shipping<br />The /delete endpoint of the API helps delete a specific document the user has uploaded.
+    # Reference
     - <a href="https://developer.ups.com/api/reference/paperlessdocument/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/paperlessdocument/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/paperlessdocument/faq" target="_blank" rel="noopener">FAQ</a>
-    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    </br><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-ee617b20-f052-4f25-9eca-7f7b8a1c5146?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-ee617b20-f052-4f25-9eca-7f7b8a1c5146%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -717,6 +721,7 @@ components:
             Alert Container.  There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
           items:
             "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
@@ -952,6 +957,7 @@ components:
             Alert Container.  There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
           items:
             "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
@@ -1097,6 +1103,7 @@ components:
             Alert Container.  There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
           items:
             "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:

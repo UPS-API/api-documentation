@@ -1,18 +1,21 @@
 openapi: 3.0.3
 info:
   title: Locator
-  termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
+  
     The Locator API allows you to find UPS locations - such as drop-off points, retail locations, and UPS access points (third-party retail locations that offer UPS package drop-off, or delivery services). The API provides capabilities to search by location, services offered, program types, and related criteria. You can also retrieve hours of operation, location details, and additional UPS services offered at specific locations.
-
+    # Reference
     - <a href="https://developer.ups.com/api/reference/locator/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/locator/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/locator/errors" target="_blank" rel="noopener">Errors</a>
-    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
 
+    </br><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
+    
     <a href="https://god.gw.postman.com/run-collection/29542085-8637d9f1-5e40-4a1e-aa95-82376e268638?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-8637d9f1-5e40-4a1e-aa95-82376e268638%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -46,12 +49,12 @@ paths:
         name: version
         schema:
           type: string
-          default: v2
+          default: v3
         description: |
             Version of API
 
             Valid values:
-            - v2
+            - v3
         required: true
       - in: path
         name: reqOption
@@ -1382,7 +1385,7 @@ components:
           description: |
               If the origin address provided in the location request document does not have a match, a list of candidate addresses, geocodes and optionally a landmark will be returned.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/SearchResults_GeocodeCandidate"
@@ -1538,7 +1541,7 @@ components:
 
               The phone number will be returned as a string.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             type: string
@@ -1566,7 +1569,7 @@ components:
 
               They are: Location, Retail Location, Additional Services and Program Type.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/DropLocation_LocationAttribute"
@@ -1576,7 +1579,7 @@ components:
           description: |
               Walking directions.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/DropLocation_SpecialInstructions"
@@ -1586,7 +1589,7 @@ components:
 
               When a user specifies a Drop-off Time and Ground as the Service Type, the locations that have latest Drop-off times equal to or later than the specified Drop-off time and service type are returned.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             minLength: 4
@@ -1598,7 +1601,7 @@ components:
 
               When a user specifies a Drop-off Time and Air as the Service Type, the locations that have latest Drop-off times equal to or later than the specified Drop-off time and service type are returned.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             minLength: 4
@@ -1653,7 +1656,7 @@ components:
           description: |
               Textual disclaimer about the drop location.
 
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             type: string
@@ -1839,7 +1842,7 @@ components:
 
                If the Option type is additional services or program types there can be one or more option codes.
 
-               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
            type: array
            items:
              "$ref": "#/components/schemas/LocationAttribute_OptionCode"
@@ -2013,9 +2016,11 @@ components:
       - Segment
       properties:
         Segment:
-          description: Walking directions, last 50 feet.
-          type: string
-          maximum: 1
+          description: Walking directions, last 50 feet. 
+                       **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            type: string
       xml:
         name: SpecialInstructions
     DropLocation_AdditionalComments:
@@ -2502,6 +2507,12 @@ components:
         the list of all available retail locations will be returned in 1 or many corresponding
         OptionCodes.
     AvailableLocationAttributes_OptionCode:
+          description: |
+              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
+            "$ref": "#/components/schemas/AvailableLocationAttributes_OptionCodeElement"
+    AvailableLocationAttributes_OptionCodeElement:
       type: object
       maximum: 1
       required:

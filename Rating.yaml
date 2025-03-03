@@ -4,15 +4,21 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
+  
     The Rating API is used when rating or shopping a shipment.
+    # Reference
     - <a href="https://developer.ups.com/api/reference/rating/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/rating/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/rating/error-codes" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/rating/faq" target="_blank" rel="noopener">FAQ</a>
-    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/rating/best-practices" target="_blank" rel="noopener noreferrer"> Best Practices</a>
+
+    <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-ac21ef26-eecf-4841-b0b2-737d615b6809?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-ac21ef26-eecf-4841-b0b2-737d615b6809%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -27,7 +33,7 @@ paths:
         - Rating
       security:
         - OAuth2: []
-      description: The Rating API is used when rating or shopping a shipment.
+      description: The Rating API is used when rating or shopping a shipment. For more information on the Rating API, please visit the <a href="https://developer.ups.com/api/reference/rating/product-info" target="_blank" rel="noopener">Product Overview</a> page.
       operationId: Rate
       parameters:
       - in: header
@@ -55,12 +61,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v2403
+          default: v2409
         description: |
             Indicates Rate API to display the new release features in Rate API response based on Rate release. See the New section for the latest Rate release.
 
             Valid values:
-            - v2403
+            - v2409
         required: true
       - in: path
         name: requestoption
@@ -4213,7 +4219,7 @@ components:
           description: |
               RatedShipment Container.
 
-              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+              **NOTE:** For versions >= v2409, this element will always be returned as an array. For requests using versions < v2409, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             "$ref": "#/components/schemas/RateResponse_RatedShipment"
@@ -4233,6 +4239,7 @@ components:
             Alert Container.  There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
           items:
             "$ref": "#/components/schemas/Response_Alert"
         AlertDetail:
@@ -4994,6 +5001,21 @@ components:
     RatedShipment_NegotiatedRateCharges:
       type: object
       properties:
+        BaseServiceCharge:
+          description: |
+            Negotiated base service charge container.These charges would be returned only when subversion is greater than or equal to 2201.
+
+          type: array
+          items:
+            "$ref": "#/components/schemas/NegotiatedRateCharges_BaseServiceCharge"
+        RateModifier:
+          description: |
+            RateModifier inside Negotiated charges container to hold Modifier charges at package level
+            
+            **Note:** Applies only if SubVersion is 2407 and greater (Rate OAuth)
+          type: array
+          items:
+            "$ref": "#/components/schemas/NegotiatedRateCharges_RateModifier"
         ItemizedCharges:
           description: |
               Itemized Charges are returned only when the subversion element is present and greater than or equal to '1601'.  These charges would be returned only when subversion is greater than or equal to 1601.
@@ -5023,6 +5045,49 @@ components:
         even shipment size doesn't qualify for the existing discount then no negotiated
         rates container will be returned. Published rates will be the applicable rate.
       maximum: 1
+    NegotiatedRateCharges_BaseServiceCharge:
+      type: object
+      required:
+        - CurrencyCode
+        - MonetaryValue
+      properties:
+        CurrencyCode:
+          description: 'The IATA currency code associated with the base service Charge.'
+          maximum: 1
+          type: string
+          minLength: 3
+          maxLength: 3
+        MonetaryValue:
+          description: 'The value for base service charge.'
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 16
+    NegotiatedRateCharges_RateModifier:
+      type: object
+      required:
+        - ModifierType
+        - ModifierDesc
+        - Amount
+      properties:
+        ModifierType:
+          description: 'Rate Modifier Type. Example- "ORM".'
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 3
+        ModifierDesc:
+          description: 'Rate Modifier Description. Example- "Origin Modifier".'
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 50
+        Amount:
+          description: 'Amount. Example- "-1.00","0.25" It contains positive or negative values.'
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 16
     NegotiatedRateCharges_ItemizedCharges:
       type: object
       required:
@@ -5371,6 +5436,14 @@ components:
     RatedPackage_NegotiatedCharges:
       type: object
       properties:
+        RateModifier:
+          description: |
+            RateModifier inside Negotiated charges container to hold Modifier charges at package level
+            
+            **Note:** Applies only if SubVersion is 2407 and greater (Rate OAuth)
+          type: array
+          items:
+            "$ref": "#/components/schemas/NegotiatedCharges_RateModifier"
         ItemizedCharges:
           description: |
               Negotiated Itemized Accessorial and Sur Charges.  These charges would be returned only when subversion is greater than or equal to 1607.
@@ -5386,6 +5459,31 @@ components:
         were requested for GFP shipments and account number is eligible to receive
         negotiated rates.
       maximum: 1
+    NegotiatedCharges_RateModifier:
+      type: object
+      required:
+        - ModifierType
+        - ModifierDesc
+        - Amount
+      properties:
+        ModifierType:
+          description: 'Rate Modifier Type. Example- "ORM".'
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 3
+        ModifierDesc:
+          description: 'Rate Modifier Description. Example- "Origin Modifier".'
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 50
+        Amount:
+          description: 'Amount. Example- "-1.00","0.25" It contains positive or negative values.'
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 16
     NegotiatedCharges_ItemizedCharges:
       type: object
       required:

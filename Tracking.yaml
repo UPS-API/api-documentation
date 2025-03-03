@@ -4,7 +4,8 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-    The Track API helps retrieves current status of shipments such as Small Package 1Z, Infonotice, Mail Innovations, FGV, or UPS Freight shipments using the package number or the reference number. The tracking response data typically includes package movements/activities, destination UPS access point information, expected delivery dates/times, etc. Required parameters are the inquiryNumber, transaction ID, and transaction source.<br />The response returns an array of shipment objects containing detailed tracking information and status for the package(s) associated with the inquiryNumber, including current status, activity history, delivery details, package details, and more.
+  
+    The Track API helps retrieves current status of shipments such as Small Package 1Z, Infonotice, Mail Innovations, FGV, or UPS Freight shipments using the package number or the reference number. The tracking response data typically includes package movements/activities, destination UPS access point information, expected delivery dates/times, etc. Required parameters are the inquiryNumber, transaction ID, and transaction source.<br />The response returns an array of shipment objects containing detailed tracking information and status for the package(s) associated with the inquiryNumber, including current status, activity history, delivery details, package details, and more. For more information on the Track API, please visit the <a href="https://developer.ups.com/api/reference/tracking/product-info" target="_blank" rel="noopener noreferrer">Product Overview</a> page.
 
     **Note:** Data is rolled off after the 120 day retention period and may not be returned in the response after the retention period.
 
@@ -13,14 +14,17 @@ info:
     - **Proof of Delivery**: Automated proof of delivery updates with signature verification to help prevent fraud and theft.
     - **Improved cash flow**: Reduce the time it takes to collect payments by tracking shipments and invoices electronically.
 
-    Additional Resources:
+    # Reference
     - <a href="https://developer.ups.com/api/reference/tracking/business-rules" target="_blank" rel="noopener">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/tracking/api-code" target="_blank" rel="noopener">API Codes</a>
-    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - Sample integration code</a>
+    - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/trackingapi/errors" target="_blank" rel="noopener noreferrer">Errors</a>
 
+    <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
+
     <a href="https://god.gw.postman.com/run-collection/29542085-003f5ace-291f-4d93-b2a2-6be86eb9961d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-003f5ace-291f-4d93-b2a2-6be86eb9961d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
