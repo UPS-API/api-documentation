@@ -1,25 +1,30 @@
 openapi: 3.1.0
 
 info:
-  title: Export Assure API—Cross-Border Trade Guidance
+  title: Export Assure API - Cross-Border Trade Guidance-v1
   description: |
-    This API offers businesses a powerful tool to manage shipping compliance with **Description Guidance**, **Power of Attorney (POA) Requirements**, and **Import and Export Compliance** in order to help prevent delays, avoid fines, and keep your customers happy with fast, hassle-free customs clearances.
+    This API offers businesses a powerful tool to manage shipping compliance with Description Guidance, Power of Attorney (POA) Requirements, UPS Prohibited Goods, and Commodity Compliance Guidance in order to help prevent delays, avoid fines, and keep your customers happy with fast, hassle-free customs clearances.
+
         
-    <a href="https://developer.ups.com/api/reference/exportassure/product-info" target="_blank" rel="noopener">Product Info</a>
+    For more information on the Export Assure API, please visit the <a href="https://developer.ups.com/api/reference/exportassure/product-info" target="_blank" rel="noopener">Product Info</a> page.
+
+    <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
+    
 
     <a href="https://god.gw.postman.com/run-collection/29542085-eda5a2d6-ca6f-4a02-8e66-c43d9861ac2d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-eda5a2d6-ca6f-4a02-8e66-c43d9861ac2d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
     
     ## Key Features
 
-    ### 1. Description Guidance
+    ### 1. Basic Description Guidance (Free Feature)
 
-    This feature helps you prepare clear and correct shipment descriptions to avoid hold-ups at customs. It includes:
+    This feature helps you avoid commonly used, invalid shipment descriptions to avoid hold-ups at customs. For comprehensive description guidance, please refer the Interactive Commodity Description API. Basic Description Guidance includes:
 
-      - Checking shipment details against worldwide standards.
-      - Review of commodity descriptions for deficiencies that might cause customs delays.
-      - Enhanced user-experience, with description guidance provided during shipment initiation.
+      - Checking your commodity description against commonly used descriptions that typically result in a customs delay.
+      - Provide basic guidance for improving an invalid commodity description.
 
     ### 2. Power of Attorney (POA) Requirements
 
@@ -29,32 +34,37 @@ info:
       - Determines when a POA is needed for customs clearance.
       - Proactively notifies user of POA requirement to help avoid customs delays.
 
-    ### 3. Import and Export Compliance
+    ### 3. UPS Prohibited Goods Guidance (Free Feature)
 
-    This feature checks your shipments against international trade laws, offering:
+    Note that this must be turned on in order to use feature 4, 
 
-      - Details on what commodities can be shipped to and from specific locations.
-      - UPS regulatory requirements regarding commodities and origins/destinations.
-      - Assistance with commodities classification and choosing the right international shipping forms.
-  license: 
-    name: Apache 2.0 License
-    url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: "1.0"
-  termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
-  
+      - Reviews commodity details for POA requirements.
+      - Note 1: evaluateImportExportRequirements is the name of the endpoint which performs the UPS Prohibited goods check. There is no charge to call this endpoint.
+      - Note 2: evaluateImportExportRequirements MUST be set to true in order to use Feature #4
+
+
+    ### 4. Commodity Compliance Guidance (Premium Feature)
+
+      This premium feature checks for any restrictions or prohibitions for the specific commodity you are shipping (including any forms needed to clear customs) for the country you are shipping to. A chargeable event is when guidance is provided, including that no restrictions and prohibitions are found. Commodity Compliance Guidance requires a full, destination country specific tariff code to provide guidance. If you do not have this for each product in each country you ship to, you can use the Export Assure: Interactive Commodity Description API to determine this. Included in Commodity Compliance Guidance is:
+      -	Details on what commodities can be shipped to and from specific locations, including restrictions based on the country of origin of the good.
+      -	Information specific to the commodities and origins/destinations.
+      -	Notification for international shipping forms needed for the commodity to clear customs.
+      -	Note 1: evaluateImportExportRequirements - the free feature for UPS Prohibited Goods - MUST be set to true in order to use Commodity Compliance Guidance
+      -	Note 2: advancedImportExportRequirements is the endpoint for Commodity Compliance Guidance, and will incur a charge each time guidance is provided     
+ 
 security: 
   - OAuth2: []
 
 servers:
   - url: https://wwwcie.ups.com/api/brokerage/{version}
-    description: Production CIE—External Interface
+    description: Production CIE - External Interface
     variables:
       version:
         default: v1
         enum:
           - v1
   - url: https://onlinetools.ups.com/api/brokerage/{version}
-    description: Production—External Interface
+    description: Production - External Interface
     variables:
       version:
         default: v1
@@ -72,26 +82,38 @@ paths:
         - $ref: '#/components/parameters/TransactionSrc'
         - $ref: '#/components/parameters/Content-Type'
         - $ref: '#/components/parameters/Accept'
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+          default: v1
+          enum:
+            - v1
         
       description: |
         Submit shipment details and receive guidance from UPS. 
         
-        This endpoint includes three separate operations which may be requested individually or simultaneously:
+        This endpoint includes four separate operations which may be requested individually or simultaneously:
+          -	Basic Description Guidance (Free Feature)
+          -	Power of Attorney (POA) Requirements (Free Feature)
+          -	UPS Prohibited Goods Guidance (Free Feature)
+          -	Commodity Compliance Guidance (Premium Feature)
+          -	NOTE: requires UPS Prohibited Goods Guidance (evaluateImportExportRequirements) to be set to true. 
 
-          - **Description Guidance**
-          - **Power of Attorney (POA) Requirements**
-          - **Import/Export Compliance**
-
-        To request a specific operation, set the respective value for that property to `true`:
-
-          - `evaluateDescriptions` to request description guidance for the shipment
-          - `evaluatePoaRequirements` to request POA requirements for the shipment
-          - `evaluateImportExportRequirements` to request regulatory requirements, shipping restrictions, classification assistance, and required international forms
-
-        Examples:
-
-          - To request only Description Guidance, set `evaluateDescriptions: true` and provide relevant description properties.
-          - To request all three operations, set `evaluateDescriptions: true`, `evaluatePoaRequirements: true`, `evaluateImportExportRequirements: true`, and include all required properties for all operations.
+          To request a specific operation, set the respective value for that property to true:
+            -	evaluateDescriptions to request basic description guidance for the shipment (free)
+          	- evaluatePoaRequirements to request POA requirements for the shipment (free)
+            - evaluateImportExportRequirements to request UPS Prohibited Goods Guidance only (free)
+            - evaluateAdvancedImportExportRequirements to request regulatory requirements, shipping restrictions, and required international forms (premium)
+          Examples:
+            -	To request only Description Guidance, set evaluateDescriptions: true and provide relevant description properties.
+            -	To request all three free operations, set evaluateDescriptions: true, evaluatePoaRequirements: true, evaluateImportExportRequirements: true, and include all required properties for all operations.
+            -	To request Commodity Compliance Guidance, set advancedImportExportRequirements: true, evaluateImportExportRequirements: true, and include all required properties for all operations.
+            -	If you do not wish to be charged, set advancedImportExportRequirements: false
+      security:
+        - OAuth2: [] 
       requestBody:
         content:
           application/json:
@@ -391,7 +413,7 @@ components:
         - controlDetails
 
     CountryCodes:
-      description: The <a href="/api-hub/catalog/ihs/api/export-assure-service/v1/docs/err-and-def/country-codes/" target="_blank">two-letter identification code</a> for countries.
+      description: The <a href="https://developer.ups.com/api/reference/shipping/appendix1" target="_blank" rel="noopener noreferrer">two-letter identification code</a> for countries.
       type: string
       minLength: 2
       maxLength: 2
@@ -645,6 +667,13 @@ components:
           examples: 
             - true 
             - false
+        evaluateAdvancedImportExportRequirements:
+          description: Whether the user has requested an Advanced Import/Export Compliance review
+          type: boolean
+          default: false
+          examples: 
+            - true 
+            - false          
         evaluateImportExportRequirements:
           description: Whether the user has requested an Import/Export Compliance review
           type: boolean

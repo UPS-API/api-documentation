@@ -8,10 +8,14 @@ info:
       clearance, avoiding customs holds, and ensuring accurate assessing of duties and taxes. Both an updated, natural 
       language description and tariff code will be returned. The chargeable event is the return of the full tariff code.
 
-    <a href="https://developer.ups.com/api/reference/exportassure/product-info" target="_blank" rel="noopener">Product Info</a>
-
+    For more information on the Interactive Description API, please visit the <a href="https://developer.ups.com/api/reference/exportassure/product-info" target="_blank" rel="noopener">Product Info</a> page.
+    
+    <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
+    
     <a href="https://god.gw.postman.com/run-collection/29542085-1a9d5822-0333-4bec-b1a5-c2ec6b5a81da?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-1a9d5822-0333-4bec-b1a5-c2ec6b5a81da%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
   version: "1.0"
 servers:
@@ -43,6 +47,8 @@ paths:
         - Interactive Description
       summary: Initiates an interactive description session for a product.
       description: Initiates an interactive description session for a product.
+      security:
+        - OAuth2: [] 
       operationId: start_interactive_post
       parameters:
         - name: transId
@@ -58,6 +64,15 @@ paths:
           description: The consuming application or user name.
           schema:
             type: string
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+          default: v1
+          enum:
+            - v1
       requestBody:
         required: true
         content:
@@ -245,6 +260,8 @@ paths:
         This endpoint facilitates the ongoing interactive process for refining a product description and determining its corresponding Harmonized Tariff Schedule (HTS) code. 
         
         After initiating a session with the initial product description using the /interactive endpoint, users can continue their interaction via this endpoint by providing answers to the questions returned from the previous interaction. Each interaction refines the product description further, helping the system to accurately identify the correct HTS code. The {sessionId} parameter uniquely identifies the user's session and ensures that the interaction is continued seamlessly.
+      security:
+        - OAuth2: [] 
       operationId: iterate_interactive__sessionId__post
       parameters:
         - name: sessionId
@@ -264,6 +281,15 @@ paths:
           required: true
           schema:
             type: string
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+          default: v1
+          enum:
+            - v1
       requestBody:
         required: true
         content:
@@ -427,11 +453,13 @@ paths:
   /interactive/feedback/{sessionId}:
     post:
       tags:
-        - Feedback
+        - Interactive Description
       summary: Allows the user to provide feedback on a specific question of the
         overall session.
       description: Allows the user to provide feedback on a specific question of the
         overall session.
+      security:
+        - OAuth2: [] 
       operationId: submit_feedback_interactive_feedback__sessionId__post
       parameters:
         - name: sessionId
@@ -439,6 +467,15 @@ paths:
           required: true
           schema:
             type: string
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+          default: v1
+          enum:
+            - v1
       requestBody:
         required: true
         content:

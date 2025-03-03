@@ -13,24 +13,30 @@ info:
       - **Operational Efficiency**: With the ability to obtain a refresh token when the token expires, your application can maintain a long-term and uninterrupted access to the protected resources, without requiring the user to re-authenticate or re-login.
 
     Overview of steps in OAuth Authorization Code flow:
-    (1) When user selects Login, the client application redirects to the authorization server's /authorize endpoint.
-    (2) The Authorization Server authenticates the user by asking for their login credentials, and after successful login, the authorization server responds back to the application with an authorization code contained within a redirection URI.
-    (3) The application then sends the authorization code and the redirection URI to the authorization server's /oauth/token endpoint.
-    (4) The authorization server's /token endpoint verifies the authorization code and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
-    (5) The Client application uses the access token to request information from an UPS API.
+
+    1. When user selects Login, the client application redirects to the authorization server's /authorize endpoint.
+    2. The Authorization Server authenticates the user by asking for their login credentials, and after successful login, the authorization server responds back to the application with an authorization code contained within a redirection URI.
+    3. The application then sends the authorization code and the redirection URI to the authorization server's /oauth/token endpoint.
+    4. The authorization server's /token endpoint verifies the authorization code and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
+    5. The Client application uses the access token to request information from an UPS API.
 
     Overview of steps in OAuth Authorization Code PKCE flow:
-    (1) When user selects Login, the client application redirects to the authorization server's /authorize endpoint with Code Challenge
-    (2) The Authorization Server authenticates the user by asking for their login credentials, and after successful login, the authorization server responds back to the application with an authorization code contained within a redirection URI.
-    (3) The application then sends the authorization code , code_verifer and the redirection URI to the authorization server's /oauth/token endpoint.
-    (4) The authorization server's /token endpoint verifies the authorization code, code_verifier and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
-    (5) The Client application uses the access token to request information from an UPS API.
+    1. When user selects Login, the client application redirects to the authorization server's /authorize endpoint with Code Challenge
+      - **Note:** Prior to redirecting to the authorization server, the application generates and **code_challenge** and **code_verifier** that are related in this way: code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))
+    2. The Authorization Server authenticates the user by asking for their login credentials, and after successful login, the authorization server responds back to the application with an authorization code contained within a redirection URI.
+    4. The application then sends the authorization code , code_verifer and the redirection URI to the authorization server's /oauth/token endpoint.
+      - **Note:** When utlizing the PKCE flow, the BASIC Authorization header should **not** be included, just the **client_id** parameter in the body.
+    5. The authorization server's /token endpoint verifies the authorization code, code_verifier and the application's client ID contained in the redirect URI, and responds with a with an access token, as well as a refresh token.
+    6. The Client application uses the access token to request information from an UPS API.
 
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
-    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">Sample integration code on GitHub</a>
-
+    - <a href="https://github.com/UPS-API/UPS-SDKs" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS SDKs</a></br>
+    
+    </br><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
     <a href="https://god.gw.postman.com/run-collection/29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
     </a>
   version: '1.0'
 paths:
@@ -87,7 +93,8 @@ paths:
         name: code_challenge
         schema:
           type: string
-        description: Base64, URL-Encoded sh256 value of Code Verifier.
+        description: Base64 URL-Encoded SHA256 value of Code Verifier that can be 
+          used to verify the code_verifier in the /token step.
         required: false
       responses:
         '302':
@@ -144,7 +151,7 @@ paths:
       tags:
         - OAuth Auth Code
       security:
-      - BasicAuth: []
+      - BasicAuthGenerate: []
       description: The Generate Token endpoint exchanges the authorization code received
         from the client application for an access token and a refresh token. The client
         uses the access token to make API requests on behalf of the user by including
@@ -169,7 +176,12 @@ paths:
                   description: Callback URL for the requesting application.
                 code_verifier:
                   type: string
-                  description: a secret created by the calling application using sh256.
+                  description: |
+                    **Only required for PKCE flow**. A randomly generated secret created by the calling application that can be verified by the authorization server.
+                client_id:
+                  type: string
+                  description: |
+                    **Only required for PKCE flow**. The public identifier for your application, obtained when you, the developer first registered the application.
               required:
               - grant_type
               - code
@@ -213,7 +225,7 @@ paths:
         - url: https://onlinetools.ups.com/security
           description: Production
       security:
-      - BasicAuth: []
+      - BasicAuthRefresh: []
       summary: Refresh Token
       tags:
         - OAuth Auth Code
@@ -273,11 +285,28 @@ paths:
                     "$ref": "#/components/schemas/tokenErrorResponse"
 components:
   securitySchemes:
-    BasicAuth:
+    BasicAuthGenerate:
       type: http
       scheme: basic
       description: |
-        Find your Client ID and Secret on your app info page.
+       - **Flow 1: Plain Auth-Code**
+
+       Find your Client ID and Secret on your app info page. 
+        1. Select \"Try It\"
+        2. In the Security section enter your Client ID as the Username and your Secret as the Password.
+        3. Enter any additional information in the Body and Parameters sections.
+        4. Select \"Send\" to execute your API request
+
+        - **Flow 2: Auth-Code with PKCE [no http Authorization header required]**
+        1. Select \"Try It\"
+        2. Include the **client_id** and **code_verifier** parameters in the body of the request. Do not include an Authorization header.
+        3. Enter any additional information in the Body and Parameters sections.
+        4. Select \"Send\" to execute your API request
+    BasicAuthRefresh:
+      type: http
+      scheme: basic
+      description: |
+        Find your Client ID and Secret on your app info page. 
         1. Select \"Try It\"
         2. In the Security section enter your Client ID as the Username and your Secret as the Password.
         3. Enter any additional information in the Body and Parameters sections.

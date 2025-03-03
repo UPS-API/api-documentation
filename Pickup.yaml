@@ -1,17 +1,21 @@
 openapi: 3.0.3
 info:
   title: Pickup
-  termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
+  
     Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.
+    # Reference
     - <a href="https://developer.ups.com/api/reference/pickup/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/pickup/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/pickup/errors" target="_blank" rel="noopener">Errors</a>
-    - <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">GitHub - view sample integration code</a>
+
+    </br><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-d7dd9c32-e6de-47ec-9a91-35312b92931e?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-d7dd9c32-e6de-47ec-9a91-35312b92931e%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -48,12 +52,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
+          default: v2409
         description: |
             Version of the API.
 
             Valid values:
-            - v1
+            - v2409
         required: true
       - in: path
         name: pickuptype
@@ -160,12 +164,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
+          default: v2409
         description: |
             Version of API
 
             Valid values:
-            - v1
+            - v2409
         required: true
       - in: path
         name: pickuptype
@@ -251,12 +255,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v2403
+          default: v2409
         description: |
             Version of API.
 
             Valid values:
-            - v2403
+            - v2409
         required: true
       responses:
         '200':
@@ -319,12 +323,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v2403
+          default: v2409
         description: |
             Version of the API.
 
             Valid values:
-            - v2403
+            - v2409
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -443,12 +447,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
+          default: v2409
         description: |
             Version of API.
 
             Valid values:
-            - v1
+            - v2409
         required: true
       - in: path
         name: countrycode
@@ -517,12 +521,12 @@ paths:
         name: version
         schema:
           type: string
-          default: v1
+          default: v2409
         description: |
             Version of API.
 
             Valid values:
-            - v1
+            - v2409
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -623,12 +627,12 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
+          default: v2409
         description: |
             Version of API.
 
             Valid values:
-            - v1
+            - v2409
         required: true
       responses:
         '200':
@@ -692,7 +696,7 @@ paths:
         schema:
           type: string
           minimum: 1
-          default: v1
+          default: v2409
         description: |
             Version of the API.
 
@@ -1197,9 +1201,13 @@ components:
           minLength: 3
           maxLength: 3
         ChargeDetail:
-          "$ref": "#/components/schemas/RateResult_ChargeDetail"
+           type: array
+           items:
+            "$ref": "#/components/schemas/RateResult_ChargeDetail"
         TaxCharges:
-          "$ref": "#/components/schemas/RateResult_TaxCharges"
+           type: array
+           items:
+            "$ref": "#/components/schemas/RateResult_TaxCharges"
         TotalTax:
           description: The sum of all taxes.
           maximum: 1
@@ -1440,7 +1448,9 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          "$ref": "#/components/schemas/Response_Alert"
+           type: array
+           items:
+            "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -2312,7 +2322,9 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          "$ref": "#/components/schemas/Response_Alert"
+           type: array
+           items:
+            "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -2565,7 +2577,9 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          "$ref": "#/components/schemas/Response_Alert"
+          type: array
+          items:
+           "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -2819,7 +2833,9 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          "$ref": "#/components/schemas/Response_Alert"
+           type: array
+           items:
+            "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -3216,7 +3232,9 @@ components:
       - DayOfWeek
       properties:
         DayOfWeek:
-          "$ref": "#/components/schemas/PickupFacilities_FacilityTime_DayOfWeek"
+           type: array
+           items:
+            "$ref": "#/components/schemas/PickupFacilities_FacilityTime_DayOfWeek"
       xml:
         name: FacilityTime
       description: Facility Time Container
@@ -3364,7 +3382,9 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-          "$ref": "#/components/schemas/Response_Alert"
+           type: array
+           items:
+            "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
