@@ -3,9 +3,9 @@ info:
   title: PreNotification
   version: ''
   description: |
-  
+
     The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day.
- 
+
     # Reference
     - <a href="https://developer.ups.com/api/reference/prenotification/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/prenotification/errors" target="_blank" rel="noopener">Errors</a>
@@ -567,7 +567,7 @@ components:
         TransportationMode:
           description: 'Declares that a package was prepared according to ground,
             passenger aircraft, or cargo aircraft only. Only required when the CommodityRegulatedLevelCode
-            is FR or LQ.  Valid entries include: GND, CAO, PAX.'
+            is FR or LQ. Valid entries include: GND, CAO, PAX.'
           maximum: 1
           type: string
           minLength: 3
@@ -616,7 +616,7 @@ components:
       - Code
       properties:
         Code:
-          description: "Package weight unit of measurement code. \nCodes are: \nLBS
+          description: "Package weight unit of measurement code.\nCodes are:\nLBS
             = Pounds\nKGS = Kilograms"
           maximum: 1
           type: string
@@ -636,7 +636,7 @@ components:
       maximum: 1
       properties:
         ReportableQuantity:
-          description: Indicates whether or not a material being transported meets the definition of a hazardous material and meets or exceeds a reportable quantity threshold. If reportable quantity is met, "RQ" should be entered.  Any other value will be  interpreted as "Non Reportable" quantity.
+          description: Indicates whether or not a material being transported meets the definition of a hazardous material and meets or exceeds a reportable quantity threshold. If reportable quantity is met, "RQ" should be entered. Any other value will be  interpreted as "Non Reportable" quantity.
           maximum: 1
           type: string
           minLength: 1
@@ -654,7 +654,7 @@ components:
           minLength: 7
           maxLength: 7
         IDNumber:
-          description: This is the ID number (UN/NA/ID) for the specified commodity.  UN/NA/ID Identification Number assigned to the specified regulated good. (Include the UN/NA/ID as part of the entry).
+          description: This is the ID number (UN/NA/ID) for the specified commodity. UN/NA/ID Identification Number assigned to the specified regulated good. (Include the UN/NA/ID as part of the entry).
           maximum: 1
           type: string
           minLength: 1
@@ -694,7 +694,7 @@ components:
 
             Valid values for this field are (0) through (9) with trailing blanks.
 
-            For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries the layout is country code, area code, number.                                                                                                                                                                                                                                                                       The following are restricted in the phone number
+            For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries the layout is country code, area code, number. The following are restricted in the phone number
             period ".", dash "-", plus sign "+" and conventional parentheses "(" and ")", "EXT" or "OPT"  The following are restricted in the phone number
             period ".", dash "-", plus sign "+" and conventional parentheses "(" and ")", "EXT" or "OPT"
           maximum: 1
@@ -738,7 +738,7 @@ components:
           minLength: 50
           maxLength: 50
         PackagingTypeQuantity:
-          description: The number of pieces of the specific commodity. Required if CommodityRegulatedLevelCode = LQ or FR.  Valid values are 1 to 999.
+          description: The number of pieces of the specific commodity. Required if CommodityRegulatedLevelCode = LQ or FR. Valid values are 1 to 999.
           maximum: 1
           type: string
           minLength: 1
@@ -803,7 +803,7 @@ components:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array

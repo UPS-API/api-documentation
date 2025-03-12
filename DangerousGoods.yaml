@@ -4,19 +4,19 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-  
+
     The Dangerous Goods API provides the ability to determine if certain materials, such as dangerous goods or hazardous materials, can be shipped with UPS. The API's two endpoints - Chemical Reference Data and Acceptance Audit Precheck, help perform pre-checks before shipping any dangerous goods.
     # Reference
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/faq" target="_blank" rel="noopener">FAQ</a>
-    
+
     <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
     <a href="https://god.gw.postman.com/run-collection/29542085-bb17460a-ed1a-4267-8c58-a8cc50a48f7a?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-bb17460a-ed1a-4267-8c58-a8cc50a48f7a%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -515,7 +515,7 @@ components:
         IDNumber:
           description: This is the ID number (UN/NA/ID) for the specified commodity.
             UN/NA/ID Identification Number assigned to the specified regulated good.
-            (Include the UN/NA/ID as part of the entry).  At least one of the information
+            (Include the UN/NA/ID as part of the entry). At least one of the information
             - IDNumber or ProperShippingName should be provided to retrieve Chemical
             Reference Data.
           maximum: 1
@@ -523,7 +523,7 @@ components:
           minLength: 1
           maxLength: 6
         ProperShippingName:
-          description: The Proper Shipping Name assigned by ADR, CFR or IATA.   At
+          description: The Proper Shipping Name assigned by ADR, CFR or IATA. At
             least one of the information - IDNumber or ProperShippingName should be
             provided to retrieve Chemical Reference Data.
           maximum: 1
@@ -531,7 +531,7 @@ components:
           minLength: 1
           maxLength: 250
         ShipperNumber:
-          description: Shipper's six digit account number.  Your UPS Account Number
+          description: Shipper's six digit account number. Your UPS Account Number
             must have correct Dangerous goods contract to successfully use this Webservice.
           maximum: 1
           type: string
@@ -613,7 +613,7 @@ components:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -634,7 +634,7 @@ components:
       - Code
       properties:
         Code:
-          description: 'Identifies the success or failure of the transaction.   Valid
+          description: 'Identifies the success or failure of the transaction. Valid
             values: 0 = Failed and 1 = Successful.'
           maximum: 1
           type: string
@@ -695,7 +695,7 @@ components:
           "$ref": "#/components/schemas/ChemicalData_ProperShippingNameDetail"
         PackageQuantityLimitDetail:
           description: |
-              Container to hold Package Quantity Limit Detail information.  It will be returned if applies for a given chemical record.
+              Container to hold Package Quantity Limit Detail information. It will be returned if applies for a given chemical record.
 
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -712,7 +712,7 @@ components:
             \  Possible values are ADR, 49CFR, IATA. It will be returned if applies
             for a given chemical record.\n\nADR = Europe to Europe Ground Movement\n49CFR
             = HazMat regulated by US Dept. of Transportation within the U.S. or ground
-            shipments to Canada,  \nIATA= Worldwide Air movement."
+            shipments to Canada,\nIATA= Worldwide Air movement."
           maximum: 1
           type: string
           minLength: 3
@@ -720,7 +720,7 @@ components:
         IDNumber:
           description: This is the ID number (UN/NA/ID) for the specified commodity.
             UN/NA/ID Identification Number assigned to the specified regulated good.
-            (Include the UN/NA/ID as part of the entry).  It will be returned if applies
+            (Include the UN/NA/ID as part of the entry). It will be returned if applies
             for a given chemical record.
           maximum: 1
           type: string
@@ -728,21 +728,21 @@ components:
           maxLength: 6
         HazardousMaterialsDescription:
           description: Free form text containing the full name that are used to describe
-            a regulated chemical record.  It will be returned if applies for a given
+            a regulated chemical record. It will be returned if applies for a given
             chemical record.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 250
         ClassDivisionNumber:
-          description: This is the hazard class associated to the specified commodity.  It
+          description: This is the hazard class associated to the specified commodity. It
             will be returned if applies for a given chemical record.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 10
         SubRiskClass:
-          description: Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma).  It will be returned if applies for a given chemical record.
+          description: Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma). It will be returned if applies for a given chemical record.
           maximum: 1
           type: string
           minLength: 1
@@ -750,7 +750,7 @@ components:
         PackagingGroupType:
           description: This is the packing group category associated to the specified
             commodity. This code represents the potential degree of danger represented
-            by a regulated commodity being transported.  It will be returned if applies
+            by a regulated commodity being transported. It will be returned if applies
             for a given chemical record.
           maximum: 1
           type: string
@@ -758,15 +758,15 @@ components:
           maxLength: 10
         SpecialPermit:
           description: "Indicates whether or not related entity requires special permit
-            in order to transport the chemical.   It will be returned if applies for
-            a given chemical record.\n\nValid values: \nAIR\nGND\nBOTH"
+            in order to transport the chemical. It will be returned if applies for
+            a given chemical record.\n\nValid values:\nAIR\nGND\nBOTH"
           maximum: 1
           type: string
           minLength: 1
           maxLength: 4
         TechnicalNameRequiredIndicator:
           description: |-
-            Indicates whether TechnicalName is required or not.  It will be returned if applies for a given chemical record.
+            Indicates whether TechnicalName is required or not. It will be returned if applies for a given chemical record.
 
             Y = TechnicalName is required.
             N = TechnicalName is not required.
@@ -776,8 +776,8 @@ components:
           maxLength: 1
         AdditionalShippingInformationRequiredIndicator:
           description: "Indicates whether or not additional text is required for the
-            shipping papers for the related entity.   It will be returned if applies
-            for a given chemical record.\n\nValid values: \nN = No, additional information
+            shipping papers for the related entity. It will be returned if applies
+            for a given chemical record.\n\nValid values:\nN = No, additional information
             for the shipping papers are not required.\nY = Yes, additional information
             for the shipping papers are required."
           maximum: 1
@@ -786,7 +786,7 @@ components:
           maxLength: 1
         TunnelRestrictionCode:
           description: |-
-            Defines what is restricted to pass through a tunnel.  EXAMPLES OF VALUES:
+            Defines what is restricted to pass through a tunnel. EXAMPLES OF VALUES:
             (B),(D),(E),(B/D),(B/E),(C,D),(C/E),(D/E),Blank
           maximum: 1
           type: string
@@ -806,7 +806,7 @@ components:
           maxLength: 1
         TransportMultiplierQuantity:
           description: |-
-            The quantity that represents a multiplication factor used to calculate a value to determine the placarding to be place on the vehicle or container that holds the related regulated commodity. This factor is associated with a code value represented by Regulated Commodity Transport Category Code.   EXAMPLES OF VALUES:
+            The quantity that represents a multiplication factor used to calculate a value to determine the placarding to be place on the vehicle or container that holds the related regulated commodity. This factor is associated with a code value represented by Regulated Commodity Transport Category Code. EXAMPLES OF VALUES:
             0 = No multiplier - must use placarding
             1 = Use a multiplier of 50
             2 = Use a multiplier of 3
@@ -861,7 +861,7 @@ components:
           maxLength: 250
       xml:
         name: ProperShippingNameDetail
-      description: Container to hold Proper Shipping Name Detail information.  It
+      description: Container to hold Proper Shipping Name Detail information. It
         will be returned if applies for a given chemical record.
       maximum: 1
     ChemicalData_PackageQuantityLimitDetail:
@@ -870,7 +870,7 @@ components:
       properties:
         PackageQuantityLimitTypeCode:
           description: |-
-            The type of package quantity limit.   It will be returned if applies for a given chemical record.
+            The type of package quantity limit. It will be returned if applies for a given chemical record.
 
             Valid values:
             CAO - Cargo Aircraft Only
@@ -885,7 +885,7 @@ components:
           minLength: 1
           maxLength: 10
         Quantity:
-          description: The numerical value of the mass capacity of the regulated good.  It
+          description: The numerical value of the mass capacity of the regulated good. It
             will be returned if applies for a given chemical record.
           maximum: 1
           type: string
@@ -900,7 +900,7 @@ components:
           minLength: 1
           maxLength: 10
         PackagingInstructionCode:
-          description: The packing instructions related to the chemical record.  It
+          description: The packing instructions related to the chemical record. It
             will be returned if applies for a given chemical record.
           maximum: 1
           type: string
@@ -940,7 +940,7 @@ components:
           "$ref": "#/components/schemas/AcceptanceAuditPreCheckRequest_Request"
         OriginRecordTransactionTimestamp:
           description: "The time that the request was made from the originating system.
-            UTC time down to milliseconds. \nExample: 2016-07-14T12:01:33.999"
+            UTC time down to milliseconds.\nExample: 2016-07-14T12:01:33.999"
           type: string
           maximum: 1
         Shipment:
@@ -954,7 +954,7 @@ components:
       type: object
       properties:
         RequestOption:
-          description: "Enables the user to specify optional processing. \n\nCurrently,
+          description: "Enables the user to specify optional processing.\n\nCurrently,
             there is no optional process in Dangerous Goods Utility WS."
           type: string
         SubVersion:
@@ -978,7 +978,7 @@ components:
       - Package
       properties:
         ShipperNumber:
-          description: Shipper's six digit account number.  Your UPS Account Number
+          description: Shipper's six digit account number. Your UPS Account Number
             must have correct Dangerous goods contract to successfully use this Webservice.
           maximum: 1
           type: string
@@ -993,9 +993,9 @@ components:
         RegulationSet:
           description: "The Regulatory set associated with every regulated shipment.
             It must be same across the shipment. Not required when the CommodityRegulatedLevelCode
-            is EQ.  Valid values: ADR, 49CFR, IATA.\n\nADR = Europe to Europe Ground
+            is EQ. Valid values: ADR, 49CFR, IATA.\n\nADR = Europe to Europe Ground
             Movement\n49CFR = HazMat regulated by US Dept. of Transportation within
-            the U.S. or ground shipments to Canada   \nIATA= Worldwide Air movement."
+            the U.S. or ground shipments to Canada\nIATA= Worldwide Air movement."
           maximum: 1
           type: string
           minLength: 3
@@ -1126,7 +1126,7 @@ components:
           "$ref": "#/components/schemas/Package_PackageWeight"
         QValue:
           description: 'This is required when a HazMat shipment specifies AllPackedInOneIndicator
-            and the regulation set for that shipment is IATA.   Valid values: 0.1;
+            and the regulation set for that shipment is IATA. Valid values: 0.1;
             0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1.0'
           maximum: 1
           type: string
@@ -1139,8 +1139,8 @@ components:
           maximum: 1
         TransportationMode:
           description: "The method of transport by which a shipment is approved to
-            move and the regulations associated with that method.  \n\nOnly required
-            when the CommodityRegulatedLevelCode is FR or LQ.  Valid entries include:
+            move and the regulations associated with that method.\n\nOnly required
+            when the CommodityRegulatedLevelCode is FR or LQ. Valid entries include:
             GND, CAO, and PAX."
           maximum: 1
           type: string
@@ -1152,7 +1152,7 @@ components:
 
             Valid values for this field are (0) through (9) with trailing blanks.
 
-            For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries or territories the layout is country or territory code, area code, number.  The Emergency Phone Number can only include the following allowable characters
+            For numbers within the U.S., the layout is 1, area code, 7-digit number. For all other countries or territories the layout is country or territory code, area code, number. The Emergency Phone Number can only include the following allowable characters
             “period “.”, dash “-“, plus sign “+” and conventional parentheses “(“ and “)”, “EXT or OPT”
 
             Required when (TDG regulation set and CommodityRegulatedLevelCode = FR)
@@ -1203,7 +1203,7 @@ components:
       properties:
         Code:
           description: |-
-            Package weight unit of measurement code.   Valid values:
+            Package weight unit of measurement code. Valid values:
             LBS = Pounds
             KGS = Kilograms
           maximum: 1
@@ -1261,7 +1261,7 @@ components:
         IDNumber:
           description: "This is the ID number (UN/NA/ID) for the specified commodity.
             \n\nRequired if CommodityRegulatedLevelCode = LR, LQ or FR and if the
-            field applies to the material by regulation. \n\nUN/NA/ID Identification
+            field applies to the material by regulation.\n\nUN/NA/ID Identification
             Number assigned to the specified regulated good. (Include the UN/NA/ID
             as part of the entry)."
           maximum: 1
@@ -1270,9 +1270,9 @@ components:
           maxLength: 6
         PackagingGroupType:
           description: "This is the packing group category associated to the specified
-            commodity. \nRequired if CommodityRegulatedLevelCode = LQ or FR and if
+            commodity.\nRequired if CommodityRegulatedLevelCode = LQ or FR and if
             the field applies to the material by regulation. Must be shown in Roman
-            Numerals.  Valid values are: \nI\nII\nIII \nblank"
+            Numerals. Valid values are:\nI\nII\nIII\nblank"
           maximum: 1
           type: string
           minLength: 1
@@ -1301,7 +1301,7 @@ components:
           minLength: 1
           maxLength: 353
         ProperShippingName:
-          description: "The Proper Shipping Name assigned by ADR, CFR or IATA. \n\nRequired
+          description: "The Proper Shipping Name assigned by ADR, CFR or IATA.\n\nRequired
             if CommodityRegulatedLevelCode = LR, LQ or FR."
           maximum: 1
           type: string
@@ -1326,7 +1326,7 @@ components:
           maxLength: 75
         PackagingType:
           description: "The package type code identifying the type of packaging used
-            for the commodity. (Ex: Fiberboard Box). \nRequired if CommodityRegulatedLevelCode
+            for the commodity. (Ex: Fiberboard Box).\nRequired if CommodityRegulatedLevelCode
             = LQ or FR."
           maximum: 1
           type: string
@@ -1334,22 +1334,22 @@ components:
           maxLength: 255
         HazardLabelRequired:
           description: "Defines the type of label that is required on the package
-            for the commodity. \n\nNot applicable if CommodityRegulatedLevelCode =
+            for the commodity.\n\nNot applicable if CommodityRegulatedLevelCode =
             LR or EQ."
           maximum: 1
           type: string
           minLength: 1
           maxLength: 50
         PackagingTypeQuantity:
-          description: "The number of pieces of the specific commodity. \n\nRequired
-            if CommodityRegulatedLevelCode = LQ or FR.  Valid values: 1 to 999"
+          description: "The number of pieces of the specific commodity.\n\nRequired
+            if CommodityRegulatedLevelCode = LQ or FR. Valid values: 1 to 999"
           maximum: 1
           type: string
           minLength: 1
           maxLength: 3
         CommodityRegulatedLevelCode:
           description: |-
-            Indicates the type of commodity.  Valid values: LR, FR, LQ, EQ
+            Indicates the type of commodity. Valid values: LR, FR, LQ, EQ
 
             FR = Fully Regulated
             LQ = Limited Quantity
@@ -1360,7 +1360,7 @@ components:
           minLength: 2
           maxLength: 2
         TransportCategory:
-          description: 'Transport Category.  Valid values: 0 to 4'
+          description: 'Transport Category. Valid values: 0 to 4'
           maximum: 1
           type: string
           minLength: 1
@@ -1396,7 +1396,7 @@ components:
           "$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_Service"
         RegulationSet:
           description: |-
-            The Regulatory set associated with every regulated shipment. This is same Regulation set present in the request that is played back in response.  Valid values:
+            The Regulatory set associated with every regulated shipment. This is same Regulation set present in the request that is played back in response. Valid values:
             ADR
             49CFR
             IATA
@@ -1428,7 +1428,7 @@ components:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -1480,7 +1480,7 @@ components:
       - Level
       properties:
         Level:
-          description: "Define type of element in request.   Possible values: \nH
+          description: "Define type of element in request. Possible values:\nH
             for the header details level\nS for the shipment level\nP for the package
             level\nC for the commodity level"
           maximum: 1
@@ -1516,7 +1516,7 @@ components:
           maxLength: 5
       xml:
         name: ElementIdentifier
-      description: "Contains more information about the type of element. \nReturned
+      description: "Contains more information about the type of element.\nReturned
         if Level is P or C."
     AcceptanceAuditPreCheckResponse_Service:
       type: object
@@ -1545,7 +1545,7 @@ components:
           maxLength: 5
         AccessibleIndicator:
           description: |-
-            Indicates if a package is crew accessible or not.  Y = Package is crew accessible.
+            Indicates if a package is crew accessible or not. Y = Package is crew accessible.
             N = Package is not crew accessible.
           maximum: 1
           type: string
@@ -1553,7 +1553,7 @@ components:
           maxLength: 1
         EuropeBUIndicator:
           description: "Indicates if origin country or territory is in the Europe
-            Business Unit. \n  Y = Origin country or territory is in the Europe Business
+            Business Unit.\nY = Origin country or territory is in the Europe Business
             Unit.\nN = Origin country or territory is not in the Europe Business Unit."
           maximum: 1
           type: string
@@ -1589,7 +1589,7 @@ components:
           minLength: 1
           maxLength: 4
         TransportCategory:
-          description: 'Transport Category.  Valid values: 0 to 4'
+          description: 'Transport Category. Valid values: 0 to 4'
           maximum: 1
           type: string
           minLength: 1

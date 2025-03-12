@@ -4,7 +4,7 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-  
+
     The Track API helps retrieves current status of shipments such as Small Package 1Z, Infonotice, Mail Innovations, FGV, or UPS Freight shipments using the package number or the reference number. The tracking response data typically includes package movements/activities, destination UPS access point information, expected delivery dates/times, etc. Required parameters are the inquiryNumber, transaction ID, and transaction source.<br />The response returns an array of shipment objects containing detailed tracking information and status for the package(s) associated with the inquiryNumber, including current status, activity history, delivery details, package details, and more. For more information on the Track API, please visit the <a href="https://developer.ups.com/api/reference/tracking/product-info" target="_blank" rel="noopener noreferrer">Product Overview</a> page.
 
     **Note:** Data is rolled off after the 120 day retention period and may not be returned in the response after the retention period.
@@ -335,7 +335,7 @@ components:
           description: The date of this delivery detail. Format - YYYYMMDD
         type:
           type: string
-          description: 'The list of delivery dates associated with the package. 
+          description: 'The list of delivery dates associated with the package.
             Valid values:
               SDD - Scheduled Delivery Date
               RDD - Rescheduled Delivery Date
@@ -370,12 +370,12 @@ components:
     DeliveryPhoto:
       title: DeliveryPhoto
       type: object
-      description: Container with all information related to the delivery photo of the 
+      description: Container with all information related to the delivery photo of the
         package.
       properties:
         isNonPostalCodeCountry:
           type: boolean
-          description: 'The indication if the country does not use postal code. 
+          description: 'The indication if the country does not use postal code.
             Valid values: ''true'' this country does not use postal code.
             ''false'' this country uses postal code'
         photo:
@@ -386,7 +386,7 @@ components:
             photo capture. ''N'' the photo is not a capture'
         photoDispositionCode:
           type: string
-          description: 'The photo disposition code. Valid values: ''V'' the photo is 
+          description: 'The photo disposition code. Valid values: ''V'' the photo is
             viewable. ''N'' the photo is not viewable. ''U'' the photo is not stored'
     DeliveryTime:
       title: DeliveryTime
@@ -476,7 +476,7 @@ components:
           type: boolean
           description: 'The indication if the milestone represents the current state
             of the package. Valid values: ''true'' this milestone is the current state
-            of the package.  ''false'' this milestone is not current.'
+            of the package. ''false'' this milestone is not current.'
         description:
           type: string
           description: 'The milestone description. Note: this is not translated at

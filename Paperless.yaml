@@ -3,7 +3,7 @@ info:
   title: Paperless Document
   version: ''
   description: |
-  
+
     The Paperless Documents API allows users to upload specific trade documents for paperless processing of international shipments. <br />The /upload endpoint of the API requires document details, including file name, file format, and document type (such as authorization form, commercial invoice, certificate of origin, export license, etc).<br />The /image endpoint helps users upload document images as support documents for shipping<br />The /delete endpoint of the API helps delete a specific document the user has uploaded.
     # Reference
     - <a href="https://developer.ups.com/api/reference/paperlessdocument/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -661,14 +661,14 @@ components:
         Request:
           "$ref": "#/components/schemas/DeleteRequest_Request"
         ShipperNumber:
-          description: The Shipper's UPS Account Number.  Your UPS Account Number
+          description: The Shipper's UPS Account Number. Your UPS Account Number
             must have 'Upload Forms Created Offline' enabled to use this webservice.
           maximum: 1
           type: string
           minLength: 6
           maxLength: 6
         DocumentID:
-          description: DocumentId representing uploaded document to Forms History.  Only
+          description: DocumentId representing uploaded document to Forms History. Only
             one DocumentID will be accepted for delete request.
           maximum: 1
           type: string
@@ -718,7 +718,7 @@ components:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -745,7 +745,7 @@ components:
           minLength: 1
           maxLength: 1
         Description:
-          description: Describes Response Status Code.  Returns text of "Success"
+          description: Describes Response Status Code. Returns text of "Success"
             or "Failure".
           maximum: 1
           type: string
@@ -825,7 +825,7 @@ components:
         Request:
           "$ref": "#/components/schemas/PushToImageRepositoryRequest_Request"
         ShipperNumber:
-          description: The Shipper's UPS Account Number.  Your UPS Account Number
+          description: The Shipper's UPS Account Number. Your UPS Account Number
             must have 'Upload Forms Created Offline' enabled to use this webservice.
           maximum: 1
           type: string
@@ -954,7 +954,7 @@ components:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -998,7 +998,7 @@ components:
         Request:
           "$ref": "#/components/schemas/UploadRequest_Request"
         ShipperNumber:
-          description: The Shipper's UPS Account Number.  Your UPS Account Number
+          description: The Shipper's UPS Account Number. Your UPS Account Number
             must have 'Upload Forms Created Offline' enabled to use this webservice.
           maximum: 1
           type: string
@@ -1048,13 +1048,13 @@ components:
           maxLength: 300
         UserCreatedFormFile:
           description: |
-            The user created form file.  The maximum allowable size of each file is restricted to 10 MB. Should be a base64 encoded string.
+            The user created form file. The maximum allowable size of each file is restricted to 10 MB. Should be a base64 encoded string.
 
             Note: The maximum allowable size of each file is restriced to 1MB in CIE (Customer Integration Environment).
           maximum: 1
           type: string
         UserCreatedFormFileFormat:
-          description: The UserCreatedForm file format.  The allowed file formats
+          description: The UserCreatedForm file format. The allowed file formats
             are bmp, doc, gif, jpg, pdf, png, rtf, tif, txt and xls. The only exceptions
             for having file format of length 4 character are docx and xlsx. All other
             file formats needs to be of length 3.
@@ -1063,7 +1063,7 @@ components:
           minLength: 3
           maxLength: 4
         UserCreatedFormDocumentType:
-          description: The type of documents in UserCreatedForm file.  The allowed
+          description: The type of documents in UserCreatedForm file. The allowed
             document types are 001 - Authorization Form, 002 - Commercial Invoice,
             003 - Certificate of Origin, 004 - Export Accompanying Document, 005 -
             Export License, 006 - Import Permit, 007 - One Time NAFTA, 008 - Other
@@ -1100,7 +1100,7 @@ components:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array

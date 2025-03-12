@@ -4,7 +4,7 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-  
+
     The Address Validation Street Level API can be used to.
     check addresses against the United States Postal Service database of valid addresses in the U.S. and Puerto Rico.
     # Reference
@@ -18,7 +18,7 @@ info:
     <a href="https://god.gw.postman.com/run-collection/29542085-f2cd7176-bd05-48ea-bb72-b359a11cff09?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f2cd7176-bd05-48ea-bb72-b359a11cff09%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -46,7 +46,7 @@ paths:
         schema:
           type: string
           minimum: 1
-        description: "Valid values: True or False.  If True, either the region element
+        description: "Valid values: True or False. If True, either the region element
           or any  combination of Political Division 1,  Political Division 2, PostcodePrimaryLow
            and the PostcodeExtendedLow fields will  be recognized for validation
           in addition to  the urbanization element. If False or no  indicator, street
@@ -165,7 +165,7 @@ paths:
         schema:
           type: string
           minimum: 1
-        description: "Valid values: True or False.  If True, either the region element
+        description: "Valid values: True or False. If True, either the region element
           or any  combination of Political Division 1,  Political Division 2, PostcodePrimaryLow
            and the PostcodeExtendedLow fields will  be recognized for validation
           in addition to  the urbanization element. If False or no  indicator, street
@@ -319,9 +319,9 @@ components:
             If this indicator is present then either the region element
             or any combination of Political Division 1, Political Division 2, PostcodePrimaryLow
             and the PostcodeExtendedLow fields will be recognized for validation in
-            addition to the urbanization element.  If this tag is present, US and
+            addition to the urbanization element. If this tag is present, US and
             PR street level address validation will not occur. The default is to
-            provide street level address validation.  Not valid with the address
+            provide street level address validation. Not valid with the address
             classification request option.
           maximum: 1
           type: string
@@ -420,7 +420,7 @@ components:
                 - PostcodePrimaryLow
                 - PostcodeExtendedLow
 
-                Valid only for US or PR origins only.  Using this tag for non US/PR origins may cause address format errors.
+                Valid only for US or PR origins only. Using this tag for non US/PR origins may cause address format errors.
             maximum: 1
             type: string
             minLength: 1
@@ -467,7 +467,7 @@ components:
       - CountryCode
       description: |-
         AddressKeyFormat container.
-        The Key format is based on addressing standards jointly developed by the Postal Service and mailing industry.  The information provided in the Address Key container will be returned in the same format.
+        The Key format is based on addressing standards jointly developed by the Postal Service and mailing industry. The information provided in the Address Key container will be returned in the same format.
     XAVResponse:
       type: object
       required:
@@ -511,7 +511,7 @@ components:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -540,7 +540,7 @@ components:
           minLength: 1
           maxLength: 1
         Description:
-          description: Describes Response Status Code.  Returns text of 'Success'
+          description: Describes Response Status Code. Returns text of 'Success'
             or 'Failure'.
           maximum: 1
           type: string
@@ -673,7 +673,7 @@ components:
           description: "Address line (street number, street name and street type,
             and political division 1, political division 2 and postal code) used for
             street level information. Additional secondary information (apartment,
-            suite, floor, etc.) Applicable to US and PR only.  Not returned if user
+            suite, floor, etc.) Applicable to US and PR only. Not returned if user
             selects the RegionalRequestIndicator."
           type: array
           maximum: 3
@@ -695,10 +695,10 @@ components:
           minLength: 1
           maxLength: 30
         PoliticalDivision1:
-          description: "State/Province.  Returned if the location is within a State/Province/Territory.
+          description: "State/Province. Returned if the location is within a State/Province/Territory.
              For International: returned if user enters valid Country or Territory
-            Code, and City/postal code and it has a match.  For Domestic addresses,
-            the value must be a valid 2-character value (per US Mail standards).  For
+            Code, and City/postal code and it has a match. For Domestic addresses,
+            the value must be a valid 2-character value (per US Mail standards). For
             International the full State or Province name will be returned."
           maximum: 1
           type: string
@@ -713,7 +713,7 @@ components:
           maxLength: 10
         PostcodeExtendedLow:
           description: "Low-end extended postal code in a range. Example in quotes:
-            Postal Code 30076-'1234'.  Only returned in candidate list. May be alphanumeric"
+            Postal Code 30076-'1234'. Only returned in candidate list. May be alphanumeric"
           maximum: 1
           type: string
           minLength: 1

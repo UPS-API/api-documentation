@@ -3,7 +3,7 @@ info:
   title: Locator
   version: ''
   description: |
-  
+
     The Locator API allows you to find UPS locations - such as drop-off points, retail locations, and UPS access points (third-party retail locations that offer UPS package drop-off, or delivery services). The API provides capabilities to search by location, services offered, program types, and related criteria. You can also retrieve hours of operation, location details, and additional UPS services offered at specific locations.
     # Reference
     - <a href="https://developer.ups.com/api/reference/locator/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -11,7 +11,7 @@ info:
     - <a href="https://developer.ups.com/api/reference/locator/errors" target="_blank" rel="noopener">Errors</a>
 
     </br><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
-    
+
     <a href="https://god.gw.postman.com/run-collection/29542085-8637d9f1-5e40-4a1e-aa95-82376e268638?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-8637d9f1-5e40-4a1e-aa95-82376e268638%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
@@ -66,9 +66,9 @@ paths:
           Locations and Will call locations)\n8-All available Additional Services\n16-All
           available Program Types\n24-All available Additional Services and Program
           types\n32-All available Retail Locations\n40-All available Retail Locations
-          and Additional Services \n48-All available Retail Locations and Program
-          Types \n56-All available Retail Locations, Additional Services and Program
-          Types \n64-Search for UPS Access Point Locations.  "
+          and Additional Services\n48-All available Retail Locations and Program
+          Types\n56-All available Retail Locations, Additional Services and Program
+          Types\n64-Search for UPS Access Point Locations."
         required: true
       - in: query
         name: Locale
@@ -207,9 +207,9 @@ paths:
           Locations and Will call locations)\n8-All available Additional Services\n16-All
           available Program Types\n24-All available Additional Services and Program
           types\n32-All available Retail Locations\n40-All available Retail Locations
-          and Additional Services \n48-All available Retail Locations and Program
-          Types \n56-All available Retail Locations, Additional Services and Program
-          Types \n64-Search for UPS Access Point Locations.  "
+          and Additional Services\n48-All available Retail Locations and Program
+          Types\n56-All available Retail Locations, Additional Services and Program
+          Types\n64-Search for UPS Access Point Locations. "
         required: true
       - in: query
         name: Locale
@@ -375,9 +375,9 @@ components:
           type: string
           maximum: 1
         SearchOptionCode:
-          description: "Valid values: \n01-Proximity Search Details\n02-Address Search
+          description: "Valid values:\n01-Proximity Search Details\n02-Address Search
             Details\n03-Proximity Search Summary\n04-Address Search Summary\n05-Freight
-            Will Call Search. \nEither OptionType 03 or 04 is required."
+            Will Call Search.\nEither OptionType 03 or 04 is required."
           maximum: 1
           type: string
           minLength: 2
@@ -398,7 +398,7 @@ components:
         TransactionReference:
           "$ref": "#/components/schemas/Request_TransactionReference"
         RequestAction:
-          description: "Indicates the action to be taken by the XML service. \nThe
+          description: "Indicates the action to be taken by the XML service.\nThe
             only valid value is 'Locator'."
           maximum: 1
           type: string
@@ -435,7 +435,7 @@ components:
         MaximumListSize:
           description: "If present, indicates the maximum number of locations the
             client wishes to receive in an address candidate response where the provided
-            origin information is insufficient to accurately establish location. \n\nValid
+            origin information is insufficient to accurately establish location.\n\nValid
             values: 1-50, default 10"
           maximum: 1
           type: string
@@ -554,7 +554,7 @@ components:
       - CountryCode
       description: "Contains all of the basic information about the origin such as:
         Address Lines, City, State/Province, Postal Code and Country or Territory
-        Code. \nThe element CountryCode is required."
+        Code.\nThe element CountryCode is required."
     LocatorRequest_Translate:
       type: object
       maximum: 1
@@ -563,7 +563,7 @@ components:
           description: "Locale is the 5 digit combination of 2 character language
             code and 2 character country or territory code separated by an underscore
             ('_') character. Will be used to determine what language the response
-            will be sent in. \nDefault value is: en_US. \nExamples are: fr_CA, es_MX."
+            will be sent in.\nDefault value is: en_US.\nExamples are: fr_CA, es_MX."
           maximum: 1
           type: string
           minLength: 5
@@ -606,7 +606,7 @@ components:
         SearchRadius:
           description: "Defines the maximum radius the user wishes to search for a
             UPS location. If the user does not specify, the default value is 100 miles.
-            Whole numbers only. \n\nValid values are:\n5-100 for UnitOfMeasure MI\n5-150
+            Whole numbers only.\n\nValid values are:\n5-100 for UnitOfMeasure MI\n5-150
             for UnitOfMesaure KM"
           maximum: 1
           type: string
@@ -634,7 +634,7 @@ components:
         name: LocationSearchCriteria
       maximum: 1
       description: "The Location search criteria container allows the user to further
-        define the basis to which they wish to receive the UPS locations. \nOnly relevant
+        define the basis to which they wish to receive the UPS locations.\nOnly relevant
         when the user requests a Location search (request option 1)."
     LocationSearchCriteria_SearchOption:
       type: object
@@ -682,7 +682,7 @@ components:
         name: OptionType
       description: "OptionType is a container that indicates the type of search for
         locations. There are 5 types of search. They are search by: Location, Retail
-        Location, Additional Services, Program Type, and a Service Level Option. \nIf
+        Location, Additional Services, Program Type, and a Service Level Option.\nIf
         search criteria by Location or Retail Location is not provided the default
         search of The UPS Store, UPS Center, UPS Drop Box, and Authorized Shipping
         Outlet location types will be performed."
@@ -705,7 +705,7 @@ components:
         name: OptionCode
       description: "Option code contains the information of a particular Location,
         Retail Location, Additional Service, Program Type or End Point Service Offering
-        depending on the option type. \nThe SearchOptions can contain one or more
+        depending on the option type.\nThe SearchOptions can contain one or more
         OptionCodes which forms the criteria for the location search."
     SearchOption_Relation:
       type: object
@@ -728,7 +728,7 @@ components:
       xml:
         name: Relation
       description: "The relation container will contain the relation parameter (And/Or)
-        that has to be used among multiple option codes in the location search. \n\nThis
+        that has to be used among multiple option codes in the location search.\n\nThis
         is only applicable to option type Additional Services and Program Types. If
         this container is not present for Additional Services and Program Types, the
         default relation of And is used."
@@ -809,7 +809,7 @@ components:
       - FacilityAddress
       properties:
         FreightWillCallRequestType:
-          description: "Valid values are: \n1 - Postal Code\n2 - Delivery SLIC\n3
+          description: "Valid values are:\n1 - Postal Code\n2 - Delivery SLIC\n3
             - Delivery City/State.\n1: Freight Will Call Search based on Postal Code,
             this search is valid for Postal code countries. 2: Freight Will Call Search
             based on SLIC. 3: Freight Will Call Search based on City and/or State.
@@ -843,8 +843,8 @@ components:
           minLength: 2
           maxLength: 3
         DayOfWeekCode:
-          description: "Day Of week Code. Valid Values are 1 to 7. \n1-Sunday\n2-Monday
-            \n3-Tuesday \n4-Wednesday\n5-Thursday\n6-Friday\n7-Saturday."
+          description: "Day Of week Code. Valid Values are 1 to 7.\n1-Sunday\n2-Monday
+            \n3-Tuesday\n4-Wednesday\n5-Thursday\n6-Friday\n7-Saturday."
           maximum: 1
           type: string
           minLength: 1
@@ -923,7 +923,7 @@ components:
           minLength: 1
           maxLength: 15
         AccessPointStatus:
-          description: "Status of UPS Access Point. Valid values are: \n01-Active-available\n07-Active-unavailable."
+          description: "Status of UPS Access Point. Valid values are:\n01-Active-available\n07-Active-unavailable."
           maximum: 1
           type: string
           minLength: 2
@@ -1045,10 +1045,10 @@ components:
       - Code
       properties:
         Code:
-          description: "The valid values are: \n001-Direct To Retail\n002-Not In One
+          description: "The valid values are:\n001-Direct To Retail\n002-Not In One
             ADL\n003-Click and Collect\n004-Retail to Retail\n005-Pickup\n006-Drop
             Off\n007-PUDO\n008-Early Pickup Delivery Time\n009-Accept prepaid drop
-            offs\n010-DCO DCR intercept accepted \n011-Accepts Payments \n012-Pay
+            offs\n010-DCO DCR intercept accepted\n011-Accepts Payments\n012-Pay
             At Store\n013-Accepts Restricted Articles"
           maximum: 1
           type: string
@@ -1244,7 +1244,7 @@ components:
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
         ResponseStatusCode:
-          description: "Identifies the success or failure of the interchange. \n1-Success\n0-Failure"
+          description: "Identifies the success or failure of the interchange.\n1-Success\n0-Failure"
           maximum: 1
           type: string
           minLength: 1
@@ -1273,7 +1273,7 @@ components:
           type: string
           maxLength: 512
         XpciVersion:
-          description: "Identifies the version of the message. \nCurrent version is
+          description: "Identifies the version of the message.\nCurrent version is
             1.0014"
           maximum: 1
           type: string
@@ -1290,7 +1290,7 @@ components:
       - ErrorCode
       properties:
         ErrorSeverity:
-          description: "Describes the severity of the error. \nFor additional information,
+          description: "Describes the severity of the error.\nFor additional information,
             refer to Locator Error Codes in the Appendix."
           maximum: 1
           type: string
@@ -1298,7 +1298,7 @@ components:
           maxLength: 15
         ErrorCode:
           description: "A numeric value that describes the error. Each tool defines
-            a range of error codes. \nFor additional information, refer to Locator
+            a range of error codes.\nFor additional information, refer to Locator
             Error Codes in the Appendix."
           maximum: 1
           type: string
@@ -1311,7 +1311,7 @@ components:
           minLength: 1
           maxLength: 50
         MinimumRetrySeconds:
-          description: "Number of seconds to wait until retry. \n\nThis field is populated
+          description: "Number of seconds to wait until retry.\n\nThis field is populated
             on special conditions of the Transient Error only, as defined by the service.\n\nA
             number between 1 and 86400 (24 hours)"
           maximum: 1
@@ -1394,7 +1394,7 @@ components:
           description: "Disclaimer. In the event the user requested Ground and Air
             service types and the maximum UPS locations list size has not been met,
             the list of locations will continue with locations that provide either
-            ground or air within the search radius. \n\nThe disclaimer will note this
+            ground or air within the search radius.\n\nThe disclaimer will note this
             deviation from the requested search criteria. The disclaimer is also the
             location where the user will receive information regarding a one-time
             pickup option if the first location is greater than 20 miles from the
@@ -1417,7 +1417,7 @@ components:
             "$ref": "#/components/schemas/SearchResults_AvailableLocationAttributes"
         ActiveAvailableAccessPointIndicator:
           description: "Indicates whether the country or territory has AccessPoints
-            or not. \n\nThis tag is populated in the Response only if tag \"ExistIndicator\"
+            or not.\n\nThis tag is populated in the Response only if tag \"ExistIndicator\"
             was present in the Locator request."
           type: string
           maximum: 1
@@ -1521,7 +1521,7 @@ components:
           maxLength: 10
         OriginOrDestination:
           description: "OriginOrDestination will returned for FreightWillCallRequestType
-            1 Postal based and 3 City and/or State based search. \n\nOriginOrDestination
+            1 Postal based and 3 City and/or State based search.\n\nOriginOrDestination
             will be 01 for origin facilities and 02 for Destination facilities"
           maximum: 1
           type: string
@@ -1549,7 +1549,7 @@ components:
             maxLength: 15
         FaxNumber:
           description: "The UPS location's Fax number. A fax number of the location
-            will be returned when available. \n10 digits allowed for US, otherwise
+            will be returned when available.\n10 digits allowed for US, otherwise
             1..15 digits allowed.\nThe fax number will be returned as string."
           maximum: 1
           type: string
@@ -1701,8 +1701,8 @@ components:
         ServiceOfferingList:
           "$ref": "#/components/schemas/DropLocation_ServiceOfferingList"
         DisplayPhoneNumberIndicator:
-          description: "Valid Values: \n0-Do not display phone number\n1-Display phone
-            number. \nThis indicator will be returned only for the contact type Telephone
+          description: "Valid Values:\n0-Do not display phone number\n1-Display phone
+            number.\nThis indicator will be returned only for the contact type Telephone
             number. This indicator is used by the clients to determine whether to
             display the telephone number to the end user."
           maximum: 1
@@ -1757,12 +1757,12 @@ components:
           maxLength: 30
         TextToSpeechIndicator:
           description: "Indicates to the response recipient that the information has
-            changed, and a new audio file should be produced. \nONLY FOR IVR."
+            changed, and a new audio file should be produced.\nONLY FOR IVR."
           type: string
           maximum: 1
       xml:
         name: IVR
-      description: "Integrated Voice Response information. \nONLY FOR IVR."
+      description: "Integrated Voice Response information.\nONLY FOR IVR."
     DropLocation_Geocode:
       type: object
       maximum: 1
@@ -1995,7 +1995,7 @@ components:
       properties:
         Code:
           description: "The distance unit of measurement code. The unit of measurement
-            used in the search request is returned. \n\nValid values: MI-Miles or
+            used in the search request is returned.\n\nValid values: MI-Miles or
             KM-Kilometers"
           type: string
         Description:
@@ -2016,7 +2016,7 @@ components:
       - Segment
       properties:
         Segment:
-          description: Walking directions, last 50 feet. 
+          description: Walking directions, last 50 feet.
                        **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
@@ -2085,9 +2085,9 @@ components:
       - HoursType
       properties:
         HoursType:
-          description: "Hours Type. \n\nValid values: \n10-Regular Operating Hours
+          description: "Hours Type.\n\nValid values:\n10-Regular Operating Hours
             \n11-Will Call Hours\n12-Same Day Will Call Hours\n14-Customer PickUp\n50-Drop
-            Off Hours \n51-Prep Hours"
+            Off Hours\n51-Prep Hours"
           maximum: 1
           type: string
           minLength: 2
@@ -2109,7 +2109,7 @@ components:
       - Day
       properties:
         Day:
-          description: "Day of week. \nValid values: \n1-Sunday\n2-Monday\n3-Tuesday\n4-Wednesday\n5-Thursday\n6-Friday\n7-Saturday."
+          description: "Day of week.\nValid values:\n1-Sunday\n2-Monday\n3-Tuesday\n4-Wednesday\n5-Thursday\n6-Friday\n7-Saturday."
           maximum: 1
           type: string
           minLength: 1
@@ -2321,7 +2321,7 @@ components:
       - Code
       properties:
         Code:
-          description: "Valid status values are: \n01-Active-available\n06-Suspended\n07-Active-unavailable\n08-Terminated"
+          description: "Valid status values are:\n01-Active-available\n06-Suspended\n07-Active-unavailable\n08-Terminated"
           maximum: 1
           type: string
           minLength: 2
@@ -2450,8 +2450,8 @@ components:
       - Code
       properties:
         Code:
-          description: "Code for DCR/DCO unavailability. Valid values: \n01-Temporarily
-            Unavailable \n02-Location Full\n03-Unavailable\n04-Weather"
+          description: "Code for DCR/DCO unavailability. Valid values:\n01-Temporarily
+            Unavailable\n02-Location Full\n03-Unavailable\n04-Weather"
           type: string
         Description:
           description: Description for DCR/ DCO unavailability.

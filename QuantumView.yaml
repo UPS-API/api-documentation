@@ -3,7 +3,7 @@ info:
   title: Quantum View
   version: ''
   description: |
-  
+
     UPS Quantum View is a suite of services that gives you and your customers details regarding UPS shipments.
     # Reference
     - <a href="https://developer.ups.com/api/reference/quantumview/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -229,8 +229,8 @@ components:
             "$ref": "#/components/schemas/QuantumViewRequest_SubscriptionRequest"
         Bookmark:
           description: "Bookmarks the file for next retrieval. It is a base64Encoded
-            String. \nIt contains the combination of SubscriberID + SubscriptionName
-            + File Name if the request is for all data. \nIt contains SubscriberID
+            String.\nIt contains the combination of SubscriberID + SubscriptionName
+            + File Name if the request is for all data.\nIt contains SubscriberID
             \ if the request is for unread data. When a response comes back with a
             bookmark it indicates that there is more data. To fetch the remaining
             data, the requester should come back with the bookmark added to the original
@@ -308,7 +308,7 @@ components:
           maxLength: 14
         EndDateTime:
           description: 'Ending date time for the retrieval criteria of the subscriptions.
-            Format: YYYYMMDDHHmmss.  When a null or empty EndDateTime is passed in
+            Format: YYYYMMDDHHmmss. When a null or empty EndDateTime is passed in
             the request, it is defaulted to 7 days from the given begin date.'
           maximum: 1
           type: string
@@ -350,7 +350,7 @@ components:
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
         ResponseStatusCode:
-          description: "Identifies the success or failure of the interchange. \n1
+          description: "Identifies the success or failure of the interchange.\n1
             = Success, 0 = Failure"
           maximum: 1
           type: string
@@ -389,7 +389,7 @@ components:
           minLength: 6
           maxLength: 6
         ToolVersion:
-          description: "Current tool version. \nValid value: 1.0"
+          description: "Current tool version.\nValid value: 1.0"
           maximum: 1
           type: string
           minLength: 3
@@ -545,7 +545,7 @@ components:
           minLength: 1
           maxLength: 2
         Description:
-          description: "Description of a subscription. \nValid values: \n- Unknown
+          description: "Description of a subscription.\nValid values:\n- Unknown
             (Unknown subscription status)\n- Activate (Ready for the user to activate
             the subscription)\n- Pending (In the process of waiting for privilege
             requests authorization)\n- Active (The subscription is in good standing
@@ -1377,7 +1377,7 @@ components:
       - Width
       properties:
         Length:
-          description: "Package length. \nValid values: 0 to 108 IN and 0 to 270 CM"
+          description: "Package length.\nValid values: 0 to 108 IN and 0 to 270 CM"
           maximum: 1
           type: string
           minLength: 3
@@ -1396,7 +1396,7 @@ components:
           maxLength: 9
       xml:
         name: Dimensions
-      description: "Container tag for package dimension information. \nLength + 2
+      description: "Container tag for package dimension information.\nLength + 2
         * (Width + Height) must be less than or equal to 130 IN or 330 CM."
     Package_DimensionalWeight:
       type: object
@@ -1486,7 +1486,7 @@ components:
           type: string
         Code:
           description: "Reference number type code for entire shipment, two-character
-            alphanumeric. \nThe code specifies the Reference name. \nValid if the
+            alphanumeric.\nThe code specifies the Reference name.\nValid if the
             origin/destination pair is US/US or PR/PR.\nFor additional information,
             refer to the Reference Codes table in the Appendix."
           maximum: 1
@@ -1652,7 +1652,7 @@ components:
           minLength: 12
           maxLength: 12
         Code:
-          description: "The type of Call Tag service. \nValid values:\n00 - No return
+          description: "The type of Call Tag service.\nValid values:\n00 - No return
             service\n01 - UPS Call Tag Service\n02 - UPS Print and Mail\n03 - 1 UPS
             Pickup Attempt\n04 - UPS Print Return Label\n05 - Online Call Tag (3 UPS
             Pickup Attempts)\n06 - UPS Electronic Return Label\n08 - UPS Returns on
@@ -2896,8 +2896,8 @@ components:
       properties:
         Option:
           description: "Indicates how shipping charges for the package were billed.
-            \nValid Values: 01, 02, 03, 04, 99 \nValue Definitions: \n01 Shipper\n02
-            Consignee Billing \n03 Third Party\n04 Freight Collect\n99 International
+            \nValid Values: 01, 02, 03, 04, 99\nValue Definitions:\n01 Shipper\n02
+            Consignee Billing\n03 Third Party\n04 Freight Collect\n99 International
             Bill Option"
           maximum: 1
           type: string

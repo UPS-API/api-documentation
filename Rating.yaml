@@ -4,7 +4,7 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-  
+
     The Rating API is used when rating or shopping a shipment.
     # Reference
     - <a href="https://developer.ups.com/api/reference/rating/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -1663,7 +1663,7 @@ components:
       xml:
         name: Request
       maximum: 1
-      description: Request container.  N/A
+      description: Request container. N/A
     Request_TransactionReference:
       type: object
       maximum: 1
@@ -1685,7 +1685,7 @@ components:
       - Code
       properties:
         Code:
-          description: 'Pickup Type Code.  Valid values: 01 - Daily Pickup (Default
+          description: 'Pickup Type Code. Valid values: 01 - Daily Pickup (Default
             - used when an invalid pickup type code is provided)03 - Customer Counter06
             - One Time Pickup19 - Letter Center20 - Air Service CenterLength is not
             validated. When negotiated rates are requested, 07 (onCallAir) will be
@@ -1696,7 +1696,7 @@ components:
           minLength: 2
           maxLength: 2
         Description:
-          description: Pickup Type Description.  Ignored if provided in the Request.
+          description: Pickup Type Description. Ignored if provided in the Request.
           maximum: 1
           type: string
           minLength: 1
@@ -1711,7 +1711,7 @@ components:
       - Code
       properties:
         Code:
-          description: Customer classification code.  Valid values:00 -  Rates Associated
+          description: Customer classification code. Valid values:00 -  Rates Associated
             with Shipper Number01 -  Daily Rates04 -  Retail Rates05 - Regional Rates06
             - General List Rates53 -  Standard List RatesLength is not validated.If
             customer classification code is not a valid value please refer to Rate
@@ -1721,7 +1721,7 @@ components:
           minLength: 2
           maxLength: 2
         Description:
-          description: Customer classification description of the code above.  Ignored
+          description: Customer classification description of the code above. Ignored
             if provided in the Request. Length is not validated.
           maximum: 1
           type: string
@@ -1759,7 +1759,7 @@ components:
         FreightShipmentInformation:
           "$ref": "#/components/schemas/Shipment_FreightShipmentInformation"
         GoodsNotInFreeCirculationIndicator:
-          description: Goods Not In Free Circulation indicator.  This is an empty
+          description: Goods Not In Free Circulation indicator. This is an empty
             tag, any value inside is ignored. This indicator is invalid for a package
             type of UPS Letter and DocumentsOnly.
           maximum: 1
@@ -1775,7 +1775,7 @@ components:
         DocumentsOnlyIndicator:
           description: 'Valid values are Document and Non-document. If the indicator
             is present then the value is Document else Non-Document. Note: Not applicable
-            for FRS rating  requests.  Empty Tag.'
+            for FRS rating  requests. Empty Tag.'
           type: string
         Package:
           type: array
@@ -1798,7 +1798,7 @@ components:
           description: Presence/Absence Indicator. Any value inside is ignored. TaxInformationIndicator
             is an indicator. The Tax related information includes any type of Taxes,
             corresponding Monetary Values, Total Charges with Taxes and disclaimers
-            (if applicable) would be returned in response.  If present, any taxes
+            (if applicable) would be returned in response. If present, any taxes
             that may be applicable to a shipment would be returned in response. If
             this indicator is requested with NegotiatedRatesIndicator, Tax related
             information, if applicable, would be returned only for Negotiated Rates
@@ -1811,7 +1811,7 @@ components:
           "$ref": "#/components/schemas/Shipment_DeliveryTimeInformation"
         MasterCartonIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. MasterCartonIndicator
-            is an indicator and presence implies that shipment is Master Carton type.  If
+            is an indicator and presence implies that shipment is Master Carton type. If
             present, the shipment will be rated as a Master Carton Type. If this indicator
             is requested with NegotiatedRatesIndicator, rates would be returned only
             for Negotiated Rates and not for Published Rates.
@@ -1836,19 +1836,19 @@ components:
       maximum: 1
       properties:
         Name:
-          description: Shipper's name or company name.  Length is not validated.
+          description: Shipper's name or company name. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         AttentionName:
-          description: Shipper's attention name.  Length is not validated.
+          description: Shipper's attention name. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         ShipperNumber:
-          description: Shipper's UPS account number.  A valid account number is required
+          description: Shipper's UPS account number. A valid account number is required
             to receive negotiated rates. Optional otherwise. Cannot be present when
             requesting UserLevelDiscount.
           maximum: 1
@@ -1871,7 +1871,7 @@ components:
       - CountryCode
       properties:
         AddressLine:
-          description: Shipper's street address including name and number (when applicable).  Maximum Occurrence should be three. Length is not validated.
+          description: Shipper's street address including name and number (when applicable). Maximum Occurrence should be three. Length is not validated.
           maximum: 3
           type: array
           items:
@@ -1879,19 +1879,19 @@ components:
           minLength: 1
           maxLength: 35
         City:
-          description: Shipper's city.  Required if country or territory does not utilize postal codes. Length is not validated.
+          description: Shipper's city. Required if country or territory does not utilize postal codes. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: Shipper's state code.  Length is not validated.
+          description: Shipper's state code. Length is not validated.
           maximum: 1
           type: string
           minLength: 2
           maxLength: 2
         PostalCode:
-          description: Shipper's postal code.  Length is not validated.
+          description: Shipper's postal code. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
@@ -1904,7 +1904,7 @@ components:
           maxLength: 2
       xml:
         name: Address
-      description: Address Container.  If the ShipFrom container is not present then
+      description: Address Container. If the ShipFrom container is not present then
         this address will be used as the ShipFrom. If this address is used as the
         ShipFrom, the shipment will be rated from this origin address.
     Shipment_ShipTo:
@@ -1912,14 +1912,14 @@ components:
       maximum: 1
       properties:
         Name:
-          description: Destination attention name or company name.  Length is not
+          description: Destination attention name or company name. Length is not
             validated.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         AttentionName:
-          description: Destination attention name.  Length is not validated.
+          description: Destination attention name. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
@@ -1939,7 +1939,7 @@ components:
       - CountryCode
       properties:
         AddressLine:
-          description: Destination street address including name and number (when applicable).  Max Occurrence can be 3. Length is not validated.
+          description: Destination street address including name and number (when applicable). Max Occurrence can be 3. Length is not validated.
           maximum: 3
           type: array
           items:
@@ -1947,7 +1947,7 @@ components:
           minLength: 1
           maxLength: 35
         City:
-          description: Destination city.  Required if country or territory does not utilize postal codes. Length is not validated.
+          description: Destination city. Required if country or territory does not utilize postal codes. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
@@ -1959,7 +1959,7 @@ components:
           minLength: 2
           maxLength: 2
         PostalCode:
-          description: Destination postal code.  Required if country or territory utilizes postal codes (i.e. US and PR).
+          description: Destination postal code. Required if country or territory utilizes postal codes (i.e. US and PR).
           maximum: 1
           type: string
           minLength: 1
@@ -1985,13 +1985,13 @@ components:
       maximum: 1
       properties:
         Name:
-          description: Origin attention name or company name.  Length is not validated.
+          description: Origin attention name or company name. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         AttentionName:
-          description: Origin attention name.  Length is not validated.
+          description: Origin attention name. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
@@ -2011,7 +2011,7 @@ components:
       - CountryCode
       properties:
         AddressLine:
-          description: The origin street address including name and number (when applicable).  Length is not validated.
+          description: The origin street address including name and number (when applicable). Length is not validated.
           maximum: 3
           type: array
           items:
@@ -2019,14 +2019,14 @@ components:
           minLength: 1
           maxLength: 35
         City:
-          description: Origin city.  Required if country or territory does not utilize postal codes. Length is not validated.
+          description: Origin city. Required if country or territory does not utilize postal codes. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 30
         StateProvinceCode:
           description: |
-            Origin state code.  A StateProvinceCode and valid account number are required when requesting negotiated rates. Otherwise the StateProvinceCode is optional.
+            Origin state code. A StateProvinceCode and valid account number are required when requesting negotiated rates. Otherwise the StateProvinceCode is optional.
 
             If the TaxInformationIndicator flag is present in the request, a StateProvinceCode must be entered for tax charges to be accurately calculated in the response.
           maximum: 1
@@ -2034,20 +2034,20 @@ components:
           minLength: 2
           maxLength: 2
         PostalCode:
-          description: Origin postal code.  Required if country or territory utilizes postal codes (e.g. US and PR).
+          description: Origin postal code. Required if country or territory utilizes postal codes (e.g. US and PR).
           maximum: 1
           type: string
           minLength: 1
           maxLength: 9
         CountryCode:
-          description: Origin country or territory code. Refer to the Supported Country or Territory Tables located in the Appendix.  Required, but defaults to US.
+          description: Origin country or territory code. Refer to the Supported Country or Territory Tables located in the Appendix. Required, but defaults to US.
           maximum: 1
           type: string
           minLength: 2
           maxLength: 2
       xml:
         name: Address
-      description: Address container for Ship From.  Address Container
+      description: Address container for Ship From. Address Container
     Shipment_AlternateDeliveryAddress:
       type: object
       maximum: 1
@@ -2076,7 +2076,7 @@ components:
       properties:
         AddressLine:
           description: The UPS Access Point's street address, including name and number
-            (when applicable).  Length is not validated.
+            (when applicable). Length is not validated.
           maximum: 3
           type: array
           items:
@@ -2110,7 +2110,7 @@ components:
         ResidentialAddressIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored.This
             field is a flag to indicate if the Alternate Delivery location is a residential
-            location. True if ResidentialAddressIndicator tag exists.  For future
+            location. True if ResidentialAddressIndicator tag exists. For future
             use.
           maximum: 1
           type: string
@@ -2120,7 +2120,7 @@ components:
 
             This field is a flag to indicate if the Alternate Delivery location is a PO box location.
 
-            True if POBoxIndicator tag exists; false otherwise.  Not valid with Shipment Indication Types:
+            True if POBoxIndicator tag exists; false otherwise. Not valid with Shipment Indication Types:
             - 01 - Hold for Pickup at UPS Access Point
             - 02 - UPS Access Point™ Delivery
           maximum: 1
@@ -2146,7 +2146,7 @@ components:
           minLength: 2
           maxLength: 2
         Description:
-          description: Description for Shipment Indication Type.  Length is not Validated.
+          description: Description for Shipment Indication Type. Length is not Validated.
           maximum: 1
           type: string
           minLength: 1
@@ -2168,7 +2168,7 @@ components:
           description: Split Duty VAT Indicator. The presence indicates the payer
             specified for Transportation Charges will pay transportation charges and
             any duties that apply to the shipment. The payer specified for Duties
-            and Taxes will pay the VAT (Value-Added Tax) only.  Empty Tag. The payment
+            and Taxes will pay the VAT (Value-Added Tax) only. Empty Tag. The payment
             method for Transportation charges must be UPS account. The UPS account
             must be a daily pickup account or an occasional account.
           maximum: 1
@@ -2178,7 +2178,7 @@ components:
       maximum: 1
       description: Payment details container for detailed shipment charges. The two
         shipment charges that are available for specification are Transportation charges
-        and Duties and Taxes.  This container is used for Who Pays What functionality.
+        and Duties and Taxes. This container is used for Who Pays What functionality.
     PaymentDetails_ShipmentCharge:
       type: object
       maximum: 1
@@ -2200,7 +2200,7 @@ components:
         ConsigneeBilledIndicator:
           description: Consignee Billing payment option indicator. The presence indicates
             consignee billing option is selected. The absence indicates one of the
-            other payment options is selected.  Empty Tag. This element or its sibling
+            other payment options is selected. Empty Tag. This element or its sibling
             element, BillShipper, BillReceiver or BillThirdParty, must be present
             but no more than one can be present. This billing option is valid for
             a shipment charge type of Transportation only. Only applies to US/PR and
@@ -2209,7 +2209,7 @@ components:
           type: string
       xml:
         name: ShipmentCharge
-      description: Shipment charge container.  If Duty and Tax charges are applicable
+      description: Shipment charge container. If Duty and Tax charges are applicable
         to a shipment and a payer is not specified, the default payer of Duty and
         Tax charges is Bill to Receiver. There will be no default payer of Duty and
         Tax charges for DDU and DDP service.
@@ -2228,7 +2228,7 @@ components:
           maxLength: 6
       xml:
         name: BillShipper
-      description: Container for the BillShipper billing option.  This element or
+      description: Container for the BillShipper billing option. This element or
         its sibling element, BillReceiver, BillThirdParty or ConsigneeBilledIndicator,
         must be present but no more than one can be present.
     ShipmentCharge_BillReceiver:
@@ -2238,7 +2238,7 @@ components:
       - AccountNumber
       properties:
         AccountNumber:
-          description: The UPS account number.  The account must be a valid UPS account
+          description: The UPS account number. The account must be a valid UPS account
             number that is active. For US, PR and CA accounts, the account must be
             a daily pickup account, an occasional account, a customer B.I.N account,
             or a dropper shipper account. All other accounts must be either a daily
@@ -2252,7 +2252,7 @@ components:
           "$ref": "#/components/schemas/BillReceiver_Address"
       xml:
         name: BillReceiver
-      description: Container for the BillReceiver billing option.  This element or
+      description: Container for the BillReceiver billing option. This element or
         its sibling element, BillShipper, BillThirdParty or Consignee Billed, must
         be present but no more than one can be present. For a return shipment, Bill
         Receiver is invalid for Transportation charges.
@@ -2279,7 +2279,7 @@ components:
       - AccountNumber
       properties:
         AccountNumber:
-          description: The UPS account number of the third party shipper.  The account
+          description: The UPS account number of the third party shipper. The account
             must be a valid UPS account number that is active. For US, PR and CA accounts,
             the account must be either a daily pickup account, an occasional account,
             or a customer B.I.N account, or a drop shipper account. All other accounts
@@ -2293,7 +2293,7 @@ components:
           "$ref": "#/components/schemas/BillThirdParty_Address"
       xml:
         name: BillThirdParty
-      description: Container for the third party billing option.  This element or
+      description: Container for the third party billing option. This element or
         its sibling element, BillShipper, BillReceiver or Consignee Billed, must be
         present but no more than one can be present.
     BillThirdParty_Address:
@@ -2365,7 +2365,7 @@ components:
       xml:
         name: FRSPaymentInformation
       maximum: 1
-      description: UPS Ground Freight Pricing (GFP) Payment Information container.  Required
+      description: UPS Ground Freight Pricing (GFP) Payment Information container. Required
         only for GFP and when the FRSIndicator is present.
     FRSPaymentInformation_Type:
       type: object
@@ -2388,20 +2388,20 @@ components:
           maxLength: 35
       xml:
         name: Type
-      description: GFP Payment Information Type container.  GFP only.
+      description: GFP Payment Information Type container. GFP only.
     FRSPaymentInformation_Address:
       type: object
       maximum: 1
       properties:
         PostalCode:
-          description: Postal Code for UPS accounts billing address.  Postal Code  may
+          description: Postal Code for UPS accounts billing address. Postal Code  may
             be present when the FRS Payment Information type = 02 and type = 03.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 9
         CountryCode:
-          description: Country or Territory code for the  UPS accounts & billing address.  Country
+          description: Country or Territory code for the  UPS accounts & billing address. Country
             or Territory Code is required when the FRS Payment Information type =
             02 and type= 03.
           maximum: 1
@@ -2412,7 +2412,7 @@ components:
         name: Address
       required:
       - CountryCode
-      description: Payer Address Container.  Address container may be present for
+      description: Payer Address Container. Address container may be present for
         FRS Payment Information type = 02 and required when the FRS Payment Information
         type = 03.
     Shipment_FreightShipmentInformation:
@@ -2449,7 +2449,7 @@ components:
         name: FreightDensityInfo
       required:
       - HandlingUnits
-      description: Freight Density Info container.  Required if DensityEligibleIndicator
+      description: Freight Density Info container. Required if DensityEligibleIndicator
         is present.
     FreightDensityInfo_AdjustedHeight:
       type: object
@@ -2468,7 +2468,7 @@ components:
           "$ref": "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
       xml:
         name: AdjustedHeight
-      description: Container to hold Adjusted Height information.  Required if AdjustedHeightIndicator
+      description: Container to hold Adjusted Height information. Required if AdjustedHeightIndicator
         is present.
     AdjustedHeight_UnitOfMeasurement:
       type: object
@@ -2519,7 +2519,7 @@ components:
       - Code
       properties:
         Code:
-          description: 'The code associated with Handling Unit Type.  Valid values:
+          description: 'The code associated with Handling Unit Type. Valid values:
             SKD = Skid CBY = CarboyPLT = PalletTOT = TotesLOO = LooseOTH = Other'
           maximum: 1
           type: string
@@ -2607,7 +2607,7 @@ components:
           minLength: 1
           maxLength: 2
         Description:
-          description: Text description of the code representing the UnitOfMeasurement associated with the package.  This element is not validated.
+          description: Text description of the code representing the UnitOfMeasurement associated with the package. This element is not validated.
           maximum: 1
           type: string
           minLength: 1
@@ -2652,14 +2652,14 @@ components:
           minLength: 3
           maxLength: 3
         Description:
-          description: A text description of the UPS Service associated with the shipment.  Length is not validated.
+          description: A text description of the UPS Service associated with the shipment. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
       xml:
         name: Service
-      description: Service Container.  Only valid with RequestOption = Rate for both
+      description: Service Container. Only valid with RequestOption = Rate for both
         Small package and GFP Rating requests.
     Shipment_NumOfPieces:
       description: Total number of pieces in all pallets. Required for UPS Worldwide
@@ -2682,7 +2682,7 @@ components:
       xml:
         name: ShipmentTotalWeight
       description: Shipment Total Weight Container. This container is only applicable
-        for "ratetimeintransit" and "shoptimeintransit" request options.  Required
+        for "ratetimeintransit" and "shoptimeintransit" request options. Required
         for all international shipments when retreiving time in transit information,
         including letters and documents shipments.
       maximum: 1
@@ -2716,7 +2716,7 @@ components:
     Shipment_DocumentsOnlyIndicator:
       description: 'Valid values are Document and Non-document. If the indicator is
         present then the value is Document else Non-Document. Note: Not applicable
-        for FRS rating  requests.  Empty Tag.'
+        for FRS rating  requests. Empty Tag.'
       maximum: 1
       type: string
     Shipment_Package:
@@ -2734,14 +2734,14 @@ components:
           "$ref": "#/components/schemas/Package_Commodity"
         LargePackageIndicator:
           description: This element does not require a value and if one is entered
-            it will be ignored.  If present, it indicates the shipment will be categorized
+            it will be ignored. If present, it indicates the shipment will be categorized
             as a Large Package.
           maximum: 1
           type: string
         PackageServiceOptions:
           "$ref": "#/components/schemas/Package_PackageServiceOptions"
         AdditionalHandlingIndicator:
-          description: A flag indicating if the packages require additional handling. True if AdditionalHandlingIndicator tag exists; false otherwise. Additional Handling indicator indicates it's a non-corrugated package.  Empty Tag.
+          description: A flag indicating if the packages require additional handling. True if AdditionalHandlingIndicator tag exists; false otherwise. Additional Handling indicator indicates it's a non-corrugated package. Empty Tag.
           maximum: 1
           type: string
         SimpleRate:
@@ -2750,20 +2750,20 @@ components:
           "$ref": "#/components/schemas/Package_UPSPremier"
         OversizeIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. It
-            indicates if packge is oversized.  Applicable for UPS Worldwide Economy
+            indicates if packge is oversized. Applicable for UPS Worldwide Economy
             DDU service
           maximum: 1
           type: string
         MinimumBillableWeightIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. It
-            indicates if packge is qualified for minimum billable weight.  Applicable
+            indicates if packge is qualified for minimum billable weight. Applicable
             for UPS Worldwide Economy DDU service
           maximum: 1
           type: string
       xml:
         name: Package
       maximum: 1
-      description: Package Container.  Only one Package allowed for Simple Rate
+      description: Package Container. Only one Package allowed for Simple Rate
     Package_PackagingType:
       type: object
       maximum: 1
@@ -2772,7 +2772,7 @@ components:
       properties:
         Code:
           description: |
-            The code for the UPS packaging type associated with the package.  Valid values:
+            The code for the UPS packaging type associated with the package. Valid values:
             - 00 - UNKNOWN
             - 01 - UPS Letter
             - 02 - Package
@@ -2793,7 +2793,7 @@ components:
           maxLength: 2
         Description:
           description: A text description of the code for the UPS packaging type associated
-            with the shipment.  Length is not validated.
+            with the shipment. Length is not validated.
           maximum: 1
           type: string
           minLength: 1
@@ -2813,7 +2813,7 @@ components:
           "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
         Length:
           description: |
-            Length of the package used to determine dimensional weight.  Required for GB to GB and Poland to Poland shipments.
+            Length of the package used to determine dimensional weight. Required for GB to GB and Poland to Poland shipments.
 
             6 digits in length with 2 digits of significance after the decimal point.
           maximum: 1
@@ -2822,7 +2822,7 @@ components:
           maxLength: 9
         Width:
           description: |
-            Width of the package used to determine dimensional weight.  Required for GB to GB and Poland to Poland shipments.
+            Width of the package used to determine dimensional weight. Required for GB to GB and Poland to Poland shipments.
 
             6 digits in length with 2 digits of significance after the decimal point.
           maximum: 1
@@ -2831,7 +2831,7 @@ components:
           maxLength: 9
         Height:
           description: |
-            Height of the package used to determine dimensional weight.  Required for GB to GB and Poland to Poland shipments.
+            Height of the package used to determine dimensional weight. Required for GB to GB and Poland to Poland shipments.
 
             6 digits in length with 2 digits of significance after the decimal point.
           maximum: 1
@@ -2842,7 +2842,7 @@ components:
         name: Dimensions
       maximum: 1
       description: Dimensions Container. This container is not applicable for GFP
-        Rating request.  Required for Heavy Goods service. Package Dimension will
+        Rating request. Required for Heavy Goods service. Package Dimension will
         be ignored for Simple Rate
     Package_DimWeight:
       type: object
@@ -2862,7 +2862,7 @@ components:
       maximum: 1
       description: Package Dimensional Weight container. Values in this container
         are ignored when package dimensions are provided. Please visit ups.com for
-        instructions on calculating this value.  Only used for non-US/CA/PR shipments.
+        instructions on calculating this value. Only used for non-US/CA/PR shipments.
     DimWeight_UnitOfMeasurement:
       type: object
       maximum: 1
@@ -2882,7 +2882,7 @@ components:
           maxLength: 3
           maximum: 1
         Description:
-          description: Text description of the code representing the unit of measure associated with the package weight.  Length and value are not validated.
+          description: Text description of the code representing the unit of measure associated with the package weight. Length and value are not validated.
           maximum: 1
           type: string
           minLength: 1
@@ -2899,7 +2899,7 @@ components:
         UnitOfMeasurement:
           "$ref": "#/components/schemas/PackageWeight_UnitOfMeasurement"
         Weight:
-          description: Actual package weight.  Weight accepted for letters/envelopes.
+          description: Actual package weight. Weight accepted for letters/envelopes.
           maximum: 1
           type: string
           minLength: 1
@@ -2907,8 +2907,8 @@ components:
       xml:
         name: PackageWeight
       maximum: 1
-      description: Package Weight Container.  Required for an GFP Rating request.
-        Otherwise optional. Required for Heavy Goods service.  Package Weight will
+      description: Package Weight Container. Required for an GFP Rating request.
+        Otherwise optional. Required for Heavy Goods service. Package Weight will
         be ignored for Simple Rate
     PackageWeight_UnitOfMeasurement:
       type: object
@@ -2932,7 +2932,7 @@ components:
           maxLength: 3
           maximum: 1
         Description:
-          description: Text description of the code representing the unit of measure associated with the package weight.  Length and value are not validated.
+          description: Text description of the code representing the unit of measure associated with the package weight. Length and value are not validated.
           maximum: 1
           type: string
           minLength: 1
@@ -2948,7 +2948,7 @@ components:
       properties:
         FreightClass:
           description: Freight Classification. Freight class partially determines
-            the freight rate for the article.  See Appendix of the Rating Ground Freight
+            the freight rate for the article. See Appendix of the Rating Ground Freight
             Web Services Developers Guide for list of Freight classes. For GFP Only.
           maximum: 1
           type: string
@@ -2958,7 +2958,7 @@ components:
           "$ref": "#/components/schemas/Commodity_NMFC"
       xml:
         name: Commodity
-      description: Commodity Container.  Required only for GFP rating when FRSShipmentIndicator
+      description: Commodity Container. Required only for GFP rating when FRSShipmentIndicator
         is requested.
     Commodity_NMFC:
       type: object
@@ -2968,7 +2968,7 @@ components:
       properties:
         PrimeCode:
           description: Value of NMFC Prime. Contact your service representative if
-            you need information concerning NMFC Codes.  Required if NMFC Container
+            you need information concerning NMFC Codes. Required if NMFC Container
             is present. For GFP Only.
           maximum: 1
           type: string
@@ -2976,7 +2976,7 @@ components:
           maxLength: 6
         SubCode:
           description: Value of NMFC Sub. Contact your service representative if you
-            need information concerning NMFC Codes.  Needs to be provided when the
+            need information concerning NMFC Codes. Needs to be provided when the
             SubCode associated with the PrimeCode is other than 00. API defaults the
             sub value to 00 if not provided. If provided the Sub Code should be associated
             with the PrimeCode of the NMFC.
@@ -2986,7 +2986,7 @@ components:
           maxLength: 2
       xml:
         name: NMFC
-      description: NMFC Commodity container.  For GFP Only.
+      description: NMFC Commodity container. For GFP Only.
     Package_PackageServiceOptions:
       type: object
       properties:
@@ -3002,7 +3002,7 @@ components:
           "$ref": "#/components/schemas/PackageServiceOptions_ShipperDeclaredValue"
         ShipperReleaseIndicator:
           description: The presence indicates that the package may be released by
-            driver without a signature from the consignee.  Empty Tag. Only available
+            driver without a signature from the consignee. Empty Tag. Only available
             for US50/PR to US50/PR packages without return service.
           maximum: 1
           type: string
@@ -3010,13 +3010,13 @@ components:
           description: Any value associated with this element will be ignored. If
             present, the package is rated for UPS Proactive Response and proactive
             package tracking.Contractual accessorial for health care companies to
-            allow package monitoring throughout the UPS system.  Shippers account
+            allow package monitoring throughout the UPS system. Shippers account
             needs to have valid contract for UPS Proactive Response.
           maximum: 1
           type: string
         RefrigerationIndicator:
           description: Presence/Absence Indicator. Any value is ignored. If present,
-            indicates that the package contains an item that needs refrigeration.  Shippers
+            indicates that the package contains an item that needs refrigeration. Shippers
             account needs to have a valid contract for Refrigeration.
           maximum: 1
           type: string
@@ -3024,7 +3024,7 @@ components:
           "$ref": "#/components/schemas/PackageServiceOptions_Insurance"
         UPSPremiumCareIndicator:
           description: |
-            The UPSPremiumCareIndicator indicates special handling is required for shipment having controlled substances.  Empty Tag means indicator is present.
+            The UPSPremiumCareIndicator indicates special handling is required for shipment having controlled substances. Empty Tag means indicator is present.
 
             Valid only for Canada to Canada movements.
 
@@ -3061,7 +3061,7 @@ components:
       - DCISType
       properties:
         DCISType:
-          description: 'Type of delivery confirmation.  Valid values: 1 - Unsupported
+          description: 'Type of delivery confirmation. Valid values: 1 - Unsupported
             2 - Delivery Confirmation Signature Required 3 - Delivery Confirmation
             Adult Signature Required'
           maximum: 1
@@ -3071,7 +3071,7 @@ components:
       xml:
         name: DeliveryConfirmation
       description: Delivery Confirmation Container. For a list of valid origin/destination
-        countries or territories please refer to appendix.  DeliveryConfirmation and
+        countries or territories please refer to appendix. DeliveryConfirmation and
         COD are mutually exclusive.
     PackageServiceOptions_AccessPointCOD:
       type: object
@@ -3081,7 +3081,7 @@ components:
       - MonetaryValue
       properties:
         CurrencyCode:
-          description: Access Point COD Currency Code.  Required if Access Point COD
+          description: Access Point COD Currency Code. Required if Access Point COD
             container is present. UPS does not support all international currency
             codes. Refer to the appendix for a list of valid codes.
           maximum: 1
@@ -3090,7 +3090,7 @@ components:
           maxLength: 3
         MonetaryValue:
           description: |
-            Access Point COD Monetary Value.  Required if Access Point COD container is present.
+            Access Point COD Monetary Value. Required if Access Point COD container is present.
 
             8 digits prior to the decimal place and 2 after.
           maximum: 1
@@ -3099,7 +3099,7 @@ components:
           maxLength: 11
       xml:
         name: AccessPointCOD
-      description: 'Access Point COD indicates Package COD is requested for a shipment.  Valid
+      description: 'Access Point COD indicates Package COD is requested for a shipment. Valid
         only for : 01 - Hold For Pickup At UPS Access Point, Shipment Indication type.
         Package Access Point COD is valid only for shipment without return service
         from US/PR to US/PR and CA to CA. Not valid with (Package) COD.'
@@ -3111,7 +3111,7 @@ components:
       - CODAmount
       properties:
         CODFundsCode:
-          description: Indicates the type of funds that will be used for the C.O.D. payment.  For valid values, refer to Rating and Shipping COD Supported Countries or Territories in the Appendix.
+          description: Indicates the type of funds that will be used for the C.O.D. payment. For valid values, refer to Rating and Shipping COD Supported Countries or Territories in the Appendix.
           maximum: 1
           type: string
           minLength: 1
@@ -3120,7 +3120,7 @@ components:
           "$ref": "#/components/schemas/COD_CODAmount"
       xml:
         name: COD
-      description: 'COD Container. Indicates COD is requested.   Valid for the following
+      description: 'COD Container. Indicates COD is requested. Valid for the following
         country or territory combinations: US/PR to US/PRCA to CACA to USNot allowed
         for CA to US for packages that are designated as Letters or Envelopes.'
     COD_CODAmount:
@@ -3131,13 +3131,13 @@ components:
       - MonetaryValue
       properties:
         CurrencyCode:
-          description: Currency Code.  Required if a value for the COD amount exists in the MonetaryValue tag. Must match one of the IATA currency codes. UPS does not support all international currency codes. Refer to Currency Codes in the Appendix for a list of valid codes.
+          description: Currency Code. Required if a value for the COD amount exists in the MonetaryValue tag. Must match one of the IATA currency codes. UPS does not support all international currency codes. Refer to Currency Codes in the Appendix for a list of valid codes.
           maximum: 1
           type: string
           minLength: 3
           maxLength: 3
         MonetaryValue:
-          description: The COD value for the package.  Required if COD option is present. The maximum amount allowed is 50,000 USD.
+          description: The COD value for the package. Required if COD option is present. The maximum amount allowed is 50,000 USD.
           maximum: 1
           type: string
           minLength: 8
@@ -3153,7 +3153,7 @@ components:
       properties:
         CurrencyCode:
           description: The IATA currency code associated with the declared value amount
-            for the package.  Required if a value for the package declared value amount
+            for the package. Required if a value for the package declared value amount
             exists in the MonetaryValue tag. Must match one of the IATA currency codes.
             Length is not validated. UPS does not support all international currency
             codes. Refer to Currency Codes in the Appendix for a list of valid codes.
@@ -3163,7 +3163,7 @@ components:
           maxLength: 3
         MonetaryValue:
           description: The monetary value for the declared value amount associated
-            with the package.  Max value of 5,000 USD for Local and 50,000 USD for
+            with the package. Max value of 5,000 USD for Local and 50,000 USD for
             Remote. Absolute maximum value is 21474836.47
           maximum: 1
           type: string
@@ -3180,7 +3180,7 @@ components:
       - MonetaryValue
       properties:
         CurrencyCode:
-          description: The IATA currency code associated with the amount for the package.  UPS
+          description: The IATA currency code associated with the amount for the package. UPS
             does not support all international currency codes. Refer to the appendix
             for a list of valid codes.
           maximum: 1
@@ -3195,7 +3195,7 @@ components:
           maxLength: 19
       xml:
         name: ShipperDeclaredValue
-      description: Shipper Paid Declared Value Charge at Package level.   Valid for
+      description: Shipper Paid Declared Value Charge at Package level. Valid for
         UPS World Wide Express Freight shipments.
     PackageServiceOptions_Insurance:
       type: object
@@ -3216,7 +3216,7 @@ components:
       - MonetaryValue
       properties:
         CurrencyCode:
-          description: The IATA currency code associated with the amount for the package.  UPS
+          description: The IATA currency code associated with the amount for the package. UPS
             does not support all international currency codes. Refer to the appendix
             for a list of valid codes. Valid for UPS World Wide Express Freight shipments.
           maximum: 1
@@ -3224,7 +3224,7 @@ components:
           minLength: 3
           maxLength: 3
         MonetaryValue:
-          description: The monetary value associated with the package.  Valid for
+          description: The monetary value associated with the package. Valid for
             UPS World Wide Express Freight shipments.
           maximum: 1
           type: string
@@ -3232,7 +3232,7 @@ components:
           maxLength: 8
       xml:
         name: BasicFlexibleParcelIndicator
-      description: Container to hold Basic Flexible Parcel Indicator information.  Valid
+      description: Container to hold Basic Flexible Parcel Indicator information. Valid
         for UPS World Wide Express Freight shipments.
     Insurance_ExtendedFlexibleParcelIndicator:
       type: object
@@ -3242,7 +3242,7 @@ components:
       - MonetaryValue
       properties:
         CurrencyCode:
-          description: The IATA currency code associated with the amount for the package.  UPS
+          description: The IATA currency code associated with the amount for the package. UPS
             does not support all international currency codes. Refer to the appendix
             for a list of valid codes. Valid for UPS World Wide Express Freight shipments.
           maximum: 1
@@ -3250,7 +3250,7 @@ components:
           minLength: 3
           maxLength: 3
         MonetaryValue:
-          description: The monetary value associated with the package.  Valid for
+          description: The monetary value associated with the package. Valid for
             UPS World Wide Express Freight shipments.
           maximum: 1
           type: string
@@ -3268,7 +3268,7 @@ components:
       - MonetaryValue
       properties:
         CurrencyCode:
-          description: The IATA currency code associated with the amount for the package.  UPS
+          description: The IATA currency code associated with the amount for the package. UPS
             does not support all international currency codes. Refer to the appendix
             for a list of valid codes. Valid for UPS World Wide Express Freight shipments.
           maximum: 1
@@ -3276,7 +3276,7 @@ components:
           minLength: 3
           maxLength: 3
         MonetaryValue:
-          description: The monetary value associated with the package.  Valid for
+          description: The monetary value associated with the package. Valid for
             UPS World Wide Express Freight shipments.
           maximum: 1
           type: string
@@ -3284,14 +3284,14 @@ components:
           maxLength: 8
       xml:
         name: TimeInTransitFlexibleParcelIndicator
-      description: Container to hold Time In Transit Flexible Parcel Indicator information.  Valid
+      description: Container to hold Time In Transit Flexible Parcel Indicator information. Valid
         for UPS World Wide Express Freight shipments.
     PackageServiceOptions_HazMat:
       type: object
       maximum: 1
       properties:
         PackageIdentifier:
-          description: Identifies the package containing Dangerous Goods.  Required
+          description: Identifies the package containing Dangerous Goods. Required
             if SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3299,7 +3299,7 @@ components:
           maxLength: 5
         QValue:
           description: 'QValue is required when a HazMat shipment specifies AllPackedInOneIndicator
-            and the regulation set for that shipment is IATA.   Applies only if SubVersion
+            and the regulation set for that shipment is IATA. Applies only if SubVersion
             is greater than or equal to 1701. Valid values are : 0.1; 0.2; 0.3; 0.4;
             0.5; 0.6; 0.7; 0.8; 0.9; 1.0'
           maximum: 1
@@ -3308,13 +3308,13 @@ components:
           maxLength: 3
         OverPackedIndicator:
           description: Presence/Absence Indicator. Any value is ignored. Presence
-            indicates that shipment is overpack.  Applies only if SubVersion is greater
+            indicates that shipment is overpack. Applies only if SubVersion is greater
             than or equal to 1701.
           maximum: 1
           type: string
         AllPackedInOneIndicator:
           description: Presence/Absence Indicator. Any value is ignored. Indicates
-            the hazmat shipment/package is all packed in one.  Applies only if SubVersion
+            the hazmat shipment/package is all packed in one. Applies only if SubVersion
             is greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3327,13 +3327,13 @@ components:
         name: HazMat
       required:
       - HazMatChemicalRecord
-      description: Container to hold HazMat information.  Applies only if SubVersion
+      description: Container to hold HazMat information. Applies only if SubVersion
         is greater than or equal to 1701.
     HazMat_HazMatChemicalRecord:
       type: object
       properties:
         ChemicalRecordIdentifier:
-          description: Identifies the Chemcial Record.  Required if SubVersion is
+          description: Identifies the Chemcial Record. Required if SubVersion is
             greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3350,7 +3350,7 @@ components:
             Required if CommodityRegulatedLevelCode = LR, LQ or FR and if the field
             applies to the material by regulation. UN/NA/ID Identification Number
             assigned to the specified regulated good. (Include the UN/NA/ID as part
-            of the entry).  Applies only if SubVersion is greater than or equal to
+            of the entry). Applies only if SubVersion is greater than or equal to
             1701.
           maximum: 1
           type: string
@@ -3358,7 +3358,7 @@ components:
           maxLength: 6
         TransportationMode:
           description: 'The method of transport by which a shipment is approved to
-            move and the regulations associated with that method.  Only required when
+            move and the regulations associated with that method. Only required when
             the CommodityRegulatedLevelCode is FR or LQ.Valid values: 01 - Highway02
             - Ground03 - Passenger Aircraft04 - Cargo Aircraft Only  Applies only
             if SubVersion is greater than or equal to 1701. For multiple ChemicalRecords
@@ -3390,7 +3390,7 @@ components:
             for this field are (0) through (9) with trailing blanks. For numbers within
             the U.S., the layout is '1', area code, 7-digit number. For all other
             countries or territories the layout is country or territory code, area
-            code, number.  Applies only if SubVersion is greater than or equal to
+            code, number. Applies only if SubVersion is greater than or equal to
             1701.
           maximum: 1
           type: string
@@ -3401,7 +3401,7 @@ components:
             required to be communicated when a call is placed to the EmergencyPhoneNumber.
             The information is required if there is a value in the EmergencyPhoneNumber
             field above and the shipment is with a US50 or PR origin and/or destination
-            and the RegulationSet is IATA.  Applies only if SubVersion is greater
+            and the RegulationSet is IATA. Applies only if SubVersion is greater
             than or equal to 1701.
           maximum: 1
           type: string
@@ -3410,14 +3410,14 @@ components:
         ReportableQuantity:
           description: Required if CommodityRegulatedLevelCode = LQ or FR and if the
             field applies to the material by regulation. If reportable quantity is
-            met, 'RQ' should be entered.  Applies only if SubVersion is greater than
+            met, 'RQ' should be entered. Applies only if SubVersion is greater than
             or equal to 1701.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 2
         SubRiskClass:
-          description: Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation. Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma).  Applies only if SubVersion is greater than or equal to 1701.
+          description: Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation. Secondary hazardous characteristics of a package. (There can be more than one – separate each with a comma). Applies only if SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
           minLength: 1
@@ -3426,7 +3426,7 @@ components:
           description: This is the packing group category associated to the specified
             commodity. Required if CommodityRegulatedLevelCode = LQ or FR and if the
             field applies to the material by regulation. Must be shown in Roman Numerals.Valid
-            values are:I, II,III,blank.   Applies only if SubVersion is greater than
+            values are:I, II,III,blank. Applies only if SubVersion is greater than
             or equal to 1701.
           maximum: 1
           type: string
@@ -3434,7 +3434,7 @@ components:
           maxLength: 10
         Quantity:
           description: Required if CommodityRegulatedLevelCode = LQ or FR. The numerical
-            value of the mass capacity of the regulated good.  Applies only if SubVersion
+            value of the mass capacity of the regulated good. Applies only if SubVersion
             is greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3443,7 +3443,7 @@ components:
         UOM:
           description: 'Required if CommodityRegulatedLevelCode = LQ or FR. The unit
             of measure used for the mass capacity of the regulated good. For Example:
-            ml, L, g, mg, kg, cylinder, pound, pint, quart, gallon, ounce etc.  Applies
+            ml, L, g, mg, kg, cylinder, pound, pint, quart, gallon, ounce etc. Applies
             only if SubVersion is greater than or equal to 1701.'
           maximum: 1
           type: string
@@ -3452,7 +3452,7 @@ components:
         PackagingInstructionCode:
           description: The packing instructions related to the chemical record. Required
             if CommodityRegulatedLevelCode = LQ or FR and if the field applies to
-            the material by regulation.  Applies only if SubVersion is greater than
+            the material by regulation. Applies only if SubVersion is greater than
             or equal to 1701.
           maximum: 1
           type: string
@@ -3460,7 +3460,7 @@ components:
           maxLength: 353
         ProperShippingName:
           description: The Proper Shipping Name assigned by ADR, CFR or IATA. Required
-            if CommodityRegulatedLevelCode = LR, LQ or FR.  Applies only if SubVersion
+            if CommodityRegulatedLevelCode = LR, LQ or FR. Applies only if SubVersion
             is greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3469,7 +3469,7 @@ components:
         TechnicalName:
           description: The technical name (when required) for the specified commodity.
             Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies
-            to the material by regulation.  Applies only if SubVersion is greater
+            to the material by regulation. Applies only if SubVersion is greater
             than or equal to 1701.
           maximum: 1
           type: string
@@ -3479,7 +3479,7 @@ components:
           description: |
             Additional remarks or special provision information. Required if CommodityRegulatedLevelCode = LQ or FR and if the field applies to the material by regulation.
 
-            Additional information that may be required by regulation about a hazardous material, such as, "Limited Quantity", DOT-SP numbers, EX numbers.  Applies only if SubVersion is greater than or equal to 1701.
+            Additional information that may be required by regulation about a hazardous material, such as, "Limited Quantity", DOT-SP numbers, EX numbers. Applies only if SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
           minLength: 1
@@ -3487,14 +3487,14 @@ components:
         PackagingType:
           description: 'The package type code identifying the type of packaging used
             for the commodity. (Ex: Fiberboard Box). Required if CommodityRegulatedLevelCode
-            = LQ or FR.   Applies only if SubVersion is greater than or equal to 1701.'
+            = LQ or FR. Applies only if SubVersion is greater than or equal to 1701.'
           maximum: 1
           type: string
           minLength: 1
           maxLength: 255
         HazardLabelRequired:
           description: Defines the type of label that is required on the package for
-            the commodity. Not applicable if CommodityRegulatedLevelCode = LR or EQ.  Applies
+            the commodity. Not applicable if CommodityRegulatedLevelCode = LR or EQ. Applies
             only if SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3502,7 +3502,7 @@ components:
           maxLength: 50
         PackagingTypeQuantity:
           description: The number of pieces of the specific commodity. Required if
-            CommodityRegulatedLevelCode = LQ or FR.Valid values are 1 to 999.  Applies
+            CommodityRegulatedLevelCode = LQ or FR.Valid values are 1 to 999. Applies
             only if SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3511,21 +3511,21 @@ components:
         CommodityRegulatedLevelCode:
           description: Indicates the type of commodity - Fully Regulated (FR), Limited
             Quantity (LQ), Excepted Quantity (EQ), Lightly Regulated (LR). Default
-            value is FR.Valid values are LR, FR, LQ, EQ.   Applies only if SubVersion
+            value is FR.Valid values are LR, FR, LQ, EQ. Applies only if SubVersion
             is greater than or equal to 1701.
           maximum: 1
           type: string
           minLength: 2
           maxLength: 2
         TransportCategory:
-          description: Transport Category.Valid values are 0 to 4.  Applies only if
+          description: Transport Category.Valid values are 0 to 4. Applies only if
             SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 1
         TunnelRestrictionCode:
-          description: Defines what is restricted to pass through a tunnel.  Applies
+          description: Defines what is restricted to pass through a tunnel. Applies
             only if SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
@@ -3547,7 +3547,7 @@ components:
         RegulationSet:
           description: 'Regulation set for DryIce Shipment. Valid values: CFR = For
             HazMat regulated by US Dept of Transportation within the U.S. or ground
-            shipments to Canada,IATA = For Worldwide Air movement.   The following
+            shipments to Canada,IATA = For Worldwide Air movement. The following
             values are valid: CFR and IATA.'
           maximum: 1
           type: string
@@ -3570,7 +3570,7 @@ components:
           type: string
       xml:
         name: DryIce
-      description: Container to hold Dry Ice information.  Lane check will happen
+      description: Container to hold Dry Ice information. Lane check will happen
         based on postal code/ city.
     DryIce_DryIceWeight:
       type: object
@@ -3668,7 +3668,7 @@ components:
         SaturdayPickupIndicator:
           description: A flag indicating if the shipment requires a Saturday pickup.
             True if SaturdayPickupIndicator tag exists; false otherwise. Not available
-            for GFP rating requests.  Empty Tag.
+            for GFP rating requests. Empty Tag.
           maximum: 1
           type: string
         SaturdayDeliveryIndicator:
@@ -3684,7 +3684,7 @@ components:
         AvailableServicesOption:
           description: If we need diferent available services in response, this option
             is used for shop request option. SaturdayDeliveryIndicator/ SundayDeliveryIndicator
-            will be ignored in that case.  Valid Values:1- Weekday+Saturday services2-
+            will be ignored in that case. Valid Values:1- Weekday+Saturday services2-
             Weekday+Sunday services3- Weekday+Sat services+Sun services
           maximum: 1
           type: string
@@ -3698,12 +3698,12 @@ components:
 
             DeliverToAddresseeOnlyIndicator is shipper specified restriction that requires the addressee to be the one who takes final delivery of the "Hold For PickUp at UPS Access Point" package.
 
-            Presence of indicator means shipper restriction will apply to the shipment.  Only valid for Shipment Indication type "01 - Hold For PickUp at UPS Access Point".
+            Presence of indicator means shipper restriction will apply to the shipment. Only valid for Shipment Indication type "01 - Hold For PickUp at UPS Access Point".
           maximum: 1
           type: string
         DirectDeliveryOnlyIndicator:
           description: |
-            Presence/Absence Indicator. Any value inside is ignored. Direct Delivery Only (DDO) accessorial in a request would ensure that delivery is made only to the Ship To address on the shipping label.  This accessorial is not valid with Shipment Indication Types:
+            Presence/Absence Indicator. Any value inside is ignored. Direct Delivery Only (DDO) accessorial in a request would ensure that delivery is made only to the Ship To address on the shipping label. This accessorial is not valid with Shipment Indication Types:
             - 01 - Hold For Pickup At UPS Access Point
             - 02 - UPS Access Point™ Delivery
           maximum: 1
@@ -3725,7 +3725,7 @@ components:
           type: string
         CertificateOfOriginIndicator:
           description: The empty tag in request indicates that customer would be using
-            UPS prepared SED form.  Valid for UPS World Wide Express Freight shipments.
+            UPS prepared SED form. Valid for UPS World Wide Express Freight shipments.
           maximum: 1
           type: string
         PickupOptions:
@@ -3736,7 +3736,7 @@ components:
           "$ref": "#/components/schemas/ShipmentServiceOptions_RestrictedArticles"
         ShipperExportDeclarationIndicator:
           description: The empty tag in request indicates that customer would be using
-            UPS prepared SED form.  Valid for UPS World Wide Express Freight shipments.
+            UPS prepared SED form. Valid for UPS World Wide Express Freight shipments.
           maximum: 1
           type: string
         CommercialInvoiceRemovalIndicator:
@@ -3753,7 +3753,7 @@ components:
         SDLShipmentIndicator:
           description: Empty Tag means the indicator is present. This field is a flag
             to indicate if the receiver needs SDL rates in response. True if SDLShipmentIndicator
-            tag exists; false otherwise.  If present, the State Department License
+            tag exists; false otherwise. If present, the State Department License
             (SDL) rates will be returned in the response.This service requires that
             the account number is enabled for SDL.
           maximum: 1
@@ -3777,7 +3777,7 @@ components:
           maxLength: 2
         ItemDisposalIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. If
-            present, indicates that the customer would like items disposed.   Shippers
+            present, indicates that the customer would like items disposed. Shippers
             account needs to have a valid contract for Heavy Goods Service.
           maximum: 1
           type: string
@@ -3792,7 +3792,7 @@ components:
       - MonetaryValue
       properties:
         CurrencyCode:
-          description: Access Point COD Currency Code.  Required if Access Point COD
+          description: Access Point COD Currency Code. Required if Access Point COD
             container is present. UPS does not support all international currency
             codes. Refer to the appendix for a list of valid codes.
           maximum: 1
@@ -3801,7 +3801,7 @@ components:
           maxLength: 3
         MonetaryValue:
           description: |
-            Access Point COD Monetary Value.  Required if Access Point COD container is present.
+            Access Point COD Monetary Value. Required if Access Point COD container is present.
 
             8 digits prior to the decimal place and 2 after.
           maximum: 1
@@ -3811,7 +3811,7 @@ components:
       xml:
         name: AccessPointCOD
       description: |
-        Access Point COD indicates Shipment level Access Point COD is requested for a shipment.  Valid only for "01 - Hold For Pickup At UPS Access Point" Shipment Indication type.
+        Access Point COD indicates Shipment level Access Point COD is requested for a shipment. Valid only for "01 - Hold For Pickup At UPS Access Point" Shipment Indication type.
 
         Shipment Access Point COD is valid only for countries or territories within E.U.
 
@@ -3835,7 +3835,7 @@ components:
           "$ref": "#/components/schemas/ShipmentServiceOptions_COD_CODAmount"
       xml:
         name: COD
-      description: If present, indicates C.O.D. is requested for the shipment.  Shipment
+      description: If present, indicates C.O.D. is requested for the shipment. Shipment
         level C.O.D. is only available for EU origin countries or territories.C.O.D.
         shipments are only available for Shippers with Daily Pickup and Drop Shipping
         accounts.
@@ -3860,7 +3860,7 @@ components:
           maxLength: 8
       xml:
         name: CODAmount
-      description: CODAmount Container.  UPS does not support all international currency codes. Refer to the appendix for a list of valid codes.
+      description: CODAmount Container. UPS does not support all international currency codes. Refer to the appendix for a list of valid codes.
     ShipmentServiceOptions_DeliveryConfirmation:
       type: object
       maximum: 1
@@ -3868,13 +3868,13 @@ components:
       - DCISType
       properties:
         DCISType:
-          description: 'Type of delivery confirmation.  Valid values: 1 - Delivery
+          description: 'Type of delivery confirmation. Valid values: 1 - Delivery
             Confirmation Signature Required 2 - Delivery Confirmation Adult Signature
             Required'
           type: string
       xml:
         name: DeliveryConfirmation
-      description: Delivery Confirmation Container.  DeliveryConfirmation and C.O.D.
+      description: Delivery Confirmation Container. DeliveryConfirmation and C.O.D.
         are mutually exclusive. Refer to the Appendix for a list of valid origin-destination
         country or territory pairs associated with each confirmation type.
     ShipmentServiceOptions_PickupOptions:
@@ -3893,7 +3893,7 @@ components:
           type: string
       xml:
         name: PickupOptions
-      description: Shipment Service Pickup Options Container.  Valid for UPS Worldwide
+      description: Shipment Service Pickup Options Container. Valid for UPS Worldwide
         Express Freight and UPS Worldwide Express Freight Midday shipments.
     ShipmentServiceOptions_DeliveryOptions:
       type: object
@@ -3911,7 +3911,7 @@ components:
           type: string
       xml:
         name: DeliveryOptions
-      description: Shipment Service Delivery Options Container.  Valid for UPS Worldwide
+      description: Shipment Service Delivery Options Container. Valid for UPS Worldwide
         Express Freight and UPS Worldwide Express Freight Midday shipments.
     ShipmentServiceOptions_RestrictedArticles:
       type: object
@@ -3919,62 +3919,62 @@ components:
       properties:
         AlcoholicBeveragesIndicator:
           description: This field is a flag to indicate if the package has Alcohol.
-            True if present; false otherwise.  Valid for UPS World Wide Express Freight
+            True if present; false otherwise. Valid for UPS World Wide Express Freight
             shipments.
           maximum: 1
           type: string
         DiagnosticSpecimensIndicator:
           description: This field is a flag to indicate if the package has Biological
-            substances. True if present; false otherwise.  Valid for UPS World Wide
+            substances. True if present; false otherwise. Valid for UPS World Wide
             Express Freight shipments. Lane check will happen based on postal code/
             city.
           maximum: 1
           type: string
         PerishablesIndicator:
           description: This field is a flag to indicate if the package has Perishables.
-            True if present; false otherwise.  Valid for UPS World Wide Express Freight
+            True if present; false otherwise. Valid for UPS World Wide Express Freight
             shipments.
           maximum: 1
           type: string
         PlantsIndicator:
           description: This field is a flag to indicate if the package has Plants.
-            True if present; false otherwise.  Valid for UPS World Wide Express Freight
+            True if present; false otherwise. Valid for UPS World Wide Express Freight
             shipments.
           maximum: 1
           type: string
         SeedsIndicator:
           description: This field is a flag to indicate if the package has Seeds.
-            True if present; false otherwise.  Valid for UPS World Wide Express Freight
+            True if present; false otherwise. Valid for UPS World Wide Express Freight
             shipments.
           maximum: 1
           type: string
         SpecialExceptionsIndicator:
           description: This field is a flag to indicate if the package has Special
-            Exceptions Restricted Materials. True if present; false otherwise.  Valid
+            Exceptions Restricted Materials. True if present; false otherwise. Valid
             for UPS World Wide Express Freight shipments.
           maximum: 1
           type: string
         TobaccoIndicator:
           description: This field is a flag to indicate if the package has Tobacco.
-            True if present; false otherwise.  Valid for UPS World Wide Express Freight
+            True if present; false otherwise. Valid for UPS World Wide Express Freight
             shipments.
           maximum: 1
           type: string
         ECigarettesIndicator:
           description: This field is a flag to indicate if the package has E-Cigarettes.
-            True if present; false otherwise.  Valid for UPS World Wide Express Freight
+            True if present; false otherwise. Valid for UPS World Wide Express Freight
             shipments.
           maximum: 1
           type: string
         HempCBDIndicator:
           description: This field is a flag to indicate if the package has Hemp/CBD.
-            True if present; false otherwise.  Valid for UPS World Wide Express Freight
+            True if present; false otherwise. Valid for UPS World Wide Express Freight
             shipments.
           maximum: 1
           type: string
       xml:
         name: RestrictedArticles
-      description: Restricted Articles container.  Valid for UPS World Wide Express
+      description: Restricted Articles container. Valid for UPS World Wide Express
         Freight shipments.
     ShipmentServiceOptions_ImportControl:
       type: object
@@ -4053,7 +4053,7 @@ components:
           type: string
         FRSShipmentIndicator:
           description: FRS Indicator. The indicator is required to obtain rates for
-            UPS Ground Freight Pricing (GFP).  The account number must be enabled
+            UPS Ground Freight Pricing (GFP). The account number must be enabled
             for GFP.
           maximum: 1
           type: string
@@ -4064,7 +4064,7 @@ components:
           type: string
         UserLevelDiscountIndicator:
           description: UserLevelDiscountIndicator - required to obtain rates for User
-            Level Promotions.  This is required to obtain User Level Discounts. There
+            Level Promotions. This is required to obtain User Level Discounts. There
             must also be no ShipperNumber in the Shipper container.
           maximum: 1
           type: string
@@ -4089,7 +4089,7 @@ components:
         CurrencyCode:
           description: 'Invoice Line Total Currency type. The Currency code should
             match the origin country''s or territory''s currency code, otherwise the
-            currency code entered will be ignored.  Note: UPS doesn''t support all
+            currency code entered will be ignored. Note: UPS doesn''t support all
             international currency codes. Please check the developer guides for Supported
             Currency codes.'
           maximum: 1
@@ -4097,14 +4097,14 @@ components:
           minLength: 3
           maxLength: 3
         MonetaryValue:
-          description: Total amount of the invoice accompanying the shipment. Required when the InvoiceLineTotal container exists in the rate request.  Valid values are from 1 to 99999999.
+          description: Total amount of the invoice accompanying the shipment. Required when the InvoiceLineTotal container exists in the rate request. Valid values are from 1 to 99999999.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 19
       xml:
         name: InvoiceLineTotal
-      description: Container to hold InvoiceLineTotal Information.  Required if the
+      description: Container to hold InvoiceLineTotal Information. Required if the
         shipment is from US/PR Outbound to non US/PR destination with the PackagingType
         of UPS PAK(04).Required for international shipments when using request option
         "ratetimeintransit" or "shoptimeintransit".
@@ -4116,7 +4116,7 @@ components:
       - PromoCode
       properties:
         PromoCode:
-          description: Promotion Code. A discount that is applied to the user.  Required
+          description: Promotion Code. A discount that is applied to the user. Required
             if PromotionalDiscountInformation container is present.
           maximum: 1
           type: string
@@ -4162,7 +4162,7 @@ components:
       xml:
         name: DeliveryTimeInformation
       description: Container for requesting Time In Transit Information. Required
-        to view time in transit information.  Required to view any time in transit
+        to view time in transit information. Required to view any time in transit
         information.
     DeliveryTimeInformation_Pickup:
       type: object
@@ -4171,13 +4171,13 @@ components:
       - Date
       properties:
         Date:
-          description: "Shipment Date; The Pickup date is a Shipment Date and it is a required input field.  The user is allowed to query up to 35 days into the past and 60 days into the future. Format: YYYYMMDD  If a date is not provided, it will be defaulted to the current system date."
+          description: "Shipment Date; The Pickup date is a Shipment Date and it is a required input field. The user is allowed to query up to 35 days into the past and 60 days into the future. Format: YYYYMMDD  If a date is not provided, it will be defaulted to the current system date."
           maximum: 1
           type: string
           minLength: 8
           maxLength: 8
         Time:
-          description: Reflects the time the package is tendered to UPS for shipping (can be dropped off at UPS or picked up by UPS).  Military Time Format HHMMSS or HHMM.   Invalid pickup time will not be validated.
+          description: Reflects the time the package is tendered to UPS for shipping (can be dropped off at UPS or picked up by UPS). Military Time Format HHMMSS or HHMM. Invalid pickup time will not be validated.
           maximum: 1
           type: string
           minLength: 4
@@ -4236,7 +4236,7 @@ components:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -4264,14 +4264,14 @@ components:
       - Code
       properties:
         Code:
-          description: Identifies the success or failure of the transaction.   1 =
+          description: Identifies the success or failure of the transaction. 1 =
             Successful
           maximum: 1
           type: string
           minLength: 1
           maxLength: 1
         Description:
-          description: Describes Response Status Code.  Returns text of "Success"
+          description: Describes Response Status Code. Returns text of "Success"
             for a valid request.
           maximum: 1
           type: string
@@ -4434,8 +4434,8 @@ components:
             "$ref": "#/components/schemas/RatedShipment_RatedShipmentAlert"
         BillableWeightCalculationMethod:
           description: Indicates whether the billable weight calculation method is
-            utilized at the package or shipment level.  This information will be returned
-            only if RatingMethodRequestedIndicator is present in the request.  Possible
+            utilized at the package or shipment level. This information will be returned
+            only if RatingMethodRequestedIndicator is present in the request. Possible
             values:01 = Shipment Billable Weight02 = Package Billable Weight
           maximum: 1
           type: string
@@ -4444,7 +4444,7 @@ components:
         RatingMethod:
           description: Indicates whether the Shipment was rated at the shipment-level
             or the package-level. This information will be returned only if RatingMethodRequestedIndicator
-            is present in the request.  Possible values:01 = Shipment level02 = Package
+            is present in the request. Possible values:01 = Shipment level02 = Package
             level
           maximum: 1
           type: string
@@ -4584,7 +4584,7 @@ components:
         UnitOfMeasurement:
           "$ref": "#/components/schemas/BillingWeight_UnitOfMeasurement"
         Weight:
-          description: The value for the billable weight associated with the shipment.  When using a negotiated divisor different from the published UPS divisor (139 for inches and 5,000 for cm), the weight returned is based on the published divisor. Rates, however, are based on the negotiated divisor.
+          description: The value for the billable weight associated with the shipment. When using a negotiated divisor different from the published UPS divisor (139 for inches and 5,000 for cm), the weight returned is based on the published divisor. Rates, however, are based on the negotiated divisor.
           maximum: 1
           type: string
           minLength: 1
@@ -4660,7 +4660,7 @@ components:
           maxLength: 16
       xml:
         name: BaseServiceCharge
-      description: Base Service Charge Container.  These charges would be returned
+      description: Base Service Charge Container. These charges would be returned
         only when subversion is greater than or equal to 1701
     RatedShipment_ItemizedCharges:
       type: object
@@ -4721,7 +4721,7 @@ components:
             "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
       xml:
         name: FRSShipmentData
-      description: FRSShipmentData container.  Only returned when the FRSShipmentIIndicator
+      description: FRSShipmentData container. Only returned when the FRSShipmentIIndicator
         is used. UPS Ground Freight Pricing Only.
       maximum: 1
     FRSShipmentData_TransportationCharges:
@@ -4870,7 +4870,7 @@ components:
       - Value
       properties:
         Value:
-          description: Adjusted Height value for the handling unit.  Adjusted Height
+          description: Adjusted Height value for the handling unit. Adjusted Height
             is done only when Handling unit type is SKD = Skid or PLT = Pallet.
           maximum: 1
           type: string
@@ -4904,7 +4904,7 @@ components:
           maxLength: 19
       xml:
         name: BaseServiceCharge
-      description: Base Service Charge Container.  These charges would be returned
+      description: Base Service Charge Container. These charges would be returned
         only when subversion is greater than or equal to 1701
     RatedShipment_ServiceOptionsCharges:
       type: object
@@ -4942,7 +4942,7 @@ components:
           minLength: 1
           maxLength: 9
         MonetaryValue:
-          description: Tax Monetary Value represent the Tax amount.  Valid values
+          description: Tax Monetary Value represent the Tax amount. Valid values
             are from 0 to 99999999999999.99
           maximum: 1
           type: string
@@ -4987,7 +4987,7 @@ components:
           minLength: 3
           maxLength: 3
         MonetaryValue:
-          description: TotalChargesWithTaxes monetary value amount.  Valid values
+          description: TotalChargesWithTaxes monetary value amount. Valid values
             are from 0 to 99999999999999.99
           maximum: 1
           type: string
@@ -5011,14 +5011,14 @@ components:
         RateModifier:
           description: |
             RateModifier inside Negotiated charges container to hold Modifier charges at package level
-            
+
             **Note:** Applies only if SubVersion is 2407 and greater (Rate OAuth)
           type: array
           items:
             "$ref": "#/components/schemas/NegotiatedRateCharges_RateModifier"
         ItemizedCharges:
           description: |
-              Itemized Charges are returned only when the subversion element is present and greater than or equal to '1601'.  These charges would be returned only when subversion is greater than or equal to 1601.
+              Itemized Charges are returned only when the subversion element is present and greater than or equal to '1601'. These charges would be returned only when subversion is greater than or equal to 1601.
 
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -5040,7 +5040,7 @@ components:
         name: NegotiatedRateCharges
       required:
       - TotalCharge
-      description: Negotiated Rate Charges Container.  For tiered rates and promotional
+      description: Negotiated Rate Charges Container. For tiered rates and promotional
         discounts, if a particular shipment based on zone, origin, destination or
         even shipment size doesn't qualify for the existing discount then no negotiated
         rates container will be returned. Published rates will be the applicable rate.
@@ -5139,7 +5139,7 @@ components:
             to a shipment. Please refer to Appendix I for possible Tax Type codes.
           type: string
         MonetaryValue:
-          description: Tax Monetary Value represent the Tax amount.  Valid values
+          description: Tax Monetary Value represent the Tax amount. Valid values
             are from 0 to 99999999999999.99
           type: string
       xml:
@@ -5188,7 +5188,7 @@ components:
             used in the Shipment request is returned.
           type: string
         MonetaryValue:
-          description: TotalChargesWithTaxes monetary value amount.  Valid values
+          description: TotalChargesWithTaxes monetary value amount. Valid values
             are from 0 to 99999999999999.99
           type: string
       xml:
@@ -5214,7 +5214,7 @@ components:
           "$ref": "#/components/schemas/RatedPackage_BillingWeight"
         Accessorial:
           description: |
-              The container for Accessorial indicators. This information would be returned only if ItemizedChargesRequested was present during Rate request. This is valid only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Mid-day service request with Dry Ice or Oversize Pallet and SubVersion greater than or equal to 1707.  This is valid only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Middday Service.
+              The container for Accessorial indicators. This information would be returned only if ItemizedChargesRequested was present during Rate request. This is valid only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Mid-day service request with Dry Ice or Oversize Pallet and SubVersion greater than or equal to 1707. This is valid only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Middday Service.
 
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -5222,7 +5222,7 @@ components:
             "$ref": "#/components/schemas/RatedPackage_Accessorial"
         ItemizedCharges:
           description: |
-              Itemized Charges are returned only when the subversion element is present and greater than or equal to '1607'.  These charges would be returned only when subversion is greater than or equal to 1607.
+              Itemized Charges are returned only when the subversion element is present and greater than or equal to '1607'. These charges would be returned only when subversion is greater than or equal to 1607.
 
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -5309,7 +5309,7 @@ components:
         UnitOfMeasurement:
           "$ref": "#/components/schemas/RatedPackage_BillingWeight_UnitOfMeasurement"
         Weight:
-          description: The value for the billable weight associated with the package.  When
+          description: The value for the billable weight associated with the package. When
             using a negotiated divisor different from the published UPS divisor (139
             for inches and 5,000 for cm), the weight returned is based on the published
             divisor. Rates, however, are based on the negotiated divisor.
@@ -5439,14 +5439,14 @@ components:
         RateModifier:
           description: |
             RateModifier inside Negotiated charges container to hold Modifier charges at package level
-            
+
             **Note:** Applies only if SubVersion is 2407 and greater (Rate OAuth)
           type: array
           items:
             "$ref": "#/components/schemas/NegotiatedCharges_RateModifier"
         ItemizedCharges:
           description: |
-              Negotiated Itemized Accessorial and Sur Charges.  These charges would be returned only when subversion is greater than or equal to 1607.
+              Negotiated Itemized Accessorial and Sur Charges. These charges would be returned only when subversion is greater than or equal to 1607.
 
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
@@ -5454,7 +5454,7 @@ components:
             "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
       xml:
         name: NegotiatedCharges
-      description: Negotiated Rates container.  These charges would be returned only
+      description: Negotiated Rates container. These charges would be returned only
         when -1) subversion is greater than or equal to 16072) if negotiated rates
         were requested for GFP shipments and account number is eligible to receive
         negotiated rates.
@@ -5556,7 +5556,7 @@ components:
           description: 'The date the user requests UPS to pickup the package from
             the origin. Format: YYYYMMDD. In the event this Pickup date differs from
             the Pickup date in the Estimated Arrival Container, a warning will be
-            returned.  In the event this Pickup date differs from the Pickup date
+            returned. In the event this Pickup date differs from the Pickup date
             in the Estimated Arrival Container, a warning will be returned.'
           maximum: 1
           type: string
@@ -5595,7 +5595,7 @@ components:
           type: string
       xml:
         name: TimeInTransit
-      description: Container for returned Time in Transit information.  Will only
+      description: Container for returned Time in Transit information. Will only
         be returned if request option was either "ratetimeintransit" or "shoptimeintransit"
         and DeliveryTimeInformation container was present in request.
     TimeInTransit_ServiceSummary:
@@ -5608,7 +5608,7 @@ components:
           "$ref": "#/components/schemas/ServiceSummary_Service"
         GuaranteedIndicator:
           description: Empty Tag. Indicates whether the service will be guaranteed
-            or not.  Required for International Requests.
+            or not. Required for International Requests.
           maximum: 1
           type: string
         Disclaimer:
@@ -5638,12 +5638,12 @@ components:
             Delivery Available with additional charges 0 - Sunday Delivery not available
             or no additional charge, please check Delivery Date to confirm if the
             Delivery will be SundayPlease see Saturday Delivery business rules section
-            for more information.  Applies only if SubVersion is greater than or equal
+            for more information. Applies only if SubVersion is greater than or equal
             to 2007
           maximum: 1
           type: string
         SundayDeliveryDisclaimer:
-          description: Sunday delivery disclaimer message.  Applies only if SubVersion
+          description: Sunday delivery disclaimer message. Applies only if SubVersion
             is greater than or equal to 2007
           maximum: 1
           type: string
