@@ -111,8 +111,8 @@ servers:
     description: UPS Production CIE OAuth. This is for integration testing only and it will not create any subscription.
     variables:
       version:
-       default: v1
-       enum:
+        default: v1
+        enum:
           - v1
   - url: https://onlinetools.ups.com/api/track/{version}
     description: UPS Production OAuth.
@@ -124,11 +124,11 @@ servers:
 paths:
   /subscription/standard/package:
     post:
-      description: |
-         This endpoint takes a list of tracking numbers and creates a subscription for each.
-         Clients must provide the tracking numbers in the correct format.
+      description: |-
+        This endpoint takes a list of tracking numbers and creates a subscription for each.
+        Clients must provide the tracking numbers in the correct format.
 
-         Upon success it should return:
+        Upon success it should return:
          - List of valid tracking number for which subscription created.
          - List of invalid tracking number for which subscription not created.
       tags:
@@ -443,13 +443,13 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
-      description: |
-        "Find your Client ID and Secret on your app info page.
-         1. Select "Try It"
-         2. In the Security section enter your Client ID and Secret.
-         3. Select \"Request Token\"
-         4. Enter any additional information in the Body and Parameters sections.
-         5. Select "Send" to execute your API request"
+      description: |-
+        Find your Client ID and Secret on your app info page.
+        1. Select "Try It"
+        2. In the Security section enter your Client ID and Secret.
+        3. Select "Request Token"
+        4. Enter any additional information in the Body and Parameters sections.
+        5. Select "Send" to execute your API request
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
@@ -551,7 +551,7 @@ components:
     Response:
       type: object
       properties:
-         errors:
+        errors:
           type: array
           description: The error response containing any errors that occurred.
           items:

@@ -276,11 +276,11 @@ components:
       type: "oauth2"
       description: |
         Find your Client ID and Secret on your app info page.
-         1. Select **Try It**
-         2. In the Security section enter your **Client ID** and **Secret**
-         3. Select **Request Token**
-         4. Enter values for all parameters and properties
-         5. Select **Send** to send your API request
+        1. Select **Try It**
+        2. In the Security section enter your **Client ID** and **Secret**
+        3. Select **Request Token**
+        4. Enter values for all parameters and properties
+        5. Select **Send** to send your API request
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic

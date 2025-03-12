@@ -285,20 +285,19 @@ components:
     BasicAuthGenerate:
       type: http
       scheme: basic
-      description: |
-       - **Flow 1: Plain Auth-Code**
-
-       Find your Client ID and Secret on your app info page.
-        1. Select \"Try It\"
+      description: |-
+        - **Flow 1: Plain Auth-Code**
+        Find your Client ID and Secret on your app info page.
+        1. Select "Try It"
         2. In the Security section enter your Client ID as the Username and your Secret as the Password.
         3. Enter any additional information in the Body and Parameters sections.
-        4. Select \"Send\" to execute your API request
+        4. Select "Send" to execute your API request
 
         - **Flow 2: Auth-Code with PKCE [no http Authorization header required]**
-        1. Select \"Try It\"
+        1. Select "Try It"
         2. Include the **client_id** and **code_verifier** parameters in the body of the request. Do not include an Authorization header.
         3. Enter any additional information in the Body and Parameters sections.
-        4. Select \"Send\" to execute your API request
+        4. Select "Send" to execute your API request
     BasicAuthRefresh:
       type: http
       scheme: basic

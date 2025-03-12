@@ -88,9 +88,9 @@ paths:
                   value:
                     transId: "4ce27ff5-8e17-4797-a8c1-089796db"
                     label:
-                       opTyp: "PNG"
-                       lblNmbr: "MVpJU1VTMDE2NzIzODc4Mjc3"
-                       lblData: "asdfhkjuiovrtyuiopfghjkxcv"
+                      opTyp: "PNG"
+                      lblNmbr: "MVpJU1VTMDE2NzIzODc4Mjc3"
+                      lblData: "asdfhkjuiovrtyuiopfghjkxcv"
 
 
 
@@ -127,12 +127,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
-               GCCNNotFound:
+                GCCNNotFound:
                   value:
                     errors:
-                      -  code: "20008"
-                         message: "GCCN Not Found"
-               AccountNumberNotFound:
+                      - code: "20008"
+                        message: "GCCN Not Found"
+                AccountNumberNotFound:
                   value:
                     errors:
                       - code: "20008"
@@ -195,9 +195,9 @@ paths:
                 $ref: '#/components/schemas/deleteResponse'
               examples:
                 WeDeleteResponseSummary:
-                 value:
-                  code: "1"
-                  message: "The Delete request has been done successfully for the following GCCN - 12345678901 "
+                  value:
+                    code: "1"
+                    message: "The Delete request has been done successfully for the following GCCN - 12345678901 "
 
         '400':
           description: "Missing required values or incorrect values or validation fails"
@@ -234,8 +234,8 @@ paths:
                 GCCNNotFound:
                   value:
                     errors:
-                      -  code: "20008"
-                         message: "GCCN Not Found"
+                      - code: "20008"
+                        message: "GCCN Not Found"
                 AccountNumberNotFound:
                   value:
                     errors:
@@ -299,9 +299,9 @@ paths:
                 $ref: '#/components/schemas/deleteResponse'
               examples:
                 WeDeleteResponseSummary:
-                 value:
-                  code: "1"
-                  message: "The Delete request has been done successfully for the following 1Z tracking Number- 1Z9991450419000046 "
+                  value:
+                    code: "1"
+                    message: "The Delete request has been done successfully for the following 1Z tracking Number- 1Z9991450419000046 "
         '400':
           description: "Missing required values or incorrect values or validation fails"
           content:
@@ -336,14 +336,14 @@ paths:
               examples:
                 GCCNNotFound:
                   value:
-                     errors:
-                       - code: "20008"
-                         message: "GCCN Not Found"
+                    errors:
+                      - code: "20008"
+                        message: "GCCN Not Found"
                 TrackingNumberNotFound:
                   value:
-                     errors:
-                      -  code: "20008"
-                         message: "1Z Tracking Number Not Found"
+                    errors:
+                      - code: "20008"
+                        message: "1Z Tracking Number Not Found"
 
 
 
@@ -352,13 +352,13 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
-      description: |
+      description: |-
         Find your Client ID and Secret on your app info page.
-          1. Select "Try It"
-          2. In the Security section enter your Client ID and Secret
-          3. Select "Request Token"
-          4. Enter any additional information in the Body and Parameters sections
-          5. Select "Send" to execute your API request"
+        1. Select "Try It"
+        2. In the Security section enter your Client ID and Secret
+        3. Select "Request Token"
+        4. Enter any additional information in the Body and Parameters sections
+        5. Select "Send" to execute your API request
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
@@ -430,14 +430,14 @@ components:
             $ref: "#/components/schemas/Error"
 
     Error:
-     type: object
-     properties:
-      code:
-        type: "string"
-        description: "The code is specific to the error "
-      message:
-        type: "string"
-        description: "The message that associated with the above error code "
+      type: object
+      properties:
+        code:
+          type: "string"
+          description: "The code is specific to the error "
+        message:
+          type: "string"
+          description: "The message that associated with the above error code "
 
 
     CustomTransactionId:

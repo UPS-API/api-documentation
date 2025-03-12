@@ -360,10 +360,10 @@ components:
         signature:
           $ref: "#/components/schemas/Signature"
         pod:
-           title: POD
-           type: object
-           description: Container which contains Proof of Delivery.
-           properties:
+          title: POD
+          type: object
+          description: Container which contains Proof of Delivery.
+          properties:
             content:
               type: string
               description: 'The base64 encoded string representation of the Delivery Proof. Note: This is considered sensitive data and may only be returned for a user that has rights to the package.'

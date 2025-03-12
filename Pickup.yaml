@@ -877,7 +877,7 @@ components:
             3 – Standard List Rates
             4 – Retail Rates.
 
-             Alaska/Hawaii origin:
+            Alaska/Hawaii origin:
             1 – Daily Rates
             3 – Standard List Rates
             4 – Retail Rates.
@@ -1201,12 +1201,12 @@ components:
           minLength: 3
           maxLength: 3
         ChargeDetail:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/RateResult_ChargeDetail"
         TaxCharges:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/RateResult_TaxCharges"
         TotalTax:
           description: The sum of all taxes.
@@ -1448,8 +1448,8 @@ components:
         ResponseStatus:
           $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
           $ref: "#/components/schemas/Response_TransactionReference"
@@ -1539,7 +1539,7 @@ components:
             - 3 – Standard List Rates
             - 4 – Retail Rates.
 
-             Alaska/Hawaii origin:
+            Alaska/Hawaii origin:
             - 1 – Daily Rates
             - 3 – Standard List Rates
             - 4 – Retail Rates.
@@ -2322,8 +2322,8 @@ components:
         ResponseStatus:
           $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
           $ref: "#/components/schemas/Response_TransactionReference"
@@ -2833,8 +2833,8 @@ components:
         ResponseStatus:
           $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
           $ref: "#/components/schemas/Response_TransactionReference"
@@ -3232,8 +3232,8 @@ components:
       - DayOfWeek
       properties:
         DayOfWeek:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/PickupFacilities_FacilityTime_DayOfWeek"
       xml:
         name: FacilityTime
@@ -3382,8 +3382,8 @@ components:
         ResponseStatus:
           $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
           $ref: "#/components/schemas/Response_TransactionReference"

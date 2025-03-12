@@ -193,13 +193,13 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
-      description: |
+      description: |-
         Find your Client ID and Secret on your app info page.
-          1. Select "Try It"
-          2. In the Security section enter your Client ID and Secret
-          3. Select "Request Token"
-          4. Enter any additional information in the Body and Parameters sections
-          5. Select "Send" to execute your API request"
+        1. Select "Try It"
+        2. In the Security section enter your Client ID and Secret
+        3. Select "Request Token"
+        4. Enter any additional information in the Body and Parameters sections
+        5. Select "Send" to execute your API request
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
@@ -256,7 +256,7 @@ components:
           description: One or more validation errors occurred
         status:
           type: integer
-          description: '* 400'
+          description:'* 400'
         traceId:
           type: string
           description: auto generated Id

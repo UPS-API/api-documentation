@@ -1287,7 +1287,7 @@ components:
         UOM:
           description: |-
             Required if CommodityRegulatedLevelCode = LQ or FR. The unit of measure used for the mass capacity of the regulated good.
-               Example: ml, L, g, mg, kg, cylinder, pound, pint, quart, gallon, ounce etc.
+            Example: ml, L, g, mg, kg, cylinder, pound, pint, quart, gallon, ounce etc.
           maximum: 1
           type: string
           minLength: 1
@@ -1488,8 +1488,8 @@ components:
           minLength: 1
           maxLength: 1
         ElementIdentifier:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/ElementLevelInformation_ElementIdentifier"
       xml:
         name: ElementLevelInformation

@@ -48,7 +48,7 @@ paths:
           minimum: 1
         description: "Valid values: True or False. If True, either the region element
           or any  combination of Political Division 1,  Political Division 2, PostcodePrimaryLow
-           and the PostcodeExtendedLow fields will  be recognized for validation
+          and the PostcodeExtendedLow fields will  be recognized for validation
           in addition to  the urbanization element. If False or no  indicator, street
           level address validation  is provided"
         required: false
@@ -167,7 +167,7 @@ paths:
           minimum: 1
         description: "Valid values: True or False. If True, either the region element
           or any  combination of Political Division 1,  Political Division 2, PostcodePrimaryLow
-           and the PostcodeExtendedLow fields will  be recognized for validation
+          and the PostcodeExtendedLow fields will  be recognized for validation
           in addition to  the urbanization element. If False or no  indicator, street
           level address validation  is provided"
         required: false
@@ -696,7 +696,7 @@ components:
           maxLength: 30
         PoliticalDivision1:
           description: "State/Province. Returned if the location is within a State/Province/Territory.
-             For International: returned if user enters valid Country or Territory
+            For International: returned if user enters valid Country or Territory
             Code, and City/postal code and it has a match. For Domestic addresses,
             the value must be a valid 2-character value (per US Mail standards). For
             International the full State or Province name will be returned."

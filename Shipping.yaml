@@ -9027,7 +9027,7 @@ components:
             $ref: "#/components/schemas/PackageServiceOptions_HazMat"
         HazMatTypeCode:
           description: |-
-           Field to be used when a shipment contains a HazMat. It will specify the existence of HazMat, and what type. Initially this will be used for SurePost and Mail Innovations 'USPS Limited Quantities HazMat' Shipments (but may be extended for other types of HazMat in the future).
+            Field to be used when a shipment contains a HazMat. It will specify the existence of HazMat, and what type. Initially this will be used for SurePost and Mail Innovations 'USPS Limited Quantities HazMat' Shipments (but may be extended for other types of HazMat in the future).
             Valid values are 01.
             - USPS Limited Quantities HazMat - 01
           maximum: 2
@@ -10423,12 +10423,12 @@ components:
       type: object
       properties:
         ItemizedCharges:
-          description: |
-               Itemized Charges are returned only when the Subversion element is present and greater than or equal to 1601.
+          description: |-
+            Itemized Charges are returned only when the Subversion element is present and greater than or equal to 1601.
 
-               Negotiated itemized charges are only returned for certain contract-only shipments as well as Worldwide Express Freight, Ground Freight Pricing, and Hazmat movements.
+            Negotiated itemized charges are only returned for certain contract-only shipments as well as Worldwide Express Freight, Ground Freight Pricing, and Hazmat movements.
 
-               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+            **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
             $ref: "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
@@ -10859,12 +10859,12 @@ components:
           minLength: 18
           maxLength: 18
         RateModifier:
-           description: |
-              Returned Package Information.
+          description: |-
+            Returned Package Information.
 
-              **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
-           type: array
-           items:
+            **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          type: array
+          items:
             $ref: "#/components/schemas/PackageResults_RateModifier"
         BaseServiceCharge:
           $ref: "#/components/schemas/PackageResults_BaseServiceCharge"
@@ -12234,8 +12234,8 @@ components:
         ResponseStatus:
           $ref: "#/components/schemas/LRResponse_ResponseStatus"
         Alert:
-           type: array
-           items:
+          type: array
+          items:
             $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
           $ref: "#/components/schemas/LRResponse_TransactionReference"

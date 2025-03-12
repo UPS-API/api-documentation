@@ -3340,7 +3340,7 @@ components:
           minLength: 1
           maxLength: 3
         ClassDivisionNumber:
-          description: "This is the hazard class associated to the specified commodity. Required if CommodityRegulatedLevelCode is 'LQ' or 'FR'  Applies only if SubVersion is greater than or equal to 1701."
+          description: This is the hazard class associated to the specified commodity. Required if CommodityRegulatedLevelCode is 'LQ' or 'FR'. Applies only if SubVersion is greater than or equal to 1701.
           maximum: 1
           type: string
           minLength: 1

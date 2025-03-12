@@ -204,13 +204,13 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
-      description: |
-        "Find your Client ID and Secret on your app info page. <br/>
-         1. Select \\\"Try It\\\" <br/>
-         2. In the Security section enter your Client ID and Secret.<br/>
-         3. Select \\\"Request Token\\\"<br/>
-         4. Enter any additional information in the Body and Parameters sections.<br>
-         5. Select \\\"Send\\\" to execute your API request"
+      description: |-
+        Find your Client ID and Secret on your app info page.
+        1. Select "Try It"
+        2. In the Security section enter your Client ID and Secret.
+        3. Select "Request Token"
+        4. Enter any additional information in the Body and Parameters sections.
+        5. Select "Send" to execute your API request
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
