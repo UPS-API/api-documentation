@@ -13,7 +13,7 @@ info:
     <a href="https://developer.ups.com/api/reference/deliveryintercept/product-info" target="_blank" rel="noopener">Product Info</a>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-f2409ef1-39c9-4f4a-a509-a3f860068ff4?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f2409ef1-39c9-4f4a-a509-a3f860068ff4%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" width="128" height="32">
     </a>
 
     # CIE Behavior

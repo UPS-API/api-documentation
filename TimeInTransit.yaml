@@ -16,9 +16,9 @@ info:
     <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-44cb52ab-0a54-46a2-ad40-b299c8c0b2fb?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-44cb52ab-0a54-46a2-ad40-b299c8c0b2fb%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" width="128" height="32"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " width="128" height="32">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api

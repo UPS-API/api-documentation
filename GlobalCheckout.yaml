@@ -15,7 +15,7 @@ info:
     <a href="https://developer.ups.com/api/reference/globalcheckout/appendix?loc=en_US" target="_blank" rel="noopener noreferrer">Appendix</a>
     </br><p>Explore API documentation and sample applications through GitHub.</p>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" width="128" height="32">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api/brokerage/{version}
