@@ -95,37 +95,37 @@ paths:
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/TrackApiResponse"
+                $ref: "#/components/schemas/TrackApiResponse"
         '400':
           description: Invalid request
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/Response"
+                $ref: "#/components/schemas/Response"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/Response"
+                    $ref: "#/components/schemas/Response"
         '404':
           description: Tracking number information not found
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/Response"
+                $ref: "#/components/schemas/Response"
         '500':
           description: Internal server error
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/Response"
+                $ref: "#/components/schemas/Response"
         '503':
           description: Resource is not available
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/Response"
+                $ref: "#/components/schemas/Response"
       deprecated: false
   "/track/v1/reference/details/{referenceNumber}":
     get:
@@ -187,37 +187,37 @@ paths:
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/TrackApiResponse"
+                $ref: "#/components/schemas/TrackApiResponse"
         '400':
           description: Invalid request
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/Response"
+                $ref: "#/components/schemas/Response"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/Response"
+                    $ref: "#/components/schemas/Response"
         '404':
           description: Tracking number information not found
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/Response"
+                $ref: "#/components/schemas/Response"
         '500':
           description: Internal server error
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/Response"
+                $ref: "#/components/schemas/Response"
         '503':
           description: Resource is not available
           content:
             "application/json":
               schema:
-                "$ref": "#/components/schemas/Response"
+                $ref: "#/components/schemas/Response"
       deprecated: false
 components:
   securitySchemes:
@@ -267,9 +267,9 @@ components:
           description: 'gmtTime'
           example: '74700'
         location:
-          "$ref": "#/components/schemas/Location"
+          $ref: "#/components/schemas/Location"
         status:
-          "$ref": "#/components/schemas/Status"
+          $ref: "#/components/schemas/Status"
         time:
           type: string
           description: 'The time of the activity. Format: HHMMSS (24 hr)'
@@ -347,7 +347,7 @@ components:
         Populated only when the package is delivered.
       properties:
         deliveryPhoto:
-          "$ref": "#/components/schemas/DeliveryPhoto"
+          $ref: "#/components/schemas/DeliveryPhoto"
         location:
           type: string
           description: 'The location where the package was dropped off. For example:
@@ -358,7 +358,7 @@ components:
           description: The individual who took possession of the package at delivery.
           example: ''
         signature:
-          "$ref": "#/components/schemas/Signature"
+          $ref: "#/components/schemas/Signature"
         pod:
            title: POD
            type: object
@@ -453,7 +453,7 @@ components:
       type: object
       properties:
         address:
-          "$ref": "#/components/schemas/Address"
+          $ref: "#/components/schemas/Address"
         slic:
           type: string
           description: Site Location Indicator Code (SLIC)
@@ -491,17 +491,17 @@ components:
           description: 'The milestone state. Valid values: ''This milestone has already
             occurred''/''This milestone has not yet been completed''.'
         subMilestone:
-          "$ref": "#/components/schemas/SubMilestone"
+          $ref: "#/components/schemas/SubMilestone"
     Package:
       title: Package
       type: object
       properties:
         accessPointInformation:
-          "$ref": "#/components/schemas/AccessPointInformation"
+          $ref: "#/components/schemas/AccessPointInformation"
         activity:
           type: array
           items:
-            "$ref": "#/components/schemas/Activity"
+            $ref: "#/components/schemas/Activity"
         additionalAttributes:
           type: array
           description: The list of additional attributes that may be associated with
@@ -528,19 +528,19 @@ components:
         alternateTrackingNumber:
           type: array
           items:
-            "$ref": "#/components/schemas/AlternateTrackingNumber"
+            $ref: "#/components/schemas/AlternateTrackingNumber"
         currentStatus:
-          "$ref": "#/components/schemas/Status"
+          $ref: "#/components/schemas/Status"
         deliveryDate:
           type: array
           items:
-            "$ref": "#/components/schemas/DeliveryDate"
+            $ref: "#/components/schemas/DeliveryDate"
         deliveryInformation:
-          "$ref": "#/components/schemas/DeliveryInformation"
+          $ref: "#/components/schemas/DeliveryInformation"
         deliveryTime:
-          "$ref": "#/components/schemas/DeliveryTime"
+          $ref: "#/components/schemas/DeliveryTime"
         dimension:
-          "$ref": "#/components/schemas/Dimension"
+          $ref: "#/components/schemas/Dimension"
         isSmartPackage:
           type: boolean
           description: 'Indicator of whether the package is a smart package'
@@ -548,11 +548,11 @@ components:
           type: array
           description: milestones
           items:
-            "$ref": "#/components/schemas/Milestones"
+            $ref: "#/components/schemas/Milestones"
         packageAddress:
           type: array
           items:
-            "$ref": "#/components/schemas/PackageAddress"
+            $ref: "#/components/schemas/PackageAddress"
         packageCount:
           type: integer
           description: The total number of packages in the shipment. Note that this
@@ -563,13 +563,13 @@ components:
         paymentInformation:
           type: array
           items:
-            "$ref": "#/components/schemas/PaymentInformation"
+            $ref: "#/components/schemas/PaymentInformation"
         referenceNumber:
           type: array
           items:
-            "$ref": "#/components/schemas/ReferenceNumber"
+            $ref: "#/components/schemas/ReferenceNumber"
         service:
-          "$ref": "#/components/schemas/Service"
+          $ref: "#/components/schemas/Service"
         statusCode:
           type: string
         statusDescription:
@@ -591,7 +591,7 @@ components:
           description: 'This indicator provides UCIX (UPS Customer Information Exchange) status
             Valid values: ''O'' means open. ''C'' means closed.'
         weight:
-          "$ref": "#/components/schemas/Weight"
+          $ref: "#/components/schemas/Weight"
     PackageAddress:
       title: PackageAddress
       type: object
@@ -600,7 +600,7 @@ components:
         addresses
       properties:
         address:
-          "$ref": "#/components/schemas/Address"
+          $ref: "#/components/schemas/Address"
         attentionName:
           type: string
           description: The specific name of an individual associated with the address
@@ -665,7 +665,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/ErrorResponse"
+          $ref: "#/components/schemas/ErrorResponse"
     ErrorResponse:
       title: Response
       type: object
@@ -673,7 +673,7 @@ components:
         errors:
           type: array
           items:
-            "$ref": "#/components/schemas/Error"
+            $ref: "#/components/schemas/Error"
     Service:
       title: Service
       type: object
@@ -703,7 +703,7 @@ components:
         package:
           type: array
           items:
-            "$ref": "#/components/schemas/Package"
+            $ref: "#/components/schemas/Package"
         userRelation:
           type: array
           description: The relationship of the user to the package(s) in the shipment.
@@ -719,7 +719,7 @@ components:
         warnings:
           type: array
           items:
-            "$ref": "#/components/schemas/Warning"
+            $ref: "#/components/schemas/Warning"
     Signature:
       title: Signature
       type: object
@@ -776,7 +776,7 @@ components:
       type: object
       properties:
         trackResponse:
-          "$ref": "#/components/schemas/TrackResponse"
+          $ref: "#/components/schemas/TrackResponse"
     TrackResponse:
       title: TrackResponse
       type: object
@@ -784,7 +784,7 @@ components:
         shipment:
           type: array
           items:
-            "$ref": "#/components/schemas/Shipment"
+            $ref: "#/components/schemas/Shipment"
     Warning:
       title: Warning
       type: object

@@ -69,7 +69,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYRequestWrapper"
+              $ref: "#/components/schemas/DANGEROUSGOODSUTILITYRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -84,31 +84,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYResponseWrapper"
+                $ref: "#/components/schemas/DANGEROUSGOODSUTILITYResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/dangerousgoods/{version}/acceptanceauditprecheck":
     post:
       description: Enables shippers perform pre-checks before shipping dangerous goods using the chemical record identifier and the commodity's regulated level code.
@@ -153,7 +153,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYAPCRequestWrapper"
+              $ref: "#/components/schemas/DANGEROUSGOODSUTILITYAPCRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request
@@ -218,31 +218,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYAPCResponseWrapper"
+                $ref: "#/components/schemas/DANGEROUSGOODSUTILITYAPCResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/dangerousgoods/{deprecatedVersion}/chemicalreferencedata":
     post:
       deprecated: true
@@ -290,7 +290,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYRequestWrapper"
+              $ref: "#/components/schemas/DANGEROUSGOODSUTILITYRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -305,31 +305,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYResponseWrapper"
+                $ref: "#/components/schemas/DANGEROUSGOODSUTILITYResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
     post:
       deprecated: true
@@ -375,7 +375,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYAPCRequestWrapper"
+              $ref: "#/components/schemas/DANGEROUSGOODSUTILITYAPCRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request
@@ -440,31 +440,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/DANGEROUSGOODSUTILITYAPCResponseWrapper"
+                $ref: "#/components/schemas/DANGEROUSGOODSUTILITYAPCResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -492,7 +492,7 @@ components:
       - ChemicalReferenceDataRequest
       properties:
         ChemicalReferenceDataRequest:
-          "$ref": "#/components/schemas/ChemicalReferenceDataRequest"
+          $ref: "#/components/schemas/ChemicalReferenceDataRequest"
     DANGEROUSGOODSUTILITYResponseWrapper:
       xml:
         name: ChemicalReferenceDataResponse
@@ -503,7 +503,7 @@ components:
       - ChemicalReferenceDataResponse
       properties:
         ChemicalReferenceDataResponse:
-          "$ref": "#/components/schemas/ChemicalReferenceDataResponse"
+          $ref: "#/components/schemas/ChemicalReferenceDataResponse"
     ChemicalReferenceDataRequest:
       type: object
       required:
@@ -511,7 +511,7 @@ components:
       - ShipperNumber
       properties:
         Request:
-          "$ref": "#/components/schemas/ChemicalReferenceDataRequest_Request"
+          $ref: "#/components/schemas/ChemicalReferenceDataRequest_Request"
         IDNumber:
           description: This is the ID number (UN/NA/ID) for the specified commodity.
             UN/NA/ID Identification Number assigned to the specified regulated good.
@@ -565,7 +565,7 @@ components:
           type: string
           maximum: 1
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       maximum: 1
@@ -590,7 +590,7 @@ components:
       - Response
       properties:
         Response:
-          "$ref": "#/components/schemas/ChemicalReferenceDataResponse_Response"
+          $ref: "#/components/schemas/ChemicalReferenceDataResponse_Response"
         ChemicalData:
           description: |
               Container to hold Chemical Data information.
@@ -598,7 +598,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-              "$ref": "#/components/schemas/ChemicalReferenceDataResponse_ChemicalData"
+              $ref: "#/components/schemas/ChemicalReferenceDataResponse_ChemicalData"
       xml:
         name: ChemicalReferenceDataResponse
       description: Dangerous Goods Utility Response container for Chemical Reference
@@ -610,7 +610,7 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
             Alert Container. There can be zero to many alert containers with code and description.
@@ -618,9 +618,9 @@ components:
             **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Contains Dangerous Goods Utility Chemical Reference Data response
@@ -690,9 +690,9 @@ components:
       type: object
       properties:
         ChemicalDetail:
-          "$ref": "#/components/schemas/ChemicalData_ChemicalDetail"
+          $ref: "#/components/schemas/ChemicalData_ChemicalDetail"
         ProperShippingNameDetail:
-          "$ref": "#/components/schemas/ChemicalData_ProperShippingNameDetail"
+          $ref: "#/components/schemas/ChemicalData_ProperShippingNameDetail"
         PackageQuantityLimitDetail:
           description: |
               Container to hold Package Quantity Limit Detail information. It will be returned if applies for a given chemical record.
@@ -700,7 +700,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-              "$ref": "#/components/schemas/ChemicalData_PackageQuantityLimitDetail"
+              $ref: "#/components/schemas/ChemicalData_PackageQuantityLimitDetail"
       xml:
         name: ChemicalData
     ChemicalData_ChemicalDetail:
@@ -918,7 +918,7 @@ components:
       - AcceptanceAuditPreCheckRequest
       properties:
         AcceptanceAuditPreCheckRequest:
-          "$ref": "#/components/schemas/AcceptanceAuditPreCheckRequest"
+          $ref: "#/components/schemas/AcceptanceAuditPreCheckRequest"
     DANGEROUSGOODSUTILITYAPCResponseWrapper:
       xml:
         name: AcceptanceAuditPreCheckResponse
@@ -929,7 +929,7 @@ components:
       - AcceptanceAuditPreCheckResponse
       properties:
         AcceptanceAuditPreCheckResponse:
-          "$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse"
+          $ref: "#/components/schemas/AcceptanceAuditPreCheckResponse"
     AcceptanceAuditPreCheckRequest:
       type: object
       required:
@@ -937,14 +937,14 @@ components:
       - Shipment
       properties:
         Request:
-          "$ref": "#/components/schemas/AcceptanceAuditPreCheckRequest_Request"
+          $ref: "#/components/schemas/AcceptanceAuditPreCheckRequest_Request"
         OriginRecordTransactionTimestamp:
           description: "The time that the request was made from the originating system.
             UTC time down to milliseconds.\nExample: 2016-07-14T12:01:33.999"
           type: string
           maximum: 1
         Shipment:
-          "$ref": "#/components/schemas/AcceptanceAuditPreCheckRequest_Shipment"
+          $ref: "#/components/schemas/AcceptanceAuditPreCheckRequest_Shipment"
       xml:
         name: AcceptanceAuditPreCheckRequest
       maximum: 1
@@ -961,7 +961,7 @@ components:
           description: Not Used.
           type: string
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       maximum: 1
@@ -985,11 +985,11 @@ components:
           minLength: 6
           maxLength: 6
         ShipFromAddress:
-          "$ref": "#/components/schemas/Shipment_ShipFromAddress"
+          $ref: "#/components/schemas/Shipment_ShipFromAddress"
         ShipToAddress:
-          "$ref": "#/components/schemas/Shipment_ShipToAddress"
+          $ref: "#/components/schemas/Shipment_ShipToAddress"
         Service:
-          "$ref": "#/components/schemas/Shipment_Service"
+          $ref: "#/components/schemas/Shipment_Service"
         RegulationSet:
           description: "The Regulatory set associated with every regulated shipment.
             It must be same across the shipment. Not required when the CommodityRegulatedLevelCode
@@ -1004,7 +1004,7 @@ components:
           type: array
           maximum: 1000
           items:
-            "$ref": "#/components/schemas/Shipment_Package"
+            $ref: "#/components/schemas/Shipment_Package"
       xml:
         name: Shipment
       description: Contains shipment information.
@@ -1123,7 +1123,7 @@ components:
           minLength: 1
           maxLength: 5
         PackageWeight:
-          "$ref": "#/components/schemas/Package_PackageWeight"
+          $ref: "#/components/schemas/Package_PackageWeight"
         QValue:
           description: 'This is required when a HazMat shipment specifies AllPackedInOneIndicator
             and the regulation set for that shipment is IATA. Valid values: 0.1;
@@ -1173,7 +1173,7 @@ components:
           type: array
           maximum: 3
           items:
-            "$ref": "#/components/schemas/Package_ChemicalRecord"
+            $ref: "#/components/schemas/Package_ChemicalRecord"
       xml:
         name: Package
       description: Package Information container.
@@ -1191,7 +1191,7 @@ components:
           minLength: 15
           maxLength: 15
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/PackageWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/PackageWeight_UnitOfMeasurement"
       xml:
         name: PackageWeight
       description: Container to hold package weight information.
@@ -1384,7 +1384,7 @@ components:
       - Response
       properties:
         Response:
-          "$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_Response"
+          $ref: "#/components/schemas/AcceptanceAuditPreCheckResponse_Response"
         ShipperNumber:
           description: Shipper's six digit account number. This is same account number
             present in the request that is played back in response.
@@ -1393,7 +1393,7 @@ components:
           minLength: 6
           maxLength: 6
         Service:
-          "$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_Service"
+          $ref: "#/components/schemas/AcceptanceAuditPreCheckResponse_Service"
         RegulationSet:
           description: |-
             The Regulatory set associated with every regulated shipment. This is same Regulation set present in the request that is played back in response. Valid values:
@@ -1413,7 +1413,7 @@ components:
           type: array
           maximum: 20
           items:
-              "$ref": "#/components/schemas/AcceptanceAuditPreCheckResponse_PackageResults"
+              $ref: "#/components/schemas/AcceptanceAuditPreCheckResponse_PackageResults"
       xml:
         name: AcceptanceAuditPreCheckResponse
       maximum: 1
@@ -1425,7 +1425,7 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
             Alert Container. There can be zero to many alert containers with code and description.
@@ -1433,7 +1433,7 @@ components:
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         AlertDetail:
           description: |
               Alert Detail Container.
@@ -1441,10 +1441,10 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_AlertDetail"
+            $ref: "#/components/schemas/Response_AlertDetail"
 
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Contains Dangerous Goods Utility Acceptance Audit Pre-check response
@@ -1470,7 +1470,7 @@ components:
           minLength: 1
           maxLength: 150
         ElementLevelInformation:
-          "$ref": "#/components/schemas/AlertDetail_ElementLevelInformation"
+          $ref: "#/components/schemas/AlertDetail_ElementLevelInformation"
       xml:
         name: AlertDetail
     AlertDetail_ElementLevelInformation:
@@ -1490,7 +1490,7 @@ components:
         ElementIdentifier:
            type: array
            items:
-            "$ref": "#/components/schemas/ElementLevelInformation_ElementIdentifier"
+            $ref: "#/components/schemas/ElementLevelInformation_ElementIdentifier"
       xml:
         name: ElementLevelInformation
       description: Provides more information about the element that represents the
@@ -1567,7 +1567,7 @@ components:
           type: array
           maximum: 3
           items:
-              "$ref": "#/components/schemas/PackageResults_ChemicalRecordResults"
+              $ref: "#/components/schemas/PackageResults_ChemicalRecordResults"
       xml:
         name: PackageResults
     PackageResults_ChemicalRecordResults:
@@ -1614,7 +1614,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -1623,7 +1623,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

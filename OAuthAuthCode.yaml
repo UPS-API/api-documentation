@@ -50,8 +50,7 @@ paths:
       tags:
         - OAuth Auth Code
       summary: Authorize Client
-      description: |-
-        The Authorize Client endpoint initiates the OAuth Authorization Code flow by redirecting the user to UPS for logging-in and authorize the client application. To begin the authorization flow, the application constructs a URL using the application's client Id, the redirect URI, the scope of permissions requested, and a random string used for subsequent verification. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.
+      description: The Authorize Client endpoint initiates the OAuth Authorization Code flow by redirecting the user to UPS for logging-in and authorize the client application. To begin the authorization flow, the application constructs a URL using the application's client Id, the redirect URI, the scope of permissions requested, and a random string used for subsequent verification. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.
       operationId: AuthorizeClient
       parameters:
       - in: query
@@ -122,25 +121,25 @@ paths:
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
   "/v1/oauth/token":
     post:
       servers:
@@ -176,12 +175,10 @@ paths:
                   description: Callback URL for the requesting application.
                 code_verifier:
                   type: string
-                  description: |
-                    **Only required for PKCE flow**. A randomly generated secret created by the calling application that can be verified by the authorization server.
+                  description: '**Only required for PKCE flow**. A randomly generated secret created by the calling application that can be verified by the authorization server.'
                 client_id:
                   type: string
-                  description: |
-                    **Only required for PKCE flow**. The public identifier for your application, obtained when you, the developer first registered the application.
+                  description: '**Only required for PKCE flow**. The public identifier for your application, obtained when you, the developer first registered the application.'
               required:
               - grant_type
               - code
@@ -192,31 +189,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/generateTokenSuccessResponse"
+                $ref: "#/components/schemas/generateTokenSuccessResponse"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
   "/v1/oauth/refresh":
     post:
       servers:
@@ -258,31 +255,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/refreshTokenSuccessResponse"
+                $ref: "#/components/schemas/refreshTokenSuccessResponse"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
 components:
   securitySchemes:
     BasicAuthGenerate:
@@ -395,14 +392,14 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/errorResponseWrapper"
+          $ref: "#/components/schemas/errorResponseWrapper"
     errorResponseWrapper:
       type: object
       properties:
         errors:
           type: array
           items:
-            "$ref": "#/components/schemas/errors"
+            $ref: "#/components/schemas/errors"
     errors:
       type: object
       properties:

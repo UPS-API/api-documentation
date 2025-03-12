@@ -70,7 +70,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PRENOTIFICATIONRequestWrapper"
+              $ref: "#/components/schemas/PRENOTIFICATIONRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -140,31 +140,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PRENOTIFICATIONResponseWrapper"
+                $ref: "#/components/schemas/PRENOTIFICATIONResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/dangerousgoods/{deprecatedVersion}/prenotification":
     post:
       deprecated: true
@@ -213,7 +213,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PRENOTIFICATIONRequestWrapper"
+              $ref: "#/components/schemas/PRENOTIFICATIONRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -283,31 +283,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PRENOTIFICATIONResponseWrapper"
+                $ref: "#/components/schemas/PRENOTIFICATIONResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -335,7 +335,7 @@ components:
       - PreNotificationRequest
       properties:
         PreNotificationRequest:
-          "$ref": "#/components/schemas/PreNotificationRequest"
+          $ref: "#/components/schemas/PreNotificationRequest"
     PRENOTIFICATIONResponseWrapper:
       xml:
         name: PreNotificationResponse
@@ -346,7 +346,7 @@ components:
       - PreNotificationResponse
       properties:
         PreNotificationResponse:
-          "$ref": "#/components/schemas/PreNotificationResponse"
+          $ref: "#/components/schemas/PreNotificationResponse"
     PreNotificationRequest:
       type: object
       required:
@@ -354,9 +354,9 @@ components:
       - Shipment
       properties:
         Request:
-          "$ref": "#/components/schemas/PreNotificationRequest_Request"
+          $ref: "#/components/schemas/PreNotificationRequest_Request"
         Shipment:
-          "$ref": "#/components/schemas/PreNotificationRequest_Shipment"
+          $ref: "#/components/schemas/PreNotificationRequest_Shipment"
       xml:
         name: PreNotificationRequest
       description: Pre-Notification Request.
@@ -365,7 +365,7 @@ components:
       type: object
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       description: Request Container
@@ -411,9 +411,9 @@ components:
           minLength: 18
           maxLength: 18
         ShipToAddress:
-          "$ref": "#/components/schemas/Shipment_ShipToAddress"
+          $ref: "#/components/schemas/Shipment_ShipToAddress"
         ShipFromAddress:
-          "$ref": "#/components/schemas/Shipment_ShipFromAddress"
+          $ref: "#/components/schemas/Shipment_ShipFromAddress"
         PickupDate:
           description: Date of the On Call Air Pickup. Format is YYYYMMDD
           maximum: 1
@@ -421,7 +421,7 @@ components:
           minLength: 8
           maxLength: 8
         Service:
-          "$ref": "#/components/schemas/Shipment_Service"
+          $ref: "#/components/schemas/Shipment_Service"
         RegulationSet:
           description: |
             The Regulatory set associated with every regulated shipment. It must be same across the shipment. Valid values are:
@@ -436,7 +436,7 @@ components:
           type: array
           maximum: 1000
           items:
-            "$ref": "#/components/schemas/Shipment_Package"
+            $ref: "#/components/schemas/Shipment_Package"
       xml:
         name: Shipment
       description: Shipment Container
@@ -563,7 +563,7 @@ components:
           minLength: 18
           maxLength: 18
         PackageWeight:
-          "$ref": "#/components/schemas/Package_PackageWeight"
+          $ref: "#/components/schemas/Package_PackageWeight"
         TransportationMode:
           description: 'Declares that a package was prepared according to ground,
             passenger aircraft, or cargo aircraft only. Only required when the CommodityRegulatedLevelCode
@@ -587,7 +587,7 @@ components:
           type: array
           maximum: 3
           items:
-            "$ref": "#/components/schemas/Package_ChemicalRecord"
+            $ref: "#/components/schemas/Package_ChemicalRecord"
       xml:
         name: Package
       description: Package Information container.
@@ -598,7 +598,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/PackageWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/PackageWeight_UnitOfMeasurement"
         Weight:
           description: Packages weight.
           maximum: 1
@@ -789,7 +789,7 @@ components:
       - Response
       properties:
         Response:
-          "$ref": "#/components/schemas/PreNotificationResponse_Response"
+          $ref: "#/components/schemas/PreNotificationResponse_Response"
       xml:
         name: PreNotificationResponse
       description: Pre-Notification Response container.
@@ -800,7 +800,7 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
             Alert Container. There can be zero to many alert containers with code and description.
@@ -808,9 +808,9 @@ components:
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Contains Pre-Notification response components.
@@ -879,7 +879,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -888,7 +888,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

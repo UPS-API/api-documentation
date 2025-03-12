@@ -79,7 +79,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PICKUPRequestWrapper"
+              $ref: "#/components/schemas/PICKUPRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request(Standard Example)
@@ -104,31 +104,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPResponseWrapper"
+                $ref: "#/components/schemas/PICKUPResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
     get:
       description: Using the GET operation of the pickuptype endpoint within the Pickup API, users can retrieve the status of shipments sent via UPS pickup service. The endpoint uses the account number as a required parameter and returns a status of received/dispatched/completed/incomplete/updated ETA, or cancelled.
       summary: Pickup Pending Status
@@ -188,31 +188,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPPendingResponseWrapper"
+                $ref: "#/components/schemas/PICKUPPendingResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/shipments/{version}/pickup/{CancelBy}":
     delete:
       description: Using the CancelBy endpoint of the Pickup API, users can request cancellation of a UPS on-demand package pickup. When the PRN (pickup request number), transaction ID, and the transaction source are supplied as required parameters, the endpoint returns confirmation that the pickup has been cancelled.
@@ -268,31 +268,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPCancelResponseWrapper"
+                $ref: "#/components/schemas/PICKUPCancelResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/pickupcreation/{version}/pickup":
     post:
       description: Using the Pickup API, applications can schedule pickups, manage
@@ -339,7 +339,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PICKUPCreationRequestWrapper"
+              $ref: "#/components/schemas/PICKUPCreationRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -393,31 +393,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPCreationResponseWrapper"
+                $ref: "#/components/schemas/PICKUPCreationResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/pickup/{version}/countries/{countrycode}":
     get:
       description: The countrycode endpoint of the Pickup API helps retrieve a list of political divisions (states) in a specified country or territory.
@@ -468,31 +468,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPPolDivResponseWrapper"
+                $ref: "#/components/schemas/PICKUPPolDivResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/pickup/{version}/servicecenterlocations":
     post:
       description: The servicecenterlocations endpoint of the Pickup API helps retrieve service center information in a specified area - including location address, phone number, SLIC (Standard Location Identification Code), and hours of operation for pick-up and drop-off requests
@@ -537,7 +537,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PICKUPServCenterRequestWrapper"
+              $ref: "#/components/schemas/PICKUPServCenterRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -559,31 +559,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPServCenterResponseWrapper"
+                $ref: "#/components/schemas/PICKUPServCenterResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/shipments/{deprecatedVersion}/pickup/{CancelBy}":
     delete:
       deprecated: true
@@ -640,31 +640,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPCancelResponseWrapper"
+                $ref: "#/components/schemas/PICKUPCancelResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/pickupcreation/{deprecatedVersion}/pickup":
     post:
       deprecated: true
@@ -714,7 +714,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PICKUPCreationRequestWrapper"
+              $ref: "#/components/schemas/PICKUPCreationRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -768,31 +768,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPCreationResponseWrapper"
+                $ref: "#/components/schemas/PICKUPCreationResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -820,7 +820,7 @@ components:
       - PickupRateRequest
       properties:
         PickupRateRequest:
-          "$ref": "#/components/schemas/PickupRateRequest"
+          $ref: "#/components/schemas/PickupRateRequest"
     PICKUPResponseWrapper:
       xml:
         name: PickupRateResponse
@@ -831,7 +831,7 @@ components:
       - PickupRateResponse
       properties:
         PickupRateResponse:
-          "$ref": "#/components/schemas/PickupRateResponse"
+          $ref: "#/components/schemas/PickupRateResponse"
     PickupRateRequest:
       type: object
       required:
@@ -841,11 +841,11 @@ components:
       - AlternateAddressIndicator
       properties:
         Request:
-          "$ref": "#/components/schemas/PickupRateRequest_Request"
+          $ref: "#/components/schemas/PickupRateRequest_Request"
         ShipperAccount:
-          "$ref": "#/components/schemas/PickupRateRequest_ShipperAccount"
+          $ref: "#/components/schemas/PickupRateRequest_ShipperAccount"
         PickupAddress:
-          "$ref": "#/components/schemas/PickupRateRequest_PickupAddress"
+          $ref: "#/components/schemas/PickupRateRequest_PickupAddress"
         AlternateAddressIndicator:
           description: "Indicates if the pickup address is different than the address
             specified in the customer's profile.\nValid values:\nY = Alternate address\nN
@@ -867,7 +867,7 @@ components:
           minLength: 1
           maxLength: 1
         PickupDateInfo:
-          "$ref": "#/components/schemas/PickupRateRequest_PickupDateInfo"
+          $ref: "#/components/schemas/PickupRateRequest_PickupDateInfo"
         RateChartType:
           description: |
             Rate Type with which pickup is rated. Possible RateChart values for different regions will be:
@@ -936,7 +936,7 @@ components:
           minLength: 4
           maxLength: 4
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       maximum: 1
@@ -1081,9 +1081,9 @@ components:
       - RateResult
       properties:
         Response:
-          "$ref": "#/components/schemas/PickupRateResponse_Response"
+          $ref: "#/components/schemas/PickupRateResponse_Response"
         RateResult:
-          "$ref": "#/components/schemas/PickupRateResponse_RateResult"
+          $ref: "#/components/schemas/PickupRateResponse_RateResult"
         WeekendServiceTerritoryIndicator:
           description: |-
             Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Saturday and subversion greater or equal to 1607. Valid Values:
@@ -1094,7 +1094,7 @@ components:
           minLength: 1
           maxLength: 1
         WeekendServiceTerritory:
-          "$ref": "#/components/schemas/PickupRateResponse_WeekendServiceTerritory"
+          $ref: "#/components/schemas/PickupRateResponse_WeekendServiceTerritory"
       xml:
         name: PickupRateResponse
       maximum: 1
@@ -1105,15 +1105,15 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           oneOf:
           - items:
-              "$ref": "#/components/schemas/Response_Alert"
+              $ref: "#/components/schemas/Response_Alert"
             type: array
-          - "$ref": "#/components/schemas/Response_Alert"
+          - $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response Container.
@@ -1184,7 +1184,7 @@ components:
       type: object
       properties:
         Disclaimer:
-          "$ref": "#/components/schemas/RateResult_Disclaimer"
+          $ref: "#/components/schemas/RateResult_Disclaimer"
         RateType:
           description: |-
             Indicates the pickup is rated as same-day or future-day pickup.
@@ -1203,11 +1203,11 @@ components:
         ChargeDetail:
            type: array
            items:
-            "$ref": "#/components/schemas/RateResult_ChargeDetail"
+            $ref: "#/components/schemas/RateResult_ChargeDetail"
         TaxCharges:
            type: array
            items:
-            "$ref": "#/components/schemas/RateResult_TaxCharges"
+            $ref: "#/components/schemas/RateResult_TaxCharges"
         TotalTax:
           description: The sum of all taxes.
           maximum: 1
@@ -1368,7 +1368,7 @@ components:
       - PickupCancelRequest
       properties:
         PickupCancelRequest:
-          "$ref": "#/components/schemas/PickupCancelRequest"
+          $ref: "#/components/schemas/PickupCancelRequest"
     PICKUPCancelResponseWrapper:
       xml:
         name: PickupCancelResponse
@@ -1379,7 +1379,7 @@ components:
       - PickupCancelResponse
       properties:
         PickupCancelResponse:
-          "$ref": "#/components/schemas/PickupCancelResponse"
+          $ref: "#/components/schemas/PickupCancelResponse"
     PickupCancelRequest:
       type: object
       required:
@@ -1387,7 +1387,7 @@ components:
       - Request
       properties:
         Request:
-          "$ref": "#/components/schemas/PickupCancelRequest_Request"
+          $ref: "#/components/schemas/PickupCancelRequest_Request"
         CancelBy:
           description: |-
             Cancel pickup by Pickup Request Number (PRN).
@@ -1413,7 +1413,7 @@ components:
       type: object
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       description: Request Container.
@@ -1425,7 +1425,7 @@ components:
       - PickupType
       properties:
         Response:
-          "$ref": "#/components/schemas/PickupCancelResponse_Response"
+          $ref: "#/components/schemas/PickupCancelResponse_Response"
         PickupType:
           description: |-
             The type of pickup that has been cancelled.
@@ -1435,7 +1435,7 @@ components:
           minLength: 2
           maxLength: 2
         GWNStatus:
-          "$ref": "#/components/schemas/PickupCancelResponse_GWNStatus"
+          $ref: "#/components/schemas/PickupCancelResponse_GWNStatus"
       xml:
         name: PickupCancelResponse
       maximum: 1
@@ -1446,13 +1446,13 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
            type: array
            items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response Container
@@ -1498,7 +1498,7 @@ components:
       - PickupCreationRequest
       properties:
         PickupCreationRequest:
-          "$ref": "#/components/schemas/PickupCreationRequest"
+          $ref: "#/components/schemas/PickupCreationRequest"
     PICKUPCreationResponseWrapper:
       xml:
         name: PickupCreationResponse
@@ -1509,7 +1509,7 @@ components:
       - PickupCreationResponse
       properties:
         PickupCreationResponse:
-          "$ref": "#/components/schemas/PickupCreationResponse"
+          $ref: "#/components/schemas/PickupCreationResponse"
     PickupCreationRequest:
       type: object
       required:
@@ -1522,7 +1522,7 @@ components:
       - AlternateAddressIndicator
       properties:
         Request:
-          "$ref": "#/components/schemas/PickupCreationRequest_Request"
+          $ref: "#/components/schemas/PickupCreationRequest_Request"
         RatePickupIndicator:
           description: "Indicates whether to rate the on-callpickup or not.\nValid
             values:\nY = Rate this pickup\nN = Do not rate this pickup (default)"
@@ -1571,11 +1571,11 @@ components:
           minLength: 1
           maxLength: 1
         Shipper:
-          "$ref": "#/components/schemas/PickupCreationRequest_Shipper"
+          $ref: "#/components/schemas/PickupCreationRequest_Shipper"
         PickupDateInfo:
-          "$ref": "#/components/schemas/PickupCreationRequest_PickupDateInfo"
+          $ref: "#/components/schemas/PickupCreationRequest_PickupDateInfo"
         PickupAddress:
-          "$ref": "#/components/schemas/PickupCreationRequest_PickupAddress"
+          $ref: "#/components/schemas/PickupCreationRequest_PickupAddress"
         AlternateAddressIndicator:
           description: "Indicates if pickup address is a different address than that
             specified in a customer's profile.\nValid values:\nY = Alternate address\nN
@@ -1587,9 +1587,9 @@ components:
         PickupPiece:
           type: array
           items:
-            "$ref": "#/components/schemas/PickupCreationRequest_PickupPiece"
+            $ref: "#/components/schemas/PickupCreationRequest_PickupPiece"
         TotalWeight:
-          "$ref": "#/components/schemas/PickupCreationRequest_TotalWeight"
+          $ref: "#/components/schemas/PickupCreationRequest_TotalWeight"
         OverweightIndicator:
           description: "Indicates if at least any package is over 70 lbs or 32 kgs.
             \nValid values:\nY = Over weight\nN = Not over weight (default)  Not
@@ -1601,9 +1601,9 @@ components:
         TrackingData:
           type: array
           items:
-            "$ref": "#/components/schemas/PickupCreationRequest_TrackingData"
+            $ref: "#/components/schemas/PickupCreationRequest_TrackingData"
         TrackingDataWithReferenceNumber:
-          "$ref": "#/components/schemas/PickupCreationRequest_TrackingDataWithReferenceNumber"
+          $ref: "#/components/schemas/PickupCreationRequest_TrackingDataWithReferenceNumber"
         PaymentMethod:
           description: "The payment method to pay for this on call pickup.\n00 = No
             payment needed\n01 = Pay by shipper account\n03 = Pay by charge card\n04
@@ -1634,7 +1634,7 @@ components:
           minLength: 1
           maxLength: 35
         FreightOptions:
-          "$ref": "#/components/schemas/PickupCreationRequest_FreightOptions"
+          $ref: "#/components/schemas/PickupCreationRequest_FreightOptions"
         ServiceCategory:
           description: "Service Category.\nApplicable to the following countries:\nBE,
             FR, DE, IT, MX, NL, PL, ES, GB\nValid values:\n01 - domestic (default)\n02
@@ -1680,7 +1680,7 @@ components:
           minLength: 4
           maxLength: 4
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       description: Common element for all services
@@ -1688,9 +1688,9 @@ components:
       type: object
       properties:
         Account:
-          "$ref": "#/components/schemas/Shipper_Account"
+          $ref: "#/components/schemas/Shipper_Account"
         ChargeCard:
-          "$ref": "#/components/schemas/Shipper_ChargeCard"
+          $ref: "#/components/schemas/Shipper_ChargeCard"
       xml:
         name: Shipper
       description: "On-call pickup shipper or requestor information. Must provide
@@ -1774,7 +1774,7 @@ components:
           minLength: 3
           maxLength: 4
         CardAddress:
-          "$ref": "#/components/schemas/ChargeCard_CardAddress"
+          $ref: "#/components/schemas/ChargeCard_CardAddress"
       xml:
         name: ChargeCard
       required:
@@ -1972,7 +1972,7 @@ components:
           minLength: 1
           maxLength: 11
         Phone:
-          "$ref": "#/components/schemas/PickupAddress_Phone"
+          $ref: "#/components/schemas/PickupAddress_Phone"
       xml:
         name: PickupAddress
       description: The container of pickup address.
@@ -2117,7 +2117,7 @@ components:
       type: object
       properties:
         ShipmentServiceOptions:
-          "$ref": "#/components/schemas/FreightOptions_ShipmentServiceOptions"
+          $ref: "#/components/schemas/FreightOptions_ShipmentServiceOptions"
         OriginServiceCenterCode:
           description: Origin SLIC. This will be obtained from submitting a pickup
             service center request. See PickupGetFacilitiesServiceCenterRequest.
@@ -2133,9 +2133,9 @@ components:
           minLength: 2
           maxLength: 2
         DestinationAddress:
-          "$ref": "#/components/schemas/FreightOptions_DestinationAddress"
+          $ref: "#/components/schemas/FreightOptions_DestinationAddress"
         ShipmentDetail:
-          "$ref": "#/components/schemas/FreightOptions_ShipmentDetail"
+          $ref: "#/components/schemas/FreightOptions_ShipmentDetail"
       xml:
         name: FreightOptions
       maximum: 1
@@ -2216,7 +2216,7 @@ components:
           maximum: 1
           type: string
         PalletInformation:
-          "$ref": "#/components/schemas/ShipmentDetail_PalletInformation"
+          $ref: "#/components/schemas/ShipmentDetail_PalletInformation"
       xml:
         name: ShipmentDetail
       description: Refers to the ShipmentDetail Container under Freight Options
@@ -2224,7 +2224,7 @@ components:
       type: object
       properties:
         Dimensions:
-          "$ref": "#/components/schemas/PalletInformation_Dimensions"
+          $ref: "#/components/schemas/PalletInformation_Dimensions"
       xml:
         name: PalletInformation
       description: Pallet Details.
@@ -2238,7 +2238,7 @@ components:
       - Width
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
+          $ref: "#/components/schemas/Dimensions_UnitOfMeasurement"
         Length:
           description: Dimension length of pallet.
           maximum: 1
@@ -2286,7 +2286,7 @@ components:
       - RateStatus
       properties:
         Response:
-          "$ref": "#/components/schemas/PickupCreationResponse_Response"
+          $ref: "#/components/schemas/PickupCreationResponse_Response"
         PRN:
           description: Pickup Request Number generated by UPS pickup system when a
             successful pickup is scheduled.Same PRN will be returned if a pickup request
@@ -2296,7 +2296,7 @@ components:
           minLength: 11
           maxLength: 11
         WeekendServiceTerritory:
-          "$ref": "#/components/schemas/PickupCreationResponse_WeekendServiceTerritory"
+          $ref: "#/components/schemas/PickupCreationResponse_WeekendServiceTerritory"
         WeekendServiceTerritoryIndicator:
           description: |-
             Indicates if the pickup address qualifies for WST (Weekend Service Territory). Returned if the pickup date is Saturday and subversion greater or equal to 1607. Valid Values:
@@ -2307,9 +2307,9 @@ components:
           minLength: 1
           maxLength: 1
         RateStatus:
-          "$ref": "#/components/schemas/PickupCreationResponse_RateStatus"
+          $ref: "#/components/schemas/PickupCreationResponse_RateStatus"
         RateResult:
-          "$ref": "#/components/schemas/PickupCreationResponse_RateResult"
+          $ref: "#/components/schemas/PickupCreationResponse_RateResult"
       xml:
         name: PickupCreationResponse
       maximum: 1
@@ -2320,13 +2320,13 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
            type: array
            items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response Container.
@@ -2394,7 +2394,7 @@ components:
       type: object
       properties:
         Disclaimer:
-          "$ref": "#/components/schemas/RateResult_Disclaimer"
+          $ref: "#/components/schemas/RateResult_Disclaimer"
         RateType:
           description: |-
             Indicates this pickup is rated as same-day or future-day pickup.
@@ -2417,7 +2417,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RateResult_ChargeDetail"
+            $ref: "#/components/schemas/RateResult_ChargeDetail"
         TaxCharges:
           description: |
               Container to hold taxes when, detailed taxes are request via RateTaxIndicator.
@@ -2425,7 +2425,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RateResult_TaxCharges"
+            $ref: "#/components/schemas/RateResult_TaxCharges"
         TotalTax:
           description: The sum of all taxes.
           maximum: 1
@@ -2509,7 +2509,7 @@ components:
       - PickupGetPoliticalDivision1ListRequest
       properties:
         PickupGetPoliticalDivision1ListRequest:
-          "$ref": "#/components/schemas/PickupGetPoliticalDivision1ListRequest"
+          $ref: "#/components/schemas/PickupGetPoliticalDivision1ListRequest"
     PICKUPPolDivResponseWrapper:
       xml:
         name: PickupGetPoliticalDivision1ListResponse
@@ -2520,7 +2520,7 @@ components:
       - PickupGetPoliticalDivision1ListResponse
       properties:
         PickupGetPoliticalDivision1ListResponse:
-          "$ref": "#/components/schemas/PickupGetPoliticalDivision1ListResponse"
+          $ref: "#/components/schemas/PickupGetPoliticalDivision1ListResponse"
     PickupGetPoliticalDivision1ListRequest:
       type: object
       required:
@@ -2528,7 +2528,7 @@ components:
       - CountryCode
       properties:
         Request:
-          "$ref": "#/components/schemas/PickupGetPoliticalDivision1ListRequest_Request"
+          $ref: "#/components/schemas/PickupGetPoliticalDivision1ListRequest_Request"
         CountryCode:
           description: Specifies the country for which the list of Political Division
             1 will be returned if available.
@@ -2545,7 +2545,7 @@ components:
       type: object
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       description: Common element for all services
@@ -2556,7 +2556,7 @@ components:
       - Response
       properties:
         Response:
-          "$ref": "#/components/schemas/PickupGetPoliticalDivision1ListResponse_Response"
+          $ref: "#/components/schemas/PickupGetPoliticalDivision1ListResponse_Response"
         PoliticalDivision1:
           description: The Political Division 1/State Field.
           minLength: 1
@@ -2575,13 +2575,13 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           type: array
           items:
-           "$ref": "#/components/schemas/Response_Alert"
+           $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response Container.
@@ -2596,7 +2596,7 @@ components:
       - PickupGetServiceCenterFacilitiesRequest
       properties:
         PickupGetServiceCenterFacilitiesRequest:
-          "$ref": "#/components/schemas/PickupGetServiceCenterFacilitiesRequest"
+          $ref: "#/components/schemas/PickupGetServiceCenterFacilitiesRequest"
     PICKUPServCenterResponseWrapper:
       xml:
         name: PickupGetServiceCenterFacilitiesResponse
@@ -2607,7 +2607,7 @@ components:
       - PickupGetServiceCenterFacilitiesResponse
       properties:
         PickupGetServiceCenterFacilitiesResponse:
-          "$ref": "#/components/schemas/PickupGetServiceCenterFacilitiesResponse"
+          $ref: "#/components/schemas/PickupGetServiceCenterFacilitiesResponse"
     PickupGetServiceCenterFacilitiesRequest:
       type: object
       required:
@@ -2616,14 +2616,14 @@ components:
       - PickupPiece
       properties:
         Request:
-          "$ref": "#/components/schemas/PickupGetServiceCenterFacilitiesRequest_Request"
+          $ref: "#/components/schemas/PickupGetServiceCenterFacilitiesRequest_Request"
         PickupPiece:
           items:
-            "$ref": "#/components/schemas/PickupGetServiceCenterFacilitiesRequest_PickupPiece"
+            $ref: "#/components/schemas/PickupGetServiceCenterFacilitiesRequest_PickupPiece"
         OriginAddress:
-          "$ref": "#/components/schemas/PickupGetServiceCenterFacilitiesRequest_OriginAddress"
+          $ref: "#/components/schemas/PickupGetServiceCenterFacilitiesRequest_OriginAddress"
         DestinationAddress:
-          "$ref": "#/components/schemas/PickupGetServiceCenterFacilitiesRequest_DestinationAddress"
+          $ref: "#/components/schemas/PickupGetServiceCenterFacilitiesRequest_DestinationAddress"
         Locale:
           description: "Origin Country or Territory Locale. Locale should be Origin
             Country. Example: en_US.\nThe Last 50 instruction will be send based
@@ -2647,7 +2647,7 @@ components:
       type: object
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       description: Container for the Request.
@@ -2723,7 +2723,7 @@ components:
           minLength: 2
           maxLength: 2
         OriginSearchCriteria:
-          "$ref": "#/components/schemas/OriginAddress_OriginSearchCriteria"
+          $ref: "#/components/schemas/OriginAddress_OriginSearchCriteria"
       xml:
         name: OriginAddress
       required:
@@ -2817,9 +2817,9 @@ components:
       - ServiceCenterLocation
       properties:
         Response:
-          "$ref": "#/components/schemas/PickupGetServiceCenterFacilitiesResponse_Response"
+          $ref: "#/components/schemas/PickupGetServiceCenterFacilitiesResponse_Response"
         ServiceCenterLocation:
-          "$ref": "#/components/schemas/PickupGetServiceCenterFacilitiesResponse_ServiceCenterLocation"
+          $ref: "#/components/schemas/PickupGetServiceCenterFacilitiesResponse_ServiceCenterLocation"
       xml:
         name: PickupGetServiceCenterFacilitiesResponse
       description: Returns service center location information for Origin UPS Facilities
@@ -2831,13 +2831,13 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
            type: array
            items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Container for response.
@@ -2848,11 +2848,11 @@ components:
         DropOffFacilities:
           oneOf:
           - items:
-              "$ref": "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
+              $ref: "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
             type: array
-          - "$ref": "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
+          - $ref: "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
         PickupFacilities:
-          "$ref": "#/components/schemas/ServiceCenterLocation_PickupFacilities"
+          $ref: "#/components/schemas/ServiceCenterLocation_PickupFacilities"
       xml:
         name: ServiceCenterLocation
       description: Locations of the nearest Service Center for Dropoff and Pickup
@@ -2875,7 +2875,7 @@ components:
           maximum: 1
           type: string
         Address:
-          "$ref": "#/components/schemas/DropOffFacilities_Address"
+          $ref: "#/components/schemas/DropOffFacilities_Address"
         SLIC:
           description: SLIC code for the UPS Drop off facility.
           maximum: 1
@@ -2911,7 +2911,7 @@ components:
           minLength: 10
           maxLength: 10
         FacilityTime:
-          "$ref": "#/components/schemas/DropOffFacilities_FacilityTime"
+          $ref: "#/components/schemas/DropOffFacilities_FacilityTime"
         OriginOrDestination:
           description: Type of Facility.
           maximum: 1
@@ -2919,11 +2919,11 @@ components:
         LocalizedInstruction:
           oneOf:
           - items:
-              "$ref": "#/components/schemas/DropOffFacilities_LocalizedInstruction"
+              $ref: "#/components/schemas/DropOffFacilities_LocalizedInstruction"
             type: array
-          - "$ref": "#/components/schemas/DropOffFacilities_LocalizedInstruction"
+          - $ref: "#/components/schemas/DropOffFacilities_LocalizedInstruction"
         Distance:
-          "$ref": "#/components/schemas/DropOffFacilities_Distance"
+          $ref: "#/components/schemas/DropOffFacilities_Distance"
       xml:
         name: DropOffFacilities
       description: Returns information for DropOff Facilities. This includes name
@@ -2991,7 +2991,7 @@ components:
         DayOfWeek:
           type: array
           items:
-            "$ref": "#/components/schemas/FacilityTime_DayOfWeek"
+            $ref: "#/components/schemas/FacilityTime_DayOfWeek"
       xml:
         name: FacilityTime
       description: Facility Time Container
@@ -3118,7 +3118,7 @@ components:
           maximum: 1
           type: string
         Address:
-          "$ref": "#/components/schemas/PickupFacilities_Address"
+          $ref: "#/components/schemas/PickupFacilities_Address"
         SLIC:
           description: SLIC code for the UPS Pickup facility
           maximum: 1
@@ -3154,7 +3154,7 @@ components:
           minLength: 10
           maxLength: 10
         FacilityTime:
-          "$ref": "#/components/schemas/PickupFacilities_FacilityTime"
+          $ref: "#/components/schemas/PickupFacilities_FacilityTime"
         AirportCode:
           description: "AirPort Code for destination/pickup facility.\nExample: ATL
             (Atlanta)\nIf Airport code is not present \"---\" will be returned."
@@ -3234,7 +3234,7 @@ components:
         DayOfWeek:
            type: array
            items:
-            "$ref": "#/components/schemas/PickupFacilities_FacilityTime_DayOfWeek"
+            $ref: "#/components/schemas/PickupFacilities_FacilityTime_DayOfWeek"
       xml:
         name: FacilityTime
       description: Facility Time Container
@@ -3308,7 +3308,7 @@ components:
       - PickupPendingStatusRequest
       properties:
         PickupPendingStatusRequest:
-          "$ref": "#/components/schemas/PickupPendingStatusRequest"
+          $ref: "#/components/schemas/PickupPendingStatusRequest"
     PICKUPPendingResponseWrapper:
       xml:
         name: PickupPendingStatusResponse
@@ -3319,7 +3319,7 @@ components:
       - PickupPendingStatusResponse
       properties:
         PickupPendingStatusResponse:
-          "$ref": "#/components/schemas/PickupPendingStatusResponse"
+          $ref: "#/components/schemas/PickupPendingStatusResponse"
     PickupPendingStatusRequest:
       type: object
       required:
@@ -3328,7 +3328,7 @@ components:
       - AccountNumber
       properties:
         Request:
-          "$ref": "#/components/schemas/PickupPendingStatusRequest_Request"
+          $ref: "#/components/schemas/PickupPendingStatusRequest_Request"
         PickupType:
           description: |-
             Specify the type of pending pickup.
@@ -3351,7 +3351,7 @@ components:
       type: object
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       description: Common element for all services.
@@ -3363,13 +3363,13 @@ components:
       - PendingStatus
       properties:
         Response:
-          "$ref": "#/components/schemas/PickupPendingStatusResponse_Response"
+          $ref: "#/components/schemas/PickupPendingStatusResponse_Response"
         PendingStatus:
           oneOf:
           - items:
-              "$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
+              $ref: "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
             type: array
-          - "$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
+          - $ref: "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
       xml:
         name: PickupPendingStatusResponse
       description: The response of the pending status for on-callpickup.
@@ -3380,13 +3380,13 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
            type: array
            items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response Container.
@@ -3484,7 +3484,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -3493,7 +3493,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

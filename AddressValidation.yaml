@@ -96,7 +96,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/XAVRequestWrapper"
+              $ref: "#/components/schemas/XAVRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -122,31 +122,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/XAVResponseWrapper"
+                $ref: "#/components/schemas/XAVResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/addressvalidation/{deprecatedVersion}/{requestoption}":
     post:
       deprecated: true
@@ -216,7 +216,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/XAVRequestWrapper"
+              $ref: "#/components/schemas/XAVRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -242,31 +242,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/XAVResponseWrapper"
+                $ref: "#/components/schemas/XAVResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -294,7 +294,7 @@ components:
       - XAVRequest
       properties:
         XAVRequest:
-          "$ref": "#/components/schemas/XAVRequest"
+          $ref: "#/components/schemas/XAVRequest"
     XAVResponseWrapper:
       xml:
         name: XAVResponse
@@ -305,7 +305,7 @@ components:
       - XAVResponse
       properties:
         XAVResponse:
-          "$ref": "#/components/schemas/XAVResponse"
+          $ref: "#/components/schemas/XAVResponse"
     XAVRequest:
       type: object
       required:
@@ -313,9 +313,9 @@ components:
       - Request
       properties:
         Request:
-          "$ref": "#/components/schemas/XAVRequest_Request"
+          $ref: "#/components/schemas/XAVRequest_Request"
         RegionalRequestIndicator:
-          description: >
+          description: >-
             If this indicator is present then either the region element
             or any combination of Political Division 1, Political Division 2, PostcodePrimaryLow
             and the PostcodeExtendedLow fields will be recognized for validation in
@@ -336,7 +336,7 @@ components:
           minLength: 1
           maxLength: 2
         AddressKeyFormat:
-          "$ref": "#/components/schemas/XAVRequest_AddressKeyFormat"
+          $ref: "#/components/schemas/XAVRequest_AddressKeyFormat"
       xml:
         name: XAVRequest
       maximum: 1
@@ -367,7 +367,7 @@ components:
           minLength: 1
           maxLength: 1
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       required:
@@ -474,7 +474,7 @@ components:
       - Response
       properties:
         Response:
-          "$ref": "#/components/schemas/XAVResponse_Response"
+          $ref: "#/components/schemas/XAVResponse_Response"
         ValidAddressIndicator:
           description: Indicates query found a valid match.
           maximum: 1
@@ -489,7 +489,7 @@ components:
           maximum: 1
           type: string
         AddressClassification:
-          "$ref": "#/components/schemas/XAVResponse_AddressClassification"
+          $ref: "#/components/schemas/XAVResponse_AddressClassification"
         Candidate:
           description: |
               Candidate Container.
@@ -497,7 +497,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/XAVResponse_Candidate"
+            $ref: "#/components/schemas/XAVResponse_Candidate"
       xml:
         name: XAVResponse
       maximum: 1
@@ -508,7 +508,7 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
             Alert Container. There can be zero to many alert containers with code and description.
@@ -516,9 +516,9 @@ components:
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response Container.
@@ -617,9 +617,9 @@ components:
       type: object
       properties:
         AddressClassification:
-          "$ref": "#/components/schemas/Candidate_AddressClassification"
+          $ref: "#/components/schemas/Candidate_AddressClassification"
         AddressKeyFormat:
-          "$ref": "#/components/schemas/Candidate_AddressKeyFormat"
+          $ref: "#/components/schemas/Candidate_AddressKeyFormat"
       xml:
         name: Candidate
       required:
@@ -739,7 +739,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -748,7 +748,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

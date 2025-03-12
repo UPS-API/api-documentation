@@ -85,7 +85,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/LOCATORRequestWrapper"
+              $ref: "#/components/schemas/LOCATORRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -138,31 +138,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/LOCATORResponseWrapper"
+                $ref: "#/components/schemas/LOCATORResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/locations/{deprecatedVersion}/search/availabilities/{reqOption}":
     post:
       deprecated: true
@@ -226,7 +226,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/LOCATORRequestWrapper"
+              $ref: "#/components/schemas/LOCATORRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -279,31 +279,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/LOCATORResponseWrapper"
+                $ref: "#/components/schemas/LOCATORResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -331,7 +331,7 @@ components:
       - LocatorRequest
       properties:
         LocatorRequest:
-          "$ref": "#/components/schemas/LocatorRequest"
+          $ref: "#/components/schemas/LocatorRequest"
     LOCATORResponseWrapper:
       xml:
         name: LocatorResponse
@@ -342,7 +342,7 @@ components:
       - LocatorResponse
       properties:
         LocatorResponse:
-          "$ref": "#/components/schemas/LocatorResponse"
+          $ref: "#/components/schemas/LocatorResponse"
     LocatorRequest:
       type: object
       required:
@@ -351,13 +351,13 @@ components:
       - Translate
       properties:
         Request:
-          "$ref": "#/components/schemas/LocatorRequest_Request"
+          $ref: "#/components/schemas/LocatorRequest_Request"
         OriginAddress:
-          "$ref": "#/components/schemas/LocatorRequest_OriginAddress"
+          $ref: "#/components/schemas/LocatorRequest_OriginAddress"
         Translate:
-          "$ref": "#/components/schemas/LocatorRequest_Translate"
+          $ref: "#/components/schemas/LocatorRequest_Translate"
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/LocatorRequest_UnitOfMeasurement"
+          $ref: "#/components/schemas/LocatorRequest_UnitOfMeasurement"
         LocationID:
           description: Location ID is the identification number of the UPS affiliated
             location.
@@ -367,9 +367,9 @@ components:
           minLength: 1
           maxLength: 10
         LocationSearchCriteria:
-          "$ref": "#/components/schemas/LocatorRequest_LocationSearchCriteria"
+          $ref: "#/components/schemas/LocatorRequest_LocationSearchCriteria"
         SortCriteria:
-          "$ref": "#/components/schemas/LocatorRequest_SortCriteria"
+          $ref: "#/components/schemas/LocatorRequest_SortCriteria"
         AllowAllConfidenceLevels:
           description: Indicator to allow confidence level in search.
           type: string
@@ -383,7 +383,7 @@ components:
           minLength: 2
           maxLength: 2
         ServiceGeoUnit:
-          "$ref": "#/components/schemas/LocatorRequest_ServiceGeoUnit"
+          $ref: "#/components/schemas/LocatorRequest_ServiceGeoUnit"
         FreightIndicator:
           description: FreightIndicator. Required for Freight Location Search.
           type: string
@@ -396,7 +396,7 @@ components:
       type: object
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
         RequestAction:
           description: "Indicates the action to be taken by the XML service.\nThe
             only valid value is 'Locator'."
@@ -429,9 +429,9 @@ components:
       type: object
       properties:
         Geocode:
-          "$ref": "#/components/schemas/OriginAddress_Geocode"
+          $ref: "#/components/schemas/OriginAddress_Geocode"
         AddressKeyFormat:
-          "$ref": "#/components/schemas/OriginAddress_AddressKeyFormat"
+          $ref: "#/components/schemas/OriginAddress_AddressKeyFormat"
         MaximumListSize:
           description: "If present, indicates the maximum number of locations the
             client wishes to receive in an address candidate response where the provided
@@ -594,7 +594,7 @@ components:
         SearchOption:
           type: array
           items:
-            "$ref": "#/components/schemas/LocationSearchCriteria_SearchOption"
+            $ref: "#/components/schemas/LocationSearchCriteria_SearchOption"
         MaximumListSize:
           description: If present, indicates the maximum number of locations the client
             wishes to receive in response; ranges from 1 to 50 with a default value
@@ -613,13 +613,13 @@ components:
           minLength: 1
           maxLength: 3
         ServiceSearch:
-          "$ref": "#/components/schemas/LocationSearchCriteria_ServiceSearch"
+          $ref: "#/components/schemas/LocationSearchCriteria_ServiceSearch"
         FreightWillCallSearch:
-          "$ref": "#/components/schemas/LocationSearchCriteria_FreightWillCallSearch"
+          $ref: "#/components/schemas/LocationSearchCriteria_FreightWillCallSearch"
         AccessPointSearch:
-          "$ref": "#/components/schemas/LocationSearchCriteria_AccessPointSearch"
+          $ref: "#/components/schemas/LocationSearchCriteria_AccessPointSearch"
         OpenTimeCriteria:
-          "$ref": "#/components/schemas/LocationSearchCriteria_OpenTimeCriteria"
+          $ref: "#/components/schemas/LocationSearchCriteria_OpenTimeCriteria"
         BrexitFilter:
           description: Brexit Filter. Applicable for country code GB; Pass the PostalCode
             for the address in the location search if Brexit functionality is desired.
@@ -643,13 +643,13 @@ components:
       - OptionType
       properties:
         OptionType:
-          "$ref": "#/components/schemas/SearchOption_OptionType"
+          $ref: "#/components/schemas/SearchOption_OptionType"
         OptionCode:
           type: array
           items:
-            "$ref": "#/components/schemas/SearchOption_OptionCode"
+            $ref: "#/components/schemas/SearchOption_OptionCode"
         Relation:
-          "$ref": "#/components/schemas/SearchOption_Relation"
+          $ref: "#/components/schemas/SearchOption_Relation"
       xml:
         name: SearchOption
       description: |
@@ -745,11 +745,11 @@ components:
         ServiceCode:
           type: array
           items:
-            "$ref": "#/components/schemas/ServiceSearch_ServiceCode"
+            $ref: "#/components/schemas/ServiceSearch_ServiceCode"
         ServiceOptionCode:
           type: array
           items:
-            "$ref": "#/components/schemas/ServiceSearch_ServiceOptionCode"
+            $ref: "#/components/schemas/ServiceSearch_ServiceOptionCode"
       xml:
         name: ServiceSearch
       description: Allows for users to further define the search criteria. Refer to
@@ -821,7 +821,7 @@ components:
         FacilityAddress:
           type: array
           items:
-            "$ref": "#/components/schemas/FreightWillCallSearch_FacilityAddress"
+            $ref: "#/components/schemas/FreightWillCallSearch_FacilityAddress"
         OriginOrDestination:
           description: |-
             OriginOrDestination is required for FreightWillCallRequestType 1 and type 3 . Valid values:
@@ -938,9 +938,9 @@ components:
           minLength: 6
           maxLength: 10
         IncludeCriteria:
-          "$ref": "#/components/schemas/AccessPointSearch_IncludeCriteria"
+          $ref: "#/components/schemas/AccessPointSearch_IncludeCriteria"
         ExcludeFromResult:
-          "$ref": "#/components/schemas/AccessPointSearch_ExcludeFromResult"
+          $ref: "#/components/schemas/AccessPointSearch_ExcludeFromResult"
         ExactMatchIndicator:
           description: Presence of this tag represents that "AccessPointSearchByAddress"
             service is requested. The value of this tag is ignored.
@@ -960,11 +960,11 @@ components:
       type: object
       properties:
         MerchantAccountNumberList:
-          "$ref": "#/components/schemas/IncludeCriteria_MerchantAccountNumberList"
+          $ref: "#/components/schemas/IncludeCriteria_MerchantAccountNumberList"
         SearchFilter:
-          "$ref": "#/components/schemas/IncludeCriteria_SearchFilter"
+          $ref: "#/components/schemas/IncludeCriteria_SearchFilter"
         ServiceOfferingList:
-          "$ref": "#/components/schemas/IncludeCriteria_ServiceOfferingList"
+          $ref: "#/components/schemas/IncludeCriteria_ServiceOfferingList"
       xml:
         name: IncludeCriteria
       description: This contains elements to refine (include) UPS Access point address
@@ -1030,7 +1030,7 @@ components:
         ServiceOffering:
           type: array
           items:
-            "$ref": "#/components/schemas/ServiceOfferingList_ServiceOffering"
+            $ref: "#/components/schemas/ServiceOfferingList_ServiceOffering"
       xml:
         name: ServiceOfferingList
       description: Container to hold end point service offering List for UPS Access
@@ -1094,7 +1094,7 @@ components:
           minLength: 1
           maxLength: 3
         PostalCodeList:
-          "$ref": "#/components/schemas/ExcludeFromResult_PostalCodeList"
+          $ref: "#/components/schemas/ExcludeFromResult_PostalCodeList"
       xml:
         name: ExcludeFromResult
       description: This contains elements to exclude from UPS Access Point address
@@ -1107,7 +1107,7 @@ components:
         PostalCode:
           type: array
           items:
-            "$ref": "#/components/schemas/PostalCodeList_PostalCode"
+            $ref: "#/components/schemas/PostalCodeList_PostalCode"
       xml:
         name: PostalCodeList
       description: Container to hold a list of postal codes to exclude from the access
@@ -1221,11 +1221,11 @@ components:
       - SearchResults
       properties:
         Response:
-          "$ref": "#/components/schemas/LocatorResponse_Response"
+          $ref: "#/components/schemas/LocatorResponse_Response"
         Geocode:
-          "$ref": "#/components/schemas/LocatorResponse_Geocode"
+          $ref: "#/components/schemas/LocatorResponse_Geocode"
         SearchResults:
-          "$ref": "#/components/schemas/LocatorResponse_SearchResults"
+          $ref: "#/components/schemas/LocatorResponse_SearchResults"
         AllowAllConfidenceLevels:
           description: |-
             Confidence level.
@@ -1242,7 +1242,7 @@ components:
       type: object
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
         ResponseStatusCode:
           description: "Identifies the success or failure of the interchange.\n1-Success\n0-Failure"
           maximum: 1
@@ -1256,7 +1256,7 @@ components:
           minLength: 1
           maxLength: 15
         Error:
-          "$ref": "#/components/schemas/Response_Error"
+          $ref: "#/components/schemas/Response_Error"
       xml:
         name: Response
       maximum: 1
@@ -1325,7 +1325,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Error_ErrorLocation"
+            $ref: "#/components/schemas/Error_ErrorLocation"
         ErrorDigest:
           description: |
               The contents of the element in error.
@@ -1388,7 +1388,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SearchResults_GeocodeCandidate"
+            $ref: "#/components/schemas/SearchResults_GeocodeCandidate"
         Disclaimer:
           type: string
           description: "Disclaimer. In the event the user requested Ground and Air
@@ -1406,7 +1406,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SearchResults_DropLocation"
+            $ref: "#/components/schemas/SearchResults_DropLocation"
         AvailableLocationAttributes:
           description: |
               This container contains the information about the currently existing Retail Locations or Additional Services or Program types.
@@ -1414,7 +1414,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SearchResults_AvailableLocationAttributes"
+            $ref: "#/components/schemas/SearchResults_AvailableLocationAttributes"
         ActiveAvailableAccessPointIndicator:
           description: "Indicates whether the country or territory has AccessPoints
             or not.\n\nThis tag is populated in the Response only if tag \"ExistIndicator\"
@@ -1432,9 +1432,9 @@ components:
       - AddressKeyFormat
       properties:
         AddressKeyFormat:
-          "$ref": "#/components/schemas/GeocodeCandidate_AddressKeyFormat"
+          $ref: "#/components/schemas/GeocodeCandidate_AddressKeyFormat"
         Geocode:
-          "$ref": "#/components/schemas/GeocodeCandidate_Geocode"
+          $ref: "#/components/schemas/GeocodeCandidate_Geocode"
         LandmarkName:
           description: If a Landmark code was provided in the request, a candidate
             list of Landmark Names will be returned along with the corresponding address
@@ -1528,11 +1528,11 @@ components:
           minLength: 2
           maxLength: 2
         IVR:
-          "$ref": "#/components/schemas/DropLocation_IVR"
+          $ref: "#/components/schemas/DropLocation_IVR"
         Geocode:
-          "$ref": "#/components/schemas/DropLocation_Geocode"
+          $ref: "#/components/schemas/DropLocation_Geocode"
         AddressKeyFormat:
-          "$ref": "#/components/schemas/DropLocation_AddressKeyFormat"
+          $ref: "#/components/schemas/DropLocation_AddressKeyFormat"
         PhoneNumber:
           description: |
               The UPS locations Phone number. A phone number of the location will be returned.
@@ -1572,9 +1572,9 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/DropLocation_LocationAttribute"
+            $ref: "#/components/schemas/DropLocation_LocationAttribute"
         Distance:
-          "$ref": "#/components/schemas/DropLocation_Distance"
+          $ref: "#/components/schemas/DropLocation_Distance"
         SpecialInstructions:
           description: |
               Walking directions.
@@ -1582,7 +1582,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/DropLocation_SpecialInstructions"
+            $ref: "#/components/schemas/DropLocation_SpecialInstructions"
         LatestGroundDropOffTime:
           description: |
               The latest ground time the users can Drop-off the package at the location to be picked up. The time information is based on the time at the UPS location.
@@ -1651,7 +1651,7 @@ components:
           minLength: 1
           maxLength: 255
         AdditionalComments:
-          "$ref": "#/components/schemas/DropLocation_AdditionalComments"
+          $ref: "#/components/schemas/DropLocation_AdditionalComments"
         Disclaimer:
           description: |
               Textual disclaimer about the drop location.
@@ -1679,7 +1679,7 @@ components:
           minLength: 3
           maxLength: 3
         OperatingHours:
-          "$ref": "#/components/schemas/DropLocation_OperatingHours"
+          $ref: "#/components/schemas/DropLocation_OperatingHours"
         LocalizedInstruction:
           description: |
               LocalizedInstruction container. Applicable for SearchOptionCode 01, 02, 03.
@@ -1687,7 +1687,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/DropLocation_LocalizedInstruction"
+            $ref: "#/components/schemas/DropLocation_LocalizedInstruction"
         PromotionInformation:
           description: |
               Container to hold any promotion text for the location. Text will be displayed in English or the locale given in the request.
@@ -1695,11 +1695,11 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/DropLocation_PromotionInformation"
+            $ref: "#/components/schemas/DropLocation_PromotionInformation"
         SortCode:
-          "$ref": "#/components/schemas/DropLocation_SortCode"
+          $ref: "#/components/schemas/DropLocation_SortCode"
         ServiceOfferingList:
-          "$ref": "#/components/schemas/DropLocation_ServiceOfferingList"
+          $ref: "#/components/schemas/DropLocation_ServiceOfferingList"
         DisplayPhoneNumberIndicator:
           description: "Valid Values:\n0-Do not display phone number\n1-Display phone
             number.\nThis indicator will be returned only for the contact type Telephone
@@ -1710,9 +1710,9 @@ components:
           minLength: 1
           maxLength: 1
         AccessPointInformation:
-          "$ref": "#/components/schemas/DropLocation_AccessPointInformation"
+          $ref: "#/components/schemas/DropLocation_AccessPointInformation"
         LocationImage:
-          "$ref": "#/components/schemas/DropLocation_LocationImage"
+          $ref: "#/components/schemas/DropLocation_LocationImage"
         LocationNewIndicator:
           description: Indicator for new location.
           type: string
@@ -1833,7 +1833,7 @@ components:
       - OptionType
       properties:
         OptionType:
-          "$ref": "#/components/schemas/LocationAttribute_OptionType"
+          $ref: "#/components/schemas/LocationAttribute_OptionType"
         OptionCode:
            description: |
                Option code is a container that contains the information of a particular type of Location or retail location or additional service or program type that the drop location contains.
@@ -1845,7 +1845,7 @@ components:
                **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
            type: array
            items:
-             "$ref": "#/components/schemas/LocationAttribute_OptionCode"
+             $ref: "#/components/schemas/LocationAttribute_OptionCode"
       xml:
         name: LocationAttribute
       description: LocationAttribute is a container that contains the information
@@ -1903,7 +1903,7 @@ components:
           minLength: 1
           maxLength: 50
         TransportationPickUpSchedule:
-          "$ref": "#/components/schemas/OptionCode_TransportationPickUpSchedule"
+          $ref: "#/components/schemas/OptionCode_TransportationPickUpSchedule"
       xml:
         name: OptionCode
       maximum: 1
@@ -1922,7 +1922,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/TransportationPickUpSchedule_PickUp"
+            $ref: "#/components/schemas/TransportationPickUpSchedule_PickUp"
       xml:
         name: TransportationPickUpSchedule
       description: TransportationPickUpSchedule container contains details of Latest Drop Off time/Pickup Time for the transportation services (Ground/Air/Standard/Express/International) of the location.
@@ -1947,7 +1947,7 @@ components:
           minLength: 1
           maxLength: 1
         PickUpDetails:
-          "$ref": "#/components/schemas/PickUp_PickUpDetails"
+          $ref: "#/components/schemas/PickUp_PickUpDetails"
       xml:
         name: PickUp
     PickUp_PickUpDetails:
@@ -1982,7 +1982,7 @@ components:
           minLength: 1
           maxLength: 4
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/Distance_UnitOfMeasurement"
+          $ref: "#/components/schemas/Distance_UnitOfMeasurement"
       xml:
         name: Distance
       description: Container for the straight line distance from the origin to the
@@ -2035,7 +2035,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/AdditionalComments_CommentType"
+            $ref: "#/components/schemas/AdditionalComments_CommentType"
       xml:
         name: AdditionalComments
       description: Container for Additional Comments about Location.Text will be displayed
@@ -2072,7 +2072,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/OperatingHours_StandardHours"
+            $ref: "#/components/schemas/OperatingHours_StandardHours"
       xml:
         name: OperatingHours
       description: Operating Hours.
@@ -2099,7 +2099,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/StandardHours_DayOfWeek"
+            $ref: "#/components/schemas/StandardHours_DayOfWeek"
       xml:
         name: StandardHours
     StandardHours_DayOfWeek:
@@ -2236,7 +2236,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/ServiceOfferingList_ServiceOffering"
+            $ref: "#/components/schemas/ServiceOfferingList_ServiceOffering"
       xml:
         name: ServiceOfferingList
       description: Container to hold the list of service offerings at the end point.
@@ -2258,9 +2258,9 @@ components:
           minLength: 1
           maxLength: 255
         BusinessClassificationList:
-          "$ref": "#/components/schemas/AccessPointInformation_BusinessClassificationList"
+          $ref: "#/components/schemas/AccessPointInformation_BusinessClassificationList"
         AccessPointStatus:
-          "$ref": "#/components/schemas/AccessPointInformation_AccessPointStatus"
+          $ref: "#/components/schemas/AccessPointInformation_AccessPointStatus"
         FacilitySLIC:
           description: Holds the value of facility SLIC of Access Point Location.
             Not implemented currently. For future use.
@@ -2269,9 +2269,9 @@ components:
           minLength: 1
           maxLength: 10
         PrivateNetworkList:
-          "$ref": "#/components/schemas/AccessPointInformation_PrivateNetworkList"
+          $ref: "#/components/schemas/AccessPointInformation_PrivateNetworkList"
         Availability:
-          "$ref": "#/components/schemas/AccessPointInformation_Availability"
+          $ref: "#/components/schemas/AccessPointInformation_Availability"
       xml:
         name: AccessPointInformation
       description: Container for UPS Access Point specific parameters.
@@ -2287,7 +2287,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/BusinessClassificationList_BusinessClassification"
+            $ref: "#/components/schemas/BusinessClassificationList_BusinessClassification"
       xml:
         name: BusinessClassificationList
       description: Container to hold list for business classification.
@@ -2347,7 +2347,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/PrivateNetworkList_PrivateNetwork"
+            $ref: "#/components/schemas/PrivateNetworkList_PrivateNetwork"
       xml:
         name: PrivateNetworkList
       description: Container to hold the list of private networks.
@@ -2377,9 +2377,9 @@ components:
       type: object
       properties:
         ShippingAvailability:
-          "$ref": "#/components/schemas/Availability_ShippingAvailability"
+          $ref: "#/components/schemas/Availability_ShippingAvailability"
         DCRAvailability:
-          "$ref": "#/components/schemas/Availability_DCRAvailability"
+          $ref: "#/components/schemas/Availability_DCRAvailability"
       xml:
         name: Availability
       description: Container to hold the status of shipping or DRC/DCO availability
@@ -2395,7 +2395,7 @@ components:
           type: string
           maximum: 1
         UnavailableReason:
-          "$ref": "#/components/schemas/ShippingAvailability_UnavailableReason"
+          $ref: "#/components/schemas/ShippingAvailability_UnavailableReason"
       xml:
         name: ShippingAvailability
       description: Holds status of shipping availability.
@@ -2438,7 +2438,7 @@ components:
           type: string
           maximum: 1
         UnavailableReason:
-          "$ref": "#/components/schemas/DCRAvailability_UnavailableReason"
+          $ref: "#/components/schemas/DCRAvailability_UnavailableReason"
       xml:
         name: DCRAvailability
       description: Holds status of DCR/DCO availability.
@@ -2481,9 +2481,9 @@ components:
       - OptionType
       properties:
         OptionType:
-          "$ref": "#/components/schemas/AvailableLocationAttributes_OptionType"
+          $ref: "#/components/schemas/AvailableLocationAttributes_OptionType"
         OptionCode:
-          "$ref": "#/components/schemas/AvailableLocationAttributes_OptionCode"
+          $ref: "#/components/schemas/AvailableLocationAttributes_OptionCode"
       xml:
         name: AvailableLocationAttributes
     AvailableLocationAttributes_OptionType:
@@ -2507,11 +2507,10 @@ components:
         the list of all available retail locations will be returned in 1 or many corresponding
         OptionCodes.
     AvailableLocationAttributes_OptionCode:
-          description: |
-              **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
+          description: '**NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.'
           type: array
           items:
-            "$ref": "#/components/schemas/AvailableLocationAttributes_OptionCodeElement"
+            $ref: "#/components/schemas/AvailableLocationAttributes_OptionCodeElement"
     AvailableLocationAttributes_OptionCodeElement:
       type: object
       maximum: 1
@@ -2540,7 +2539,7 @@ components:
           description: N/A
           type: string
         TransportationPickUpSchedule:
-          "$ref": "#/components/schemas/AvailableLocationAttributesOptionCode_TransportationPickUpSchedule"
+          $ref: "#/components/schemas/AvailableLocationAttributesOptionCode_TransportationPickUpSchedule"
       xml:
         name: OptionCode
       description: Option code is a container that contains the information of a particular
@@ -2559,7 +2558,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/AvailableLocationAttributes_TransportationPickUpSchedule_PickUp"
+            $ref: "#/components/schemas/AvailableLocationAttributes_TransportationPickUpSchedule_PickUp"
       xml:
         name: TransportationPickUpSchedule
       description: Container to hold information regarding pickup details for each day of the week.
@@ -2584,7 +2583,7 @@ components:
           minLength: 1
           maxLength: 1
         PickUpDetails:
-          "$ref": "#/components/schemas/AvailableLocationAttributes_PickUp_PickUpDetails"
+          $ref: "#/components/schemas/AvailableLocationAttributes_PickUp_PickUpDetails"
       xml:
         name: PickUp
     AvailableLocationAttributes_PickUp_PickUpDetails:
@@ -2611,7 +2610,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -2620,7 +2619,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

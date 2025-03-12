@@ -773,8 +773,7 @@ components:
   parameters:
     transactionSrc:
       name: transactionSrc
-      description: >-
-        Identifies the client/source application that is calling the API.
+      description: Identifies the client/source application that is calling the API.
       in: header
       required: true
       style: simple
@@ -984,8 +983,7 @@ components:
       required: [chargeCurrency]
       properties:
         accessorialCharge:
-          description: |
-            Includes sum of all accessorial charges (i.e. including addition handling, intercept).
+          description: Includes sum of all accessorial charges (i.e. including addition handling, intercept).
           type: string
           maxLength: 20
           example: "5.00"
@@ -1334,8 +1332,7 @@ components:
           maxLength: 254
           example: Watch for dog
         originalPublicLocationId:
-          description: |
-            The original UAP public location ID where the package is currently located or in-transit to. Format- UXXXXXXXX  ('U' followed by 8 numbers)
+          description: The original UAP public location ID where the package is currently located or in-transit to. Format- UXXXXXXXX  ('U' followed by 8 numbers)
           type: string
           maxLength: 9
           minLength: 9
@@ -1378,8 +1375,7 @@ components:
           example: 1Z1144YY0125887968
         multiTrackingNumbers:
           type: array
-          description: |
-            This unbounded array is required only for the API version v3. It is used to process multiple tracking numbers with the same request.
+          description: This unbounded array is required only for the API version v3. It is used to process multiple tracking numbers with the same request.
           items:
             $ref: '#/components/schemas/MultiTrackingNumbers'
     MyChoiceInterceptCommonResponse:
@@ -2098,8 +2094,7 @@ components:
               type: string
               example: "TPSJWGKFWNMG4020"
             cardType:
-              description: |
-                The card type is required for non-authorized cards and new cards.
+              description: The card type is required for non-authorized cards and new cards.
               maxLength: 2
               minLength: 2
               example: "01"
@@ -2138,39 +2133,32 @@ components:
                   type: object
                   properties:
                     cardTypeID:
-                      description: |
-                        The card type ID
+                      description: The card type ID
                       example: "04"
                       type: string
                     cardTypeName:
-                      description: |
-                        The card type name
+                      description: The card type name
                       example: "04"
                       type: string
                     cardTypePCSName:
-                      description: |
-                        the card type PCS name
+                      description: the card type PCS name
                       example: "MASTERCARD"
                       type: string
                     cardTypeLength:
-                      description: |
-                         the card type length
+                      description: the card type length
                       type: string
                     cardTypeMaxLength:
-                      description: |
-                        the max length for card type
+                      description: the max length for card type
                       example: 16
                       type: integer
                       format: int32
                     cardTypeMinLength:
-                      description: |
-                        the min length for card type
+                      description: the min length for card type
                       example: 16
                       type: integer
                       format: int32
                     cardTypePaymentType:
-                      description: |
-                        the card type payment type
+                      description: the card type payment type
                       example: "CC"
                       type: string
                 lastFourChars:
@@ -2227,15 +2215,14 @@ components:
               description: Displayable account number.
               type: string
             zipCode:
-              description: |
-                Request required when saveAccountInfo is TRUE. Postal code associated with the account used when saving a new account to the user's profile.
+              description: Request required when saveAccountInfo is TRUE. Postal code associated with the account used when saving a new account to the user's profile.
               type: string
               example: "21009"
             accountType:
               type: string
               description: UPS account type.
             defaultAccount:
-              description:  |
+              description: |
                 when saveAccountInfo is TRUE. If this is the default account in the user's profile.
                 TRUE - account is the default / will be saved as the default account.
                 FALSE - account is not the default payment.
@@ -2296,8 +2283,7 @@ components:
               description: The account name associated with this payment.
               type: string
             guidCode:
-              description: |
-                Request required for pre-authorized payment. The guid generated after the transaction payment authorization, acts as the authorization code.
+              description: Request required for pre-authorized payment. The guid generated after the transaction payment authorization, acts as the authorization code.
               type: string
               example : "EB154DF85A3F4309A774EB500E4EBDAD"
             payPalBillingAgreementId:
@@ -2364,22 +2350,19 @@ components:
           required: [transactionId, statusCode, errors]
           properties:
               transactionId:
-                description: |-
-                  A unique value that will be used to identify the transaction for logging and troubleshooting purposes.
+                description: A unique value that will be used to identify the transaction for logging and troubleshooting purposes.
                 maxLength: 14
                 minLength: 1
                 example: ASR1212
                 type: string
               statusCode:
-                description: |-
-                  API response status code, Internal code regarding the success or failure of the operation
+                description: API response status code, Internal code regarding the success or failure of the operation
                 maxLength: 4
                 minLength: 1
                 example: "0006"
                 type: string
               subStatusCode:
-                description: |-
-                  A new status code for adding granularity to the existing status code structure
+                description: A new status code for adding granularity to the existing status code structure
                 type: string
               success:
                 description: Indicates if the transaction is considered successful.
@@ -2394,15 +2377,13 @@ components:
                   type: object
                   properties:
                     code:
-                      description: |-
-                          the code of the error
+                      description: the code of the error
                       maxLength: 4
                       minLength: 1
                       example: "0006"
                       type: string
                     message:
-                      description: |-
-                        the message of the error
+                      description: the message of the error
                       maxLength: 120
                       minLength: 1
                       example: "Failure to check eligibility through Tracking component"

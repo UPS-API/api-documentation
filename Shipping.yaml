@@ -80,7 +80,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/SHIPRequestWrapper"
+              $ref: "#/components/schemas/SHIPRequestWrapper"
             examples:
               '1':
                 summary: Shipping Request(Standard Example)
@@ -1914,31 +1914,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SHIPResponseWrapper"
+                $ref: "#/components/schemas/SHIPResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/shipments/{version}/void/cancel/{shipmentidentificationnumber}":
     delete:
       description: The Void Shipping API is used to cancel the previously scheduled
@@ -2000,31 +2000,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/VOIDSHIPMENTResponseWrapper"
+                $ref: "#/components/schemas/VOIDSHIPMENTResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/labels/{version}/recovery":
     post:
       description: The Label Shipping API allows us to retrieve forward and return
@@ -2072,7 +2072,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/LABELRECOVERYRequestWrapper"
+              $ref: "#/components/schemas/LABELRECOVERYRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request
@@ -2104,31 +2104,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/LABELRECOVERYResponseWrapper"
+                $ref: "#/components/schemas/LABELRECOVERYResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/shipments/{deprecatedVersion}/ship":
     post:
       deprecated: true
@@ -2191,7 +2191,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/SHIPRequestWrapper"
+              $ref: "#/components/schemas/SHIPRequestWrapper"
             examples:
               '1':
                 summary: Shipping Request(Standard Example)
@@ -3951,31 +3951,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SHIPResponseWrapper"
+                $ref: "#/components/schemas/SHIPResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/shipments/{deprecatedVersion}/void/cancel/{shipmentidentificationnumber}":
     delete:
       deprecated: true
@@ -4038,31 +4038,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/VOIDSHIPMENTResponseWrapper"
+                $ref: "#/components/schemas/VOIDSHIPMENTResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -4089,7 +4089,7 @@ components:
       - ShipmentRequest
       properties:
         ShipmentRequest:
-          "$ref": "#/components/schemas/ShipmentRequest"
+          $ref: "#/components/schemas/ShipmentRequest"
     SHIPResponseWrapper:
       xml:
         name: ShipmentResponse
@@ -4100,7 +4100,7 @@ components:
       - ShipmentResponse
       properties:
         ShipmentResponse:
-          "$ref": "#/components/schemas/ShipmentResponse"
+          $ref: "#/components/schemas/ShipmentResponse"
     ShipmentRequest:
       type: object
       required:
@@ -4108,13 +4108,13 @@ components:
       - Shipment
       properties:
         Request:
-          "$ref": "#/components/schemas/ShipmentRequest_Request"
+          $ref: "#/components/schemas/ShipmentRequest_Request"
         Shipment:
-          "$ref": "#/components/schemas/ShipmentRequest_Shipment"
+          $ref: "#/components/schemas/ShipmentRequest_Shipment"
         LabelSpecification:
-          "$ref": "#/components/schemas/ShipmentRequest_LabelSpecification"
+          $ref: "#/components/schemas/ShipmentRequest_LabelSpecification"
         ReceiptSpecification:
-          "$ref": "#/components/schemas/ShipmentRequest_ReceiptSpecification"
+          $ref: "#/components/schemas/ShipmentRequest_ReceiptSpecification"
       xml:
         name: ShipmentRequest
       description: Shipment Request.
@@ -4138,8 +4138,7 @@ components:
           example: Alpharetta
         StateProvinceCode:
           type: string
-          description: |
-            The code of the address's admininstrative division (state, province, distict, prefecture, etc...).
+          description: The code of the address's admininstrative division (state, province, distict, prefecture, etc...).
           minLength: 2
           maxLength: 5
           example: GA
@@ -4235,7 +4234,7 @@ components:
               example: John Doe
             Address:
               description: Address of the POE. For Master/Child Shipment
-              "$ref": "#/components/schemas/Address_POE"
+              $ref: "#/components/schemas/Address_POE"
           required:
             - Name
             - ClearancePortCode
@@ -4280,7 +4279,7 @@ components:
           minLength: 4
           maxLength: 4
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       description: Request Container
@@ -4318,7 +4317,7 @@ components:
           minLength: 1
           maxLength: 50
         ReturnService:
-          "$ref": "#/components/schemas/Shipment_ReturnService"
+          $ref: "#/components/schemas/Shipment_ReturnService"
         DocumentsOnlyIndicator:
           description: "Indicates a shipment contains written, typed, or printed communication
             of no commercial value.\n\nIf DocumentsOnly is not specified then it
@@ -4331,23 +4330,23 @@ components:
           maximum: 1
           type: string
         Shipper:
-          "$ref": "#/components/schemas/Shipment_Shipper"
+          $ref: "#/components/schemas/Shipment_Shipper"
         ShipTo:
-          "$ref": "#/components/schemas/Shipment_ShipTo"
+          $ref: "#/components/schemas/Shipment_ShipTo"
         AlternateDeliveryAddress:
-          "$ref": "#/components/schemas/Shipment_AlternateDeliveryAddress"
+          $ref: "#/components/schemas/Shipment_AlternateDeliveryAddress"
         ShipFrom:
-          "$ref": "#/components/schemas/Shipment_ShipFrom"
+          $ref: "#/components/schemas/Shipment_ShipFrom"
         PaymentInformation:
-          "$ref": "#/components/schemas/Shipment_PaymentInformation"
+          $ref: "#/components/schemas/Shipment_PaymentInformation"
         FRSPaymentInformation:
-          "$ref": "#/components/schemas/Shipment_FRSPaymentInformation"
+          $ref: "#/components/schemas/Shipment_FRSPaymentInformation"
         GlobalTaxInformation:
           $ref: '#/components/schemas/Shipment_GlobalTaxInformation'
         WorldEase:
-          "$ref": "#/components/schemas/Shipment_WorldEase"
+          $ref: "#/components/schemas/Shipment_WorldEase"
         FreightShipmentInformation:
-          "$ref": "#/components/schemas/Shipment_FreightShipmentInformation"
+          $ref: "#/components/schemas/Shipment_FreightShipmentInformation"
         GoodsNotInFreeCirculationIndicator:
           description: Goods Not In Free Circulation indicator. This is an empty
             tag, any value inside is ignored. This indicator is invalid for a package
@@ -4355,11 +4354,11 @@ components:
           maximum: 1
           type: string
         PromotionalDiscountInformation:
-          "$ref": "#/components/schemas/Shipment_PromotionalDiscountInformation"
+          $ref: "#/components/schemas/Shipment_PromotionalDiscountInformation"
         DGSignatoryInfo:
-          "$ref": "#/components/schemas/Shipment_DGSignatoryInfo"
+          $ref: "#/components/schemas/Shipment_DGSignatoryInfo"
         ShipmentRatingOptions:
-          "$ref": "#/components/schemas/Shipment_ShipmentRatingOptions"
+          $ref: "#/components/schemas/Shipment_ShipmentRatingOptions"
         MovementReferenceNumber:
           description: Movement Reference Number (MRN) information. Must contain
             alphanumeric characters only. Must be a length of 18 characters. The 3rd
@@ -4371,11 +4370,11 @@ components:
         ReferenceNumber:
           type: array
           items:
-            "$ref": "#/components/schemas/Shipment_ReferenceNumber"
+            $ref: "#/components/schemas/Shipment_ReferenceNumber"
         Service:
-          "$ref": "#/components/schemas/Shipment_Service"
+          $ref: "#/components/schemas/Shipment_Service"
         InvoiceLineTotal:
-          "$ref": "#/components/schemas/Shipment_InvoiceLineTotal"
+          $ref: "#/components/schemas/Shipment_InvoiceLineTotal"
         NumOfPiecesInShipment:
           description: Total number of pieces in all pallets in a UPS Worldwide Express
             Freight Shipment. It is required for UPS Worldwide Express Freight and
@@ -4452,7 +4451,7 @@ components:
         ShipmentIndicationType:
           type: array
           items:
-            "$ref": "#/components/schemas/Shipment_ShipmentIndicationType"
+            $ref: "#/components/schemas/Shipment_ShipmentIndicationType"
         MIDualReturnShipmentKey:
           description: "MIDualReturnShipmentKey is unique key required to process
             Mail Innovations Dual Return Shipment.\n\nThe unique identifier (key)
@@ -4502,7 +4501,7 @@ components:
           maximum: 1
           type: string
         ShipmentServiceOptions:
-          "$ref": "#/components/schemas/Shipment_ShipmentServiceOptions"
+          $ref: "#/components/schemas/Shipment_ShipmentServiceOptions"
         Locale:
           description: "Represents 5 character ISO Locale that allows the user to
             request Reference Number Code on Label, Label instructions and Receipt
@@ -4555,7 +4554,7 @@ components:
           type: array
           maximum: 200
           items:
-            "$ref": "#/components/schemas/Shipment_Package"
+            $ref: "#/components/schemas/Shipment_Package"
         QuoteID:
           description: This field is used to pass the Quote ID generated from the Global Checkout API. This is mandatory to validate your Global Checkout Guaranteed Landed Cost.
           maximum:  1
@@ -4654,7 +4653,7 @@ components:
           minLength: 1
           maxLength: 15
         Phone:
-          "$ref": "#/components/schemas/Shipper_Phone"
+          $ref: "#/components/schemas/Shipper_Phone"
         ShipperNumber:
           description: "Shipper's six digit alphanumeric account number.\n\nMust be
             associated with the UserId specified in the AccessRequest XML.\n\nThe
@@ -4682,7 +4681,7 @@ components:
           minLength: 1
           maxLength: 50
         Address:
-          "$ref": "#/components/schemas/Shipper_Address"
+          $ref: "#/components/schemas/Shipper_Address"
       xml:
         name: Shipper
       description: Container for the Shipper's information.
@@ -4812,7 +4811,7 @@ components:
           minLength: 1
           maxLength: 15
         Phone:
-          "$ref": "#/components/schemas/ShipTo_Phone"
+          $ref: "#/components/schemas/ShipTo_Phone"
         FaxNumber:
           description: Consignee's fax number. If ShipTo country or territory is
             US 10 digits allowed, otherwise 1-15 digits allowed.
@@ -4827,7 +4826,7 @@ components:
           minLength: 1
           maxLength: 50
         Address:
-          "$ref": "#/components/schemas/ShipTo_Address"
+          $ref: "#/components/schemas/ShipTo_Address"
         LocationID:
           description: Location ID is a unique identifier referring to a specific
             shipping/receiving location. Location ID must be alphanumeric characters.
@@ -4962,7 +4961,7 @@ components:
           minLength: 9
           maxLength: 9
         Address:
-          "$ref": "#/components/schemas/AlternateDeliveryAddress_Address"
+          $ref: "#/components/schemas/AlternateDeliveryAddress_Address"
       xml:
         name: AlternateDeliveryAddress
       description: AlternateDeliveryAddress Container. Alternate Delivery Address
@@ -5061,9 +5060,9 @@ components:
           minLength: 1
           maxLength: 15
         TaxIDType:
-          "$ref": "#/components/schemas/ShipFrom_TaxIDType"
+          $ref: "#/components/schemas/ShipFrom_TaxIDType"
         Phone:
-          "$ref": "#/components/schemas/ShipFrom_Phone"
+          $ref: "#/components/schemas/ShipFrom_Phone"
         FaxNumber:
           description: The Ship from fax number. If Ship from country or territory
             is US 10 digits allowed, otherwise 1-15 digits allowed.
@@ -5072,9 +5071,9 @@ components:
           minLength: 1
           maxLength: 15
         Address:
-          "$ref": "#/components/schemas/ShipFrom_Address"
+          $ref: "#/components/schemas/ShipFrom_Address"
         VendorInfo:
-          "$ref": "#/components/schemas/ShipFrom_VendorInfo"
+          $ref: "#/components/schemas/ShipFrom_VendorInfo"
       xml:
         name: ShipFrom
       description: "Ship From Container. Required for return shipment.\n\nRequired
@@ -5248,7 +5247,7 @@ components:
           type: array
           maximum: 3
           items:
-            "$ref": "#/components/schemas/PaymentInformation_ShipmentCharge"
+            $ref: "#/components/schemas/PaymentInformation_ShipmentCharge"
         SplitDutyVATIndicator:
           description: Split Duty VAT Indicator. The presence indicates the payer
             specified for Transportation Charges will pay transportation charges and
@@ -5288,11 +5287,11 @@ components:
           minLength: 2
           maxLength: 2
         BillShipper:
-          "$ref": "#/components/schemas/ShipmentCharge_BillShipper"
+          $ref: "#/components/schemas/ShipmentCharge_BillShipper"
         BillReceiver:
-          "$ref": "#/components/schemas/ShipmentCharge_BillReceiver"
+          $ref: "#/components/schemas/ShipmentCharge_BillReceiver"
         BillThirdParty:
-          "$ref": "#/components/schemas/ShipmentCharge_BillThirdParty"
+          $ref: "#/components/schemas/ShipmentCharge_BillThirdParty"
         ConsigneeBilledIndicator:
           description: |-
             Consignee Billing payment option indicator. The presence indicates consignee billing option is selected. The absence indicates one of the other payment options is selected. This is an empty tag, any value inside is ignored. This element or its sibling element, BillShipper, BillReceiver or BillThirdParty, must be present but no more than one can be present. This billing option is valid for a shipment charge type of Transportation only. Only applies to US/PR and PR/US shipment origins and destination.
@@ -5320,7 +5319,7 @@ components:
           minLength: 6
           maxLength: 6
         CreditCard:
-          "$ref": "#/components/schemas/BillShipper_CreditCard"
+          $ref: "#/components/schemas/BillShipper_CreditCard"
         AlternatePaymentMethod:
           description: "Alternate Payment Method.\n\nValid value: 01= PayPal\n\nOnly
             valid for forward shipments. It is not valid for Return or Import Control
@@ -5397,7 +5396,7 @@ components:
           minLength: 3
           maxLength: 4
         Address:
-          "$ref": "#/components/schemas/CreditCard_Address"
+          $ref: "#/components/schemas/CreditCard_Address"
       xml:
         name: CreditCard
       description: "Credit card information container. Required if neither of the
@@ -5467,7 +5466,7 @@ components:
           minLength: 6
           maxLength: 6
         Address:
-          "$ref": "#/components/schemas/BillReceiver_Address"
+          $ref: "#/components/schemas/BillReceiver_Address"
       xml:
         name: BillReceiver
       description: Container for the BillReceiver billing option. This element or
@@ -5526,7 +5525,7 @@ components:
           minLength: 1
           maxLength: 15
         Address:
-          "$ref": "#/components/schemas/BillThirdParty_Address"
+          $ref: "#/components/schemas/BillThirdParty_Address"
       xml:
         name: BillThirdParty
       required:
@@ -5572,7 +5571,7 @@ components:
       - AccountNumber
       properties:
         Type:
-          "$ref": "#/components/schemas/FRSPaymentInformation_Type"
+          $ref: "#/components/schemas/FRSPaymentInformation_Type"
         AccountNumber:
           description: The UPS account number. If the Ground Freight Pricing indicator
             and FreightShipmentInformation/DensityEligibleIndicator is present in
@@ -5583,7 +5582,7 @@ components:
           minLength: 6
           maxLength: 6
         Address:
-          "$ref": "#/components/schemas/FRSPaymentInformation_Address"
+          $ref: "#/components/schemas/FRSPaymentInformation_Address"
       xml:
         name: FRSPaymentInformation
       description: Container to hold the Payment information for the Ground Freight
@@ -5640,7 +5639,7 @@ components:
       type: object
       properties:
         FreightDensityInfo:
-          "$ref": "#/components/schemas/FreightShipmentInformation_FreightDensityInfo"
+          $ref: "#/components/schemas/FreightShipmentInformation_FreightDensityInfo"
         DensityEligibleIndicator:
           description: |-
             The presence of the tag indicates that the rate request is density based.
@@ -5661,11 +5660,11 @@ components:
           maximum: 1
           type: string
         AdjustedHeight:
-          "$ref": "#/components/schemas/FreightDensityInfo_AdjustedHeight"
+          $ref: "#/components/schemas/FreightDensityInfo_AdjustedHeight"
         HandlingUnits:
           type: array
           items:
-            "$ref": "#/components/schemas/FreightDensityInfo_HandlingUnits"
+            $ref: "#/components/schemas/FreightDensityInfo_HandlingUnits"
       xml:
         name: FreightDensityInfo
       description: Freight Density Info container. Required if DensityEligibleIndicator
@@ -5684,7 +5683,7 @@ components:
           minLength: 1
           maxLength: 19
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
       xml:
         name: AdjustedHeight
       description: Container for the adjusted height. Required if AdjustedHeightIndicator
@@ -5727,9 +5726,9 @@ components:
           minLength: 8
           maxLength: 8
         Type:
-          "$ref": "#/components/schemas/HandlingUnits_Type"
+          $ref: "#/components/schemas/HandlingUnits_Type"
         Dimensions:
-          "$ref": "#/components/schemas/HandlingUnits_Dimensions"
+          $ref: "#/components/schemas/HandlingUnits_Dimensions"
       xml:
         name: HandlingUnits
       description: Handling Unit for Density based rating container.
@@ -5770,7 +5769,7 @@ components:
       - Width
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/HandlingUnits_UnitOfMeasurement"
+          $ref: "#/components/schemas/HandlingUnits_UnitOfMeasurement"
         Length:
           description: The length of the line item used to determine dimensional weight.
           maximum: 1
@@ -6090,9 +6089,9 @@ components:
           maximum: 1
           type: string
         COD:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_COD"
+          $ref: "#/components/schemas/ShipmentServiceOptions_COD"
         AccessPointCOD:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_AccessPointCOD"
+          $ref: "#/components/schemas/ShipmentServiceOptions_AccessPointCOD"
         DeliverToAddresseeOnlyIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. DeliverToAddresseeOnlyIndicator
             is shipper specified restriction that requires the addressee to be the
@@ -6110,13 +6109,13 @@ components:
           type: array
           maximum: 3
           items:
-            "$ref": "#/components/schemas/ShipmentServiceOptions_Notification"
+            $ref: "#/components/schemas/ShipmentServiceOptions_Notification"
         LabelDelivery:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_LabelDelivery"
+          $ref: "#/components/schemas/ShipmentServiceOptions_LabelDelivery"
         InternationalForms:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_InternationalForms"
+          $ref: "#/components/schemas/ShipmentServiceOptions_InternationalForms"
         DeliveryConfirmation:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_DeliveryConfirmation"
+          $ref: "#/components/schemas/ShipmentServiceOptions_DeliveryConfirmation"
         ReturnOfDocumentIndicator:
           description: The flag indicates the ReturnOfDocument accessorial has been
             requested. Valid for Poland to Poland forward shipment only.
@@ -6127,7 +6126,7 @@ components:
           maximum: 1
           type: string
         LabelMethod:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_LabelMethod"
+          $ref: "#/components/schemas/ShipmentServiceOptions_LabelMethod"
         CommercialInvoiceRemovalIndicator:
           description: CommercialInvoiceRemovalIndicator allows a shipper to dictate
             UPS to remove the Commercial Invoice from the user's shipment before the
@@ -6142,7 +6141,7 @@ components:
         PreAlertNotification:
           type: array
           items:
-            "$ref": "#/components/schemas/ShipmentServiceOptions_PreAlertNotification"
+            $ref: "#/components/schemas/ShipmentServiceOptions_PreAlertNotification"
         ExchangeForwardIndicator:
           description: Exchange forward indicator presence at shipment level is required
             to create exchange forward Shipments. In the label routing Instruction
@@ -6197,7 +6196,7 @@ components:
           minLength: 4
           maxLength: 6
         RestrictedArticles:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_RestrictedArticles"
+          $ref: "#/components/schemas/ShipmentServiceOptions_RestrictedArticles"
         InsideDelivery:
           description: |-
             Inside delivery accessory. Valid values:
@@ -6235,7 +6234,7 @@ components:
           minLength: 1
           maxLength: 1
         CODAmount:
-          "$ref": "#/components/schemas/COD_CODAmount"
+          $ref: "#/components/schemas/COD_CODAmount"
       xml:
         name: COD
       description: COD container  Indicates COD is requested. Shipment COD is only
@@ -6320,13 +6319,13 @@ components:
           minLength: 1
           maxLength: 1
         EMail:
-          "$ref": "#/components/schemas/Notification_EMail"
+          $ref: "#/components/schemas/Notification_EMail"
         VoiceMessage:
-          "$ref": "#/components/schemas/Notification_VoiceMessage"
+          $ref: "#/components/schemas/Notification_VoiceMessage"
         TextMessage:
-          "$ref": "#/components/schemas/Notification_TextMessage"
+          $ref: "#/components/schemas/Notification_TextMessage"
         Locale:
-          "$ref": "#/components/schemas/Notification_Locale"
+          $ref: "#/components/schemas/Notification_Locale"
       xml:
         name: Notification
       description: 'Container for the Quantum View Notification (QVN) is valid for
@@ -6443,7 +6442,7 @@ components:
       type: object
       properties:
         EMail:
-          "$ref": "#/components/schemas/LabelDelivery_EMail"
+          $ref: "#/components/schemas/LabelDelivery_EMail"
         LabelLinksIndicator:
           description: Indicates the Label and Receipt URLs are to be returned in
             the XML response.
@@ -6564,11 +6563,11 @@ components:
           minLength: 2
           maxLength: 2
         UserCreatedForm:
-          "$ref": "#/components/schemas/InternationalForms_UserCreatedForm"
+          $ref: "#/components/schemas/InternationalForms_UserCreatedForm"
         UPSPremiumCareForm:
-          "$ref": "#/components/schemas/InternationalForms_UPSPremiumCareForm"
+          $ref: "#/components/schemas/InternationalForms_UPSPremiumCareForm"
         CN22Form:
-          "$ref": "#/components/schemas/InternationalForms_CN22Form"
+          $ref: "#/components/schemas/InternationalForms_CN22Form"
         AdditionalDocumentIndicator:
           description: "Presence of the indicator means user will supply additional
             document, such as EEI, NAFTA_CO or CO. This indicator should be set when
@@ -6588,14 +6587,14 @@ components:
           minLength: 1
           maxLength: 50
         EEIFilingOption:
-          "$ref": "#/components/schemas/InternationalForms_EEIFilingOption"
+          $ref: "#/components/schemas/InternationalForms_EEIFilingOption"
         Contacts:
-          "$ref": "#/components/schemas/InternationalForms_Contacts"
+          $ref: "#/components/schemas/InternationalForms_Contacts"
         Product:
           type: array
           maximum: 50
           items:
-            "$ref": "#/components/schemas/InternationalForms_Product"
+            $ref: "#/components/schemas/InternationalForms_Product"
         InvoiceNumber:
           description: Commercial Invoice number assigned by the exporter. Applies
             to Invoice and Partial Invoice forms only. Required for Invoice forms
@@ -6669,13 +6668,13 @@ components:
           minLength: 1
           maxLength: 550
         Discount:
-          "$ref": "#/components/schemas/InternationalForms_Discount"
+          $ref: "#/components/schemas/InternationalForms_Discount"
         FreightCharges:
-          "$ref": "#/components/schemas/InternationalForms_FreightCharges"
+          $ref: "#/components/schemas/InternationalForms_FreightCharges"
         InsuranceCharges:
-          "$ref": "#/components/schemas/InternationalForms_InsuranceCharges"
+          $ref: "#/components/schemas/InternationalForms_InsuranceCharges"
         OtherCharges:
-          "$ref": "#/components/schemas/InternationalForms_OtherCharges"
+          $ref: "#/components/schemas/InternationalForms_OtherCharges"
         CurrencyCode:
           description: Currency code for all the monetary values of the Invoice form. Applies
             to Invoice and Partial Invoice forms only.
@@ -6684,7 +6683,7 @@ components:
           minLength: 3
           maxLength: 3
         BlanketPeriod:
-          "$ref": "#/components/schemas/InternationalForms_BlanketPeriod"
+          $ref: "#/components/schemas/InternationalForms_BlanketPeriod"
         ExportDate:
           description: The date the goods will be exiting the country or territory. Applies
             to CO and EEI forms only. Required for CO and EEI forms. Format is yyyyMMdd.
@@ -6885,7 +6884,7 @@ components:
           minLength: 2
           maxLength: 2
         LanguageForUPSPremiumCare:
-          "$ref": "#/components/schemas/UPSPremiumCareForm_LanguageForUPSPremiumCare"
+          $ref: "#/components/schemas/UPSPremiumCareForm_LanguageForUPSPremiumCare"
       xml:
         name: UPSPremiumCareForm
       description: UPS Premium Care Form is required if UPS Premium Care Indicator
@@ -6966,7 +6965,7 @@ components:
           type: array
           maximum: 3
           items:
-            "$ref": "#/components/schemas/CN22Form_CN22Content"
+            $ref: "#/components/schemas/CN22Form_CN22Content"
       xml:
         name: CN22Form
       description: Container for the CN22 form. Required if the customer wants to
@@ -6996,7 +6995,7 @@ components:
           minLength: 1
           maxLength: 105
         CN22ContentWeight:
-          "$ref": "#/components/schemas/CN22Content_CN22ContentWeight"
+          $ref: "#/components/schemas/CN22Content_CN22ContentWeight"
         CN22ContentTotalValue:
           description: Total value of the items associated with this content. Required
             if the CN22 form container is present.
@@ -7036,7 +7035,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/CN22ContentWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/CN22ContentWeight_UnitOfMeasurement"
         Weight:
           description: Total weight of the content. Pounds and Ounces are allowed
             up to 2 decimals. Required if the CN22 form container is present.
@@ -7097,9 +7096,9 @@ components:
           minLength: 1
           maxLength: 20
         UPSFiled:
-          "$ref": "#/components/schemas/EEIFilingOption_UPSFiled"
+          $ref: "#/components/schemas/EEIFilingOption_UPSFiled"
         ShipperFiled:
-          "$ref": "#/components/schemas/EEIFilingOption_ShipperFiled"
+          $ref: "#/components/schemas/EEIFilingOption_ShipperFiled"
       xml:
         name: EEIFilingOption
       description: EEI Filing option. Applicable for EEI form and is required.
@@ -7109,7 +7108,7 @@ components:
       - POA
       properties:
         POA:
-          "$ref": "#/components/schemas/UPSFiled_POA"
+          $ref: "#/components/schemas/UPSFiled_POA"
       xml:
         name: UPSFiled
       description: Indicates the EEI UPS Filed option. (option 3)  Applicable for
@@ -7192,15 +7191,15 @@ components:
       type: object
       properties:
         ForwardAgent:
-          "$ref": "#/components/schemas/Contacts_ForwardAgent"
+          $ref: "#/components/schemas/Contacts_ForwardAgent"
         UltimateConsignee:
-          "$ref": "#/components/schemas/Contacts_UltimateConsignee"
+          $ref: "#/components/schemas/Contacts_UltimateConsignee"
         IntermediateConsignee:
-          "$ref": "#/components/schemas/Contacts_IntermediateConsignee"
+          $ref: "#/components/schemas/Contacts_IntermediateConsignee"
         Producer:
-          "$ref": "#/components/schemas/Contacts_Producer"
+          $ref: "#/components/schemas/Contacts_Producer"
         SoldTo:
-          "$ref": "#/components/schemas/Contacts_SoldTo"
+          $ref: "#/components/schemas/Contacts_SoldTo"
       xml:
         name: Contacts
       description: Holds the contact information of various parties. Applicable for
@@ -7232,7 +7231,7 @@ components:
           minLength: 1
           maxLength: 15
         Address:
-          "$ref": "#/components/schemas/ForwardAgent_Address"
+          $ref: "#/components/schemas/ForwardAgent_Address"
       xml:
         name: ForwardAgent
       description: The forwarding agent is the company or person acting as agent in
@@ -7303,9 +7302,9 @@ components:
           minLength: 1
           maxLength: 35
         Address:
-          "$ref": "#/components/schemas/UltimateConsignee_Address"
+          $ref: "#/components/schemas/UltimateConsignee_Address"
         UltimateConsigneeType:
-          "$ref": "#/components/schemas/UltimateConsignee_UltimateConsigneeType"
+          $ref: "#/components/schemas/UltimateConsignee_UltimateConsigneeType"
       xml:
         name: UltimateConsignee
       description: The ultimate consignee is the person or company who receives the
@@ -7401,7 +7400,7 @@ components:
           minLength: 1
           maxLength: 35
         Address:
-          "$ref": "#/components/schemas/IntermediateConsignee_Address"
+          $ref: "#/components/schemas/IntermediateConsignee_Address"
       xml:
         name: IntermediateConsignee
       description: The intermediate consignee is the person or company in the importing
@@ -7490,7 +7489,7 @@ components:
           minLength: 1
           maxLength: 15
         Address:
-          "$ref": "#/components/schemas/Producer_Address"
+          $ref: "#/components/schemas/Producer_Address"
         AttentionName:
           description: Contact name at the Producer location. Applies to NAFTA CO.
           maximum: 1
@@ -7498,7 +7497,7 @@ components:
           minLength: 1
           maxLength: 35
         Phone:
-          "$ref": "#/components/schemas/Producer_Phone"
+          $ref: "#/components/schemas/Producer_Phone"
         EMailAddress:
           description: Producer email address. Applies to NAFTA CO.
           maximum: 1
@@ -7612,7 +7611,7 @@ components:
           minLength: 1
           maxLength: 15
         Phone:
-          "$ref": "#/components/schemas/SoldTo_Phone"
+          $ref: "#/components/schemas/SoldTo_Phone"
         Option:
           description: "The text associated with the code will be printed in the sold to section of the NAFTA CO form. The values indicate the following: 01 – Unknown. Applies to NAFTA CO form. Possible Values are 01 and 02."
           maximum: 1
@@ -7620,7 +7619,7 @@ components:
           minLength: 2
           maxLength: 2
         Address:
-          "$ref": "#/components/schemas/SoldTo_Address"
+          $ref: "#/components/schemas/SoldTo_Address"
         EMailAddress:
           description: SoldTo email address.
           maximum: 1
@@ -7726,7 +7725,7 @@ components:
           minLength: 1
           maxLength: 35
         Unit:
-          "$ref": "#/components/schemas/Product_Unit"
+          $ref: "#/components/schemas/Product_Unit"
         CommodityCode:
           description: '6-to-15-alphanumeric commodity code. Customs uses this code
             to determine what duties should be assessed on the commodity. Applies
@@ -7768,7 +7767,7 @@ components:
           type: string
         NetCostCode:
           description: |
-            For each good described in the Description of Goods field, where the good is subject to a regional value content (RVC) requirement, indicate NC if the RVC is calculated according to the net cost method; otherwise, indicate NO. If the RVC is calculated over a period of time then indicate "NC with begin/end date" by passing code "ND"  Applies to NAFTA CO only. Required for NAFTA CO. Valid values:
+            For each good described in the Description of Goods field, where the good is subject to a regional value content (RVC) requirement, indicate NC if the RVC is calculated according to the net cost method; otherwise, indicate NO. If the RVC is calculated over a period of time then indicate "NC with begin/end date" by passing code "ND" Applies to NAFTA CO only. Required for NAFTA CO. Valid values:
             - NC
             - ND
             - NO
@@ -7777,7 +7776,7 @@ components:
           minLength: 2
           maxLength: 2
         NetCostDateRange:
-          "$ref": "#/components/schemas/Product_NetCostDateRange"
+          $ref: "#/components/schemas/Product_NetCostDateRange"
         PreferenceCriteria:
           description: "Indicates the criterion (A through F) for each good described
             in the Description of Goods field if applicable.\n\nThe rules of origin
@@ -7818,7 +7817,7 @@ components:
           minLength: 1
           maxLength: 3
         ProductWeight:
-          "$ref": "#/components/schemas/Product_ProductWeight"
+          $ref: "#/components/schemas/Product_ProductWeight"
         VehicleID:
           description: 'Includes the following information for used self-propelled
             vehicles as defined in Customs regulations 19 CFR 192.1: The unique Vehicle
@@ -7830,7 +7829,7 @@ components:
           minLength: 1
           maxLength: 25
         ScheduleB:
-          "$ref": "#/components/schemas/Product_ScheduleB"
+          $ref: "#/components/schemas/Product_ScheduleB"
         ExportType:
           description: 'Code indicating Domestic: Exports that have been produced,
             manufactured, or grown in the United States or Puerto Rico. This includes
@@ -7857,11 +7856,11 @@ components:
           description: "Invoice Commodity Level Tax Collected Code for each shipment commodity line.Taxes paid Indicator is only applicable for shipments to Singapore. [TaxesPaid = 0 - No on Report], [TaxesPaid = 1 -Yes on Report], [TaxesPaid = empty - null on Report], [If TaxesPaid is not passed in input request = null on Report]"
           type: string
         ExcludeFromForm:
-          "$ref": "#/components/schemas/Product_ExcludeFromForm"
+          $ref: "#/components/schemas/Product_ExcludeFromForm"
         PackingListInfo:
-          "$ref": "#/components/schemas/Product_PackingListInfo"
+          $ref: "#/components/schemas/Product_PackingListInfo"
         EEIInformation:
-          "$ref": "#/components/schemas/Product_EEIInformation"
+          $ref: "#/components/schemas/Product_EEIInformation"
       xml:
         name: Product
       description: "Contains the commodity/product information. Applies to EEI, Invoice,
@@ -7888,7 +7887,7 @@ components:
           minLength: 1
           maxLength: 7
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/Unit_UnitOfMeasurement"
+          $ref: "#/components/schemas/Unit_UnitOfMeasurement"
         Value:
           description: 'Monetary amount used to specify the worth or price of the
             commodity. Amount should be greater than zero. Applies to Invoice and
@@ -7967,7 +7966,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/ProductWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/ProductWeight_UnitOfMeasurement"
         Weight:
           description: "Weight of Product. Applies to CO and EEI forms only. Valid characters are 0-9 and '.' (Decimal point). Limit to 1 digit after the decimal. The maximum length of the field is 5 including '.' and can hold up to 1 decimal place."
           maximum: 1
@@ -8039,7 +8038,7 @@ components:
           type: array
           maximum: 2
           items:
-            "$ref": "#/components/schemas/ScheduleB_UnitOfMeasurement"
+            $ref: "#/components/schemas/ScheduleB_UnitOfMeasurement"
       xml:
         name: ScheduleB
       description: Container tag for the schedule B information of a commodity. Applies
@@ -8097,7 +8096,7 @@ components:
           type: array
           maximum: 20
           items:
-            "$ref": "#/components/schemas/PackingListInfo_PackageAssociated"
+            $ref: "#/components/schemas/PackingListInfo_PackageAssociated"
       xml:
         name: PackingListInfo
       description: Data Container holding package related information. Required for
@@ -8142,9 +8141,9 @@ components:
           minLength: 2
           maxLength: 2
         License:
-          "$ref": "#/components/schemas/EEIInformation_License"
+          $ref: "#/components/schemas/EEIInformation_License"
         DDTCInformation:
-          "$ref": "#/components/schemas/EEIInformation_DDTCInformation"
+          $ref: "#/components/schemas/EEIInformation_DDTCInformation"
       xml:
         name: EEIInformation
       description: Required for EEI form. Applies to EEI form only.
@@ -8241,7 +8240,7 @@ components:
           minLength: 1
           maxLength: 7
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/DDTCInformation_UnitOfMeasurement"
+          $ref: "#/components/schemas/DDTCInformation_UnitOfMeasurement"
         SignificantMilitaryEquipmentIndicator:
           description: Presence/ Absence Indicator. Applies to EEI form only.
           maximum: 1
@@ -8451,13 +8450,13 @@ components:
       type: object
       properties:
         EMailMessage:
-          "$ref": "#/components/schemas/PreAlertNotification_EMailMessage"
+          $ref: "#/components/schemas/PreAlertNotification_EMailMessage"
         VoiceMessage:
-          "$ref": "#/components/schemas/PreAlertNotification_VoiceMessage"
+          $ref: "#/components/schemas/PreAlertNotification_VoiceMessage"
         TextMessage:
-          "$ref": "#/components/schemas/PreAlertNotification_TextMessage"
+          $ref: "#/components/schemas/PreAlertNotification_TextMessage"
         Locale:
-          "$ref": "#/components/schemas/PreAlertNotification_Locale"
+          $ref: "#/components/schemas/PreAlertNotification_Locale"
       xml:
         name: PreAlertNotification
       required:
@@ -8653,13 +8652,13 @@ components:
           minLength: 1
           maxLength: 12
         Packaging:
-          "$ref": "#/components/schemas/Package_Packaging"
+          $ref: "#/components/schemas/Package_Packaging"
         Dimensions:
-          "$ref": "#/components/schemas/Package_Dimensions"
+          $ref: "#/components/schemas/Package_Dimensions"
         DimWeight:
-          "$ref": "#/components/schemas/Package_DimWeight"
+          $ref: "#/components/schemas/Package_DimWeight"
         PackageWeight:
-          "$ref": "#/components/schemas/Package_PackageWeight"
+          $ref: "#/components/schemas/Package_PackageWeight"
         LargePackageIndicator:
           description: |-
             Presence of the indicator mentions that the package is Large Package.
@@ -8679,7 +8678,7 @@ components:
           type: array
           maximum: 5
           items:
-            "$ref": "#/components/schemas/Package_ReferenceNumber"
+            $ref: "#/components/schemas/Package_ReferenceNumber"
         AdditionalHandlingIndicator:
           description: Additional Handling Required. The presence indicates additional
             handling is required, the absence indicates no additional handling is
@@ -8688,15 +8687,15 @@ components:
           maximum: 1
           type: string
         SimpleRate:
-          "$ref": "#/components/schemas/Package_SimpleRate"
+          $ref: "#/components/schemas/Package_SimpleRate"
         UPSPremier:
-          "$ref": "#/components/schemas/Package_UPSPremier"
+          $ref: "#/components/schemas/Package_UPSPremier"
         PackageServiceOptions:
-          "$ref": "#/components/schemas/Package_PackageServiceOptions"
+          $ref: "#/components/schemas/Package_PackageServiceOptions"
         Commodity:
-          "$ref": "#/components/schemas/Package_Commodity"
+          $ref: "#/components/schemas/Package_Commodity"
         HazMatPackageInformation:
-          "$ref": "#/components/schemas/Package_HazMatPackageInformation"
+          $ref: "#/components/schemas/Package_HazMatPackageInformation"
       xml:
         name: Package
       required:
@@ -8750,7 +8749,7 @@ components:
       - Width
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
+          $ref: "#/components/schemas/Dimensions_UnitOfMeasurement"
         Length:
           description: Package length. Length must be the longest dimension of the container. Valid values are 0 to 108 IN and 0 to 270 CM.
           maximum: 1
@@ -8802,7 +8801,7 @@ components:
       type: object
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/DimWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/DimWeight_UnitOfMeasurement"
         Weight:
           description: Actual package weight. Weight accepted for letters/envelopes.
           maximum: 1
@@ -8849,7 +8848,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/PackageWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/PackageWeight_UnitOfMeasurement"
         Weight:
           description: Packages weight. Weight accepted for letters/envelopes. Only
             average package weight is required for Ground Freight Pricing Shipment.
@@ -8983,7 +8982,7 @@ components:
           minLength: 1
           maxLength: 50
         HandlingInstructions:
-          "$ref": "#/components/schemas/UPSPremier_HandlingInstructions"
+          $ref: "#/components/schemas/UPSPremier_HandlingInstructions"
       xml:
         name: UPSPremier
       description: UPS Premier Container.
@@ -9006,13 +9005,13 @@ components:
       type: object
       properties:
         DeliveryConfirmation:
-          "$ref": "#/components/schemas/PackageServiceOptions_DeliveryConfirmation"
+          $ref: "#/components/schemas/PackageServiceOptions_DeliveryConfirmation"
         DeclaredValue:
-          "$ref": "#/components/schemas/PackageServiceOptions_DeclaredValue"
+          $ref: "#/components/schemas/PackageServiceOptions_DeclaredValue"
         COD:
-          "$ref": "#/components/schemas/PackageServiceOptions_COD"
+          $ref: "#/components/schemas/PackageServiceOptions_COD"
         AccessPointCOD:
-          "$ref": "#/components/schemas/PackageServiceOptions_AccessPointCOD"
+          $ref: "#/components/schemas/PackageServiceOptions_AccessPointCOD"
         ShipperReleaseIndicator:
           description: The presence indicates that the package may be released by
             driver without a signature from the consignee. Empty Tag. Only available
@@ -9020,12 +9019,12 @@ components:
           maximum: 1
           type: string
         Notification:
-          "$ref": "#/components/schemas/PackageServiceOptions_Notification"
+          $ref: "#/components/schemas/PackageServiceOptions_Notification"
         HazMat:
           type: array
           maximum: 3
           items:
-            "$ref": "#/components/schemas/PackageServiceOptions_HazMat"
+            $ref: "#/components/schemas/PackageServiceOptions_HazMat"
         HazMatTypeCode:
           description: |-
            Field to be used when a shipment contains a HazMat. It will specify the existence of HazMat, and what type. Initially this will be used for SurePost and Mail Innovations 'USPS Limited Quantities HazMat' Shipments (but may be extended for other types of HazMat in the future).
@@ -9034,7 +9033,7 @@ components:
           maximum: 2
           type: string
         DryIce:
-          "$ref": "#/components/schemas/PackageServiceOptions_DryIce"
+          $ref: "#/components/schemas/PackageServiceOptions_DryIce"
         UPSPremiumCareIndicator:
           description: |
             An UPSPremiumCareIndicator indicates special handling is required for shipment having controlled substances. Empty Tag means indicator is present.
@@ -9119,7 +9118,7 @@ components:
       type: object
       properties:
         Type:
-          "$ref": "#/components/schemas/DeclaredValue_Type"
+          $ref: "#/components/schemas/DeclaredValue_Type"
         CurrencyCode:
           description: Declared value amount currency type. Defaults to the non-Euro
             currency used in the shippers country or territory. Code must represent
@@ -9184,7 +9183,7 @@ components:
           minLength: 1
           maxLength: 1
         CODAmount:
-          "$ref": "#/components/schemas/PackageServiceOptions_COD_CODAmount"
+          $ref: "#/components/schemas/PackageServiceOptions_COD_CODAmount"
       xml:
         name: COD
       description: Container for COD. Indicates COD is requested. Package level COD
@@ -9256,7 +9255,7 @@ components:
           minLength: 1
           maxLength: 1
         EMail:
-          "$ref": "#/components/schemas/PackageServiceOptions_Notification_EMail"
+          $ref: "#/components/schemas/PackageServiceOptions_Notification_EMail"
       xml:
         name: Notification
       description: Receiver Return Notification. Applicable for Shipment with returned
@@ -9609,7 +9608,7 @@ components:
           minLength: 3
           maxLength: 4
         DryIceWeight:
-          "$ref": "#/components/schemas/DryIce_DryIceWeight"
+          $ref: "#/components/schemas/DryIce_DryIceWeight"
         MedicalUseIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. Relevant
             only in CFR regulation set. If present it is used to designate the dry
@@ -9628,7 +9627,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/DryIceWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/DryIceWeight_UnitOfMeasurement"
         Weight:
           description: Dry Ice Weight. Cannot be more than package weight. Should
             be more than 0.0. Valid characters are 0-9 and "." (Decimal point). Limit
@@ -9681,7 +9680,7 @@ components:
           minLength: 10
           maxLength: 10
         NMFC:
-          "$ref": "#/components/schemas/Commodity_NMFC"
+          $ref: "#/components/schemas/Commodity_NMFC"
       xml:
         name: Commodity
       description: Container to hold the Commodity information. It is required if
@@ -9763,7 +9762,7 @@ components:
       - LabelStockSize
       properties:
         LabelImageFormat:
-          "$ref": "#/components/schemas/LabelSpecification_LabelImageFormat"
+          $ref: "#/components/schemas/LabelSpecification_LabelImageFormat"
         HTTPUserAgent:
           description: Browser HTTPUserAgent String. This is the preferred way of
             identifying GIF image type to be generated. Required if /ShipmentRequest/LabelSpecificationLabelSpecification/LabelImageFormat/Code
@@ -9774,11 +9773,11 @@ components:
           minLength: 1
           maxLength: 64
         LabelStockSize:
-          "$ref": "#/components/schemas/LabelSpecification_LabelStockSize"
+          $ref: "#/components/schemas/LabelSpecification_LabelStockSize"
         Instruction:
           type: array
           items:
-            "$ref": "#/components/schemas/LabelSpecification_Instruction"
+            $ref: "#/components/schemas/LabelSpecification_Instruction"
         CharacterSet:
           description: "Language character set expected on label.\nValid values:\ndan
             = Danish (Latin-1)\nnld = Dutch (Latin-1)\nfin = Finnish (Latin-1)\nfra
@@ -9885,7 +9884,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/ReceiptSpecification_ImageFormat"
+          $ref: "#/components/schemas/ReceiptSpecification_ImageFormat"
       xml:
         name: ReceiptSpecification
       description: Container used to allow the user to choose to print a thermal receipt.
@@ -9919,9 +9918,9 @@ components:
       - ShipmentResults
       properties:
         Response:
-          "$ref": "#/components/schemas/ShipmentResponse_Response"
+          $ref: "#/components/schemas/ShipmentResponse_Response"
         ShipmentResults:
-          "$ref": "#/components/schemas/ShipmentResponse_ShipmentResults"
+          $ref: "#/components/schemas/ShipmentResponse_ShipmentResults"
       xml:
         name: ShipmentResponse
       description: Shipment Response.
@@ -9932,7 +9931,7 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
             Alert Container. There can be zero to many alert containers with code and description.
@@ -9940,9 +9939,9 @@ components:
             **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response container for Shipment response.
@@ -10016,13 +10015,13 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/ShipmentResults_Disclaimer"
+            $ref: "#/components/schemas/ShipmentResults_Disclaimer"
         ShipmentCharges:
-          "$ref": "#/components/schemas/ShipmentResults_ShipmentCharges"
+          $ref: "#/components/schemas/ShipmentResults_ShipmentCharges"
         NegotiatedRateCharges:
-            "$ref": "#/components/schemas/ShipmentResults_NegotiatedRateCharges"
+            $ref: "#/components/schemas/ShipmentResults_NegotiatedRateCharges"
         FRSShipmentData:
-          "$ref": "#/components/schemas/ShipmentResults_FRSShipmentData"
+          $ref: "#/components/schemas/ShipmentResults_FRSShipmentData"
         RatingMethod:
           description: |-
             RatingMethod is to indicate whether the Shipment was rated as shipment level or package level. This information will be returned only if RatingMethodRequestedIndicator is present in the request. Valid values:
@@ -10042,7 +10041,7 @@ components:
           minLength: 2
           maxLength: 2
         BillingWeight:
-          "$ref": "#/components/schemas/ShipmentResults_BillingWeight"
+          $ref: "#/components/schemas/ShipmentResults_BillingWeight"
         ShipmentIdentificationNumber:
           description: Returned UPS shipment ID number.1Z Number of the first package
             in the shipment.
@@ -10078,7 +10077,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/ShipmentResults_PackageResults"
+            $ref: "#/components/schemas/ShipmentResults_PackageResults"
         ControlLogReceipt:
           description: |
               Container for the High Value reports when forward shipments have declared value between $999 and $50,000 USD.\nTwo copies of high value report needs to be pointed out.
@@ -10086,13 +10085,13 @@ components:
               **NOTE:** For versions >= v2409, this element will always be returned as an array. For requests using versions < v2409, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/ShipmentResults_ControlLogReceipt"
+            $ref: "#/components/schemas/ShipmentResults_ControlLogReceipt"
         Form:
-          "$ref": "#/components/schemas/ShipmentResults_Form"
+          $ref: "#/components/schemas/ShipmentResults_Form"
         CODTurnInPage:
-          "$ref": "#/components/schemas/ShipmentResults_CODTurnInPage"
+          $ref: "#/components/schemas/ShipmentResults_CODTurnInPage"
         HighValueReport:
-          "$ref": "#/components/schemas/ShipmentResults_HighValueReport"
+          $ref: "#/components/schemas/ShipmentResults_HighValueReport"
         LabelURL:
           description: "URL will point to a page wherein label, receipt and other
             documents, if applicable, such as HighValueReport, CustomsInvoice and
@@ -10204,9 +10203,9 @@ components:
           minLength: 1
           maxLength: 1
         BaseServiceCharge:
-          "$ref": "#/components/schemas/ShipmentCharges_BaseServiceCharge"
+          $ref: "#/components/schemas/ShipmentCharges_BaseServiceCharge"
         TransportationCharges:
-          "$ref": "#/components/schemas/ShipmentCharges_TransportationCharges"
+          $ref: "#/components/schemas/ShipmentCharges_TransportationCharges"
         ItemizedCharges:
           description: |
               Itemized Charges are returned only when the Subversion element is present and greater than or equal to 1601.
@@ -10214,9 +10213,9 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/ShipmentCharges_ItemizedCharges"
+            $ref: "#/components/schemas/ShipmentCharges_ItemizedCharges"
         ServiceOptionsCharges:
-          "$ref": "#/components/schemas/ShipmentCharges_ServiceOptionsCharges"
+          $ref: "#/components/schemas/ShipmentCharges_ServiceOptionsCharges"
         TaxCharges:
           description: |
               TaxCharges container are returned only when TaxInformationIndicator is present in request and when Negotiated Rates are not applicable. TaxCharges container contains Tax information for a given shipment.
@@ -10224,11 +10223,11 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/ShipmentCharges_TaxCharges"
+            $ref: "#/components/schemas/ShipmentCharges_TaxCharges"
         TotalCharges:
-          "$ref": "#/components/schemas/ShipmentCharges_TotalCharges"
+          $ref: "#/components/schemas/ShipmentCharges_TotalCharges"
         TotalChargesWithTaxes:
-          "$ref": "#/components/schemas/ShipmentCharges_TotalChargesWithTaxes"
+          $ref: "#/components/schemas/ShipmentCharges_TotalChargesWithTaxes"
       xml:
         name: ShipmentCharges
       required:
@@ -10432,7 +10431,7 @@ components:
                **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
+            $ref: "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
         TaxCharges:
           description: |
               TaxCharges container are returned only when TaxInformationIndicator is present in request. TaxCharges container contains Tax information for a given shipment.
@@ -10440,15 +10439,15 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedRateCharges_TaxCharges"
+            $ref: "#/components/schemas/NegotiatedRateCharges_TaxCharges"
         TotalCharge:
-          "$ref": "#/components/schemas/NegotiatedRateCharges_TotalCharge"
+          $ref: "#/components/schemas/NegotiatedRateCharges_TotalCharge"
         RateModifier:
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedRateCharges_RateModifier"
+            $ref: "#/components/schemas/NegotiatedRateCharges_RateModifier"
         TotalChargesWithTaxes:
-          "$ref": "#/components/schemas/NegotiatedRateCharges_TotalChargesWithTaxes"
+          $ref: "#/components/schemas/NegotiatedRateCharges_TotalChargesWithTaxes"
       xml:
         name: NegotiatedRateCharges
       description: Negotiated Rates Charge Container. For tiered rates and promotional
@@ -10554,9 +10553,9 @@ components:
       properties:
         ModifierType:
           description: >-
-            Rate Modifier Type .
+            Rate Modifier Type.
 
-            Example- "ORM"  Applies if SubVersion is 2407 or greater and
+            Example- "ORM" Applies if SubVersion is 2407 or greater and
             supports only for oAuth shipments.
           maximum: 1
           type: string
@@ -10564,9 +10563,9 @@ components:
           maxLength: 3
         ModifierDesc:
           description: >-
-            Rate Modifier Description .
+            Rate Modifier Description.
 
-            Example- "Origin Modifier"  Applies if SubVersion is 2407 or greater
+            Example- "Origin Modifier" Applies if SubVersion is 2407 or greater
             and supports only for oAuth shipments.
           maximum: 1
           type: string
@@ -10574,10 +10573,9 @@ components:
           maxLength: 50
         Amount:
           description: >-
-            Amount .
+            Amount.
 
             Example- "-1.00","0.25"
-
 
             It contains positive or negative values. Applies if SubVersion is
             2407 or greater and supports only for oAuth shipments.
@@ -10622,9 +10620,9 @@ components:
       - TransportationCharges
       properties:
         TransportationCharges:
-          "$ref": "#/components/schemas/FRSShipmentData_TransportationCharges"
+          $ref: "#/components/schemas/FRSShipmentData_TransportationCharges"
         FreightDensityRate:
-          "$ref": "#/components/schemas/FRSShipmentData_FreightDensityRate"
+          $ref: "#/components/schemas/FRSShipmentData_FreightDensityRate"
         HandlingUnits:
           description: |
                 Handling Unit for Density based rating container.
@@ -10632,7 +10630,7 @@ components:
                 **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
+            $ref: "#/components/schemas/FRSShipmentData_HandlingUnits"
       xml:
         name: FRSShipmentData
       description: Ground Freight Pricing Shipment data container. Ground Freight
@@ -10648,9 +10646,9 @@ components:
       - NetCharge
       properties:
         GrossCharge:
-          "$ref": "#/components/schemas/TransportationCharges_GrossCharge"
+          $ref: "#/components/schemas/TransportationCharges_GrossCharge"
         DiscountAmount:
-          "$ref": "#/components/schemas/TransportationCharges_DiscountAmount"
+          $ref: "#/components/schemas/TransportationCharges_DiscountAmount"
         DiscountPercentage:
           description: It indicates the shipment level discount percentage for transportation
             charges.
@@ -10659,7 +10657,7 @@ components:
           minLength: 1
           maxLength: 5
         NetCharge:
-          "$ref": "#/components/schemas/TransportationCharges_NetCharge"
+          $ref: "#/components/schemas/TransportationCharges_NetCharge"
       xml:
         name: TransportationCharges
       maximum: 1
@@ -10775,11 +10773,11 @@ components:
           minLength: 1
           maxLength: 8
         Type:
-          "$ref": "#/components/schemas/HandlingUnits_Type"
+          $ref: "#/components/schemas/HandlingUnits_Type"
         Dimensions:
-          "$ref": "#/components/schemas/HandlingUnits_Dimensions"
+          $ref: "#/components/schemas/HandlingUnits_Dimensions"
         AdjustedHeight:
-          "$ref": "#/components/schemas/HandlingUnits_AdjustedHeight"
+          $ref: "#/components/schemas/HandlingUnits_AdjustedHeight"
       xml:
         name: HandlingUnits
     HandlingUnits_AdjustedHeight:
@@ -10797,7 +10795,7 @@ components:
           minLength: 1
           maxLength: 19
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
       xml:
         name: AdjustedHeight
       description: Container to hold Adjusted Height information.
@@ -10808,7 +10806,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/BillingWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/BillingWeight_UnitOfMeasurement"
         Weight:
           description: Billing weight. Higher of the actual shipment weight versus
             the shipment dimensional weight. When using a negotiated divisor different
@@ -10867,15 +10865,15 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
            type: array
            items:
-            "$ref": "#/components/schemas/PackageResults_RateModifier"
+            $ref: "#/components/schemas/PackageResults_RateModifier"
         BaseServiceCharge:
-          "$ref": "#/components/schemas/PackageResults_BaseServiceCharge"
+          $ref: "#/components/schemas/PackageResults_BaseServiceCharge"
         ServiceOptionsCharges:
-          "$ref": "#/components/schemas/PackageResults_ServiceOptionsCharges"
+          $ref: "#/components/schemas/PackageResults_ServiceOptionsCharges"
         ShippingLabel:
-          "$ref": "#/components/schemas/PackageResults_ShippingLabel"
+          $ref: "#/components/schemas/PackageResults_ShippingLabel"
         ShippingReceipt:
-          "$ref": "#/components/schemas/PackageResults_ShippingReceipt"
+          $ref: "#/components/schemas/PackageResults_ShippingReceipt"
         USPSPICNumber:
           description: USPSPICNumber is USPS Package Identification; it should be
             used for tracking Mail Innovations shipments.
@@ -10894,11 +10892,11 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/PackageResults_Accessorial"
+            $ref: "#/components/schemas/PackageResults_Accessorial"
         SimpleRate:
-          "$ref": "#/components/schemas/PackageResults_SimpleRate"
+          $ref: "#/components/schemas/PackageResults_SimpleRate"
         Form:
-          "$ref": "#/components/schemas/PackageResults_Form"
+          $ref: "#/components/schemas/PackageResults_Form"
         ItemizedCharges:
           description: |
               Itemized Charges are returned only when the subversion element is present and greater than or equal to 1607. Package level itemized charges are only returned for US domestic movements.
@@ -10906,9 +10904,9 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/PackageResults_ItemizedCharges"
+            $ref: "#/components/schemas/PackageResults_ItemizedCharges"
         NegotiatedCharges:
-          "$ref": "#/components/schemas/PackageResults_NegotiatedCharges"
+          $ref: "#/components/schemas/PackageResults_NegotiatedCharges"
       xml:
         name: PackageResults
     PackageResults_BaseServiceCharge:
@@ -10972,7 +10970,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/ShippingLabel_ImageFormat"
+          $ref: "#/components/schemas/ShippingLabel_ImageFormat"
         GraphicImage:
           description: Base 64 encoded graphic image.
           maximum: 1
@@ -11045,7 +11043,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/ShippingReceipt_ImageFormat"
+          $ref: "#/components/schemas/ShippingReceipt_ImageFormat"
         GraphicImage:
           description: "Base 64 encoded receipt in HTML format.\n\nThe receipt image is only
             returned for the first 5 packages."
@@ -11136,7 +11134,7 @@ components:
           minLength: 1
           maxLength: 35
         Image:
-          "$ref": "#/components/schemas/Form_Image"
+          $ref: "#/components/schemas/Form_Image"
         FormGroupId:
           description: Unique Id for later retrieval of saved version of the completed international forms.
           maximum: 1
@@ -11163,7 +11161,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/ShipmentResults_Image_ImageFormat"
+          $ref: "#/components/schemas/ShipmentResults_Image_ImageFormat"
         GraphicImage:
           description: Base 64 encoded International forms image.
           maximum: 1
@@ -11179,7 +11177,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/Image_ImageFormat"
+          $ref: "#/components/schemas/Image_ImageFormat"
         GraphicImage:
           description: Base 64 encoded International forms image.
           maximum: 1
@@ -11340,11 +11338,11 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
+            $ref: "#/components/schemas/NegotiatedCharges_ItemizedCharges"
         RateModifier:
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedCharges_RateModifier"
+            $ref: "#/components/schemas/NegotiatedCharges_RateModifier"
       xml:
         name: NegotiatedCharges
       description: |-
@@ -11405,7 +11403,7 @@ components:
           description: >-
             Rate Modifier Type .
 
-            Example- "ORM"  Applies if SubVersion is 2407 or greater and
+            Example- "ORM" Applies if SubVersion is 2407 or greater and
             supports only for oAuth shipments.
           maximum: 1
           type: string
@@ -11415,7 +11413,7 @@ components:
           description: >-
             Rate Modifier Description .
 
-            Example- "Origin Modifier"  Applies if SubVersion is 2407 or greater
+            Example- "Origin Modifier" Applies if SubVersion is 2407 or greater
             and supports only for oAuth shipments.
           maximum: 1
           type: string
@@ -11426,7 +11424,6 @@ components:
             Amount .
 
             Example- "-1.00","0.25"
-
 
             It contains positive or negative values. Applies if SubVersion is
             2407 or greater and supports only for oAuth shipments.
@@ -11477,10 +11474,9 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/ControlLogReceipt_ImageFormat"
+          $ref: "#/components/schemas/ControlLogReceipt_ImageFormat"
         GraphicImage:
-          description: |-
-            Base 64 encoded html, EPL2, ZPL or SPL image.
+          description: Base 64 encoded html, EPL2, ZPL or SPL image.
           maximum: 1
           type: string
       xml:
@@ -11535,7 +11531,7 @@ components:
           minLength: 1
           maxLength: 35
         Image:
-          "$ref": "#/components/schemas/ShipmentResults_Form_Image"
+          $ref: "#/components/schemas/ShipmentResults_Form_Image"
         FormGroupId:
           description: "Unique Id for later retrieval of saved version of the completed
             international forms. Always returned when code = 01. 01 represents international
@@ -11565,7 +11561,7 @@ components:
       - Image
       properties:
         Image:
-          "$ref": "#/components/schemas/CODTurnInPage_Image"
+          $ref: "#/components/schemas/CODTurnInPage_Image"
       xml:
         name: CODTurnInPage
       description: The container of the COD Turn In Page.
@@ -11577,7 +11573,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/CODTurnInPage_Image_ImageFormat"
+          $ref: "#/components/schemas/CODTurnInPage_Image_ImageFormat"
         GraphicImage:
           description: Base 64 encoded html browser image rendering software
           type: string
@@ -11592,7 +11588,7 @@ components:
       - Image
       properties:
         Image:
-          "$ref": "#/components/schemas/HighValueReport_Image"
+          $ref: "#/components/schemas/HighValueReport_Image"
       xml:
         name: HighValueReport
       description: Container for the High Value Report generated for ImportControl
@@ -11605,7 +11601,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/HighValueReport_Image_ImageFormat"
+          $ref: "#/components/schemas/HighValueReport_Image_ImageFormat"
         GraphicImage:
           description: Base 64 encoded High Value Report image.
           type: string
@@ -11624,7 +11620,7 @@ components:
       - VoidShipmentRequest
       properties:
         VoidShipmentRequest:
-          "$ref": "#/components/schemas/VoidShipmentRequest"
+          $ref: "#/components/schemas/VoidShipmentRequest"
     VOIDSHIPMENTResponseWrapper:
       xml:
         name: VoidShipmentResponse
@@ -11635,7 +11631,7 @@ components:
       - VoidShipmentResponse
       properties:
         VoidShipmentResponse:
-          "$ref": "#/components/schemas/VoidShipmentResponse"
+          $ref: "#/components/schemas/VoidShipmentResponse"
     VoidShipmentRequest:
       type: object
       required:
@@ -11643,9 +11639,9 @@ components:
       - VoidShipment
       properties:
         Request:
-          "$ref": "#/components/schemas/VoidShipmentRequest_Request"
+          $ref: "#/components/schemas/VoidShipmentRequest_Request"
         VoidShipment:
-          "$ref": "#/components/schemas/VoidShipmentRequest_VoidShipment"
+          $ref: "#/components/schemas/VoidShipmentRequest_VoidShipment"
       xml:
         name: VoidShipmentRequest
       description: Void Shipment Request Container
@@ -11659,7 +11655,7 @@ components:
             uses
           type: string
         TransactionReference:
-          "$ref": "#/components/schemas/VoidRequest_TransactionReference"
+          $ref: "#/components/schemas/VoidRequest_TransactionReference"
       xml:
         name: Request
       description: Request Container
@@ -11719,9 +11715,9 @@ components:
       - SummaryResult
       properties:
         Response:
-          "$ref": "#/components/schemas/VoidShipmentResponse_Response"
+          $ref: "#/components/schemas/VoidShipmentResponse_Response"
         SummaryResult:
-          "$ref": "#/components/schemas/VoidShipmentResponse_SummaryResult"
+          $ref: "#/components/schemas/VoidShipmentResponse_SummaryResult"
         PackageLevelResults:
           description: |
               Contains the Package Level Results.
@@ -11729,7 +11725,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/VoidShipmentResponse_PackageLevelResults"
+            $ref: "#/components/schemas/VoidShipmentResponse_PackageLevelResults"
       xml:
         name: VoidShipmentResponse
       description: Void Response Container.
@@ -11740,11 +11736,11 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/VoidResponse_ResponseStatus"
+          $ref: "#/components/schemas/VoidResponse_ResponseStatus"
         Alert:
-          "$ref": "#/components/schemas/Response_Alert"
+          $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/VoidResponse_TransactionReference"
+          $ref: "#/components/schemas/VoidResponse_TransactionReference"
       xml:
         name: Response
       description: Response Container.
@@ -11791,7 +11787,7 @@ components:
       - Status
       properties:
         Status:
-          "$ref": "#/components/schemas/SummaryResult_Status"
+          $ref: "#/components/schemas/SummaryResult_Status"
       xml:
         name: SummaryResult
       description: Container for the Summary Result
@@ -11832,7 +11828,7 @@ components:
           minLength: 18
           maxLength: 18
         Status:
-          "$ref": "#/components/schemas/PackageLevelResults_Status"
+          $ref: "#/components/schemas/PackageLevelResults_Status"
       xml:
         name: PackageLevelResults
     PackageLevelResults_Status:
@@ -11870,7 +11866,7 @@ components:
       - LabelRecoveryRequest
       properties:
         LabelRecoveryRequest:
-          "$ref": "#/components/schemas/LabelRecoveryRequest"
+          $ref: "#/components/schemas/LabelRecoveryRequest"
     LABELRECOVERYResponseWrapper:
       xml:
         name: LabelRecoveryResponse
@@ -11881,20 +11877,20 @@ components:
       - LabelRecoveryResponse
       properties:
         LabelRecoveryResponse:
-          "$ref": "#/components/schemas/LabelRecoveryResponse"
+          $ref: "#/components/schemas/LabelRecoveryResponse"
     LabelRecoveryRequest:
       type: object
       required:
       - Request
       properties:
         Request:
-          "$ref": "#/components/schemas/LabelRecoveryRequest_Request"
+          $ref: "#/components/schemas/LabelRecoveryRequest_Request"
         LabelSpecification:
-          "$ref": "#/components/schemas/LabelRecoveryRequest_LabelSpecification"
+          $ref: "#/components/schemas/LabelRecoveryRequest_LabelSpecification"
         Translate:
-          "$ref": "#/components/schemas/LabelRecoveryRequest_Translate"
+          $ref: "#/components/schemas/LabelRecoveryRequest_Translate"
         LabelDelivery:
-          "$ref": "#/components/schemas/LabelRecoveryRequest_LabelDelivery"
+          $ref: "#/components/schemas/LabelRecoveryRequest_LabelDelivery"
         TrackingNumber:
           description: |-
             Small Package Tracking Number. Required if Mail Innovations Tracking Number or ReferenceNumber/Value and ShipperNumber is not provided. If only TrackingNumber is provided, the request will be treated as Small Package Shipment. Label Recovery will return label for Small Package Tracking Number.
@@ -11917,7 +11913,7 @@ components:
           minLength: 1
           maxLength: 34
         ReferenceValues:
-          "$ref": "#/components/schemas/LabelRecoveryRequest_ReferenceValues"
+          $ref: "#/components/schemas/LabelRecoveryRequest_ReferenceValues"
         Locale:
           description: "Represents 5 character ISO Locale that allows the user to
             request Reference Number Code on Label, Label instructions, Receipt instructions
@@ -11933,7 +11929,7 @@ components:
           minLength: 5
           maxLength: 5
         UPSPremiumCareForm:
-          "$ref": "#/components/schemas/LabelRecoveryRequest_UPSPremiumCareForm"
+          $ref: "#/components/schemas/LabelRecoveryRequest_UPSPremiumCareForm"
       xml:
         name: LabelRecoveryRequest
       maximum: 1
@@ -11955,7 +11951,7 @@ components:
           description: Request option is no longer used.
           type: string
         TransactionReference:
-          "$ref": "#/components/schemas/LRRequest_TransactionReference"
+          $ref: "#/components/schemas/LRRequest_TransactionReference"
       xml:
         name: Request
       description: Request Container.
@@ -11987,9 +11983,9 @@ components:
           minLength: 1
           maxLength: 64
         LabelImageFormat:
-          "$ref": "#/components/schemas/LabelRecovery_LabelSpecification_LabelImageFormat"
+          $ref: "#/components/schemas/LabelRecovery_LabelSpecification_LabelImageFormat"
         LabelStockSize:
-          "$ref": "#/components/schemas/LabelRecovery_LabelSpecification_LabelStockSize"
+          $ref: "#/components/schemas/LabelRecovery_LabelSpecification_LabelStockSize"
       xml:
         name: LabelSpecification
       description: Container that is used to define the properties required by the
@@ -12140,7 +12136,7 @@ components:
       - ShipperNumber
       properties:
         ReferenceNumber:
-          "$ref": "#/components/schemas/ReferenceValues_ReferenceNumber"
+          $ref: "#/components/schemas/ReferenceValues_ReferenceNumber"
         ShipperNumber:
           description: Required if ReferenceNumber/Value is populated. Shipper's six digit account number. Must be six alphanumeric characters. Must be associated with the Internet account used to login.
           maximum: 1
@@ -12202,7 +12198,7 @@ components:
       - LabelResults
       properties:
         Response:
-          "$ref": "#/components/schemas/LabelRecoveryResponse_Response"
+          $ref: "#/components/schemas/LabelRecoveryResponse_Response"
         ShipmentIdentificationNumber:
           description: Tracking number of the leading package in the shipment
           maximum: 1
@@ -12211,20 +12207,20 @@ components:
           maxLength: 18
         LabelResults:
             items:
-              "$ref": "#/components/schemas/LabelRecoveryResponse_LabelResults"
+              $ref: "#/components/schemas/LabelRecoveryResponse_LabelResults"
             type: array
         CODTurnInPage:
-          "$ref": "#/components/schemas/LabelRecoveryResponse_CODTurnInPage"
+          $ref: "#/components/schemas/LabelRecoveryResponse_CODTurnInPage"
         Form:
-          "$ref": "#/components/schemas/LabelRecoveryResponse_Form"
+          $ref: "#/components/schemas/LabelRecoveryResponse_Form"
         HighValueReport:
-          "$ref": "#/components/schemas/LabelRecoveryResponse_HighValueReport"
+          $ref: "#/components/schemas/LabelRecoveryResponse_HighValueReport"
         TrackingCandidate:
           oneOf:
           - items:
-              "$ref": "#/components/schemas/LabelRecoveryResponse_TrackingCandidate"
+              $ref: "#/components/schemas/LabelRecoveryResponse_TrackingCandidate"
             type: array
-          - "$ref": "#/components/schemas/LabelRecoveryResponse_TrackingCandidate"
+          - $ref: "#/components/schemas/LabelRecoveryResponse_TrackingCandidate"
       xml:
         name: LabelRecoveryResponse
       maximum: 1
@@ -12236,13 +12232,13 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/LRResponse_ResponseStatus"
+          $ref: "#/components/schemas/LRResponse_ResponseStatus"
         Alert:
            type: array
            items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/LRResponse_TransactionReference"
+          $ref: "#/components/schemas/LRResponse_TransactionReference"
       xml:
         name: Response
       description: Response Container
@@ -12296,7 +12292,7 @@ components:
           minLength: 18
           maxLength: 18
         LabelImage:
-          "$ref": "#/components/schemas/LabelResults_LabelImage"
+          $ref: "#/components/schemas/LabelResults_LabelImage"
         MailInnovationsTrackingNumber:
           description: Mail Innovations Tracking Number. Applicable for Single Mail
             Innovations Returns and Dual Mail Innovations Returns shipment. Returned
@@ -12306,11 +12302,11 @@ components:
           minLength: 1
           maxLength: 34
         MailInnovationsLabelImage:
-          "$ref": "#/components/schemas/LabelResults_MailInnovationsLabelImage"
+          $ref: "#/components/schemas/LabelResults_MailInnovationsLabelImage"
         Receipt:
-          "$ref": "#/components/schemas/LabelResults_Receipt"
+          $ref: "#/components/schemas/LabelResults_Receipt"
         Form:
-          "$ref": "#/components/schemas/LabelResults_Form"
+          $ref: "#/components/schemas/LabelResults_Form"
       xml:
         name: LabelResults
       description: Container that stores the label results. Information containing
@@ -12322,7 +12318,7 @@ components:
       - LabelImageFormat
       properties:
         LabelImageFormat:
-          "$ref": "#/components/schemas/LabelImage_LabelImageFormat"
+          $ref: "#/components/schemas/LabelImage_LabelImageFormat"
         GraphicImage:
           description: Base 64 encoded graphic image.
           maximum: 1
@@ -12386,7 +12382,7 @@ components:
       - LabelImageFormat
       properties:
         LabelImageFormat:
-          "$ref": "#/components/schemas/MailInnovationsLabelImage_LabelImageFormat"
+          $ref: "#/components/schemas/MailInnovationsLabelImage_LabelImageFormat"
         GraphicImage:
           description: Base 64 encoded graphic image.
           maximum: 1
@@ -12449,7 +12445,7 @@ components:
           maximum: 1
           type: string
         Image:
-          "$ref": "#/components/schemas/Receipt_Image"
+          $ref: "#/components/schemas/Receipt_Image"
         URL:
           description: |-
             Receipt's url  Applicable for following types of shipments:
@@ -12467,7 +12463,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/Receipt_Image_ImageFormat"
+          $ref: "#/components/schemas/Receipt_Image_ImageFormat"
         GraphicImage:
           description: Base 64 encoded graphic image
           maximum: 1
@@ -12506,7 +12502,7 @@ components:
       - Image
       properties:
         Image:
-          "$ref": "#/components/schemas/LRForm_Image"
+          $ref: "#/components/schemas/LRForm_Image"
       xml:
         name: Form
       description: Container tag for the International Forms. Currently, represents
@@ -12524,7 +12520,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/Image_ImageFormat"
+          $ref: "#/components/schemas/Image_ImageFormat"
         GraphicImage:
           description: Base 64 encoded International Forms image.
           maximum: 1
@@ -12539,7 +12535,7 @@ components:
       - Image
       properties:
         Image:
-          "$ref": "#/components/schemas/LRCODTurnInPage_Image"
+          $ref: "#/components/schemas/LRCODTurnInPage_Image"
       xml:
         name: CODTurnInPage
       description: Container for COD Turnin Page.
@@ -12551,7 +12547,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/LR_CODTurnInPage_Image_ImageFormat"
+          $ref: "#/components/schemas/LR_CODTurnInPage_Image_ImageFormat"
         GraphicImage:
           description: Base64 Encoded COD Turnin Page image.
           maximum: 1
@@ -12587,7 +12583,7 @@ components:
       - Image
       properties:
         Image:
-          "$ref": "#/components/schemas/LabelRecovery_Form_Image"
+          $ref: "#/components/schemas/LabelRecovery_Form_Image"
       xml:
         name: Form
       description: Container tag for the International Forms. Currently, represents
@@ -12603,7 +12599,7 @@ components:
       - ImageFormat
       properties:
         ImageFormat:
-          "$ref": "#/components/schemas/LabelRecovery_Image_ImageFormat"
+          $ref: "#/components/schemas/LabelRecovery_Image_ImageFormat"
         GraphicImage:
           description: Base 64 encoded International Forms image.
           maximum: 1
@@ -12639,7 +12635,7 @@ components:
       - Image
       properties:
         Image:
-          "$ref": "#/components/schemas/HighValueReport_Image"
+          $ref: "#/components/schemas/HighValueReport_Image"
       xml:
         name: HighValueReport
       description: Container tag for the High Value Report for Electronic Returns
@@ -12674,7 +12670,7 @@ components:
           minLength: 2
           maxLength: 2
         PickupDateRange:
-          "$ref": "#/components/schemas/TrackingCandidate_PickupDateRange"
+          $ref: "#/components/schemas/TrackingCandidate_PickupDateRange"
       xml:
         name: TrackingCandidate
       description: Information containing the results of the users Label Recovery
@@ -12711,8 +12707,7 @@ components:
           description: '(SHIP_FROM=20, CONSIGNEE=30)'
           type: string
         TaxIdentificationNumber:
-          $ref: >-
-            #/components/schemas/AgentTaxIdentificationNumber_TaxIdentificationNumber
+          $ref: "#/components/schemas/AgentTaxIdentificationNumber_TaxIdentificationNumber"
       required:
         - AgentRole
       type: object
@@ -12743,23 +12738,18 @@ components:
         IDNumberCustomerRole:
           description: >-
             A business or individual identification type description (Future
-            Use).specifies the relationship of the customer/ID Number to the
-            shipment  05 =importer Address, 06=Exporter Address  ,
-            18=DeliverTo/Consignee/Reciever Address,  37= Shipper Address.
+            Use) specifies the relationship of the customer/ID Number to the
+            shipment 05=importer Address, 06=Exporter Address,
+            18=DeliverTo/Consignee/Reciever Address, 37=Shipper Address.
           type: string
         IDNumberEncryptionIndicator:
-          description: >-
-            to determine if decryption is required. 0 = Identification number is
-            not
-
-            Encrypted
-
-            1 = Identification number is
-
-            Encrypted
+          description: |-
+            to determine if decryption is required.
+            0 = Identification number is not Encrypted
+            1 = Identification number is Encrypted
           type: string
         IDNumberIssuingCntryCd:
-          description: >-
+          description: |-
             The ISO-defined country code of the country where the Identification
             Number was issued, when applicable (as per business requirements).
             Needed for certain types of Identification Numbers (e.g., Passport
@@ -12772,7 +12762,7 @@ components:
             'DE' = Germany
           type: string
         IDNumberPurposeCode:
-          description: >-
+          description: |-
             Code that specifies the purpose of the Identification Number. For
             all tax ID that are not EORI = ‘01’
 
@@ -12796,12 +12786,11 @@ components:
 
             For export, the Shipper ID is requested by the Ship From country.
 
-
             Required when a country (e.g., Origin country, Destination country)
             is requesting an ID Number for a shipment.
           type: string
         IDNumberTypeCode:
-          description: >-
+          description: |-
             Valid Values are:
 
             0000 = Unknown
@@ -12842,7 +12831,7 @@ components:
           description: >-
             field to determine if the Identification Number should be excluded
             from Shipping/Brokerage documents (not be passed to Document
-            Services)  ‘00’ -> Do Not include 01-> Include.
+            Services) ‘00’=’Do Not include’, ’01’=Include.
           type: string
       required:
         - IDNumberTypeCode
@@ -12860,7 +12849,7 @@ components:
         OriginCountryShipmentValue:
           description: >-
             The value for origin_country_shipment_value which satisfies Tax-ID
-            Threshold Code is  ‘01’=Yes, ‘02’=No, ‘NA’= ‘Not Applicable’
+            Threshold Code is ‘01’=Yes, ‘02’=No, ‘NA’=‘Not Applicable’
           type: string
         DestinationCountryShipmentValue:
           description: "The value for destination_Country_ShipmentValue which satisfies Tax-ID Threshold Code is \_‘01’=Yes,\_‘02’=No,‘NA’= ‘Not"
@@ -12869,8 +12858,7 @@ components:
           description: "The value for idNumber_Consumer_TypeCode which satisfies Tax-ID Threshold Code is \_‘01’=Business,\_‘02’=Consumer/Individual,\_\_\_\_\_\_‘NA’= ‘Not Applicable’"
           type: string
         AgentTaxIdentificationNumber:
-          $ref: >-
-            #/components/schemas/GlobalTaxInformation_AgentTaxIdentificationNumber
+          $ref: "#/components/schemas/GlobalTaxInformation_AgentTaxIdentificationNumber"
       type: object
       xml:
         name: GlobalTaxInformation
@@ -12878,7 +12866,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -12887,7 +12875,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

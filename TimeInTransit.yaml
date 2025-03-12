@@ -65,7 +65,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/TimeInTransitRequest"
+              $ref: "#/components/schemas/TimeInTransitRequest"
             examples:
               '1':
                 summary: A sample JSON request (Standard Example)
@@ -96,31 +96,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/TimeInTransitResponse"
+                $ref: "#/components/schemas/TimeInTransitResponse"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/errorResponse"
+                    $ref: "#/components/schemas/errorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/errorResponse"
+                    $ref: "#/components/schemas/errorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/errorResponse"
+                    $ref: "#/components/schemas/errorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/errorResponse"
+                    $ref: "#/components/schemas/errorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -331,13 +331,13 @@ components:
       type: object
       properties:
         validationList:
-          "$ref": "#/components/schemas/validationList"
+          $ref: "#/components/schemas/validationList"
         destinationPickList:
-          "$ref": "#/components/schemas/destinationPickList"
+          $ref: "#/components/schemas/destinationPickList"
         originPickList:
-          "$ref": "#/components/schemas/originPickList"
+          $ref: "#/components/schemas/originPickList"
         emsResponse:
-          "$ref": "#/components/schemas/emsResponse"
+          $ref: "#/components/schemas/emsResponse"
       maximum: 1
       description: N/A
     errorResponse:
@@ -346,7 +346,7 @@ components:
         errors:
           type: array
           items:
-            "$ref": "#/components/schemas/errors"
+            $ref: "#/components/schemas/errors"
     validationList:
       type: object
       properties:
@@ -369,11 +369,11 @@ components:
     destinationPickList:
       type: array
       items:
-        "$ref": "#/components/schemas/candidateAddress"
+        $ref: "#/components/schemas/candidateAddress"
     originPickList:
       type: array
       items:
-        "$ref": "#/components/schemas/candidateAddress"
+        $ref: "#/components/schemas/candidateAddress"
     emsResponse:
       type: object
       required:
@@ -587,7 +587,7 @@ components:
         services:
           type: array
           items:
-            "$ref": "#/components/schemas/services"
+            $ref: "#/components/schemas/services"
     candidateAddress:
       type: object
       required:

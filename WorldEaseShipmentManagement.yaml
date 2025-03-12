@@ -35,8 +35,7 @@ paths:
         - World Ease Shipment Management - Shipment
       operationId: saveCloseOutShipment
       summary: Close Out Shipment
-      description: |
-        Finalizes the shipment process by marking a package or set of packages as ready for dispatch, effectively ending the consolidation stage.
+      description: Finalizes the shipment process by marking a package or set of packages as ready for dispatch, effectively ending the consolidation stage.
       parameters:
         - name: shipment-gccn
           in: path

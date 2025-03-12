@@ -220,7 +220,7 @@ paths:
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/TrackSubsServiceErrorResponse"
+                    $ref: "#/components/schemas/TrackSubsServiceErrorResponse"
         '405':
           description: Method Not Allowed
           content:
@@ -236,7 +236,7 @@ paths:
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/TrackSubsServiceErrorResponse"
+                    $ref: "#/components/schemas/TrackSubsServiceErrorResponse"
         '500':
           description: Internal Server Error
 webhooks:
@@ -580,9 +580,9 @@ components:
           pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
           example: "235959"
         activityLocation:
-          "$ref": "#/components/schemas/ActivityLocation"
+          $ref: "#/components/schemas/ActivityLocation"
         activityStatus:
-          "$ref": "#/components/schemas/ActivityStatus"
+          $ref: "#/components/schemas/ActivityStatus"
         scheduledDeliveryDate:
           type: string
           description: 'Original scheduled delivery date of the package. Format: YYYYMMDD'

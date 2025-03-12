@@ -92,7 +92,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RATERequestWrapper"
+              $ref: "#/components/schemas/RATERequestWrapper"
             examples:
               '1':
                 summary: Simple Rate Example (Standard Example)
@@ -772,31 +772,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/RATEResponseWrapper"
+                $ref: "#/components/schemas/RATEResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/rating/{deprecatedVersion}/{requestoption}":
     post:
       deprecated: true
@@ -870,7 +870,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/RATERequestWrapper"
+              $ref: "#/components/schemas/RATERequestWrapper"
             examples:
               '1':
                 summary: Simple Rate Example (Standard Example)
@@ -1550,31 +1550,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/RATEResponseWrapper"
+                $ref: "#/components/schemas/RATEResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -1602,7 +1602,7 @@ components:
       - RateRequest
       properties:
         RateRequest:
-          "$ref": "#/components/schemas/RateRequest"
+          $ref: "#/components/schemas/RateRequest"
     RATEResponseWrapper:
       xml:
         name: RateResponse
@@ -1613,7 +1613,7 @@ components:
       - RateResponse
       properties:
         RateResponse:
-          "$ref": "#/components/schemas/RateResponse"
+          $ref: "#/components/schemas/RateResponse"
     RateRequest:
       type: object
       required:
@@ -1621,13 +1621,13 @@ components:
       - Shipment
       properties:
         Request:
-          "$ref": "#/components/schemas/RateRequest_Request"
+          $ref: "#/components/schemas/RateRequest_Request"
         PickupType:
-          "$ref": "#/components/schemas/RateRequest_PickupType"
+          $ref: "#/components/schemas/RateRequest_PickupType"
         CustomerClassification:
-          "$ref": "#/components/schemas/RateRequest_CustomerClassification"
+          $ref: "#/components/schemas/RateRequest_CustomerClassification"
         Shipment:
-          "$ref": "#/components/schemas/RateRequest_Shipment"
+          $ref: "#/components/schemas/RateRequest_Shipment"
       xml:
         name: RateRequest
       description: Rate Request container.
@@ -1659,7 +1659,7 @@ components:
           minLength: 4
           maxLength: 4
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       maximum: 1
@@ -1741,23 +1741,23 @@ components:
           maximum: 1
           type: string
         Shipper:
-          "$ref": "#/components/schemas/Shipment_Shipper"
+          $ref: "#/components/schemas/Shipment_Shipper"
         ShipTo:
-          "$ref": "#/components/schemas/Shipment_ShipTo"
+          $ref: "#/components/schemas/Shipment_ShipTo"
         ShipFrom:
-          "$ref": "#/components/schemas/Shipment_ShipFrom"
+          $ref: "#/components/schemas/Shipment_ShipFrom"
         AlternateDeliveryAddress:
-          "$ref": "#/components/schemas/Shipment_AlternateDeliveryAddress"
+          $ref: "#/components/schemas/Shipment_AlternateDeliveryAddress"
         ShipmentIndicationType:
           type: array
           items:
-            "$ref": "#/components/schemas/Shipment_ShipmentIndicationType"
+            $ref: "#/components/schemas/Shipment_ShipmentIndicationType"
         PaymentDetails:
-          "$ref": "#/components/schemas/Shipment_PaymentDetails"
+          $ref: "#/components/schemas/Shipment_PaymentDetails"
         FRSPaymentInformation:
-          "$ref": "#/components/schemas/Shipment_FRSPaymentInformation"
+          $ref: "#/components/schemas/Shipment_FRSPaymentInformation"
         FreightShipmentInformation:
-          "$ref": "#/components/schemas/Shipment_FreightShipmentInformation"
+          $ref: "#/components/schemas/Shipment_FreightShipmentInformation"
         GoodsNotInFreeCirculationIndicator:
           description: Goods Not In Free Circulation indicator. This is an empty
             tag, any value inside is ignored. This indicator is invalid for a package
@@ -1765,13 +1765,13 @@ components:
           maximum: 1
           type: string
         Service:
-          "$ref": "#/components/schemas/Shipment_Service"
+          $ref: "#/components/schemas/Shipment_Service"
         NumOfPieces:
           description: Total number of pieces in all pallets. Required for UPS Worldwide
             Express Freight and UPS Worldwide Express Freight Midday shipments.
           type: string
         ShipmentTotalWeight:
-          "$ref": "#/components/schemas/Shipment_ShipmentTotalWeight"
+          $ref: "#/components/schemas/Shipment_ShipmentTotalWeight"
         DocumentsOnlyIndicator:
           description: 'Valid values are Document and Non-document. If the indicator
             is present then the value is Document else Non-Document. Note: Not applicable
@@ -1781,13 +1781,13 @@ components:
           type: array
           maximum: 200
           items:
-            "$ref": "#/components/schemas/Shipment_Package"
+            $ref: "#/components/schemas/Shipment_Package"
         ShipmentServiceOptions:
-          "$ref": "#/components/schemas/Shipment_ShipmentServiceOptions"
+          $ref: "#/components/schemas/Shipment_ShipmentServiceOptions"
         ShipmentRatingOptions:
-          "$ref": "#/components/schemas/Shipment_ShipmentRatingOptions"
+          $ref: "#/components/schemas/Shipment_ShipmentRatingOptions"
         InvoiceLineTotal:
-          "$ref": "#/components/schemas/Shipment_InvoiceLineTotal"
+          $ref: "#/components/schemas/Shipment_InvoiceLineTotal"
         RatingMethodRequestedIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. RatingMethodRequestedIndicator
             is an indicator. If present, Billable Weight Calculation method and Rating
@@ -1806,9 +1806,9 @@ components:
           maximum: 1
           type: string
         PromotionalDiscountInformation:
-          "$ref": "#/components/schemas/Shipment_PromotionalDiscountInformation"
+          $ref: "#/components/schemas/Shipment_PromotionalDiscountInformation"
         DeliveryTimeInformation:
-          "$ref": "#/components/schemas/Shipment_DeliveryTimeInformation"
+          $ref: "#/components/schemas/Shipment_DeliveryTimeInformation"
         MasterCartonIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. MasterCartonIndicator
             is an indicator and presence implies that shipment is Master Carton type. If
@@ -1856,7 +1856,7 @@ components:
           minLength: 6
           maxLength: 6
         Address:
-          "$ref": "#/components/schemas/Shipper_Address"
+          $ref: "#/components/schemas/Shipper_Address"
       xml:
         name: Shipper
       required:
@@ -1925,7 +1925,7 @@ components:
           minLength: 1
           maxLength: 35
         Address:
-          "$ref": "#/components/schemas/ShipTo_Address"
+          $ref: "#/components/schemas/ShipTo_Address"
       xml:
         name: ShipTo
       required:
@@ -1997,7 +1997,7 @@ components:
           minLength: 1
           maxLength: 35
         Address:
-          "$ref": "#/components/schemas/ShipFrom_Address"
+          $ref: "#/components/schemas/ShipFrom_Address"
       xml:
         name: ShipFrom
       required:
@@ -2056,7 +2056,7 @@ components:
           description: UPS Access Point location name.
           type: string
         Address:
-          "$ref": "#/components/schemas/AlternateDeliveryAddress_Address"
+          $ref: "#/components/schemas/AlternateDeliveryAddress_Address"
       xml:
         name: AlternateDeliveryAddress
       required:
@@ -2163,7 +2163,7 @@ components:
           type: array
           maximum: 2
           items:
-            "$ref": "#/components/schemas/PaymentDetails_ShipmentCharge"
+            $ref: "#/components/schemas/PaymentDetails_ShipmentCharge"
         SplitDutyVATIndicator:
           description: Split Duty VAT Indicator. The presence indicates the payer
             specified for Transportation Charges will pay transportation charges and
@@ -2192,11 +2192,11 @@ components:
           minLength: 2
           maxLength: 2
         BillShipper:
-          "$ref": "#/components/schemas/ShipmentCharge_BillShipper"
+          $ref: "#/components/schemas/ShipmentCharge_BillShipper"
         BillReceiver:
-          "$ref": "#/components/schemas/ShipmentCharge_BillReceiver"
+          $ref: "#/components/schemas/ShipmentCharge_BillReceiver"
         BillThirdParty:
-          "$ref": "#/components/schemas/ShipmentCharge_BillThirdParty"
+          $ref: "#/components/schemas/ShipmentCharge_BillThirdParty"
         ConsigneeBilledIndicator:
           description: Consignee Billing payment option indicator. The presence indicates
             consignee billing option is selected. The absence indicates one of the
@@ -2249,7 +2249,7 @@ components:
           minLength: 6
           maxLength: 6
         Address:
-          "$ref": "#/components/schemas/BillReceiver_Address"
+          $ref: "#/components/schemas/BillReceiver_Address"
       xml:
         name: BillReceiver
       description: Container for the BillReceiver billing option. This element or
@@ -2290,7 +2290,7 @@ components:
           minLength: 6
           maxLength: 6
         Address:
-          "$ref": "#/components/schemas/BillThirdParty_Address"
+          $ref: "#/components/schemas/BillThirdParty_Address"
       xml:
         name: BillThirdParty
       description: Container for the third party billing option. This element or
@@ -2353,7 +2353,7 @@ components:
       - Type
       properties:
         Type:
-          "$ref": "#/components/schemas/FRSPaymentInformation_Type"
+          $ref: "#/components/schemas/FRSPaymentInformation_Type"
         AccountNumber:
           description: UPS Account Number.
           maximum: 1
@@ -2361,7 +2361,7 @@ components:
           minLength: 6
           maxLength: 6
         Address:
-          "$ref": "#/components/schemas/FRSPaymentInformation_Address"
+          $ref: "#/components/schemas/FRSPaymentInformation_Address"
       xml:
         name: FRSPaymentInformation
       maximum: 1
@@ -2419,7 +2419,7 @@ components:
       type: object
       properties:
         FreightDensityInfo:
-          "$ref": "#/components/schemas/FreightShipmentInformation_FreightDensityInfo"
+          $ref: "#/components/schemas/FreightShipmentInformation_FreightDensityInfo"
         DensityEligibleIndicator:
           description: The presence of the tag indicates that the  rate request is
             density based.For Density Based Rating (DBR), the customer must have DBR
@@ -2440,11 +2440,11 @@ components:
           maximum: 1
           type: string
         AdjustedHeight:
-          "$ref": "#/components/schemas/FreightDensityInfo_AdjustedHeight"
+          $ref: "#/components/schemas/FreightDensityInfo_AdjustedHeight"
         HandlingUnits:
           type: array
           items:
-            "$ref": "#/components/schemas/FreightDensityInfo_HandlingUnits"
+            $ref: "#/components/schemas/FreightDensityInfo_HandlingUnits"
       xml:
         name: FreightDensityInfo
       required:
@@ -2465,7 +2465,7 @@ components:
           minLength: 1
           maxLength: 19
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
       xml:
         name: AdjustedHeight
       description: Container to hold Adjusted Height information. Required if AdjustedHeightIndicator
@@ -2506,9 +2506,9 @@ components:
           minLength: 8
           maxLength: 8
         Type:
-          "$ref": "#/components/schemas/HandlingUnits_Type"
+          $ref: "#/components/schemas/HandlingUnits_Type"
         Dimensions:
-          "$ref": "#/components/schemas/HandlingUnits_Dimensions"
+          $ref: "#/components/schemas/HandlingUnits_Dimensions"
       xml:
         name: HandlingUnits
       description: Handling Unit for Density based rating container.
@@ -2543,7 +2543,7 @@ components:
       - Width
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/HandlingUnits_UnitOfMeasurement"
+          $ref: "#/components/schemas/HandlingUnits_UnitOfMeasurement"
         Length:
           description: The length of the line item used to determine dimensional weight.
           maximum: 1
@@ -2675,7 +2675,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/ShipmentTotalWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/ShipmentTotalWeight_UnitOfMeasurement"
         Weight:
           description: Non-zero total weight of all packages in the shipment.
           type: string
@@ -2723,15 +2723,15 @@ components:
       type: object
       properties:
         PackagingType:
-          "$ref": "#/components/schemas/Package_PackagingType"
+          $ref: "#/components/schemas/Package_PackagingType"
         Dimensions:
-          "$ref": "#/components/schemas/Package_Dimensions"
+          $ref: "#/components/schemas/Package_Dimensions"
         DimWeight:
-          "$ref": "#/components/schemas/Package_DimWeight"
+          $ref: "#/components/schemas/Package_DimWeight"
         PackageWeight:
-          "$ref": "#/components/schemas/Package_PackageWeight"
+          $ref: "#/components/schemas/Package_PackageWeight"
         Commodity:
-          "$ref": "#/components/schemas/Package_Commodity"
+          $ref: "#/components/schemas/Package_Commodity"
         LargePackageIndicator:
           description: This element does not require a value and if one is entered
             it will be ignored. If present, it indicates the shipment will be categorized
@@ -2739,15 +2739,15 @@ components:
           maximum: 1
           type: string
         PackageServiceOptions:
-          "$ref": "#/components/schemas/Package_PackageServiceOptions"
+          $ref: "#/components/schemas/Package_PackageServiceOptions"
         AdditionalHandlingIndicator:
           description: A flag indicating if the packages require additional handling. True if AdditionalHandlingIndicator tag exists; false otherwise. Additional Handling indicator indicates it's a non-corrugated package. Empty Tag.
           maximum: 1
           type: string
         SimpleRate:
-          "$ref": "#/components/schemas/Package_SimpleRate"
+          $ref: "#/components/schemas/Package_SimpleRate"
         UPSPremier:
-          "$ref": "#/components/schemas/Package_UPSPremier"
+          $ref: "#/components/schemas/Package_UPSPremier"
         OversizeIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. It
             indicates if packge is oversized. Applicable for UPS Worldwide Economy
@@ -2810,7 +2810,7 @@ components:
       - Width
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/Dimensions_UnitOfMeasurement"
+          $ref: "#/components/schemas/Dimensions_UnitOfMeasurement"
         Length:
           description: |
             Length of the package used to determine dimensional weight. Required for GB to GB and Poland to Poland shipments.
@@ -2848,7 +2848,7 @@ components:
       type: object
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/DimWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/DimWeight_UnitOfMeasurement"
         Weight:
           description: Dimensional weight of the package. Decimal values are not accepted,
             however there is one implied decimal place for values in this field (i.e.
@@ -2897,7 +2897,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/PackageWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/PackageWeight_UnitOfMeasurement"
         Weight:
           description: Actual package weight. Weight accepted for letters/envelopes.
           maximum: 1
@@ -2955,7 +2955,7 @@ components:
           minLength: 10
           maxLength: 10
         NMFC:
-          "$ref": "#/components/schemas/Commodity_NMFC"
+          $ref: "#/components/schemas/Commodity_NMFC"
       xml:
         name: Commodity
       description: Commodity Container. Required only for GFP rating when FRSShipmentIndicator
@@ -2991,15 +2991,15 @@ components:
       type: object
       properties:
         DeliveryConfirmation:
-          "$ref": "#/components/schemas/PackageServiceOptions_DeliveryConfirmation"
+          $ref: "#/components/schemas/PackageServiceOptions_DeliveryConfirmation"
         AccessPointCOD:
-          "$ref": "#/components/schemas/PackageServiceOptions_AccessPointCOD"
+          $ref: "#/components/schemas/PackageServiceOptions_AccessPointCOD"
         COD:
-          "$ref": "#/components/schemas/PackageServiceOptions_COD"
+          $ref: "#/components/schemas/PackageServiceOptions_COD"
         DeclaredValue:
-          "$ref": "#/components/schemas/PackageServiceOptions_DeclaredValue"
+          $ref: "#/components/schemas/PackageServiceOptions_DeclaredValue"
         ShipperDeclaredValue:
-          "$ref": "#/components/schemas/PackageServiceOptions_ShipperDeclaredValue"
+          $ref: "#/components/schemas/PackageServiceOptions_ShipperDeclaredValue"
         ShipperReleaseIndicator:
           description: The presence indicates that the package may be released by
             driver without a signature from the consignee. Empty Tag. Only available
@@ -3021,7 +3021,7 @@ components:
           maximum: 1
           type: string
         Insurance:
-          "$ref": "#/components/schemas/PackageServiceOptions_Insurance"
+          $ref: "#/components/schemas/PackageServiceOptions_Insurance"
         UPSPremiumCareIndicator:
           description: |
             The UPSPremiumCareIndicator indicates special handling is required for shipment having controlled substances. Empty Tag means indicator is present.
@@ -3047,9 +3047,9 @@ components:
           maximum: 1
           type: string
         HazMat:
-          "$ref": "#/components/schemas/PackageServiceOptions_HazMat"
+          $ref: "#/components/schemas/PackageServiceOptions_HazMat"
         DryIce:
-          "$ref": "#/components/schemas/PackageServiceOptions_DryIce"
+          $ref: "#/components/schemas/PackageServiceOptions_DryIce"
       xml:
         name: PackageServiceOptions
       maximum: 1
@@ -3117,7 +3117,7 @@ components:
           minLength: 1
           maxLength: 1
         CODAmount:
-          "$ref": "#/components/schemas/COD_CODAmount"
+          $ref: "#/components/schemas/COD_CODAmount"
       xml:
         name: COD
       description: 'COD Container. Indicates COD is requested. Valid for the following
@@ -3202,11 +3202,11 @@ components:
       maximum: 1
       properties:
         BasicFlexibleParcelIndicator:
-          "$ref": "#/components/schemas/Insurance_BasicFlexibleParcelIndicator"
+          $ref: "#/components/schemas/Insurance_BasicFlexibleParcelIndicator"
         ExtendedFlexibleParcelIndicator:
-          "$ref": "#/components/schemas/Insurance_ExtendedFlexibleParcelIndicator"
+          $ref: "#/components/schemas/Insurance_ExtendedFlexibleParcelIndicator"
         TimeInTransitFlexibleParcelIndicator:
-          "$ref": "#/components/schemas/Insurance_TimeInTransitFlexibleParcelIndicator"
+          $ref: "#/components/schemas/Insurance_TimeInTransitFlexibleParcelIndicator"
       description: Insurance Accesorial. Only one type of insurance can exist at a time on the shipment. Valid for UPS World Wide Express Freight shipments.
     Insurance_BasicFlexibleParcelIndicator:
       type: object
@@ -3322,7 +3322,7 @@ components:
           maximum: 3
           type: array
           items:
-            "$ref": "#/components/schemas/HazMat_HazMatChemicalRecord"
+            $ref: "#/components/schemas/HazMat_HazMatChemicalRecord"
       xml:
         name: HazMat
       required:
@@ -3554,7 +3554,7 @@ components:
           minLength: 3
           maxLength: 4
         DryIceWeight:
-          "$ref": "#/components/schemas/DryIce_DryIceWeight"
+          $ref: "#/components/schemas/DryIce_DryIceWeight"
         MedicalUseIndicator:
           description: Presence/Absence Indicator. Any value inside is ignored. Relevant
             only in CFR regulation set. If present it is used to designate the Dry
@@ -3579,7 +3579,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/DryIceWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/DryIceWeight_UnitOfMeasurement"
         Weight:
           description: Weight for Dry Ice. Cannot be more than package weight. Should
             be more than 0.0. Valid characters are 0-9 and "." (Decimal point). Limit
@@ -3691,7 +3691,7 @@ components:
           minLength: 1
           maxLength: 1
         AccessPointCOD:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_AccessPointCOD"
+          $ref: "#/components/schemas/ShipmentServiceOptions_AccessPointCOD"
         DeliverToAddresseeOnlyIndicator:
           description: |
             Presence/Absence Indicator. Any value inside is ignored.
@@ -3709,9 +3709,9 @@ components:
           maximum: 1
           type: string
         COD:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_COD"
+          $ref: "#/components/schemas/ShipmentServiceOptions_COD"
         DeliveryConfirmation:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_DeliveryConfirmation"
+          $ref: "#/components/schemas/ShipmentServiceOptions_DeliveryConfirmation"
         ReturnOfDocumentIndicator:
           description: Return of Documents Indicator - If the flag is present, the
             shipper has requested the ReturnOfDocument accessorial be added to the
@@ -3729,11 +3729,11 @@ components:
           maximum: 1
           type: string
         PickupOptions:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_PickupOptions"
+          $ref: "#/components/schemas/ShipmentServiceOptions_PickupOptions"
         DeliveryOptions:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_DeliveryOptions"
+          $ref: "#/components/schemas/ShipmentServiceOptions_DeliveryOptions"
         RestrictedArticles:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_RestrictedArticles"
+          $ref: "#/components/schemas/ShipmentServiceOptions_RestrictedArticles"
         ShipperExportDeclarationIndicator:
           description: The empty tag in request indicates that customer would be using
             UPS prepared SED form. Valid for UPS World Wide Express Freight shipments.
@@ -3747,9 +3747,9 @@ components:
           maximum: 1
           type: string
         ImportControl:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_ImportControl"
+          $ref: "#/components/schemas/ShipmentServiceOptions_ImportControl"
         ReturnService:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_ReturnService"
+          $ref: "#/components/schemas/ShipmentServiceOptions_ReturnService"
         SDLShipmentIndicator:
           description: Empty Tag means the indicator is present. This field is a flag
             to indicate if the receiver needs SDL rates in response. True if SDLShipmentIndicator
@@ -3832,7 +3832,7 @@ components:
           minLength: 1
           maxLength: 1
         CODAmount:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_COD_CODAmount"
+          $ref: "#/components/schemas/ShipmentServiceOptions_COD_CODAmount"
       xml:
         name: COD
       description: If present, indicates C.O.D. is requested for the shipment. Shipment
@@ -4154,11 +4154,11 @@ components:
           minLength: 2
           maxLength: 2
         Pickup:
-          "$ref": "#/components/schemas/DeliveryTimeInformation_Pickup"
+          $ref: "#/components/schemas/DeliveryTimeInformation_Pickup"
         ReturnContractServices:
           type: array
           items:
-            "$ref": "#/components/schemas/DeliveryTimeInformation_ReturnContractServices"
+            $ref: "#/components/schemas/DeliveryTimeInformation_ReturnContractServices"
       xml:
         name: DeliveryTimeInformation
       description: Container for requesting Time In Transit Information. Required
@@ -4214,7 +4214,7 @@ components:
       - RatedShipment
       properties:
         Response:
-          "$ref": "#/components/schemas/RateResponse_Response"
+          $ref: "#/components/schemas/RateResponse_Response"
         RatedShipment:
           description: |
               RatedShipment Container.
@@ -4222,7 +4222,7 @@ components:
               **NOTE:** For versions >= v2409, this element will always be returned as an array. For requests using versions < v2409, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RateResponse_RatedShipment"
+            $ref: "#/components/schemas/RateResponse_RatedShipment"
       xml:
         name: RateResponse
       description: Rate Response Container.
@@ -4233,7 +4233,7 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
             Alert Container. There can be zero to many alert containers with code and description.
@@ -4241,7 +4241,7 @@ components:
             **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         AlertDetail:
           description: |
               Alert Detail Container. Currently applies to and returned only for request containing HazMat and SubVersion greater than or equal to 1701.
@@ -4249,9 +4249,9 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_AlertDetail"
+            $ref: "#/components/schemas/Response_AlertDetail"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response Container.
@@ -4321,7 +4321,7 @@ components:
           minLength: 1
           maxLength: 150
         ElementLevelInformation:
-          "$ref": "#/components/schemas/AlertDetail_ElementLevelInformation"
+          $ref: "#/components/schemas/AlertDetail_ElementLevelInformation"
       xml:
         name: AlertDetail
     AlertDetail_ElementLevelInformation:
@@ -4348,7 +4348,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/ElementLevelInformation_ElementIdentifier"
+            $ref: "#/components/schemas/ElementLevelInformation_ElementIdentifier"
       xml:
         name: ElementLevelInformation
       description: Provides more information about the element that represents the
@@ -4398,9 +4398,9 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RatedShipment_Disclaimer"
+            $ref: "#/components/schemas/RatedShipment_Disclaimer"
         Service:
-          "$ref": "#/components/schemas/RatedShipment_Service"
+          $ref: "#/components/schemas/RatedShipment_Service"
         RateChart:
           description: |
             Rate Type with which Shipment is rated. Possible RateChart values for different regions will be:
@@ -4431,7 +4431,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RatedShipment_RatedShipmentAlert"
+            $ref: "#/components/schemas/RatedShipment_RatedShipmentAlert"
         BillableWeightCalculationMethod:
           description: Indicates whether the billable weight calculation method is
             utilized at the package or shipment level. This information will be returned
@@ -4451,11 +4451,11 @@ components:
           minLength: 2
           maxLength: 2
         BillingWeight:
-          "$ref": "#/components/schemas/RatedShipment_BillingWeight"
+          $ref: "#/components/schemas/RatedShipment_BillingWeight"
         TransportationCharges:
-          "$ref": "#/components/schemas/RatedShipment_TransportationCharges"
+          $ref: "#/components/schemas/RatedShipment_TransportationCharges"
         BaseServiceCharge:
-          "$ref": "#/components/schemas/RatedShipment_BaseServiceCharge"
+          $ref: "#/components/schemas/RatedShipment_BaseServiceCharge"
         ItemizedCharges:
           description: |
               Itemized Charges are returned only when the subversion element is present and greater than or equal to '1601'. These charges would be returned only when subversion is greater than or equal to 1601.
@@ -4463,11 +4463,11 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-             "$ref": "#/components/schemas/RatedShipment_ItemizedCharges"
+             $ref: "#/components/schemas/RatedShipment_ItemizedCharges"
         FRSShipmentData:
-          "$ref": "#/components/schemas/RatedShipment_FRSShipmentData"
+          $ref: "#/components/schemas/RatedShipment_FRSShipmentData"
         ServiceOptionsCharges:
-          "$ref": "#/components/schemas/RatedShipment_ServiceOptionsCharges"
+          $ref: "#/components/schemas/RatedShipment_ServiceOptionsCharges"
         TaxCharges:
           description: |
               TaxCharges container are returned only when TaxInformationIndicator is present in request and when Negotiated Rates are not applicable. TaxCharges container contains Tax information for a given shipment.
@@ -4475,13 +4475,13 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RatedShipment_TaxCharges"
+            $ref: "#/components/schemas/RatedShipment_TaxCharges"
         TotalCharges:
-          "$ref": "#/components/schemas/RatedShipment_TotalCharges"
+          $ref: "#/components/schemas/RatedShipment_TotalCharges"
         TotalChargesWithTaxes:
-          "$ref": "#/components/schemas/RatedShipment_TotalChargesWithTaxes"
+          $ref: "#/components/schemas/RatedShipment_TotalChargesWithTaxes"
         NegotiatedRateCharges:
-          "$ref": "#/components/schemas/RatedShipment_NegotiatedRateCharges"
+          $ref: "#/components/schemas/RatedShipment_NegotiatedRateCharges"
         RatedPackage:
           description: |
               Rated Package Container.
@@ -4489,11 +4489,11 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RatedShipment_RatedPackage"
+            $ref: "#/components/schemas/RatedShipment_RatedPackage"
         TimeInTransit:
-          "$ref": "#/components/schemas/RatedShipment_TimeInTransit"
+          $ref: "#/components/schemas/RatedShipment_TimeInTransit"
         GuaranteedDelivery:
-          "$ref": "#/components/schemas/RatedShipment_GuaranteedDelivery"
+          $ref: "#/components/schemas/RatedShipment_GuaranteedDelivery"
         ScheduledDeliveryDate:
           description: The rated shipments scheduled delivery date, ScheduledDeliveryDate
             returned only when Subversion of 2205 was sent in the request and the
@@ -4582,7 +4582,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/BillingWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/BillingWeight_UnitOfMeasurement"
         Weight:
           description: The value for the billable weight associated with the shipment. When using a negotiated divisor different from the published UPS divisor (139 for inches and 5,000 for cm), the weight returned is based on the published divisor. Rates, however, are based on the negotiated divisor.
           maximum: 1
@@ -4708,9 +4708,9 @@ components:
       - TransportationCharges
       properties:
         TransportationCharges:
-          "$ref": "#/components/schemas/FRSShipmentData_TransportationCharges"
+          $ref: "#/components/schemas/FRSShipmentData_TransportationCharges"
         FreightDensityRate:
-          "$ref": "#/components/schemas/FRSShipmentData_FreightDensityRate"
+          $ref: "#/components/schemas/FRSShipmentData_FreightDensityRate"
         HandlingUnits:
           description: |
               Handling Unit for Density based rating container.
@@ -4718,7 +4718,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/FRSShipmentData_HandlingUnits"
+            $ref: "#/components/schemas/FRSShipmentData_HandlingUnits"
       xml:
         name: FRSShipmentData
       description: FRSShipmentData container. Only returned when the FRSShipmentIIndicator
@@ -4733,9 +4733,9 @@ components:
       - NetCharge
       properties:
         GrossCharge:
-          "$ref": "#/components/schemas/TransportationCharges_GrossCharge"
+          $ref: "#/components/schemas/TransportationCharges_GrossCharge"
         DiscountAmount:
-          "$ref": "#/components/schemas/TransportationCharges_DiscountAmount"
+          $ref: "#/components/schemas/TransportationCharges_DiscountAmount"
         DiscountPercentage:
           description: Discount Percentage
           maximum: 1
@@ -4743,7 +4743,7 @@ components:
           minLength: 2
           maxLength: 2
         NetCharge:
-          "$ref": "#/components/schemas/TransportationCharges_NetCharge"
+          $ref: "#/components/schemas/TransportationCharges_NetCharge"
       xml:
         name: TransportationCharges
       maximum: 1
@@ -4855,11 +4855,11 @@ components:
           minLength: 1
           maxLength: 8
         Type:
-          "$ref": "#/components/schemas/HandlingUnits_Type"
+          $ref: "#/components/schemas/HandlingUnits_Type"
         Dimensions:
-          "$ref": "#/components/schemas/HandlingUnits_Dimensions"
+          $ref: "#/components/schemas/HandlingUnits_Dimensions"
         AdjustedHeight:
-          "$ref": "#/components/schemas/HandlingUnits_AdjustedHeight"
+          $ref: "#/components/schemas/HandlingUnits_AdjustedHeight"
       xml:
         name: HandlingUnits
     HandlingUnits_AdjustedHeight:
@@ -4877,7 +4877,7 @@ components:
           minLength: 1
           maxLength: 19
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/AdjustedHeight_UnitOfMeasurement"
       xml:
         name: AdjustedHeight
       description: Container to hold Adjusted Height information.
@@ -5007,7 +5007,7 @@ components:
 
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedRateCharges_BaseServiceCharge"
+            $ref: "#/components/schemas/NegotiatedRateCharges_BaseServiceCharge"
         RateModifier:
           description: |
             RateModifier inside Negotiated charges container to hold Modifier charges at package level
@@ -5015,7 +5015,7 @@ components:
             **Note:** Applies only if SubVersion is 2407 and greater (Rate OAuth)
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedRateCharges_RateModifier"
+            $ref: "#/components/schemas/NegotiatedRateCharges_RateModifier"
         ItemizedCharges:
           description: |
               Itemized Charges are returned only when the subversion element is present and greater than or equal to '1601'. These charges would be returned only when subversion is greater than or equal to 1601.
@@ -5023,7 +5023,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
+            $ref: "#/components/schemas/NegotiatedRateCharges_ItemizedCharges"
         TaxCharges:
           description: |
               TaxCharges container are returned only when TaxInformationIndicator is present in request. TaxCharges container contains Tax information for a given shipment.
@@ -5031,11 +5031,11 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedRateCharges_TaxCharges"
+            $ref: "#/components/schemas/NegotiatedRateCharges_TaxCharges"
         TotalCharge:
-          "$ref": "#/components/schemas/NegotiatedRateCharges_TotalCharge"
+          $ref: "#/components/schemas/NegotiatedRateCharges_TotalCharge"
         TotalChargesWithTaxes:
-          "$ref": "#/components/schemas/NegotiatedRateCharges_TotalChargesWithTaxes"
+          $ref: "#/components/schemas/NegotiatedRateCharges_TotalChargesWithTaxes"
       xml:
         name: NegotiatedRateCharges
       required:
@@ -5200,18 +5200,18 @@ components:
       type: object
       properties:
         BaseServiceCharge:
-          "$ref": "#/components/schemas/RatedPackage_BaseServiceCharge"
+          $ref: "#/components/schemas/RatedPackage_BaseServiceCharge"
         TransportationCharges:
-          "$ref": "#/components/schemas/RatedPackage_TransportationCharges"
+          $ref: "#/components/schemas/RatedPackage_TransportationCharges"
         ServiceOptionsCharges:
-          "$ref": "#/components/schemas/RatedPackage_ServiceOptionsCharges"
+          $ref: "#/components/schemas/RatedPackage_ServiceOptionsCharges"
         TotalCharges:
-          "$ref": "#/components/schemas/RatedPackage_TotalCharges"
+          $ref: "#/components/schemas/RatedPackage_TotalCharges"
         Weight:
           description: The weight of the package in the rated Package.
           type: string
         BillingWeight:
-          "$ref": "#/components/schemas/RatedPackage_BillingWeight"
+          $ref: "#/components/schemas/RatedPackage_BillingWeight"
         Accessorial:
           description: |
               The container for Accessorial indicators. This information would be returned only if ItemizedChargesRequested was present during Rate request. This is valid only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Mid-day service request with Dry Ice or Oversize Pallet and SubVersion greater than or equal to 1707. This is valid only for UPS Worldwide Express Freight and UPS Worldwide Express Freight Middday Service.
@@ -5219,7 +5219,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RatedPackage_Accessorial"
+            $ref: "#/components/schemas/RatedPackage_Accessorial"
         ItemizedCharges:
           description: |
               Itemized Charges are returned only when the subversion element is present and greater than or equal to '1607'. These charges would be returned only when subversion is greater than or equal to 1607.
@@ -5227,11 +5227,11 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RatedPackage_ItemizedCharges"
+            $ref: "#/components/schemas/RatedPackage_ItemizedCharges"
         NegotiatedCharges:
-          "$ref": "#/components/schemas/RatedPackage_NegotiatedCharges"
+          $ref: "#/components/schemas/RatedPackage_NegotiatedCharges"
         SimpleRate:
-          "$ref": "#/components/schemas/RatedPackage_SimpleRate"
+          $ref: "#/components/schemas/RatedPackage_SimpleRate"
         RateModifier:
           description: |
               Container for returned Rate Modifier information. Applies only if SubVersion is 2205 or greater.
@@ -5239,7 +5239,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/RatedPackage_RateModifier"
+            $ref: "#/components/schemas/RatedPackage_RateModifier"
       xml:
         name: RatedPackage
     RatedPackage_TransportationCharges:
@@ -5307,7 +5307,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/RatedPackage_BillingWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/RatedPackage_BillingWeight_UnitOfMeasurement"
         Weight:
           description: The value for the billable weight associated with the package. When
             using a negotiated divisor different from the published UPS divisor (139
@@ -5443,7 +5443,7 @@ components:
             **Note:** Applies only if SubVersion is 2407 and greater (Rate OAuth)
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedCharges_RateModifier"
+            $ref: "#/components/schemas/NegotiatedCharges_RateModifier"
         ItemizedCharges:
           description: |
               Negotiated Itemized Accessorial and Sur Charges. These charges would be returned only when subversion is greater than or equal to 1607.
@@ -5451,7 +5451,7 @@ components:
               **NOTE:** For versions >= v2403, this element will always be returned as an array. For requests using versions < v2403, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/NegotiatedCharges_ItemizedCharges"
+            $ref: "#/components/schemas/NegotiatedCharges_ItemizedCharges"
       xml:
         name: NegotiatedCharges
       description: Negotiated Rates container. These charges would be returned only
@@ -5575,7 +5575,7 @@ components:
           minLength: 2
           maxLength: 2
         ServiceSummary:
-          "$ref": "#/components/schemas/TimeInTransit_ServiceSummary"
+          $ref: "#/components/schemas/TimeInTransit_ServiceSummary"
         AutoDutyCode:
           description: 'Required output for International requests. If Documents indicator
             is set for Non-document a duty is automatically calculated. The possible
@@ -5605,7 +5605,7 @@ components:
       - Service
       properties:
         Service:
-          "$ref": "#/components/schemas/ServiceSummary_Service"
+          $ref: "#/components/schemas/ServiceSummary_Service"
         GuaranteedIndicator:
           description: Empty Tag. Indicates whether the service will be guaranteed
             or not. Required for International Requests.
@@ -5620,7 +5620,7 @@ components:
           maximum: 1
           type: string
         EstimatedArrival:
-          "$ref": "#/components/schemas/ServiceSummary_EstimatedArrival"
+          $ref: "#/components/schemas/ServiceSummary_EstimatedArrival"
         SaturdayDelivery:
           description: Saturday delivery information for a service. Values are1 -
             Saturday Delivery Available with additional charges 0 - Saturday Delivery
@@ -5671,7 +5671,7 @@ components:
       - BusinessDaysInTransit
       properties:
         Arrival:
-          "$ref": "#/components/schemas/EstimatedArrival_Arrival"
+          $ref: "#/components/schemas/EstimatedArrival_Arrival"
         BusinessDaysInTransit:
           description: Number of business days from Origin to Destination Locations.
           maximum: 1
@@ -5679,7 +5679,7 @@ components:
           minLength: 1
           maxLength: 5
         Pickup:
-          "$ref": "#/components/schemas/EstimatedArrival_Pickup"
+          $ref: "#/components/schemas/EstimatedArrival_Pickup"
         DayOfWeek:
           description: 'Day of week for arrival. Valid values are: MONTUEWEDTHUFRISAT'
           maximum: 1
@@ -5786,7 +5786,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -5795,7 +5795,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

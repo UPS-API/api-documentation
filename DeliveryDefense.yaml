@@ -32,8 +32,7 @@ paths:
         - Delivery Defense
       operationId: "score"
       summary: Get Verified Address Score
-      description: |
-        This API cleans and verifies inputted addresses to enhance the accuracy of generating an Address Confidence score. The returned data includes the cleaned address, the Address Confidence score, and an indication of whether the address is commercial or residential.
+      description: This API cleans and verifies inputted addresses to enhance the accuracy of generating an Address Confidence score. The returned data includes the cleaned address, the Address Confidence score, and an indication of whether the address is commercial or residential.
       security:
         - OAuth2: []
       requestBody:
@@ -240,8 +239,7 @@ components:
           description: An error code representing the type of error.
         errorMessage:
           type: string
-          description: |
-            * Invalid Authentication Information.
+          description: '* Invalid Authentication Information.'
       required:
         - errorCode
         - errorMessage
@@ -258,8 +256,7 @@ components:
           description: One or more validation errors occurred
         status:
           type: integer
-          description: |
-            * 400
+          description: '* 400'
         traceId:
           type: string
           description: auto generated Id
@@ -306,7 +303,7 @@ components:
               description: Country code in address
             score:
               type: integer
-              description: >
+              description: |-
                 * If range is between 900-1000 then there is a low likelihood of
                 loss.
 

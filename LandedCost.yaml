@@ -79,7 +79,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/LandedCostRequest"
+              $ref: "#/components/schemas/LandedCostRequest"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -124,7 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/LandedCostResponse"
+                $ref: "#/components/schemas/LandedCostResponse"
               examples:
                 json:
                   summary: A sample JSON response
@@ -175,25 +175,25 @@ paths:
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -246,7 +246,7 @@ components:
             This must match the major number of the corresponding ICD version.
           example: 1, 2, 3
         shipment:
-          "$ref": "#/components/schemas/LandedCostRequest_Shipment"
+          $ref: "#/components/schemas/LandedCostRequest_Shipment"
       xml:
         name: LandedCostRequest
       maximum: 1
@@ -340,7 +340,7 @@ components:
           type: array
           maximum: 99
           items:
-            "$ref": "#/components/schemas/Request_ShipmentItems"
+            $ref: "#/components/schemas/Request_ShipmentItems"
           description: Array of shipment item objects (commodities), that are in a
             shipment.
     Request_ShipmentItems:
@@ -469,7 +469,7 @@ components:
               type: array
               maximum: 1
               items:
-                "$ref": "#/components/schemas/brokerageFeeItems"
+                $ref: "#/components/schemas/brokerageFeeItems"
               description: An array of Brokerage fees.
             totalBrokerageFees:
               type: number
@@ -504,7 +504,7 @@ components:
             shipmentItems:
               type: array
               items:
-                "$ref": "#/components/schemas/Response_ShipmentItems"
+                $ref: "#/components/schemas/Response_ShipmentItems"
               maximum: 99
               description: An array of Landed Cost for all valid commodities.
             transID:
@@ -542,7 +542,7 @@ components:
               description: Version number of the instance that processed this request.
                 Default is 1.
             errors:
-              "$ref": "#/components/schemas/Errors"
+              $ref: "#/components/schemas/Errors"
       xml:
         name: LandedCostResponse
       maximum: 1
@@ -641,7 +641,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -650,7 +650,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
