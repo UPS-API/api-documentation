@@ -13,13 +13,13 @@ info:
     <a href="https://developer.ups.com/api/reference/deliveryintercept/product-info" target="_blank" rel="noopener">Product Info</a>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-f2409ef1-39c9-4f4a-a509-a3f860068ff4?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f2409ef1-39c9-4f4a-a509-a3f860068ff4%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" width="128" height="32">
     </a>
 
     # CIE Behavior
 
     The Delivery Intercept API will return a stubbed success response if the correct data is used for a given endpoint. The static data that is valid for each of the endpoints is in the table below:
-    
+
     | Endpoint | transId | trackingNumber                                                                                                                                                                                              |
     |------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
     | /charges     | SIICharges         | 1Z4096YY0316914058
@@ -47,7 +47,7 @@ servers:
         default: v2
         enum:
           - v2
-security: 
+security:
   - OAuth2: []
 paths:
   /charges/{trackingNumber}:
@@ -55,7 +55,7 @@ paths:
       summary: charges by inquiry type
       description: Obtains intercept charges specified by the inquiry type.
       operationId: getCharges
-      tags: 
+      tags:
         - Delivery Intercept
       servers:
         - url: https://wwwcie.ups.com/api/deliverychange/{version}
@@ -157,7 +157,7 @@ paths:
                   statusCode: "0006"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
+                      message: Package address token does not match any tokens in the user's profile.
         '500':
           description: System error occurred
           headers:
@@ -173,7 +173,7 @@ paths:
       summary: redirect a package to a Customer center for pickup.
       description: Request your package to be held at or returned to a UPS facility where the receiver may claim the same-day.
       operationId: submitWillCall
-      tags: 
+      tags:
         - Delivery Intercept
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -317,7 +317,7 @@ paths:
                   statusCode: "0006"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
+                      message: Package address token does not match any tokens in the user's profile.
         '500':
           description: System error occurred
           headers:
@@ -333,7 +333,7 @@ paths:
       summary: redirect the package back to the sender
       description: Return the package to the original shipper prior to delivery.
       operationId: submitReturnToSender
-      tags: 
+      tags:
         - Delivery Intercept
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -428,7 +428,7 @@ paths:
                   statusCode: "0006"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
+                      message: Package address token does not match any tokens in the user's profile.
         '500':
           description: System error occurred
           headers:
@@ -444,7 +444,7 @@ paths:
       summary: change to a new delivery date in the future.
       description: Have the package delivered to the original address but on a different day in the future.
       operationId: submitRescheduleDelivery
-      tags: 
+      tags:
         - Delivery Intercept
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -540,7 +540,7 @@ paths:
                   statusCode: "0006"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
+                      message: Package address token does not match any tokens in the user's profile.
         '500':
           description: System error occurred
           headers:
@@ -553,10 +553,10 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /redirect/address/{trackingNumber}:
     post:
-      summary: Submission to request a new delivery address. 
+      summary: Submission to request a new delivery address.
       description: Deliver to a different address than on the label originally created for the shipment.
       operationId: submitDeliverToAnotherAddressRequest
-      tags: 
+      tags:
         - Delivery Intercept
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -644,7 +644,7 @@ paths:
                   statusCode: "0006"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
+                      message: Package address token does not match any tokens in the user's profile.
         '500':
           description: System error occurred
           headers:
@@ -660,7 +660,7 @@ paths:
       summary: cancel an existing Delivery Intercept request
       description: Cancel a previously applied intercept on the package.
       operationId: cancelExistingRequest
-      tags: 
+      tags:
         - Delivery Intercept
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -743,7 +743,7 @@ paths:
                   statusCode: "0006"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.                
+                      message: Package address token does not match any tokens in the user's profile.
         '500':
           description: System error occurred
           headers:
@@ -758,13 +758,13 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
-      description: |
-        Find your Client ID and Secret on your app info page. 
-          1. Select "Try It" 
-          2. In the Security section enter your Client ID and Secret 
-          3. Select "Request Token"
-          4. Enter any additional information in the Body and Parameters sections
-          5. Select "Send" to execute your API request" 
+      description: |-
+        Find your Client ID and Secret on your app info page.
+        1. Select "Try It"
+        2. In the Security section enter your Client ID and Secret
+        3. Select "Request Token"
+        4. Enter any additional information in the Body and Parameters sections
+        5. Select "Send" to execute your API request
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
@@ -773,8 +773,7 @@ components:
   parameters:
     transactionSrc:
       name: transactionSrc
-      description: >-
-        Identifies the client/source application that is calling the API.
+      description: Identifies the client/source application that is calling the API.
       in: header
       required: true
       style: simple
@@ -818,7 +817,7 @@ components:
       example: application/json
     TrackingNumber:
       name: trackingNumber
-      description: The number being tracked.  Each method defines if required.
+      description: The number being tracked. Each method defines if required.
       in: path
       required: true
       style: simple
@@ -893,7 +892,7 @@ components:
           type: string
           example: Ste 8
         addressLine3:
-          description: Line 3 of the street 
+          description: Line 3 of the street
           maxLength: 35
           type: string
         city:
@@ -932,7 +931,7 @@ components:
           example: OAK
           type: string
         fullName:
-          description: Full person name 
+          description: Full person name
           example: HUNTLY OAK
           type: string
         phoneNumber:
@@ -978,14 +977,13 @@ components:
             streetNumber:
               maxLength: 11
               type: string
-              example: "512"      
+              example: "512"
     ChargesInfo:
       type: object
       required: [chargeCurrency]
       properties:
         accessorialCharge:
-          description: |
-            Includes sum of all accessorial charges (i.e. including addition handling, intercept).
+          description: Includes sum of all accessorial charges (i.e. including addition handling, intercept).
           type: string
           maxLength: 20
           example: "5.00"
@@ -1090,7 +1088,7 @@ components:
 
             | CODE  | DESCRIPTION                                     |
             | TRUE  | the charges were paid by a third-party shipper. |
-            | FALSE | the charges were paid by the original shipper.  |
+            | FALSE | the charges were paid by the original shipper. |
           type: boolean
           default: false
         taxes:
@@ -1106,7 +1104,7 @@ components:
                 description: Identifies the tax amount for a particular tax type
                 type: string
         totalTax:
-          description: Taxes for EU/Mexico/Canada country movement . sum of tax amounts present in the taxes field.  
+          description: Taxes for EU/Mexico/Canada country movement . sum of tax amounts present in the taxes field.
           type: string
           maxLength: 4
           example: "0.00"
@@ -1120,8 +1118,8 @@ components:
 
             | VALUE | DESCRIPTION         |
             | :--:  | :--                 |
-            | NTC   | NO Tax calculation  | 
-            | NTA   | NO Tax applicable   | 
+            | NTC   | NO Tax calculation  |
+            | NTA   | NO Tax applicable   |
             | TA    | Taxes applicable    |
             | TE    | Taxes exempt        |
             | TU    | Taxes Undermined    |
@@ -1133,8 +1131,8 @@ components:
       type: object
       required: [name,telephone]
       properties:
-        name: 
-          description: Contact Name 
+        name:
+          description: Contact Name
           maxLength: 30
           minLength: 1
           example: The UPS Store
@@ -1254,7 +1252,7 @@ components:
           type: string
         requestType:
           description: |
-            The request type of the intercept being performed. Each method defines if required. 
+            The request type of the intercept being performed. Each method defines if required.
             | VALUE | DESCRIPTION                     |
             | :--:  | :--                             |
             | WC	  | WILL_CALL                       |
@@ -1334,8 +1332,7 @@ components:
           maxLength: 254
           example: Watch for dog
         originalPublicLocationId:
-          description: |
-            The original UAP public location ID where the package is currently located or in-transit to. Format- UXXXXXXXX  ('U' followed by 8 numbers)
+          description: The original UAP public location ID where the package is currently located or in-transit to. Format- UXXXXXXXX  ('U' followed by 8 numbers)
           type: string
           maxLength: 9
           minLength: 9
@@ -1349,8 +1346,8 @@ components:
           $ref: '#/components/schemas/ContactInfo'
         iobb:
           description: |
-            iOvations Black Box data. Used for fraud checking/scoring. 
-            
+            iOvations Black Box data. Used for fraud checking/scoring.
+
             | S.NO. | DESCRIPTION                                 |
             | :--:  | :--                                         |
             | 1 	  | iobb value is labeled “EMPTY”               |
@@ -1378,28 +1375,27 @@ components:
           example: 1Z1144YY0125887968
         multiTrackingNumbers:
           type: array
-          description: |
-            This unbounded array is required only for the API version v3. It is used to process multiple tracking numbers with the same request.
+          description: This unbounded array is required only for the API version v3. It is used to process multiple tracking numbers with the same request.
           items:
             $ref: '#/components/schemas/MultiTrackingNumbers'
     MyChoiceInterceptCommonResponse:
       type: object
       properties:
         addrToken:
-          description: The token associated with the tracking number and one of the user's active enrollments. 
+          description: The token associated with the tracking number and one of the user's active enrollments.
           type: string
           maxLength: 32
           example: f01882cf6aad4833a2a25144bd04714e
         myChoiceCountry:
           description: |
             Will only be returned if notificationRequestType is DBD email or DBD phone. Indicates if My Choice is supported in the
-            package's ship to country. 
-            
+            package's ship to country.
+
             | CODE  | DESCRIPTION                                     |
             | :--:  | :--                                             |
-            |       | No My Choice support check was done.            |
-            | 0     |	Area does not support My Choice functionality.  |
-            | 1	    | Area supports My Choice functionality.          |
+            |       | No My Choice support check was done. |
+            | 0     |	Area does not support My Choice functionality. |
+            | 1	    | Area supports My Choice functionality. |
           type: string
           maxLength: 1
           minLength: 1
@@ -1471,7 +1467,7 @@ components:
           required: [ratingRequest]
           properties:
             ratingRequest:
-              description: | 
+              description: |
                 List of rating request data. If you want to find out the accessory and transportation charges of a "redirect" request
                 for a specified Tracking number then this array list must contain one rating request. This array is unbounded.
               type: array
@@ -1703,7 +1699,7 @@ components:
         - type: object
           required: [deliveryDate]
           properties:
-             deliveryDate:
+            deliveryDate:
               description: Format- YYYYMMDD
               maxLength: 8
               minLength: 8
@@ -1712,7 +1708,7 @@ components:
               example: "20190223"
       required: [transactionId]
     MyChoiceRescheduleDeliveryResponse:
-       allOf:
+      allOf:
         - $ref: '#/components/schemas/MyChoiceCommonResponse'
         - $ref: '#/components/schemas/MyChoiceInterceptCommonResponse'
     MyChoiceReturnToSenderRequest:
@@ -1725,7 +1721,7 @@ components:
             reasonForReturn:
               description: |
                 Reason for return code.
-                            
+
                 | CODE  | DESCRIPTION                                                           |
                 | :--:  | :--                                                                   |
                 | AM    | RECEIVER REFUSED, CANCELLED ORDER                                     |
@@ -1750,7 +1746,7 @@ components:
           properties:
             addrToken:
               description: |
-                Will only be returned when the addressToken is present on the request or can be retrieved from AMS for MyChoice functionality. 
+                Will only be returned when the addressToken is present on the request or can be retrieved from AMS for MyChoice functionality.
                 The token associated with the tracking number and one of the user's active enrollments.
               maxLength: 32
               type: string
@@ -1839,7 +1835,7 @@ components:
                   minLength: 3
                   example: "001"
                 name:
-                  description: | 
+                  description: |
                     If this field is not present, MCCL will call SCL Component to obtain all location information.
                     This field must be supplied by trusted end clients only.
                   type: string
@@ -1901,9 +1897,9 @@ components:
                 unavailableReasonDescription:
                   description: |
                     Will be returned when unavailable is  true.
-                    
+
                     | CODE  | DESCRIPTION             |
-                    | :--:  | :--                     | 
+                    | :--:  | :--                     |
                     | 01    | Temporarily unavailable |
                     | 02    | Location Full           |
                     | 03    | Unavialable             |
@@ -1911,7 +1907,7 @@ components:
                   type: string
                   example: "01"
                 serviceOfferingCode:
-                  type: string 
+                  type: string
                   description: |
                     The code for the service being offered.
 
@@ -1944,11 +1940,11 @@ components:
                       code:
                         description: |
                           The business classification type code.
-                          
+
                           | CODE  | DESCRIPTION       |
                           | :--:  | :--               |
                           | 001   | BAKERY            |
-                          | 002   | BOOKSTORE         | 
+                          | 002   | BOOKSTORE         |
                           | 003   | CHEMISTS          |
                           | 004   | CLOTHes_SHOES     |
                           | 005   | CONVIENIENCE_SHOP |
@@ -2015,7 +2011,7 @@ components:
         paymentType:
           description: |
             Conditional on the charges. Required if the charges are greater than zero.
-            
+
             | CODE  | DESCRIPTION       |
             | :--:  | :--               |
             | C     | Credit Card       |
@@ -2042,14 +2038,14 @@ components:
             platformType:
               description: |
                 Platform type associated with the source application.
-                 
+
                 | VALUE  | DESCRIPTION                  |
                 | :--    | :--                          |
                 | AU     | M.UPS.COM                    |
                 | GG	   | UPSXMLONLINETOOLS            |
                 | 72     | WEB-INTERNETBASEDAPPLICATION |
                 | XK     | UPSMOBILEFORANDROID          |
-                | XL     | UPSMOBILEFORIOS              | 
+                | XL     | UPSMOBILEFORIOS              |
                 | XM     | UPSSOCIALFACEBOOKCLIENT=XM   |
               maxLength: 2
               minLength: 2
@@ -2064,7 +2060,7 @@ components:
             iobb:
               description: |
                 Used on request only for non-authorized payment. Used for fraud checking/scoring.
-    
+
                 | S.NO. | DESCRIPTION                                 |
                 | :--:  | :--                                         |
                 | 1	    | iobb value is labeled “EMPTY”               |
@@ -2098,8 +2094,7 @@ components:
               type: string
               example: "TPSJWGKFWNMG4020"
             cardType:
-              description: |
-                The card type is required for non-authorized cards and new cards.
+              description: The card type is required for non-authorized cards and new cards.
               maxLength: 2
               minLength: 2
               example: "01"
@@ -2138,39 +2133,32 @@ components:
                   type: object
                   properties:
                     cardTypeID:
-                      description: |
-                        The card type ID
+                      description: The card type ID
                       example: "04"
                       type: string
                     cardTypeName:
-                      description: |
-                        The card type name
+                      description: The card type name
                       example: "04"
                       type: string
                     cardTypePCSName:
-                      description: |
-                        the card type PCS name
+                      description: the card type PCS name
                       example: "MASTERCARD"
                       type: string
                     cardTypeLength:
-                      description: |
-                         the card type length
+                      description: the card type length
                       type: string
                     cardTypeMaxLength:
-                      description: |
-                        the max length for card type
+                      description: the max length for card type
                       example: 16
                       type: integer
                       format: int32
                     cardTypeMinLength:
-                      description: |
-                        the min length for card type
+                      description: the min length for card type
                       example: 16
                       type: integer
                       format: int32
                     cardTypePaymentType:
-                      description: |
-                        the card type payment type
+                      description: the card type payment type
                       example: "CC"
                       type: string
                 lastFourChars:
@@ -2213,7 +2201,7 @@ components:
               maxLength: 10
               example: "TESTO"
             accountCountry:
-              description: Country code associated with the account. 
+              description: Country code associated with the account.
               type: string
               maxLength: 2
               minLength: 2
@@ -2227,15 +2215,14 @@ components:
               description: Displayable account number.
               type: string
             zipCode:
-              description: |
-                Request required when saveAccountInfo is TRUE. Postal code associated with the account used when saving a new account to the user's profile.
+              description: Request required when saveAccountInfo is TRUE. Postal code associated with the account used when saving a new account to the user's profile.
               type: string
               example: "21009"
             accountType:
               type: string
               description: UPS account type.
             defaultAccount:
-              description:  |
+              description: |
                 when saveAccountInfo is TRUE. If this is the default account in the user's profile.
                 TRUE - account is the default / will be saved as the default account.
                 FALSE - account is not the default payment.
@@ -2267,8 +2254,8 @@ components:
               example: "USD"
             iobb:
               description: |
-                Used on request only for non-authorized payment. Used for fraud checking/scoring 
-                
+                Used on request only for non-authorized payment. Used for fraud checking/scoring
+
                 | S.NO. | DESCRIPTION                                 |
                 | :--:  | :--                                         |
                 | 1 	  | iobb value is labeled “EMPTY”               |
@@ -2296,8 +2283,7 @@ components:
               description: The account name associated with this payment.
               type: string
             guidCode:
-              description: |
-                Request required for pre-authorized payment. The guid generated after the transaction payment authorization, acts as the authorization code.
+              description: Request required for pre-authorized payment. The guid generated after the transaction payment authorization, acts as the authorization code.
               type: string
               example : "EB154DF85A3F4309A774EB500E4EBDAD"
             payPalBillingAgreementId:
@@ -2321,7 +2307,7 @@ components:
           description: The backend transaction id.
           example: SC_AUTH0_SCP_V4_TEST
         transId:
-          type: string 
+          type: string
           description: An identifier unique to the request.
           example: 0a1b9c2d8e3f7g4h6i5
         transactionSrc:
@@ -2362,49 +2348,43 @@ components:
         response:
           type: object
           required: [transactionId, statusCode, errors]
-          properties: 
+          properties:
               transactionId:
-                description: |-
-                  A unique value that will be used to identify the transaction for logging and troubleshooting purposes.
+                description: A unique value that will be used to identify the transaction for logging and troubleshooting purposes.
                 maxLength: 14
                 minLength: 1
                 example: ASR1212
                 type: string
               statusCode:
-                description: |-
-                  API response status code, Internal code regarding the success or failure of the operation
+                description: API response status code, Internal code regarding the success or failure of the operation
                 maxLength: 4
                 minLength: 1
                 example: "0006"
                 type: string
               subStatusCode:
-                description: |-
-                  A new status code for adding granularity to the existing status code structure
+                description: A new status code for adding granularity to the existing status code structure
                 type: string
               success:
                 description: Indicates if the transaction is considered successful.
                 default: false
-                type: boolean  
+                type: boolean
               errors:
                 type: array
                 description: |
                   Will only be returned if the HTTP statusCode isn't '200'(success). A list of one or more validation errors. On the API version
                   v3 the first element of the errors array contains the statusCode and scoring statusMessage field. This array is unbounded.
-                items: 
+                items:
                   type: object
-                  properties: 
+                  properties:
                     code:
-                      description: |-
-                          the code of the error
+                      description: the code of the error
                       maxLength: 4
                       minLength: 1
                       example: "0006"
                       type: string
                     message:
-                      description: |-
-                        the message of the error
+                      description: the message of the error
                       maxLength: 120
                       minLength: 1
                       example: "Failure to check eligibility through Tracking component"
                       type: string
-        

@@ -3,7 +3,7 @@ info:
   title: Paperless Document
   version: ''
   description: |
-  
+
     The Paperless Documents API allows users to upload specific trade documents for paperless processing of international shipments. <br />The /upload endpoint of the API requires document details, including file name, file format, and document type (such as authorization form, commercial invoice, certificate of origin, export license, etc).<br />The /image endpoint helps users upload document images as support documents for shipping<br />The /delete endpoint of the API helps delete a specific document the user has uploaded.
     # Reference
     - <a href="https://developer.ups.com/api/reference/paperlessdocument/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -13,9 +13,9 @@ info:
     </br><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-ee617b20-f052-4f25-9eca-7f7b8a1c5146?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-ee617b20-f052-4f25-9eca-7f7b8a1c5146%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" width="128" height="32"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " width="128" height="32">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -73,7 +73,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PAPERLESSDOCUMENTUploadRequestWrapper"
+              $ref: "#/components/schemas/PAPERLESSDOCUMENTUploadRequestWrapper"
             examples:
               '1':
                 summary: Upload Request with document type 013
@@ -120,31 +120,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PAPERLESSDOCUMENTUploadResponseWrapper"
+                $ref: "#/components/schemas/PAPERLESSDOCUMENTUploadResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/paperlessdocuments/{version}/image":
     post:
       summary: Paperless Document Push Image
@@ -194,7 +194,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PAPERLESSDOCUMENTRequestWrapper"
+              $ref: "#/components/schemas/PAPERLESSDOCUMENTRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -215,31 +215,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PAPERLESSDOCUMENTResponseWrapper"
+                $ref: "#/components/schemas/PAPERLESSDOCUMENTResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/paperlessdocuments/{version}/DocumentId/ShipperNumber":
     delete:
       summary: Delete Paperless Document
@@ -291,31 +291,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PAPERLESSDOCUMENTDeleteResponseWrapper"
+                $ref: "#/components/schemas/PAPERLESSDOCUMENTDeleteResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/paperlessdocuments/{deprecatedVersion}/upload":
     post:
       deprecated: true
@@ -326,7 +326,7 @@ paths:
         - OAuth2: []
       description: 'The Paperless Document API web service allows the users to upload,delete
         and push to image repository their own customized trade documents for customs
-        clearance to Forms History. '
+        clearance to Forms History.'
       operationId: Deprecated Upload
       parameters:
       - in: header
@@ -367,7 +367,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PAPERLESSDOCUMENTUploadRequestWrapper"
+              $ref: "#/components/schemas/PAPERLESSDOCUMENTUploadRequestWrapper"
             examples:
               '1':
                 summary: Upload Request with document type 013
@@ -414,31 +414,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PAPERLESSDOCUMENTUploadResponseWrapper"
+                $ref: "#/components/schemas/PAPERLESSDOCUMENTUploadResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/paperlessdocuments/{deprecatedVersion}/image":
     post:
       deprecated: true
@@ -489,7 +489,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PAPERLESSDOCUMENTRequestWrapper"
+              $ref: "#/components/schemas/PAPERLESSDOCUMENTRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -510,31 +510,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PAPERLESSDOCUMENTResponseWrapper"
+                $ref: "#/components/schemas/PAPERLESSDOCUMENTResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/paperlessdocuments/{deprecatedVersion}/DocumentId/ShipperNumber":
     delete:
       deprecated: true
@@ -587,31 +587,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PAPERLESSDOCUMENTDeleteResponseWrapper"
+                $ref: "#/components/schemas/PAPERLESSDOCUMENTDeleteResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -639,7 +639,7 @@ components:
       - DeleteRequest
       properties:
         DeleteRequest:
-          "$ref": "#/components/schemas/DeleteRequest"
+          $ref: "#/components/schemas/DeleteRequest"
     PAPERLESSDOCUMENTDeleteResponseWrapper:
       xml:
         name: DeleteResponse
@@ -650,7 +650,7 @@ components:
       - DeleteResponse
       properties:
         DeleteResponse:
-          "$ref": "#/components/schemas/DeleteResponse"
+          $ref: "#/components/schemas/DeleteResponse"
     DeleteRequest:
       type: object
       required:
@@ -659,16 +659,16 @@ components:
       - ShipperNumber
       properties:
         Request:
-          "$ref": "#/components/schemas/DeleteRequest_Request"
+          $ref: "#/components/schemas/DeleteRequest_Request"
         ShipperNumber:
-          description: The Shipper's UPS Account Number.  Your UPS Account Number
+          description: The Shipper's UPS Account Number. Your UPS Account Number
             must have 'Upload Forms Created Offline' enabled to use this webservice.
           maximum: 1
           type: string
           minLength: 6
           maxLength: 6
         DocumentID:
-          description: DocumentId representing uploaded document to Forms History.  Only
+          description: DocumentId representing uploaded document to Forms History. Only
             one DocumentID will be accepted for delete request.
           maximum: 1
           type: string
@@ -693,7 +693,7 @@ components:
           maximum: 1
           type: string
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       maximum: 1
@@ -704,7 +704,7 @@ components:
       - Response
       properties:
         Response:
-          "$ref": "#/components/schemas/DeleteResponse_Response"
+          $ref: "#/components/schemas/DeleteResponse_Response"
       xml:
         name: DeleteResponse
       description: Paperless Document API response container for delete request.
@@ -715,17 +715,17 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response container.
@@ -745,7 +745,7 @@ components:
           minLength: 1
           maxLength: 1
         Description:
-          description: Describes Response Status Code.  Returns text of "Success"
+          description: Describes Response Status Code. Returns text of "Success"
             or "Failure".
           maximum: 1
           type: string
@@ -801,7 +801,7 @@ components:
       - PushToImageRepositoryRequest
       properties:
         PushToImageRepositoryRequest:
-          "$ref": "#/components/schemas/PushToImageRepositoryRequest"
+          $ref: "#/components/schemas/PushToImageRepositoryRequest"
     PAPERLESSDOCUMENTResponseWrapper:
       xml:
         name: PushToImageRepositoryResponse
@@ -812,7 +812,7 @@ components:
       - PushToImageRepositoryResponse
       properties:
         PushToImageRepositoryResponse:
-          "$ref": "#/components/schemas/PushToImageRepositoryResponse"
+          $ref: "#/components/schemas/PushToImageRepositoryResponse"
     PushToImageRepositoryRequest:
       type: object
       required:
@@ -823,16 +823,16 @@ components:
       - FormsHistoryDocumentID
       properties:
         Request:
-          "$ref": "#/components/schemas/PushToImageRepositoryRequest_Request"
+          $ref: "#/components/schemas/PushToImageRepositoryRequest_Request"
         ShipperNumber:
-          description: The Shipper's UPS Account Number.  Your UPS Account Number
+          description: The Shipper's UPS Account Number. Your UPS Account Number
             must have 'Upload Forms Created Offline' enabled to use this webservice.
           maximum: 1
           type: string
           minLength: 6
           maxLength: 6
         FormsHistoryDocumentID:
-          "$ref": "#/components/schemas/PushToImageRepositoryRequest_FormsHistoryDocumentID"
+          $ref: "#/components/schemas/PushToImageRepositoryRequest_FormsHistoryDocumentID"
         FormsGroupID:
           description: FormsGroupID would be required in Push Request if user needs
             to update uploaded DocumentID(s) in Forms History.
@@ -890,7 +890,7 @@ components:
           maximum: 1
           type: string
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       maximum: 1
@@ -932,7 +932,7 @@ components:
       - Response
       properties:
         Response:
-          "$ref": "#/components/schemas/PushToImageRepositoryResponse_Response"
+          $ref: "#/components/schemas/PushToImageRepositoryResponse_Response"
         FormsGroupID:
           description: FormsGroupID is a consolidated ID representing one or multiple
             DocumentID(s).
@@ -951,17 +951,17 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response container.
@@ -976,7 +976,7 @@ components:
       - UploadRequest
       properties:
         UploadRequest:
-          "$ref": "#/components/schemas/UploadRequest"
+          $ref: "#/components/schemas/UploadRequest"
     PAPERLESSDOCUMENTUploadResponseWrapper:
       xml:
         name: UploadResponse
@@ -987,7 +987,7 @@ components:
       - UploadResponse
       properties:
         UploadResponse:
-          "$ref": "#/components/schemas/UploadResponse"
+          $ref: "#/components/schemas/UploadResponse"
     UploadRequest:
       type: object
       required:
@@ -996,9 +996,9 @@ components:
       - ShipperNumber
       properties:
         Request:
-          "$ref": "#/components/schemas/UploadRequest_Request"
+          $ref: "#/components/schemas/UploadRequest_Request"
         ShipperNumber:
-          description: The Shipper's UPS Account Number.  Your UPS Account Number
+          description: The Shipper's UPS Account Number. Your UPS Account Number
             must have 'Upload Forms Created Offline' enabled to use this webservice.
           maximum: 1
           type: string
@@ -1008,7 +1008,7 @@ components:
           type: array
           maximum: 13
           items:
-            "$ref": "#/components/schemas/UploadRequest_UserCreatedForm"
+            $ref: "#/components/schemas/UploadRequest_UserCreatedForm"
       xml:
         name: UploadRequest
       maximum: 1
@@ -1026,7 +1026,7 @@ components:
           maximum: 1
           type: string
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
       xml:
         name: Request
       maximum: 1
@@ -1048,13 +1048,13 @@ components:
           maxLength: 300
         UserCreatedFormFile:
           description: |
-            The user created form file.  The maximum allowable size of each file is restricted to 10 MB. Should be a base64 encoded string.
+            The user created form file. The maximum allowable size of each file is restricted to 10 MB. Should be a base64 encoded string.
 
             Note: The maximum allowable size of each file is restriced to 1MB in CIE (Customer Integration Environment).
           maximum: 1
           type: string
         UserCreatedFormFileFormat:
-          description: The UserCreatedForm file format.  The allowed file formats
+          description: The UserCreatedForm file format. The allowed file formats
             are bmp, doc, gif, jpg, pdf, png, rtf, tif, txt and xls. The only exceptions
             for having file format of length 4 character are docx and xlsx. All other
             file formats needs to be of length 3.
@@ -1063,7 +1063,7 @@ components:
           minLength: 3
           maxLength: 4
         UserCreatedFormDocumentType:
-          description: The type of documents in UserCreatedForm file.  The allowed
+          description: The type of documents in UserCreatedForm file. The allowed
             document types are 001 - Authorization Form, 002 - Commercial Invoice,
             003 - Certificate of Origin, 004 - Export Accompanying Document, 005 -
             Export License, 006 - Import Permit, 007 - One Time NAFTA, 008 - Other
@@ -1084,9 +1084,9 @@ components:
       - Response
       properties:
         Response:
-          "$ref": "#/components/schemas/UploadResponse_Response"
+          $ref: "#/components/schemas/UploadResponse_Response"
         FormsHistoryDocumentID:
-          "$ref": "#/components/schemas/UploadResponse_FormsHistoryDocumentID"
+          $ref: "#/components/schemas/UploadResponse_FormsHistoryDocumentID"
       xml:
         name: UploadResponse
       description: Paperless Document API Response Container for upload request.
@@ -1097,17 +1097,17 @@ components:
       - ResponseStatus
       properties:
         ResponseStatus:
-          "$ref": "#/components/schemas/Response_ResponseStatus"
+          $ref: "#/components/schemas/Response_ResponseStatus"
         Alert:
           description: |
-            Alert Container.  There can be zero to many alert containers with code and description.
+            Alert Container. There can be zero to many alert containers with code and description.
 
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Alert"
+            $ref: "#/components/schemas/Response_Alert"
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
       xml:
         name: Response
       description: Response container.
@@ -1135,7 +1135,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -1144,7 +1144,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

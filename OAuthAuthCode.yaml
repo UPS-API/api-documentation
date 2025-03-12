@@ -4,10 +4,10 @@ info:
   description: |-
     The UPS OAuth Authorization Code API helps integrate UPS services into your business application for providing the service your application grants your customers. For example, you can create UPS shipping labels with shipping rates for merchants from within your application.
     Since your application will not have access to your customer's UPS login credentials, the OAuth authorization code flow is used to let your customer use their UPS credentials, within your application, in a simple and secure way.
-    
-    The PKCE-enhanced Authorization Code Flow introduces a secret created by the calling application that can be verified by the authorization server; this secret is called the Code Verifier. Additionally, the calling app creates a transform value of the Code Verifier called the Code Challenge 
+
+    The PKCE-enhanced Authorization Code Flow introduces a secret created by the calling application that can be verified by the authorization server; this secret is called the Code Verifier. Additionally, the calling app creates a transform value of the Code Verifier called the Code Challenge
     and sends this value over HTTPS to retrieve an Authorization Code. This way, a malicious attacker can only intercept the Authorization Code, and they cannot exchange it for a token without the Code Verifier.
-    
+
     Key Business Values:
       - **Enhanced Transaction Security**: The OAuth Authorization Code flow is more secure and reliable since the access token and the refresh token are never exposed in the browser's URL, thus reducing the risk of leakage or theft.
       - **Operational Efficiency**: With the ability to obtain a refresh token when the token expires, your application can maintain a long-term and uninterrupted access to the protected resources, without requiring the user to re-authenticate or re-login.
@@ -31,12 +31,12 @@ info:
 
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API/UPS-SDKs" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS SDKs</a></br>
-    
+
     </br><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
     <a href="https://god.gw.postman.com/run-collection/29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" width="128" height="32"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " width="128" height="32">
     </a>
   version: '1.0'
 paths:
@@ -50,8 +50,7 @@ paths:
       tags:
         - OAuth Auth Code
       summary: Authorize Client
-      description: |-
-        The Authorize Client endpoint initiates the OAuth Authorization Code flow by redirecting the user to UPS for logging-in and authorize the client application. To begin the authorization flow, the application constructs a URL using the application's client Id, the redirect URI, the scope of permissions requested, and a random string used for subsequent verification. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.
+      description: The Authorize Client endpoint initiates the OAuth Authorization Code flow by redirecting the user to UPS for logging-in and authorize the client application. To begin the authorization flow, the application constructs a URL using the application's client Id, the redirect URI, the scope of permissions requested, and a random string used for subsequent verification. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.
       operationId: AuthorizeClient
       parameters:
       - in: query
@@ -93,7 +92,7 @@ paths:
         name: code_challenge
         schema:
           type: string
-        description: Base64 URL-Encoded SHA256 value of Code Verifier that can be 
+        description: Base64 URL-Encoded SHA256 value of Code Verifier that can be
           used to verify the code_verifier in the /token step.
         required: false
       responses:
@@ -122,25 +121,25 @@ paths:
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
   "/v1/oauth/token":
     post:
       servers:
@@ -176,12 +175,10 @@ paths:
                   description: Callback URL for the requesting application.
                 code_verifier:
                   type: string
-                  description: |
-                    **Only required for PKCE flow**. A randomly generated secret created by the calling application that can be verified by the authorization server.
+                  description: '**Only required for PKCE flow**. A randomly generated secret created by the calling application that can be verified by the authorization server.'
                 client_id:
                   type: string
-                  description: |
-                    **Only required for PKCE flow**. The public identifier for your application, obtained when you, the developer first registered the application.
+                  description: '**Only required for PKCE flow**. The public identifier for your application, obtained when you, the developer first registered the application.'
               required:
               - grant_type
               - code
@@ -192,31 +189,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/generateTokenSuccessResponse"
+                $ref: "#/components/schemas/generateTokenSuccessResponse"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
   "/v1/oauth/refresh":
     post:
       servers:
@@ -258,55 +255,54 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/refreshTokenSuccessResponse"
+                $ref: "#/components/schemas/refreshTokenSuccessResponse"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/tokenErrorResponse"
+                    $ref: "#/components/schemas/tokenErrorResponse"
 components:
   securitySchemes:
     BasicAuthGenerate:
       type: http
       scheme: basic
-      description: |
-       - **Flow 1: Plain Auth-Code**
-
-       Find your Client ID and Secret on your app info page. 
-        1. Select \"Try It\"
+      description: |-
+        - **Flow 1: Plain Auth-Code**
+        Find your Client ID and Secret on your app info page.
+        1. Select "Try It"
         2. In the Security section enter your Client ID as the Username and your Secret as the Password.
         3. Enter any additional information in the Body and Parameters sections.
-        4. Select \"Send\" to execute your API request
+        4. Select "Send" to execute your API request
 
         - **Flow 2: Auth-Code with PKCE [no http Authorization header required]**
-        1. Select \"Try It\"
+        1. Select "Try It"
         2. Include the **client_id** and **code_verifier** parameters in the body of the request. Do not include an Authorization header.
         3. Enter any additional information in the Body and Parameters sections.
-        4. Select \"Send\" to execute your API request
+        4. Select "Send" to execute your API request
     BasicAuthRefresh:
       type: http
       scheme: basic
       description: |
-        Find your Client ID and Secret on your app info page. 
+        Find your Client ID and Secret on your app info page.
         1. Select \"Try It\"
         2. In the Security section enter your Client ID as the Username and your Secret as the Password.
         3. Enter any additional information in the Body and Parameters sections.
@@ -395,14 +391,14 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/errorResponseWrapper"
+          $ref: "#/components/schemas/errorResponseWrapper"
     errorResponseWrapper:
       type: object
       properties:
         errors:
           type: array
           items:
-            "$ref": "#/components/schemas/errors"
+            $ref: "#/components/schemas/errors"
     errors:
       type: object
       properties:

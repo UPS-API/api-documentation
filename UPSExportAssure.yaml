@@ -5,18 +5,18 @@ info:
   description: |
     This API offers businesses a powerful tool to manage shipping compliance with Description Guidance, Power of Attorney (POA) Requirements, UPS Prohibited Goods, and Commodity Compliance Guidance in order to help prevent delays, avoid fines, and keep your customers happy with fast, hassle-free customs clearances.
 
-        
+
     For more information on the Export Assure API, please visit the <a href="https://developer.ups.com/api/reference/exportassure/product-info" target="_blank" rel="noopener">Product Info</a> page.
 
     <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
-    
+
 
     <a href="https://god.gw.postman.com/run-collection/29542085-eda5a2d6-ca6f-4a02-8e66-c43d9861ac2d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-eda5a2d6-ca6f-4a02-8e66-c43d9861ac2d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" width="128" height="32"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" width="128" height="32">
     </a>
-    
+
     ## Key Features
 
     ### 1. Basic Description Guidance (Free Feature)
@@ -36,7 +36,7 @@ info:
 
     ### 3. UPS Prohibited Goods Guidance (Free Feature)
 
-    Note that this must be turned on in order to use feature 4, 
+    Note that this must be turned on in order to use feature 4,
 
       - Reviews commodity details for POA requirements.
       - Note 1: evaluateImportExportRequirements is the name of the endpoint which performs the UPS Prohibited goods check. There is no charge to call this endpoint.
@@ -50,9 +50,9 @@ info:
       -	Information specific to the commodities and origins/destinations.
       -	Notification for international shipping forms needed for the commodity to clear customs.
       -	Note 1: evaluateImportExportRequirements - the free feature for UPS Prohibited Goods - MUST be set to true in order to use Commodity Compliance Guidance
-      -	Note 2: advancedImportExportRequirements is the endpoint for Commodity Compliance Guidance, and will incur a charge each time guidance is provided     
- 
-security: 
+      -	Note 2: advancedImportExportRequirements is the endpoint for Commodity Compliance Guidance, and will incur a charge each time guidance is provided
+
+security:
   - OAuth2: []
 
 servers:
@@ -91,16 +91,16 @@ paths:
           default: v1
           enum:
             - v1
-        
+
       description: |
-        Submit shipment details and receive guidance from UPS. 
-        
+        Submit shipment details and receive guidance from UPS.
+
         This endpoint includes four separate operations which may be requested individually or simultaneously:
           -	Basic Description Guidance (Free Feature)
           -	Power of Attorney (POA) Requirements (Free Feature)
           -	UPS Prohibited Goods Guidance (Free Feature)
           -	Commodity Compliance Guidance (Premium Feature)
-          -	NOTE: requires UPS Prohibited Goods Guidance (evaluateImportExportRequirements) to be set to true. 
+          -	NOTE: requires UPS Prohibited Goods Guidance (evaluateImportExportRequirements) to be set to true.
 
           To request a specific operation, set the respective value for that property to true:
             -	evaluateDescriptions to request basic description guidance for the shipment (free)
@@ -113,7 +113,7 @@ paths:
             -	To request Commodity Compliance Guidance, set advancedImportExportRequirements: true, evaluateImportExportRequirements: true, and include all required properties for all operations.
             -	If you do not wish to be charged, set advancedImportExportRequirements: false
       security:
-        - OAuth2: [] 
+        - OAuth2: []
       requestBody:
         content:
           application/json:
@@ -128,14 +128,14 @@ paths:
                 $ref: "#/components/examples/sample-import-export-compliance-request"
               allGuidanceRequestExample:
                 $ref: "#/components/examples/sample-all-guidance-request"
-              
+
       responses:
         "200":
           description: OK
           headers:
             application/json:
               schema:
-                $ref: "#/components/schemas/SuccessResponseHeaders"         
+                $ref: "#/components/schemas/SuccessResponseHeaders"
           content:
             application/json:
               schema:
@@ -174,11 +174,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"  
+                $ref: "#/components/schemas/ErrorResponse"
               example:
                 response:
                   errors:
-                    - code: "EA_POA_04" 
+                    - code: "EA_POA_04"
                       message: Country code is not valid
                       field: evaluateImportExportRequirements
                       value: 'NB'
@@ -192,10 +192,10 @@ paths:
           headers:
             application/json:
               schema:
-                $ref: "#/components/schemas/GatewayErrorResponseHeaders"   
-          content: 
-            application/json: 
-              schema: 
+                $ref: "#/components/schemas/GatewayErrorResponseHeaders"
+          content:
+            application/json:
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
                 response:
@@ -211,10 +211,10 @@ paths:
           headers:
             application/json:
               schema:
-                $ref: "#/components/schemas/GatewayErrorResponseHeaders" 
-          content: 
-            application/json: 
-              schema: 
+                $ref: "#/components/schemas/GatewayErrorResponseHeaders"
+          content:
+            application/json:
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
                 response:
@@ -230,10 +230,10 @@ paths:
           headers:
             application/json:
               schema:
-                $ref: "#/components/schemas/GatewayErrorResponseHeaders"   
-          content: 
-            application/json: 
-              schema: 
+                $ref: "#/components/schemas/GatewayErrorResponseHeaders"
+          content:
+            application/json:
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
                 response:
@@ -249,16 +249,16 @@ paths:
           headers:
             application/json:
               schema:
-                $ref: "#/components/schemas/GatewayErrorResponseHeaders" 
+                $ref: "#/components/schemas/GatewayErrorResponseHeaders"
         '500':
           description: Internal Server Error
           headers:
             application/json:
               schema:
                 $ref: "#/components/schemas/BackendErrorResponseHeaders"
-          content: 
-            application/json: 
-              schema: 
+          content:
+            application/json:
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
                 response:
@@ -270,32 +270,32 @@ paths:
                   fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
                   receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
 
-components: 
+components:
   securitySchemes:
     OAuth2:
       type: "oauth2"
       description: |
-        Find your Client ID and Secret on your app info page.  
-         1. Select **Try It**
-         2. In the Security section enter your **Client ID** and **Secret**
-         3. Select **Request Token**
-         4. Enter values for all parameters and properties
-         5. Select **Send** to send your API request
+        Find your Client ID and Secret on your app info page.
+        1. Select **Try It**
+        2. In the Security section enter your **Client ID** and **Secret**
+        3. Select **Request Token**
+        4. Enter values for all parameters and properties
+        5. Select **Send** to send your API request
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
           tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
-          scopes: {}    
+          scopes: {}
 
   schemas:
-    AccountNumber: 
+    AccountNumber:
       description: UPS account number
-      type: 
+      type:
         - string
         - "null"
       maxLength: 10
       pattern: '^[a-zA-Z0-9]*$'
-      examples: 
+      examples:
         - "985123"
         - "766554"
         - "446332"
@@ -305,8 +305,8 @@ components:
       type: string
       maxLength: 50
       pattern: ^[\s\S]*$
-      examples: 
-        - "28b210b9-e686-4617-8cf4-9973e3ed4087" 
+      examples:
+        - "28b210b9-e686-4617-8cf4-9973e3ed4087"
         - "8f971462-5e68-469a-809f-637a12af1305"
 
     ComplianceDetails:
@@ -315,10 +315,10 @@ components:
       properties:
         categoryType:
           description: Whether the compliance assessment regards imports or exports
-          type: string   
+          type: string
           minLength: 6
           maxLength: 6
-          enum: 
+          enum:
             - Import
             - Export
         controlTypes:
@@ -332,18 +332,18 @@ components:
         - controlTypes
 
     ControlDetails:
-      description: This object contains an array of warning messages related to this control type. 
+      description: This object contains an array of warning messages related to this control type.
       type: object
       properties:
         controlDetailName:
           type: string
           description: |-
-            The formal name or title of the control measure. This property serves as the header for `ControlDetails`.  Where no specific control name is applicable, this field may be left empty (and consequently, no header will be displayed in the response). This property is translated to the user's language as required. 
-            
+            The formal name or title of the control measure. This property serves as the header for `ControlDetails`. Where no specific control name is applicable, this field may be left empty (and consequently, no header will be displayed in the response). This property is translated to the user's language as required.
+
             **Note**: When the `controlTypeCode` is set to `DOC`, the `controlDetailName` is also the identifier for the corresponding DocuSign template.
           maxLength: 150
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - Controlling Authority
             - Free Trade Agreement
         controlDetailDescription:
@@ -351,11 +351,11 @@ components:
           type: string
           maxLength: 4000
           pattern: '^[\s\S]*$'
-          examples: 
+          examples:
             - Trade Agreement between the United States and Canada (USMCA)
             - Caribbean Basin Economic Recovery Act
       additionalProperties: false
-      required: 
+      required:
         - controlDetailName
         - controlDetailDescription
 
@@ -364,29 +364,29 @@ components:
       type: object
       properties:
         controlType:
-          description: The category of customs control applicable to the shipment. This property is translated to the user's language as required. 
+          description: The category of customs control applicable to the shipment. This property is translated to the user's language as required.
           type: string
           minLength: 1
           maxLength: 100
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - Prohibition
             - Embargo/Sanction
             - Sample Data
             - Import License
         controlTypeCode:
-          description: A unique code that distinctly identifies each control type. This code is not translated and is used for specific system-logic related to the control type. 
+          description: A unique code that distinctly identifies each control type. This code is not translated and is used for specific system-logic related to the control type.
           type: string
           maxLength: 50
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - DOC
             - FTA
         isRequired:
           description: Whether shipment compliance with a specific control type is required
           type: string
           maxLength: 10
-          enum: 
+          enum:
             - "Yes"
             - Maybe
             - Applicable
@@ -396,7 +396,7 @@ components:
           minLength: 1
           maxLength: 4000
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - Import Certificate may be required
             - Free Trade Agreement may be applicable
         controlDetails:
@@ -406,7 +406,7 @@ components:
           items:
             $ref: "#/components/schemas/ControlDetails"
       additionalProperties: false
-      required: 
+      required:
         - controlType
         - controlTypeCode
         - controlTypeMessage
@@ -418,7 +418,7 @@ components:
       minLength: 2
       maxLength: 2
       pattern: ^[a-zA-Z0-9]{2}$
-      examples: 
+      examples:
         - AU
         - US
         - UK
@@ -464,7 +464,7 @@ components:
       minLength: 3
       maxLength: 3
       pattern: ^[a-zA-Z0-9]{3}$
-      enum: 
+      enum:
         - ARS
         - AUD
         - BRL
@@ -503,14 +503,14 @@ components:
           description: Whether the description guidance service has matched a keyword from the shipment description
           type: boolean
           default: false
-          examples: 
+          examples:
             - true
             - false
         message:
           description: A message with guidance on how to improve the shipment description
           type: string
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - DVD Player
             - Stereo
         sourceListName:
@@ -518,8 +518,8 @@ components:
           type: string
           maxLength: 250
           pattern: ^[\s\S]*$
-          examples: 
-            - USA 
+          examples:
+            - USA
             - France
             - Germany
         matchedKeyword:
@@ -527,12 +527,12 @@ components:
           type: string
           maxLength: 250
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - goods
             - clothing
-            - perishables  
+            - perishables
 
-    ErrorResponse: 
+    ErrorResponse:
       description: This object is the primary container for error responses.
       type: object
       properties:
@@ -540,20 +540,20 @@ components:
           $ref: "#/components/schemas/ErrorResponseWrapper"
         perfStats:
           $ref: "#/components/schemas/ALPerfStats"
-      required: 
+      required:
         - response
         - perfStats
 
     ErrorResponseWrapper:
       description: This object contains an array of error codes.
       type: object
-      properties:            
+      properties:
         errors:
           type: array
           items:
-            $ref: '#/components/schemas/ErrorCode'    
-      required: 
-        - errors   
+            $ref: '#/components/schemas/ErrorCode'
+      required:
+        - errors
 
     ErrorCode:
       description: This object contains error codes, error descriptions and other error properties.
@@ -563,28 +563,28 @@ components:
           description: The error code.
           type: string
           pattern: '^[a-zA-Z0-9\-_\.]+$'
-          examples: 
+          examples:
             - 400
             - 401
             - 404
         description:
           description: Description of the error.
-          pattern: '^[a-zA-Z0-9\-_\s:]+$'  
-          examples: 
-            - Not Found 
+          pattern: '^[a-zA-Z0-9\-_\s:]+$'
+          examples:
+            - Not Found
             - Unauthorized
         message:
           description: Additional information for the user.
           type: string
-          pattern: '^[a-zA-Z0-9\-_\s:]+$'  
-          examples: 
+          pattern: '^[a-zA-Z0-9\-_\s:]+$'
+          examples:
             - Country Code is not valid
             - Value is too large
         field:
           description: The path to the field causing the error as returned from the API backend services
           type: string
-          pattern: '^[a-zA-Z0-9\-_\s:\.\[\]]+$'  
-          examples: 
+          pattern: '^[a-zA-Z0-9\-_\s:\.\[\]]+$'
+          examples:
             - evaluateImportExportRequirements
             - evaluatePoaRequirements
             - evaluateImportExportRequirements
@@ -592,7 +592,7 @@ components:
           description: The value that caused the error
           type: string
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - US
             - EU
             - NB
@@ -608,16 +608,16 @@ components:
           type: string
           minLength: 2
           maxLength: 3
-          enum: 
+          enum:
             - DG
             - IEC
             - POA
-      additionalProperties: false      
+      additionalProperties: false
 
     EvaluationCriteria:
       description: |-
         Criteria for evaluating POA requirements for both importer and exporter. Supported values:
-           
+
            | Supported enum values                                                                                           |
            | :-------------------------------------------------------------------------------------------------------------- |
            | `NonConditional`<br>Standard evaluation without specific conditional criteria                                     |
@@ -628,7 +628,7 @@ components:
            | `Quantity`<br>Evaluation focuses on the quantity of the goods being shipped                                       |
            | `Weight`<br>Evaluation based on the weight of the shipment                                                        |
       type: string
-      enum: 
+      enum:
         - NonConditional
         - Description
         - FTA
@@ -646,40 +646,40 @@ components:
       type: object
       properties:
         transID:
-          description: The unique, reference identifier that correlates an API request with its response 
+          description: The unique, reference identifier that correlates an API request with its response
           type: string
           maxLength: 50
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - 10d622cc-a453-4054-bb62-ed71e6fc2239
             - 798fe81e-2f28-430d-96fd-d45f0c7fe36a
         evaluateDescriptions:
           description: Whether the user has requested description guidance
           type: boolean
           default: true
-          examples: 
-            - true 
+          examples:
+            - true
             - false
         evaluatePoaRequirements:
           description: Whether the user has requested Power of Attorney (POA) requirements
           type: boolean
           default: true
-          examples: 
-            - true 
+          examples:
+            - true
             - false
         evaluateAdvancedImportExportRequirements:
           description: Whether the user has requested an Advanced Import/Export Compliance review
           type: boolean
           default: false
-          examples: 
-            - true 
-            - false          
+          examples:
+            - true
+            - false
         evaluateImportExportRequirements:
           description: Whether the user has requested an Import/Export Compliance review
           type: boolean
           default: true
-          examples: 
-            - true 
+          examples:
+            - true
             - false
         shipment:
           $ref: "#/components/schemas/ShipmentRequest"
@@ -722,18 +722,18 @@ components:
         - response
         - perfStats
     HsCode:
-      description: The [Harmonized System (HS) code](https://www.trade.gov/harmonized-system-hs-codes). Used commonly throughout the export process for goods, the Harmonized System is a standardized numerical method of classifying traded products. It is used by customs authorities to identify products when assessing duties and taxes. 
+      description: The [Harmonized System (HS) code](https://www.trade.gov/harmonized-system-hs-codes). Used commonly throughout the export process for goods, the Harmonized System is a standardized numerical method of classifying traded products. It is used by customs authorities to identify products when assessing duties and taxes.
       type: string
       maxLength: 13
       pattern: ^[0-9.]{4,13}$
-      examples: 
+      examples:
         - "3605.00.00.00"
         - "3605000000"
         - "3925.90.00.00"
         - "3925900000"
 
     ImportExportShipmentLevelResponse:
-      description: This object contains properties which describe the shipment's compliance with laws and regulations. 
+      description: This object contains properties which describe the shipment's compliance with laws and regulations.
       type: object
       properties:
         shipmentValue:
@@ -741,7 +741,7 @@ components:
           description: The total monetary value of all items included in the shipment
           format: double
           maximum: 999999999999.99
-          examples: 
+          examples:
             - 1500.25
             - 456.99
             - 9977.00
@@ -751,48 +751,48 @@ components:
         translationLocale:
           $ref: "#/components/schemas/TranslationLocale"
         hasShipmentWarnings:
-          description: Whether there are shipment-level warning. Shipment-level warnings include issues related to documentation and shipment packaging.  
-          type: boolean    
-          examples: 
+          description: Whether there are shipment-level warning. Shipment-level warnings include issues related to documentation and shipment packaging.
+          type: boolean
+          examples:
             - true
             - false
         hasCommodityWarnings:
           description: Whether there are compliance-related warnings or issues at the commodity level within the shipment. A `true` value indicates potential compliance concerns that require the shipper's attention.
           type: boolean
-          examples: 
-            - true 
+          examples:
+            - true
             - false
         commodityWarningsMessage:
           description: The warning message returned when the `hasCommodityWarnings` flag is set to true
           type: string
-          pattern: ^[\s\S]*$      
-          examples: 
-            - Your shipment may have additional clearance considerations 
+          pattern: ^[\s\S]*$
+          examples:
+            - Your shipment may have additional clearance considerations
             - Some shipment items may be prohibited from import to the EU
         isShipmentOverGiftValueThreshold:
           type: boolean
           description: Whether the total value of the shipment exceeds the allowable threshold for categorizing it as a gift
-          examples: 
+          examples:
             - true
             - false
         shipmentOverGiftValueThresholdMessage:
           description: The message returned if the shipment's value surpasses the threshold for gift categorization
           type: string
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - "Your shipment may not be considered as a gift by Customs authorities due to the shipment value provided"
             - "Your shipment may incur additional charges due to shipment value."
         isShipmentOverGiftWeightThreshold:
           description: Whether the total weight of the shipment exceeds the weight limit for being classified as a gift
           type: boolean
-          examples: 
+          examples:
             - true
             - false
         shipmentOverGiftWeightThresholdMessage:
           description: A message explaining the implications if the shipment's weight goes beyond the threshold for gift categorization, guiding users in understanding customs considerations.
           type: string
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - "Your shipment may not be considered as a gift by Customs authorities due to the shipment weight provided"
             - "Your shipment may incur additional charges due to shipment weight."
       additionalProperties: false
@@ -810,7 +810,7 @@ components:
         isUpsProhibited:
           description: Whether UPS prohibits shipment of the item
           type: boolean
-          examples: 
+          examples:
             - true
             - false
         upsProhibitedMessage:
@@ -819,13 +819,13 @@ components:
             - type: 'null'
             - type: string
           pattern: ^[\s\S]*$
-          examples: 
-            - US federal law prohibits shipment of this item from the US.  
+          examples:
+            - US federal law prohibits shipment of this item from the US.
             - The EU prohibits import of this item.
         isTranslatedIndicator:
-          description: Whether shipment details have been translated from the language of the origin country to the user's language 
+          description: Whether shipment details have been translated from the language of the origin country to the user's language
           type: boolean
-          examples: 
+          examples:
             - true
             - false
         complianceOutput:
@@ -845,21 +845,21 @@ components:
       properties:
         importerPoaRequiredFlag:
           description: Whether Power of Attorney (POA) is required for the importer
-          type: boolean 
-          examples: 
-            - true 
+          type: boolean
+          examples:
+            - true
             - false
         importerEvaluationCriteria:
           $ref: "#/components/schemas/EvaluationCriteria"
         importerPoaOnFileIndicator:
           description: Whether the importer already has a POA on file
-          type: 
+          type:
             - string
             - "null"
           maxLength: 3
-          enum: 
+          enum:
             - "Yes"
-            - "No" 
+            - "No"
             - null
         importerCommodityId:
           description: The first commodity in the shipment that necessitates an importer POA
@@ -868,22 +868,22 @@ components:
           description: A description of the commodity regarding what led to the POA requirement for the importer
           type: string
           pattern: ^[\s\S]*$
-          examples: 
-            - EQUIPMENT 
-            - COMPUTERS 
+          examples:
+            - EQUIPMENT
+            - COMPUTERS
             - BICYCLES
         exporterPoaRequiredFlag:
           description: Whether the exporter is required to provide a POA for customs clearance.
           type: boolean
-          examples: 
-            - true 
+          examples:
+            - true
             - false
         exporterEvaluationCriteria:
           description: This schema includes details of whether a POA is required for the exporter.
-          $ref: "#/components/schemas/EvaluationCriteria" 
+          $ref: "#/components/schemas/EvaluationCriteria"
         exporterPoaOnFileIndicator:
           description: Whether the exporter has a POA already on file
-          type: 
+          type:
             - string
             - "null"
           maxLength: 3
@@ -893,7 +893,7 @@ components:
             - null
         exporterCommodityId:
           description: The first commodity in the shipment that necessitated an exporter POA
-          $ref: '#/components/schemas/CommodityId'     
+          $ref: '#/components/schemas/CommodityId'
         exporterCommodityDescription:
           description: The commodity that triggers the POA requirement for the exporter
           type: string
@@ -903,24 +903,24 @@ components:
         exporterOnlineFormFlag:
           description: Whether there is an online form available for the exporter to complete their POA documentation
           type: boolean
-          examples: 
+          examples:
             - true
             - false
         exporterDocuSignTemplateId:
-          description: The ID of the DocuSign template, which the exporter can use for electronic completion of the POA. 
+          description: The ID of the DocuSign template, which the exporter can use for electronic completion of the POA.
           type: string
           maxLength: 100
           pattern: ^[a-zA-Z0-9\-_\s:]+$
-          examples: 
-            - f215a2b8-8fad-4610-b06e-76877ec3016c  
+          examples:
+            - f215a2b8-8fad-4610-b06e-76877ec3016c
             - 8f971462-5e68-469a-809f-637a12af1305
-      required: 
+      required:
         - importerPoaRequiredFlag
         - exporterPoaRequiredFlag
-        - exporterOnlineFormFlag   
+        - exporterOnlineFormFlag
 
     ShipmentRequest:
-      description: This object contains all necessary details about a shipment for compliance evaluation. 
+      description: This object contains all necessary details about a shipment for compliance evaluation.
       type: object
       properties:
         importerName:
@@ -928,15 +928,15 @@ components:
           type: string
           pattern: ^[\s\S]*$
           maxLength: 100
-          examples: 
+          examples:
             - Ford
             - Acme
         importerCity:
-          description: The city where the importer is located. Required if both importer's account number and importer's zip code are not provided and POA evaluation is requested. 
+          description: The city where the importer is located. Required if both importer's account number and importer's zip code are not provided and POA evaluation is requested.
           type: string
           maxLength: 100
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - Detroit
             - Paris
             - Amsterdam
@@ -945,43 +945,43 @@ components:
           description: The postal code of the importer's location. Required when the importer's account number and city are not specified and POA evaluation is requested.
           type: string
           pattern: ^[a-zA-Z0-9\-\s]+$
-          examples: 
-            - "48204" 
+          examples:
+            - "48204"
             - "46664"
         importerAccountNumber:
           description: The UPS account number of the importer
-          type: 
+          type:
             - string
             - "null"
           pattern: '^[a-zA-Z0-9]*$'
           minLength: 6
           maxLength: 10
-          examples: 
+          examples:
             - "985123"
             - "766554"
-            - "446332" 
+            - "446332"
         exporterName:
           description: The name of the exporter. Required when the exporter's UPS account number is not available and POA requirements are under review.
           type: string
           pattern: ^[\s\S]*$
           maxLength: 100
-          examples: 
+          examples:
             - Lear
             - Acme
         exporterCity:
-          description: The city from which the exporter operates. Required if exporter's account number and zip code are not given and POA evaluation is requested. 
+          description: The city from which the exporter operates. Required if exporter's account number and zip code are not given and POA evaluation is requested.
           type: string
           maxLength: 100
           pattern: ^[\s\S]*$
-          examples: 
-            - Windsor 
-            - Paris 
+          examples:
+            - Windsor
+            - Paris
             - Amsterdam
         exporterZipcode:
           description: The postal code of the exporter's location. Required when exporter's account number and city are not provided and POA evaluation is requested.
           type: string
           pattern: ^[a-zA-Z0-9\-\s]+$
-          examples: 
+          examples:
             - "20836"
             - "43322"
         exporterAccountNumber:
@@ -989,10 +989,10 @@ components:
           type: string
           pattern: '^[a-zA-Z0-9]*$'
           maxLength: 20
-          examples: 
-            - "998562" 
-            - "767839" 
-            - "332532"   
+          examples:
+            - "998562"
+            - "767839"
+            - "332532"
         id:
           description: The Shipment ID included on the Import Export compliance report.
           $ref: '#/components/schemas/ShipmentId'
@@ -1000,7 +1000,7 @@ components:
           description: The [two-letter country code]() representing the destination country for the shipment
           $ref: '#/components/schemas/CountryCodes'
         exportCountryCode:
-          description: The [two-letter country code]() of the shipment's origin 
+          description: The [two-letter country code]() of the shipment's origin
           $ref: '#/components/schemas/CountryCodes'
         translationLocale:
           description: The language and country-based preferences of the user. This includes translated texts, currency type, and unit of measurements.
@@ -1022,7 +1022,7 @@ components:
           type: string
           minLength: 7
           maxLength: 20
-          enum: 
+          enum:
             - INT_AIR
             - INT_OCEAN
             - INT_RAIL
@@ -1033,49 +1033,49 @@ components:
             - DOM_TRUCK
         shipmentType:
           description: |-
-            Shipment type. 
-            
+            Shipment type.
+
             | Supported enum values                                                                                |
             | :--------------------------------------------------------------------------------------------------- |
-            | `GIFT`<br>Items sent as gifts, typically for personal reasons.                                       |
-            | `COMM`<br>Commercial goods or commodities, usually for business transactions. Sale, sample, repair.  |
-            | `OTHR`<br>Return, Other, and Intercompany Data, Anything else not supported.                         |
+            | `GIFT`<br>Items sent as gifts, typically for personal reasons. |
+            | `COMM`<br>Commercial goods or commodities, usually for business transactions. Sale, sample, repair. |
+            | `OTHR`<br>Return, Other, and Intercompany Data, Anything else not supported. |
             | `PERS`<br>Personal items, often for relocation or personal use                                       |
           type: string
           minLength: 4
           maxLength: 4
-          enum: 
-            - GIFT 
-            - COMM 
-            - OTHR 
+          enum:
+            - GIFT
+            - COMM
+            - OTHR
             - PERS
         shipmentDescription:
           description: Description of the contents of the shipment. This description is required if the `evaluateDescriptions` flag is set to true.
           type: string
           maxLength: 2147483647
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - goods
             - electronics
             - machinery
         grossWeight:
           description: The gross weight of the entire Shipment. If this field is not specified, `grossWeightUnit` must be `null`.
-          type: number 
+          type: number
           format: decimal
           maximum: 999999999999.99
           pattern: ^(\d{1,12})(\.\d{1,2})?$
-          examples: 
+          examples:
             - 10.6
             - 25.6
             - 155.99
         grossWeightUnit:
-          description: Gross weight unit. Only required if there is a value for `grossWeight`; If `grossWeight` is not specified, this value must equal `null`. 
-          type: 
+          description: Gross weight unit. Only required if there is a value for `grossWeight`; If `grossWeight` is not specified, this value must equal `null`.
+          type:
             - string
             - "null"
           default: null
           maxLength: 2
-          enum: 
+          enum:
             - KG
             - LB
             - null
@@ -1103,13 +1103,13 @@ components:
         hasCommodityWarnings:
           description: Whether there are compliance-related warnings or issues at the commodity level within the shipment. A `true` value indicates potential compliance concerns that require the shipper's attention.
           type: boolean
-          examples: 
-            - true 
+          examples:
+            - true
             - false
         descriptionGuidance:
           $ref: "#/components/schemas/DescriptionGuidanceResponse"
         poaCompliance:
-          $ref: "#/components/schemas/PowerOfAttorneyResponse"    
+          $ref: "#/components/schemas/PowerOfAttorneyResponse"
         importExportCompliance:
           $ref: "#/components/schemas/ImportExportShipmentLevelResponse"
         shipmentItems:
@@ -1123,13 +1123,13 @@ components:
         - hasCommodityWarnings
         - shipmentItems
 
-    ShipmentId: 
-      description: A unique identifier assigned to the shipment as part of the API's compliance review process. 
+    ShipmentId:
+      description: A unique identifier assigned to the shipment as part of the API's compliance review process.
       type: string
       maxLength: 50
       pattern: ^(?!-)[0-9a-zA-Z-]{1,50}(?<!-)$
-      examples: 
-        - "28b210b9-e686-4617-8cf4-9973e3ed4087" 
+      examples:
+        - "28b210b9-e686-4617-8cf4-9973e3ed4087"
         - "8f971462-5e68-469a-809f-637a12af1305"
     ShipmentItemsRequest:
       description: This object provides a detailed response for each individual commodity within a shipment
@@ -1138,13 +1138,13 @@ components:
         commodityId:
           $ref: '#/components/schemas/CommodityId'
         eccn:
-          description: The [US Export Commodity Control Number (ECCN)](https://www.bis.doc.gov/index.php/licensing/commerce-control-list-classification/export-control-classification-number-eccn)a key identifier used in the export control system. 
+          description: The [US Export Commodity Control Number (ECCN)](https://www.bis.doc.gov/index.php/licensing/commerce-control-list-classification/export-control-classification-number-eccn)a key identifier used in the export control system.
           type: string
           maxLength: 5
           pattern: ^[a-zA-Z0-9]{5}$
-          examples:  
-            - 3A001 
-            - 1A984 
+          examples:
+            - 3A001
+            - 1A984
             - 4A001
         hsCode:
           $ref: '#/components/schemas/HsCode'
@@ -1153,7 +1153,7 @@ components:
           maxLength: 150
           type: string
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - explosives
             - computer keyboards
             - men's cotton shirts
@@ -1164,10 +1164,10 @@ components:
           type: number
           format: double
           maximum: 999999999999.99
-          examples: 
+          examples:
             - 1500.25
             - 456.99
-            - 9977.00    
+            - 9977.00
         currencyCode:
           $ref: '#/components/schemas/CurrencyCodes'
         quantity:
@@ -1183,7 +1183,7 @@ components:
           pattern: ^[\s\S]*$
           minLength: 3
           maxLength: 10
-          enum: 
+          enum:
             - Bag
             - Barrel
             - Bolt
@@ -1242,7 +1242,7 @@ components:
           type: string
           maxLength: 150
           pattern: ^[\s\S]*$
-          examples: 
+          examples:
             - explosives
             - computer keyboards
             - men's cotton shirts
@@ -1255,18 +1255,18 @@ components:
         - commodityId
         - description
     TransactionID:
-      description: The unique, reference identifier that correlates an API request with its response 
+      description: The unique, reference identifier that correlates an API request with its response
       type: string
       maxLength: 50
       pattern: ^[\s\S]*$
-      examples: 
+      examples:
         - 10d622cc-a453-4054-bb62-ed71e6fc2239
         - 798fe81e-2f28-430d-96fd-d45f0c7fe36a
 
     TranslationLocale:
       description: |-
-        Translation locale. 
-        
+        Translation locale.
+
         | Supported enum values      |
         | :------------------------- |
         | `EN`<br>English            |
@@ -1280,7 +1280,7 @@ components:
       type: string
       minLength: 2
       maxLength: 2
-      enum: 
+      enum:
         - EN
         - DE
         - PL
@@ -1289,35 +1289,35 @@ components:
         - NL
         - ES
         - ZH
-      default: EN 
-  
+      default: EN
+
     ALPerfStats:
       type: object
       properties:
         absLayerTime:
           type: string
           description: Time taken through the abstraction layer in milliseconds.
-          examples: 
+          examples:
             - "13440"
             - "44324"
         fulfillTime:
           type: string
           description: Request completed time.
-          examples: 
+          examples:
             - Sun Nov 19 10:42:46.145 -05:00 2023
             - Mon Nov 20 12:16:26.600 -05:00 2023
         receiptTime:
           type: string
           description: Request receipt time
-          examples: 
+          examples:
             - Sun Nov 19 10:42:32.705 -05:00 2023
             - Mon Nov 20 12:12:26.600 -05:00 2023
       additionalProperties: false
-      required: 
+      required:
         - absLayerTime
         - fulfillTime
         - receiptTime
-      
+
     SuccessResponseHeaders:
       description: The headers that are returned for all error responses.
       type: object
@@ -1336,26 +1336,26 @@ components:
         x-api-success-count:
           description: Indicate the number of charges for the API call.
           type: string
-          example: '1'          
-          
+          example: '1'
+
     GatewayErrorResponseHeaders:
       description: The headers returned from the gateway
       type: object
-      required:        
+      required:
         - x-request-id
       properties:
         x-request-id:
           type: string
           description: The gateway transaction id.
           example: d774b047-e945-4db6-8468-ea4e65fa61c4
-          
+
     BackendErrorResponseHeaders:
       description: The headers that are returned from the backend and gateway
       $ref: '#/components/schemas/GatewayErrorResponseHeaders'
-      required:        
+      required:
         - bkndtransid
         - apierrorcode
-        - apierrormsg      
+        - apierrormsg
       properties:
         bkndtransid:
           description: The backend transaction id.
@@ -1372,10 +1372,10 @@ components:
   parameters:
     AccountNumber:
       in: header
-      name: accountNumber 
+      name: accountNumber
       description: UPS account number for shipper or user
       required: false
-      schema: 
+      schema:
         $ref: '#/components/schemas/AccountNumber'
     TransactionSrc:
       in: header
@@ -1397,8 +1397,8 @@ components:
       required: true
       description: The Content-Type header provides the client with the actual content/media type of the returned content.
       schema:
-        type: string  
-  
+        type: string
+
   examples:
     sample-description-guidance-request:
       summary: Description Guidance Request
@@ -1427,7 +1427,7 @@ components:
               currencyCode: USD
               quantity: 5
               UOM: Dozen
-            - commodityId: 47cb07b6-69f1-4ded-95ff-953fee2667de 
+            - commodityId: 47cb07b6-69f1-4ded-95ff-953fee2667de
               eccn: EAR99
               hsCode: 6109.10.0042
               description: t-shirts
@@ -1583,7 +1583,7 @@ components:
             exporterCommodityId: '8e369c86-6c1f-4fbd-bd0c-55de5107e5ff'
             exporterCommodityDescription: 't-shirts'
             exporterOnlineFormFlag: true
-            exporterDocuSignTemplateId: "c0375e04-0c6e-4e56-b01d-30b2f4b613bd"  
+            exporterDocuSignTemplateId: "c0375e04-0c6e-4e56-b01d-30b2f4b613bd"
           importExportCompliance:
             shipmentValue: 3600
             shipmentCurrencyCode: "USD"
@@ -1873,10 +1873,10 @@ components:
       summary: "Example of a partial success transaction"
       value:
         transID: "WSCM003769601129231354517251D4CF"
-        shipment: 
+        shipment:
           id: "WSEXPID20231129135451752"
           hasCommodityWarnings: true
-          descriptionGuidance: 
+          descriptionGuidance:
             isMatched: true
             message: "DVD Player Stereo"
             sourceListName: "US origin"
@@ -1894,7 +1894,7 @@ components:
             exporterCommodityDescription: 't-shirts'
             exporterOnlineFormFlag: true
             exporterDocuSignTemplateId: "c0375e04-0c6e-4e56-b01d-30b2f4b613bd"
-          importExportCompliance: 
+          importExportCompliance:
             shipmentValue: 2365
             shipmentCurrencyCode: "USD"
             translationLocale: "EN"
@@ -1950,7 +1950,7 @@ components:
                           - controlDetailName: ''
                             controlDetailDescription: "Caribbean Basin Economic Recovery Act"
         response:
-          errors: 
+          errors:
             - code: "105.305"
               description: INVALID_FIELD_VALUE
               field: shipment.shipmentItems[0].UOM
@@ -1966,15 +1966,15 @@ components:
       summary: "Example of a CIE success transaction"
       value:
         transID: "1234"
-        shipment: 
+        shipment:
           id: "1234"
           hasCommodityWarnings: true
-          descriptionGuidance: 
+          descriptionGuidance:
             isMatched: true
             message: DVD Player Stereo
             sourceListName: US destination
             matchedKeyword: GOODS
-          poaCompliance: 
+          poaCompliance:
             importerPoaRequiredFlag: true
             importerEvaluationCriteria: HTS PGA
             importerPoaOnFileIndicator: No
@@ -1987,7 +1987,7 @@ components:
             exporterCommodityDescription: computers
             exporterOnlineFormFlag: false
             exporterDocuSignTemplateId: 3c499118-346d-41d8-99db-faf852b77888
-          importExportCompliance: 
+          importExportCompliance:
             shipmentValue: 2.00
             shipmentCurrencyCode: USD
             translationLocale: EN
@@ -2002,12 +2002,12 @@ components:
             - commodityId: Test101
               hsCode: "2106909999"
               description: tshirt
-              descriptionGuidance: 
+              descriptionGuidance:
                 isMatched: true
                 message: Men's Shirts Lingerie Girls' Vests Boys' Jackets
                 sourceListName: Global
                 matchedKeyword: tshirt
-              importExportCompliance: 
+              importExportCompliance:
                   isUpsProhibited: false
                   upsProhibitedMessage: null
                   isTranslatedIndicator: false
@@ -2021,7 +2021,7 @@ components:
                           controlDetails:
                             - controlDetailName: Controlling Authority
                               controlDetailDescription: Country A - Country B Comprehensive Economic and Trade Agreement
-        perfStats: 
+        perfStats:
           absLayerTime: "2322"
           fulfillTime: Tue Mar 19 12:29:16.523 -04:00 2024
           receiptTime: Tue Mar 19 12:29:14.201 -04:00 2024

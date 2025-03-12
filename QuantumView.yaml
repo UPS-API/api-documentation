@@ -3,7 +3,7 @@ info:
   title: Quantum View
   version: ''
   description: |
-  
+
     UPS Quantum View is a suite of services that gives you and your customers details regarding UPS shipments.
     # Reference
     - <a href="https://developer.ups.com/api/reference/quantumview/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -14,9 +14,9 @@ info:
     <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-84cbd22f-67ec-4c9c-b500-620b266922c9?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-84cbd22f-67ec-4c9c-b500-620b266922c9%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" width="128" height="32"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " width="128" height="32">
     </a>
 servers:
   - url: https://wwwcie.ups.com/api
@@ -54,7 +54,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/QUANTUMVIEWRequestWrapper"
+              $ref: "#/components/schemas/QUANTUMVIEWRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -75,31 +75,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/QUANTUMVIEWResponseWrapper"
+                $ref: "#/components/schemas/QUANTUMVIEWResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
   "/quantumview/{deprecatedVersion}/events":
     post:
       deprecated: true
@@ -131,7 +131,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/QUANTUMVIEWRequestWrapper"
+              $ref: "#/components/schemas/QUANTUMVIEWRequestWrapper"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -152,31 +152,31 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/QUANTUMVIEWResponseWrapper"
+                $ref: "#/components/schemas/QUANTUMVIEWResponseWrapper"
         '400':
             description: Invalid Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -204,7 +204,7 @@ components:
       - QuantumViewRequest
       properties:
         QuantumViewRequest:
-          "$ref": "#/components/schemas/QuantumViewRequest"
+          $ref: "#/components/schemas/QuantumViewRequest"
     QUANTUMVIEWResponseWrapper:
       xml:
         name: QuantumViewResponse
@@ -215,22 +215,22 @@ components:
       - QuantumViewResponse
       properties:
         QuantumViewResponse:
-          "$ref": "#/components/schemas/QuantumViewResponse"
+          $ref: "#/components/schemas/QuantumViewResponse"
     QuantumViewRequest:
       type: object
       required:
       - Request
       properties:
         Request:
-          "$ref": "#/components/schemas/QuantumViewRequest_Request"
+          $ref: "#/components/schemas/QuantumViewRequest_Request"
         SubscriptionRequest:
           type: array
           items:
-            "$ref": "#/components/schemas/QuantumViewRequest_SubscriptionRequest"
+            $ref: "#/components/schemas/QuantumViewRequest_SubscriptionRequest"
         Bookmark:
           description: "Bookmarks the file for next retrieval. It is a base64Encoded
-            String. \nIt contains the combination of SubscriberID + SubscriptionName
-            + File Name if the request is for all data. \nIt contains SubscriberID
+            String.\nIt contains the combination of SubscriberID + SubscriptionName
+            + File Name if the request is for all data.\nIt contains SubscriberID
             \ if the request is for unread data. When a response comes back with a
             bookmark it indicates that there is more data. To fetch the remaining
             data, the requester should come back with the bookmark added to the original
@@ -245,7 +245,7 @@ components:
       type: object
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Request_TransactionReference"
+          $ref: "#/components/schemas/Request_TransactionReference"
         RequestAction:
           description: Indicates the action to be taken by the XML service. The only
             valid value is  'QVEvents'
@@ -282,7 +282,7 @@ components:
           type: string
           maxLength: 21
         DateTimeRange:
-          "$ref": "#/components/schemas/SubscriptionRequest_DateTimeRange"
+          $ref: "#/components/schemas/SubscriptionRequest_DateTimeRange"
         FileName:
           description: 'File name of specific subscription requested by user. Format:
             YYMMDD_HHmmssnnn. (nnn - sequence number: usually = 001)'
@@ -308,7 +308,7 @@ components:
           maxLength: 14
         EndDateTime:
           description: 'Ending date time for the retrieval criteria of the subscriptions.
-            Format: YYYYMMDDHHmmss.  When a null or empty EndDateTime is passed in
+            Format: YYYYMMDDHHmmss. When a null or empty EndDateTime is passed in
             the request, it is defaulted to 7 days from the given begin date.'
           maximum: 1
           type: string
@@ -326,9 +326,9 @@ components:
       - QuantumViewEvents
       properties:
         Response:
-          "$ref": "#/components/schemas/QuantumViewResponse_Response"
+          $ref: "#/components/schemas/QuantumViewResponse_Response"
         QuantumViewEvents:
-          "$ref": "#/components/schemas/QuantumViewResponse_QuantumViewEvents"
+          $ref: "#/components/schemas/QuantumViewResponse_QuantumViewEvents"
         Bookmark:
           description: Bookmarks the file for next retrieval, It is a base64Encoded
             String. It contains the combination of SubscriberID + SubscriptionName
@@ -348,9 +348,9 @@ components:
       - ResponseStatusCode
       properties:
         TransactionReference:
-          "$ref": "#/components/schemas/Response_TransactionReference"
+          $ref: "#/components/schemas/Response_TransactionReference"
         ResponseStatusCode:
-          description: "Identifies the success or failure of the interchange. \n1
+          description: "Identifies the success or failure of the interchange.\n1
             = Success, 0 = Failure"
           maximum: 1
           type: string
@@ -369,7 +369,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Response_Error"
+            $ref: "#/components/schemas/Response_Error"
       xml:
         name: Response
       maximum: 1
@@ -389,7 +389,7 @@ components:
           minLength: 6
           maxLength: 6
         ToolVersion:
-          description: "Current tool version. \nValid value: 1.0"
+          description: "Current tool version.\nValid value: 1.0"
           maximum: 1
           type: string
           minLength: 3
@@ -432,7 +432,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Error_ErrorLocation"
+            $ref: "#/components/schemas/Error_ErrorLocation"
         ErrorDigest:
           description: |
               The contents of the element in error.
@@ -486,7 +486,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/QuantumViewEvents_SubscriptionEvents"
+            $ref: "#/components/schemas/QuantumViewEvents_SubscriptionEvents"
       xml:
         name: QuantumViewEvents
       description: The event that a user receives echoing Subscriber ID and information
@@ -510,9 +510,9 @@ components:
           minLength: 1
           maxLength: 16
         SubscriptionStatus:
-          "$ref": "#/components/schemas/SubscriptionEvents_SubscriptionStatus"
+          $ref: "#/components/schemas/SubscriptionEvents_SubscriptionStatus"
         DateRange:
-          "$ref": "#/components/schemas/SubscriptionEvents_DateRange"
+          $ref: "#/components/schemas/SubscriptionEvents_DateRange"
         SubscriptionFile:
           description: |
               Container holds all of the unread files associated with the subscription.
@@ -520,7 +520,7 @@ components:
               **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SubscriptionEvents_SubscriptionFile"
+            $ref: "#/components/schemas/SubscriptionEvents_SubscriptionFile"
       xml:
         name: SubscriptionEvents
       required:
@@ -545,7 +545,7 @@ components:
           minLength: 1
           maxLength: 2
         Description:
-          description: "Description of a subscription. \nValid values: \n- Unknown
+          description: "Description of a subscription.\nValid values:\n- Unknown
             (Unknown subscription status)\n- Activate (Ready for the user to activate
             the subscription)\n- Pending (In the process of waiting for privilege
             requests authorization)\n- Active (The subscription is in good standing
@@ -601,7 +601,7 @@ components:
           minLength: 16
           maxLength: 16
         StatusType:
-          "$ref": "#/components/schemas/SubscriptionFile_StatusType"
+          $ref: "#/components/schemas/SubscriptionFile_StatusType"
         Manifest:
           description: |
             Container represents all data that is relevant for the shipment, such as origin, destination, shipper, payment method etc. It will be returned when available.
@@ -609,7 +609,7 @@ components:
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SubscriptionFile_Manifest"
+            $ref: "#/components/schemas/SubscriptionFile_Manifest"
         Origin:
           description: |
             Information about shipment's origin.
@@ -617,7 +617,7 @@ components:
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SubscriptionFile_Origin"
+            $ref: "#/components/schemas/SubscriptionFile_Origin"
         Exception:
           description: |
             Shipment exception data.
@@ -625,7 +625,7 @@ components:
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SubscriptionFile_Exception"
+            $ref: "#/components/schemas/SubscriptionFile_Exception"
         Delivery:
           description: |
             Container for delivery information.
@@ -633,7 +633,7 @@ components:
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SubscriptionFile_Delivery"
+            $ref: "#/components/schemas/SubscriptionFile_Delivery"
         Generic:
           description: |
             Container for generic record information.
@@ -641,7 +641,7 @@ components:
             **NOTE:** For versions >= v2, this element will always be returned as an array. For requests using version = v1, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/SubscriptionFile_Generic"
+            $ref: "#/components/schemas/SubscriptionFile_Generic"
       xml:
         name: SubscriptionFile
     SubscriptionFile_StatusType:
@@ -678,9 +678,9 @@ components:
       - CollectBillIndicator
       properties:
         Shipper:
-          "$ref": "#/components/schemas/Manifest_Shipper"
+          $ref: "#/components/schemas/Manifest_Shipper"
         ShipTo:
-          "$ref": "#/components/schemas/Manifest_ShipTo"
+          $ref: "#/components/schemas/Manifest_ShipTo"
         ReferenceNumber:
           description: |
               Shipment-level reference numbers.
@@ -688,9 +688,9 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Manifest_ReferenceNumber"
+            $ref: "#/components/schemas/Manifest_ReferenceNumber"
         Service:
-          "$ref": "#/components/schemas/Manifest_Service"
+          $ref: "#/components/schemas/Manifest_Service"
         PickupDate:
           description: Should be set equal to the date on while the packages were
             picked up (may be prior days date if the transmission occurs after midnight).
@@ -730,9 +730,9 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Manifest_Package"
+            $ref: "#/components/schemas/Manifest_Package"
         ShipmentServiceOptions:
-          "$ref": "#/components/schemas/Manifest_ShipmentServiceOptions"
+          $ref: "#/components/schemas/Manifest_ShipmentServiceOptions"
         ManufactureCountry:
           description: Country or Territory  of Manufacture of the contents of the
             package.
@@ -747,7 +747,7 @@ components:
           minLength: 1
           maxLength: 35
         CustomsValue:
-          "$ref": "#/components/schemas/Manifest_CustomsValue"
+          $ref: "#/components/schemas/Manifest_CustomsValue"
         SpecialInstructions:
           description: User-defined special instructions for delivery.
           maximum: 1
@@ -772,7 +772,7 @@ components:
           minLength: 3
           maxLength: 3
         BillToAccount:
-          "$ref": "#/components/schemas/Manifest_BillToAccount"
+          $ref: "#/components/schemas/Manifest_BillToAccount"
         ConsigneeBillIndicator:
           description: Indicates if consignee will be billed the shipment.
           maximum: 1
@@ -885,7 +885,7 @@ components:
           minLength: 1
           maxLength: 1
         UAPAddress:
-          "$ref": "#/components/schemas/Manifest_UAPAddress"
+          $ref: "#/components/schemas/Manifest_UAPAddress"
         DeliverToAddresseeOnlyIndicator:
           description: '"Y" Indicates Shipment is Deliver to Addressee.'
           maximum: 1
@@ -1058,7 +1058,7 @@ components:
           minLength: 1
           maxLength: 50
         Address:
-          "$ref": "#/components/schemas/Shipper_Address"
+          $ref: "#/components/schemas/Shipper_Address"
       xml:
         name: Shipper
       description: Shipper's record for a shipment.
@@ -1097,8 +1097,7 @@ components:
           minLength: 1
           maxLength: 5
         PostalCode:
-          description: |
-            Shipper's postal code. If the address is US then 5 or 9 digits are required. CA addresses must provide a 6 character postal code that has the format of A#A#A#, where A is a alphabetic character and # is numeric digit. Otherwise, 1 to 9 alphanumeric characters are allowed.
+          description: "Shipper's postal code. If the address is US then 5 or 9 digits are required. CA addresses must provide a 6 character postal code that has the format of A#A#A#, where A is a alphabetic character and # is numeric digit. Otherwise, 1 to 9 alphanumeric characters are allowed."
           maximum: 1
           type: string
           minLength: 1
@@ -1170,7 +1169,7 @@ components:
           minLength: 1
           maxLength: 50
         Address:
-          "$ref": "#/components/schemas/ShipTo_Address"
+          $ref: "#/components/schemas/ShipTo_Address"
         LocationID:
           description: Location name that the package is shipped to.
           maximum: 1
@@ -1228,8 +1227,7 @@ components:
           minLength: 1
           maxLength: 5
         PostalCode:
-          description: |
-            Consignee's postal code. If the address is US then 5 or 9 digits are required. CA addresses must provide a 6 character postal code that has the format of A#A#A#, where A is a alphabetic character and # is numeric digit. Otherwise, 1 to 9 alphanumeric characters are allowed.
+          description: Consignee's postal code. If the address is US then 5 or 9 digits are required. CA addresses must provide a 6 character postal code that has the format of A#A#A#, where A is a alphabetic character and # is numeric digit. Otherwise, 1 to 9 alphanumeric characters are allowed.
           maximum: 1
           type: string
           minLength: 1
@@ -1302,7 +1300,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Package_Activity"
+            $ref: "#/components/schemas/Package_Activity"
         Description:
           description: Description of package merchandise.
           maximum: 1
@@ -1310,11 +1308,11 @@ components:
           minLength: 1
           maxLength: 120
         Dimensions:
-          "$ref": "#/components/schemas/Package_Dimensions"
+          $ref: "#/components/schemas/Package_Dimensions"
         DimensionalWeight:
-          "$ref": "#/components/schemas/Package_DimensionalWeight"
+          $ref: "#/components/schemas/Package_DimensionalWeight"
         PackageWeight:
-          "$ref": "#/components/schemas/Package_PackageWeight"
+          $ref: "#/components/schemas/Package_PackageWeight"
         LargePackage:
           description: |
             Values for LargePackage are:
@@ -1338,9 +1336,9 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Package_ReferenceNumber"
+            $ref: "#/components/schemas/Package_ReferenceNumber"
         PackageServiceOptions:
-          "$ref": "#/components/schemas/Package_PackageServiceOptions"
+          $ref: "#/components/schemas/Package_PackageServiceOptions"
         UPSPremiumCareIndicator:
           description: Presence of the tag indicates UPSPremiumCare applies to this
             package
@@ -1377,7 +1375,7 @@ components:
       - Width
       properties:
         Length:
-          description: "Package length. \nValid values: 0 to 108 IN and 0 to 270 CM"
+          description: "Package length.\nValid values: 0 to 108 IN and 0 to 270 CM"
           maximum: 1
           type: string
           minLength: 3
@@ -1396,7 +1394,7 @@ components:
           maxLength: 9
       xml:
         name: Dimensions
-      description: "Container tag for package dimension information. \nLength + 2
+      description: "Container tag for package dimension information.\nLength + 2
         * (Width + Height) must be less than or equal to 130 IN or 330 CM."
     Package_DimensionalWeight:
       type: object
@@ -1405,7 +1403,7 @@ components:
       - Weight
       properties:
         UnitOfMeasurement:
-          "$ref": "#/components/schemas/DimensionalWeight_UnitOfMeasurement"
+          $ref: "#/components/schemas/DimensionalWeight_UnitOfMeasurement"
         Weight:
           description: The value of package dimensional weight. A value of zero should
             be used for letters.
@@ -1486,7 +1484,7 @@ components:
           type: string
         Code:
           description: "Reference number type code for entire shipment, two-character
-            alphanumeric. \nThe code specifies the Reference name. \nValid if the
+            alphanumeric.\nThe code specifies the Reference name.\nValid if the
             origin/destination pair is US/US or PR/PR.\nFor additional information,
             refer to the Reference Codes table in the Appendix."
           maximum: 1
@@ -1509,9 +1507,9 @@ components:
       type: object
       properties:
         COD:
-          "$ref": "#/components/schemas/PackageServiceOptions_COD"
+          $ref: "#/components/schemas/PackageServiceOptions_COD"
         InsuredValue:
-          "$ref": "#/components/schemas/PackageServiceOptions_InsuredValue"
+          $ref: "#/components/schemas/PackageServiceOptions_InsuredValue"
         EarliestDeliveryTime:
           description: Earliest delivery time. Time format is HHMMSS.
           maximum: 1
@@ -1557,7 +1555,7 @@ components:
             3 - Tagless COD
           type: string
         CODAmount:
-          "$ref": "#/components/schemas/COD_CODAmount"
+          $ref: "#/components/schemas/COD_CODAmount"
       xml:
         name: COD
       description: Container for cash on delivery (COD) information.
@@ -1636,7 +1634,7 @@ components:
           maximum: 1
           type: string
         CallTagARS:
-          "$ref": "#/components/schemas/ShipmentServiceOptions_CallTagARS"
+          $ref: "#/components/schemas/ShipmentServiceOptions_CallTagARS"
       xml:
         name: ShipmentServiceOptions
       description: Container tag for optional UPS services related to a shipment.
@@ -1652,7 +1650,7 @@ components:
           minLength: 12
           maxLength: 12
         Code:
-          description: "The type of Call Tag service. \nValid values:\n00 - No return
+          description: "The type of Call Tag service.\nValid values:\n00 - No return
             service\n01 - UPS Call Tag Service\n02 - UPS Print and Mail\n03 - 1 UPS
             Pickup Attempt\n04 - UPS Print Return Label\n05 - Online Call Tag (3 UPS
             Pickup Attempts)\n06 - UPS Electronic Return Label\n08 - UPS Returns on
@@ -1726,7 +1724,7 @@ components:
           minLength: 1
           maxLength: 35
         Address:
-          "$ref": "#/components/schemas/UAPAddress_Address"
+          $ref: "#/components/schemas/UAPAddress_Address"
         PhoneNumber:
           description: UPS Access Point's Phone Number. US Phone numbers must be 10
             digits. No formatting is allowed. Required if origin and destination countries
@@ -1807,7 +1805,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Origin_PackageReferenceNumber"
+            $ref: "#/components/schemas/Origin_PackageReferenceNumber"
         ShipmentReferenceNumber:
           description: |
               Container tag for shipment reference number.
@@ -1815,7 +1813,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Origin_ShipmentReferenceNumber"
+            $ref: "#/components/schemas/Origin_ShipmentReferenceNumber"
         ShipperNumber:
           description: Shipper's six digit alphanumeric account number.
           maximum: 1
@@ -1843,9 +1841,9 @@ components:
           minLength: 6
           maxLength: 6
         ActivityLocation:
-          "$ref": "#/components/schemas/Origin_ActivityLocation"
+          $ref: "#/components/schemas/Origin_ActivityLocation"
         BillToAccount:
-          "$ref": "#/components/schemas/Origin_BillToAccount"
+          $ref: "#/components/schemas/Origin_BillToAccount"
         ScheduledDeliveryDate:
           description: Scheduled delivery date for destination address. Date format
             is YYYYMMDD.
@@ -1942,7 +1940,7 @@ components:
       - AddressArtifactFormat
       properties:
         AddressArtifactFormat:
-          "$ref": "#/components/schemas/ActivityLocation_AddressArtifactFormat"
+          $ref: "#/components/schemas/ActivityLocation_AddressArtifactFormat"
       xml:
         name: ActivityLocation
       description: Geographic location where an activity occurred during a movement
@@ -2016,7 +2014,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Exception_PackageReferenceNumber"
+            $ref: "#/components/schemas/Exception_PackageReferenceNumber"
         ShipmentReferenceNumber:
           description: |
               Container tag for shipment reference number.
@@ -2024,7 +2022,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Exception_ShipmentReferenceNumber"
+            $ref: "#/components/schemas/Exception_ShipmentReferenceNumber"
         ShipperNumber:
           description: Shipper's six digit alphanumeric account number.
           maximum: 1
@@ -2050,7 +2048,7 @@ components:
           minLength: 6
           maxLength: 6
         UpdatedAddress:
-          "$ref": "#/components/schemas/Exception_UpdatedAddress"
+          $ref: "#/components/schemas/Exception_UpdatedAddress"
         StatusCode:
           description: Code for status of updating shipping address issue.
           maximum: 1
@@ -2076,7 +2074,7 @@ components:
           minLength: 1
           maxLength: 40
         Resolution:
-          "$ref": "#/components/schemas/Exception_Resolution"
+          $ref: "#/components/schemas/Exception_Resolution"
         RescheduledDeliveryDate:
           description: Rescheduled delivery date for updated shipping address. Date
             format is YYYYMMDD.
@@ -2092,9 +2090,9 @@ components:
           minLength: 6
           maxLength: 6
         ActivityLocation:
-          "$ref": "#/components/schemas/Exception_ActivityLocation"
+          $ref: "#/components/schemas/Exception_ActivityLocation"
         BillToAccount:
-          "$ref": "#/components/schemas/Exception_BillToAccount"
+          $ref: "#/components/schemas/Exception_BillToAccount"
         AccessPointLocationID:
           description: The UPS Access Point Location ID.
           maximum: 1
@@ -2229,7 +2227,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
+            $ref: "#/components/schemas/UpdatedAddress_AddressExtendedInformation"
         PoliticalDivision3:
           description: The neighborhood, town, barrio etc. It will be returned if
             there is any update due to exception.
@@ -2319,7 +2317,7 @@ components:
       - AddressArtifactFormat
       properties:
         AddressArtifactFormat:
-          "$ref": "#/components/schemas/ActivityLocation_AddressArtifactFormat"
+          $ref: "#/components/schemas/ActivityLocation_AddressArtifactFormat"
       xml:
         name: ActivityLocation
       description: Geographic location where an activity occurred during a movement
@@ -2368,7 +2366,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Delivery_PackageReferenceNumber"
+            $ref: "#/components/schemas/Delivery_PackageReferenceNumber"
         ShipmentReferenceNumber:
           description: |
               Container tag for shipment reference number.
@@ -2376,7 +2374,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Delivery_ShipmentReferenceNumber"
+            $ref: "#/components/schemas/Delivery_ShipmentReferenceNumber"
         ShipperNumber:
           description: Shipper's six digit alphanumeric account number.
           maximum: 1
@@ -2408,13 +2406,13 @@ components:
           minLength: 1
           maxLength: 40
         ActivityLocation:
-          "$ref": "#/components/schemas/Delivery_ActivityLocation"
+          $ref: "#/components/schemas/Delivery_ActivityLocation"
         DeliveryLocation:
-          "$ref": "#/components/schemas/Delivery_DeliveryLocation"
+          $ref: "#/components/schemas/Delivery_DeliveryLocation"
         COD:
-          "$ref": "#/components/schemas/Delivery_COD"
+          $ref: "#/components/schemas/Delivery_COD"
         BillToAccount:
-          "$ref": "#/components/schemas/Delivery_BillToAccount"
+          $ref: "#/components/schemas/Delivery_BillToAccount"
         LastPickupDate:
           description: Last pickup by Date from the UPS Access Point Location.
           maximum: 1
@@ -2507,7 +2505,7 @@ components:
       - AddressArtifactFormat
       properties:
         AddressArtifactFormat:
-          "$ref": "#/components/schemas/ActivityLocation_AddressArtifactFormat"
+          $ref: "#/components/schemas/ActivityLocation_AddressArtifactFormat"
       xml:
         name: ActivityLocation
       description: Geographic location where an activity occurred during a movement
@@ -2522,7 +2520,7 @@ components:
       - AddressArtifactFormat
       properties:
         AddressArtifactFormat:
-          "$ref": "#/components/schemas/DeliveryLocation_AddressArtifactFormat"
+          $ref: "#/components/schemas/DeliveryLocation_AddressArtifactFormat"
         Code:
           description: Location Code for delivered package.
           maximum: 1
@@ -2598,7 +2596,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
+            $ref: "#/components/schemas/AddressArtifactFormat_AddressExtendedInformation"
         PoliticalDivision3:
           description: The neighborhood, town, barrio etc.
           maximum: 1
@@ -2672,7 +2670,7 @@ components:
       type: object
       properties:
         CODAmount:
-          "$ref": "#/components/schemas/COD_CODAmount"
+          $ref: "#/components/schemas/COD_CODAmount"
       xml:
         name: COD
       description: Container for cash on delivery (COD) information.
@@ -2754,7 +2752,7 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Generic_ShipmentReferenceNumber"
+            $ref: "#/components/schemas/Generic_ShipmentReferenceNumber"
         PackageReferenceNumber:
           description: |
               Package-level reference number.
@@ -2762,15 +2760,15 @@ components:
               **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:
-            "$ref": "#/components/schemas/Generic_PackageReferenceNumber"
+            $ref: "#/components/schemas/Generic_PackageReferenceNumber"
         Service:
-          "$ref": "#/components/schemas/Generic_Service"
+          $ref: "#/components/schemas/Generic_Service"
         Activity:
-          "$ref": "#/components/schemas/Generic_Activity"
+          $ref: "#/components/schemas/Generic_Activity"
         BillToAccount:
-          "$ref": "#/components/schemas/Generic_BillToAccount"
+          $ref: "#/components/schemas/Generic_BillToAccount"
         ShipTo:
-          "$ref": "#/components/schemas/Generic_ShipTo"
+          $ref: "#/components/schemas/Generic_ShipTo"
         RescheduledDeliveryDate:
           description: |
             If Activity Type is "DS" or "UD", this element will contain Rescheduled Delivery Date. Format will be YYYYMMDD.
@@ -2783,7 +2781,7 @@ components:
           minLength: 1
           maxLength: 8
         FailureNotification:
-          "$ref": "#/components/schemas/Generic_FailureNotification"
+          $ref: "#/components/schemas/Generic_FailureNotification"
       xml:
         name: Generic
     Generic_ShipmentReferenceNumber:
@@ -2896,8 +2894,8 @@ components:
       properties:
         Option:
           description: "Indicates how shipping charges for the package were billed.
-            \nValid Values: 01, 02, 03, 04, 99 \nValue Definitions: \n01 Shipper\n02
-            Consignee Billing \n03 Third Party\n04 Freight Collect\n99 International
+            \nValid Values: 01, 02, 03, 04, 99\nValue Definitions:\n01 Shipper\n02
+            Consignee Billing\n03 Third Party\n04 Freight Collect\n99 International
             Bill Option"
           maximum: 1
           type: string
@@ -2950,7 +2948,7 @@ components:
           minLength: 1
           maxLength: 50
         FailureNotificationCode:
-          "$ref": "#/components/schemas/FailureNotification_FailureNotificationCode"
+          $ref: "#/components/schemas/FailureNotification_FailureNotificationCode"
       xml:
         name: FailureNotification
       description: Failure notification information containing email address and Notification
@@ -2981,7 +2979,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -2990,7 +2988,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:

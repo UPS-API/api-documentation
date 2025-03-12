@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Landed Cost Quote API
   description: |
-  
+
     The Landed Cost Quote API allows you to estimate the all-inclusive cost of international shipments - including applicable duties, VAT, taxes, brokerage fees, and other fees. Required parameters include the currency and shipment details, such as the commodity ID, price, quantity, and country code of origin.
 
     Key Business Values:
@@ -15,13 +15,13 @@ info:
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/errors" target="_blank" rel="noopener">Errors</a>
-    
+
     <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
-    
+
     <a href="https://god.gw.postman.com/run-collection/29542085-bea3b8e9-3a1f-4642-a0ca-22945c18cf00?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-bea3b8e9-3a1f-4642-a0ca-22945c18cf00%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" width="128" height="32"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " width="128" height="32">
     </a>
   version: ''
 servers:
@@ -79,7 +79,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/LandedCostRequest"
+              $ref: "#/components/schemas/LandedCostRequest"
             examples:
               json:
                 summary: A sample JSON request (Standard Example)
@@ -124,7 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/LandedCostResponse"
+                $ref: "#/components/schemas/LandedCostResponse"
               examples:
                 json:
                   summary: A sample JSON response
@@ -175,25 +175,25 @@ paths:
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '401':
             description: Unauthorized Request
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '403':
             description: Blocked Merchant
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
         '429':
             description: Rate Limit Exceeded
             content:
                 application/json:
                   schema:
-                    "$ref": "#/components/schemas/ErrorResponse"
+                    $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     OAuth2:
@@ -246,7 +246,7 @@ components:
             This must match the major number of the corresponding ICD version.
           example: 1, 2, 3
         shipment:
-          "$ref": "#/components/schemas/LandedCostRequest_Shipment"
+          $ref: "#/components/schemas/LandedCostRequest_Shipment"
       xml:
         name: LandedCostRequest
       maximum: 1
@@ -340,7 +340,7 @@ components:
           type: array
           maximum: 99
           items:
-            "$ref": "#/components/schemas/Request_ShipmentItems"
+            $ref: "#/components/schemas/Request_ShipmentItems"
           description: Array of shipment item objects (commodities), that are in a
             shipment.
     Request_ShipmentItems:
@@ -469,7 +469,7 @@ components:
               type: array
               maximum: 1
               items:
-                "$ref": "#/components/schemas/brokerageFeeItems"
+                $ref: "#/components/schemas/brokerageFeeItems"
               description: An array of Brokerage fees.
             totalBrokerageFees:
               type: number
@@ -504,7 +504,7 @@ components:
             shipmentItems:
               type: array
               items:
-                "$ref": "#/components/schemas/Response_ShipmentItems"
+                $ref: "#/components/schemas/Response_ShipmentItems"
               maximum: 99
               description: An array of Landed Cost for all valid commodities.
             transID:
@@ -542,7 +542,7 @@ components:
               description: Version number of the instance that processed this request.
                 Default is 1.
             errors:
-              "$ref": "#/components/schemas/Errors"
+              $ref: "#/components/schemas/Errors"
       xml:
         name: LandedCostResponse
       maximum: 1
@@ -641,7 +641,7 @@ components:
       type: object
       properties:
         response:
-          "$ref": "#/components/schemas/CommonErrorResponse"
+          $ref: "#/components/schemas/CommonErrorResponse"
     CommonErrorResponse:
       type: object
       description: The error response containing any errors that occurred.
@@ -650,7 +650,7 @@ components:
           type: array
           description: The error array containing any errors that occurred.
           items:
-            "$ref": "#/components/schemas/ErrorMessage"
+            $ref: "#/components/schemas/ErrorMessage"
     ErrorMessage:
       type: object
       properties:
