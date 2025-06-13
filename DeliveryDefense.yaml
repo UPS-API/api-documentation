@@ -17,7 +17,7 @@ info:
     # Purpose
     
     The API is designed to enable customers to obtain an Address Confidence score based on analysis of historical data.
-version: "1.0"
+  version: "1.0"
 tags:
   - name: Delivery Defense
 servers:

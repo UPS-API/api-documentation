@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Ship
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
-  version: ''
+  version: 'v2409'
   description: |
   
     The Shipping Package API gives the application many ways to manage the shipment of packages to their destination.
