@@ -24,21 +24,28 @@ info:
     - **Optimizing Cash Flow Through Near Real-Time Delivery Tracking**: Improve cash flow by knowing that deliveries occurred in near real time.
     - **Mitigating Fraud and Theft through Near Real-Time Package Status Monitoring**: Reduce fraud and theft by knowing any time something happens to your packages.
     
-    # How does it work once I am setup as a user?
-    You submit up to 100 UPS 1Z package tracking numbers to the API at a time, using OAUTH in a JSON format.  Your submission needs to include the URL where Track Alert will send a message with any events that occur to your 1Z package for the next 14 days.  This saves you the effort of polling UPS to determine what is the current status of your package.
+    # Reference
+    - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
     
     # FAQs
-    - **How do I check if a subscription to a 1Z was successful?**
-    >  Within 8 seconds of submitting a 1Z package tracking number to Track Alert, you will receive a message confirming successful and un-successful 1Z's.  
+  
+    - **How does it work once I am setup as a user?**
+    > You submit up to 100 UPS tracking numbers to the API at a time, using OAUTH in a JSON format.  Your submission needs to include the URL where Track Alert will send a message with any events that occur to your tracking number for the next 14 days.  This saves you the effort of polling UPS to determine what is the current status of your package.
+      
+    - **What type of packages does Track Alert support?
+    > Track Alert supports UPS packages that have a 1Z tracking number, as well as Roadie packages (1R tracking numbers).
+    
+    - **How do I check if a subscription to a tracking number was successful?**
+    >  Once tracking number(s) is submitted to Track Alert, you will receive a response confirming successful and unsuccessful tracking numbers.  
 
     - **I stopped receiving event messages after 2 weeks and my package hasn’t been delivered. Why?**
-    >  Each 1Z subscription is valid for 14 days.  If the package has not been delivered within 14 days, you must resubscribe to the 1Z to continue receiving updates/events.
+    >  Each tracking number subscription is valid for 14 days. If the package has not been delivered within 14 days, you must resubscribe to the tracking number to continue receiving updates/events.
 
     - **How do I get events that occurred prior to subscription?**
     >  Track Alert does not retain any history.  You should use the UPS Track API to receive history about your package.  
 
-    - **How many 1Z tracking numbers can a subscriber subscribe to in one request?**
-    >  You can subscribe to up to 100 1Z in each submission to the API.  A reply message will be sent via the API with details showing successful and unsuccessful 1Z's submissions.
+    - **How many tracking numbers can a subscriber subscribe to in one request?**
+    >  You can subscribe to up to 100 tracking numbers in each submission to the API.  A reply message will be sent via the API with details showing successful and unsuccessful tracking numbers.
 
     - **What types of event data does Track Alert provide?**
     >  In addition to the expected local dates and times when the event occurred (including GMT date and time), you will receive details about the event that include status-type, status-code, status-description and status-description code.
@@ -55,7 +62,7 @@ info:
     - **What does the message look like?**
     >  This is what a message looks like for an event that is sent to your URL.  Not every field will have a value for every message.  We have converted the JSON format message to text format for clarity.  
         Those fields are: 
-        1Z package tracking number 
+        tracking number 
         scheduled delivery date (this field maybe updated, example '20240905')
         actual delivery date (this field is blank until the delivery event occurs)
         actual delivery time (this field is blank until the delivery event occurs)
@@ -77,33 +84,51 @@ info:
         delivery photo (this field is only available for enhanced users)
 
     - **Can I test this process?**
-    >  Yes, there are two test 1Z's that you can submit, and resubmit that will send several events spaced 1 second apart.  Those two test 1Z's are 1ZCIETST0111111114 and 1ZCIETST0422222228.  Please ensure to use UPS Production CIE(https://wwwcie.ups.com/api/track/{version}). You can submit these 1Z's as often as you like. (no stress testing please.) 
+    >  Yes, there are two test tracking numbers that you can submit, and resubmit that will send several events spaced 1 second apart.  Those two test tracking numbers are 1ZCIETST0111111114 and 1ZCIETST0422222228.  Please ensure to use UPS Production CIE(https://wwwcie.ups.com/api/track/{version}). You can submit these tracking numbers as often as you like. (no stress testing please.) 
 
-
+    # Overview
+      When the UPS system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+      
+      Successful responses may or may not include warnings.
+      1. **Without warnings** - Indicates the request has been processed as anticipated.
+      2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+      
+      The severity of an error may be transient or hard.
+      1. **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+      2. **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+      
+      The following error codes can apply to all APIs. 
+      
     # Error Codes
 
-    | Error Code | HTTP Status | Description                                                                                                                                                                                              |
-    |------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-    | VSS000     | 400         | Invalid request and The Subscription request has been rejected.                                                                                                                                          |
-    | VSS002     | 400         | Missing transId.                                                                                                                                                                                         |
-    | VSS003     | 400         | Please enter a valid Transaction ID, The Subscription request has been rejected.                                                                                                                         |
-    | VSS004     | 400         | Missing transactionSrc.                                                                                                                                                                                  |
-    | VSS006     | 400         | Please enter a valid Transaction SRC, The Subscription request has been rejected.                                                                                                                        |
-    | VSS100     | 500         | We're sorry, the system is temporarily unavailable. Please try again later.                                                                                                                              |
-    | VSS110     | 400         | Subscription request is empty or not present. The Subscription request has been rejected.                                                                                                                |
-    | VSS200     | 400         | Tracking Number List is required. The Subscription request has been rejected.                                                                                                                            |
-    | VSS210     | 400         | The Subscription request should have at least one valid tracking number. The Subscription request has been rejected.                                                                                     |
-    | VSS215     | 400         | The 1Z tracking number that was submitted is not a valid CIE 1Z and has been rejected.                                                                                                                   |
-    | VSS220     | 400         | You have submitted over 100 1Z numbers which is not allowed. The entire submission of 1Z numbers has been rejected. Please resubmit your request again using groups of no more than 100 1Z numbers.      |
-    | VSS300     | 400         | Locale is required. The Subscription request has been rejected.                                                                                                                                          |
-    | VSS310     | 400         | Please enter a valid locale. The Subscription request has been rejected.                                                                                                                                 |
-    | VSS400     | 400         | Please enter a valid country code. The Subscription request has been rejected.                                                                                                                           |
-    | VSS500     | 400         | Destination is required. The Subscription request has been rejected.                                                                                                                                     |
-    | VSS600     | 400         | URL is empty or not present. The Subscription request has been rejected.                                                                                                                                 |
-    | VSS610     | 400         | URL is too long. The Subscription request has been rejected.                                                                                                                                             |
-    | VSS700     | 400         | Credential is empty or not present. The Subscription request has been rejected.                                                                                                                          |
-    | VSS800     | 400         | CredentialType is empty or not present. The Subscription request has been rejected.                                                                                                                      |
-    | VSS930     | 400         | Type is missing or invalid, The Subscription request has been rejected.   
+    | **Code**  | **HTTP Code** | **Severity**  | **Description**                                                                                                                                                                                       |
+    | :--:      | :---:         | :---:         | :--                                                                                                                                                                                                   |
+    | UJ0001    | 401           | Hard          | Invalid token or token is not present                                                                                                                                                                    |
+    | 405       | 405           | Hard          | Method Not Allowed.                                                                                                                                                                                   |
+    | 10004     | 500           | Transient     | Something went wrong while processing your request, please try again later                                                                                                                            |
+    | 10007     | 400           | Hard          | Requested Content Type is not supported                                                                                                                                                               |
+    | 250002    | 401           | Hard          | Invalid authentication information.                                                                                                                                                |
+    | 251004    | 401           | Hard          | Bearer Token expired (oauth)                                                                                                                                                                          |
+    | VSS000    | 400           | Hard          | Invalid request and The Subscription request has been rejected.                                                                                                                                       |
+    | VSS002    | 400           | Hard          | Missing transId                                                                                                                                                                                       |
+    | VSS003    | 400           | Hard          | Please enter a valid Transaction ID, The Subscription request has been rejected.                                                                                                                      |
+    | VSS004    | 400           | Hard          | Missing transactionSrc                                                                                                                                                                       |
+    | VSS006    | 400           | Hard          | Please enter a valid Transaction SRC, The Subscription request has been rejected.                                                                                                                                 |
+    | VSS100    | 500           | Transient     | We're sorry, the system is temporarily unavailable.  Please try again later.                                                                                                                          |
+    | VSS110    | 400           | Hard          | Subscription request is empty or not present. The Subscription request has been rejected.                                                                                                             |
+    | VSS200    | 400           | Hard          | Tracking Number List is required. The Subscription request has been rejected.                                                                                                                         |
+    | VSS210    | 400           | Hard          | The Subscription request should have at least one valid tracking number. The Subscription request has been rejected.                                                                                  |
+    | VSS215    | 400           | Hard          | The tracking number that was submitted is not a valid CIE tracking number and has been rejected.                                                                                                                |
+    | VSS220    | 400           | Hard          | You have submitted over 100 tracking numbers which is not allowed. The entire submission of tracking numbers has been rejected.  Please resubmit your request again using groups of no more than 100 tracking numbers.  |
+    | VSS300    | 400           | Hard          | Locale is required. The Subscription request has been rejected.                                                                                                                                       |
+    | VSS310    | 400           | Hard          | Please enter a valid locale. The Subscription request has been rejected                                                                                                                               |
+    | VSS400    | 400           | Hard          | Please enter a valid country code. The Subscription request has been rejected.                                                                                                               |
+    | VSS500    | 400           | Hard          | Destination is required. The Subscription request has been rejected                                                                                                                                   |
+    | VSS600    | 400           | Hard          | URL is empty or not present. The Subscription request has been rejected.                                                                                                                              |
+    | VSS610    | 400           | Hard          | URL is too long. The Subscription request has been rejected.                                                                                                                                          |
+    | VSS700    | 400           | Hard          | Credential is empty or not present. The Subscription request has been rejected.                                                                                                                       |
+    | VSS800    | 400           | Hard          | CredentialType is empty or not present. The Subscription request has been rejected.                                                                                                                                        |
+    | VSS930    | 400           | Hard          | Type is missing or invalid, The Subscription request has been rejected.                                                                                                                               |
 
 
 servers:
@@ -156,9 +181,9 @@ paths:
           required: true
           schema:
             type: string
-          default: v1
-          enum:
-            - v1
+            default: v1
+            enum:
+                -   v1
       requestBody:
         content:
           application/json:
@@ -239,12 +264,19 @@ paths:
                     "$ref": "#/components/schemas/TrackSubsServiceErrorResponse"
         '500':
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackSubsServiceErrorResponse'
+              example:
+                errors:
+                  - code: "10004"
+                    message: Internal Server Error
 webhooks:
   TrackingEvent:
     post:
       summary: Tracking Event
-      description: This is an HTTP POST request that will relay information about a new tracking event in the system. Please ensure that the URL endpoint passed in the subscription request is ready to accept this POST request. Please note that not every field will have a value for every message.
-
+      description: This HTTPS POST request will send information about a new tracking event in the system. Please ensure the webhook URL provided in the subscription request is ready to receive this POST request. Note that not every field will have a value in each message. The webhook event dispatched by our API requires an acknowledgement within milliseconds to ensure optimal performance and reliability. Please ensure your endpoint is capable of handling and responding to events in this time frame.
       tags:
         - UPS Track Alert
       parameters:
@@ -427,15 +459,11 @@ webhooks:
                       type: D
                       code: FS
                       description: Delivered
-                      descriptionCode: '011'
-                    scheduledDeliveryDate: ''
-                    actualDeliveryDate: '20240423'
-                    actualDeliveryTime: '095004'
+                    scheduledDeliveryDate: '20191014'
                     gmtActivityDate: '20240423'
                     gmtActivityTime: '135004'
-                    deliveryStartTime: ''
-                    deliveryEndTime: ''
-                    deliveryTimeDescription: ''
+                    actualDeliveryDate: '20240423'
+                    actualDeliveryTime: '095004'
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully
@@ -458,6 +486,7 @@ components:
   schemas:
     Destination:
       type: object
+      description: The destination container related to the clients endpoint API. To which messages would be sent on an event on the package.
       required:
         - url
         - credentialType
@@ -467,9 +496,9 @@ components:
           type: string
           format: url
           description: |
-            It is an HTTP-based callback end point that is exposed by the client to receive event notification. This endpoint must be operational around the clock to ensure no event notifications are missed.
+            It is an HTTPS-based callback end point that is exposed by the client to receive event notification. This endpoint must be operational around the clock to ensure no event notifications are missed.
             If this endpoint is not continuously available, incoming events will be lost.
-          example: "https://test.ups.com"
+          example: "https://your-webhook-url.com"
         credentialType:
           type: string
           description: It is an open-entry field that indicates type of credentials supported by the client.
@@ -477,18 +506,16 @@ components:
         credential:
           type: string
           description: It is an opaque string meant for client authentication. If for any reason this credential changes then any event notification will fail until a new subscription is made.
-      description: The destination container related to the clients endpoint API. To which messages would be sent on an event on the package.
     TrackSubsServiceRequest:
       required:
         - locale
-        - countryCode
         - trackingNumberList
         - destination
       type: object
       properties:
         locale:
           type: string
-          description: Locale setting is composed of language code and country code, separated by an underscore. This field is reserved for future use.
+          description: Locale setting is composed of language code and country code, separated by an underscore. Currently only english US(en_US) is accepted.
           pattern: '^[a-z]{2}_[A-Z]{2}$'
           example: en_US
         countryCode:
@@ -499,21 +526,18 @@ components:
           type: array
           description: Represents list of tracking numbers in request.
           maxItems: 100
-          example: ["1ZCIETST0111111114","1ZCIETST0422222228"]
+          example:
+            - 1ZCIETST0111111114
+            - 1ZCIETST0422222228
           items:
             type: string
-            pattern: '^1Z[0-9A-Z]{16}$'
-            description: Represents tracking numbers starting with '1Z', followed by 16 alphanummeric characters in request.
-        eventPreference:
-          type: array
-          description: Represents scan/event preferences for the subscription endpoint, Place holder for Future use.
-          items:
-            type: string
-            description: Represents scan/event preferences for the subscription endpoint, Place holder for Future use.
+            pattern: '^1Z[0-9A-Z]{16}$|^1R[0-9A-Z]{14}$|^1R[0-9A-Z]{26}$'
+            description: Represents tracking numbers starting with '1Z', followed by 16 alphanummeric characters in request, as well as tracking numbers starting with '1R', followed by 14 or 26 alphanumeric characters.
         destination:
           $ref: '#/components/schemas/Destination'
     ErrorMessage:
       type: object
+      description: The error response containing any errors that occurred
       properties:
         code:
           type: string
@@ -523,7 +547,6 @@ components:
           type: string
           description: The error message.
           example: Locale is required. The Subscription request has been rejected.
-      description: The error response containing any errors that occurred
     TrackSubsServiceResponse:
       type: object
       properties:
@@ -532,23 +555,26 @@ components:
           description: List of tracking numbers with successful subscription created.
           items:
             type: string
-          example: ["1Z1234567891234556", "1ZABCDEFH91234556"]
+          example:
+            - 1Z1234567891234556
+            - 1ZABCDEFH91234556
         invalidTrackingNumbers:
           type: array
           description: List of tracking numbers associated with errors preventing subscription creation.
           items:
             type: string
-          example: ["1Z1234567$8"]
+          example:
+            - 1Z1234567$8
     TrackSubsServiceErrorResponse:
       type: object
       properties:
         response:
-          $ref: '#/components/schemas/Response'
+          $ref: '#/components/schemas/ErrorResponse'
         invalidTrackingNumbers:
           $ref: "#/components/schemas/TrackSubsServiceResponse/properties/invalidTrackingNumbers"
       required:
        - response
-    Response:
+    ErrorResponse:
       type: object
       properties:
          errors:
@@ -557,6 +583,9 @@ components:
           items:
             $ref: '#/components/schemas/ErrorMessage'
     TrackingEventRequest:
+      required:
+        - trackingNumber
+        - activityStatus
       type: object
       description: Package event update payload.
       properties:
@@ -618,6 +647,13 @@ components:
           maxLength: 6
           pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
           example: "235959"
+        gmtOffset:
+          type: string
+          description: "A field that shows how local time was calculated. In the format (-/+)HH.MM (24 hr)"
+          minLength: 6
+          maxLength: 6
+          pattern: ^[+-]([01]\d|2[0-3])\.[0-5]\d$
+          example: "-04.00"
         deliveryStartTime:
           type: string
           description: 'The start time of a delivery. Format: HHMMSS (24 hr).'
@@ -685,10 +721,7 @@ components:
             | X     | Package Exception             | 
         code:
           type: string
-          description: The current activity status code.
+          description: The current activity status code. See the 'Status Codes' document for more details.
         description:
           type: string
           description: The current activity status description.
-
-
-                                                                                                                            

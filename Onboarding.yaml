@@ -1,0 +1,1900 @@
+openapi: 3.0.3
+info:
+  title: UPS Customer Onboarding API
+  description: |
+  
+    The UPS Customer Onboarding API provides an efficient solution for DAP partners to
+     streamline customer integration with UPS services. This comprehensive API performs 
+     three important onboarding operations — **Account Creation** and **User Registration**
+      — each operation designed to improve the user experience and onboarding process.
+        
+    #### Open Account Service
+
+    - **Purpose**: Supports the creation of new UPS user accounts.
+
+    - **Functionality**: Collects user information, validates addresses, and generates 
+    a unique UPS shipper account number. Ensures accurate account setup and record 
+    creation
+
+    - **Benefits**: Simplified account creation, improved address accuracy, and 
+    streamlined integration with UPS systems
+        
+    #### User Registration Service
+
+    - **Purpose**: Enables the creation and management of My UPS profiles on behalf 
+    of customers, providing access to UPS shipping systems
+
+    - **Functionality**: Supports various user profile scenarios, including creation 
+    without a UPS account, creation with a new or existing UPS account, and account 
+    authentication
+
+    - **Benefits**: Easy profile management, enhanced security through authentication, 
+    and a united solution for managing UPS accounts
+        
+       
+    #### Key Features
+
+    - Consolidated API supporting multiple onboarding operations
+
+    - Streamlined user and account management
+
+    - Address validation for accurate and efficient user registration
+
+    - Improved security with account authentication
+
+    - Comprehensive documentation and developer support
+    # Reference 
+    
+    - <a href="https://developer.ups.com/api/reference/onboarding/appendix" target="_blank" rel="noopener">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/onboarding/error-codes" target="_blank" rel="noopener">Error Codes</a>
+    - <a href="https://developer.ups.com/api/reference/taxid/information" target="_blank" rel="noopener">TaxID Information</a>
+    
+     </br><p>Explore API documentation and sample applications through GitHub.</p>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
+    </a>
+        
+  version: "1.0"
+servers:
+  - url: https://onlinetools.ups.com/api
+    description: Production URL
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment URL
+paths:
+   /customers/v1/register:
+    post:
+      summary: Create My UPS profile for customer
+      tags:
+        - Onboarding
+      security:
+        - OAuth2: []
+      operationId: customer-registration
+      description: >-
+        Enables DAP partners to create My UPS profiles for their customers. Ensures 
+        successful registration, providing customers with necessary My UPS login 
+        credentials and account associations for access to UPS shipping systems. 
+        Ideal for integrating user profile creation into partner platforms.
+      responses:
+        "200":
+          description: Customer successfully registered
+          content:
+            application/json:
+              schema:
+                title: RegistrationResponse
+                type: object
+                description: >-
+                  Registration response details
+                properties:
+                  registrationResponse:
+                    $ref: "#/components/schemas/CommonResponse"
+                  suggestedUsername:
+                    type: string
+                    description: >-
+                      Username suggested by the UPS system if the user's choice 
+                      is already in use and the user set `suggestUserName` 
+                      to true in the request. The user can try to register using 
+                      the suggested username
+                  accountStatus:
+                    type: object
+                    required: [code, description]
+                    description: Account status details
+                    properties:
+                      code: 
+                        type: string
+                        description: >-
+                          Status of shipper account after the user profile has been 
+                          successfully created
+
+                          `000` – No account in the request to process.                  
+
+                          `010` – An account 
+                          was added to the users profile successfully
+
+                          `011` – An account cannot be added to the users profile 
+                          due to system problems, try account management request 
+                          again later
+
+                          `040` – An account with invoice was authorized and added 
+                          to your valid account list successfully
+
+                          `041` – An account is authorized but cannot be added to 
+                          your valid account list due to system problems, try account 
+                          management request again later
+
+                          `043` – Authorization was not performed, the account is 
+                          not on the EBS country or territory list
+
+                          `045` – The invoice information entered does not match the 
+                          UPS Account. To Ship with this UPS Account, the correct 
+                          invoice information must be entered
+
+                          `050` – Account with PIN is authorized and added to your valid 
+                          account list successfully
+
+                          `051` – Account with PIN is authorized but cannot be added 
+                          to your valid account list due to system problem, try 
+                          account management later
+
+                          `052` – The PIN Information does not match the UPS Account
+
+                        example: "010"
+                        enum: ["000","010", "040","041","043", "045","050","051", "052"]
+                      description: 
+                        type: string
+                        description: >-
+                          Status of the shipper account after the user profile is successfully created
+                        example: "Account successfully added to user profile."
+              examples:
+                json:
+                  summary: A sample success response
+                  value:
+                    registrationResponse:
+                      status: success
+                      code: '200'
+                      description: Registration successfully completed
+                    accountStatus:
+                      code: '010'
+                      description: Account successfully added to user profile 
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorSchema"
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorSchema"
+        "404":
+          description: Not found. URL does not exist or resource not found
+        "405":
+          description: Method not allowed
+        "429": 
+          description: Quota exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorSchema"
+        "500":
+          description: An internal server error occurred
+      requestBody:
+        content:
+          application/json:
+            schema:              
+              title: RegistrationRequest
+              type: object
+              properties:
+                endUserInformation:
+                  description: End user details
+                  type: object
+                  required: [deviceIdentity, ipAddress]
+                  properties:
+                    deviceIdentity:
+                      type: string
+                      description: >-
+                        End user IOBB or blackbox information. 
+                        Required if billing country code is European
+                      maxLength: 4000
+                      example: iphone 13 pro
+                    ipAddress:
+                      type: string
+                      maxLength: 15
+                      description: IP address of shipper account
+                      format: ipv4
+                      example: 127.0.0.1
+                userIdentity:
+                  title: userIdentity
+                  type: object
+                  required: [username, password]
+                  description: >-
+                    User identity details
+                  properties:
+                    username:
+                      type: string
+                      maxLength: 16
+                      pattern: "^[a-zA-Z0-9]{1,16}$"
+                      example: upsvendorusers98
+                      description: |
+                        User-proposed user name to access UPS applications. The user 
+                        name must be unique. The user name can not start or end 
+                        with a whitespace or blank character and can not contain 
+                        any of the following characters: `:` `;` `<` `>` `“` `&` 
+                        `\` `/` `%`
+                    password:
+                      type: string
+                      minLength: 12
+                      maxLength: 26
+                      pattern: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+(){}=:;`~<>'\"]).{8,26}$"
+                      example: Lmmm*kkk9
+                      description: >-
+                        User-proposed password to access UPS applications. The password 
+                        must include at least one of each of the following: one 
+                        uppercase, one lowercase, numbers, special characters or 
+                        spaces. The password should not contain your User ID, your 
+                        name, or your e-mail address
+                contact:
+                  $ref: "#/components/schemas/Contact"
+                address:
+                  $ref: "#/components/schemas/Address"
+                shipperAccount:
+                  $ref: "#/components/schemas/AccountInfo"
+                suggestUserName:
+                  title: indicator
+                  type: boolean
+                  description: >-
+                    Whether the system should propose an available username if the 
+                    username provided is not unique (in use by another UPS customer)
+                  enum: [true, false]
+            examples:
+              json:
+                summary: A sample JSON request
+                value:
+                  endUserInformation:
+                    deviceIdentity: iphone 13 pro
+                    ipAddress: 127.0.0.1
+                  userIdentity:
+                    username: jsmith
+                    password: pass#4Word
+                  contact:
+                    contactName:
+                      title: Doctor
+                      firstName: John
+                      surname: Smith               
+                    businessName: abc medical                  
+                    notificationPreference: "01"
+                    email: test@ups.com
+                    phone:
+                      phoneNumber: "5555555555"
+                  address:
+                    streetAddress:
+                      addressLine1: 12380, Morris Rd
+                    city: Alpharetta
+                    stateOrProvinceCode: GA
+                    postalCode: "30005"
+                    countryCode: US
+                  shipperAccount:
+                    accountName: accountName
+                    accountNumber: accountNumber
+                    postalCode: "30005"
+                    countryCode: US
+                    accountInvoice:
+                      invoiceNumber: 0000001388YY498
+                      invoiceDate: "20181208"
+                      currencyCode: USD
+                      invoiceAmount: "114.89"
+                      controlId: 64P0
+                    accountPIN:
+                      accountOwnerEmail:
+                        emailAddress: test@ups.com
+                      PIN: X679G3NX
+                  suggestUserName: true
+      parameters:
+        - $ref: "#/components/parameters/headerParam"
+   /customers/v1/account:
+    post:
+      summary: Request Shipper Accounts
+      tags:
+        - Onboarding
+      security:
+        - OAuth2: []
+      operationId: shipper-account-request
+      description: >-
+        Request a new shipper account on behalf of a customer. This endpoint supports 
+        UPS Ready® vendors with a way to easily integrate new account creation 
+        functionality into their websites. Streamlines account creation and provides 
+        efficient and accurate setup for new users.
+
+
+        This service requires that vendors develop user interfaces to gather all required information 
+        for a new UPS shipper account
+      responses:
+        "200":
+          description: Customer Account Created Successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpenRequestResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorSchema"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorSchema"
+        "404":
+          description: Not found. URL does not exist or resource not found
+        "405":
+          description: Method not allowed
+        "429": 
+          description: Quota exceeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorSchema"
+        "500":
+          description: An internal server error occurred
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OpenAccountRequest"
+            examples:
+              json:
+                summary: A sample JSON request
+                value:
+                  endUserInformation:
+                    deviceIdentity: 10.25.2.1
+                    email: test@ups.com
+                    ipAddress: 10.26.1.1
+                  accountCharacteristics:
+                    customerClassification: "01"
+                    customerName:
+                      firstName: John
+                      surname: Smith
+                    email: test@ups.com
+                  accountVerification:
+                    principalName:
+                      firstName: John
+                      surname: Smith
+                    accountInitiator:
+                      firstName: John
+                      surname: Smith
+                    documentation:
+                      documentType: "01"
+                      documentOwnerName:
+                        firstName: John
+                        surname: Smith
+                      documentOwnerAddress:
+                        streetAddress:
+                          addressLine1: 2010 Warsaw Road
+                        city: Roswell
+                        stateOrProvinceCode: GA
+                        postalCode: "30076"
+                        countryCode: US
+                  billingContactInformation:
+                    contactName:
+                      firstName: Mary
+                      surname: Jane
+                    attentionName: Billing
+                    businessName: ABC Shipping Company
+                    email: test@ups.com
+                    phone:
+                      phoneNumber: "5555555555"
+                  billingAddress:
+                    streetAddress:
+                      addressLine1: 2010 Warsaw Road
+                      addressLine2: Suite 100
+                    city: Roswell
+                    stateOrProvinceCode: GA
+                    postalCode: "30076"
+                    countryCode: US
+                  pickupContactInformation:
+                    contactName:
+                      firstName: Jeff
+                      surname: Thompson
+                    attentionName: Shipping Pickup
+                    businessName: ABC Shipping Company
+                    phone:
+                      phoneNumber: "5555555555"
+                      extension: "6033"
+                    email: test@ups.com
+                  pickupAddress:
+                    streetAddress:
+                      addressLine1: 12380 Morris Road
+                      addressLine2: Suite S318B
+                    city: Alpharetta
+                    stateOrProvinceCode: GA
+                    postalCode: "30005"
+                    countryCode: US
+                  pickupInformation:
+                    type: "08"                
+                  locale:
+                    languageCode: EN
+                    countryCode: US
+      parameters:
+        - $ref: "#/components/parameters/headerParam"        
+components:
+  parameters: 
+    headerParam:
+      name: X-Customer-Context
+      in: header
+      required: false
+      schema:
+        type: string
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page.
+        1. Select \"Try It\"
+        2. In the Security section enter your Client ID and Secret.
+        3. Select \"Request Token\"
+        4. Enter any additional information in the Body and Parameters sections.
+        5. Select \"Send\" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
+          scopes: {}
+  schemas:
+    OpenAccountRequest:
+      title: OpenAccountRequest
+      type: object
+      required: 
+        - endUserInformation
+        - accountCharacteristics
+        - accountVerification
+        - billingContactInformation
+        - billingAddress
+        - pickupContactInformation
+        - pickupAddress
+        - pickupInformation
+      properties:
+        endUserInformation:
+          $ref: "#/components/schemas/EndUserInformation"       
+        accountCharacteristics:
+          type: object
+          description: >-
+            Account details
+          required:
+            - customerClassification
+          properties:
+            customerClassification:
+              type: string
+              example: "01"
+              maxLength: 2
+              description: >-
+                Shipper account classification
+
+
+                Valid values:
+                `01`= Business;
+                `02`= Personal
+              enum: ["01", "02"]
+            customerName:
+              type: object
+              description: >-
+                Customer name details
+              properties:
+                firstName:
+                  type: string
+                  nullable: true
+                  maxLength: 30
+                  example: John
+                surname:
+                  type: string
+                  nullable: true
+                  maxLength: 50
+                  example: Smith
+            taxInformation:
+              title: taxInformation
+              type: object
+              properties:
+                taxId:
+                  type: string
+                  description: >-
+                    Tax ID or EID for the shipper account
+                  minLength: 1
+                  maxLength: 16
+                VAT:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      maxLength: 1
+                      description: >-
+                        Shipper VAT Tax ID type
+
+
+                        Valid values: 
+                        `1` = VatTaxID (default); 
+                        `2` = NIF
+                      enum: ["1", "2"]
+                    vatTaxId:
+                      type: string
+                      maxLength: 15
+                      description: >-
+                       Shipper VAT Tax ID. Optional and only applicable to European 
+                       customers
+            accountReason:
+              type: string
+              nullable: true
+              example: "01"
+              maxLength: 2
+              enum: ["01", "02", "06"]
+              description: |
+                Shipper's primary reason for opening an account
+                
+
+                Valid values:
+                `01` = Starting a new business;
+                `02` = Currently using another carrier;
+                `06` = Occasional shipping needs
+            currentCarrier:
+              type: string
+              enum: ["31", "32", "33", "34"]
+              maxLength: 2
+              example: "31"
+              description: >-
+                Shipper’s existing carrier. Required only if value of `accountReason` 
+                is "Currently using another carrier"
+                
+
+                Valid values:                
+                `31` = DHL;
+                `32` = FedEx;
+                `33` = US Postal Service;
+                `34` = Other              
+            email:
+              type: string
+              maxLength: 50
+              example: shipping@ups.com
+              description: >-
+                Shipper email address
+            myUPSId:
+              type: object
+              description: >-
+                User's My UPS ID
+              properties:
+                id:
+                  type: string
+                  description: My UPS ID
+            threatMetrixId:
+              type: string
+              nullable: true
+              maxLength: 128
+              description: Threat Metrix profiling ID
+              example: 5b119b95-6185-4917-92ac-f9a27f428a09
+        businessInformation:
+          title: businessInformation
+          description: >-
+            Business information
+          type: object
+          required: [shipmentInformation]
+          properties:
+            industry:
+              type: string
+              nullable: true
+              enum: ["2000", "3000", "4000", "5000", "6000", "7000", "8000", "9000", "9900"]
+              example: "8000"
+              maxLength: 4
+              description: >-
+                Shipper’s industry
+                `2000` = Automotive;
+                `3000` = High Tech;
+                `4000` = Industrial Manufacturing & Distribution;
+                `5000` = Retail and Consumer Goods;
+                `6000` = Professional Services;
+                `7000` = Consumer Services;
+                `8000` = Healthcare;
+                `9000` = Government;
+                `9900` = Other
+            numberOfEmployee:
+              type: string
+              nullable: true
+              enum: ["01", "02", "03", "04", "05", "06", "07"]
+              example: "06"
+              maxLength: 2
+              description: >-
+                Shipper employee range                
+                `01` = 1;
+                `02` = 2-5;
+                `03` = 6-10;
+                `04` = 11-19;
+                `05` = 20-49;
+                `06` = 50-99;
+                `07` = 100+
+            shipmentInformation:
+              title: shipmentInformation
+              description: >-
+                Shipment details
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: ["01", "02", "03"]
+                  example: "01"
+                  minLength: 2
+                  maxLength: 2
+                  description: >-
+                    Type of shipment transportation. 
+                    `01` - Ground;
+                    `02` - Air;
+                    `03` - International
+                noOfPackage:
+                  type: string
+                  nullable: true
+                  description: >-
+                    Average number of packages shipped in a week
+                  maxLength: 2
+                packageWeight:
+                  type: object
+                  properties:
+                    unitOfMeasurement:
+                      type: string
+                      enum: [LB, KG]
+                      example: LB
+                      minLength: 2
+                      maxLength: 2
+                      description: >-
+                        Unit of measurement. 
+                        `LB` = Imperial;
+                        `KG` = Metric"
+            shipperRequirements:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    minLength: 1
+                    example: "01"
+                    maxLength: 2
+                    enum: ["01", "02", "03", "04", "05", "06", "07", "08"]
+                    description: >-
+                      Type of shipper requirements. 
+                      Valid values: 
+                      `01` = Prescription to Patients;
+                      `02` = Online or Mail Order Pharmacy;
+                      `03` = Hazardous Materials;
+                      `04` = Lithium Batteries;
+                      `05` = Firearms;
+                      `06` = Ammunition;
+                      `07` = Alcoholic Beverages;
+                      `08` = Tobacco;
+                    type: string
+                  answer:
+                    type: string
+                    enum: ["1", "0"]
+                    description: >-
+                      Whether shipper will directly ship prescription pharmaceuticals 
+                      to the customer.
+                      Required if `CustomerClassification` is `01` (Business) and 
+                      `BusinessInformation` (Industry Code) is `5000`, `6000`, `7000`, 
+                      `8000`, `9900` or if `CustomerClassification` = `02` (Personal). 
+                      Valid values: 
+                      `1` - Yes; 
+                      `0` - No (default)
+                  licenseInAllStates:
+                    enum: ["1", "0"]
+                    type: string
+                    description: >-
+                      Whether the shipper’s customer is licensed in every state 
+                      or territory the prescription pharmaceuticals are shipped.
+                      Required if `PrescriptionToPatients` is `1` (Yes).                       
+                      Valid values: 
+                      `1` - Yes; `0` - No
+            importBrokerage:
+              type: object
+              required:
+                - type
+              properties:
+                type:
+                  type: string
+                  minLength: 2
+                  maxLength: 2
+                  example: "02"
+                  description: |
+                    Shippers import brokerage
+                    Valid values:
+                    `01` = UPS;
+                    `02` = Existing Brokerage;
+                    `03` = Do not know
+                  enum: ["01", "02", "03"]
+                name:
+                  type: string
+                  nullable: true
+                  example: ABC Brokerage
+                  minLength: 1
+                  maxLength: 50
+                  description: >-
+                    Shipper’s existing import brokerage. 
+                    Required if `ImportBrokerage` is `02` (Existing Brokerage)                     
+        accountVerification:
+          type: object
+          description: Container for Enhanced Customer Information 
+          required: ["principalName", "documentation"]
+          properties:
+            principalName:
+              type: object
+              required: ["firstName", "surname"]
+              properties:
+                title:
+                  type: string
+                  description: Title for principal name
+                  example: Doctor
+                firstName:
+                  type: string
+                  description: First name of principal
+                  minLength: 1
+                  maxLength: 25
+                  example: John
+                middleInitial:
+                  type: string
+                  minLength: 1
+                  maxLength: 2
+                  description: Middle initial of principal
+                  example: A.
+                surname:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                  description: Last name of principal
+                  example: Smith
+                suffix:
+                  type: string
+                  description: Suffix of principal
+                  minLength: 1
+                  maxLength: 3
+                  example: Jr
+            accountInitiator:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  description: First name of account initiator
+                  minLength: 1
+                  maxLength: 25
+                  example: John
+                middleInitial:
+                  type: string
+                  minLength: 1
+                  maxLength: 2
+                  description: Middle initial of account initiator
+                  example: A.
+                surname:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                  description: Last name of account initiator
+                  example: Smith
+                suffixTitle:
+                  type: string
+                  description: Suffix of account initiator
+                  minLength: 1
+                  maxLength: 3
+                  example: Jr
+            documentation:
+              type: object
+              required: [documentType, documentOwnerAddress]
+              properties:
+                documentType:
+                  type: string              
+                  example: "01"                  
+                  maxLength: 2
+                  description: >-
+                    Identification code for account verification document.
+
+                    Business License is required for countries CN, IN, KR, MO, TH, 
+                    TW, VN
+
+                    Identification Card is required for country AU PAN Card
+                    
+                    Importer-Exporter Code Registration is required for country 
+                    IN
+
+                    Registration Statement, Customer Financial Statement is required 
+                    for country TH
+
+                    Valid values:
+                    `01` = Business License;
+                    `02` = Identification Card;
+                    `03` = Importer-Exporter Code Registration Certificate;
+                    `04` = PAN Card;
+                    `05` = Customer Financial Statement;
+                    `06` = Registration Statement"                    
+                  enum: ["01", "02", "03", "04", "05", "06"]
+                documentDetails:
+                  type: object
+                  required: [paymentCardType, paymentCardNumber, expirationDate]
+                  properties:
+                    paymentCardType:
+                      type: string
+                      nullable: true
+                      example: "06"
+                      minLength: 2
+                      maxLength: 2
+                      description: >-
+                        Type of payment card. <a href="https://developer.ups.com/api/reference/onboarding/appendix" target="_blank">List of cards</a>
+                      enum:
+                        - "01"
+                        - "03"
+                        - "04"
+                        - "05"
+                        - "06"
+                        - "07"
+                        - "08"
+                        - "10"
+                        - "11"
+                        - "13"
+                        - "14"
+                        - "15"
+                        - "16"
+                        - "17"
+                        - "18"
+                        - "19"
+                        - "20"
+                        - "21"
+                    paymentCardNumber:
+                      type: string                      
+                      maxLength: 100
+                      description: Payment card number
+                    expirationDate:
+                      type: string
+                      description: Expiration date for payment card
+                      example: "202405"
+                      format: YYYYMM
+                      maxLength: 6
+                    securityCode:
+                      type: string
+                      example: "098"
+                      maxLength: 24
+                      description: >-
+                        Authorization code on account verification document. Required if `documentType` is `01`
+                documentOwnerName:
+                  type: object
+                  required: [firstName, surname]
+                  properties:
+                    firstName:
+                      type: string
+                      description: First name for document owner
+                      minLength: 1
+                      maxLength: 25
+                      example: John
+                    middleInitial:
+                      type: string
+                      nullable: true
+                      description: Middle initial for document owner
+                      minLength: 1
+                      maxLength: 2
+                      example: A.
+                    surname:
+                      type: string
+                      description: Last name for document owner
+                      minLength: 1
+                      maxLength: 50
+                      example: Smith
+                    suffixTitle:
+                      type: string
+                      nullable: true
+                      description: Suffix for document owner
+                      minLength: 1
+                      maxLength: 3
+                      example: Jr                  
+                documentOwnerAddress:               
+                  $ref: "#/components/schemas/Address"
+                additionalInformation:
+                  type: string
+                  nullable: true
+                  maxLength: 50
+            paymentType:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Type of payment
+                  enum: [CREDIT CARD, BANK ACCOUNT]
+            commodities:
+              type: object
+              properties:
+                commodity:
+                  type: string
+                  enum: ["03", "04", "05", "06", "07", "08", "10", "11", "12", "13", "15", "16", "18", "99"]
+                  example: "06"
+                  description: Commodity Codes <a href="https://developer.ups.com/api/reference/onboarding/appendix" target="_blank">List of commodities</a>
+        billingContactInformation:
+          type: object
+          description: Billing contact details
+          required: [contactName, phone]
+          properties:
+            contactName:
+              title: contactName
+              type: object
+              properties:
+                title:
+                  type: string
+                  nullable: true
+                  description: Title for contact name
+                  example: Doctor
+                firstName:
+                  type: string
+                  description: First name for contact
+                  maxLength: 25
+                  example: John
+                middleInitial:
+                  type: string
+                  nullable: true
+                  description: Middle initial for contact
+                  maxLength: 2
+                  example: A.
+                surname:
+                  type: string
+                  description: Last name for contact
+                  maxLength: 50
+                  example: Smith
+                suffix:
+                  type: string
+                  nullable: true
+                  description: Suffix for contact
+                  maxLength: 3
+                  example: Jr
+            attentionName:
+              type: string
+              nullable: true
+              maxLength: 20
+              description: Shipper’s billing attention name
+            businessName:
+              type: string
+              nullable: true
+              maxLength: 30
+              description: Shipper’s company name
+            email:
+              type: string
+              nullable: true
+              title: email
+              format: email
+              example: from@to.com
+              description: Shipper’s billing email address
+            phone:
+              title: phone
+              type: object
+              required: [phoneNumber]
+              properties:
+                phoneNumber:
+                  type: string
+                  maxLength: 14
+                  maxProperties: 1
+                  pattern: ^[0-9-]*$
+                  example: "1-678-334-0022"
+                  description: Billing contact phone number
+                extension:
+                  type: string
+                  maxProperties: 1
+                  maxLength: 5
+                  pattern: ^[0-9]*$
+                  example: "0478"
+                  description: Phone extension
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        billingInformation:
+          type: object
+          description: Billing details
+          required: [enrollmentOption, transactionPreference, emailReceipt, email]
+          properties:
+            enrollmentOption:
+              type: string
+              description: >-
+                Enrollment Option for Bill My Account. Identifies the shipper’s 
+                requirement to enroll/block in Bill My Account
+                Valid values:
+                `01` = Enroll in Bill My Account;
+                `02` = Block from Bill My Account
+              enum: ["01", "02"]
+              maxLength: 2
+              example: "01"
+            transactionPreference:
+              type: string
+              example: "02"
+              maxLength: 2
+              description: >-
+                Transaction preference allows customer to bill their shipping transactions 
+                to their UPS account. Customers can use the Bill My Account feature 
+                at participating UPS Customer Counters  
+                Valid values: 
+                '02' = Shipping Only
+              enum: ["02"]
+            emailReceipt:
+              type: object
+              properties:
+                notificationPreference:
+                  type: string
+                  enum: ["01", "02"]
+                  description: >-
+                    User's preference whether to receive notification via email 
+                    after every Bill My Account Transaction      
+                    Valid values: 
+                    '01' - Do Not Notify;
+                    '02' - Notify
+                  example: "01"
+            email:
+              type: string
+              example: shipping@ups.com
+              maxLength: 50
+              description: >-
+                Shipper’s Bill My Account email              
+        pickupContactInformation:
+          type: object
+          description: >-
+            Pickup contact details
+          required: [contactName, email, phone]
+          properties:
+            contactName:
+              type: object
+              description: >-
+                Shipper's pick address contact name (full name)
+              required: [firstName, surname]
+              properties:
+                firstName:
+                  type: string
+                  minLength: 1
+                  maxLength: 25
+                  example: John
+                  description: First name
+                middleInitial:
+                  type: string
+                  minLength: 1
+                  maxLength: 2
+                  example: A.
+                  description: Middle initial
+                surname:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                  example: Smith
+                  description: Surname
+                suffix:
+                  type: string
+                  minLength: 1
+                  maxLength: 3
+                  example: Jr
+                  description: Suffix
+            attentionName:
+              type: string
+              nullable: true
+              maxLength: 20
+              description: Shipper's pickup attention name
+            businessName:
+              type: string
+              nullable: true
+              maxLength: 30
+              description: Shipper's company name
+            email:
+              type: string
+              format: email
+              example: from@to.com
+              description: Shipper's pickup email address
+            phone:
+              type: object
+              required: [phoneNumber]
+              properties:
+                phoneNumber:
+                  type: string
+                  maxLength: 14
+                  maxProperties: 1
+                  pattern: ^[0-9-]*$
+                  example: "1-678-334-0022"
+                  description: Pickup contact phone number
+                extension:
+                  type: string
+                  nullable: true
+                  maxProperties: 1
+                  maxLength: 5
+                  pattern: ^[0-9]*$
+                  example: "0478"
+        pickupAddress:
+          $ref: "#/components/schemas/Address"
+        pickupInformation:
+          description: Pickup Information
+          type: object
+          required: [type]
+          properties:
+            type:
+              type: string
+              enum: ["01", "02", "07", "08", "99"]
+              maxLength: 2
+              description: |
+                Type of pickup
+                Valid values:
+                `01` = Regular daily pickup;
+                `02` = SMART pickup;
+                `07` = Daily-On route;
+                `08` = No scheduled pickup;
+                `99` = Day specific pickup
+
+                Valid values for CA, PR, EU, APAC countries (AU, CN, IN, KR, MO, 
+                TH, TW, VN):
+                `01` = Daily Pickup;
+                `08` = No scheduled Pickup 
+            location:
+              type: string
+              nullable: true
+              description: >-
+                Shipper's pick up location. Required for any of these daily pickup options: `01`, `02`, `07`, `99` 
+              enum:
+                - Front Door
+                - Back Door
+                - Side Door
+                - Shipping
+                - Receiving
+                - Reception
+                - Office
+                - Mail Room
+                - Garage
+                - Upstairs
+                - Downstairs
+                - Third Party
+                - Guard Room
+                - Warehouse
+              minLength: 6
+              maxLength: 11
+              example: Front Door
+            earliestPickupTime:
+              type: string
+              nullable: true
+              example: "230000"
+              maxLength: 6
+              format: hhmmss
+              description: >-
+               Shipper's earliest pick up time.
+                Required for any of the Daily Pickup Options `01`, `02`, `07`, `99`
+                Valid Values:
+                `hh` =  1-23;
+                `mm` =  00, 15, 30, 45;
+                `ss` = 00
+            preferredPickupTime:
+              type: string
+              nullable: true
+              example: "230000"
+              maxLength: 6
+              format: hhmmss
+              description: |
+                Shipper's preferred pick up time.
+                Required for any of the Daily Pickup Options `01`, `02`, `07`, `99`                                
+                Valid values:
+                `hh` = 1-23;
+                `mm` = 00, 15, 30, 45;
+                `ss` = 00
+            latestPickupTime:
+              type: string
+              nullable: true
+              example: "230000"
+              maxLength: 6
+              format: hhmmss
+              description: >-
+                Shipper's latest pick up time.
+                Required for any of the Daily Pickup Options `01`, `02`, `07`, `99`
+                Valid values:
+                `hh` = 1-23;
+                `mm` = 00, 15, 30, 45;
+                `ss` = 00
+            pickupStartDate:
+              type: string
+              nullable: true
+              maxLength: 8
+              example: "20220912"
+              format: YYYYMMDD
+              description: >-
+                First date to start pickups.
+                Required for any of the Daily Pickup Options `01`, `02`, `07`, or `99`.
+                Pickup Start Date should match one of the Pickup schedule days.
+                If Pickup option is `08` (No Scheduled Pickup), `PickupStartDate` should be `null` or empty.
+                For Pickup options `01`, `07`, `99`, `02` the Pickup Start Date >= third day (equal or greater than third business day from current day)
+            pickupDays:
+              type: array
+              nullable: true
+              description: >-
+                Pickup day of the week. Required for day specific pickup schedules.
+              example: [Monday, Tuesday]
+              items:
+                type: string
+                enum: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+        weekendPickupInformation:
+          type: object
+          required: [type]
+          description: >-
+            Weekend pickup details
+          properties:
+            type:
+              type: string
+              enum: ["06"]
+              maxLength: 2
+              description: >-
+                Shipper’ weekend pickup day. Weekend pickup day option
+                `06` - Saturday
+            location:
+              type: string
+              nullable: true
+              description: >-
+                Package pickup location.
+                Required for any of the Daily Pickup Options `01`, `02`, `07`, `99`
+              enum:
+                - Front Door
+                - Back Door
+                - Side Door
+                - Shipping
+                - Receiving
+                - Reception
+                - Office
+                - Mail Room
+                - Garage
+                - Upstairs
+                - Downstairs
+                - Third Party
+                - Guard Room
+                - Warehouse
+              minLength: 6
+              maxLength: 11
+              example: Front Door
+            earliestPickupTime:
+              type: string
+              nullable: true
+              example: "230000"
+              maxLength: 6
+              description: >-
+                Earliest pickup time on the weekend.
+                Required for any of the Daily Pickup Options `01`, `02`, `07`, `99`
+                Valid values: 
+                `hh` = 1-23
+                `mm` = 00, 15, 30, 45
+                `ss` = 00
+              format: hhmmss
+            preferredPickupTime:
+              type: string
+              nullable: true
+              example: "230000"
+              maxLength: 6
+              description: >-
+                Preferred pickup time on the weekend
+                Valid values: 
+                `hh`: 1-23
+                `mm`: 00, 15, 30, 45
+                `ss`: 00
+              format: hhmmss
+            latestPickupTime:
+              type: string
+              nullable: true
+              example: "230000"
+              maxLength: 6
+              format: hhmmss
+              description: >-
+                Latest pickup time on the weekend
+                Valid values: 
+                `hh` = 1-23;
+                `mm` = 00, 15, 30, 45;
+                `ss` = 00
+            deliveryOptions:
+              type: string
+              description: >-
+                Weekend delivery options. Applicable if `WeekendDay` is `06` (Saturday) 
+                Valid values: 
+                `01` = Saturday Eligible Commercial
+
+                Valid only for CA, US, PR countries and if `PickupOption` is NOT `02` = SMART Pickup
+              maxLength: 2
+              example: "01"
+              enum: ["01"]
+        locale:
+          type: object
+          description: Shipper locale details
+          required: [languageCode, countryCode]
+          properties:
+            languageCode:
+              type: string
+              description: Language code for the country
+              example: EN
+              maxLength: 2
+            countryCode:
+              description: >-
+                Country code. 
+                <a href="https://developer.ups.com/api/reference/onboarding/appendix" target="_blank">List of Country Codes</a>
+              type: string
+              maxLength: 2
+              example: US
+        personalAddress:
+          $ref: "#/components/schemas/Address"
+        personalContactInformation:
+          type: object
+          description: >-
+            Personal contact information
+          required: [phone, email]
+          properties:
+            email:
+              type: string
+              description: Personal email address
+              format: email
+              example: johndoe@gamil.com
+            phone:
+              type: object
+              description: Personal phone number
+              properties:
+                phoneNumber:
+                  type: string
+                  maxLength: 14
+                  maxProperties: 1
+                  pattern: ^[0-9-]*$
+                  example: "1-678-334-0022"
+                  description: Personal contact phone number
+                extension:
+                  type: string
+                  maxProperties: 1
+                  maxLength: 5
+                  pattern: ^[0-9]*$
+                  example: "0478"
+        businessAddress:
+          $ref: "#/components/schemas/Address"
+        businessContactInformation:
+          type: object
+          description: >-
+            Business contact information
+          required: [businessName, phone]
+          properties:
+            businessName:
+              type: string
+              maxLength: 30
+              description: Shipper's company name
+            email:
+              type: string
+              maxLength: 50
+              format: email
+              description: Shipper's pickup email
+            phone:
+              type: object
+              description: Shipper's pickup address phone number
+              required: [phoneNumber]
+              properties:
+                phoneNumber:
+                  type: string
+                  maxLength: 15
+                  pattern: ^[0-9-]*$
+                  example: "1-678-334-0022"
+                  description: Business contact phone number
+                extension:
+                  type: string
+                  nullable: true
+                  maxLength: 5
+                  pattern: ^[0-9]*$
+                  example: "0478"
+        documentUpload:
+          type: object
+          description: >-
+            Document upload details
+          properties:
+            documentContent:
+              type: string
+              nullable: true
+              format: Base64
+              description: >-
+                `DocumentContent` is the Base64 encoded String. The maximum size of 
+                the document is 2 Mb. Required when opening an account for APAC 
+                countries 
+            documentType:
+              type: string
+              nullable: true
+              maxLength: 2
+              enum: ["01", "02", "03", "04", "05", "06"]
+              description: >-
+                Type of document to be uploaded
+                
+                Valid document types:
+                `01` = Business License;
+                `02` = Identification Card;
+                `03` = Importer-Exporter Code Registration Certificate;
+                `04` = PAN Card;
+                `05` = Customer Financial Statement;
+                `06` = Registration Statement
+
+                Business license is required for countries CN, IN, KR, MO, TH, 
+                TW, VN;
+
+                Identification card is required for country AU;
+
+                PAN Card, Importer-Exporter code registration is required for country 
+                IN; 
+
+                Registration statement, customer financial statement is required 
+                for country TH
+            fileType:
+              type: string
+              nullable: true
+              description: Type of file to be uploaded
+              enum: [PDF, GIF, JPG, JPEG, TIF, TIFF]
+              maxLength: 4
+        taxInformation:
+          type: object
+          description: >-
+            Tax information
+          properties:
+            companyName:
+              type: string
+              nullable: true
+              minLength: 1
+              maxLength: 512
+              description: >-
+                Name of the Company. Required for countries CN, JP, KR, TW
+            contactName:
+              type: object
+              description: >-
+                Name of the Contact. Required for countries CN, JP, KR, TW
+              required: [firstName, surName]
+              properties:
+                firstName:
+                  type: string
+                  minLength: 1
+                  maxLength: 25
+                  example: John
+                middleInitial:
+                  type: string
+                  nullable: true
+                  maxLength: 2
+                  example: A.
+                surname:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                  example: Smith
+                suffix:
+                  type: string
+                  nullable: true
+                  maxLength: 3
+                  example: Jr
+            address:
+              $ref: "#/components/schemas/Address"
+            certifiedVATIndicator:
+              type: boolean                                
+              nullable: true
+              enum: [true, false]
+              description: >-
+                Whether the company is a certified VAT company
+                'true' = Certified VAT Company;
+                'false' = Not a certified VAT Company (default)
+            taxPayerId:
+              type: string
+              nullable: true
+              description: >-
+                Taxpayer ID. Required when `CertifiedVATIndicator` is `false` and 
+                for country CN
+              maxLength: 512
+            bankName:
+              type: string
+              nullable: true
+              maxLength: 512
+              description: >-
+                Name of the bank. Required when `CertifiedVATIndicator` is `false` 
+                and for country CN
+            bankAccountnumber:
+              type: string
+              nullable: true
+              maxLength: 512
+              description: >-
+                Bank account number. Required when `CertifiedVATIndicator` is `false` 
+                and for country CN
+    OpenRequestResponse:
+      type: object
+      description: >-
+        Open request response details
+      required: [commonResponse, shipperNumber]
+      properties:       
+        commonResponse:
+          $ref: "#/components/schemas/CommonResponse"
+        warnings:
+          $ref: "#/components/schemas/Warning"
+        shipperNumber:
+          type: string
+          nullable: true
+          maxLength: 30
+          description: >-
+            Number for new shipper UPS account, returned only after a successful request
+          example: 1002FF
+        notificationDetails:
+          type: object
+          description: >-
+            Notification details
+          properties:
+            notifyTime:
+              type: string
+              nullable: true
+              maxLength: 8
+              example: "230000"
+              description: >-
+                Notification time returned if SMART pickup location is valid
+                Valid values:
+                `hh` = 1 to 23;
+                `mm` = 00, 15, 30, 45;
+                `ss` = 00
+              format: hhmmss              
+            weekendNotifyTime:
+              type: string
+              nullable: true
+              maxLength: 6
+              description: >-
+                Weekend notification time is returned if the Saturday SMART Pickup 
+                location is valid
+                Valid values: 
+                `hh` = 1 to 23;
+                `mm` = 00, 15, 30, 45; 
+                `ss` = 00 
+              format : hhmmss
+              example: "230000"               
+        addressCandidate:
+          $ref: "#/components/schemas/Address"
+        activationDetails:
+          type: object
+          description: >-
+            Container to hold information and responses needed when possible fraud 
+            is detected in an EU open account request
+          required: [clientData, encryptedKey]
+          properties:
+            clientData:
+              type: string
+              maxLength: 1024
+              description: >-
+                Client data to be resent in a new request for PIN verification
+            encryptedKey:
+              type: string
+              maxLength: 250
+              description: >-
+                Encrypted key (checksum) in a new request verification   
+    AccountInfo:
+      title: accountInfo
+      type: object
+      description: >-
+        Account details
+      required: [accountNumber, countryCode]
+      properties:
+        accountName:
+          type: string
+          nullable: true
+          description: Name you assigned to this account. If not provided, it defaults to "Register"
+        accountNumber:
+          type: string
+          description: |
+            Account number must be an existing UPS account number. The API validates 
+            the account type during the registration process.                         
+            The validation process currently accepts the following account types 
+            for the US, PR and CA:
+            Valid values: 
+            '01' = pick up;
+            '04' = occasional;
+            '07' = bin customer;
+            '13' = credit card
+
+            For other international countries, it accepts the following:
+            '01' = pick up;
+            '02' = occasional
+        postalCode:
+          type: string
+          nullable: true
+          minLength: 5
+          maxLength: 10
+          description: >-
+            Postal code associated with account. Required for all postal countries. 
+            Not required for non-postal countries including Hong Kong and Ireland 
+            (HK and IE)
+          example: 30022-1323
+        countryCode:
+          type: string
+          example: US
+          description: >-
+            ISO Country Code associated with the user account. 
+            <a href="https://developer.ups.com/api/reference/onboarding/appendix" target="_blank"
+            >List of Country Codes</a>
+        accountInvoice:
+          title: shipperAccountInvoice
+          type: object
+          description: >-
+            Container that holds invoice related data. Required for any EBS country's 
+            or territory's shipper account for which invoices have been issued. 
+            An account that has valid info populated has access to advanced shipping 
+            services, for example, getting account-based shipping service (ABR). 
+            Provide either `PINDetails` or `InvoiceInfo`; not both
+          required: [invoiceNumber, invoiceDate, currencyCode, invoiceAmount]
+          properties:
+            invoiceNumber:
+              type: string
+              maxLength: 15
+              description: Invoice number of a regular account listed above.
+            invoiceDate:
+              type: string
+              maxLength: 8
+              format: yyyyMMdd 
+              description: >-
+                Invoice date. Use an invoice generated within the last year
+                Valid values: 
+                `yyyy` = past or current year;
+                `MM` = 01 - 12;
+                `dd` = 01 - 31
+            currencyCode:
+              type: string
+              maxLength: 3
+              description: >-
+                Currency code displayed on the Invoice. 
+                <a href="https://developer.ups.com/api/reference/onboarding/appendix" target="_blank"
+                >List of Country Codes</a>
+              example: USD
+            invoiceAmount:
+              type: string
+              minLength: 1
+              maxLength: 19
+              description: >-
+                Invoice amount. Maximum of 16 digits before decimal and 2 digits after 
+                decimal. No default values. Amount may be positive or negative.
+              example: 19.55 or -2009.23
+            controlId:
+              type: string
+              description: >-
+                Control ID, include if issued on the invoice
+              maxLength: 4
+              example: 64P0
+        accountPIN:
+          title: shipperAccountPIN
+          type: object
+          description: >-
+            Container that holds the PIN details. Provide PIN Number and email address
+            of the account number to be associated with the User ID. Provide either 
+            `PINDetails` or `InvoiceInfo` 
+          required: [accountOwnerEmail, PIN]
+          properties:
+            accountOwnerEmail:
+              title: emailInformation
+              type: object
+              description: >-
+                Email details
+              properties:
+                emailAddress:
+                  type: string
+                  format: email
+                  example: shipping@ups.com
+                  maxLength: 50
+            PIN:
+              type: string
+              maxLength: 8
+              description: PIN to be validated against the PIN stored for the Account Number.
+              example: "32421112"
+    Address:
+      title: address
+      type: object
+      description: >-
+        Address details
+      required: [streetAddress, city, stateOrProvinceCode, countryCode]
+      properties:
+        streetAddress:
+          type: object
+          description: Street address details
+          required: 
+            - addressLine1
+          properties:
+            addressLine1:
+              type: string
+              minLength: 1
+              maxLength: 30
+              example: 123 South Main St
+              description: >-
+                First line of address. Includes street address, PO Boxes, and military 
+                addresses
+            addressLine2:
+              type: string
+              nullable: true
+              description: >-
+                Second line of address. Includes suite, room, floor, and apartment 
+                numbers
+              minLength: 1
+              maxLength: 30
+              example: Suite 500
+        city:
+          type: string
+          maxLength: 25
+          description: Name of city
+        stateOrProvinceCode:
+          type: string
+          minLength: 2
+          maxLength: 5
+          description: >-
+            The standard two-character state code for the United States and Canada. 
+            Use the official code for other countries if applicable.
+            <a href="https://developer.ups.com/api/reference/onboarding/appendix" target="_blank"
+            >List of states</a>      
+        postalCode:
+          type: string
+          nullable: true
+          minLength: 5
+          maxLength: 10
+          description: >-
+            Postal Code of the address. Required for all postal countries. Not required 
+            for non-postal countries including Hong Kong and Ireland (HK and IE)
+          example: 30022-1323
+        countryCode:
+          type: string
+          example: US
+          description: >-
+            ISO Country Code associated with the user's address. 
+            <a href="https://developer.ups.com/api/reference/onboarding/appendix" target="_blank"
+            >List of Country Codes</a>
+    CommonResponse:
+      title: commonResponse
+      type: object
+      description: >-
+        Common response details
+      required: ["status", "code", "description"]
+      properties:
+        status:
+          type: string
+          description: Response status
+          example: "success"
+        code:
+          type: string
+          description: Response code
+          example: "200"
+        description:
+          type: string
+          description: Description for the Status
+          example: "Success"        
+    Contact:
+      title: contact
+      type: object
+      description: Contact details
+      required: [businessName, contactName, phone, notificationPreference, email]
+      properties:
+        businessName:
+          type: string
+          description: Name of business
+        contactName:
+          $ref: "#/components/schemas/ContactName"       
+        phone:
+          type: object
+          description: Phone number details
+          required: [phoneNumber]
+          properties:
+            phoneNumber:
+              type: string
+              maxLength: 14
+              description: Phone number
+              pattern: ^[0-9-]*$
+              example: "1-678-334-0022"
+            extension:
+              type: string
+              nullable: true
+              maxLength: 5
+              pattern: ^[0-9]*$
+              example: "3456"  
+        notificationPreference:
+          type: string
+          enum: ["00", "01"]
+          description: |
+            Whether the user requests a notification when login credentials (username and 
+            password) will soon expire
+            Valid values:
+            `00` = Do Not Notify;
+            `01` = Notify
+          example: "00"
+        email:
+            type: string
+            description: Contact's email address
+            format: email
+            example: john@abcshipping.com
+    ContactName:
+      title: contactName
+      type: object
+      description: Contact name details
+      required: 
+        - firstName
+        - surname
+      properties:
+        title:
+          type: string
+          nullable: true
+          description: Title for contact
+          example: Doctor
+        firstName:
+          type: string
+          description: First name for contact
+          minLength: 1
+          maxLength: 25
+          example: John
+        middleInitial:
+          type: string
+          nullable: true
+          description: Middle initial for contact
+          minLength: 0
+          maxLength: 2
+          example: A.
+        surname:
+          type: string
+          description: Last Name for contact
+          minLength: 1
+          maxLength: 50
+          example: Smith
+        suffix:
+          type: string
+          nullable: true
+          description: Suffix for contact if any
+          minLength: 1
+          maxLength: 3
+          example: Jr        
+    EndUserInformation:
+      title: endUserInformation
+      type: object
+      description: End user details
+      required: ["deviceIdentity", "ipAddress"]
+      properties:
+        deviceIdentity:
+          type: string
+          description: >-
+            End user IOBB or blackbox information obtained via the iOvations 
+            Snare.js. To capture this information your application must integrate 
+            the ReputationManager 360 functionality. Required if Billing Country 
+            code is European
+          maxLength: 4000
+          example: iphone 13 pro
+        ipAddress:
+          type: string
+          maxLength: 15
+          description: IP address of shipper account
+          format: ipv4
+          example: 127.0.0.1
+        email:
+          type: string
+          format: email
+          example: from@abcshipping.com
+          description: >-
+            End user's email address
+        pecInformation:
+          type: string
+          nullable: true
+          maxLength: 35
+          description: >-
+            PEC (Posta Elettronica Certificata). The recipient code for the customers 
+            certified electronic mail value - Email address. Valid only for IT
+        sdiInformation:
+          type: string
+          nullable: true
+          maxLength: 15
+          description: >-
+            SDI ('Sistema Di Interscambio'). The recipient code for the customer's interchange value. Valid only for IT
+    ErrorSchema:
+      type: object
+      description: Error schema
+      properties:
+        errors:
+          type: array
+          description: >-
+           Error details
+          items:
+            $ref: "#/components/schemas/errors"
+    Warning:
+      type: object
+      description: Warning details
+      properties: 
+        warnings:
+          type: array
+          items:
+            $ref: "#/components/schemas/errors"
+    errors:
+      type: object
+      description: Error details
+      required: [code, message]
+      properties:
+        code:
+          description: >-
+            Application Error code. 
+            <a href="https://developer.ups.com/api/reference/onboarding/error-codes" target="_blank"
+            >List of Error codes</a>
+          type: string
+        message:
+          description: Error message
+          type: string

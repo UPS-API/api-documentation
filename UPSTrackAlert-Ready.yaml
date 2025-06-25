@@ -1,21 +1,30 @@
 openapi: 3.1.0
 info:
-  title: UPS Track Alert API with Photo
+  title: UPS Track Alert API
   description: |
 
     # Product Info
 
     The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
-    Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency. For more information on the UPS Track Alert API with Photo, please visit the <a href="https://developer.ups.com/api/reference/trackalertenhanced/product-info"
+    Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency. For more information on the UPS Track Alert API, please visit the <a href="https://developer.ups.com/api/reference/trackalertenhanced/product-info"
     target="_blank" rel="noopener">Product Info</a> page.
-    <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
+    <br/>
+    
+    Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
+    
+    <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
+    </a>
+    <br/>
+    
+    Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.
     
     <a href="https://god.gw.postman.com/run-collection/29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
-
+    
     # Business Values
 
     - **Enhanced Customer Experience**: Near real-time tracking information increases transparency, leading to higher customer satisfaction and trust.
@@ -30,25 +39,22 @@ info:
     # FAQs
   
     - **How does it work once I am setup as a user?**
-    > You submit up to 100 UPS tracking numbers to the API at a time, using OAUTH in a JSON format.  Your submission needs to include the URL where Track Alert will send a message with any events that occur to your 1Z package for the next 14 days.  This saves you the effort of polling UPS to determine what is the current status of your package.
+    > You submit up to 100 UPS 1Z package tracking numbers to the API at a time, using OAUTH in a JSON format.  Your submission needs to include the URL where Track Alert will send a message with any events that occur to your 1Z package for the next 14 days.  This saves you the effort of polling UPS to determine what is the current status of your package.
       
-    - **When can I expect a delivery photo?**
-    > Delivery photos are only available with residential deliveries, in package release areas, and with packages that were driver released. Additional event with the delivery photo will be sent, if and when the photo is made available.
-    
     - **What type of packages does Track Alert support?
-    > Track Alert supports UPS packages that have a 1Z tracking number, as well as Roadie packages (1R tracking numbers).
+    > Track Alert supports UPS packages that have a 1Z tracking number.
     
-    - **How do I check if a subscription to a tracking number was successful?**
-    >  Once tracking number(s) is submitted to Track Alert, you will receive a response confirming successful and unsuccessful tracking numbers.  
+    - **How do I check if a subscription to a 1Z was successful?**
+    >  Once 1Z package tracking number(s) is submitted to Track Alert, you will receive a response confirming successful and unsuccessful 1Z's.  
 
     - **I stopped receiving event messages after 2 weeks and my package hasn’t been delivered. Why?**
-    >  Each tracking number subscription is valid for 14 days. If the package has not been delivered within 14 days, you must resubscribe to the tracking number to continue receiving updates/events.
+    >  Each 1Z subscription is valid for 14 days. If the package has not been delivered within 14 days, you must resubscribe to the 1Z to continue receiving updates/events.
 
     - **How do I get events that occurred prior to subscription?**
     >  Track Alert does not retain any history.  You should use the UPS Track API to receive history about your package.  
 
-    - **How many tracking numbers can a subscriber subscribe to in one request?**
-    >  You can subscribe to up to 100 tracking numbers in each submission to the API.  A reply message will be sent via the API with details showing successful and unsuccessful tracking numbers.
+    - **How many 1Z tracking numbers can a subscriber subscribe to in one request?**
+    >  You can subscribe to up to 100 1Z in each submission to the API.  A reply message will be sent via the API with details showing successful and unsuccessful 1Z's submissions.
 
     - **What types of event data does Track Alert provide?**
     >  In addition to the expected local dates and times when the event occurred (including GMT date and time), you will receive details about the event that include status-type, status-code, status-description and status-description code.
@@ -65,7 +71,7 @@ info:
     - **What does the message look like?**
     >  This is what a message looks like for an event that is sent to your URL.  Not every field will have a value for every message.  We have converted the JSON format message to text format for clarity.  
         Those fields are: 
-        tracking number 
+        1Z package tracking number 
         scheduled delivery date (this field maybe updated, example '20240905')
         actual delivery date (this field is blank until the delivery event occurs)
         actual delivery time (this field is blank until the delivery event occurs)
@@ -84,14 +90,10 @@ info:
         delivery start time (example '150000')
         delivery end time (example '170000')
         delivery time description (example 'estimated delivery window' or 'end of day')
-        delivery photo 
-        received by 
+        delivery photo (this field is only available for enhanced users)
 
     - **Can I test this process?**
-    >  Yes, there are two test tracking numbers that you can submit, and resubmit that will send several events spaced 1 second apart.  Those two test tracking numbers are 1ZCIETST0111111114, 1ZCIETST0422222228, and 1ZCIEPIC0111111116.  Please ensure to use UPS Production CIE(https://wwwcie.ups.com/api/track/{version}). You can submit these tracking numbers as often as you like. (no stress testing please.) 
-
-    - **I subscribed to Track Alert with Photo. Why did I not receive the photo?**
-    > Only residential deliveries where the package was driver released are eligible for delivery photo. This means that if the package was delivered to a commercial building, the package was handed to a person, or if a signature was collected, no delivery photo will be available. In addition, Track Alert with Photo performs a 'party to the package' check to ensure the user is authorized to view the photo. The account number must be associated with the user's ClientID.
+    >  Yes, there are two test 1Z's that you can submit, and resubmit that will send several events spaced 1 second apart.  Those two test 1Z's are 1ZCIETST0111111114 and 1ZCIETST0422222228.  Please ensure to use UPS Production CIE(https://wwwcie.ups.com/api/track/{version}). You can submit these 1Z's as often as you like. (no stress testing please.) 
 
     # Overview
       When the UPS system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
@@ -104,9 +106,10 @@ info:
       1. **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
       2. **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
       
-      The following error codes can apply to all APIs.
+      The following error codes can apply to all APIs. 
       
     # Error Codes
+
     | **Code**  | **HTTP Code** | **Severity**  | **Description**                                                                                                                                                                                       |
     | :--:      | :---:         | :---:         | :--                                                                                                                                                                                                   |
     | UJ0001    | 401           | Hard          | Invalid token or token is not present                                                                                                                                                                    |
@@ -124,12 +127,11 @@ info:
     | VSS110    | 400           | Hard          | Subscription request is empty or not present. The Subscription request has been rejected.                                                                                                             |
     | VSS200    | 400           | Hard          | Tracking Number List is required. The Subscription request has been rejected.                                                                                                                         |
     | VSS210    | 400           | Hard          | The Subscription request should have at least one valid tracking number. The Subscription request has been rejected.                                                                                  |
-    | VSS215    | 400           | Hard          | The tracking number that was submitted is not a valid CIE tracking number and has been rejected.                                                                                                                |
-    | VSS220    | 400           | Hard          | You have submitted over 100 tracking numbers which is not allowed. The entire submission of tracking numbers has been rejected.  Please resubmit your request again using groups of no more than 100 tracking numbers. |
+    | VSS215    | 400           | Hard          | The 1Z tracking number that was submitted is not a valid CIE 1Z and has been rejected.                                                                                                                |
+    | VSS220    | 400           | Hard          | You have submitted over 100 1Z numbers which is not allowed. The entire submission of 1Z numbers has been rejected.  Please resubmit your request again using groups of no more than 100 1Z numbers.  |
     | VSS300    | 400           | Hard          | Locale is required. The Subscription request has been rejected.                                                                                                                                       |
     | VSS310    | 400           | Hard          | Please enter a valid locale. The Subscription request has been rejected                                                                                                                               |
-    | VSS400    | 400           | Hard          | Please enter a valid country code. The Subscription request has been rejected.                                                                                                                        |
-    | VSS414    | 400           | Hard          | Event preference is missing or invalid, The Subscription request has been rejected.                                                                                                                   |
+    | VSS400    | 400           | Hard          | Please enter a valid country code. The Subscription request has been rejected.                                                                                                               |
     | VSS500    | 400           | Hard          | Destination is required. The Subscription request has been rejected                                                                                                                                   |
     | VSS600    | 400           | Hard          | URL is empty or not present. The Subscription request has been rejected.                                                                                                                              |
     | VSS610    | 400           | Hard          | URL is too long. The Subscription request has been rejected.                                                                                                                                          |
@@ -154,7 +156,7 @@ servers:
         enum:
           - v1
 paths:
-  /subscription/enhanced/package:
+  /subscription/standard/package:
     post:
       description: |
          This endpoint takes a list of tracking numbers and creates a subscription for each.
@@ -164,7 +166,7 @@ paths:
          - List of valid tracking number for which subscription created.
          - List of invalid tracking number for which subscription not created.
       tags:
-        - UPS Track Alert with Photo
+        - UPS Track Alert
       summary: API to create subscriptions by tracking numbers.
       operationId: processSubscriptionTypeForTrackingNumber
       security:
@@ -190,7 +192,7 @@ paths:
             type: string
             default: v1
             enum:
-                - v1
+                -   v1
       requestBody:
         content:
           application/json:
@@ -280,12 +282,12 @@ paths:
                   - code: "10004"
                     message: Internal Server Error
 webhooks:
-  TrackingEventEnhanced:
+  TrackingEvent:
     post:
       summary: Tracking Event
       description: This HTTPS POST request will send information about a new tracking event in the system. Please ensure the webhook URL provided in the subscription request is ready to receive this POST request. Note that not every field will have a value in each message. The webhook event dispatched by our API requires an acknowledgement within milliseconds to ensure optimal performance and reliability. Please ensure your endpoint is capable of handling and responding to events in this time frame.
       tags:
-        - UPS Track Alert with Photo
+        - UPS Track Alert
       parameters:
         - name: credential
           in: header
@@ -305,185 +307,172 @@ webhooks:
             schema:
               $ref: '#/components/schemas/TrackingEventRequest'
             examples:
-              '1':
-                summary: Manifest (label created or billing information received) message
-                value:
-                  activityLocation:
-                    city: ''
-                    country: US
-                    postalCode: ''
-                    stateProvince: ''
-                  activityStatus:
-                    code: MP
-                    description: Shipment Ready for UPS
-                    descriptionCode: '003'
-                    type: M
-                  actualDeliveryDate: ''
-                  actualDeliveryTime: ''
-                  deliveryEndTime: ''
-                  deliveryPhoto: ''
-                  deliveryStartTime: ''
-                  deliveryTimeDescription: ''
-                  gmtActivityDate: '20240422'
-                  gmtActivityTime: '041230'
-                  localActivityDate: '20240422'
-                  localActivityTime: '091230'
-                  scheduledDeliveryDate: ''
-                  trackingNumber: " 1ZABCXYZ0112346789"
-                  receivedBy: ''
-              '2':
-                summary: UPS has your package message
-                value:
-                  activityLocation:
-                    city: Hickory
-                    country: US
-                    postalCode: ''
-                    stateProvince: NC
-                  activityStatus:
-                    code: OR
-                    description: On the Way
-                    descriptionCode: '005'
-                    type: I
-                  actualDeliveryDate: ''
-                  actualDeliveryTime: ''
-                  deliveryEndTime: ''
-                  deliveryPhoto: ''
-                  deliveryStartTime: ''
-                  deliveryTimeDescription: end of day
-                  gmtActivityDate: '20240423'
-                  gmtActivityTime: '012901'
-                  localActivityDate: '20240422'
-                  localActivityTime: '212901'
-                  scheduledDeliveryDate: '20240423'
-                  trackingNumber: 1ZABCXYZ0112346789
-                  receivedBy: ''
-              '3':
-                summary: On the way (arrival or departure from a UPS building) message
-                value:
-                  activityLocation:
-                    city: Hickory
-                    country: US
-                    postalCode: ''
-                    stateProvince: NC
-                  activityStatus:
-                    code: DP
-                    description: On the Way
-                    descriptionCode: '005'
-                    type: I
-                  actualDeliveryDate: ''
-                  actualDeliveryTime: ''
-                  deliveryEndTime: ''
-                  deliveryStartTime: ''
-                  deliveryTimeDescription: end of day
-                  gmtActivityDate: '20240423'
-                  gmtActivityTime: '025400'
-                  localActivityDate: '20240422'
-                  localActivityTime: '225400'
-                  scheduledDeliveryDate: '20240423'
-                  trackingNumber: 1ZABCXYZ0112346789
-                  receivedBy: ''
-                  deliveryPhoto: ''
-              '4':
-                summary: Preparing for delivery message
-                value:
-                  trackingNumber: 1ZABCXYZ0112346789
-                  localActivityDate: '20240423'
-                  localActivityTime: '003052'
-                  activityLocation:
-                    city: Charlotte
-                    stateProvince: NC
-                    postalCode: ''
-                    country: US
-                  activityStatus:
-                    type: I
-                    code: YP
-                    description: Preparing for Delivery
-                    descriptionCode: '071'
-                  scheduledDeliveryDate: '20240423'
-                  actualDeliveryDate: ''
-                  actualDeliveryTime: ''
-                  gmtActivityDate: '20240423'
-                  gmtActivityTime: '043052'
-                  deliveryStartTime: ''
-                  deliveryEndTime: ''
-                  deliveryTimeDescription: end of day
-                  receivedBy: ''
-                  deliveryPhoto: ''
-              '5':
-                summary: Preparing for delivery/loaded on vehicle message
-                value:
-                  trackingNumber: 1ZABCXYZ0112346789
-                  localActivityDate: '20240423'
-                  localActivityTime: '063936'
-                  activityLocation:
-                    city: Charlotte
-                    stateProvince: NC
-                    postalCode: ''
-                    country: US
-                  activityStatus:
-                    type: I
-                    code: YP
-                    description: Preparing for Delivery
-                    descriptionCode: '071'
-                  scheduledDeliveryDate: '20240423'
-                  actualDeliveryDate: ''
-                  actualDeliveryTime: ''
-                  gmtActivityDate: '20240423'
-                  gmtActivityTime: '103936'
-                  deliveryStartTime: ''
-                  deliveryEndTime: ''
-                  deliveryTimeDescription: end of day
-                  receivedBy: ''
-                  deliveryPhoto: ''
-              '6':
-                summary: Out for delivery message
-                value:
-                  trackingNumber: 1Z204W4R0308071865
-                  localActivityDate: '20240423'
-                  localActivityTime: '091519'
-                  activityLocation:
-                    city: Charlotte
-                    stateProvince: NC
-                    postalCode: ''
-                    country: US
-                  activityStatus:
-                    type: I
-                    code: OT
-                    description: Out for Delivery
-                    descriptionCode: '021'
-                  scheduledDeliveryDate: '20240423'
-                  actualDeliveryDate: ''
-                  actualDeliveryTime: ''
-                  gmtActivityDate: '20240423'
-                  gmtActivityTime: '131519'
-                  deliveryStartTime: ''
-                  deliveryEndTime: ''
-                  deliveryTimeDescription: end of day
-                  receivedBy: ''
-                  deliveryPhoto: ''
-              '7':
-                summary: Delivery message
-                value:
-                  trackingNumber: 1Z204W4R0308071865
-                  localActivityDate: '20240423'
-                  localActivityTime: '095004'
-                  activityLocation:
-                    city: CHARLOTTE
-                    stateProvince: NC
-                    postalCode: '28209'
-                    country: US
-                  activityStatus:
-                    type: D
-                    code: FS
-                    description: Delivered
-                    descriptionCode: '011'
-                  scheduledDeliveryDate: '20191014'
-                  gmtActivityDate: '20240423'
-                  gmtActivityTime: '135004'
-                  actualDeliveryDate: '20240423'
-                  actualDeliveryTime: '095004'
-                  receivedBy: 'John'
-                  deliveryPhoto: ''
+                '1':
+                  summary: Manifest (label created or billing information received) message
+                  value:
+                    activityLocation:
+                      city: ''
+                      country: US
+                      postalCode: ''
+                      stateProvince: ''
+                    activityStatus:
+                      code: MP
+                      description: Shipment Ready for UPS
+                      descriptionCode: '003'
+                      type: M
+                    actualDeliveryDate: ''
+                    actualDeliveryTime: ''
+                    deliveryEndTime: ''
+                    deliveryPhoto: ''
+                    deliveryStartTime: ''
+                    deliveryTimeDescription: ''
+                    gmtActivityDate: '20240422'
+                    gmtActivityTime: '041230'
+                    localActivityDate: '20240422'
+                    localActivityTime: '091230'
+                    scheduledDeliveryDate: ''
+                    trackingNumber: " 1ZABCXYZ0112346789"
+                '2':
+                  summary: UPS has your package message
+                  value:
+                    activityLocation:
+                      city: Hickory
+                      country: US
+                      postalCode: ''
+                      stateProvince: NC
+                    activityStatus:
+                      code: OR
+                      description: On the Way
+                      descriptionCode: '005'
+                      type: I
+                    actualDeliveryDate: ''
+                    actualDeliveryTime: ''
+                    deliveryEndTime: ''
+                    deliveryPhoto: ''
+                    deliveryStartTime: ''
+                    deliveryTimeDescription: end of day
+                    gmtActivityDate: '20240423'
+                    gmtActivityTime: '012901'
+                    localActivityDate: '20240422'
+                    localActivityTime: '212901'
+                    scheduledDeliveryDate: '20240423'
+                    trackingNumber: 1ZABCXYZ0112346789
+                '3':
+                  summary: On the way (arrival or departure from a UPS building) message
+                  value:
+                    activityLocation:
+                      city: Hickory
+                      country: US
+                      postalCode: ''
+                      stateProvince: NC
+                    activityStatus:
+                      code: DP
+                      description: On the Way
+                      descriptionCode: '005'
+                      type: I
+                    actualDeliveryDate: ''
+                    actualDeliveryTime: ''
+                    deliveryEndTime: ''
+                    deliveryStartTime: ''
+                    deliveryTimeDescription: end of day
+                    gmtActivityDate: '20240423'
+                    gmtActivityTime: '025400'
+                    localActivityDate: '20240422'
+                    localActivityTime: '225400'
+                    scheduledDeliveryDate: '20240423'
+                    trackingNumber: 1ZABCXYZ0112346789
+                '4':
+                  summary: Preparing for delivery message
+                  value:
+                    trackingNumber: 1ZABCXYZ0112346789
+                    localActivityDate: '20240423'
+                    localActivityTime: '003052'
+                    activityLocation:
+                      city: Charlotte
+                      stateProvince: NC
+                      postalCode: ''
+                      country: US
+                    activityStatus:
+                      type: I
+                      code: YP
+                      description: Preparing for Delivery
+                      descriptionCode: '071'
+                    scheduledDeliveryDate: '20240423'
+                    actualDeliveryDate: ''
+                    actualDeliveryTime: ''
+                    gmtActivityDate: '20240423'
+                    gmtActivityTime: '043052'
+                    deliveryStartTime: ''
+                    deliveryEndTime: ''
+                    deliveryTimeDescription: end of day
+                '5':
+                  summary: Preparing for delivery/loaded on vehicle message
+                  value:
+                    trackingNumber: 1ZABCXYZ0112346789
+                    localActivityDate: '20240423'
+                    localActivityTime: '063936'
+                    activityLocation:
+                      city: Charlotte
+                      stateProvince: NC
+                      postalCode: ''
+                      country: US
+                    activityStatus:
+                      type: I
+                      code: YP
+                      description: Preparing for Delivery
+                      descriptionCode: '071'
+                    scheduledDeliveryDate: '20240423'
+                    actualDeliveryDate: ''
+                    actualDeliveryTime: ''
+                    gmtActivityDate: '20240423'
+                    gmtActivityTime: '103936'
+                    deliveryStartTime: ''
+                    deliveryEndTime: ''
+                    deliveryTimeDescription: end of day
+                '6':
+                  summary: Out for delivery message
+                  value:
+                    trackingNumber: 1Z204W4R0308071865
+                    localActivityDate: '20240423'
+                    localActivityTime: '091519'
+                    activityLocation:
+                      city: Charlotte
+                      stateProvince: NC
+                      postalCode: ''
+                      country: US
+                    activityStatus:
+                      type: I
+                      code: OT
+                      description: Out for Delivery
+                      descriptionCode: '021'
+                    scheduledDeliveryDate: '20240423'
+                    actualDeliveryDate: ''
+                    actualDeliveryTime: ''
+                    gmtActivityDate: '20240423'
+                    gmtActivityTime: '131519'
+                    deliveryStartTime: ''
+                    deliveryEndTime: ''
+                    deliveryTimeDescription: end of day
+                '7':
+                  summary: Delivery message
+                  value:
+                    trackingNumber: 1Z204W4R0308071865
+                    localActivityDate: '20240423'
+                    localActivityTime: '095004'
+                    activityLocation:
+                      city: CHARLOTTE
+                      stateProvince: NC
+                      postalCode: '28209'
+                      country: US
+                    activityStatus:
+                      type: D
+                      code: FS
+                      description: Delivered
+                    scheduledDeliveryDate: '20191014'
+                    gmtActivityDate: '20240423'
+                    gmtActivityTime: '135004'
+                    actualDeliveryDate: '20240423'
+                    actualDeliveryTime: '095004'
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully
@@ -549,32 +538,10 @@ components:
           example:
             - 1ZCIETST0111111114
             - 1ZCIETST0422222228
-            - 1ZCIEPIC0111111116
           items:
             type: string
-            pattern: '^1Z[0-9A-Z]{16}$|^1R[0-9A-Z]{14}$|^1R[0-9A-Z]{26}$'
-            description: Represents tracking numbers starting with '1Z', followed by 16 alphanumeric characters in request, as well as tracking numbers starting with '1R', followed by 14 or 26 alphanumeric characters.
-        eventPreferences:
-          type: array
-          description: |
-            Represents scan/event preferences for the subscription endpoint. If no value is provided in this array
-            then all activity types will be sent.
-          minItems: 1
-          maxItems: 4
-          items:
-            type: string
-            description: package activity identifier
-            oneOf:
-              - const: D
-                title: Delivery
-                description: Includes updates and delivery photo
-              - const: I
-                title: In-Progress
-              - const: M
-                title: Manifest
-              - const: X
-                title: Exception
-                description: Includes updates
+            pattern: '^1Z[0-9A-Z]{16}$'
+            description: Represents tracking numbers starting with '1Z', followed by 16 alphanummeric characters in request.
         destination:
           $ref: '#/components/schemas/Destination'
     ErrorMessage:
@@ -689,13 +656,6 @@ components:
           maxLength: 6
           pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
           example: "235959"
-        gmtOffset:
-          type: string
-          description: "A field that shows how local time was calculated. In the format (-/+)HH.MM (24 hr)"
-          minLength: 6
-          maxLength: 6
-          pattern: ^[+-]([01]\d|2[0-3])\.[0-5]\d$
-          example: "-04.00"
         deliveryStartTime:
           type: string
           description: 'The start time of a delivery. Format: HHMMSS (24 hr).'
@@ -713,12 +673,6 @@ components:
         deliveryTimeDescription:
           type: string
           description: The date of this delivery detail.
-        deliveryPhoto:
-          type: string
-          description: Base64 encoded image of the delivery photo (This field is blank until the delivery photo is made available for enhanced subscriptions).
-        receivedBy:
-          type: string
-          description: Clarified signature provided with delivery, when available.
     ActivityLocation:
       type: object
       description: The container which has the current package activity location.
