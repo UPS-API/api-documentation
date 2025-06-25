@@ -70,9 +70,9 @@ paths:
           required: true
           schema:
             type: string
-          default: v1
-          enum:
-            - v1
+            default: v1
+            enum:
+                - v1
       requestBody:
         required: true
         content:
@@ -287,9 +287,9 @@ paths:
           required: true
           schema:
             type: string
-          default: v1
-          enum:
-            - v1
+            default: v1
+            enum:
+                - v1
       requestBody:
         required: true
         content:
@@ -473,9 +473,9 @@ paths:
           required: true
           schema:
             type: string
-          default: v1
-          enum:
-            - v1
+            default: v1
+            enum:
+                - v1
       requestBody:
         required: true
         content:
