@@ -15,12 +15,6 @@ tags:
   - name: UPS Track Alert with Photo
     description:
       $ref: "UPSTrackAlertEnhanced-Ready.yaml#/info/description"
-  - name: Delivery Defense
-    description:
-      $ref: "DeliveryDefense-Ready.yaml#/info/description"
-  - name: Delivery Intercept
-    description:
-      $ref: "DeliveryIntercept.yaml#/info/description"
   - name: Export Assure
     description:
       $ref: "UPSExportAssure.yaml#/info/description"
@@ -158,22 +152,6 @@ paths:
     "$ref": "Tracking-Ready.yaml#/paths/~1track~1v1~1reference~1details~1{referenceNumber}"
   "/track/{version}/subscription/enhanced/package":
     "$ref": "UPSTrackAlertEnhanced.yaml#/paths/~1subscription~1enhanced~1package"
-  "/deliveryintercept/{version}/charges/{tracking_number}":
-    "$ref": "DeliveryIntercept.yaml#/paths/~1charges~1{tracking_number}"
-  "/deliveryintercept/{version}/eligibility/intercept/{tracking_number}":
-    "$ref": "DeliveryIntercept.yaml#/paths/~1eligibility~1intercept~1{tracking_number}"
-  "/deliveryintercept/{version}/redirect/address/{tracking_number}":
-    "$ref": "DeliveryIntercept.yaml#/paths/~1redirect~1address~1{tracking_number}"
-  "/deliveryintercept/{version}/willcall/{tracking_number}":
-    "$ref": "DeliveryIntercept.yaml#/paths/~1willcall~1{tracking_number}"
-  "/deliveryintercept/{version}/return/{tracking_number}":
-    "$ref": "DeliveryIntercept.yaml#/paths/~1return~1{tracking_number}"
-  "/deliveryintercept/{version}/reschedule/{tracking_number}":
-    "$ref": "DeliveryIntercept.yaml#/paths/~1reschedule~1{tracking_number}"
-  "/deliveryintercept/{version}/cancel/{tracking_number}":
-    "$ref": "DeliveryIntercept.yaml#/paths/~1cancel~1{tracking_number}"
-  "/deliverydefense/external/v1.0/address/score":
-    "$ref": "DeliveryDefense-Ready.yaml#/paths/~1address~1score"
   "/brokerage/{version}/importexport/exportassure":
     "$ref": "UPSExportAssure.yaml#/paths/~1importexport~1exportassure"
   "/export-assure/{version}/interactive":
