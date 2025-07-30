@@ -1,0 +1,1455 @@
+openapi: 3.1.0
+info:
+  title: TradeDirect Shipments API v1
+  version: "1.0"
+  description: |-
+    The TradeDirect Shipments API facilitates the management of external trade shipments within the TradeDirect system, providing robust endpoints for creating, managing, and finalizing international and domestic shipments. This includes deleting master, small package, and LTL shipments, as well as closing out master shipments to ensure seamless trade operations.
+
+    # Key Benefits Value
+      - Streamlined External Trade Management: Simplify the process of creating and managing international and domestic shipments with a unified API.
+      - Secure Access: OAuth2 and JWT-based authentication ensure secure and reliable API usage for global trade operations.
+      - Flexible Shipment Handling: Provides the ability to delete small package and LTL shipments, ensuring efficient management of shipment records across borders.
+      - Comprehensive Shipment Closure: Enables closing out master shipments, ensuring proper finalization of shipment processes for external trade.
+    # Reference
+    - <a href="https://developer.ups.com/api/reference/tradedirect/errors" target="_blank" rel="noopener">Errors</a>
+    
+    
+servers:
+  - url: "https://onlinetools.ups.com/api/ship/tradedirect/{version}"
+    variables:
+      version:
+        description: "Initial version for TradeDirect Shipment"
+        default: v1
+        enum:
+          - v1
+paths:
+  /master-shipments/{usi-number}:
+    delete:
+      tags:
+        -  TradeDirect
+      summary: Delete master shipment
+      description: "This API allows users to delete a master shipment identified by a unique shipment identifier (USI) and the shipper's account number. The master shipment and its associated child shipments will be permanently removed."
+      operationId: deleteMasterShipment
+      responses:
+        '204':
+          description: Master shipment deleted successfully
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+        '400':
+          description: Missing or Invalid parameter
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                requiredFieldsMissing:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "400001"
+                          "message": "Missing or Invalid parameter: {field name}"
+        '401':
+          description: Invalid Authentication Information
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "250002"
+                          "message": "Invalid Authentication Information."
+        '404':
+          description: Resource not found
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Resource not found:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "404"
+                          "message": "The requested resource was not found"
+        '500':
+          description: Internal Server Error
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  value:
+                    "response":
+                      errors:
+                        - code: "500000"
+                          message: "We're sorry, the system is unavailable. Please try again later."
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: usi-number
+          in: path
+          required: true
+          description: The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.
+          schema:
+            type: string
+            example: "578299028T"
+            pattern: "^(?:[0-9]{10}|[0-9]{9}T)$"
+        - name: shipper_account_number
+          in: query
+          required: true
+          description: The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.
+          schema:
+            type: string
+            description: The UPS account number of the shipper to be used to clouseout shipment.
+            example: "1234WW"
+            pattern: "^[A-Z0-9]{6}$"
+        - name: transId
+          in: header
+          required: true
+          schema:
+            type: string
+          example: XZ345445668
+          description: An identifier unique to the request.
+        - name: transactionSrc
+          in: header
+          required: true
+          schema:
+            type: string
+          example: XOLT
+          description: Identifies the client/source application that is calling.
+  /master-shipments/{usi-number}/child-shipments/{tracking-number}:
+    delete:
+      tags:
+        -  TradeDirect
+      summary: Delete small package shipment
+      description: "Deletes a small package child shipment identified by a unique shipment identifier (USI) representing the master shipment and the shipment's tracking number."
+      operationId: deleteChildShipment
+      responses:
+        '204':
+          description: child shipment deleted successfully
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+        '400':
+          description: Missing or Invalid parameter
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                requiredFieldsMissing:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "400001"
+                          "message": "Missing or Invalid parameter: {field name}"
+        '401':
+          description: Invalid Authentication Information
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "250002"
+                          "message": "Invalid Authentication Information."
+        '404':
+          description: Resource not found
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "404"
+                          "message": "The requested resource was not found"
+        '500':
+          description: Internal Server Error
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  value:
+                    "response":
+                      errors:
+                        - code: "500000"
+                          message: "We're sorry, the system is unavailable. Please try again later."
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: usi-number
+          in: path
+          required: true
+          description: The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.
+          schema:
+            type: string
+            example: "578299028T"
+            pattern: "^(?:[0-9]{10}|[0-9]{9}T)$"
+        - name: tracking-number
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[A-Z0-9]{18}$"
+          description: "UPS Tracking Number"
+          example: "1Z1388YY0316063678"
+        - name: transId
+          in: header
+          required: true
+          schema:
+            type: string
+          example: XZ345445668
+        - name: transactionSrc
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Identifies the client/source application that is calling.
+          example: XOLT
+  /master-shipments/{usi-number}/closeout:
+    post:
+      tags:
+        -  TradeDirect
+      operationId: closeoutMasterShipment
+      summary: Closeout a Master Shipment
+      description: Transitions a master shipment to a closed state, finalizing its processing. Identified by a unique shipment identifier (USI).
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: usi-number
+          in: path
+          required: true
+          description: The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.
+          schema:
+            type: string
+            example: 578299028T
+            pattern: ^(?:[0-9]{10}|[0-9]{9}T)$
+        - name: transId
+          in: header
+          required: true
+          schema:
+            type: string
+          example: XZ345445668
+        - name: transactionSrc
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Identifies the client/source application that is calling.
+          example: XOLT
+      requestBody:
+        description: Request payload containing shipment details required to close out a master shipment.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloseoutRequest'
+            example:
+              shipment:
+                shipper:
+                  accountNumber: 1234WW
+                packages:
+                  - numberOfIdenticalUnits: 1
+                    handlingUnits:
+                      type: BOXES
+                      dimensions:
+                        length: 48.0
+                        width: 40.0
+                        height: 36.0
+                        unitOfMeasurement: IN
+                      packageWeight:
+                        weight: 10.0
+                        unitOfMeasurement: LBS
+                      freightClass: 150
+                      transportationService:
+                        airService: 1
+                        groundService: 1
+      responses:
+        '200':
+          description: Closeout performed on the provided master shipment successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloseoutResponse'
+              example:
+                invoiceLabelResponse:
+                  files:
+                    - data: base64encodedstring
+                      fileFormat: PDF
+                      referenceId: INV123456
+                bolLabelResponse:
+                  files:
+                    - data: baseencodedstring
+                      fileFormat: PDF
+                      referenceId: BOL123456
+                palletLabelResponses:
+                  files:
+                    - opTyp: PDF
+                      lblNmbr: PLT123456
+                      lblData: base64encodedstring
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+        '207':
+          description: Closeout performed on the provided master that is partial success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        description: A message providing additional information about the response.
+                        example: "Closeout operation completed with warnings."
+                  - $ref: '#/components/schemas/CloseoutResponse'
+              example:
+                message: "Movement has been closed successfully."
+                invoiceLabelResponse:
+                  warning: "Use Document API to generate missing documents."
+                bolLabelResponse:
+                  files:
+                    - data: "base64encodedstring"
+                      fileFormat: "PDF"
+                      referenceId: "BOL123456"
+                palletLabelResponses:
+                  files:
+                    - opTyp: "PDF"
+                      lblNmbr: "PLT123456"
+                      lblData: "base64encodedstring"
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+        '400':
+          description: Missing or Invalid parameter
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                requiredFieldsMissing:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "400001"
+                          "message": "Missing or Invalid parameter: {field name}"
+        '401':
+          description: Invalid Authentication Information
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "250002"
+                          "message": "Invalid Authentication Information."
+        '404':
+          description: Resource not found
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "404"
+                          "message": "The requested resource was not found"
+        '422':
+          description: Resource not found
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "404"
+                          "message": "The requested resource was not found"
+        '500':
+          description: Internal Server Error
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  value:
+                    "response":
+                      errors:
+                        - code: "500000"
+                          message: "We're sorry, the system is unavailable. Please try again later."
+  /master-shipments/{usi-number}/ltl-child-shipments/{sub-pro-number}:
+    delete:
+      tags:
+        -  TradeDirect
+      operationId: deleteLtlChildShipment
+      summary: Delete Less Than Truckload (LTL) child shipment
+      description: "Deletes a Less Than Truckload (LTL) child shipment identified by a unique shipment identifier (USI) and a sub pro number."
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: usi-number
+          in: path
+          description: The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.
+          required: true
+          schema:
+            type: string
+            example: "578299028T"
+            pattern: "^(?:[0-9]{10}|[0-9]{9}T)$"
+        - name: sub-pro-number
+          in: path
+          description: A unique tracking number used for individual, smaller shipments within a larger Less-Than-Truckload (LTL) or Truckload (TL) freight shipment
+          required: true
+          schema:
+            type: string
+            example: "SBP12345"
+        - name: transId
+          in: header
+          required: true
+          schema:
+            type: string
+          example: XZ345445668
+        - name: transactionSrc
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Identifies the client/source application that is calling.
+          example: XOLT
+      responses:
+        '204':
+          description: LTL Child Shipment Deleted Successfully
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+        '400':
+          description: Missing or Invalid parameter
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                requiredFieldsMissing:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "400001"
+                          "message": "Missing or Invalid parameter: {field name}"
+        '401':
+          description: Invalid Authentication Information
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "250002"
+                          "message": "Invalid Authentication Information."
+        '404':
+          description: Resource not found
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "404"
+                          "message": "The requested resource was not found"
+        '500':
+          description: Internal Server Error
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  value:
+                    "response":
+                      errors:
+                        - code: "500000"
+                          message: "We're sorry, the system is unavailable. Please try again later."
+  /master-shipments/documents:
+    post:
+      tags:
+        -  TradeDirect
+      operationId: documentLabelPlayback
+      summary: Genereate Documents and Labels for LTL Shipments and Closeout
+      description: "Generates documents and labels for master/ltl shipments identified by a unique shipment identifier (USI)."
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: transId
+          in: header
+          required: true
+          schema:
+            type: string
+          example: XZ345445668
+        - name: transactionSrc
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Identifies the client/source application that is calling.
+          example: XOLT
+      requestBody:
+        description: Request payload containing shipment details required to generate documents
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentRequest'
+      responses:
+        '200':
+          description: Documents generated successfully for provided USI. See base64-data-samples document for data sample.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+        '400':
+          description: Missing or Invalid parameter
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                requiredFieldsMissing:
+                  value:
+                    "response":
+                      "errors":
+                        - code: Application Error Code
+                          message: Malformed JSON request
+                        - code: Application Error Code
+                          message: Missing {Filed Name}
+        '401':
+          description: Invalid Authentication Information
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Invalid Token:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "250002"
+                          "message": "Invalid Authentication Information."
+        '404':
+          description: Resource not found
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Resource not found:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "404"
+                          "message": "The requested resource was not found"
+        '422':
+          description: Resource not found
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Resource not found:
+                  value:
+                    "response":
+                      "errors":
+                        - "code": "404"
+                          "message": "The requested resource was not found"
+        '500':
+          description: Internal Server Error
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  value:
+                    "response":
+                      errors:
+                        - code: "500000"
+                          message: "We're sorry, the system is unavailable. Please try again later."
+components:
+  headers:
+    BkndTransId:
+      description: The backend transaction id.
+      schema:
+        type: string
+        example: 383f7d397a48
+    transId:
+      description: An identifier unique to the request.
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-.]{3,36}$
+        minLength: 3
+        maxLength: 36
+        example: 0a1b9c2d8e3f7g4h6i5
+    transactionSrc:
+      description: Identifies the client/source application that is calling.
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-.]{1,36}$
+        minLength: 1
+        maxLength: 36
+        example: UPS.com
+    Content-Type:
+      description: The Content-Type header provides the client with the actual content/media type of the returned content.
+      schema:
+        type: string
+        example: application/json
+    APIErrorCode:
+      description: The API error code.
+      schema:
+        type: string
+        example: UJ0001
+    APIErrorMsg:
+      description: The API error message.
+      schema:
+        type: string
+        example: Invalid token or token is not present.
+  schemas:
+    CloseoutRequest:
+      type: object
+      required:
+        -  shipment
+      properties:
+        shipment:
+          type: object
+          description: Contains all the details of the shipment.
+          required:
+            - shipper
+          properties:
+            shipper:
+              type: object
+              description: Contains the account number to be used in closeout request.
+              required:
+                - accountNumber
+              properties:
+                accountNumber:
+                  type: string
+                  description: The UPS account number of the shipper to be used to clouseout shipment.
+                  example: "1234WW"
+                  pattern: "^[A-Z0-9]{6}$"
+            packages:
+              type: array
+              description: The list of packages in the shipment.
+              items:
+                $ref: "#/components/schemas/Package"
+              minItems: 0
+              maxItems: 200
+    CloseoutResponse:
+      type: object
+      required:
+        - invoiceLabelResponse
+        - bolLabelResponse
+        - palletLabelResponses
+      properties:
+        invoiceLabelResponse:
+          description: Contains the response details for the generated invoice label, including the format and data of the generated document.
+          allOf:
+            - $ref: '#/components/schemas/DocGenerationResponse'
+        bolLabelResponse:
+          description: Contains the response details for the generated Bill of Lading (BOL) label, including the format and data of the generated document.
+          allOf:
+            -  $ref: '#/components/schemas/DocGenerationResponse'
+        palletLabelResponses:
+          description: A list of responses for the generated pallet labels, each containing details such as the label number and the base64 encoded data.
+          allOf:
+            - $ref: '#/components/schemas/LabelResponse'
+    DocGenerationResponse:
+      description: Contains the details of the generated document files, such as the invoices, bill of lading and pallet labels.
+      type: object
+      properties:
+        warning:
+          $ref: '#/components/schemas/WarningMessage'
+        files:
+          type: array
+          description: A list of generated document files.
+          items:
+            $ref: '#/components/schemas/DocGenerationFile'
+      additionalProperties: false
+      oneOf:
+        - required: [warning]
+        - required: [files]
+    DocGenerationFile:
+      type: object
+      required:
+        - data
+        - fileFormat
+        - referenceId
+      description: Contains the details of a generated document file.
+      properties:
+        data:
+          type: string
+          description: The base64 encoded data of the generated document.
+          example: "ZWF0aW9uRG...4KZW5"
+        fileFormat:
+          type: string
+          description: The format of the generated document file.
+          example: "PDF"
+        referenceId:
+          type: string
+          description: The unique reference identifier for the generated document.
+          example: "DOC123456"
+      additionalProperties: false
+    Package:
+      type: object
+      required:
+        - numberOfIdenticalUnits
+        - handlingUnits
+      properties:
+        numberOfIdenticalUnits:
+          type: integer
+          example: 1
+          description: Number of identical units in the package/ltl.
+          minimum: 1
+          maximum: 200
+        handlingUnits:
+          $ref: "#/components/schemas/HandlingUnits"
+    HandlingUnits:
+      type: object
+      description: Used to provide information about the handling units in the package/ltl.
+      required:
+        - type
+        - dimensions
+        - packageWeight
+        - freightClass
+        - transportationService
+      properties:
+        type:
+          type: string
+          example: "BOXES"
+          description: The type of handling unit, such as boxes, crates, or pallets, used to describe how the shipment is packaged and handled.
+          enum:
+            - BAGS
+            - BOXES
+            - CARTONS
+            - CRATES
+            - DRUMS
+            - PALLET_SKIDS
+            - ROLLS
+            - TUBES
+        dimensions:
+          $ref: "#/components/schemas/Dimensions"
+        packageWeight:
+          $ref: "#/components/schemas/PackageWeight"
+        freightClass:
+          type: number
+          example: 150
+          description: |
+            Freight class of the handling unit.
+            | Code  | Description                                                                              |
+            | :--:  | :--------------------------------------------------------------------------------------: |
+            | 50    | over 50 lbs - Fits on standard shrink-wrapped 4X4 pallet, very durable                   |
+            | 55    | 35-50 pounds - Bricks, cement, mortar, hardwood flooring                                 |
+            | 60    | 30-35 pounds - Car accessories & car parts                                               |
+            | 65    | 22.5-30 pounds - Car accessories & car parts, bottled beverages, books in boxes          |
+            | 70    | 15 to 22.5 pounds - Car accessories & car parts, food items, automobile engines          |
+            | 77.5  | 13.5 to 15 pounds - Tires, bathroom fixtures                                             |
+            | 85    | 12-13.5 pounds - Crated machinery, cast iron stoves                                      |
+            | 92.5  | 10.5-12 pounds - Computers, monitors, refrigerators                                      |
+            | 100   | 9-10.5 pounds - Boat covers, car covers, canvas, wine cases, caskets                     |
+            | 110   | 8-9 pounds - Cabinets, framed artwork, table saw                                         |
+            | 125   | 7-8 pounds - Small Household appliances                                                  |
+            | 150   | 6-7 pounds - Auto sheet metal parts, bookcases                                           |
+            | 175   | 5-6 pounds - Clothing, couches stuffed furniture                                         |
+            | 200   | 4-5 pounds - Auto sheet metal parts, aircraft parts, aluminum table, packaged mattresses |
+            | 250   | 3-4 pounds - Bamboo furniture, mattress and box spring, plasma TV                        |
+            | 300   | 2-3 pounds - Wood cabinets, tables, chairs setup, model boats                            |
+            | 400   | 1-2 pounds - Deer antlers                                                                |
+            | 500   | Less than 1 lbs - Bags of gold dust, ping pong balls                                     |
+          enum:
+            - 50 # over 50 lbs - Fits on standard shrink-wrapped 4X4 pallet, very durable
+            - 55 # 35-50 pounds - Bricks, cement, mortar, hardwood flooring
+            - 60 # 30-35 pounds - Car accessories & car parts
+            - 65 # 22.5-30 pounds - Car accessories & car parts, bottled beverages, books in boxes
+            - 70 # 15 to 22.5 pounds - Car accessories & car parts, food items, automobile engines
+            - 77.5 # 13.5 to 15 pounds - Tires, bathroom fixtures
+            - 85 # 12-13.5 pounds - Crated machinery, cast iron stoves
+            - 92.5 # 10.5-12 pounds - Computers, monitors, refrigerators
+            - 100 # 9-10.5 pounds - Boat covers, car covers, canvas, wine cases, caskets
+            - 110 # 8-9 pounds - Cabinets, framed artwork, table saw
+            - 125 # 7-8 pounds - Small Household appliances
+            - 150 # 6-7 pounds - Auto sheet metal parts, bookcases
+            - 175 # 5-6 pounds - Clothing, couches stuffed furniture
+            - 200 # 4-5 pounds - Auto sheet metal parts, aircraft parts, aluminum table, packaged mattresses
+            - 250 # 3-4 pounds - Bamboo furniture, mattress and box spring, plasma TV
+            - 300 # 2-3 pounds - Wood cabinets, tables, chairs setup, model boats
+            - 400 # 1-2 pounds - Deer antlers
+            - 500 # Less than 1 lbs - Bags of gold dust, ping pong balls
+        transportationService:
+          type: object
+          description: Specifies the transportation service options for the handling unit, including the number of packages for air and ground services.
+          required:
+            - airService
+            - groundService
+          properties:
+            airService:
+              type: integer
+              example: 1
+              description: Number of packages for air service. If groundService is 0, this must be at least 1.
+              minimum: 0
+              maximum: 999
+            groundService:
+              type: integer
+              example: 1
+              description: Number of packages for ground service. If airService is 0, this must be at least 1.
+              minimum: 0
+              maximum: 999
+    PackageWeight:
+      type: object
+      required:
+        - weight
+        - unitOfMeasurement
+      description: Weight for the handling unit.
+      properties:
+        weight:
+          type: number
+          example: 10.0
+          description: Weight of the package/ltl.
+          minimum: 0.01
+          maximum: 5000.00
+        unitOfMeasurement:
+          type: string
+          description: |
+            Unit of measurement of the weight.
+            | Code  | Description |
+            | :--:  | :--         |
+            | KGS   | Kilograms   |
+            | LBS   | Pounds      |
+          enum:
+            - KGS # Kilograms
+            - LBS # Pounds
+          example: KGS
+    Dimensions:
+      type: object
+      description: Dimensions for the handling unit.
+      required:
+        - length
+        - width
+        - height
+        - unitOfMeasurement
+      properties:
+        length:
+          type: number
+          example: 48.0
+          description: Length of the package/ltl.
+          minimum: 1.00
+          maximum: 99.99
+        width:
+          type: number
+          example: 40.0
+          description: Width of the package/ltl.
+          minimum: 1.00
+          maximum: 99.99
+        height:
+          type: number
+          example: 36.0
+          description: Height of the package/ltl.
+          minimum: 1.00
+          maximum: 99.99
+        unitOfMeasurement:
+          type: string
+          description: |
+            The code associated with unit of measurement. The requested code must be valid for the shipper country or territory.
+            | Code  | Description |
+            | :--:  | :--         |
+            | IN    | Inches      |
+            | CM    | Centimeters |
+          example: IN
+          enum:
+            - IN # Inches
+            - CM # Centimeters
+    LabelResponse:
+      type: object
+      description: Contains either a warning message or the label response files.
+      properties:
+        warning:
+          $ref: '#/components/schemas/WarningMessage'
+        files:
+          type: array
+          description: A list of generated Label files.
+          items:
+            $ref: '#/components/schemas/LabelDetails'
+      oneOf:
+        - required: [warning]
+        - required: [files]
+    LabelDetails:
+      type: object
+      required:
+        - opTyp
+        - lblNmbr
+        - lblData
+      description: Contains the response details for a label generation request.
+      properties:
+        opTyp:
+          type: string
+          description: |
+            Image format type for the label requested by customer.
+            | Code   | Description   |
+            | :----: | :-----------: |
+            | ZPL    | ZPL format    |
+            | EPL    | EPL format    |
+            | STARPL | STARPL format |
+            | SPL    | SPL format    |
+            | PNG    | PNG format    |
+            | PDF    | PDF format    |
+            | GIF    | GIF format    |
+          enum:
+            - ZPL # ZPL format
+            - EPL # EPL format
+            - STARPL # STARPL format
+            - SPL # SPL format
+            - PNG # PNG format
+            - PDF # PDF format
+            - GIF # GIF format
+          example: PDF
+        lblNmbr:
+          type: string
+          description: The unique label number assigned to the generated label.
+          example: "PLT123456"
+          pattern: "^[A-Z0-9]+$"
+        lblData:
+          type: string
+          description: The base64 encoded data of the generated label.
+          example: "ZWF0aW9uRG...4KZW5"
+    DocumentRequest:
+      type: object
+      description: Request payload containing shipment details required to generate documents
+      required:
+        - requestedDoc
+        - docFormat
+        - usiNumber
+        - shipperAccountNumber
+      properties:
+        requestedDoc:
+          type: string
+          description: |
+            The type of document requested for generation.
+            | Code   | Description                     |
+            | :----: | :-----------------------------: |
+            | CCI    | Consolidated Commercial Invoice |
+            | CBOL   | Consolidated Bill of Lading     |
+            | BOL    | Bill of Lading                  |
+            | PLT    | Pallet Label                    |
+            | PKGPLT | Package Pallet Label            |
+          enum:
+            - CCI # Consolidated Commercial Invoice
+            - CBOL # Consolidated Bill of Lading
+            - BOL # Bill of Lading
+            - PLT # Pallet Label
+            - PKGPLT # Package Pallet Label
+          example: BOL
+        docFormat:
+          type: string
+          description: |
+            Image format type for the label requested by customer.
+            | Code   | Description   |
+            | :----: | :-----------: |
+            | ZPL    | ZPL format    |
+            | EPL    | EPL format    |
+            | STARPL | STARPL format |
+            | SPL    | SPL format    |
+            | PNG    | PNG format    |
+            | PDF    | PDF format    |
+            | GIF    | GIF format    |
+          enum:
+            - ZPL # ZPL format
+            - EPL # EPL format
+            - STARPL # STARPL format
+            - SPL # SPL format
+            - PNG # PNG format
+            - PDF # PDF format
+            - GIF # GIF format
+          example: PDF
+        usiNumber:
+          type: string
+          description: The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.
+          example: "578299028T"
+          pattern: "^(?:[0-9]{10}|[0-9]{9}T)$"
+        shipperAccountNumber:
+          type: string
+          description: The UPS account number of the shipper that was used in clouseout shipment.
+          example: "1234WW"
+          pattern: "^[A-Z0-9]{6}$"
+        subproNumber:
+          type: string
+          description: A unique tracking number used for LTL shipments.
+          example: "NYJ4X51A034G4JB6NX0C"
+          pattern: "^[A-Z0-9]{15,20}$"
+      example:
+        requestedDoc: BOL
+        docFormat: PDF
+        usiNumber: 578299028T
+        shipperAccountNumber: 1234WW
+    DocumentResponse:
+      type: object
+      description: Response payload containing the generated documents
+      properties:
+        documents:
+          type: object
+          description: Contains the generated documents
+          properties:
+            cci:
+              type: string
+              description: Contains the generated Consolidated Commercial Invoice (CCI) document. Document will be PDF format and base64 encoded. See base64-data-samples document for sample.
+              example: "ZWF0aW9uRG...4KZW5"
+            cbol:
+              type: string
+              description: Contains the generated Consolidated Bill of Lading (CBOL) document. Document will be PDF format and base64 encoded. See base64-data-samples document for sample.
+              example: "ZWF0aW9uRG...4KZW5"
+            bol:
+              type: string
+              description: Contains the generated Bill of Lading (BOL) document. Document will be PDF format and base64 encoded. See base64-data-samples document for sample.
+              example: "ZWF0aW9uRG...4KZW5"
+            plt:
+              type: array
+              description: Contains the generated Pallet Label (PLT) documents. Labels will contain format requested by client and be base64 encoded. See base64-data-samples document for sample.
+              items:
+                type: string
+              example: [ZWF0aW9uRG...4KZW5, ZWF0aW9uRG...4KZW5]
+            pkgplt:
+              type: array
+              description: Contains the generated Packge Pallet Labels (PKGPLT) documents. Labels will contain format requested by client and be base64 encoded. See base64-data-samples document for sample.
+              items:
+                type: string
+              example: [ZWF0aW9uRG...4KZW5, ZWF0aW9uRG...4KZW5]
+          oneOf:
+            - required: [cci]
+            - required: [cbol]
+            - required: [bol]
+            - required: [plt]
+            - required: [pgkplt]
+      example:
+        documents:
+          cci: "3MtNcTKd2VKWu0...br62U"
+    WarningMessage:
+      type: string
+      description: A warning message that may be returned if the document is not generated successfully.
+      example: "Use Document API to generate missing documents."
+    ErrorResponse:
+      type: object
+      description: response container
+      required:
+        - response
+      properties:
+        response:
+          type: object
+          description: errors container
+          required:
+            - errors
+          properties:
+            errors:
+              type: array
+              description: error payload - array containing one or more Errors
+              items:
+                $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      description: The error entity that contains the code and description of an error.
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: "00400"
+        message:
+          type: string
+          description: The error message.
+          example: "Bad ChildRequest"
+  securitySchemes:
+    oauth2:
+      type: "oauth2"
+      description: |
+        Find your Client ID and Secret on your app info page. 
+          1. Select "Try It" 
+          2. In the Security section enter your Client ID and Secret 
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request"
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
+          scopes: { }
+security:
+  - oauth2: []

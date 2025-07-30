@@ -1835,6 +1835,445 @@ paths:
                           PackedByStoreIndicator: ''
                           PackageIdentifier: '123'
               '14':
+                summary: Trade direct - Master shipment 
+                description: Trade direct master shipment creation request.
+                value:
+                  ShipmentRequest:
+                      Request:
+                        RequestOption: nonvalidate
+                        SubVersion: '2205'
+                        TransactionReference:
+                          CustomerContext: Verify success responses for TD Master from CA to US.
+                          TransactionIdentifier: ''
+                      Shipment:
+                        TradeDirect:
+                          GeneralDescriptionOfGoods: Phones and Accessories
+                          Master:
+                            SoldToSameAsShipTo: 'True'
+                            Pickup:
+                              Name: UPS SCS c/o FMI Logistics
+                              AttentionName: Origin CFS
+                              Phone:
+                                Number: '4103330104'
+                                Extension: '123'
+                              Address:
+                                AddressLine: 7151-44th Street SE
+                                City: Calgary
+                                StateProvinceCode: AB
+                                PostalCode: T2C4E8
+                                CountryCode: CA
+                              EMailAddress: abc@ups.com
+                            SoldTo:
+                              Name: Ace Levy
+                              AttentionName: Doc
+                              CompanyDisplayableName: UPS SCS
+                              TaxIdentificationNumber: '1234'
+                              TaxIDType:
+                                Code: EIN
+                                Description: EIN
+                              Phone:
+                                Number: '4103330104'
+                                Extension: '123'
+                              FaxNumber: '4103334104'
+                              Address:
+                                AddressLine: 1221 29th St NW  STE A
+                                City: Auburn
+                                StateProvinceCode: WA
+                                PostalCode: '98001'
+                                CountryCode: US
+                              EMailAddress: abc@ups.com
+                            TradeComplianceDetails:
+                              TermsOfShipment: CFR
+                              ReasonForExport: For Sale
+                              Comments: Exported
+                              DeclarationStatement: Invoice
+                            NotificationBeforeDelivery:
+                              RequestType: '001'
+                              MediaTypeCode: '03'
+                              Language: ENG
+                              Dialect: US
+                              ShipFromCompanyName: UPS SCS
+                              CompanyName: UPS SCS
+                              Phone:
+                                Number: '3103330104'
+                                Extension: '555'
+                              Name: TD mail Notification
+                              SubjectLine: subnotice
+                              Memo: notimo
+                              EmailAddress: abc@ups.com
+                              AlternateEmailAddress: abc@ups.com
+                            UomType: Imperial
+                          CurrencyCode: CAD
+                          ShipmentType: TRADEDIRECTCROSSBORDER
+                        Description: TD test Case
+                        Shipper:
+                          Name: 'UPS TDCB'
+                          AttentionName: Katrina
+                          CompanyDisplayableName: UPS TDCB
+                          TaxIdentificationNumber: '12345'
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '123'
+                          ShipperNumber: 'XXXXXX'
+                          FaxNumber: '1234'
+                          EMailAddress: abc@ups.com
+                          Address:
+                            AddressLine: 1221 29th St NW  STE A
+                            City: Auburn
+                            StateProvinceCode: WA
+                            PostalCode: '98001'
+                            CountryCode: US
+                        ShipTo:
+                          Name: UPS TDCB
+                          AttentionName: Master Brunt
+                          CompanyDisplayableName: UPS TDCB
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '123'
+                          FaxNumber: '1234'
+                          EMailAddress: abc@ups.com
+                          Address:
+                            AddressLine: 1221 29th St NW  STE A
+                            City: Auburn
+                            StateProvinceCode: WA
+                            PostalCode: '98001'
+                            CountryCode: US
+                        ShipFrom:
+                          Name: UPS TDCB
+                          AttentionName: 'Johnny '
+                          CompanyDisplayableName: UPS TDCB
+                          TaxIdentificationNumber: '1234'
+                          TaxIDType:
+                            Code: EIN
+                            Description: EIN
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '123'
+                          ShipFromAccountNumber: 'XXXXXX'
+                          FaxNumber: '1234'
+                          Address:
+                            AddressLine: 7151-44th Street SE
+                            City: Calgary
+                            StateProvinceCode: AB
+                            PostalCode: T2C4E8
+                            CountryCode: CA
+                          EMailAddress: abc@ups.com
+                        PaymentInformation:
+                          ShipmentCharge:
+                            Type: '01'
+                            BillShipper:
+                              AccountNumber: 'XXXXXX'
+                        Service:
+                          Code: T0
+                          Description: UPS WW Expedited
+                        InvoiceLineTotal:
+                          CurrencyCode: USD
+                          MonetaryValue: '10'
+                        NumOfPiecesInShipment: '1'
+                        ShipmentServiceOptions: ''                
+                        BarCodeImageIndicator: ''
+                        BarCodeAndLabelIndicator: ''
+                        ShipmentDate: '20250424'
+                      LabelSpecification:
+                        LabelImageFormat:
+                          Code: GIF
+                          Description: GIF
+                        HTTPUserAgent: Mozilla/4.5  
+              '15':
+                summary: Trade direct - Child shipment 
+                description: Trade direct child shipment creation request.
+                value:
+                  ShipmentRequest:
+                      Request:
+                        RequestOption: nonvalidate
+                        SubVersion: '2205'
+                        TransactionReference:
+                          CustomerContext: >-
+                            verify success reponse when child shipment is created with TD account.
+                          TransactionIdentifier: ''
+                      Shipment:
+                        TradeDirect:
+                          Child:
+                            Product:
+                              - Code: KGS
+                                Description: iPhones Apple
+                                UnitPrice: '20'
+                                TotalValue: '100'
+                                NumberOfUnits: '5'
+                                ProductNumber: AP78
+                                CountryOriginCode: US
+                                UnitOfMeasure: KGS
+                              - Code: KGS
+                                Description: iPhones Cases
+                                UnitPrice: '5'
+                                TotalValue: '25'
+                                NumberOfUnits: '5'
+                                ProductNumber: CP24
+                                CountryOriginCode: US
+                                UnitOfMeasure: KGS
+                            Type: SMALLPACKAGE
+                            USI: ''
+                          ShipmentType: TRADEDIRECTCROSSBORDER
+                          CurrencyCode: CAD
+                        Description: Trade Direct TEstCase
+                        Shipper:
+                          Name: UPS TDCB
+                          AttentionName: Katrina
+                          CompanyDisplayableName: UPS TDCB
+                          TaxIdentificationNumber: '12345'
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '123'
+                          ShipperNumber: 'XXXXXX'
+                          FaxNumber: '1234'
+                          EMailAddress: abc@ups.com
+                          Address:
+                            AddressLine: 1221 29th St NW  STE A
+                            City: Auburn
+                            StateProvinceCode: WA
+                            PostalCode: '98001'
+                            CountryCode: US
+                        ShipTo:
+                          Name: Reven Riverside
+                          AttentionName: Stone
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '1234'
+                          FaxNumber: '1234'
+                          EMailAddress: abc@ups.com
+                          Address:
+                            AddressLine: 403 Broadford Rd
+                            City: Bellevue
+                            StateProvinceCode: ID
+                            PostalCode: '83313'
+                            CountryCode: US
+                        ShipFrom:
+                          Name: UPS TDCB
+                          AttentionName: Master Brunt
+                          CompanyDisplayableName: UPS TDCB
+                          TaxIdentificationNumber: '1234'
+                          TaxIDType:
+                            Code: EIN
+                            Description: EIN
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '123'
+                          ShipFromAccountNumber: ''
+                          FaxNumber: '1234'
+                          Address:
+                            AddressLine: 1221 29th St NW  STE A
+                            City: Auburn
+                            StateProvinceCode: WA
+                            PostalCode: '98001'
+                            CountryCode: US
+                          EMailAddress: abc@ups.com
+                        PaymentInformation:
+                          ShipmentCharge:
+                            Type: '01'
+                            BillShipper:
+                              AccountNumber: 'XXXXXX'                                
+                        Service:
+                          Code: '01'
+                          Description: UPS Ground
+                        InvoiceLineTotal:
+                          CurrencyCode: USD
+                          MonetaryValue: '10'
+                        NumOfPiecesInShipment: '1'
+                        ShipmentServiceOptions:
+                          Notification:
+                            NotificationCode: '6'
+                            EMail:
+                              EMailAddress: abc@ups.com
+                            TextMessage:
+                              PhoneNumber: '9494974020'
+                            Locale:
+                              Language: ENG
+                              Dialect: US
+                        ShipmentDate: '20250424'
+                        Package:
+                          Description: Worldwide econmoy Postal
+                          NumOfPieces: '10'
+                          Packaging:
+                            Code: '02'
+                            Description: customer Package
+                          Dimensions:
+                            UnitOfMeasurement:
+                              Code: IN
+                              Description: IN
+                            Length: '4'
+                            Width: '3'
+                            Height: '3'
+                          PackageWeight:
+                            UnitOfMeasurement:
+                              Code: LBS
+                              Description: LBS
+                            Weight: '3'
+                        ShipmentRatingOptions:
+                          NegotiatedRatesIndicator: ''
+                      LabelSpecification:
+                        LabelImageFormat:
+                          Code: png
+                          Description: png
+                        HTTPUserAgent: Mozilla/4.5
+                        LabelStockSize:
+                          Height: '6'
+                          Width: '4'
+              '16':
+                summary: Trade direct - LTL shipment 
+                description: Trade direct LTL child shipment creation request.
+                value:
+                  ShipmentRequest:
+                      Request:
+                        RequestOption: nonvalidate
+                        SubVersion: '2205'
+                        TransactionReference:
+                          CustomerContext: >-
+                            verify success reponse when LTL child shipment is created with TD account.
+                          TransactionIdentifier: ''
+                      Shipment:
+                        TradeDirect:
+                          Child:
+                            Product:
+                              - Code: KGS
+                                Description: Lipstick
+                                UnitPrice: '8'
+                                TotalValue: '40'
+                                NumberOfUnits: '5'
+                                ProductNumber: LS56
+                                CurrencyCode: CAD
+                                CountryOriginCode: US
+                                UnitOfMeasure: CR
+                              - Code: BOX
+                                Description: Compack
+                                UnitPrice: '8'
+                                TotalValue: '40'
+                                NumberOfUnits: '5'
+                                ProductNumber: CP57
+                                CurrencyCode: CAD
+                                CountryOriginCode: US
+                                UnitOfMeasure: CR
+                              - Code: BOX
+                                Description: 'Lip Liner '
+                                UnitPrice: '8'
+                                TotalValue: '40'
+                                NumberOfUnits: '5'
+                                ProductNumber: LL58
+                                CurrencyCode: CAD
+                                CountryOriginCode: US
+                                UnitOfMeasure: CR
+                            LtlPackage:
+                              NumberOfIdenticalUnits: "1"                                   
+                              HandlingUnits:
+                                Quantity: '1'
+                                Type: BOXES
+                                FreightClass: '150'
+                                Dimensions:
+                                  Length: '10'
+                                  Width: '10'
+                                  Height: '10'
+                                  UnitOfMeasurement: IN
+                                PackageWeight:
+                                  Weight: '10'
+                                  UnitOfMeasurement: LBS
+                            Type: LTL
+                            USI: ''
+                          ShipmentType: TRADEDIRECTCROSSBORDER
+                          CurrencyCode: CAD
+                        Description: Trade Direct TestCase
+                        Shipper:
+                          Name: UPS TDCB
+                          AttentionName: Katrina
+                          CompanyDisplayableName: UPS TDCB
+                          TaxIdentificationNumber: '12345'
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '123'
+                          ShipperNumber: 'XXXXXX'
+                          FaxNumber: '1234'
+                          EMailAddress: abc@ups.com
+                          Address:
+                            AddressLine: 1221 29th St NW  STE A
+                            City: Auburn
+                            StateProvinceCode: WA
+                            PostalCode: '98001'
+                            CountryCode: US
+                        ShipTo:
+                          Name: Reven Riverside
+                          AttentionName: Stone
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '1234'
+                          FaxNumber: '1234'
+                          EMailAddress: abc@ups.com
+                          Address:
+                            AddressLine: 403 Broadford Rd
+                            City: Bellevue
+                            StateProvinceCode: ID
+                            PostalCode: '83313'
+                            CountryCode: US
+                        ShipFrom:
+                          Name: UPS TDCB
+                          AttentionName: Master Brunt
+                          CompanyDisplayableName: UPS TDCB
+                          TaxIdentificationNumber: '1234'
+                          TaxIDType:
+                            Code: EIN
+                            Description: EIN
+                          Phone:
+                            Number: '1234567890'
+                            Extension: '123'
+                          ShipFromAccountNumber: 'XXXXXX'
+                          FaxNumber: '1234'
+                          Address:
+                            AddressLine: '1221 29th St NW  STE A'
+                            City: Auburn
+                            StateProvinceCode: WA
+                            PostalCode: '98001'
+                            CountryCode: US
+                          EMailAddress: abc@ups.com
+                        PaymentInformation:
+                          ShipmentCharge:
+                            Type: '01'
+                            BillShipper:
+                              AccountNumber: 'XXXXXX'
+                        Service:
+                          Code: T1
+                          Description: UPS Trade Direct
+                        InvoiceLineTotal:
+                          CurrencyCode: USD
+                          MonetaryValue: '10'
+                        NumOfPiecesInShipment: '1'
+                        ShipmentServiceOptions: ''                
+                        ShipmentDate: '20250424'
+                        Package:
+                          Description: Worldwide econmoy Postal
+                          NumOfPieces: '10'
+                          Packaging:
+                            Code: '02'
+                            Description: customer Package
+                          Dimensions:
+                            UnitOfMeasurement:
+                              Code: IN
+                              Description: IN
+                            Length: '40'
+                            Width: '30'
+                            Height: '30'
+                          PackageWeight:
+                            UnitOfMeasurement:
+                              Code: LBS
+                              Description: KGS
+                            Weight: '30'
+                        ShipmentRatingOptions:
+                          NegotiatedRatesIndicator: ''
+                      LabelSpecification:
+                        LabelImageFormat:
+                          Code: GIF
+                          Description: GIF
+                        HTTPUserAgent: Mozilla/4.5
+                        LabelStockSize:
+                          Height: '6'
+                          Width: '4'
+              '17':
                 summary: WorldEase Shipment
                 description: A basic WorldEase shipment request with a single package
                 value:
@@ -4121,16 +4560,15 @@ components:
       maximum: 1
     Address_POE:
       properties:
-        AddressLine1:
-          type: string
-          description: Address Line 1
+        AddressLine:
+          type: array
+          description: Address Line
+          minLength: 1
           maxLength: 35          
           example: 12380 Morris Rd.
-        AddressLine2:
-          type: string
-          description:  Address Line 2
-          maxLength: 35
-          example: "ATTN: Governance Team"
+          maximum: 2
+          items:
+            type: string
         City:
           type: string
           description: City
@@ -4160,7 +4598,7 @@ components:
           pattern: ^[A-Z]{2}$
           example: US
       required:
-        - AddressLine1
+        - AddressLine
         - City
         - CountryCode
       type: object
@@ -4376,6 +4814,15 @@ components:
           "$ref": "#/components/schemas/Shipment_Service"
         InvoiceLineTotal:
           "$ref": "#/components/schemas/Shipment_InvoiceLineTotal"
+        ShipmentRiskEnteringEU:
+          description: "Code that identifies the risk of the Shipment entering the European Union (EU).
+            \n Values: 01 = AT RISK of Entering the EU
+            \n 02 = NOT AT RISK of Entering the EU
+            \n 03 = RISK UNKNOWN of Entering the EU"
+          maximum: 1
+          type: string
+          minLength: 2
+          maxLength: 2
         NumOfPiecesInShipment:
           description: Total number of pieces in all pallets in a UPS Worldwide Express
             Freight Shipment.  It is required for UPS Worldwide Express Freight and
@@ -4562,6 +5009,8 @@ components:
           type: string
           minLength:  35
           maxLength:  35
+        TradeDirect:
+          $ref: '#/components/schemas/Shipment_TradeDirect'
       xml:
         name: Shipment
       required:
@@ -5078,7 +5527,7 @@ components:
       xml:
         name: ShipFrom
       description: "Ship From Container.  Required for return shipment. \n\nRequired
-        if pickup location is different from the shipper's address."
+        if pickup location is different from the shipper's address. \n\nRequired for Trade Direct shipment."
     ShipFrom_TaxIDType:
       type: object
       maximum: 1
@@ -5210,9 +5659,15 @@ components:
         VendorCollectIDTypeCode:
           description: |
             Code that identifies the type of Vendor Collect ID Number. Valid Values
-            - 0356 = IOSS
-            - 0357 = VOEC
-            - 0358 = HMRC
+            - 0000 = Unknown/Other
+            - 0356 = IOSS Registration Number
+            - 0357 = VOEC Registration Number
+            - 0358 = Deprecated
+            - 0359 = PVA Registration Number
+            - 1051 = Singapore GST Registration Number
+            - 1052 = ARN Registration Number
+            - 1053 = IRD Registration Number
+            - 1054 = Malaysia Low Value Goods Sales Tax Registration
 
             Vendor Collect ID Number type code will be printed on commercial invoice if present.
           maximum: 1
@@ -5965,7 +6420,7 @@ components:
         name: ReferenceNumber
       required:
       - Value
-      description: Reference Number information container.
+      description: Reference Number information container. Required for Trade Direct shipments.
     Shipment_Service:
       type: object
       maximum: 1
@@ -6004,10 +6459,13 @@ components:
             - 84 = UPS Today Intercity
             - 85 = UPS Today Express
             - 86 = UPS Today Express Saver
+            - 93 = Ground Saver
             - 96 = UPS Worldwide Express Freight.
             - C6 = Roadie XD AM (Morning delivery)
             - C7 = Roadie XD PM (Afternoon delivery)
             - C8 = Roadie XD (Anytime delivery)
+            - T0 = Master
+            - T1 = LTL
 
             Note: Only service code 03 is used for Ground Freight Pricing shipments  The following Services are not available to return shipment: 13, 59, 82, 83, 84, 85, 86, C6, C7, C8
           maximum: 1
@@ -6475,59 +6933,6 @@ components:
           type: string
           minLength: 1
           maxLength: 50
-        UndeliverableEMailAddress:
-          description: The address where an undeliverable email message is sent if the Label Delivery email is undeliverable.  Defaults to FromEMailAddress.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 50
-        FromEMailAddress:
-          description: "The e-mail address specifies the Reply To E-mail address. The \"From\" field of the message header contains pkginfo@ups.com."
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 50
-        FromName:
-          description: "The \"FrontName\" is the name from which notification will appear. Defaults to the \"Shipper Name\"."
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 35
-        Memo:
-          description: User defined text that will be included in the email.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 150
-        Subject:
-          description: The eMails subject. Defaults to the Label Delivery Notification plus the shipment ID. Defaults to text provided by UPS.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 75
-        SubjectCode:
-          description: |
-            Specifies a reference code and reference number to display in the subject of the Label Delivery notification.
-
-            When the subject code is provided, the subject will contain the following: UPS Label Delivery, the reference code (the reference code will be mapped to the corresponding ANSI value) and the reference number.
-
-            The valid subject codes are:
-            - 01 - Shipment Reference Number 1,
-            - 02 - Shipment Reference Number 2,
-            - 03 - package Reference Number 1,
-            - 04 - package Reference Number 2,
-            - 05 - package Reference Number 3,
-            - 06 - package Reference Number 4,
-            - 07 - package Reference Number 5,
-            - 08 - Subject Text (Return Notification only).
-
-            If the subject code tag is not provided and the subject text is provided, the subject of the notification will be the subject text.
-
-            If the subject text is provided, and the subject code tag exists, then the subject code value must be 08. If Subject code is 08, subject text must exist. If a subject code is provided that refers to a nonexistent reference number, the subject will default to the shipment identification number.
-          maximum: 1
-          type: string
-          minLength: 2
-          maxLength: 2
       xml:
         name: EMail
       description: Container for the email message.
@@ -6627,8 +7032,8 @@ components:
             refers to Terms of Sale.  Applies to Invoice and Partial Invoice forms
             only. \n\nValid values: \nCFR: Cost and Freight \nCIF: Cost Insurance
             and Freight \nCIP: Carriage and Insurance Paid \nCPT: Carriage Paid To
-            \nDAF: Delivered at Frontier \nDDP: Delivery Duty Paid \nDDU: Delivery
-            Duty Unpaid \nDEQ: Delivered Ex Quay \nDES: Delivered Ex Ship \nEXW: Ex
+            \nDAF: Delivered at Frontier \nDDP: Delivery Duty Paid \nDAP: Delivery
+            at Place \nDEQ: Delivered Ex Quay \nDES: Delivered Ex Ship \nEXW: Ex
             Works \nFAS: Free Alongside Ship \nFCA: Free Carrier \nFOB: Free On Board"
           maximum: 1
           type: string
@@ -8705,6 +9110,689 @@ components:
         including 20 packages are allowed. US/PR origin return movements are limited
         to only one package. For Mail Innovations and Simple Rate shipments only one
         package is allowed.
+    Shipment_TradeDirect:
+      type: object
+      required:
+        - CurrencyCode
+        - ShipmentType
+      properties:
+        Master:
+          $ref: '#/components/schemas/TradeDirect_Master'
+        Child:
+          $ref: '#/components/schemas/TradeDirect_Child'
+        GeneralDescriptionOfGoods:
+          description: General description of the goods being shipped. It is required for master shipment. 
+          pattern: ^[a-zA-Z0-9 ]{1,100}$
+          type: string
+        ShipmentType:
+          description: |
+            Consolidated shipment types.
+
+            Valid values:
+            - TRADEDIRECTAIR =  TradeDirect Air - consolidation, custom clearance, deconsolidation and delivery to multiple addresses 
+                                within destination country, with Airport-to-door or door-to-door.
+                                
+            - TRADEDIRECTOCEAN = TradeDirect Ocean - consolidation, ocean transportation, customs clearance, deconsolidation and delivery 
+                                 to multiple addresses within a destination country, with port-to-door and door-to-door service from shipper to consignee. Available from more than 70 ports.
+                                 
+            - TRADEDIRECTCROSSBORDER = TradeDirect CrossBoarder - consolidation, customs clearance, deconsolidation and delivery to multiple addresses
+                                       within the destination country, with door-to-door service across North American borders.                
+          enum: ["TRADEDIRECTAIR", "TRADEDIRECTOCEAN", "TRADEDIRECTCROSSBORDER"]
+          type: string
+        CurrencyCode:
+          description: The currency code for the shipment as per ISO 4217.
+          type: string
+          pattern: ^[A-Z]{3}$
+      xml:
+        name: TradeDirect
+      maximum: 1
+      description: A UPS product that enables customers to ship directly from a manufacturer to end consumers in a different country.
+    TradeDirect_Master:
+      type: object
+      maximum: 1
+      required:
+        - UomType
+      properties:
+        SoldToSameAsShipTo:
+          description: If Present indicates the Sold to and Ship To are the same.
+          maximum: 1
+          type: string
+        SoldTo:
+          $ref: '#/components/schemas/Master_SoldTo'
+        Pickup:
+          $ref: '#/components/schemas/Master_Pickup'
+        TradeComplianceDetails:
+          $ref: '#/components/schemas/Master_TradeComplianceDetails'
+        UomType:
+          description: |
+            The type of measurement used for the shipment. Imperial(lbs, in) & Metric(kgs, cm)
+
+            Valid values are:
+            
+            - Imperial	= This system of measurement uses units such as pounds (lbs) for weight and inches (in) for length.
+            
+            - Metric = This system of measurement uses units such as kilograms (kgs) for weight and centimeters (cm) for length.
+
+          type: string                   
+          example: Imperial
+          enum : ["Imperial", "Metric"] 
+        NotificationBeforeDelivery:
+          $ref: '#/components/schemas/TradeDirect_NotificationBeforeDelivery'
+      xml:
+        name: Master
+      description: A collection of small package and LTL/TL shipments that are transported by UPS from the customer to the destination CFS.
+    Master_SoldTo:
+      type: object
+      maximum: 1
+      required:
+        - Address
+        - Name
+        - EmailAddress
+      properties:
+        Name:
+          description: Master Sold To Company Name.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 35
+        AttentionName:
+          description: Master Sold to Contact Name.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 35
+        TaxIdentificationNumber:
+          deprecated: true
+          description: Master Sold To Tax Identification Number. This element has been deprecated, replacement can be found in the GlobalTaxInformation container.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 15
+        Phone:
+          $ref: '#/components/schemas/TradeDirect_Phone'
+        Option:
+          description: "The text associated with the code will be printed in the sold to section of the NAFTA CO form.  The values indicate the following: 01 – Unknown.  Applies to NAFTA CO form. Possible Values are 01 and 02."
+          maximum: 1
+          type: string
+          minLength: 2
+          maxLength: 2
+        Address:
+          $ref: '#/components/schemas/TradeDirect_Address'
+        EmailAddress:
+          description: Master Sold To Email Address.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 50
+        AccountNumber:
+          description: Master Sold To Account Number.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 6
+      xml:
+        name: SoldTo
+      description: 'Contains the address and contact details of the shipments.'
+    Master_Pickup:
+      type: object
+      maximum: 1
+      required:
+        - Name
+        - Address
+        - EMailAddress
+      properties:
+        Name:
+          description: Master Pickup Company Name.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 35
+        AttentionName:
+          description: Master Pickup Contact Name.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 35
+        Phone:
+          $ref: '#/components/schemas/TradeDirect_Phone'
+        Address:
+          $ref: '#/components/schemas/TradeDirect_Address'
+        EMailAddress:
+          description: Master Pickup Email Address
+          type: string
+          minLength: 1
+          maxLength: 50
+      xml:
+        name: Pickup
+      description: 'Contains the address and contact details of the shipments.'
+    TradeDirect_Phone:
+      type: object
+      maximum: 1
+      required:
+        - Number
+      properties:
+          Number:
+            description: The phone number of the contact.
+            type: string
+            minimum: 0
+            maximum: 99999999999999
+          Extension:
+            description: The phone extension of the contact.
+            type: string
+            minimum: 0
+            maximum: 9999
+      xml:
+        name: Phone
+      description: 'Contains the phone details including the phone number and extension.'
+    TradeDirect_Address:
+      type: object
+      maximum: 1
+      required:
+        - AddressLine
+        - City
+        - CountryCode
+      properties:
+        AddressLine:
+          description: Primary address line includes street number and street name (when applicable).
+          maximum: 3
+          type: string
+          pattern: ^[A-Za-z0-9\s.,#/-]{1,35}$
+          example: 123 South Main St
+        City:
+          description: The name of the city for the address.
+          type: string
+          pattern: ^[a-zA-Z\s.,]{1,35}$
+          example: Atlanta
+        StateProvinceCode:
+          description: The code for the state or province for the address.
+          type: string
+          pattern: ^[a-zA-Z]{2,5}$
+          example: GA
+        PostalCode:
+          description: The postal code for the address.
+          type: string
+          pattern: ^(?!.*\s.*\s)(?!.*-.*-)[A-Za-z0-9\s-]{2,10}$
+          example: 30022-1323
+        CountryCode:
+          description: The code for the country for the address
+          type: string
+          pattern: ^[A-Z]{2}$
+          example: US
+      xml:
+        name: Address
+      description: 'Contains the address details including street address, city, state or province code, postal code, and country code.'
+    Master_TradeComplianceDetails:
+      type: object
+      maximum: 1
+      properties:
+        TermsOfShipment:
+          description: |
+            The terms of sale for the invoice.
+            
+             Valid values:
+             
+            - CFR =	Cost and Freight
+            - CIF =	Cost Insurance and Freight
+            - CIP =	Carriage and Insurance Paid
+            - CPT =	Carriage Paid To
+            - DAF =	Delivered at Frontier
+            - DAP =	Delivered at Place
+            - DAT =	Delivered at Terminal
+            - DDP =	Delivery Duty Paid
+            - DDU =	Delivery Duty Unpaid
+            - DEQ =	Delivered Ex Quay
+            - DES =	Delivered Ex Ship
+            - EXW =	Ex Works
+            - FAS =	Free Alongside Ship
+            - FCA =	Free Carrier
+            - FOB =	Free On Board  
+            
+          type: string
+          enum: ["CFR","CIF","CIP","CPT","DAF","DAP","DAT","DDP","DDU","DEQ","DES","EXW","FAS","FCA","FOB",]
+          example: FOB
+        ReasonForExport:
+          description: The reason for export to go on the invoice.
+          type: string
+          maxLength: 75
+        Comments:
+          description: Additional comments to be included on the invoice.
+          type: string
+          maxLength: 150
+        DeclarationStatement:
+          description: |
+            The type of declaration statement. Can be invoice or NAFTA.
+            
+             Valid values:
+             
+            - Invoice =	Invoice declaration
+            - NAFTA = NAFTA declaration	
+            
+          type: string
+          enum: ["Invoice", "NAFTA"]  
+      xml:
+       name: TradeComplianceDetails
+      description: 'Contains trade compliance details for the master shipment, such as invoice terms, export reasons, and declaration statements. It also includes additional comments or instructions for customs clearance.'
+    TradeDirect_Child:
+      type: object
+      maximum: 1
+      required:
+        - Product
+        - Type
+        - USI
+        - LtlPackage
+      properties:
+        USI:
+          description: 'The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.'
+          type: string 
+          pattern: ^(?:[0-9]{10}|[0-9]{9}T)$  
+          example: 578299028T
+        HazMatIndicator:
+          description: Indicates the Presence/Absence of HazMat on the shipment.
+          maximum: 1
+          type: string
+        Type:
+          description: |
+            The type of shipment.
+            
+             Valid values:
+             
+            - LTL 
+            - SMALLPACKAGE 	
+            
+          type: string
+          enum: ["LTL", "SMALLPACKAGE"]  
+        Product:
+          $ref: '#/components/schemas/Child_Product'
+        LtlPackage:
+          $ref: '#/components/schemas/Child_LTL_Package'
+        LtlCharges:
+          $ref: '#/components/schemas/Child_LTL_Charges'
+      xml:
+        name: Child
+      description: A small package or LTL/TL shipment associated with a Trade Direct Master.
+    Child_Product:
+      type: object
+      maximum: 100
+      required:
+        - UnitPrice
+        - Description
+        - NumberOfUnits
+        - UnitOfMeasure
+        - ProductNumber
+        - CountryOriginCode
+      properties:
+        Description:
+          description: Description of the product being shipped.
+          type: string
+          pattern: ^[a-zA-Z0-9 ]{1,100}$
+          example: ALPHA BRAIN INSTANT PEACH
+        UnitPrice:
+          description: Price per unit of the product being shipped.
+          type: string
+          example: 2
+          minimum: 0.01
+        NumberOfUnits:
+          description: Number of units of the product being shipped.
+          type: string
+          example: 3
+          minimum: 1
+        ProductNumber:
+          description: Product number of the product being shipped.
+          type: string
+          example: IDID767640
+          pattern: ^[a-zA-Z0-9 ]{1,20}$
+        CountryOriginCode:
+          description: Country code of the product being shipped.
+          type: string
+          pattern: ^[A-Z]{2}$
+        UnitOfMeasure:
+          description: |
+            Unit of Measure for the product being shipped.
+            
+            Valid values are :
+             - BA = Barrel
+             - BE = Bundle
+             - BG = Bag
+             - BH =	Bunch
+             - BOX = Box
+             - BT = Bolt
+             - LB =	Pound
+             - LBS = Pounds
+             - L = Liter
+             - M = Meter
+             - NMB = Number
+             - PA = Packet
+             - BU = Butt
+             - CI =	Canister
+             - CM =	Centimeter
+             - CON = Container
+             - CR = Crate
+             - CS =	Case
+             - CT =	Carton
+             - CY =	Cylinder
+             - DOZ = Dozen
+             - EA = Each
+             - EN =	Envelope
+             - FT =	Feet
+             - KG =	Kilogram
+             - KGS = Kilograms
+             - PAL = Pallet
+             - PC = Piece
+             - PCS = Pieces
+             - PF = Proof Liters
+             - OTH = Other
+             - PKG = Package
+             - PR = Pair
+             - PRS = Pairs
+             - RL = Roll
+             - SET = Set
+             - SME = Square Meters
+             - SYD = Square Yards
+             - TU =	Tube
+             - YD =	Yard
+            
+          type: string
+          enum: [ "BA", "BE", "BG", "BH", "BOX", "BT", "LB", "LBS", "L", "M", "NMB", "PA", "BU", "CI", "CM", "CON", "CR", "CS", "CT", "CY", "DOZ", "EA", "EN", "FT", "KG", "KGS", "PAL", "PC", "PCS", "PF", "OTH", "PKG", "PR", "PRS", "RL", "SET", "SME", "SYD", "TU", "YD" ]
+      xml:
+        name: Product
+      description: This variable represents the product details. It is used to provide information about the product being shipped.
+    Child_LTL_Package:
+      type: object
+      maximum: 200
+      minimum: 1
+      required:
+        - NumberOfIdenticalUnits
+        - HandlingUnits
+      properties:
+        NumberOfIdenticalUnits:
+          description: Number of identical units in the package/ltl.
+          type: string
+          example: 1
+          minimum: 1
+          maximum: 200
+        HandlingUnits:
+          $ref: '#/components/schemas/LTL_Handling_Units'
+        ReferenceNumber:
+          $ref: '#/components/schemas/LTL_Reference_Number'  
+      xml:
+        name: LtlPackage
+      description: 'LTL package information. Applicable only for LTL child.'
+    LTL_Handling_Units:
+      type: object
+      maximum: 1
+      required:
+        - Quantity
+        - Type
+        - FreightClass
+        - Dimensions
+        - PackageWeight
+      properties:
+        Quantity: 
+          description: Quantity of handling units.
+          type: string
+          example: 1
+          minimum: 1
+          maximum: 999999999
+        Type:
+          description: Type of handling unit.
+          type: string
+          example: BOXES
+          enum: [ "BAGS", "BOXES", "CARTONS", "CRATES", "DRUMS", "PALLET_SKIDS", "ROLLS", "TUBES" ]
+        FreightClass:
+          description: |
+            Freight class of the handling unit.
+            
+            Valid values are:
+            
+            - 50 = over 50 lbs - Fits on standard shrink-wrapped 4X4 pallet, very durable
+            - 55 = 35-50 pounds - Bricks, cement, mortar, hardwood flooring
+            - 60 = 30-35 pounds - Car accessories & car parts
+            - 65 = 22.5-30 pounds - Car accessories & car parts, bottled beverages, books in boxes
+            - 70 = 15 to 22.5 pounds - Car accessories & car parts, food items, automobile engines
+            - 77.5 = 13.5 to 15 pounds - Tires, bathroom fixtures
+            - 85 =	12-13.5 pounds - Crated machinery, cast iron stoves
+            - 92.5 = 10.5-12 pounds - Computers, monitors, refrigerators
+            - 100 =	9-10.5 pounds - Boat covers, car covers, canvas, wine cases, caskets
+            - 110 =	8-9 pounds - Cabinets, framed artwork, table saw
+            - 125 =	7-8 pounds - Small Household appliances
+            - 150 =	6-7 pounds - Auto sheet metal parts, bookcases
+            - 175 =	5-6 pounds - Clothing, couches stuffed furniture
+            - 200 =	4-5 pounds - Auto sheet metal parts, aircraft parts, aluminum table, packaged mattresses
+            - 250 =	3-4 pounds - Bamboo furniture, mattress and box spring, plasma TV
+            - 300 =	2-3 pounds - Wood cabinets, tables, chairs setup, model boats
+            - 400 =	1-2 pounds - Deer antlers
+            - 500 =	Less than 1 lbs - Bags of gold dust, ping pong balls
+            
+          type: string
+          example: 150
+          enum: [ "50", "55", "60", "65", "70", "77.5", "85", "92.5", "100", "110", "125", "150", "175", "200", "250", "300", "400", "500" ]
+        Dimensions:
+          $ref: '#/components/schemas/LTL_Dimensions'
+        PackageWeight:
+          $ref: '#/components/schemas/LTL_Package_Weight_Type'
+      xml:
+        name: HandlingUnits
+      description: 'Used to provide information about the handling units in the package/ltl.'
+    LTL_Reference_Number:
+      type: object
+      maximum: 3
+      required:
+        - Value
+        - Code
+      properties:
+        Code:
+          description: |
+            Reference number code supplied by customer.
+            
+            Valid values are:
+            
+            - PO = Purchase Order Number
+            - REF =	Reference Number
+            - INV = Invoice Number
+            
+          type: string
+          example: PO
+          enum: [ "PO", "REF", "INV" ]
+        Value:
+          description: Reference number supplied by customer.
+          type: string
+          example: REF834950
+      xml:
+        name: ReferenceNumber      
+      description: LTL Reference number.
+    LTL_Dimensions:
+      type: object
+      maximum: 1
+      required:
+        - Length
+        - Width
+        - UnitOfMeasurement
+        - Height
+      properties:
+        Length:
+          description: Length of the package/ltl.
+          type: string
+          example: 48
+          minimum: 0.01
+          maximum: 99.99
+        Width:
+          description: Width of the package/ltl.
+          type: string
+          example: 40
+          minimum: 0.01
+          maximum: 99.99
+        Height:
+          description: Height of the package/ltl.
+          type: string
+          example: 36
+          minimum: 0.01
+          maximum: 99.99
+        UnitOfMeasurement:
+          description: |
+            The code associated with unit of measurement. The requested code must be valid for the shipper country or territory.
+            
+            Valid values are :
+            
+            - IN = Inches
+            - CM = Centimeters
+          type: string
+          example: IN
+          enum: [ "IN", "CM" ]
+      xml:
+        name: Dimensions
+      description: 'Dimensions for the handling unit.'
+    LTL_Package_Weight_Type:
+      type: object
+      maximum: 1
+      required:
+        - Weight
+        - UnitOfMeasurement
+      properties:
+        Weight:
+          description: Weight of the package/ltl.
+          type: string
+          example: 10
+          minimum: 0.01
+          maximum: 99999.99
+        UnitOfMeasurement:
+          description: |
+            Unit of measurement of the weight.
+            
+            Valid values are:
+            
+            - KGS = Kilograms
+            - LBS =	Pounds
+          type: string
+          example: KGS
+          enum: [ "KGS", "LBS" ]
+      xml:
+        name: PackageWeight
+      description: 'Weight for the handling unit.'
+    Child_LTL_Charges:
+      type: object
+      maximum: 1
+      properties:
+        Discount:
+          description: The monetary value of the discount/rebate charge.
+          type: string
+          maximum: 1000000
+          minimum: 0
+          pattern: ^[0-9]+(\.[0-9]{1,2})?$    
+        FreightCharges:
+          description: Freight charges.
+          type: string
+          maximum: 1000000
+          minimum: 0
+          pattern: ^[0-9]+(\.[0-9]{1,2})?$
+        InsuranceCharges:
+          description: The monetary value of the insurance charge.
+          type: string
+          maximum: 1000000
+          minimum: 0
+          pattern: ^[0-9]+(\.[0-9]{1,2})?$
+        OtherCharges:
+          $ref: '#/components/schemas/LTL_Other_Charges'
+      xml:
+        name: LtlCharges
+      description: 'Represents transportation charges for child shipments categorized as "Less than Truck Load" (LTL), including freight, fuel surcharges, and accessorial fees. These charges are calculated based on shipment weight, volume, or distance. Applicable only for LTL child.'
+    LTL_Other_Charges:
+      type: object
+      maximum: 1
+      required:
+        - MonetaryValue
+        - ChargeDescription
+      properties:
+        MonetaryValue:
+          description: 'The amount the shipper or receiver pays to cover the cost associated with the LTL Charges.'
+          type: string
+          example: 2
+          maximum: 1000000
+          minimum: 0
+          pattern: ^[0-9]+(\.[0-9]{1,2})?$
+        ChargeDescription:
+          description: 'Description of what the other charges are for.'
+          type: string
+          example: Miscellaneous charge
+          pattern: ^[a-zA-Z0-9 ]{1,30}$
+      xml:
+        name: OtherCharges
+      description: 'Any other miscellaneous charges.'
+    TradeDirect_NotificationBeforeDelivery:
+      type: object
+      maximum: 1
+      required:
+        - EMailAddress
+      properties:
+        RequestType:
+          description: |
+            The type of notification request.
+            
+            Valid values are:
+            
+            - 001 = QV Ship Notification
+            - 002 = QV Delivery Notification
+            - 003 = QV Exception Notification
+          type: string
+          example: 6
+          enum: [ "001", "002", "003"]
+        MediaTypeCode:
+          description:  |
+            The media type code for the notification.
+            
+            Valid values are:
+            
+            - 03 = Email
+            - 04 = Fax
+          type: string
+          example: 03
+          enum: ["03", "04" ]
+        Language:
+          description: The language for the notification.
+          type: string
+          example: ENG
+          pattern: ^[A-Z]{3}$
+        Dialect:
+          description: The dialect for the notification.
+          type: string
+          example: US
+          pattern: ^[A-Z0-9]{2}$
+        ShipFromCompanyName:
+          description: The name of the company for the ship from address.
+          type: string
+          maxLength: 35
+        CompanyName:
+          description: The name of the company for the notification.
+          type: string
+          maxLength: 35
+        Phone:
+          $ref: '#/components/schemas/TradeDirect_Phone'
+        SubjectLine:
+          description: Subject line for the notification.
+          type: string
+          maxLength: 75
+        Memo:
+          description: Memo for the notification.
+          type: string
+          maxLength: 150
+        Name:
+          description: The name of the contact person for the notification.
+          type: string
+          maxLength: 35
+        EMailAddress:
+          description: Email address to send notification to.
+          type: string
+          example: john@ups.com
+          minLength: 1
+          maxLength: 50
+          pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+        AlternateEmailAddress:
+          description: Alternate email address for the notification.
+          type: string
+          example: john@ups.com
+          maxLength: 50
+      xml:
+        name: NotificationBeforeDelivery
+      description: 'Notification container for the before delivery notification.'    
     Package_Packaging:
       type: object
       maximum: 1
@@ -8931,6 +10019,8 @@ components:
         Package reference number information container.  For Mail Innovation shipments, up to 3 reference numbers are supported. If 5 reference numbers are specified (CostCenter, PackageID, and 3 ReferenceNumbers) the 3 desigated by the ReferenceNumber container will not be visible on 4x6 label supported by the API. These additional reference numbers are only be visible on the 4x8 label..
 
         For non-Mail Innovation shipments only the first 2 reference numbers will be visible on labels.
+        
+        Required for Trade Direct shipments.
     Package_SimpleRate:
       type: object
       maximum: 1
@@ -8962,7 +10052,6 @@ components:
       type: object
       maximum: 1
       required:
-      - SensorID
       - Category
       - HandlingInstructions
       properties:
@@ -8983,7 +10072,9 @@ components:
           minLength: 1
           maxLength: 50
         HandlingInstructions:
-          "$ref": "#/components/schemas/UPSPremier_HandlingInstructions"
+          type: array
+          items:
+            "$ref": "#/components/schemas/UPSPremier_HandlingInstructions"
       xml:
         name: UPSPremier
       description: UPS Premier Container.
@@ -9028,7 +10119,7 @@ components:
             "$ref": "#/components/schemas/PackageServiceOptions_HazMat"
         HazMatTypeCode:
           description: |-
-           Field to be used when a shipment contains a HazMat. It will specify the existence of HazMat, and what type. Initially this will be used for SurePost and Mail Innovations 'USPS Limited Quantities HazMat' Shipments (but may be extended for other types of HazMat in the future).
+           Field to be used when a shipment contains a HazMat. It will specify the existence of HazMat, and what type. Initially this will be used for UPS Ground saver and Mail Innovations 'USPS Limited Quantities HazMat' Shipments (but may be extended for other types of HazMat in the future).
             Valid values are 01. 
             - USPS Limited Quantities HazMat - 01
           maximum: 2
@@ -10147,12 +11238,36 @@ components:
         GCCN:
           description: Global Consolidation Carton Number
           type: string
+        USI:
+          description: The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.
+          type: string 
+          pattern: ^(?:[0-9]{10}|[0-9]{9}T)$  
+          example: 578299028T
+        Message:
+          description: A message indicating the status or result of the operation.
+          type: string
+        SubProNumber:
+          description: The sub PRO number associated with the LTL shipment.
+          type: string
+        PalletLabel:
+         "$ref": "#/components/schemas/ShipmentResults_PalletLabel"
+        BillOfLading:
+          description: Base64-encoded image data.
+          type: string
       xml:
         name: ShipmentResults
       maximum: 1
       required:
       - BillingWeight
       description: Shipment Results container.
+    ShipmentResults_PalletLabel:
+      type: object
+      properties:
+        PalletLabel:
+          description: Base64-encoded graphic image of Pallet.
+          type: string
+      xml:
+        name: PalletLabel
     ShipmentResults_Disclaimer:
       type: object
       maximum: 1
@@ -11697,8 +12812,8 @@ components:
           minLength: 18
           maxLength: 18
         TrackingNumber:
-          description: The package's identification number  Alpha-numeric. Must pass
-            1Z rules. Must be upper case
+          description: "The package's identification number  Alpha-numeric. Must pass
+            1Z rules. Must be upper case.\n\nPackage level Void is not applicable for return service."
           type: array
           items:
             maximum: 20
@@ -12220,11 +13335,9 @@ components:
         HighValueReport:
           "$ref": "#/components/schemas/LabelRecoveryResponse_HighValueReport"
         TrackingCandidate:
-          oneOf:
-          - items:
-              "$ref": "#/components/schemas/LabelRecoveryResponse_TrackingCandidate"
             type: array
-          - "$ref": "#/components/schemas/LabelRecoveryResponse_TrackingCandidate"
+            items:
+              "$ref": "#/components/schemas/LabelRecoveryResponse_TrackingCandidate"
       xml:
         name: LabelRecoveryResponse
       maximum: 1
@@ -12834,10 +13947,6 @@ components:
 
             1006 = Phone Number
           type: string
-        IDNumberSubTypeCode:
-          description: Combination of IDnumberCode and IDNumberSubTypeCode were used to
-            form the correct regex for processing
-          type: string
         IncludeIDNumberOnShippingBrokerageDocs:
           description: >-
             field to determine if the Identification Number should be excluded
@@ -12849,7 +13958,7 @@ components:
         - IdentificationNumber
         - IDNumberEncryptionIndicator
         - IDNumberPurposeCode
-        - IDNumberSubTypeCode
+        - IDNumberCustomerRole
       type: object
       xml:
         name: TaxIdentificationNumber
@@ -12868,6 +13977,12 @@ components:
         ShipperTypeValue:
           description: "The value for idNumber_Consumer_TypeCode which satisfies Tax-ID Threshold Code is \_‘01’=Business,\_‘02’=Consumer/Individual,\_\_\_\_\_\_‘NA’= ‘Not Applicable’"
           type: string
+        ConsigneeTypeValue:
+          description: Consignee Type. 01 = Business  02 = Consumer NA = Not Applicable
+          maximum: 1
+          type: string
+          minLength: 2
+          maxLength: 2
         AgentTaxIdentificationNumber:
           $ref: >-
             #/components/schemas/GlobalTaxInformation_AgentTaxIdentificationNumber

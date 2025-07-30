@@ -32,7 +32,14 @@ info:
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API/UPS-SDKs" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS SDKs</a></br>
     
-    </br><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
+    Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
+    
+    <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
+    </a>  
+    </br>
+    <p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
+    
     <a href="https://god.gw.postman.com/run-collection/29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">

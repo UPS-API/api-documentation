@@ -1,0 +1,198 @@
+openapi: 3.1.0
+info:
+  title: ''
+  description: ''
+  version: ''
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
+tags:
+  - name: UPS Track Alert
+    description:
+      $ref: "UPSTrackAlert.yaml#/info/description"
+  - name: UPS Track Alert with Photo
+    description:
+      $ref: "UPSTrackAlertEnhanced.yaml#/info/description"
+  - name: Export Assure
+    description:
+      $ref: "UPSExportAssure.yaml#/info/description"
+  - name: Interactive Description
+    description:
+      $ref: "InteractiveDescriptionGuidance.yaml#/info/description"
+  - name: Address Validation
+    description: 
+      $ref: "AddressValidation.yaml#/info/description"
+  - name: Dangerous Goods
+    description: 
+      $ref: "DangerousGoods.yaml#/info/description"
+  #- name: Global Checkout
+  #  description:
+  #    $ref: "GlobalCheckout.yaml#/info/description"
+  - name: Landed Cost
+    description: 
+      $ref: "LandedCost.yaml#/info/description"
+  - name: Locator
+    description: 
+      $ref: "Locator.yaml#/info/description"
+  - name: OAuth Auth Code
+    description: 
+      $ref: "OAuthAuthCode.yaml#/info/description"
+  - name: OAuth Client Credentials
+    description: 
+      $ref: "OAuthClientCredentials.yaml#/info/description"
+  - name: Paperless
+    description: 
+      $ref: "Paperless.yaml#/info/description"
+  - name: Pickup
+    description:
+      $ref: "Pickup.yaml#/info/description"
+  - name: Pre-Notification
+    description:
+      $ref: "PreNotification.yaml#/info/description"
+  - name: Quantum View
+    description:
+      $ref: "QuantumView.yaml#/info/description"
+  - name: Rating
+    description:
+      $ref: "Rating.yaml#/info/description"
+  - name: Shipping
+    description:
+      $ref: "Shipping.yaml#/info/description"
+  - name: TradeDirect
+    description:
+      $ref: "TradeDirect.yaml#/info/description"
+  - name: Time in Transit
+    description:
+      $ref: "TimeInTransit.yaml#/info/description"
+  - name: Tracking
+    description:
+      $ref: "Tracking.yaml#/info/description"
+  - name: World Ease Shipment Management - Shipment
+    description:
+      $ref: "WorldEaseShipmentManagement.yaml#/info/description"
+paths:
+  "/addressvalidation/{version}/{requestoption}":
+    "$ref": "AddressValidation.yaml#/paths/~1addressvalidation~1{version}~1{requestoption}"
+  "/addressvalidation/{deprecatedVersion}/{requestoption}":
+    "$ref": "AddressValidation.yaml#/paths/~1addressvalidation~1{deprecatedVersion}~1{requestoption}"
+  "/dangerousgoods/{version}/chemicalreferencedata":
+    "$ref": "DangerousGoods.yaml#/paths/~1dangerousgoods~1{version}~1chemicalreferencedata"
+  "/dangerousgoods/{version}/acceptanceauditprecheck":
+    "$ref": "DangerousGoods.yaml#/paths/~1dangerousgoods~1{version}~1acceptanceauditprecheck"
+  "/dangerousgoods/{deprecatedVersion}/chemicalreferencedata":
+    "$ref": "DangerousGoods.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1chemicalreferencedata"
+  "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
+    "$ref": "DangerousGoods.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1acceptanceauditprecheck"
+  "/landedcost/{version}/quotes":
+    "$ref": "LandedCost.yaml#/paths/~1landedcost~1{version}~1quotes"
+  "/locations/{version}/search/availabilities/{reqOption}":
+    "$ref": "Locator.yaml#/paths/~1locations~1{version}~1search~1availabilities~1{reqOption}"
+  "/locations/{deprecatedVersion}/search/availabilities/{reqOption}":
+    "$ref": "Locator.yaml#/paths/~1locations~1{deprecatedVersion}~1search~1availabilities~1{reqOption}"
+  "/v1/oauth/authorize":
+    "$ref": "OAuthAuthCode.yaml#/paths/~1v1~1oauth~1authorize"
+  "/v1/oauth/token":
+    "$ref": "OAuthAuthCode.yaml#/paths/~1v1~1oauth~1token"
+  "/v1/oauth/refresh":
+    "$ref": "OAuthAuthCode.yaml#/paths/~1v1~1oauth~1refresh"
+  "/security/v1/oauth/token":
+    "$ref": "OAuthClientCredentials.yaml#/paths/~1security~1v1~1oauth~1token"
+  "/paperlessdocuments/{version}/upload":
+    "$ref": "Paperless.yaml#/paths/~1paperlessdocuments~1{version}~1upload"
+  "/paperlessdocuments/{version}/image":
+    "$ref": "Paperless.yaml#/paths/~1paperlessdocuments~1{version}~1image"
+  "/paperlessdocuments/{version}/DocumentId/ShipperNumber":
+    "$ref": "Paperless.yaml#/paths/~1paperlessdocuments~1{version}~1DocumentId~1ShipperNumber"
+  "/paperlessdocuments/{deprecatedVersion}/upload":
+    "$ref": "Paperless.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1upload"
+  "/paperlessdocuments/{deprecatedVersion}/image":
+    "$ref": "Paperless.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1image"
+  "/paperlessdocuments/{deprecatedVersion}/DocumentId/ShipperNumber":
+    "$ref": "Paperless.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1DocumentId~1ShipperNumber"
+  "/shipments/{version}/pickup/{pickuptype}":
+    "$ref": "Pickup.yaml#/paths/~1shipments~1{version}~1pickup~1{pickuptype}"
+  "/shipments/{version}/pickup/{CancelBy}":
+    "$ref": "Pickup.yaml#/paths/~1shipments~1{version}~1pickup~1{CancelBy}"
+  "/pickupcreation/{version}/pickup":
+    "$ref": "Pickup.yaml#/paths/~1pickupcreation~1{version}~1pickup"
+  "/pickup/{version}/countries/{countrycode}":
+    "$ref": "Pickup.yaml#/paths/~1pickup~1{version}~1countries~1{countrycode}"
+  "/pickup/{version}/servicecenterlocations":
+    "$ref": "Pickup.yaml#/paths/~1pickup~1{version}~1servicecenterlocations"
+  "/shipments/{deprecatedVersion}/pickup/{CancelBy}":
+    "$ref": "Pickup.yaml#/paths/~1shipments~1{deprecatedVersion}~1pickup~1{CancelBy}"
+  "/pickupcreation/{deprecatedVersion}/pickup":
+    "$ref": "Pickup.yaml#/paths/~1pickupcreation~1{deprecatedVersion}~1pickup"
+  "/dangerousgoods/{version}/prenotification":
+    "$ref": "PreNotification.yaml#/paths/~1dangerousgoods~1{version}~1prenotification"
+  "/dangerousgoods/{deprecatedVersion}/prenotification":
+    "$ref": "PreNotification.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1prenotification"
+  "/quantumview/{version}/events":
+    "$ref": "QuantumView.yaml#/paths/~1quantumview~1{version}~1events"
+  "/quantumview/{deprecatedVersion}/events":
+    "$ref": "QuantumView.yaml#/paths/~1quantumview~1{deprecatedVersion}~1events"
+  "/rating/{version}/{requestoption}":
+    "$ref": "Rating.yaml#/paths/~1rating~1{version}~1{requestoption}"
+  "/rating/{deprecatedVersion}/{requestoption}":
+    "$ref": "Rating.yaml#/paths/~1rating~1{deprecatedVersion}~1{requestoption}"
+  "/shipments/{version}/ship":
+    "$ref": "Shipping.yaml#/paths/~1shipments~1{version}~1ship"
+  "/shipments/{version}/void/cancel/{shipmentidentificationnumber}":
+    "$ref": "Shipping.yaml#/paths/~1shipments~1{version}~1void~1cancel~1{shipmentidentificationnumber}"
+  "/labels/{version}/recovery":
+    "$ref": "Shipping.yaml#/paths/~1labels~1{version}~1recovery"
+  "/shipments/{deprecatedVersion}/ship":
+    "$ref": "Shipping.yaml#/paths/~1shipments~1{deprecatedVersion}~1ship"
+  "/shipments/{deprecatedVersion}/void/cancel/{shipmentidentificationnumber}":
+    "$ref": "Shipping.yaml#/paths/~1shipments~1{deprecatedVersion}~1void~1cancel~1{shipmentidentificationnumber}"
+  "/ship/tradedirect/{version}/master-shipments/{usi-number}":
+    "$ref": "TradeDirect.yaml#/paths/~1master-shipments~1{usi-number}"
+  "/ship/tradedirect/{version}/master-shipments/{usi-number}/child-shipments/{tracking-number}":
+    "$ref": "TradeDirect.yaml#/paths/~1master-shipments~1{usi-number}~1child-shipments~1{tracking-number}"
+  "/ship/tradedirect/{version}/master-shipments/{usi-number}/closeout":
+    "$ref": "TradeDirect.yaml#/paths/~1master-shipments~1{usi-number}~1closeout"
+  "/ship/tradedirect/{version}/master-shipments/{usi-number}/ltl-child-shipments/{sub-pro-number}":
+    "$ref": "TradeDirect.yaml#/paths/~1master-shipments~1{usi-number}~1ltl-child-shipments~1{sub-pro-number}"
+  "/ship/tradedirect/{version}/master-shipments/documents":
+    "$ref": "TradeDirect.yaml#/paths/~1master-shipments~1documents"
+  "/shipments/{version}/transittimes":
+    "$ref": "TimeInTransit.yaml#/paths/~1shipments~1{version}~1transittimes"
+  "/track/v1/details/{inquiryNumber}":
+    "$ref": "Tracking.yaml#/paths/~1track~1v1~1details~1{inquiryNumber}"
+  "/track/v1/reference/details/{referenceNumber}":
+    "$ref": "Tracking.yaml#/paths/~1track~1v1~1reference~1details~1{referenceNumber}"
+  "/track/{version}/subscription/enhanced/package":
+    "$ref": "UPSTrackAlertEnhanced.yaml#/paths/~1subscription~1enhanced~1package"
+  "/brokerage/{version}/importexport/exportassure":
+    "$ref": "UPSExportAssure.yaml#/paths/~1importexport~1exportassure"
+  "/export-assure/{version}/interactive":
+    "$ref": "InteractiveDescriptionGuidance.yaml#/paths/~1interactive"
+  "/export-assure/{version}/interactive/{sessionId}":
+    "$ref": "InteractiveDescriptionGuidance.yaml#/paths/~1interactive~1{sessionId}"
+  "/export-assure/{version}/interactive/feedback/{sessionId}":
+    "$ref": "InteractiveDescriptionGuidance.yaml#/paths/~1interactive~1feedback~1{sessionId}"
+  "/ship/{version}/master-shipment/closeout/{shipment-gccn}":
+    "$ref": "WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1closeout~1{shipment-gccn}"
+  "/ship/{version}/master-shipment/{shipment-gccn}":
+    "$ref": "WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1{shipment-gccn}"
+  "/ship/{version}/child-shipment/{shipment-gccn}/{tracking-number}":
+    "$ref": "WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
+  "/track/{version}/subscription/standard/package":
+    "$ref": "UPSTrackAlert.yaml#/paths/~1subscription~1standard~1package"
+webhooks:
+  TrackingEvent:
+    "$ref": "UPSTrackAlert.yaml#/webhooks/TrackingEvent"
+  TrackingEventEnhanced:
+    "$ref": "UPSTrackAlertEnhanced.yaml#/webhooks/TrackingEventEnhanced"                     
+components:
+  securitySchemes:
+    OAuth2:
+      $ref: 'AddressValidation.yaml#/components/securitySchemes/OAuth2'
+    BasicAuth:
+      $ref: 'OAuthClientCredentials.yaml#/components/securitySchemes/BasicAuth'
+    BasicAuthGenerate:
+      $ref: 'OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthGenerate'
+    BasicAuthRefresh:
+      $ref: 'OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'

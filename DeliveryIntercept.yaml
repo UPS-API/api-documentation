@@ -1,45 +1,41 @@
 openapi: 3.1.0
 info:
-  title: Delivery Intercept® API
+  title: Delivery Intercept® API v2
   description: |
-    With the UPS Delivery Intercept® API, a shipper can manage the delivery details of their shipment, prior to delivery.
+    With the UPS Delivery Intercept® API, a shipper can cancel or reroute a shipment they have sent, prior to delivery.
 
-    # Business Values
+    ## Key Business Values
+    - Elimination of manually processing customer requests
+    - Acceptance of requests later in the delivery process
 
-    **Key Business Values:**
-    - elimination of manually processing customer requests
-    - acceptance of requests later in the delivery process
-
-    <a href="https://developer.ups.com/api/reference/deliveryintercept/product-info" target="_blank" rel="noopener">Product Info</a>
+    For more information on the Delivery Intercept® API, please visit the <a href="https://developer.ups.com/api/reference/deliveryintercept/product-info" target="_blank" rel="noopener">Product Info</a> page.
+    
+    ## Reference
+    - <a href="https://developer.ups.com/api/reference/deliveryintercept/errors" target="_blank" rel="noopener">Errors</a>
+    
+    <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
 
     <a href="https://god.gw.postman.com/run-collection/29542085-f2409ef1-39c9-4f4a-a509-a3f860068ff4?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f2409ef1-39c9-4f4a-a509-a3f860068ff4%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
-      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
 
-    # CIE Behavior
+    ## CIE Behavior
 
     The Delivery Intercept API will return a stubbed success response if the correct data is used for a given endpoint. The static data that is valid for each of the endpoints is in the table below:
     
     | Endpoint | transId | trackingNumber                                                                                                                                                                                              |
     |------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
     | /charges     | SIICharges         | 1Z4096YY0316914058
+    | /eligibility/intercept | SUPER14 | 1Z6568YY1200043419
     | /willcall     | SIIWillcall        | 1Z4096YY0316914058
     | /return     | SIIReturn         | 1Z4096YY0316914058
     | /reschedule     | SIIReschedule         | 1Z4096YY0316914058
     | /redirect/address     | SIIRedirect         | 1Z4096YY0316914058
     | /cancel     | SIICancel         | 1Z4096YY0316914058
-
-
   version: "1.0"
-  termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
 servers:
-  - url: https://wwwcie.ups.com/api/deliveryintercept/{version}
-    description: Customer Integration Environment
-    variables:
-      version:
-        default: v2
-        enum:
-          - v2
   - url: https://onlinetools.ups.com/api/deliveryintercept/{version}
     description: Production
     variables:
@@ -47,713 +43,1111 @@ servers:
         default: v2
         enum:
           - v2
-security: 
-  - OAuth2: []
+  - url: https://wwwcie.ups.com/api/deliveryintercept/{version}
+    description: Customer Integration Environment
+    variables:
+      version:
+        default: v2
+        enum:
+          - v2
 paths:
-  /charges/{trackingNumber}:
+  /charges/{tracking_number}:
     post:
-      summary: charges by inquiry type
-      description: Obtains intercept charges specified by the inquiry type.
+      summary: Get charges by inquiry type
+      description: Obtains intercept charges specified by the inquiry type and tracking number passed in the interface.
       operationId: getCharges
       tags: 
         - Delivery Intercept
-      servers:
-        - url: https://wwwcie.ups.com/api/deliverychange/{version}
-          description: Customer Integration Environment
-          variables:
-            version:
-              default: v2
-              enum:
-                - v2
-        - url: https://onlinetools.ups.com/api/deliverychange/{version}
-          description: Production
-          variables:
-            version:
-              default: v2
-              enum:
-                - v2
+      security:
+        - OAuth2: []
       parameters:
         - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/PlatformType"
         - $ref: "#/components/parameters/Content-Type"
-        - $ref: "#/components/parameters/TrackingNumber"
+        - $ref: "#/components/parameters/InquiryType"
+        - $ref: "#/components/parameters/tracking_number"
         - $ref: "#/components/parameters/Loc"
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MyChoiceRedirectChargesRequest'
+              $ref: '#/components/schemas/DeliveryInterceptChargesRequestV2'
             example:
-              clientId: XOLT
-              transactionId: tm241ea77
-              source: "72"
-              loc: en_US
-              addressToken: e951ee064b46a43f6a17bc930e046f2a
-              clientIP: 10.9.65.169
-              trackingNumber: 1Z1144YY0125887968
-              infoNoticeNumber: "952895106203"
-              requestType: UFD
-              requesterContactInfo:
-                name: John A
-                telephone: "+17899977222"
-                phoneExt: "+1"
-                emailAddress: aups@ups.com
-                altTelephone: "+19886432748"
-                altPhoneExt: "+12"
-                displayPhoneNumber: true
+              clientIP: 10.9.100.220
               ratingRequest:
-                - trackingNumber: 1Z1144YY0125887968
-                  cdwIndicator: false
-                  upgradeToGroundCharges: false
-      responses:
-        '200':
-          description: Successful response
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MyChoiceCommonResponse'
-              example:
-                transactionId: ASR1212
-                statusCode: "000"
-                statusMsg: Success
-                success: true
-                chargeInfo: [chargeCurrency: USD]
-                mycagreementUptoDate: false
-        '400':
-          description: Validation error occurred
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                response:
-                  transactionId: ASR1212
-                  statusCode: "0006"
-                  errors:
-                    - code: "710"
-                      message: Failure due to input validation error
-        '401':
-          description: Authentication required
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                response:
-                  transactionId: ASR1212
-                  statusCode: "0006"
-                  errors:
-                    - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
-        '500':
-          description: System error occurred
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-  /willcall/{trackingNumber}:
-    post:
-      summary: redirect a package to a Customer center for pickup.
-      description: Request your package to be held at or returned to a UPS facility where the receiver may claim the same-day.
-      operationId: submitWillCall
-      tags: 
-        - Delivery Intercept
-      parameters:
-        - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/Accept"
-        - $ref: "#/components/parameters/Content-Type"
-        - $ref: "#/components/parameters/TrackingNumber"
-        - $ref: "#/components/parameters/Loc"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MyChoiceWillCallRequest'
-            example:
-              clientId: XOLT
-              transactionId: tm241ea77
-              source: "72"
-              loc: en_US
-              addressToken: e951ee064b46a43f6a17bc930e046f2a
-              clientIP: 10.9.65.169
-              trackingNumber: 1Z1144YY0125887968
-              infoNoticeNumber: "952895106203"
-              requestType: UFD
-              requesterContactInfo:
-                name: John A
-                telephone: "+17899977222"
-                phoneExt: "+1"
-                emailAddress: aups@ups.com
-                altTelephone: "+19886432748"
-                altPhoneExt: "+12"
-                displayPhoneNumber: true
-              specialInstructions: Watch for dog
-              trackingNumberInitiated: false
-              originalPublicLocationId: U12345678
-              chargeInfo: [chargeCurrency: USD]
-              udiContactInfo:
-                name: John A
-                telephone: "+17899977222"
-              iobb: 77c1468763cb4fd58df5525d8741d174521202012563181
-              leadTrackingNumber: 1Z1144YY0125887968
-              multiTrackingNumbers: [trackingNumber: 1ZAT57900109232651]
-              deliveryDate: "20220128"
-      responses:
-        '200':
-          description: Successful response
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MyChoiceWillCallResponse'
-              example:
-                transactionId: ASR1212
-                statusCode: "000"
-                statusMsg: Success
-                success: true
-                chargeInfo: [chargeCurrency: USD]
-                mycagreementUptoDate: false
-                myChoiceCountry: "1"
-                addrToken: "12345"
-                upsLocation:
-                  storeContactInfo:
-                    name: The UPS Store
-                    telephone: "+14107495070"
-                  storeAddress:
-                    addressLine1: 1147 S Salisbury Blvd
-                    addressLine2: "Ste 8"
-                    city: SALISBURY
+                - redirectAddress: 
+                    addressNickName: John's work address
+                    addressInfo:
+                      addressLine1: "1899" 
+                      city: Baltimore
+                      state: MD
+                      postalCode: 21230-3410
+                      countryCode: US
+                      buildingFloor: "2"
+                      publicLocationId: "62200"
+                      firstName: Robert
+                      lastName: Willams
+                      fullName: Trk 7702 Paramus Ward
+                      phoneNumber: "+1987654324"
+                    nameOrCompanyName: ACME Inc.
+                    contactName: Robert
+                    phoneNumber: "+1987654324"
+                    phoneExt: "+123"
+                    emailAddress: aups@ups.com
+                  fromAddress: 
+                    addressLine1: "1899" 
+                    city: Baltimore
                     state: MD
-                    postalCode: "21801"
+                    postalCode: 21230-3410
                     countryCode: US
-                    firstName: UPS
-                    lastName: Store
-                    fullName: UPS Store
-                    phoneNumber: "+19886222564"
-                    streetAddressParsedIndicator: false
-                  distance: "$"
-                  distanceUOM: "MI"
-                  longitude: "38.34523789390884"
-                  latitude: "-75.6013502509887"
-                  locationId: "1"
-                  locationType: "002"
-                  name: The UPS Store
-                  daysOfOperation:
-                    - hoursOfOperation:
-                        startTime: "0900"
-                        endTime: "2355"
-                      closed: true
-                      dayOfWeek: "0"
-                      open24Hours: false
-                  upsStoreAcctNum: "ZZ0012"
-                  acceptsPayment: false
-                  earlyPickUpAvailable: false
-                  pickUpDropOffInd: false
-                  unavailable: false
-                  unavailableReasonCode: "01"
-                  unavailableReasonDescription: "02"
-                  serviceOfferingCode: "012"
-                  serviceOfferingCodeDesc: Pay-At-Store
-                  businessType: [{code: "001", description: bakery}]
-                  customerCenter: false
-                  nonStandardHours:
-                    - hoursOfOperation: [{startTime: "0900", endTime: "2255"}]
-                      closed: false
-                      startDate: "06/22/2022"
-                      endDate: "06/25/2022"
-                  serviceOfferingCodeList: ["01", "02"]
-                  upslocker: false
-        '400':
-          description: Validation error occurred
+                    buildingFloor: "2"
+                    publicLocationId: "62200"
+                    firstName: Robert
+                    lastName: Willams
+                    fullName: Trk 7702 Paramus Ward
+                    phoneNumber: "+1987654324"
+                  toAddress:
+                    addressLine1: "12911 FORK RD"
+                    city: BALDWIN
+                    state: MD
+                    postalCode: "21013"
+                    countryCode: US
+                    buildingFloor: "2"
+                    publicLocationId: "7002"
+                    firstName: Sam
+                    lastName: carren
+                    fullName: RICA80 CDW80
+                    phoneNumber: "+1987654324"
+                  trackInfo: 
+                    interceptOption: AL
+      responses:
+        '200':
+          description: Success
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/DeliveryInterceptChargesResponseV2'
+              examples:
+                ALL INTERCEPT:
+                  summary: ALL Intercept Response
+                  value: 
+                    response:
+                      transactionId: ASR1212
+                      statusCode: "000"
+                      statusMsg: Success
+                      success: true
+                      addrToken: "2"
+                      errors: null
+                      warnings: null
+                      chargeInfo:
+                        - trackingNumber: 1ZA2F8810719086435
+                          accessorialCharge: "0.00"
+                          interceptCharge: "0.00"
+                          transportationCharge: "0.00"
+                          totalCharge: "0.00"
+                          chargeCurrency: USD
+                          estDeliveryDate: "20250220"
+                          residentialIndicator: false
+                          additionalHandlingIndicator: false
+                          downgradeServiceCode: null
+                          oversizeCode: null
+                          serviceCode: "012"
+                          serviceDesc: UPS 3 Day Select
+                          packageWeight: "5"
+                          packageWeightUOM: LBS
+                          packagingType: "03"
+                          interceptChargeDetail:
+                            - accessorialCharge: "21.00"
+                              interceptCharge: "21.00"
+                              transportationCharge: "0.00"
+                              totalCharge: "21.00"
+                              interceptOption: AA
+                              displayShipperPaidInterceptCharges: false
+                              shipperPaidInterceptCharges: false
+                              successful: true
+                              currencyCode: USD
+                            - accessorialCharge: "21.00"
+                              interceptCharge: "21.00"
+                              transportationCharge: "0.00"
+                              totalCharge: "21.00"
+                              interceptOption: FD
+                              displayShipperPaidInterceptCharges: false
+                              shipperPaidInterceptCharges: false
+                              successful: true
+                              currencyCode: USD
+                            - accessorialCharge: "21.00"
+                              interceptCharge: "21.00"
+                              transportationCharge: "0.00"
+                              totalCharge: "21.00"
+                              interceptOption: RS
+                              displayShipperPaidInterceptCharges: false
+                              shipperPaidInterceptCharges: false
+                              successful: true
+                              currencyCode: USD
+                          shipperName: ACME Inc.
+                          preTaxTotalCharge: "25.00"
+                          taxDisclaimerIndicator: NTA
+                          displayShipperPaidInterceptCharges: false
+                          shipperPaidInterceptCharges: false
+                          shipperPaidTransportationCharges: false
+                          displayShipperPaidTransportationCharges: false
+                          chargesPaidByThirdPartyShipper: false
+                          taxes:
+                            - tax: City
+                              taxAmount: "5.00"
+                            - tax: State
+                              taxAmount: "2.00"
+                          totalTax: "7.00"                      
+                      accessorialGrandTotal: ""
+                      interceptGrandTotal: ""
+                      transportationGrandTotal: ""
+                      grandTotalCharge: ""
+                      taxesGrandTotal: ""
+                      preTaxGrandTotal: ""
+                SINGLE INTERCEPT:
+                  summary: Single Intercept Response
+                  value: 
+                    response:
+                      transactionId: ASR1212
+                      statusCode: "000"
+                      statusMsg: Success
+                      success: true
+                      addrToken: "2"
+                      errors: null
+                      warnings: null
+                      chargeInfo:
+                        - trackingNumber: 1ZA2F8810719086435
+                          accessorialCharge: "10.00"
+                          interceptCharge: "5.00"
+                          transportationCharge: "25.00"
+                          totalCharge: "40.00"
+                          chargeCurrency: USD
+                          estDeliveryDate: "20250220"
+                          residentialIndicator: false
+                          additionalHandlingIndicator: false
+                          downgradeServiceCode: null
+                          oversizeCode: null
+                          serviceCode: "012"
+                          serviceDesc: UPS 3 Day Select
+                          packageWeight: "5"
+                          packageWeightUOM: LBS
+                          packagingType: "03"
+                          shipperName: ACME Inc.
+                          preTaxTotalCharge: "25.00"
+                          taxDisclaimerIndicator: NTA
+                          displayShipperPaidInterceptCharges: false
+                          shipperPaidInterceptCharges: false
+                          shipperPaidTransportationCharges: false
+                          displayShipperPaidTransportationCharges: false
+                          chargesPaidByThirdPartyShipper: false
+                          taxes:
+                            - tax: City
+                              taxAmount: "5.00"
+                            - tax: State
+                              taxAmount: "2.00"
+                          totalTax: "7.00"                      
+                      accessorialGrandTotal: ""
+                      interceptGrandTotal: ""
+                      transportationGrandTotal: ""
+                      grandTotalCharge: ""
+                      taxesGrandTotal: ""
+                      preTaxGrandTotal: ""
+        '400':
+          description: Bad Request
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
               example:
                 response:
                   transactionId: ASR1212
-                  statusCode: "0006"
+                  statusCode: "400"
+                  errors:
+                    - code: "710"
+                      message: Failure due to input validation error
+        '401':
+          description: Unauthorized
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
+              example:
+                response:
+                  transactionId: ASR1212
+                  statusCode: "401"
+                  errors:
+                    - code: "605"
+                      message: Package address token does not match any tokens in the user's profile.
+  /eligibility/intercept/{tracking_number}:
+    get:
+      summary: Get eligibility options
+      description: Retrieves the delivery change eligibility information for the tracking number passed in the interface.
+      operationId: getEligibilityOptions
+      tags:
+        - Delivery Intercept
+      security:
+        - OAuth2: []
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/PlatformType"
+        - $ref: "#/components/parameters/Content-Type"
+        - $ref: "#/components/parameters/InquiryType"
+        - $ref: "#/components/parameters/tracking_number"
+        - $ref: "#/components/parameters/Loc"
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
+      responses:
+        '200':
+          description: Success
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryInterceptEligibilityOptionsResponseV2"
+              examples: 
+                SUCCESS:
+                  summary: Success Response
+                  value:
+                    response: 
+                      transactionId: b2e514fc8a2
+                      statusCode: "000"
+                      statusMsg: SUCCESS
+                      success: true
+                      errors: null
+                      warnings: null
+                      commonEligibilityMap: 
+                        - interceptFeature: FD
+                          eligibilityValue:
+                            createEligibility: ELIGIBLE
+                            modifyEligibility: NOT_ELIGIBLE
+                            cancelEligibility: NOT_ELIGIBLE
+                            dateOptionsforFutureDelivery: 
+                              - date: 20250110
+                                dayOfWeekText: Friday
+                                dayOfWeekNumber: 06
+                              - date: 20250115
+                                dayOfWeekText: Wednesday
+                                dayOfWeekNumber: 04
+                        - interceptFeature: WC
+                          eligibilityValue:
+                            createEligibility: ELIGIBLE
+                            modifyEligibility: NOT_ELIGIBLE
+                            cancelEligibility: NOT_ELIGIBLE
+                        - interceptFeature: SDWC
+                          eligibilityValue:
+                            createEligibility: ELIGIBLE
+                            modifyEligibility: NOT_ELIGIBLE
+                            cancelEligibility: NOT_ELIGIBLE
+                        - interceptFeature: RD
+                          eligibilityValue:
+                            createEligibility: ELIGIBLE
+                            modifyEligibility: NOT_ELIGIBLE
+                            cancelEligibility: NOT_ELIGIBLE
+                        - interceptFeature: RTS
+                          eligibilityValue:
+                            createEligibility: ELIGIBLE
+                            modifyEligibility: NOT_ELIGIBLE
+                            cancelEligibility: NOT_ELIGIBLE
+                            reasonOptionsForRTS: 
+                            - id: AN
+                              value: Duplicate Order
+                            - id: AS
+                ERROR:
+                  summary: Error Response
+                  value:
+                    response: 
+                      transactionId: b2e514fc8a2
+                      statusCode: "500"
+                      statusMsg: ERROR
+                      success: false
+                      errors: 
+                        - errorCode: "500"
+                          errorMessage: System Error
+                      commonEligibilityMap: null
+        '400':
+          description: Bad Request
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
+              example:
+                response:
+                  transactionId: b2e514fc8a2
+                  statusCode: "400"
+                  errors:
+                    - code: "710"
+                      message: Failure due to input validation error
+        '401':
+          description: Unauthorized
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
+              example:
+                response:
+                  transactionId: ASR1212
+                  statusCode: "401"
+                  errors:
+                    - code: "605"
+                      message: Package address token does not match any tokens in the user's profile.
+  /redirect/address/{tracking_number}:
+    post:
+      summary: Submit a non access point redirect request
+      description: Submits a deliver to another address delivery change for the tracking number passed in the interface.
+      operationId: getRedirectInterceptOptions
+      tags:
+        - Delivery Intercept
+      security:
+        - OAuth2: []
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/PlatformType"
+        - $ref: "#/components/parameters/Content-Type"
+        - $ref: "#/components/parameters/InquiryType"
+        - $ref: "#/components/parameters/tracking_number"
+        - $ref: "#/components/parameters/Loc"
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryInterceptRequestV2'
+            example:
+              requestType: AA
+              specialInstructions: Handle With Care
+              requesterContactInfo: 
+                name: andreas
+                telephone: "+12010000000"
+                phoneExt: "+123"
+                emailAddress: aups@ups.com
+                altTelephone: "+12345678"
+                altPhoneExt: "+1"
+                displayPhoneNumber: false
+              newDeliveryAddress: 
+                addressNickName: John's new address
+                addressInfo: 
+                  addressLine1: 12911 FORK RD
+                  addressLine2: Washington
+                  addressLine3: Washington
+                  city: BALDWIN
+                  state: MD
+                  postalCode: "21013"
+                  countryCode: US
+                  buildingFloor: "2"
+                  publicLocationId: "800"
+                  firstName: "sam"
+                  lastName: "curren"
+                  fullName: "sam curren"
+                  phoneNumber: "+1988676185"
+                nameOrCompanyName: KRISTINA LEO
+                contactName: Andrea
+                phoneNumber: "+2019909098"
+                phoneExt: "+2"
+                emailAddress: aups@ups.com
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptResponseV2'
+              examples:
+                SUCCESS:
+                  summary: Success Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: true
+                    errors: null
+                    subStatusCode: ""
+                ERROR:
+                  summary: Error Response
+                  value: 
+                    transactionId: ASR1212
+                    statusCode: "500"
+                    statusMsg: System Error
+                    success: false
+                    errors: 
+                      - errorCode: "500"
+                        errorMessage: System Error
+                    subStatusCode: ""
+        '400':
+          description: Validation error occurred
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
+              example:
+                response:
+                  transactionId: ASR1212
+                  statusCode: "400"
                   errors:
                     - code: "710"
                       message: Failure due to input validation error
         '401':
           description: Authentication required
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
               example:
                 response:
                   transactionId: ASR1212
-                  statusCode: "0006"
+                  statusCode: "401"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
-        '500':
-          description: System error occurred
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-  /return/{trackingNumber}:
+                      message: Package address token does not match any tokens in the user's profile.       
+  /willcall/{tracking_number}:
     post:
-      summary: redirect the package back to the sender
-      description: Return the package to the original shipper prior to delivery.
-      operationId: submitReturnToSender
-      tags: 
+      summary: Request to hold the package at a UPS facility for pickup
+      description: Request your package to be held at or returned to a UPS facility where the receiver may claim the same-day.
+      operationId: willcallInterceptOption
+      tags:
         - Delivery Intercept
+      security:
+        - OAuth2: []
       parameters:
         - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/PlatformType"
         - $ref: "#/components/parameters/Content-Type"
-        - $ref: "#/components/parameters/TrackingNumber"
+        - $ref: "#/components/parameters/InquiryType"
+        - $ref: "#/components/parameters/tracking_number"
         - $ref: "#/components/parameters/Loc"
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MyChoiceReturnToSenderRequest'
+              $ref: '#/components/schemas/DeliveryInterceptRequestV2'
             example:
-              clientId: XOLT
-              transactionId: tm241ea77
-              source: "72"
-              loc: en_US
-              addressToken: e951ee064b46a43f6a17bc930e046f2a
-              clientIP: 10.9.65.169
-              trackingNumber: 1Z1144YY0125887968
-              infoNoticeNumber: "952895106203"
-              requestType: UFD
-              requesterContactInfo:
-                name: John A
-                telephone: "+17899977222"
-                phoneExt: "+1"
+              requestType: WC
+              specialInstructions: Handle With Care
+              requesterContactInfo: 
+                name: John
+                telephone: "+3522098238"
+                phoneExt: "+123"
                 emailAddress: aups@ups.com
-                altTelephone: "+19886432748"
+                altTelephone: "+3522098238"
+                altPhoneExt: "+3"
+                displayPhoneNumber: false
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptResponseV2'
+              examples:
+                SUCCESS:
+                  summary: Success Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: true
+                    errors: null
+                    subStatusCode: ""
+                ERROR:
+                  summary: Error Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: false
+                    errors: 
+                      - errorCode: "500"
+                        errorMessage: System Error
+                    subStatusCode: ""
+        '400':
+          description: Validation error occurred
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
+              example:
+                response:
+                  transactionId: ASR1212
+                  statusCode: "400"
+                  errors:
+                    - code: "710"
+                      message: Failure due to input validation error
+        '401':
+          description: Authentication required
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
+              example:
+                response:
+                  transactionId: ASR1212
+                  statusCode: "401"
+                  errors:
+                    - code: "605"
+                      message: Package address token does not match any tokens in the user's profile.
+  /return/{tracking_number}:
+    post:
+      summary: Submit a return to sender request
+      description: Return a package to the original shipper prior to delivery.
+      operationId: returnInterceptOption
+      tags:
+        - Delivery Intercept
+      security:
+        - OAuth2: []
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/PlatformType"
+        - $ref: "#/components/parameters/Content-Type"
+        - $ref: "#/components/parameters/InquiryType"
+        - $ref: "#/components/parameters/tracking_number"
+        - $ref: "#/components/parameters/Loc"
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryInterceptRequestV2'
+            example:
+              requestType: RS
+              specialInstructions: Handle With Care
+              requesterContactInfo: 
+                name: andreas
+                telephone: "+112010000000"
+                phoneExt: "+123"
+                emailAddress: aups@ups.com
+                altTelephone: "+19887654321"
                 altPhoneExt: "+12"
-                displayPhoneNumber: true
-              specialInstructions: Watch for dog
-              trackingNumberInitiated: false
-              originalPublicLocationId: U12345678
-              chargeInfo: [chargeCurrency: USD]
-              udiContactInfo:
-                name: John A
-                telephone: "+17899977222"
-              iobb: 77c1468763cb4fd58df5525d8741d174521202012563181
-              leadTrackingNumber: 1Z1144YY0125887968
-              multiTrackingNumbers: [trackingNumber: 1ZAT57900109232651]
+                displayPhoneNumber: false
               reasonForReturn: AM
       responses:
         '200':
           description: Successful response
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MyChoiceReturnToSenderResponse'
-              example:
-                transactionId: ASR1212
-                statusCode: "000"
-                statusMsg: Success
-                success: true
-                chargeInfo: [chargeCurrency: USD]
-                mycagreementUptoDate: false
-                addrToken: "12345"
+                $ref: '#/components/schemas/DeliveryInterceptResponseV2'
+              examples:
+                SUCCESS:
+                  summary: Success Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: true
+                    errors: null
+                    subStatusCode: ""
+                ERROR:
+                  summary: Error Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: false
+                    errors: 
+                      - errorCode: "500"
+                        errorMessage: System Error
+                    subStatusCode: ""
         '400':
           description: Validation error occurred
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
               example:
                 response:
                   transactionId: ASR1212
-                  statusCode: "0006"
+                  statusCode: "400"
                   errors:
                     - code: "710"
                       message: Failure due to input validation error
         '401':
           description: Authentication required
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
               example:
                 response:
                   transactionId: ASR1212
-                  statusCode: "0006"
+                  statusCode: "401"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
-        '500':
-          description: System error occurred
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-  /reschedule/{trackingNumber}:
+                      message: Package address token does not match any tokens in the user's profile.
+  /reschedule/{tracking_number}:
     post:
-      summary: change to a new delivery date in the future.
+      summary: Request for a new delivery date
       description: Have the package delivered to the original address but on a different day in the future.
-      operationId: submitRescheduleDelivery
-      tags: 
+      operationId: rescheduleInterceptOption
+      tags:
         - Delivery Intercept
+      security:
+        - OAuth2: []
       parameters:
         - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/PlatformType"
         - $ref: "#/components/parameters/Content-Type"
-        - $ref: "#/components/parameters/TrackingNumber"
+        - $ref: "#/components/parameters/InquiryType"
+        - $ref: "#/components/parameters/tracking_number"
         - $ref: "#/components/parameters/Loc"
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MyChoiceRescheduleDeliveryRequest'
+              $ref: '#/components/schemas/DeliveryInterceptRequestV2'
             example:
-              clientId: XOLT
-              transactionId: tm241ea77
-              source: "72"
-              loc: en_US
-              addressToken: e951ee064b46a43f6a17bc930e046f2a
-              clientIP: 10.9.65.169
-              trackingNumber: 1Z1144YY0125887968
-              infoNoticeNumber: "952895106203"
-              requestType: UFD
-              requesterContactInfo:
-                name: John A
-                telephone: "+17899977222"
+              requestType: FD
+              specialInstructions:
+              requesterContactInfo: 
+                name: andreas
+                telephone: "+112010000000"
                 phoneExt: "+1"
                 emailAddress: aups@ups.com
-                altTelephone: "+19886432748"
+                altTelephone: "+19887654321"
                 altPhoneExt: "+12"
-                displayPhoneNumber: true
-              specialInstructions: Watch for dog
-              trackingNumberInitiated: false
-              originalPublicLocationId: U12345678
-              chargeInfo: [chargeCurrency: USD]
-              udiContactInfo:
-                name: John A
-                telephone: "+17899977222"
-              iobb: 77c1468763cb4fd58df5525d8741d174521202012563181
-              leadTrackingNumber: 1Z1144YY0125887968
-              multiTrackingNumbers: [trackingNumber: 1ZAT57900109232651]
-              deliveryDate: "20190223"
+                displayPhoneNumber: false
+              deliveryDate: "20240904"
       responses:
         '200':
           description: Successful response
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MyChoiceRescheduleDeliveryResponse'
-              example:
-                transactionId: ASR1212
-                statusCode: "000"
-                statusMsg: Success
-                success: true
-                chargeInfo: [chargeCurrency: USD]
-                mycagreementUptoDate: false
-                myChoiceCountry: "1"
-                addrToken: "12345"
+                $ref: '#/components/schemas/DeliveryInterceptResponseV2'
+              examples:
+                SUCCESS:
+                  summary: Success Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: true
+                    errors: null
+                    subStatusCode: ""
+                ERROR:
+                  summary: Error Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: false
+                    errors: 
+                      - errorCode: "500"
+                        errorMessage: System Error
+                    subStatusCode: ""
         '400':
           description: Validation error occurred
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
               example:
                 response:
                   transactionId: ASR1212
-                  statusCode: "0006"
+                  statusCode: "400"
                   errors:
                     - code: "710"
                       message: Failure due to input validation error
         '401':
           description: Authentication required
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
               example:
                 response:
                   transactionId: ASR1212
-                  statusCode: "0006"
+                  statusCode: "401"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
-        '500':
-          description: System error occurred
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-  /redirect/address/{trackingNumber}:
+                      message: Package address token does not match any tokens in the user's profile.
+  /cancel/{tracking_number}:
     post:
-      summary: Submission to request a new delivery address. 
-      description: Deliver to a different address than on the label originally created for the shipment.
-      operationId: submitDeliverToAnotherAddressRequest
-      tags: 
-        - Delivery Intercept
-      parameters:
-        - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/Accept"
-        - $ref: "#/components/parameters/Content-Type"
-        - $ref: "#/components/parameters/TrackingNumber"
-        - $ref: "#/components/parameters/Loc"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MyChoiceDeliverToAnotherAddressRequest'
-            example:
-              clientId: XOLT
-              transactionId: tm241ea77
-              source: "72"
-              loc: en_US
-              addressToken: e951ee064b46a43f6a17bc930e046f2a
-              clientIP: 10.9.65.169
-              trackingNumber: 1Z1144YY0125887968
-              infoNoticeNumber: "952895106203"
-              requestType: UFD
-              requesterContactInfo:
-                name: John A
-                telephone: "+17899977222"
-                phoneExt: "+1"
-                emailAddress: aups@ups.com
-                altTelephone: "+19886432748"
-                altPhoneExt: "+12"
-                displayPhoneNumber: true
-              ratingRequest:
-                trackingNumber: 1Z1144YY0125887968
-                cdwIndicator: false
-                upgradeToGroundCharges: false
-      responses:
-        '200':
-          description: Successful response
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MyChoiceDeliverToAnotherAddressResponse'
-              example:
-                transactionId: ASR1212
-                statusCode: "000"
-                statusMsg: Success
-                success: true
-                chargeInfo: [chargeCurrency: USD]
-                mycagreementUptoDate: false
-                myChoiceCountry: "1"
-        '400':
-          description: Validation error occurred
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                response:
-                  transactionId: ASR1212
-                  statusCode: "0006"
-                  errors:
-                    - code: "710"
-                      message: Failure due to input validation error
-        '401':
-          description: Authentication required
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                response:
-                  transactionId: ASR1212
-                  statusCode: "0006"
-                  errors:
-                    - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.    
-        '500':
-          description: System error occurred
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-  /cancel/{trackingNumber}:
-    post:
-      summary: cancel an existing Delivery Intercept request
+      summary: Request cancellation of a prior intercept request
       description: Cancel a previously applied intercept on the package.
-      operationId: cancelExistingRequest
-      tags: 
+      operationId: cancelInterceptOption
+      tags:
         - Delivery Intercept
+      security:
+        - OAuth2: []
       parameters:
         - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/PlatformType"
         - $ref: "#/components/parameters/Content-Type"
-        - $ref: "#/components/parameters/TrackingNumber"
+        - $ref: "#/components/parameters/InquiryType"
+        - $ref: "#/components/parameters/tracking_number"
         - $ref: "#/components/parameters/Loc"
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MyChoiceCancelExistingRequest'
+              $ref: '#/components/schemas/DeliveryInterceptRequestV2'
             example:
-              clientId: XOLT
-              transactionId: tm241ea77
-              source: "72"
-              loc: en_US
-              addressToken: e951ee064b46a43f6a17bc930e046f2a
-              clientIP: 10.9.65.169
-              trackingNumber: 1Z1144YY0125887968
-              infoNoticeNumber: "952895106203"
-              requestType: UFD
+              requestType: FD
+              specialInstructions:
               requesterContactInfo:
                 name: John A
-                telephone: "+17899977222"
+                telephone: "+19881234567"
                 phoneExt: "+1"
                 emailAddress: aups@ups.com
-                altTelephone: "+19886432748"
+                altTelephone: "+19881234567"
                 altPhoneExt: "+12"
                 displayPhoneNumber: true
       responses:
         '200':
           description: Successful response
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MyChoiceCommonResponse'
-              example:
-                transactionId: ASR1212
-                statusCode: "000"
-                statusMsg: Success
-                success: true
-                chargeInfo: [chargeCurrency: USD]
-                mycagreementUptoDate: false
+                $ref: '#/components/schemas/DeliveryInterceptResponseV2'
+              examples:
+                SUCCESS:
+                  summary: Success Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: true
+                    errors: null
+                    subStatusCode: ""
+                ERROR:
+                  summary: Error Response
+                  value:
+                    transactionId: ASR1212
+                    statusCode: "000"
+                    statusMsg: Success
+                    success: false
+                    errors: 
+                      - errorCode: "500"
+                        errorMessage: System Error
+                    subStatusCode: ""
         '400':
           description: Validation error occurred
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
               example:
                 response:
                   transactionId: ASR1212
-                  statusCode: "0006"
+                  statusCode: "400"
                   errors:
                     - code: "710"
                       message: Failure due to input validation error
         '401':
           description: Authentication required
           headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/DeliveryInterceptErrorResponseV2'
               example:
                 response:
                   transactionId: ASR1212
-                  statusCode: "0006"
+                  statusCode: "401"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.                
-        '500':
-          description: System error occurred
-          headers:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseHeaders'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                      message: Package address token does not match any tokens in the user's profile.
 components:
   securitySchemes:
     OAuth2:
@@ -764,50 +1158,33 @@ components:
           2. In the Security section enter your Client ID and Secret 
           3. Select "Request Token"
           4. Enter any additional information in the Body and Parameters sections
-          5. Select "Send" to execute your API request" 
+          5. Select "Send" to execute your API request"
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
-          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
           scopes: {}
   parameters:
-    transactionSrc:
-      name: transactionSrc
-      description: >-
-        Identifies the client/source application that is calling the API.
-      in: header
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-        maxLength: 512
-        minLength: 1
-      example: XOLT
     transId:
-        name: transId
-        description: >-
-          A unique value that will be used to identify the transaction for
-          logging and troubleshooting purposes.
-        in: header
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          minLength: 1
-          maxLength: 14
-        example: ASR1212
-    Accept:
-      name: Accept
+      name: transId
       in: header
-      description: The Accept request HTTP header indicates which content types, expressed as MIME types, the client is able to understand.
+      description: A unique value that will be used to identify the transaction for logging and troubleshooting purposes
       required: true
-      style: simple
-      explode: false
+      schema:
+        type: string 
+        pattern: ^[a-zA-Z0-9-.]{3,14}$
+        minLength: 3
+        maxLength: 14
+        example: 0a1b9c2d8e3f43
+    PlatformType:
+      name: platformType
+      in: header
+      description: Identifies the client/source application that is calling.
+      required: true
       schema:
         type: string
-        example: application/json
+        enum:
+          - XOLT
     Content-Type:
       name: Content-Type
       description: describes the content type to expect
@@ -815,9 +1192,19 @@ components:
       required: true
       schema:
         type: string
-      example: application/json
-    TrackingNumber:
-      name: trackingNumber
+        example: application/json
+    InquiryType:
+      name: inquiryType
+      description: describes the content type to expect
+      in: header
+      required: true
+      schema:
+        type: string
+        description: indicator for UPS Shipper Initiated Intercepts
+        enum: 
+          - U
+    tracking_number:
+      name: tracking_number
       description: The number being tracked.  Each method defines if required.
       in: path
       required: true
@@ -828,7 +1215,7 @@ components:
         minLength: 18
         maxLength: 18
         pattern: '^(1Z)[A-Z0-9]{16}$'
-      example: 1ZA2F8810719086435
+        example: 1ZA2F8810719086435
     Loc:
       name: loc
       in: query
@@ -842,451 +1229,784 @@ components:
         type: string
         maxLength: 5
         pattern: '^[a-z]+[_]+[A-Z]+$'
-      example: en_US
+        example: en_US
+  headers:
+    BkndTransId:
+      description: The backend transaction id.
+      schema:
+        type: string
+        example: 383f7d397a48
+    transId:
+      description: An identifier unique to the request.
+      schema:
+        type: string 
+        pattern: ^[a-zA-Z0-9-.]{3,36}$
+        minLength: 3
+        maxLength: 36
+        example: 0a1b9c2d8e3f7g4h6i5
+    transactionSrc:
+      description: Identifies the client/source application that is calling.
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-.]{1,36}$
+        minLength: 1
+        maxLength: 36
+        example: UPS.com
+    Content-Type:
+      description: The Content-Type header provides the client with the actual content/media type of the returned content.
+      schema:
+        type: string
+        example: application/json
+    APIErrorCode:
+      description: The API error code.
+      schema:
+        type: string
+        example: UJ0001
+    APIErrorMsg:
+      description: The API error message.
+      schema:
+        type: string
+        example: Invalid token or token is not present.
   schemas:
-    AddressBookEntry:
+    DeliveryInterceptChargesRequestV2:
       type: object
+      description: Request schema for Delivery Change Charges retrieval
       properties:
-        imsAddrIdentifier:
-          description: The IMS Entry Number of the address, required when retrieving or updating an IMS address book entry. Required when specifying an existing address book entry to be used when processing a request.
+        clientIP:
           type: string
-        addressNickName:
-          description: The nickname string assigned to the address entry. Required when creating or updating an IMS address book entry.
-          type: string
-        addressInfo:
-          description: Address object, include line1, line2, line 3 state, postal code and country code. Required when processing a request if imsAddressIdentifier is not present.
-          $ref: '#/components/schemas/AddressInformation'
-        nameOrCompanyName:
-          description: The name of the company or person customer address.(Required When calling submitAddress() API  Empty String  can be passed)
-          type: string
-        contactName:
-          description: The contact name at the customer address.
-          type: string
-        phoneNumber:
-          description: The contact phone number at the customer address.(Required When calling submitAddress() API  Empty String  can be passed)
-          maxLength: 14
-          type: string
-          pattern: '^(\+)[0-9]{1,13}$'
-          example: "+19886222523"
-        phoneExt:
-          description: The phone extension number at the customer address.(Required When calling submitAddress() API  Empty String  can be passed)
-          type: string
-          pattern: '^(\+)[0-9]{1,3}$'
-          example: "+244"
-        emailAddress:
-          description: Email Address at the customer address.
-          type: string
-          pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$'
-          example: aups@ups.com
-    AddressInformation:
-      type: object
-      required: [city,countryCode]
-      properties:
-        addressLine1:
-          description: Line 1 of the street address. Required if streetAddressParsedIndicator is FALSE; Required when setting Billing Address.
-          maxLength: 50
-          example: 1147 S Salisbury Blvd
-          type: string
-        addressLine2:
-          description: Line 2 of the street address
-          maxLength: 35
-          type: string
-          example: Ste 8
-        addressLine3:
-          description: Line 3 of the street 
-          maxLength: 35
-          type: string
-        city:
-          description: The city name of the address
-          maxLength: 30
-          minLength: 1
-          example: SALISBURY
-          type: string
-        state:
-          description: The state code of the address
-          maxLength: 5
-          example: MD
-          type: string
-        postalCode:
-          description: The postal code of the address (should be provided for postal countries)
-          maxLength: 16
-          example: D21804
-          type: string
-        countryCode:
-          description: The ISO country code of the address
-          maxLength: 2
-          minLength: 2
-          example: US
-          type: string
-        buildingFloor:
-          type: string
-        publicLocationId:
-          type: string
-          example: "U88498244"
-        firstName:
-          description: Required when the user choses to enter a new card providing the Billing address in CreditCardInformation .
-          example: HUNTLY
-          type: string
-        lastName:
-          description: Required when the user choses to enter a new card providing the Billing address in CreditCardInformation object.
-          example: OAK
-          type: string
-        fullName:
-          description: Full person name 
-          example: HUNTLY OAK
-          type: string
-        phoneNumber:
-          type: string
-          maxLength: 17
-          pattern: '^(\+)[0-9]{1,16}$'
-          example: "+19886222564"
-        activitySLICNumber:
-          description: |
-            When provided, the Will Call center lookup will be done using this identifier. The lookup will only be done using the postalCode
-            when this field is blank.
-          type: string
-          example: "4836"
-        streetAddressParsedIndicator:
-          description: Set it to true when clients send in parsed street address for redirects.
-          example: TRUE
-          type: boolean
-          default: false
-        parsedStreetAddress:
-          description: |
-            Parsed street address object, includes streetName, steetSuffix, streetPrefix, streetType and streetNumber.
-            Required when streetAddressParsedIndicator is TRUE.
-          type: object
-          properties:
-            streetName:
-              description: |
-                street level validation of an Address At least one of the street fields is required when streetAddressParsedIndicator
-                is set to TRUE in AddressInformation.
-              maxLength: 50
-              type: string
-              example: "OAK"
-            streetSuffix:
-              maxLength: 2
-              type: string
-              example: "N"
-            streetPrefix:
-              maxLength: 2
-              type: string
-            streetType:
-              maxLength: 4
-              type: string
-              example: "DR"
-            streetNumber:
-              maxLength: 11
-              type: string
-              example: "512"      
-    ChargesInfo:
-      type: object
-      required: [chargeCurrency]
-      properties:
-        accessorialCharge:
-          description: |
-            Includes sum of all accessorial charges (i.e. including addition handling, intercept).
-          type: string
-          maxLength: 20
-          example: "5.00"
-        interceptCharge:
-          description: The flat rate charge specific for the intercept.
-          type: string
-          maxLength: 20
-          example: "5.00"
-        transportationCharge:
-          description: Transportation Charge only for AlternateAddress(Redirect,deliver to another address).
-          type: string
-          maxLength: 20
-          example: "5.00"
-        totalCharge:
-          description: Total charges
-          type: string
-          maxLength: 20
-          example: "5.00"
-        chargeCurrency:
-          description: Charge Currency
-          type: string
-          maxLength: 3
-          minLength: 3
-          example: USD
-        estDeliveryDate:
-          description: Estimate Delivery Date (YYYYMMDD).
-          type: string
-          maxLength: 8
-          example: "20190101"
-          pattern: '^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$'
-        residentialIndicator:
-          description: Ship to residential indicator.
-          type: boolean
-          default: false
-        additionalHandlingIndicator:
-          description: Additional handling indicator. May be set by NRF during rating.
-          type: boolean
-          default: false
-        downgradeServiceCode:
-          description: Downgraded service code.
-          type: string
-          maxLength: 3
-        oversizeCode:
-          description: Oversize indicator. May be set by NRF during rating LPK.
-          type: string
-          maxLength: 3
-        serviceCode:
-          description: Original service code.
-          type: string
-          example: "012"
-        serviceDesc:
-          description: Original service description.
-          type: string
-          example: "UPS 3 DAY SELECT"
-        packageWeight:
-          description: Package weight. May also be changed by NRF during rating to billable weight.
-          type: string
-          maxLength: 10
-          example: "4.0"
-        packageWeightUOM:
-          description: Weight unit of measureLBS - pounds, KGS - Kilograms
-          type: string
-          maxLength: 3
-          minLength: 3
-          example: "LBS"
-        packagingType:
-          description: Packaging Type code.
-          type: string
-          maxLength: 3
-          example: "02"
-        trackingNumber:
-          description: Tracking Number
-          type: string
-          maxLength: 18
-          minLength: 18
-          example: "1ZAT02180304441660"
-          pattern: '^(1Z)[A-Z0-9]{16}$'
-        shipperName:
-          description: Name of the shipper Applicable for  Intercept options FD,AA,UR etc.
-          type: string
-        displayShipperPaidInterceptCharges:
-          description: Indicates if a message should be displayed that the shipper has paid for the charges related to the intercept.
-          type: boolean
-          default: false
-        shipperPaidInterceptCharges:
-          description: Indicates if charges related to the intercept are paid by the shipper.
-          type: boolean
-          default: false
-        shipperPaidTransportationCharges:
-          description: Indicates if charges related to transportation are paid by the shipper. Applicable only for Redirect to Another Address.
-          type: boolean
-          default: false
-        displayShipperPaidTransportationCharges:
-          description: |
-            Indicates if a message should be displayed that the shipper has paid for the charges related to transportation. Applicable only for Redirect
-            to Another Address and Redirect to UPS Location intercepts. TRUE - display a message that the shipper has paid the transportation charges.
-          type: boolean
-          default: false
-        chargesPaidByThirdPartyShipper:
-          description: |
-            Indicates if the charges were paid by a third-party shipper and must be supplied by trusted end clients only.
-
-            | CODE  | DESCRIPTION                                     |
-            | TRUE  | the charges were paid by a third-party shipper. |
-            | FALSE | the charges were paid by the original shipper.  |
-          type: boolean
-          default: false
-        taxes:
+          description: IP address of the requesting device
+          example: 10.9.100.220
+        ratingRequest:
           type: array
-          description: Taxes for EU/Mexico/Canada  country  movement. This array is unbounded.
+          description: |
+            List of rating request data. If you want to find out the accessory and transportation charges of a "redirect" request
+            for a specified Tracking number then this array list must contain one rating request. This array is unbounded.
           items:
             type: object
+            description: Container for each rating request object
             properties:
-              tax:
-                description: Identifies the tax type
-                type: string
-              taxAmount:
-                description: Identifies the tax amount for a particular tax type
-                type: string
-        totalTax:
-          description: Taxes for EU/Mexico/Canada country movement . sum of tax amounts present in the taxes field.  
-          type: string
-          maxLength: 4
-          example: "0.00"
-        preTaxTotalCharge:
-          description: Pre-tax total Charge. Sum of accessorial charges and transportation charges  excluding taxes.
-          type: string
-          example: "4.00"
-        taxDisclaimerIndicator:
-          description: |
-            Indicates if a tax disclaimer message should be displayed.
+              redirectAddress:
+                type: object
+                properties:
+                  addressNickName:
+                    type: string
+                    description: The nickname string assigned to the address entry. 
+                    minLength: 2
+                    maxLength: 20
+                    example: John's woek address
+                  addressInfo:
+                    description: Address object, include line1, line2, line 3 state, postal code and country code. Required when processing a request if imsAddressIdentifier is not present.
+                    $ref: '#/components/schemas/DeliveryInterceptAddressV2'
+                  nameOrCompanyName:
+                    type: string
+                    description: The name of the company or person customer address.(Required When calling submitAddress() API  Empty String  can be passed)          
+                    example: ACME Inc.
+                  contactName:
+                    type: string
+                    description: The contact name at the customer address.
+                    example: Robert
+                  phoneNumber:
+                    type: string
+                    description: The contact phone number at the customer address.(Required When calling submitAddress() API  Empty String  can be passed)
+                    maxLength: 14
+                    pattern: '^(\+)[0-9]{1,13}$'
+                    example: "+19886222523"
+                  phoneExt:
+                    type: string
+                    description: The phone extension number at the customer address.(Required When calling submitAddress() API  Empty String  can be passed)
+                    pattern: '^(\+)[0-9]{1,3}$'
+                    example: "+244"
+                  emailAddress:
+                    type: string
+                    description: Email Address at the customer address.
+                    pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$'
+                    example: aups@ups.com
+                additionalProperties: false
+                required:
+                  - addressNickName
+                  - addressInfo
+                  - nameOrCompanyName
+                  - contactName
+                  - phoneNumber
+              fromAddress:
+                allOf:
+                  - $ref: '#/components/schemas/DeliveryInterceptAddressV2'
+                  - $ref: '#/components/schemas/DeliveryInterceptAdditionalAddressV2'
+              toAddress:
+                allOf:
+                  - $ref: '#/components/schemas/DeliveryInterceptAddressV2'
+                  - $ref: '#/components/schemas/DeliveryInterceptAdditionalAddressV2'
+              trackInfo:
+                type: object
+                properties:
+                  interceptOption:
+                    type: string
+                    description: Intercept option to be mentioned to find the charges 
+                    minLength: 2
+                    maxLength: 2
+                    oneOf:
+                      - const: WC
+                        title: WILL CALL
+                      - const: SC
+                        title: SAME DAY WILL CALL
+                      - const: FD
+                        title: FUTURE DELIVERY 
+                      - const: AA
+                        title: ALTERNATE ADDRES
+                      - const: RS
+                        title: RETURN TO SENDER
+                      - const: AL
+                        title: ALL INTERCEPT
+                additionalProperties: false
+                required: 
+                  - interceptOption
+            additionalProperties: false
+            required:
+              - fromAddress
+              - toAddress
+              - trackInfo
+      additionalProperties: true
+      required: 
+        - ratingRequest
+    DeliveryInterceptChargesResponseV2:
+      type: object
+      description: Response schema for Delivery Change Charge request
+      properties:
+        response:
+          allOf:
+            - $ref: "#/components/schemas/DeliveryInterceptCommonResponseV2"
+            - type: object
+              properties:
+                chargeInfo:
+                  type: array
+                  description: For each 1z there will exist a ChargeInfo object. These are the charges that were applied. This array is unbounded.                  
+                  minItems: 1
+                  items:
+                    type: object
+                    properties:
+                      trackingNumber:
+                        $ref: "#/components/schemas/DeliveryInterceptTrackingNumberV2"
+                      accessorialCharge:
+                        description: The sum of all accessorial charges (i.e. including addition handling, intercept)
+                        $ref: "#/components/schemas/DeliveryInterceptChargeV2"
+                      interceptCharge:
+                        description: The flat rate charge specific for the intercept
+                        $ref: "#/components/schemas/DeliveryInterceptChargeV2"
+                      transportationCharge:
+                        description: The sum of all AlternateAddress transportation Charges (Redirect,deliver to another address)
+                        $ref: "#/components/schemas/DeliveryInterceptChargeV2"
+                      totalCharge:
+                        description: Total of all accessorial, intercept and transportation charges
+                        $ref: "#/components/schemas/DeliveryInterceptChargeV2"
+                      chargeCurrency:
+                        type: string
+                        description: The <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO 4217</a> currency code
+                        maxLength: 3
+                        minLength: 3
+                        pattern: ^[A-Z]{3}$
+                        example: USD
+                      estDeliveryDate:
+                        description: Estimate Delivery Date (YYYYMMDD).
+                        $ref: "#/components/schemas/DeliveryInterceptDateV2"
+                      residentialIndicator:
+                        description: Ship to residential indicator.
+                        type: boolean
+                        default: false
+                      additionalHandlingIndicator:
+                        description: Additional handling indicator. May be set by NRF during rating.
+                        type: boolean
+                        default: false
+                      downgradeServiceCode:
+                        type: 
+                          - string
+                          - "null"
+                        description: Downgraded service code.
+                        minLength: 3
+                        maxLength: 3
+                        example: "003"
+                      oversizeCode:
+                        type: 
+                          - string
+                          - "null"
+                        description: Oversize indicator. May be set by NRF during rating LPK.
+                        minLength: 3
+                        maxLength: 3
+                      serviceCode:
+                        type: string
+                        description: Original service code. Refer to the Service Codes document for more details.
+                        minLength: 3
+                        maxLength: 3
+                        example: "012"
+                      serviceDesc:
+                        type: string
+                        description: Original service description. Refer to the Service Codes document for more details.
+                        example: "UPS 3 DAY SELECT"
+                      packageWeight:
+                        type: string
+                        description: Package weight. May also be changed by NRF during rating to billable weight.
+                        maxLength: 10
+                        example: "4.0"
+                      packageWeightUOM:
+                        type: string
+                        description: Package weight unit of measure
+                        maxLength: 3
+                        minLength: 3
+                        anyOf:
+                          - const: LBS
+                            title: Pounds
+                          - const: KGS
+                          - title: Kilograms
+                      packagingType:
+                        description: Packaging Type code. Refer to the Packaging Types document for more details.
+                        type: string
+                        maxLength: 3
+                        example: "03"
+                      shipperName:
+                        type: string
+                        description: Name of the shipper Applicable for  Intercept options FD,AA,UR etc.
+                        example: ACME Inc.
+                      displayShipperPaidInterceptCharges:
+                        type: boolean
+                        description: Indicates if a message should be displayed that the shipper has paid for the charges related to the intercept
+                        default: false
+                      shipperPaidInterceptCharges:
+                        type: boolean
+                        description: Indicates if charges related to the intercept are paid by the shipper.
+                        default: false
+                      shipperPaidTransportationCharges:
+                        type: boolean
+                        description: Indicates if charges related to transportation are paid by the shipper. Applicable only for Redirect to Another Address.
+                        default: false
+                      displayShipperPaidTransportationCharges:
+                        type: boolean
+                        description: |
+                          Indicates if a message should be displayed that the shipper has paid for the charges related to transportation. 
+                          Applicable only for Redirect to Another Address and Redirect to UPS Location intercepts. TRUE - display a message
+                          that the shipper has paid the transportation charges.
+                        default: false
+                      chargesPaidByThirdPartyShipper:
+                        type: boolean
+                        description: |
+                          Indicates if the charges were paid by a third-party shipper and must be supplied by trusted end clients only.
 
-            | VALUE | DESCRIPTION         |
-            | :--:  | :--                 |
-            | NTC   | NO Tax calculation  | 
-            | NTA   | NO Tax applicable   | 
-            | TA    | Taxes applicable    |
-            | TE    | Taxes exempt        |
-            | TU    | Taxes Undermined    |
-          type: string
-          maxLength: 3
-          minLength: 2
-          example: "TU"
-    ContactInfo:
+                          | CODE  | DESCRIPTION                                     |
+                          | :--:  | :--                                             |
+                          | TRUE  | the charges were paid by a third-party shipper. |
+                          | FALSE | the charges were paid by the original shipper.  |
+                        default: false
+                      taxes:
+                        type: array
+                        minItems: 1
+                        description: Taxes for EU/Mexico/Canada  country  movement. This array is unbounded.
+                        items:
+                          type: object
+                          properties:
+                            tax:
+                              type: string
+                              description: Identifies the tax type
+                            taxAmount:
+                              description: Identifies the tax amount for a particular tax type
+                              $ref: "#/components/schemas/DeliveryInterceptChargeV2"
+                      totalTax:
+                        description: Taxes for EU/Mexico/Canada country movement . sum of tax amounts present in the taxes field.
+                        $ref: "#/components/schemas/DeliveryInterceptChargeV2"
+                      preTaxTotalCharge:
+                        description: Pre-tax total Charge. Sum of accessorial charges and transportation charges  excluding taxes.
+                        $ref: "#/components/schemas/DeliveryInterceptChargeV2"
+                      taxDisclaimerIndicator:
+                        type: string
+                        description: Indicates if a tax disclaimer message should be displayed.
+                        oneOf:
+                          - const: NTC
+                            title: NO Tax calculation
+                          - const: NTA
+                            title: NO Tax applicable
+                          - const: TA
+                            title: Taxes applicable
+                          - const: TE
+                            title: Taxes Exempt
+                          - const: TU
+                            title: Taxes Undetermined
+                      interceptChargeDetail:
+                        type: array
+                        description: Unbounded array of intercept charges details, available only for intercept option AL
+                        items:
+                          $ref: "#/components/schemas/DeliveryInterceptChargeDetailV2"
+                    additionalProperties: false
+                    required:
+                      - trackingNumber
+                      - accessorialCharge
+                      - interceptCharge
+                      - transportationCharge
+                      - totalCharge
+                      - chargeCurrency
+                      - estDeliveryDate
+                      - serviceCode
+                      - serviceDesc
+                      - packageWeight
+                      - packageWeightUOM
+                      - packagingType
+                      - shipperName
+                      - preTaxTotalCharge
+                      - taxDisclaimerIndicator
+              additionalProperties: true
+              required: 
+                - chargeInfo
+      additionalProperties: false
+      required:
+        - response
+    DeliveryInterceptChargeDetailV2:
       type: object
-      required: [name,telephone]
       properties:
-        name: 
-          description: Contact Name 
-          maxLength: 30
-          minLength: 1
-          example: The UPS Store
+        accessorialCharge:
           type: string
-        telephone:
-          description: Contact phone number
-          maxLength: 14
-          minLength: 1
-          example: "+14107495070"
+          description: Includes sum of all accessorial charges (i.e. including addition handling, intercept)
+          minLength: 4
+          maxLength: 20
+          example: "20.00"
+        interceptCharge:
           type: string
-          pattern: '^(\+)[0-9]{1,13}$'
-        phoneExt:
-          description: Contact phone extension
-          maxLength: 4
-          minLength: 2
+          description: The flat rate charge specific for the intercept
+          minLength: 4
+          maxLength: 20
+          example: "20.00"
+        transportationCharge:
           type: string
-          pattern: '^(\+)[0-9]{1,3}$'
-          example: "+1"
-        emailAddress:
-          description: Contact email address
-          maxLength: 50
-          minLength: 1
-          example: aups@ups.com
+          description: Transportation Charge Only for Alternate Address (Redirect, Deliver to Another Address)
+          minLength: 4
+          maxLength: 20
+          example: "20.00"
+        totalCharge:
           type: string
-          pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$'
-        altTelephone:
-          description: Alternate Contact phone number
-          maxLength: 14
-          minLength: 1
+          description: totalCharge
+          minLength: 4
+          maxLength: 20
+          example: "20.00"
+        interceptOption:
           type: string
-          pattern: '^(\+)[0-9]{1,13}$'
-          example: "+19886432748"
-        altPhoneExt:
-          description: Alternate Contact phone extension
-          maxLength: 4
-          minLength: 2
-          type: string
-          pattern: '^(\+)[0-9]{1,3}$'
-          example: "+12"
-        displayPhoneNumber:
-          description: Indicates if the phone number of a UAP can be displayed to external clients.
-          example: false
+          description: Intercept name of the charges
+          example: AA
+        displayShipperPaidInterceptCharges:
           type: boolean
+          description: Indicates if a message should be displayed that the shipper has paid for the charges related to the intercept.
           default: false
-    LocationHoursOfOperation:
-      type: object
-      required: [startTime, endTime]
-      properties:
-        startTime:
-          description: The local start time of the location operating hours. Format - HHMM (24 HR).
+        shipperPaidInterceptCharges:
+          type: boolean
+          description: Indicates if charges related to the intercept are paid by the shipper.
+          default: false
+          example: false
+        successful: 
+          type: boolean
+        currencyCode:
           type: string
-          maxLength: 4
-          minLength: 4
-          example: "0000"
-        endTime:
-          description: The local end time of the location operating hours. Format -  HHMM (24 HR).
-          type: string
-          maxLength: 4
-          minLength: 4
-          example: "2355"
-    MyChoiceCommonRequest:
-      type: object
-      required: [clientIP]
-      properties:
-        clientId:
-          description: A unique value that identifies the client application.
-          maxLength: 6
-          example: "XOLT"
-          type: string
-        transactionId:
-          description: A unique value that will be used to identify the transaction for logging and troubleshooting purposes
-          maxLength: 14
-          minLength: 1
-          example: "tm241ea77"
-          type: string
-        source:
-          description: A unique value that identifies where the request originated from.
-          maxLength: 2
-          minLength: 1
-          example: "72"
-          type: string
-        loc:
-          description: The locale of the client application. This must be set to ensure that translations on the response are in the proper language.
-          maxLength: 5
-          minLength: 5
-          example: en_US
-          type: string
-          pattern: '^[a-z]+[_]+[A-Z]+$'
-        addressToken:
-          description: wherever tracking number is required, or when a method defines if required.
-          maxLength: 32
-          example: "e951ee064b46a43f6a17bc930e046f2a"
-          type: string
-        clientIP:
-          description: The IP of the remote client
-          maxLength: 16
-          minLength: 1
-          example: "10.9.65.169"
-          type: string
-        trackingNumber:
-          description: The number being tracked.
-          maxLength: 18
-          minLength: 18
-          example: 1Z1144YY0125887968
-          type: string
-          pattern: '^(1Z)[A-Z0-9]{16}$'
-        consigneeAddressCountryCode:
-          type: string
-        consigneeAddressZipCode:
-          type: string
-        infoNoticeNumber:
-          description: Infonotice number or BCDN number
-          maxLength: 12
-          example: "952895106203"
-          type: string
-        notificationRequestType:
-          type: string
-        requestType:
-          description: |
-            The request type of the intercept being performed. Each method defines if required. 
-            | VALUE | DESCRIPTION                     |
-            | :--:  | :--                             |
-            | WC	  | WILL_CALL                       |
-            | SC	  | SAME_DAY_WILL_CALL              |
-            | FD	  | FUTURE_DELIVERY                 |
-            | AA	  | ALTERNATE_ADDRESS               |
-            | UR	  | UPS_RETAIL_LOCATION             |
-            | RA	  | REDELIVER_TO_MY_ADDRESS         |
-            | RS	  | RETURN_TO_SENDER                |
-            | AC	  | ADDRESS_CORRECTION              |
-            | UGR   | UPGRADE_TO_GROUND               |
-            | UFD   | UPGRADE_AND_FUTURE_DELIVERY     |
-            | UWC   | UPGRADE_AND_WILL_CALL           |
-            | UUR   | UPGRADE_AND_UPS_RETAIL_LOCATION |
-            | UAA   | UPGRADE_AND_ALTERNATE_ADDRESS   |
-            | XUR   | DELIVER_TO_UAP_NEXT_DAY         |
-          type: string
+          description: This will be used when authorizing  credit cards or PayPal accounts
+          minLength: 3
           maxLength: 3
-          minLength: 2
-          example: "UFD"
-        requesterContactInfo:
-          $ref: '#/components/schemas/ContactInfo'
-    MyChoiceCommonResponse:
+          example: USD
+      required:
+       - currencyCode
+    DeliveryInterceptEligibilityOptionsResponseV2:
       type: object
-      required: [transactionId, statusCode, success]
+      description: Response schema for Delivery Change Eligibility request
+      properties:
+        response:
+          allOf:
+            - $ref: "#/components/schemas/DeliveryInterceptCommonResponseV2"
+            - type: object
+              properties:
+                commonEligibilityMap:
+                  description: Object that contains eligibility values for each intercept feature
+                  properties:
+                    interceptFeature:
+                      type: string
+                      description: The specific delivery change options eligibilty is being returned for
+                      oneOf: 
+                        - const: SDWC
+                          title: Same Day Will Call
+                        - const: RTS
+                          title: Return To Sender
+                        - const: WC
+                          title: Will Call
+                        - const: FD
+                          title: Future Delivery
+                        - const: RD
+                          title: Reschedule Delivery
+                    eligibilityValue:
+                      type: object
+                      description: Object that holds the eligibility values for a particular delivery change
+                      properties:
+                        createEligibility:
+                          $ref: '#/components/schemas/DeliveryInterceptEligibilityValueV2'
+                        modifyEligibility:
+                          $ref: '#/components/schemas/DeliveryInterceptEligibilityValueV2'
+                        cancelEligibility:
+                          $ref: '#/components/schemas/DeliveryInterceptEligibilityValueV2'
+                        dateOptionsforFutureDelivery:
+                          type: array
+                          description: Unbounded array of future delivery dates. Available only for future delivery intercept option
+                          minItems: 1
+                          items: 
+                            type: object
+                            description: Object that holds the future delivery dates user is eligible for
+                            properties:
+                              date:
+                                $ref: "#/components/schemas/DeliveryInterceptDateV2"
+                              dayOfWeekText:
+                                type: string
+                                description: Provides the day of the week 
+                                enum:
+                                  - Sunday
+                                  - Monday
+                                  - Tuesday
+                                  - Wednesday
+                                  - Thursday
+                                  - Friday
+                              dayOfWeekNumber:
+                                type: string
+                                description: Provides the number of the day of the week
+                                oneOf:
+                                  - const: "01"
+                                    title: Sunday
+                                  - const: "02"
+                                    title: Monday
+                                  - const: "03"
+                                    title: Tuesday
+                                  - const: "04"
+                                    title: Wednesday
+                                  - const: "05"
+                                    title: Thursday
+                                  - const: "06"
+                                    title: Friday
+                                  - const: "07"
+                                    title: Saturday
+                        reasonOptionsForRTS:
+                          type: array
+                          description: Array of reasons why the item is being returned. Available only for RTS intercept option
+                          minItems: 1
+                          maxItems: 9
+                          items: 
+                            type: object
+                            description: Object that holds the return to sender reasons the user is eligible for
+                            properties:
+                              id: 
+                                type: string
+                                description: Provides the reason code for RTS
+                                oneOf:
+                                  - const: AM
+                                    title: CANCELLED
+                                    description: RECEIVER REFUSED, CANCELLED ORDER
+                                  - const: AN
+                                    title: DUPLICATE
+                                    description: RECEIVER REFUSED, DUPLICATE ORDER
+                                  - const: AQ
+                                    title: NO C.O.D.'S
+                                    description: RECEIVER REFUSED, NO C.O.D.'S ACCEPTED
+                                  - const: AR
+                                    title: EXPENSIVE
+                                    description: RECEIVER REFUSED, TOO EXPENSIVE
+                                  - const: AS
+                                    title: LATE
+                                    description: RECEIVER REFUSED, SHIPPED TOO LATE
+                                  - const: FA
+                                    title: BAD ADDRESS
+                                    description: UNABLE TO RESOLVE INCORRECT ADDRESS
+                                  - const: KR
+                                    title: REFUSED
+                                    description: RECEIVER DID NOT WANT, REFUSED DELIVERY
+                                  - const: KS
+                                    title: NOT ORDERED
+                                    description: RECEIVER DID NOT ORDER, REFUSED
+                                  - const: KV
+                                    title: OTHER
+                                    description: OTHER NON-DELIVERY
+                              value: 
+                                type: string
+                                description: Provides the reason text for RTS
+                                example: COD Will Not Be Accepted
+                            additionalProperties: false
+                            required:
+                              - id
+                              - value
+                      additionalProperties: false
+                      required:
+                        - createEligibility
+                        - modifyEligibility
+                        - cancelEligibility
+              additionalProperties: true
+              required:
+                - commonEligibilityMap
+      additionalProperties: false
+      required:
+        - response
+    DeliveryInterceptRequestV2:
+      type: object
+      properties:
+        requestType:
+          description: The request type of the intercept being performed
+          type: string
+          minLength: 2
+          maxLength: 3
+          oneOf:
+            - const: WC
+              title: WILL CALL
+            - const: SC
+              title: SAME DAY WILL CALL
+            - const: FD
+              title: FUTURE DELIVERY 
+            - const: AA
+              title: ALTERNATE ADDRES
+            - const: RS
+              title: RETURN TO SENDER
+        requesterContactInfo:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Contact Name
+              minLength: 1
+              maxLength: 30
+              example: The UPS Store
+            telephone:
+              type: string
+              description: Contact phone number
+              minLength: 1
+              maxLength: 14
+              pattern: ^(\+)[0-9]{1,13}$
+              example: "+14107495070"
+            phoneExt:
+              type: string
+              description: Contact phone extension
+              minLength: 2
+              maxLength: 4
+              pattern: ^(\+)[0-9]{1,3}$
+              example: "+12"
+            emailAddress:
+              type: string
+              description: Contact email address
+              minLength: 1
+              maxLength: 50
+              pattern: ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$
+              example: aups@ups.com
+            altTelephone:
+              type: string
+              description: Alternate Contact phone number
+              minLength: 1
+              maxLength: 14
+              pattern: ^(\+)[0-9]{1,13}$
+              example: "+19886432748"
+            altPhoneExt:
+              type: string
+              description: Alternate Contact phone extension
+              minLength: 2
+              maxLength: 4
+              pattern: ^(\+)[0-9]{1,3}$
+              example: "+12"
+            displayPhoneNumber:
+              type: boolean
+              description: Indicates if the phone number of a UAP can be displayed to external clients.
+              default: false
+          additionalProperties: true
+          required: 
+            - name
+            - telephone
+        reasonForReturn:
+          type: string
+          description: Reason for return code. Required only for RS intercept type.
+          oneOf:
+            - const: AM
+              title: CANCELLED
+              description: RECEIVER REFUSED, CANCELLED ORDER
+            - const: AN
+              title: DUPLICATE
+              description: RECEIVER REFUSED, DUPLICATE ORDER
+            - const: AQ
+              title: NO C.O.D.'S
+              description: RECEIVER REFUSED, NO C.O.D.'S ACCEPTED
+            - const: AR
+              title: EXPENSIVE
+              description: RECEIVER REFUSED, TOO EXPENSIVE
+            - const: AS
+              title: LATE
+              description: RECEIVER REFUSED, SHIPPED TOO LATE
+            - const: FA
+              title: BAD ADDRESS
+              description: UNABLE TO RESOLVE INCORRECT ADDRESS
+            - const: KR
+              title: REFUSED
+              description: RECEIVER DID NOT WANT, REFUSED DELIVERY
+            - const: KS
+              title: NOT ORDERED
+              description: RECEIVER DID NOT ORDER, REFUSED
+            - const: KV
+              title: OTHER
+              description: OTHER NON-DELIVERY
+        deliveryDate:
+          type: string
+          description: Original scheduled date of delivery. Required olny for FD intercept type.
+          minLength: 8
+          maxLength: 8
+          pattern: ^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$
+          example: "20190223"
+        specialInstructions:
+          type:
+            - string
+            - "null"
+          description: Special Instructions sent to the driver. Available only to AA intercept type
+          minLength: 1
+          maxLength: 254
+          example: Handle With Care
+        newDeliveryAddress:
+          type: object
+          description: New delivery address. Required olny for AA intercept type.
+          properties:
+            addressNickName:
+              type: string
+              description: The nickname string assigned to the address entry. Required only for AA intercept type.
+              minLength: 2
+              maxLength: 20
+              example: John's woek address
+            addressInfo:
+              type: object
+              description: Address object, include line1, line2, line 3 state, postal code and country code. Required when processing a request if imsAddressIdentifier is not present.  
+              properties:
+                addressLine1:
+                  type: string
+                  description: Line 1 of the street address. Required if streetAddressParsedIndicator is FALSE; Required when setting Billing Address.
+                  minLength: 1
+                  maxLength: 50
+                  example: 12911 FORK RD
+                addressLine2:
+                  type: string
+                  description: Line 2 of the street address
+                  minLength: 1
+                  maxLength: 35
+                  example: Ste 8
+                addressLine3:
+                  description: Line 3 of the street
+                  minLength: 1
+                  maxLength: 35
+                  type: string
+                city:
+                  type: string
+                  description: The city name of the address
+                  minLength: 1
+                  maxLength: 30
+                  example: Baldwin
+                state:
+                  type: string
+                  description: The state code of the address
+                  minLength: 2
+                  maxLength: 2
+                  pattern: ^[A-Z]{2}$
+                  example: MD
+                postalCode:
+                  type: string
+                  description: The postal code of the address (should be provided for postal countries)
+                  minLength: 5
+                  maxLength: 16
+                  pattern: ^\d{5}(?:[-\s]\d{4})?$
+                  examples:
+                    - "21013"
+                    - "21093-1234"
+                countryCode:
+                  type: string
+                  description: The ISO country code of the address
+                  maxLength: 2
+                  minLength: 2
+                  pattern: ^[A-Z]{2}$
+                  example: US
+              additionalProperties: true
+              required: 
+                - addressLine1
+                - city
+                - state
+                - postalCode
+                - countryCode
+            nameOrCompanyName:
+              type: string
+              description: The name of the company or person customer address.(Required When calling submitAddress() API  Empty String  can be passed)          
+              example: ACME Inc.
+            contactName:
+              type: string
+              description: The contact name at the customer address.
+              example: Robert
+            phoneNumber:
+              type: string
+              description: The contact phone number at the customer address.(Required When calling submitAddress() API  Empty String  can be passed)
+              maxLength: 14
+              pattern: '^(\+)[0-9]{1,13}$'
+              example: "+19886222523"
+            phoneExt:
+              type: string
+              description: The phone extension number at the customer address.(Required When calling submitAddress() API  Empty String  can be passed)
+              pattern: '^(\+)[0-9]{1,3}$'
+              example: "+244"
+            emailAddress:
+              type: string
+              description: Email Address at the customer address.
+              pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$'
+              example: aups@ups.com
+      additionalProperties: false
+      required: 
+        - requesterContactInfo
+        - specialInstructions
+    DeliveryInterceptResponseV2:
+      type: object
+      description: ""
       properties:
         transactionId:
-          description: A unique value that will be used to identify the transaction for logging and troubleshooting purposes.
-          maxLength: 14
-          minLength: 1
-          example: "ASR1212"
           type: string
+          description: A unique value that will be used to identify the transaction for logging and troubleshooting purposes.
+          minLength: 1
+          maxLength: 14
+          example: "ASR1212"
+        statusCode:
+          type: string
+          description: API response status code, Internal code regarding the success or failure of the operation
+          minLength: 3
+          maxLength: 3
+          example: "000"
+        statusMsg:
+          type: string
+          description: API response status message, Internal message regarding the success or failure of the operation
+          minLength: 1
+          maxLength: 80
+          example: "Success"
+        subStatusCode:
+          type: string
+          description: A new status code for adding granularity to the existing status code structure
+          example: "7103"
+        success:
+          type: boolean
+          description: Indicates if the transaction is considered successful.
+          default: false
+        errors:
+          type: 
+            - array
+            - "null"
+          description: Unbounded array of error objects
+          items:
+            $ref: "#/components/schemas/DeliveryInterceptSuccessErrorV2"
+        warnings:
+          type: object
+          description: A map containing warning codes and descriptions as key/value pairs.
+          additionalProperties:
+            type: string
+      additionalProperties: false
+      required: 
+        - transactionId
+        - statusCode
+        - success
+    DeliveryInterceptCommonResponseV2:
+      type: object
+      description: Object to contain properties common to all responses
+      properties:
+        transactionId:
+          type: string
+          description: A unique value that will be used to identify the transaction for logging and troubleshooting purposes
+          minLength: 1
+          maxLength: 14
+          example: ASR1212
         statusCode:
           description: API response status code, Internal code regarding the success or failure of the operation
           maxLength: 3
@@ -1294,1117 +2014,221 @@ components:
           example: "000"
           type: string
         statusMsg:
+          type: string
           description: API response status message, Internal message regarding the success or failure of the operation
-          maxLength: 80
           minLength: 1
-          example: "Success"
-          type: string
+          maxLength: 80
+          example: Success
         subStatusCode:
-          description: A new status code for adding granularity to the existing status code structure
           type: string
+          description: A new status code for adding granularity to the existing status code structure
           example: "7103"
         success:
+          type: boolean
           description: Indicates if the transaction is considered successful.
           default: false
-          type: boolean
-        errors:
-          description: A list that contains the errors occurred during the processing of transaction. This array is unbounded.
-          type: array
-          items:
-            $ref: '#/components/schemas/MyChoiceConsolidatorError'
         warnings:
-          description: A map containing warning codes and descriptions as key/value pairs.
-          type: object
-          additionalProperties:
-            type: string
-        chargeInfo:
-          description: For each 1z there will exist a ChargeInfo object. These are the charges that were applied. This array is unbounded.
-          type: array
+          type: 
+            - object
+            - "null"
+          description: A map containing warning codes and descriptions as key/value pairs
+        errors:
+          type: 
+            - array
+            - "null"
+          description: Unbounded array of error objects
           items:
-            $ref: '#/components/schemas/ChargesInfo'
-        mycagreementUptoDate:
-          type: boolean
-          default: false
-    MyChoiceInterceptCommonRequest:
-      type: object
-      properties:
-        specialInstructions:
-          description: Special Instructions sent to the driver.
-          type: string
-          maxLength: 254
-          example: Watch for dog
-        originalPublicLocationId:
-          description: |
-            The original UAP public location ID where the package is currently located or in-transit to. Format- UXXXXXXXX  ('U' followed by 8 numbers)
-          type: string
-          maxLength: 9
-          minLength: 9
-          example: U12345678
-        chargeInfo:
-          type: array
-          description: A list containing the charges for each tracking number in the request. This array is unbounded.
-          items:
-            $ref: '#/components/schemas/ChargesInfo'
-        udiContactInfo:
-          $ref: '#/components/schemas/ContactInfo'
-        iobb:
-          description: |
-            iOvations Black Box data. Used for fraud checking/scoring. 
-            
-            | S.NO. | DESCRIPTION                                 |
-            | :--:  | :--                                         |
-            | 1 	  | iobb value is labeled “EMPTY”               |
-            | 2.	  | tmid is populated with the Threat Metrix ID |
-          example: “{\'iobb\'-\'EMPTY\',\'tmid\'-\'77c1468763cb4fd58df5525d8741d174521202012563181\'}”
-          type: string
-        tmxSessionId:
-          description: Threat Matrix session ID. Used for fraud checking/scoring.
-          type: string
-          maxLength: 40
-        paymentContainer:
-          $ref: '#/components/schemas/PaymentContainer'
-        ebPLDSequenceNumber:
-          description: Sequence number for the rackingNumber within the shipment. Used to update SII shipper history.
-          type: string
-          minLength: 1
-          maxLength: 6
-          example: "01"
-        ebPLDshipmentKey:
-          type: string
-          example: "IS0005722320210514B5E3705C32E342W"
-        leadTrackingNumber:
-          description: Tracking Number for the lead package in the shipment. Used to update SII shipper history.
-          type: string
-          example: 1Z1144YY0125887968
-        multiTrackingNumbers:
-          type: array
-          description: |
-            This unbounded array is required only for the API version v3. It is used to process multiple tracking numbers with the same request.
-          items:
-            $ref: '#/components/schemas/MultiTrackingNumbers'
-    MyChoiceInterceptCommonResponse:
-      type: object
-      properties:
-        addrToken:
-          description: The token associated with the tracking number and one of the user's active enrollments. 
-          type: string
-          maxLength: 32
-          example: f01882cf6aad4833a2a25144bd04714e
-        myChoiceCountry:
-          description: |
-            Will only be returned if notificationRequestType is DBD email or DBD phone. Indicates if My Choice is supported in the
-            package's ship to country. 
-            
-            | CODE  | DESCRIPTION                                     |
-            | :--:  | :--                                             |
-            |       | No My Choice support check was done.            |
-            | 0     |	Area does not support My Choice functionality.  |
-            | 1	    | Area supports My Choice functionality.          |
-          type: string
-          maxLength: 1
-          minLength: 1
-          example: "1"
-    MyChoiceConsolidatorError:
-      type: object
-      required: [errorCode,errorMessage]
-      properties:
-        errorCode:
-          description: The code of the error.
-          maxLength: 4
-          minLength: 1
-          example: "1201"
-          type: string
-        errorMessage:
-          description: The message of the error.
-          maxLength: 120
-          minLength: 1
-          example: "TransactionSrc"
-          type: string
-        errorSource:
-          description: The source of the error.
-          type: string
-    MultiTrackingNumbers:
-      type: object
-      properties:
-        trackingNumber:
-          description: Tracking number to be track.
-          type: string
-          maxLength: 18
-          minLength: 18
-          example: "1ZAT57900109232651"
-          pattern: '^(1Z)[A-Z0-9]{16}$'
-        ebPLDSequenceNumber:
-          type: string
-          example: "01"
-        ebPLDshipmentKey:
-          type: string
-          example: IS0005722320210514B5E3705C32E342W
-    MyChoiceCancelExistingRequest:
-      $ref: '#/components/schemas/MyChoiceCommonRequest'
-      required: [clientId, transactionId, source]
-    MyChoiceDeliverToAnotherAddressRequest:
-      allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonRequest'
-        - $ref: '#/components/schemas/MyChoiceInterceptCommonRequest'
-        - type: object
-          properties:
-            newDeliveryAddress:
-              $ref: '#/components/schemas/AddressBookEntry'
-      required: [transactionId, trackingNumber, requesterContactInfo]
-    MyChoiceDeliverToAnotherAddressResponse:
-      allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonResponse'
-        - type: object
-          properties:
-            myChoiceCountry:
-              description: |
-                Will only be returned if notificationRequestType is DBD email or DBD phone Indicates if My Choice is supported
-                in the package's ship to country.“”	No My Choice support check was done.“0”	Area does not support My Choice functionality.
-                “1”	Area supports My Choice functionality.
-              type: string
-              maxLength: 1
-              example: "1"
-    MyChoiceRedirectChargesRequest:
-      allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonRequest'
-        - type: object
-          required: [ratingRequest]
-          properties:
-            ratingRequest:
-              description: | 
-                List of rating request data. If you want to find out the accessory and transportation charges of a "redirect" request
-                for a specified Tracking number then this array list must contain one rating request. This array is unbounded.
-              type: array
-              items:
-                type: object
-                required: [trackingNumber,cdwIndicator,upgradeToGroundCharges]
-                properties:
-                  redirectAddress:
-                    $ref: '#/components/schemas/AddressBookEntry'
-                  fromAddress:
-                    $ref: '#/components/schemas/AddressInformation'
-                  toAddress:
-                    $ref: '#/components/schemas/AddressInformation'
-                  paymentTerms:
-                    type: string
-                    example: "4"
-                  upgradeToGroundCharges:
-                    description: true, if the service is being upgraded from basic/SurePost to UPS.
-                    type: boolean
-                    default: false
-                  length:
-                    description: length of package.
-                    type: string
-                    maxLength: 5
-                    example: "2.00"
-                  packageActivityStatusCode:
-                    type: string
-                    example: "MP"
-                  shipperRestrictCode:
-                    description: Indicates if shipper restricts beyond Zone 2 reroute.
-                    type: string
-                    maxLength: 2
-                    example: "01"
-                  sourceActivitySequenceNumber:
-                    type: string
-                    example: "0"
-                    maxLength: 1
-                  alternateAddressCountryCode:
-                    type: string
-                    example: "US"
-                    maxLength: 2
-                  uniqueIDCountryCode:
-                    type: string
-                    example: "US"
-                    maxLength: 2
-                  deliveryAttemptStreetName:
-                    type: string
-                    example: "LYONS"
-                  deliveryAttemptStreetTypeCode:
-                    type: string
-                    example: "LN"
-                  deliveryAttemptCity:
-                    type: string
-                    example: "LONGBOAT KEY"
-                  deliveryAttemptStreetPrefix:
-                    type: string
-                  deliveryAttemptPostalCode1:
-                    type: string
-                    example: "34228"
-                  thirdPartyShipperAccountNumber:
-                    description: Third Party Shipper Account Number - Flexible MyChoice
-                    type: string
-                    example: W97819
-                  uniqueIDInformationSourceCode:
-                    type: string
-                  delivetrAttemptStreetSuffix:
-                    type: string
-                  deliveryAttemptCountryCode:
-                    type: string
-                    example: "US"
-                  delivertAttemptStreetNumber:
-                    type: string
-                    example: "340"
-                  thirdPartyShipperCountryCode:
-                    description: Third Party Shipper  Country Code - Flexible MyChoice.
-                    type: string
-                    example: "IT"
-                  packageActivityRegion:
-                    type: string
-                    example: "07"
-                  packageActivityDistrict:
-                    type: string
-                    example: "33"
-                  packageActivityCountryCode:
-                    type: string
-                    example: "US"
-                  additionalHandling:
-                    description: Additional Handling code.
-                    type: string
-                    maxLength: 3
-                  thirdPartyShipperName:
-                    description: Third Party Shipper Name - Flexible MyChoice.
-                    type: string
-                    example: "DIFFUSIONE TESSILE SRL GRUPPO MAX M"
-                  upgradeToGroundServiceRequest:
-                    type: boolean
-                    default: false
-                  deliveryAttemptNumber:
-                    type: string
-                    example: "1"
-                  alternateAddressStateCode:
-                    type: string
-                    example: "05"
-                  uniqueIDPackageActivityStatusCode:
-                    type: string
-                  delivetrAttemptStreetPrefix:
-                    type: string
-                  statusCode:
-                    type: string
-                  height:
-                    description: height of package.
-                    type: string
-                    maxLength: 5
-                    example: "38.40"
-                  width:
-                    description: width of package.
-                    type: string
-                    maxLength: 5
-                    example: "21.00"
-                  trackingNumber:
-                    description: Tracking number to be track.
-                    type: string
-                    maxLength: 18
-                    minLength: 18
-                    pattern: '^(1Z)[A-Z0-9]{16}$'
-                    example: 1Z1144YY0125887968
-                  interceptOption:
-                    description: The intercept option to be quoted. Required if CDWIndicator = False.
-                    type: string
-                    maxLength: 2
-                    minLength: 2
-                    example: WC
-                  shipperNumber:
-                    description: Account shipper number.
-                    type: string
-                    maxLength: 6
-                    minLength: 6
-                    example: 6568YY
-                  serviceCode:
-                    description: 3 character service code.
-                    type: string
-                    maxLength: 3
-                    minLength: 3
-                    example: "007"
-                  originCountry:
-                    description: Needed to map international to domestic service.
-                    type: string
-                    maxLength: 2
-                    minLength: 2
-                    example: DK
-                  pickupDate:
-                    description: Default is current date.
-                    type: string
-                    maxLength: 8
-                    example: "20190213"
-                    pattern: '^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$'
-                  offSetToGMT:
-                    type: string
-                    example: "200"
-                  weight:
-                    description: Weight of package.
-                    default: "1"
-                    type: string
-                    maxLength: 10
-                    example: "130"
-                  residentialInd:
-                    type: string
-                  weightUOM:
-                    description: Weight unit of measure
-                    type: string
-                    maxLength: 3
-                    minLength: 3
-                    example: LBS
-                  packageType:
-                    description: Type of package.
-                    type: string
-                    maxLength: 2
-                    minLength: 2
-                    example: "01"
-                  gmtSign:
-                    type: string
-                    example: "+"
-                  cdwIndicator:
-                    description: Indication to Rate package with CDW accessorial. If True,InterceptOption is not required.
-                    type: boolean
-                    default: false
-                  interceptSource:
-                    type: string
-                  oversizeCode:
-                    description: Optional if re-tracking from OCAS.
-                    type: string
-                    maxLength: 3
-                  statusDesc:
-                    type: string
-                  serviceDesc:
-                    type: string
-                    example: "STANDARD UPS"
-                  dimensionUOM:
-                    description: |
-                      Dimensions unit of measure.
-
-                      | CODE  | DESCRIPTION |
-                      | :--:  | :--         |
-                      | IN    | inches      |
-                      | CM    | centimeters |
-                    type: string
-                    enum: [IN,CM]
-                    example: IN
-                  rescheduleDate:
-                    type: string
-                    pattern: '^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$'
-                    example: "20220131"
-                    maxLength: 8
-                  interceptMethod:
-                    type: string
-                  scheduleDate:
-                    type: string
-                    pattern: '^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$'
-                    example: "20220131"
-                    maxLength: 8
-                  shipperName:
-                    description: Shipper Name - Flexible MyChoice.
-                    type: string
-      required: [transactionId,clientIP,source]
-    MyChoiceRescheduleDeliveryRequest:
-      allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonRequest'
-        - $ref: '#/components/schemas/MyChoiceInterceptCommonRequest'
-        - type: object
-          required: [deliveryDate]
-          properties:
-             deliveryDate:
-              description: Format- YYYYMMDD
-              maxLength: 8
-              minLength: 8
-              pattern: '^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$'
-              type: string
-              example: "20190223"
-      required: [transactionId]
-    MyChoiceRescheduleDeliveryResponse:
-       allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonResponse'
-        - $ref: '#/components/schemas/MyChoiceInterceptCommonResponse'
-    MyChoiceReturnToSenderRequest:
-      allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonRequest'
-        - $ref: '#/components/schemas/MyChoiceInterceptCommonRequest'
-        - type: object
-          required: [reasonForReturn]
-          properties:
-            reasonForReturn:
-              description: |
-                Reason for return code.
-                            
-                | CODE  | DESCRIPTION                                                           |
-                | :--:  | :--                                                                   |
-                | AM    | RECEIVER REFUSED, CANCELLED ORDER                                     |
-                | AN    | RECEIVER REFUSED, DUPLICATE ORDER                                     |
-                | AQ    | RECEIVER REFUSED, NO C.O.D.'S ACCEPTED                                |
-                | AR    | RECEIVER REFUSED, TOO EXPENSIVE,AS-RECEIVER REFUSED, SHIPPED TOO LATE |
-                | FA    | UNABLE TO RESOLVE INCORRECT ADDRESS                                   |
-                | KR    | RECEIVER DID NOT WANT, REFUSED DELIVERY                               |
-                | KS    | RECEIVER DID NOT ORDER, REFUSED                                       |
-                | KV    | OTHER NON-DELIVERY                                                    |
-              type: string
-              maxLength: 2
-              minLength: 2
-              example: "AQ"
-            reasonText:
-              type: string
-      required: [trackingNumber,transactionId,source,requesterContactInfo]
-    MyChoiceReturnToSenderResponse:
-      allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonResponse'
-        - type: object
-          properties:
-            addrToken:
-              description: |
-                Will only be returned when the addressToken is present on the request or can be retrieved from AMS for MyChoice functionality. 
-                The token associated with the tracking number and one of the user's active enrollments.
-              maxLength: 32
-              type: string
-    MyChoiceWillCallRequest:
-      allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonRequest'
-        - $ref: '#/components/schemas/MyChoiceInterceptCommonRequest'
-        - type: object
-          properties:
-            deliveryDate:
-              description: |
-                Not used for inquiryType - M. This should be the earliest available pickup date. Format will be YYYYMMDD.
-                If this field is not present, MCCL will populate this with the earliest date derived from the eligibility.
-              type: string
-              maxLength: 8
-              minLength: 8
-              example: "20220128"
-              pattern: '^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$'
-      required: [trackingNumber,requesterContactInfo,transactionId,source]
-    MyChoiceWillCallResponse:
-      allOf:
-        - $ref: '#/components/schemas/MyChoiceCommonResponse'
-        - $ref: '#/components/schemas/MyChoiceInterceptCommonResponse'
-        - type: object
-          properties:
-            upsLocation:
-              type: object
-              required: [name,locationId,distance,distanceUOM,longitude,latitude,locationType,daysOfOperation,acceptsPayment,earlyPickUpAvailable,pickUpDropOffInd,unavailable,upslocker]
-              properties:
-                storeContactInfo:
-                  $ref: '#/components/schemas/ContactInfo'
-                storeAddress:
-                  $ref: '#/components/schemas/AddressInformation'
-                distance:
-                  description: Distance from the search address to this location.
-                  type: string
-                  maxLength: 6
-                  minLength: 1
-                  example: "102"
-                distanceUOM:
-                  description: |
-                    Unit of measurement
-
-                    | CODE  | DESCRIPTION |
-                    | :--:  | :--         |
-                    | KM    | KiloMeters  |
-                    | MI    | Miles       |
-                  type: string
-                  maxLength: 2
-                  minLength: 2
-                  example: "KM"
-                longitude:
-                  description: The longitude of the UPS Location. This can be used for getting driving directions.
-                  type: string
-                  maxLength: 17
-                  minLength: 1
-                  example: "38.34523789390884"
-                latitude:
-                  description: The latitude of the UPS location. This can be used for getting driving directions.
-                  type: string
-                  maxLength: 17
-                  minLength: 1
-                  example:  "-75.6013502509887"
-                locationId:
-                  description: |
-                    The locationId of the UPS location. This can be used for getting driving directions, and submitting a Deliver To UPS Retail Location
-                    request. Required for untrusted clients.
-                  type: string
-                  maxLength: 6
-                  minLength: 1
-                  example: "139490"
-                locationType:
-                  description: |
-                    UPS Store/UPS Alliance/customer center.
-
-                    | CODE  | DESCRIPTION                 |
-                    | :--:  | :--                         |
-                    | 001   | UPS Customer Center         |
-                    | 002   | UPS Store                   |
-                    | 003   | UPS Drop Box                |
-                    | 004   | Authorized shipping outlet  |
-                    | 007   | UPS Alliance locations      |
-                    | 018   | UPS access point            |
-                  type: string
-                  maxLength: 3
-                  minLength: 3
-                  example: "001"
-                name:
-                  description: | 
-                    If this field is not present, MCCL will call SCL Component to obtain all location information.
-                    This field must be supplied by trusted end clients only.
-                  type: string
-                  maxLength: 50
-                  example: The UPS Store
-                daysOfOperation:
-                  type: array
-                  description: The UPS location hours of operation, index from 0 - 6 Starting from Sunday. This array is unbounded.
-                  items:
-                    type: object
-                    required: [hoursOfOperation, closed, dayOfWeek, open24Hours]
-                    properties:
-                      hoursOfOperation:
-                        $ref: '#/components/schemas/LocationHoursOfOperation'
-                      closed:
-                        description: Use this to determine if the location is closed on this day.
-                        type: boolean
-                      dayOfWeek:
-                        description: The day of week (0-6, Sun-Sat).
-                        type: string
-                        maxLength: 1
-                        minLength: 1
-                        example: "2"
-                      open24Hours:
-                        description: Indicates if the location is open all day long. True - the location is open all day.
-                        type: boolean
-                        default: false
-                upsStoreAcctNum:
-                  type: string
-                  example: 1379YY
-                upsStoreNum:
-                  type: string
-                  example: "ZZ0012"
-                promotionText:
-                  description: promotion text.
-                  type: string
-                promotionLocale:
-                  type: string
-                acceptsPayment:
-                  description: Default value is false. Accepts Payment  indicator for COD packages
-                  type: boolean
-                  default: false
-                earlyPickUpAvailable:
-                  description: Default value is false. Indicator whether or not the  Access Point supports early pickup times.
-                  type: boolean
-                  default: false
-                pickUpDropOffInd:
-                  description: Default value is false. Pickup Drop off indicator.
-                  type: boolean
-                  default: false
-                unavailable:
-                  description: Default value is false.
-                  type: boolean
-                  default: false
-                unavailableReasonCode:
-                  description: Unavailable Code that was returned by SCL. Will be returned when unavailable is true.
-                  type: string
-                  example: "01"
-                unavailableReasonDescription:
-                  description: |
-                    Will be returned when unavailable is  true.
-                    
-                    | CODE  | DESCRIPTION             |
-                    | :--:  | :--                     | 
-                    | 01    | Temporarily unavailable |
-                    | 02    | Location Full           |
-                    | 03    | Unavialable             |
-                    | 04    | Weather                 |
-                  type: string
-                  example: "01"
-                serviceOfferingCode:
-                  type: string 
-                  description: |
-                    The code for the service being offered.
-
-                    | CODE  | DESCRIPTION                 |
-                    | :--:  | :--                         |
-                    | 001	  | Direct To Retail            |
-                    | 002	  | Not in One ADL              |
-                    | 003	  | Click and Collect           |
-                    | 004	  | Retail to Retail            |
-                    | 005	  | Pickup Union                |
-                    | 006	  | Drop Off Union              |
-                    | 007	  | PUDO                        |
-                    | 008	  | Early Pickup Delivery Time  |
-                    | 009	  | Accept prepaid drop offs    |
-                    | 010	  | DCO DCR intercept accepted  |
-                    | 011	  | Accepts Payments            |
-                    | 012   | Pay-At-Store                |
-                    | 013   | Accepts Restricted Articles |
-                    | 015   | Accepts Mobile Barcodes     |
-                  example: "001"
-                serviceOfferingCodeDesc:
-                  type: string
-                businessType:
-                  type: array
-                  description: A list of all business classification types associated with this UPS location. This array is unbounded.
-                  items:
-                    type: object
-                    required: [code,description]
-                    properties:
-                      code:
-                        description: |
-                          The business classification type code.
-                          
-                          | CODE  | DESCRIPTION       |
-                          | :--:  | :--               |
-                          | 001   | BAKERY            |
-                          | 002   | BOOKSTORE         | 
-                          | 003   | CHEMISTS          |
-                          | 004   | CLOTHes_SHOES     |
-                          | 005   | CONVIENIENCE_SHOP |
-                          | 006   | DRY_CLEANING      |
-                        type: string
-                        maxLength: 3
-                        minLength: 3
-                        example: "001"
-                      description:
-                        description: The business classification type description.
-                        type: string
-                turnByTurnDirection:
-                  description: |
-                    Additional instructions are provided when available. These instructions are also known as "the last 50 feet" and are used
-                    to help customers find UPS facilities such as drop boxes.
-                  type: string
-                customerCenter:
-                  description: |
-                    Return's true if the particular location is a will call (UPS customer location) center and clients have to invoke submitWillCall()
-                    API to create the intercept.
-                  type: boolean
-                  default: false
-                alertComments:
-                  description: Comments will be returned when available.
-                  type: string
-                  example: "A government-issued photo ID is required when shipping or picking up a package at a UPS shipping location"
-                nonStandardHours:
-                  type: array
-                  description: The non-standard hours of operation. Will only be populated for Will Call locations. This array is unbounded.
-                  items:
-                    type: object
-                    required: [closed,startDate,endDate]
-                    properties:
-                      hoursOfOperation:
-                        type: array
-                        description: A list of operating times for the day. This array is unbounded.
-                        items:
-                          $ref: '#/components/schemas/LocationHoursOfOperation'
-                      closed:
-                        description: Use this to determine if the location is closed during the date range. True - the location is closed.
-                        type: boolean
-                        default: false
-                      startDate:
-                        description: Start Date for non-standard hours of operation. Format is MM/DD/YYYY.
-                        type: string
-                        example: "06/22/2022"
-                        pattern: '(\d{1,2}(\/)\d{1,2}(\/)\d{2,4})$'
-                      endDate:
-                        description: End Date for non-standard hours of operation. Format is MM/DD/YYYY.
-                        type: string
-                        example: "06/25/2022"
-                        pattern: '(\d{1,2}(\/)\d{1,2}(\/)\d{2,4})$'
-                serviceOfferingCodeList:
-                  type: array
-                  items:
-                    type: string
-                upslocker:
-                  description: Default Value is FALSE. True - the location is a UPS Parcel Locker.
-                  type: boolean
-                  default: false
-    PaymentContainer:
-      type: object
-      properties:
-        paymentType:
-          description: |
-            Conditional on the charges. Required if the charges are greater than zero.
-            
-            | CODE  | DESCRIPTION       |
-            | :--:  | :--               |
-            | C     | Credit Card       |
-            | A     | Consignee Account |
-            | P     | PayPal            |
-            | G     | GooglePay         |
-            | I     | ApplePay          |
-          type: string
-          maxLength: 1
-          minLength: 1
-          example: "G"
-        paymentAuthorized:
-          description: |
-            Indicates if the credit card / PayPal payment transaction is pre-authorized.
-            TRUE - the payment transaction is pre-authorized.
-          type: boolean
-          default: false
-        creditCardInfo:
-          type: object
-          required: [savedCard]
-          properties:
-            billingAddress:
-              $ref: '#/components/schemas/AddressInformation'
-            platformType:
-              description: |
-                Platform type associated with the source application.
-                 
-                | VALUE  | DESCRIPTION                  |
-                | :--    | :--                          |
-                | AU     | M.UPS.COM                    |
-                | GG	   | UPSXMLONLINETOOLS            |
-                | 72     | WEB-INTERNETBASEDAPPLICATION |
-                | XK     | UPSMOBILEFORANDROID          |
-                | XL     | UPSMOBILEFORIOS              | 
-                | XM     | UPSSOCIALFACEBOOKCLIENT=XM   |
-              maxLength: 2
-              minLength: 2
-              example: "AU"
-              type: string
-            currencyCode:
-              description: Default value is “USD”. The currency code associated with the charges.
-              maxLength: 3
-              minLength: 3
-              example: "USD"
-              type: string
-            iobb:
-              description: |
-                Used on request only for non-authorized payment. Used for fraud checking/scoring.
-    
-                | S.NO. | DESCRIPTION                                 |
-                | :--:  | :--                                         |
-                | 1	    | iobb value is labeled “EMPTY”               |
-                | 2	    | tmid is populated with the Threat Metrix ID |
-              example: 77c1468763cb4fd58df5525d8741d174521202012563181\
-              type: string
-            defaultAccount:
-              description: Default value is FALSE. Indicator if this is the default payment in the user's profile.
-              example: TRUE
-              type: boolean
-              default: false
-            displayableNumber:
-              description: Displayable account number.
-              type: string
-            amount:
-              description: The total transaction amount to authorize based on the charges.
-              type: integer
-              format: int64
-              example: 500
-            accountName:
-              description: The account name associated with this payment.
-              type: string
-              example: "PayPal"
-            guidCode:
-              description: The guid generated after the transaction payment authorization, acts as the authorization code.
-              type: string
-              example: A4FA550CD2DF482EBD049370F69854AD
-            tokenizedAccountNumber:
-              description: The encrypted card account number. Request required for non-authorized cards
-              maxLength: 16
-              type: string
-              example: "TPSJWGKFWNMG4020"
-            cardType:
-              description: |
-                The card type is required for non-authorized cards and new cards.
-              maxLength: 2
-              minLength: 2
-              example: "01"
-              type: string
-            expireYear:
-              description: The card expiration date year. Format- YYYY
-              maxLength: 4
-              minLength: 4
-              type: string
-              example: "2022"
-            expireMonth:
-              description: The card expiration date month. Format- MM
-              maxLength: 2
-              minLength: 2
-              type: string
-              example: "04"
-            savedCard:
-              description: Default value is FALSE. Indicates if this is a new card and should be saved to the user's profile.
-              example: TRUE
-              type: boolean
-              default: false
-            verificationCode:
-              description: The card specific certification / verification code.
-              maxLength: 4
-              type: string
-            tokenObj:
-              type: object
-              properties:
-                tokenTypeValue:
-                  type: string
-                  example: "10"
-                cardNumber:
-                  type: string
-                  example: TB8CUY4E2CEH7271
-                cardType:
-                  type: object
-                  properties:
-                    cardTypeID:
-                      description: |
-                        The card type ID
-                      example: "04"
-                      type: string
-                    cardTypeName:
-                      description: |
-                        The card type name
-                      example: "04"
-                      type: string
-                    cardTypePCSName:
-                      description: |
-                        the card type PCS name
-                      example: "MASTERCARD"
-                      type: string
-                    cardTypeLength:
-                      description: |
-                         the card type length
-                      type: string
-                    cardTypeMaxLength:
-                      description: |
-                        the max length for card type
-                      example: 16
-                      type: integer
-                      format: int32
-                    cardTypeMinLength:
-                      description: |
-                        the min length for card type
-                      example: 16
-                      type: integer
-                      format: int32
-                    cardTypePaymentType:
-                      description: |
-                        the card type payment type
-                      example: "CC"
-                      type: string
-                lastFourChars:
-                  type: string
-                  example: "ANVI"
-                uuid:
-                  type: string
-                encrypted:
-                  type: boolean
-                clearText:
-                  type: boolean
-                lastFourChard:
-                  type: string
-                  writeOnly: true
-                token:
-                  type: boolean
-            securityCodeValidated:
-              description: Default value is TRUE. Indicates if the cvv verification code validation should be performed.
-              example: FALSE
-              type: boolean
-              default: true
-            upsAccountNumber:
-              description: Account number associated with this card.
-              type: string
-            paymentTokenFlag:
-              description: Default value is FALSE. Payment token flag indicator.
-              example: TRUE
-              type: boolean
-              default: false
-            cardHolderName:
-              description: Card account name used when saving a new card to the user's profile.
-              type: string
-        accountInfo:
-          type: object
-          required: [accountNumber, accountCountry, accountName]
-          properties:
-            accountNumber:
-              description: UPS account number.
-              type: string
-              maxLength: 10
-              example: "TESTO"
-            accountCountry:
-              description: Country code associated with the account. 
-              type: string
-              maxLength: 2
-              minLength: 2
-              example: "US"
-            accountName:
-              description: Account name used when saving a new account to the users profile.
-              type: string
-              maxLength: 35
-              minLength: 1
-            displayableAccountNumber:
-              description: Displayable account number.
-              type: string
-            zipCode:
-              description: |
-                Request required when saveAccountInfo is TRUE. Postal code associated with the account used when saving a new account to the user's profile.
-              type: string
-              example: "21009"
-            accountType:
-              type: string
-              description: UPS account type.
-            defaultAccount:
-              description:  |
-                when saveAccountInfo is TRUE. If this is the default account in the user's profile.
-                TRUE - account is the default / will be saved as the default account.
-                FALSE - account is not the default payment.
-              type: boolean
-              default: false
-            saveAccountInfo:
-              description: Used on request only. set TRUE if the account need's to be saved.
-              type: boolean
-              default: false
-        paypalAccount:
-          type: object
-          properties:
-            billingAddress:
-              type: object
-              $ref: '#/components/schemas/AddressInformation'
-            platformType:
-              description: Request required for non-authorized payment. Platform type associated with the source application.
-              type: string
-              maxLength: 2
-              minLength: 2
-              example: "XK"
-            currencyCode:
-              description: |
-                Request required for non-authorized payment. Default value is USD. The currency code associated with the charges.
-                If not present, the currency will be retrieved from the charges response when applicable.
-              type: string
-              maxLength: 3
-              minLength: 2
-              example: "USD"
-            iobb:
-              description: |
-                Used on request only for non-authorized payment. Used for fraud checking/scoring 
-                
-                | S.NO. | DESCRIPTION                                 |
-                | :--:  | :--                                         |
-                | 1 	  | iobb value is labeled “EMPTY”               |
-                | 2.	  | tmid is populated with the Threat Metrix ID |
-              example: “{\'iobb\'-\'EMPTY\',\'tmid\'-\'77c1468763cb4fd58df5525d8741d174521202012563181\'}”
-              type: string
-            defaultAccount:
-              description: |
-                Indicator if this is the default payment in the user's profile.
-                TRUE - account is the default payment .
-                FALSE - account is not the default payment.
-              type: boolean
-              default: false
-            displayableNumber:
-              description: Displayable account number.
-              type: string
-            amount:
-              description: |
-                Request required for non-authorized payment. The total transaction amount to authorize based on the charges.
-                If not present, the amount will be retrieved from the charges response when applicable.
-              type: integer
-              format: int64
-              example: 500
-            accountName:
-              description: The account name associated with this payment.
-              type: string
-            guidCode:
-              description: |
-                Request required for pre-authorized payment. The guid generated after the transaction payment authorization, acts as the authorization code.
-              type: string
-              example : "EB154DF85A3F4309A774EB500E4EBDAD"
-            payPalBillingAgreementId:
-              description: Request required for non-authorized payment. Tokenized billing agreement number.
-              type: string
-            payPalPayerId:
-              description: Request required for non-authorized payment. Tokenized payer account identifier.
-              type: string
-    SuccessResponseHeaders:
-      description: The headers that are returned for all error responses.
-      type: object
+            $ref: "#/components/schemas/DeliveryInterceptSuccessErrorV2"
+      additionalProperties: true
       required:
-        - BkndTransId
-        - transId
-        - transactionSrc
-        - Accept
-        - Content-Type
-      properties:
-        BkndTransId:
-          type: string
-          description: The backend transaction id.
-          example: SC_AUTH0_SCP_V4_TEST
-        transId:
-          type: string 
-          description: An identifier unique to the request.
-          example: 0a1b9c2d8e3f7g4h6i5
-        transactionSrc:
-          type: string
-          description: Identifies the client/source application that is calling.
-          example: CPC
-        Accept:
-          type: string
-          description: The Accept request HTTP header indicates which content types, expressed as MIME types, the client is able to understand.
-          example: application/json
-        Content-Type:
-          type: string
-          description: The Content-Type header provides the client with the actual content/media type of the returned content.
-          example: application/json
-      additionalProperties: false
-    ErrorResponseHeaders:
-      allOf:
-        - $ref: "#/components/schemas/SuccessResponseHeaders"
-        - type: object
-          description: The headers that are returned in error conditions
-          required:
-            - APIErrorCode
-            - APIErrorMsg
-          properties:
-            APIErrorCode:
-              type: string
-              description: The API error code.
-              example: UJ0001
-            APIErrorMsg:
-              type: string
-              description: The API error message.
-              example: Invalid token or token is not present.
-          additionalProperties: false
-    ErrorResponse:
+        - transactionId
+        - statusCode
+    DeliveryInterceptAddressV2:
       type: object
-      required: [response]
+      properties:
+        addressLine1:
+          type: string
+          description: Line 1 of the street address. Required if streetAddressParsedIndicator is FALSE; Required when setting Billing Address.
+          minLength: 1
+          maxLength: 50
+          example: 12911 FORK RD
+        addressLine2:
+          type: string
+          description: Line 2 of the street address
+          minLength: 1
+          maxLength: 35
+          example: Ste 8
+        addressLine3:
+          description: Line 3 of the street
+          minLength: 1
+          maxLength: 35
+          type: string
+        city:
+          type: string
+          description: The city name of the address
+          minLength: 1
+          maxLength: 30
+          example: Baldwin
+        state:
+          type: string
+          description: The state code of the address
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}$
+          example: MD
+        postalCode:
+          type: string
+          description: The postal code of the address (should be provided for postal countries)
+          minLength: 5
+          maxLength: 16
+          pattern: ^\d{5}(?:[-\s]\d{4})?$
+          examples:
+            - "21013"
+            - "21093-1234"
+        countryCode:
+          type: string
+          description: The ISO country code of the address
+          maxLength: 2
+          minLength: 2
+          pattern: ^[A-Z]{2}$
+          example: US
+      additionalProperties: true
+      required: 
+        - addressLine1
+        - city
+        - state
+        - postalCode
+        - countryCode
+    DeliveryInterceptAdditionalAddressV2:
+      type: object
+      properties:
+        buildingFloor:
+          type: string
+          example: "2"
+        publicLocationId:
+          type: string
+          example: U88498244
+        firstName:
+          type: string
+          description: Required when the user choses to enter a new card providing the Billing address in CreditCardInformation .
+          example: HUNTLY
+        lastName:
+          type: string
+          description: Required when the user choses to enter a new card providing the Billing address in CreditCardInformation object.
+          example: OAK
+        fullName:
+          type: string
+          description: Full person name
+          example: HUNTLY OAK
+        phoneNumber:
+          type: string
+          maxLength: 17
+          pattern: '^(\+)[0-9]{1,16}$'
+          example: "+19886222564"
+      additionalProperties: true
+      required:
+        - firstName
+        - phoneNumber
+    DeliveryInterceptChargeV2:
+      type: string
+      maxLength: 20
+      pattern: ^\d{1,17}?\.\d{2}?$
+      format: currency
+      example: "5.00"
+    DeliveryInterceptDateV2:
+      type: string
+      description: Provides the future dates available for delivery
+      pattern: ^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$
+      example: "20250110"
+    DeliveryInterceptEligibilityValueV2:
+      type: string
+      enum: 
+        - ELIGIBLE
+        - NOT_ELIGIBLE
+        - UNKNOWN
+    DeliveryInterceptTrackingNumberV2:
+      type: string
+      minLength: 18
+      maxLength: 18
+      pattern: ^(1Z)[A-Z0-9]{16}$
+      example: 1ZA2F8810719086435
+    DeliveryInterceptErrorResponseV2:
+      type: object
+      required: 
+        - response
       properties:
         response:
           type: object
-          required: [transactionId, statusCode, errors]
-          properties: 
-              transactionId:
-                description: |-
-                  A unique value that will be used to identify the transaction for logging and troubleshooting purposes.
-                maxLength: 14
-                minLength: 1
-                example: ASR1212
-                type: string
-              statusCode:
-                description: |-
-                  API response status code, Internal code regarding the success or failure of the operation
-                maxLength: 4
-                minLength: 1
-                example: "0006"
-                type: string
-              subStatusCode:
-                description: |-
-                  A new status code for adding granularity to the existing status code structure
-                type: string
-              success:
-                description: Indicates if the transaction is considered successful.
-                default: false
-                type: boolean  
-              errors:
-                type: array
-                description: |
-                  Will only be returned if the HTTP statusCode isn't '200'(success). A list of one or more validation errors. On the API version
-                  v3 the first element of the errors array contains the statusCode and scoring statusMessage field. This array is unbounded.
-                items: 
-                  type: object
-                  properties: 
-                    code:
-                      description: |-
-                          the code of the error
-                      maxLength: 4
-                      minLength: 1
-                      example: "0006"
-                      type: string
-                    message:
-                      description: |-
-                        the message of the error
-                      maxLength: 120
-                      minLength: 1
-                      example: "Failure to check eligibility through Tracking component"
-                      type: string
-        
+          required: 
+            - statusCode
+            - errors
+          properties:
+            transactionId:
+              description: |-
+                A unique value that will be used to identify the transaction for logging and troubleshooting purposes.
+              maxLength: 14
+              minLength: 1
+              example: "ASR1212"
+              type: string
+            statusCode:
+              description: |-
+                API response status code, Internal code regarding the success or failure of the operation
+              maxLength: 4
+              minLength: 1
+              example: "0006"
+              type: string
+            subStatusCode:
+              description: |-
+                A new status code for adding granularity to the existing status code structure
+              type: string
+            success:
+              description: Indicates if the transaction is considered successful.
+              default: false
+              type: boolean
+            errors:
+              type: array
+              description: |
+                Will only be returned if the HTTP statusCode isn't '200'(success). A list of one or more validation errors. On the API version
+                v3 the first element of the errors array contains the statusCode and scoring statusMessage field. This array is unbounded.
+              items:
+                type: object
+                properties:
+                  code:
+                    description: |-
+                      the code of the error
+                    maxLength: 4
+                    minLength: 1
+                    example: "0006"
+                    type: string
+                  message:
+                    description: |-
+                      the message of the error
+                    maxLength: 120
+                    minLength: 1
+                    example: "Failure to check eligibility through Tracking service"
+                    type: string
+    DeliveryInterceptSuccessErrorV2:
+      type: object
+      description: | 
+        Container to hold details related to an individual error. Will only be returned if the HTTP statusCode isn't '200'(success).
+        On the API version v3 the first element of the errors array contains the statusCode and scoring statusMessage field. 
+      properties:
+        errorCode:
+          type: string
+          description: The code of the error
+          minLength: 1
+          maxLength: 4
+          example: "1201"
+        errorMessage:
+          type: string
+          description: The message of the error
+          minLength: 1
+          maxLength: 120
+          example: TransactionSrc
+        errorSource:
+          type: string
+          description: The source of the error
+      additionalProperties: false
+      required: 
+        - errorCode
+        - errorMessage
