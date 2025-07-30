@@ -4,7 +4,9 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
+  
     The Rating API is used when rating or shopping a shipment.
+    # Reference
     - <a href="https://developer.ups.com/api/reference/rating/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/rating/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/rating/error-codes" target="_blank" rel="noopener">Errors</a>
@@ -764,6 +766,84 @@ paths:
                                 Description: LBS
                               Weight: '5'
                             AuditRequired: ''
+              '10':
+                  summary: shopTime In Transit (CIE) Example
+                  value:
+                    RateRequest:
+                      Request:
+                        RequestOption: shopTimeInTransit
+                        SubVersion: ''
+                        TransactionReference:
+                          CustomerContext: Verify success returned rate request is submitted with ShopTimeInTransit
+                          TransactionIdentifier: ''
+                      Shipment:
+                        OriginRecordTransactionTimestamp: ''
+                        Shipper:
+                          Name: Shipper_Name
+                          ShipperNumber: ''
+                          Address:
+                            AddressLine:
+                              - Morris Road
+                              - Morris Road
+                              - Morris Road
+                            City: Alpharetta
+                            StateProvinceCode: GA
+                            PostalCode: '30005'
+                            CountryCode: US
+                        ShipTo:
+                          Name: ShipToName
+                          Address:
+                            AddressLine:
+                              - ShipToAddress
+                              - ShipToAddress
+                              - ShipToAddress
+                            City: Aurora
+                            StateProvinceCode: ON
+                            PostalCode: L4G 3V2
+                            CountryCode: CA
+                        ShipFrom:
+                          Name: ShipFromName
+                          Address:
+                            AddressLine:
+                              - ShipFromAddressLine
+                              - ShipFromAddressLine
+                              - ShipFromAddressLine
+                            City: Alpharetta
+                            StateProvinceCode: GA
+                            PostalCode: '30005'
+                            CountryCode: US
+                        Package:
+                          PackagingType:
+                            Code: '02'
+                            Description: Packaging
+                          Dimensions:
+                            UnitOfMeasurement:
+                              Code: IN
+                              Description: Inches
+                            Length: '5'
+                            Width: '5'
+                            Height: '5'
+                          PackageWeight:
+                            UnitOfMeasurement:
+                              Code: LBS
+                              Description: LBS
+                            Weight: '10'
+                        InvoiceLineTotal:
+                          CurrencyCode: USD
+                          MonetaryValue: '100'
+                        ShipmentTotalWeight:
+                          UnitOfMeasurement:
+                            Code: LBS
+                            Description: LBS
+                          Weight: '9'
+                        DeliveryTimeInformation:
+                          PackageBillType: '03'
+                          Pickup:
+                            Date: '20250624'
+                            Time: '161682'
+                        ShipmentDate: '20250624'
+
+
       responses:
         '200':
           description: successful operation
