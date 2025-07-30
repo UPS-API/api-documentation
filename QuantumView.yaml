@@ -2715,7 +2715,7 @@ components:
       properties:
         ActivityType:
           description: |
-            Unique identifier that defines the type of activity. 
+            Unique identifier that defines the type of activity.
             - VM = Void for Manifest
             - UR = Undeliverable Returns
             - IR = Invoice Removal Successful
@@ -2723,7 +2723,7 @@ components:
             - FN = UPS Access Point/Alternate Delivery Location Email Notification Failure
             - DS = Destination Scan
             - AG = Package is in transit to a UPS facility
-            - RE = UPS Returns Exchange 
+            - RE = UPS Returns Exchange
             - RP = Retail Pickup
             - UD = Updated delivery date
             - OD = Out for Delivery
@@ -2731,9 +2731,6 @@ components:
             - FM = Tendered to FMP
             - PT = UPS Courier Handoff (Package Tendered) DIALS -VX
             - PC = UPS Courier Confirmation – XPLD -VX
-            - OT = Out For Delivery Today scan
-            - AD = At Delivery Site scan
-            - RO = Roadie Out for Delivery
           maximum: 1
           type: string
           minLength: 1

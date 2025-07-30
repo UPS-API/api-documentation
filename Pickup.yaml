@@ -1107,9 +1107,11 @@ components:
         ResponseStatus:
           "$ref": "#/components/schemas/Response_ResponseStatus"
         Alert:
-           type: array
-           items:
-            "$ref": "#/components/schemas/Response_Alert"         
+          oneOf:
+          - items:
+              "$ref": "#/components/schemas/Response_Alert"
+            type: array
+          - "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -1656,8 +1658,6 @@ components:
           type: string
           minLength: 1
           maxLength: 1
-        Notification:
-          "$ref": "#/components/schemas/PickupCreationRequest_Notification"
       xml:
         name: PickupCreationRequest
       maximum: 1
@@ -2220,25 +2220,6 @@ components:
       xml:
         name: ShipmentDetail
       description: Refers to the ShipmentDetail Container under Freight Options
-    PickupCreationRequest_Notification:
-      type: object
-      properties:
-        ConfirmationEmailAddress:
-          description: Email address where the pickup notification is sent.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 50
-        UndeliverableEmailAddress:
-          description: Email address for used exceptions.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 50
-      xml:
-        name: Notification
-      maximum: 1
-      description: Container for pickup notification  
     ShipmentDetail_PalletInformation:
       type: object
       properties:
@@ -2865,9 +2846,11 @@ components:
       type: object
       properties:
         DropOffFacilities:
-          type: array
-          items:
-           "$ref": "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
+          oneOf:
+          - items:
+              "$ref": "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
+            type: array
+          - "$ref": "#/components/schemas/ServiceCenterLocation_DropOffFacilities"
         PickupFacilities:
           "$ref": "#/components/schemas/ServiceCenterLocation_PickupFacilities"
       xml:
@@ -2934,9 +2917,11 @@ components:
           maximum: 1
           type: string
         LocalizedInstruction:
-          type: array
-          items:
-           "$ref": "#/components/schemas/DropOffFacilities_LocalizedInstruction"
+          oneOf:
+          - items:
+              "$ref": "#/components/schemas/DropOffFacilities_LocalizedInstruction"
+            type: array
+          - "$ref": "#/components/schemas/DropOffFacilities_LocalizedInstruction"
         Distance:
           "$ref": "#/components/schemas/DropOffFacilities_Distance"
       xml:
@@ -3380,9 +3365,11 @@ components:
         Response:
           "$ref": "#/components/schemas/PickupPendingStatusResponse_Response"
         PendingStatus:
-          type: array
-          items:            
-           "$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
+          oneOf:
+          - items:
+              "$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
+            type: array
+          - "$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
       xml:
         name: PickupPendingStatusResponse
       description: The response of the pending status for on-callpickup.

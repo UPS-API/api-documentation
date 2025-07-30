@@ -4,7 +4,9 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
+  
     The Rating API is used when rating or shopping a shipment.
+    # Reference
     - <a href="https://developer.ups.com/api/reference/rating/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/rating/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/rating/error-codes" target="_blank" rel="noopener">Errors</a>
@@ -1542,108 +1544,6 @@ paths:
                                 Description: LBS
                               Weight: '5'
                             AuditRequired: ''
-              '10':
-                summary: shopTime In Transit (CIE) Example
-                value:
-                  {
-                    "RateRequest": {
-                      "Request": {
-                        "RequestOption": "shopTimeInTransit",
-                        "SubVersion": "",
-                        "TransactionReference": {
-                          "CustomerContext": "Verify success returned rate request is submitted with ShopTimeInTransit",
-                          "TransactionIdentifier": ""
-                        }
-                      },
-                      "Shipment": {
-                        "OriginRecordTransactionTimestamp": "",
-                        "Shipper": {
-                          "Name": "Shipper_Name",
-                          "ShipperNumber": "",
-                          "Address": {
-                            "AddressLine": [
-                              "Morris Road",
-                              "Morris Road",
-                              "Morris Road"
-                            ],
-                            "City": "Alpharetta",
-                            "StateProvinceCode": "GA",
-                            "PostalCode": "30005",
-                            "CountryCode": "US"
-                          }
-                        },
-                        "ShipTo": {
-                          "Name": "ShipToName",
-                          "Address": {
-                            "AddressLine": [
-                              "ShipToAddress",
-                              "ShipToAddress",
-                              "ShipToAddress"
-                            ],
-                            "City": "Aurora",
-                            "StateProvinceCode": "ON",
-                            "PostalCode": "L4G 3V2",
-                            "CountryCode": "CA"
-                          }
-                        },
-                        "ShipFrom": {
-                          "Name": "ShipFromName",
-                          "Address": {
-                            "AddressLine": [
-                              "ShipFromAddressLine",
-                              "ShipFromAddressLine",
-                              "ShipFromAddressLine"
-                            ],
-                            "City": "Alpharetta",
-                            "StateProvinceCode": "GA",
-                            "PostalCode": "30005",
-                            "CountryCode": "US"
-                          }
-                        },
-                        "Package": {
-                          "PackagingType": {
-                            "Code": "02",
-                            "Description": "Packaging"
-                          },
-                          "Dimensions": {
-                            "UnitOfMeasurement": {
-                              "Code": "IN",
-                              "Description": "Inches"
-                            },
-                            "Length": "5",
-                            "Width": "5",
-                            "Height": "5"
-                          },
-                          "PackageWeight": {
-                            "UnitOfMeasurement": {
-                              "Code": "LBS",
-                              "Description": "LBS"
-                            },
-                            "Weight": "10"
-                          }
-                        },
-                        "InvoiceLineTotal": {
-                          "CurrencyCode": "USD",
-                          "MonetaryValue": "100"
-                        },
-                        "ShipmentTotalWeight": {
-                          "UnitOfMeasurement": {
-                            "Code": "LBS",
-                            "Description": "LBS"
-                          },
-                          "Weight": "9"
-                        },
-                        "DeliveryTimeInformation": {
-                          "PackageBillType": "03",
-                          "Pickup": {
-                            "Date": "20250624",
-                            "Time": "161682"
-                          }
-                        },
-                        "ShipmentDate": "20250624"
-                      }
-                    }
-                  }
       responses:
         '200':
           description: successful operation
@@ -1737,11 +1637,23 @@ components:
       required:
       - RequestOption
       properties:
+        RequestOption:
+          description: |
+            Used to define the request type. Valid Values:
+            - Rate = The server rates (The default Request option is Rate if a Request Option is not provided).
+            - Shop = The server validates the shipment, and returns rates for all UPS products from the ShipFrom to the ShipTo addresses.
+            - Ratetimeintransit = The server rates with transit time information
+            - Shoptimeintransit = The server validates the shipment, and returns rates and transit times for all UPS products from the ShipFrom to the ShipTo addresses.
+
+            Rate is the only valid request option for UPS Ground Freight Pricing requests.
+          type: string
+          minLength: 1
+          maxLength: 15
         SubVersion:
           description: 'Indicates Rate API to display the new release features in
             Rate API response based on Rate release. See the What''s New section for
             the latest Rate release. Supported values: 1601, 1607, 1701, 1707, 2108,
-            2205,2407,2409'
+            2205'
           maximum: 1
           type: string
           minLength: 4
@@ -1955,12 +1867,11 @@ components:
       type: object
       maximum: 1
       required:
-      - CountryCode
       - AddressLine
+      - CountryCode
       properties:
         AddressLine:
           description: Shipper's street address including name and number (when applicable).  Maximum Occurrence should be three. Length is not validated.
-                       Note:Required if requesting Roadie Service
           maximum: 3
           type: array
           items:
@@ -2024,12 +1935,11 @@ components:
       type: object
       maximum: 1
       required:
-      - CountryCode
       - AddressLine
+      - CountryCode
       properties:
         AddressLine:
           description: Destination street address including name and number (when applicable).  Max Occurrence can be 3. Length is not validated.
-                       Note:Required if requesting Roadie Service
           maximum: 3
           type: array
           items:
@@ -2097,6 +2007,7 @@ components:
       type: object
       maximum: 1
       required:
+      - AddressLine
       - CountryCode
       properties:
         AddressLine:
@@ -2160,6 +2071,7 @@ components:
       type: object
       maximum: 1
       required:
+      - AddressLine
       - CountryCode
       properties:
         AddressLine:
@@ -4072,7 +3984,8 @@ components:
       properties:
         Code:
           description: 'Code for type of Import Control shipment. Valid values are:
-            ImportControl One-Attempt ''03'' = ImportControl Three-Attempt''04'' = ImportControl Electronic Label ''05''
+            ''01'' = ImportControl Print and Mail ''02'' = ImportControl One-Attempt                                     ''03''
+            = ImportControl Three-Attempt''04'' = ImportControl Electronic Label ''05''
             = ImportControl Print Label.'
           maximum: 1
           type: string
@@ -4095,7 +4008,8 @@ components:
       - Code
       properties:
         Code:
-          description: Code for type of Return shipment. Valid values are:'3' =UPS One-Attempt Return Label'5' = UPS
+          description: Code for type of Return shipment. Valid values are:'2' = UPS
+            Print and Mail Return Label '3' =UPS One-Attempt Return Label'5' = UPS
             Three Attempt Return Label'8' = UPS Electronic Return Label'9' = UPS Print
             Return Label'10' = UPS Exchange Print Return Label                            '11'
             = UPS Pack & Collect Service 1-Attempt Box 1 '12' = UPS Pack & Collect
@@ -4510,13 +4424,6 @@ components:
           type: string
           minLength: 1
           maxLength: 1
-        Zone:
-          type: string
-          minLength: 1
-          maxLength: 4
-          description: |
-            The Zone field will be returned in the Rate API response only when the latest subversion 2409 or greater
-
         RatedShipmentAlert:
           description: |
               Rated Shipment Alert container. There can be zero to many RatedShipmentAlert containers with code and description.

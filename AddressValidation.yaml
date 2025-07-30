@@ -19,7 +19,7 @@ info:
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
-    </a> 
+    </a>
 servers:
   - url: https://wwwcie.ups.com/api
     description: Customer Integration Environment
@@ -310,9 +310,83 @@ components:
       type: object
       required:
       - AddressKeyFormat
+      - Request
       properties:
+        Request:
+          "$ref": "#/components/schemas/XAVRequest_Request"
+        RegionalRequestIndicator:
+          description: >
+            If this indicator is present then either the region element
+            or any combination of Political Division 1, Political Division 2, PostcodePrimaryLow
+            and the PostcodeExtendedLow fields will be recognized for validation in
+            addition to the urbanization element.  If this tag is present, US and
+            PR street level address validation will not occur. The default is to
+            provide street level address validation.  Not valid with the address
+            classification request option.
+          maximum: 1
+          type: string
+        MaximumCandidateListSize:
+          description: |
+            The maximum number of Candidates to return for this request.
+
+            - Valid values: 0 - 50
+            - Default: 15
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 2
         AddressKeyFormat:
           "$ref": "#/components/schemas/XAVRequest_AddressKeyFormat"
+      xml:
+        name: XAVRequest
+      maximum: 1
+      description: ''
+    XAVRequest_Request:
+      type: object
+      maximum: 1
+      properties:
+        SubVersion:
+          description: Not Used.
+          maximum: 1
+          type: string
+          minLength: 4
+          maxLength: 4
+        RequestOption:
+          description: |
+            Identifies the optional processing to be performed. If not present or invalid value then an error will be sent back.
+
+            Valid values:
+
+            - 1 - Address Validation
+            - 2 - Address Classification
+            - 3 - Address Validation and Address Classification.
+
+            For a list of valid values, refer to Address Validation API Supported Countries or Territories in the Appendix.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 1
+        TransactionReference:
+          "$ref": "#/components/schemas/Request_TransactionReference"
+      xml:
+        name: Request
+      required:
+      - RequestOption
+      description: XAV Request Container.
+    Request_TransactionReference:
+      type: object
+      maximum: 1
+      properties:
+        CustomerContext:
+          description: The CustomerContext Information which will be echoed during response.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 512
+      xml:
+        name: TransactionReference
+      description: TransactionReference identifies transactions between client and
+        server.
     XAVRequest_AddressKeyFormat:
       type: object
       maximum: 1

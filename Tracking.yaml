@@ -162,24 +162,6 @@ paths:
         schema:
           type: string
           default: currentDate
-      - name: destCountry
-        in: query
-        description: The Destination Country associated with above reference number
-        schema:
-          type: string
-          default: 
-      - name: destZip
-        in: query
-        description: The Destination Zip associated with above reference number
-        schema:
-          type: string
-          default: 
-      - name: shipperNum
-        in: query
-        description: The Shipper Number (Account Number) associated with above reference number
-        schema:
-          type: string
-          default: 		  
       - name: refNumType
         in: query
         description: The Reference number type which will define the tracking information is related to small package or fgv

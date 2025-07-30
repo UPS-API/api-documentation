@@ -88,9 +88,9 @@ paths:
           required: true
           schema:
             type: string
-            default: v1
-            enum:
-                - v1
+          default: v1
+          enum:
+            - v1
         
       description: |
         Submit shipment details and receive guidance from UPS. 
