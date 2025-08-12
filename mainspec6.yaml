@@ -30,9 +30,6 @@ tags:
   - name: Address Validation
     description: 
       $ref: "AddressValidation-Ready.yaml#/info/description"
-  - name: Commerce Guard
-    description: 
-      $ref: "CommerceGuard.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "DangerousGoods-Ready.yaml#/info/description"
@@ -195,8 +192,6 @@ paths:
     "$ref": "WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
   "/track/{version}/subscription/standard/package":
     "$ref": "UPSTrackAlert-Ready.yaml#/paths/~1subscription~1standard~1package"
-  "/commerce-guard/{version}/verify":
-    "$ref": "CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
 webhooks:
   TrackingEvent:
     "$ref": "UPSTrackAlert-Ready.yaml#/webhooks/TrackingEvent"
@@ -211,4 +206,5 @@ components:
     BasicAuthGenerate:
       $ref: 'OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthGenerate'
     BasicAuthRefresh:
+
       $ref: 'OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
