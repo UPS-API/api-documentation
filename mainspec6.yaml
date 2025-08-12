@@ -206,4 +206,5 @@ components:
     BasicAuthGenerate:
       $ref: 'OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthGenerate'
     BasicAuthRefresh:
+
       $ref: 'OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'

@@ -1,0 +1,642 @@
+openapi: 3.1.0
+info:
+  title: Chargeback Protection API v1
+  version: "1.0"
+  description: API to verify and score risk of an order for chargeback protection.
+servers:
+  - url: https://wwwcie.ups.com/api
+    description: Customer Integration Environment
+  - url: https://onlinetools.ups.com/api
+    description: Production
+paths:
+  /commerce-guard/{version}/verify:
+    post:
+      summary: Verify chargeback risk
+      description: |
+        Evaluates chargeback risk based on user, payment, and address details. 
+        Returns scores and decision for risk classification.
+      operationId: verifyChargebackRisk
+      tags:
+        - Commerce Guard
+      security:
+        - OAuth2: [] 
+      parameters:
+        - in: path
+          name: version
+          schema:
+            type: string
+            minimum: 1
+            default: v1
+          description: |
+            Denotes which version of the API to be called as new features are released.
+            - v1
+        - in: header
+          name: partnerId
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+            example: PARTNER_001
+          required: true
+          description: Unique Partner ID
+        - in: header
+          name: transSrc
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 36
+            example: webstore
+          required: false
+          description: Optional transaction source
+        - in: header
+          name: transId
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 36
+            pattern: '^[a-zA-Z0-9-.]{3,36}$'
+            example: trans-001-a1b2c3
+          required: false
+          description: Optional unique transaction ID for idempotency
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChargebackVerifyRequestV1'
+            example:
+              userInformation:
+                email: alice.smith@example.com
+                ipAddress: 192.168.1.101
+              billingContact:
+                name:
+                  firstName: Alice
+                  lastName: Smith
+                phone:
+                  countryCode: "1"
+                  number: "3125556789"
+                address:
+                  addressLine:
+                    - 456 Elm Street
+                    - Unit 12B
+                  city: Chicago
+                  stateProvinceCode: IL
+                  postalCode: "60616"
+                  countryCode: US
+              shippingContact:
+                name:
+                  firstName: Alice
+                  lastName: Smith
+                phone:
+                  countryCode: "1"
+                  number: "3125556789"
+                address:
+                  addressLine:
+                    - 456 Elm Street
+                    - Unit 12B
+                  city: Chicago
+                  stateProvinceCode: IL
+                  postalCode: "60616"
+                  countryCode: US
+              paymentInformation:
+                txnId: TXN20250716001
+                method: card
+                issuerIdNumber: 411111
+                lastDigits: 4242
+                issuer: Visa
+              products:
+                - sku: ROD-ABC-123
+                  name: Wireless Bluetooth Headphones
+              orderValue: 199.99
+              currencyCode: USD
+              orderId: ORDER1001
+              orderCreatedAt: 2025-07-16T10:53:11.893Z
+      responses:
+        '200':
+          description: Success
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transId:
+              $ref: '#/components/headers/transId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargebackVerifyResponseV1'
+              example:
+                superScore: 500
+                decision: review
+                categoryScores:
+                  addressReliabilityScore:
+                    score: 520
+                    rank: medium
+                  digitalIdentityScore:
+                    score: 999
+                    rank: high
+                  proxyScore:
+                    score: 0
+                    rank: no_risk
+                  paymentReliabilityScore:
+                    score: 140
+                    rank: low
+        '400':
+          description: Validation error
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transId:
+              $ref: '#/components/headers/transId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+            APIErrorCode:
+              $ref: '#/components/headers/APIErrorCode'
+            APIErrorMessage:
+              $ref: '#/components/headers/APIErrorMsg'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargebackErrorResponseV1'
+              example:
+                response:
+                  errors:
+                    - code: MISSING_FIELD
+                      message: shippingContact.address.postalCode is required
+        '401':
+          description: Unauthorized
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transId:
+              $ref: '#/components/headers/transId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+            APIErrorCode:
+              $ref: '#/components/headers/APIErrorCode'
+            APIErrorMessage:
+              $ref: '#/components/headers/APIErrorMsg'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargebackErrorResponseV1'
+              example:
+                response:
+                  errors:
+                    - code: UNAUTHORIZED
+                      message: Invalid credentials
+        '403':
+          description: Forbidden
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transId:
+              $ref: '#/components/headers/transId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+            APIErrorCode:
+              $ref: '#/components/headers/APIErrorCode'
+            APIErrorMessage:
+              $ref: '#/components/headers/APIErrorMsg'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargebackErrorResponseV1'
+              example:
+                response:
+                  errors:
+                    - code: UNSUPPORTED
+                      message: Merchant does not have permission for this product
+        '422':
+          description: Unprocessable Content (Dependency Validation Failed)
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transId:
+              $ref: '#/components/headers/transId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+            APIErrorCode:
+              $ref: '#/components/headers/APIErrorCode'
+            APIErrorMessage:
+              $ref: '#/components/headers/APIErrorMsg'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargebackErrorResponseV1'
+              example:
+                response:
+                  errors:
+                    - code: DEPENDENCY_VALIDATION_FAILED
+                      message: Invalid IP address format
+        '500':
+          description: Internal server error
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transId:
+              $ref: '#/components/headers/transId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            Content-Type:
+              $ref: '#/components/headers/Content-Type'
+            APIErrorCode:
+              $ref: '#/components/headers/APIErrorCode'
+            APIErrorMessage:
+              $ref: '#/components/headers/APIErrorMsg'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChargebackErrorResponseV1'
+              example:
+                response:
+                  errors:
+                    - code: SERVER_ERROR
+                      message: system Unexpected exception while processing the request
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page.
+        1. Select \"Try It\"
+        2. In the Security section enter your Client ID and Secret.
+        3. Select \"Request Token\"
+        4. Enter any additional information in the Body and Parameters sections.
+        5. Select \"Send\" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
+          scopes: {}
+  headers:
+    BkndTransId:
+      description: The backend transaction id.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 64
+        example: 383f7d397a48
+    transId:
+      description: An identifier unique to the request.
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 36
+        pattern: '^[a-zA-Z0-9-.]{3,36}$'
+        example: 0a1b9c2d8e3f7g4h6i5
+    transactionSrc:
+      description: Identifies the client/source application that is calling.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 36
+        pattern: '^[a-zA-Z0-9-.]{1,36}$'
+        example: UPS.com
+    Content-Type:
+      description: The Content-Type header provides the client with the actual content/media type of the returned content.
+      required: true
+      schema:
+        type: string
+        example: application/json
+    APIErrorCode:
+      description: The API error code.
+      required: true
+      schema:
+        type: string
+        example: UJ0001
+    APIErrorMsg:
+      description: The API error message.
+      required: true
+      schema:
+        type: string
+        example: Invalid token or token is not present.
+  schemas:
+    ChargebackVerifyRequestV1:
+      type: object
+      required:
+        - userInformation
+        - billingContact
+        - shippingContact
+        - products
+        - orderValue
+        - currencyCode
+        - orderId
+        - orderCreatedAt
+      properties:
+        userInformation:
+          type: object
+          required:
+            - email
+            - ipAddress
+          properties:
+            email:
+              type: string
+              format: email
+              description: Customer's email address
+              minLength: 5
+              maxLength: 256
+              example: alice.smith@example.com
+            ipAddress:
+              type: string
+              description: IPv4 or IPv6 address
+              minLength: 7
+              maxLength: 45
+              pattern: "^(?:(?:[0-9]{1,3}\\.){3}[0-9]{1,3}|(?:[a-fA-F0-9:]+:+)+[a-fA-F0-9]+)$"
+              example: "192.168.1.1"
+
+        billingContact:
+          $ref: '#/components/schemas/ChargebackContactInformationV1'
+        shippingContact:
+          $ref: '#/components/schemas/ChargebackContactInformationV1'
+        paymentInformation:
+          type:
+            - object
+            - "null"
+          description: Payment details, nullable
+          properties:
+            txnId:
+              type: string
+              description: Payment transaction ID
+              minLength: 1
+              maxLength: 64
+              example: TXN20250716001
+            method:
+              type: string
+              description: Payment method used for transaction
+              minLength: 1
+              maxLength: 32
+              example: card
+            issuerIdNumber:
+              type: integer
+              description: First 6 digits of the card number (issuer identification number)
+              minimum: 1
+              maximum: 999999
+              example: 411111
+            lastDigits:
+              type: integer
+              description: Last 4 digits of the card used
+              minimum: 0
+              maximum: 9999
+              example: 4242
+            issuer:
+              type: string
+              description: Card issuer (e.g., Visa)
+              minLength: 1
+              maxLength: 32
+              example: Visa
+          additionalProperties: false
+        products:
+          type: array
+          description: List of products in the order
+          minItems: 1
+          maxItems: 999
+          items:
+            type: object
+            required:
+              - sku
+              - name
+            properties:
+              sku:
+                type: string
+                description: Stock keeping unit identifier
+                minLength: 1
+                maxLength: 64
+                example: PROD-ABC-123
+              name:
+                type: string
+                description: Product name
+                minLength: 1
+                maxLength: 128
+                example: Wireless Bluetooth Headphones
+            additionalProperties: false
+        orderValue:
+          type: number
+          format: float
+          description: Total order value
+          minimum: 0
+          maximum: 1000000
+          example: 199.99
+        currencyCode:
+          type: string
+          description: >-
+            The <a href="https://www.iso.org/iso-4217-currency-codes.html"
+            target="_blank">ISO 4217</a> currency
+          minLength: 3
+          maxLength: 3
+          pattern: '^[A-Z]{3}$'
+          example: USD
+        orderId:
+          type: string
+          description: Unique order identifier
+          minLength: 1
+          maxLength: 64
+          example: ORDER1001
+        orderCreatedAt:
+          type: string
+          description: >-
+            The <a href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6"
+            target="_blank">RFC 3339</a> date and time
+          format: date-time
+          minLength: 24
+          maxLength: 24
+          pattern: '^(20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01]\d|2[0-3]):([0-5]\d):([0-5]\d).\d{3}Z$'
+          example: "2025-07-16T10:53:11.893Z"
+      additionalProperties: false
+    ChargebackVerifyResponseV1:
+      type: object
+      properties:
+        superScore:
+          type: number
+          description: Overall risk score from 0 (lowest) to 999 (highest risk)
+          minimum: 0
+          maximum: 999
+          example: 585
+        decision:
+          type: string
+          description: Risk decision—whether to reject, review, or undecided
+          enum:
+            - reject
+            - review
+            - undecided
+        categoryScores:
+          type: object
+          description: Detailed category risk scores
+          properties:
+            addressReliabilityScore:
+              $ref: '#/components/schemas/ChargebackScoreRankV1'
+            digitalIdentityScore:
+              $ref: '#/components/schemas/ChargebackScoreRankV1'
+            proxyScore:
+              $ref: '#/components/schemas/ChargebackScoreRankV1'
+            paymentReliabilityScore:
+              $ref: '#/components/schemas/ChargebackScoreRankV1'
+      additionalProperties: false
+    ChargebackContactInformationV1:
+      type: object
+      description: Contact information structure used for billing and shipping
+      required:
+        - name
+        - phone
+        - address
+      properties:
+        name:
+          type: object
+          description: Person's name details
+          required:
+            - firstName
+            - lastName
+          properties:
+            firstName:
+              type: string
+              description: First name
+              minLength: 1
+              maxLength: 64
+              example: Alice
+            lastName:
+              type: string
+              description: Last name
+              minLength: 1
+              maxLength: 64
+              example: Smith
+          additionalProperties: false
+        phone:
+          type: object
+          description: Contact phone number details
+          required:
+            - countryCode
+            - number
+          properties:
+            countryCode:
+              type: string
+              description: Numeric country calling code
+              pattern: '^\d{1,4}$'
+              minLength: 1
+              maxLength: 4
+              example: "1"
+            number:
+              type: string
+              description: Phone number excluding country code
+              pattern: '^\d{10}$'
+              minLength: 10
+              maxLength: 10
+              example: "3125556789"
+          additionalProperties: false
+        address:
+          type: object
+          description: Address details
+          required:
+            - addressLine
+            - city
+            - stateProvinceCode
+            - postalCode
+            - countryCode
+          properties:
+            addressLine:
+              type: array
+              description: Street address lines
+              minItems: 1
+              maxItems: 3
+              items:
+                type: string
+                minLength: 1
+                maxLength: 128
+              example:
+                - "456 Elm Street"
+                - "Unit 12B"
+            city:
+              type: string
+              description: City or locality
+              minLength: 1
+              maxLength: 64
+              example: Chicago
+            stateProvinceCode:
+              type: string
+              description: State or province abbreviation
+              minLength: 2
+              maxLength: 2
+              example: IL
+            postalCode:
+              type: string
+              description: Postal or ZIP code
+              pattern: '^\d{5}(-\d{4})?$'
+              minLength: 5
+              maxLength: 10
+              example: "60616"
+            countryCode:
+              type: string
+              description: >-
+                The <a href="https://www.iso.org/iso-3166-country-codes.html"
+                target="_blank">ISO 3166</a> country or territory code
+              minLength: 2
+              maxLength: 2
+              pattern: '^[A-Z]{2}$'
+              example: US
+          additionalProperties: false
+      additionalProperties: false
+    ChargebackScoreRankV1:
+      type: object
+      properties:
+        score:
+          type: number
+          description: Score value for this risk category, range 0 to 999
+          minimum: 0
+          maximum: 999
+          example: 710
+        rank:
+          type: string
+          description: Risk rank for the category
+          enum:
+            - no_risk
+            - low
+            - medium
+            - high
+    ChargebackErrorResponseV1:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code for the error type
+                    enum:
+                      - INVALID_REQUEST
+                      - UNAUTHORIZED
+                      - RATE_LIMIT_EXCEEDED
+                      - INTERNAL_SERVER_ERROR
+                      - DEPENDENCY_VALIDATION_FAILED
+                      - MISSING_FIELD
+                      - INVALID_FIELD
+                      - UNSUPPORTED
+                      - SERVER_ERROR
+                  message:
+                    type: string
+                    description: Detailed error message
+                required:
+                  - code
+                  - message
+              description: List of error objects
+          required:
+            - errors
+      required:
+        - response
+      description: Standard error response structure for invalid or failed requests
