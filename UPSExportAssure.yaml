@@ -8,7 +8,8 @@ info:
         
     For more information on the Export Assure API, please visit the <a href="https://developer.ups.com/api/reference/exportassure/product-info" target="_blank" rel="noopener">Product Info</a> page.
 
-    <br/><p>Try out UPS APIs with example requests using Postman. Explore API documentation and sample applications through GitHub.</p>
+    <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
+    target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
     
 
     <a href="https://god.gw.postman.com/run-collection/29542085-eda5a2d6-ca6f-4a02-8e66-c43d9861ac2d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-eda5a2d6-ca6f-4a02-8e66-c43d9861ac2d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
