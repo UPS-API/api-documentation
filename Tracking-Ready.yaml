@@ -18,6 +18,7 @@ info:
     - <a href="https://developer.ups.com/api/reference/tracking/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/trackingapi/errors" target="_blank" rel="noopener noreferrer">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/mcp/guide" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS MCP Server</a>
 
     Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
     
@@ -832,3 +833,4 @@ components:
           type: string
           description: 'The weight units of measurement. Valid values: ''LBS'' - pounds.
             ''KGS'' - kilograms.'
+
