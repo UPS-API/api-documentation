@@ -12,6 +12,7 @@ info:
     - <a href="https://developer.ups.com/api/reference/addressvalidation/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/addressvalidation/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/addressvalidation/faq" target="_blank" rel="noopener">FAQ</a>
+    - <a href="https://developer.ups.com/api/reference/mcp/guide" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS MCP Server</a>
 
     Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
     
@@ -693,3 +694,4 @@ components:
           type: string
           description: The error message.
       description: The error response containing any errors that occurred.
+
