@@ -28,28 +28,28 @@ tags:
     description:
       $ref: "InteractiveDescriptionGuidance.yaml#/info/description"
   - name: Address Validation
-    description: 
+    description:
       $ref: "AddressValidation.yaml#/info/description"
   - name: Dangerous Goods
-    description: 
+    description:
       $ref: "DangerousGoods.yaml#/info/description"
   #- name: Global Checkout
   #  description:
   #    $ref: "GlobalCheckout.yaml#/info/description"
   - name: Landed Cost
-    description: 
+    description:
       $ref: "LandedCost.yaml#/info/description"
   - name: Locator
-    description: 
+    description:
       $ref: "Locator.yaml#/info/description"
   - name: OAuth Auth Code
-    description: 
+    description:
       $ref: "OAuthAuthCode.yaml#/info/description"
   - name: OAuth Client Credentials
-    description: 
+    description:
       $ref: "OAuthClientCredentials.yaml#/info/description"
   - name: Paperless
-    description: 
+    description:
       $ref: "Paperless.yaml#/info/description"
   - name: Pickup
     description:
@@ -207,7 +207,7 @@ webhooks:
   TrackingEvent:
     "$ref": "UPSTrackAlert.yaml#/webhooks/TrackingEvent"
   TrackingEventEnhanced:
-    "$ref": "UPSTrackAlertEnhanced.yaml#/webhooks/TrackingEventEnhanced"                     
+    "$ref": "UPSTrackAlertEnhanced.yaml#/webhooks/TrackingEventEnhanced"
 components:
   securitySchemes:
     OAuth2:

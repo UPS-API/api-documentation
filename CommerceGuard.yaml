@@ -13,13 +13,13 @@ paths:
     post:
       summary: Verify chargeback risk
       description: |
-        Evaluates chargeback risk based on user, payment, and address details. 
+        Evaluates chargeback risk based on user, payment, and address details.
         Returns scores and decision for risk classification.
       operationId: verifyChargebackRisk
       tags:
         - Commerce Guard
       security:
-        - OAuth2: [] 
+        - OAuth2: []
       parameters:
         - in: path
           name: version

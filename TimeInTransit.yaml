@@ -2,13 +2,13 @@ openapi: 3.0.3
 info:
   title: Time In Transit
   description: |
-  
+
     The Time In Transit API provides estimated delivery times for various UPS shipping services, between specified locations.
 
     Key Business Values:
     - **Enhanced Customer Experience**: Allows businesses provide accurate delivery estimates to their customers, enhancing customer service.
     - **Operational Efficiency**: Helps in logistics planning by providing transit times for different UPS services.
-   
+
     # Reference
     - <a href="https://developer.ups.com/api/reference/timeintransit/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/timeintransit/errors" target="_blank" rel="noopener">Errors</a>
@@ -327,7 +327,7 @@ components:
           type: integer
           maximum: 1
         premierIndicator:
-          description: "Sets the indicator for premier time in transit when the shipment contains a premier package.  
+          description: "Sets the indicator for premier time in transit when the shipment contains a premier package.
             \n \n Valid values: “00”, “01”.  \n \n 00 = Non-premier time in transit.
             \n \n 01 = Premier time in transit.  \n \n The default value is “00”."
           type: string

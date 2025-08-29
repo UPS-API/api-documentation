@@ -2,27 +2,27 @@ openapi: 3.1.0
 info:
   title: DeliveryDefense API
   description: |
-    Address Confidence  
-    
+    Address Confidence
+
     For more information on the Delivery Defense API, please visit the <a href="https://developer.ups.com/api/reference/deliverydefense/product-info" target="_blank" rel="noopener">Product Info</a> page.
 
     Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
-    
+
     <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
     </a>
-    
+
     <p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-    
+
     <a href="https://god.gw.postman.com/run-collection/29542085-03fdbe2a-6b74-4fc6-8e9a-6a288b2dd47d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-03fdbe2a-6b74-4fc6-8e9a-6a288b2dd47d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
-    
+
     # Purpose
-    
+
     The API is designed to enable customers to obtain an Address Confidence score based on analysis of historical data.
 version: "1.0"
 tags:
@@ -42,7 +42,7 @@ paths:
       description: |
         This API cleans and verifies inputted addresses to enhance the accuracy of generating an Address Confidence score. The returned data includes the cleaned address, the Address Confidence score, and an indication of whether the address is commercial or residential.
       security:
-        - OAuth2: []        
+        - OAuth2: []
       requestBody:
         content:
           application/json:
@@ -137,7 +137,7 @@ paths:
             **Example Scenario**:
               - **Request**: A client submits an address for scoring.
               - **Response**: The server returns a `204 No Content` status.
-            
+
 
         '400':
           description: Bad Request
@@ -153,7 +153,7 @@ paths:
                     status: 400
                     traceId: 00-c6bf8291d14e90ddd363d057cc837f39-897c1324fd309af2-00
                     errors:
-                      State: 
+                      State:
                         - The State field is required.
                 StreetFieldMissing:
                   value:
@@ -185,16 +185,16 @@ paths:
 
         '401':
           description: Unauthorized
-          content: 
-            application/json: 
-              schema: 
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/Error'
               examples:
                 InvalidToken:
-                  value: 
+                  value:
                     errorCode: "401"
-                    errorMessage: Invalid Authentication Information. 
-              
+                    errorMessage: Invalid Authentication Information.
+
         '500':
           description: Internal Server Error
 components:
@@ -202,9 +202,9 @@ components:
     OAuth2:
       type: oauth2
       description: |
-        Find your Client ID and Secret on your app info page. 
-          1. Select "Try It" 
-          2. In the Security section enter your Client ID and Secret 
+        Find your Client ID and Secret on your app info page.
+          1. Select "Try It"
+          2. In the Security section enter your Client ID and Secret
           3. Select "Request Token"
           4. Enter any additional information in the Body and Parameters sections
           5. Select "Send" to execute your API request"
@@ -213,7 +213,7 @@ components:
           x-tokenEndpointAuthMethod: client_secret_basic
           tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
           scopes: {}
-          
+
   schemas:
     AddressRequestBody:
       type: object
@@ -309,8 +309,8 @@ components:
               type: string
               description: Zipcode in address
             country:
-              type: string 
-              description: Country code in address 
+              type: string
+              description: Country code in address
             score:
               type: integer
               description: >

@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Landed Cost Quote API
   description: |
-  
+
     The Landed Cost Quote API allows you to estimate the all-inclusive cost of international shipments - including applicable duties, VAT, taxes, brokerage fees, and other fees. Required parameters include the currency and shipment details, such as the commodity ID, price, quantity, and country code of origin.
 
     Key Business Values:
@@ -15,10 +15,10 @@ info:
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/landedcostquoting/errors" target="_blank" rel="noopener">Errors</a>
-    
+
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-    
+
     <a href="https://god.gw.postman.com/run-collection/29542085-bea3b8e9-3a1f-4642-a0ca-22945c18cf00?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-bea3b8e9-3a1f-4642-a0ca-22945c18cf00%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">

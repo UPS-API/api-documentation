@@ -3,7 +3,7 @@ info:
   title: Locator
   version: ''
   description: |
-  
+
     The Locator API allows you to find UPS locations - such as drop-off points, retail locations, and UPS access points (third-party retail locations that offer UPS package drop-off, or delivery services). The API provides capabilities to search by location, services offered, program types, and related criteria. You can also retrieve hours of operation, location details, and additional UPS services offered at specific locations.
     # Reference
     - <a href="https://developer.ups.com/api/reference/locator/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -12,7 +12,7 @@ info:
 
     </br><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-    
+
     <a href="https://god.gw.postman.com/run-collection/29542085-8637d9f1-5e40-4a1e-aa95-82376e268638?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-8637d9f1-5e40-4a1e-aa95-82376e268638%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
@@ -2017,7 +2017,7 @@ components:
       - Segment
       properties:
         Segment:
-          description: Walking directions, last 50 feet. 
+          description: Walking directions, last 50 feet.
                        **NOTE:** For versions >= v3, this element will always be returned as an array. For requests using version = v1 and v2, this element will be returned as an array if there is more than one object and a single object if there is only 1.
           type: array
           items:

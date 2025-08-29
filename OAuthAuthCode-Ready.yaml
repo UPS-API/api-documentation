@@ -4,10 +4,10 @@ info:
   description: |-
     The UPS OAuth Authorization Code API helps integrate UPS services into your business application for providing the service your application grants your customers. For example, you can create UPS shipping labels with shipping rates for merchants from within your application.
     Since your application will not have access to your customer's UPS login credentials, the OAuth authorization code flow is used to let your customer use their UPS credentials, within your application, in a simple and secure way.
-    
-    The PKCE-enhanced Authorization Code Flow introduces a secret created by the calling application that can be verified by the authorization server; this secret is called the Code Verifier. Additionally, the calling app creates a transform value of the Code Verifier called the Code Challenge 
+
+    The PKCE-enhanced Authorization Code Flow introduces a secret created by the calling application that can be verified by the authorization server; this secret is called the Code Verifier. Additionally, the calling app creates a transform value of the Code Verifier called the Code Challenge
     and sends this value over HTTPS to retrieve an Authorization Code. This way, a malicious attacker can only intercept the Authorization Code, and they cannot exchange it for a token without the Code Verifier.
-    
+
     Key Business Values:
       - **Enhanced Transaction Security**: The OAuth Authorization Code flow is more secure and reliable since the access token and the refresh token are never exposed in the browser's URL, thus reducing the risk of leakage or theft.
       - **Operational Efficiency**: With the ability to obtain a refresh token when the token expires, your application can maintain a long-term and uninterrupted access to the protected resources, without requiring the user to re-authenticate or re-login.
@@ -31,16 +31,16 @@ info:
 
     - <a href="https://developer.ups.com/api/reference/oauth/authorization-code" target="_blank" rel="noopener">Setting-up OAuth Authorization Code flow</a>
     - <a href="https://github.com/UPS-API/UPS-SDKs" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS SDKs</a></br>
-    
+
     Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
-    
+
     <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
-    </a>  
+    </a>
     </br>
     <p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-    
+
     <a href="https://god.gw.postman.com/run-collection/29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-f15285f0-2ffd-4895-b9e4-fcf496f8059a%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
@@ -101,7 +101,7 @@ paths:
         name: code_challenge
         schema:
           type: string
-        description: Base64 URL-Encoded SHA256 value of Code Verifier that can be 
+        description: Base64 URL-Encoded SHA256 value of Code Verifier that can be
           used to verify the code_verifier in the /token step.
         required: false
       responses:
@@ -299,7 +299,7 @@ components:
       description: |
        - **Flow 1: Plain Auth-Code**
 
-       Find your Client ID and Secret on your app info page. 
+       Find your Client ID and Secret on your app info page.
         1. Select \"Try It\"
         2. In the Security section enter your Client ID as the Username and your Secret as the Password.
         3. Enter any additional information in the Body and Parameters sections.
@@ -314,7 +314,7 @@ components:
       type: http
       scheme: basic
       description: |
-        Find your Client ID and Secret on your app info page. 
+        Find your Client ID and Secret on your app info page.
         1. Select \"Try It\"
         2. In the Security section enter your Client ID as the Username and your Secret as the Password.
         3. Enter any additional information in the Body and Parameters sections.

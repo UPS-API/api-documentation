@@ -4,14 +4,14 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-  
+
     The Dangerous Goods API provides the ability to determine if certain materials, such as dangerous goods or hazardous materials, can be shipped with UPS. The API's two endpoints - Chemical Reference Data and Acceptance Audit Precheck, help perform pre-checks before shipping any dangerous goods.
     # Reference
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/errors" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/faq" target="_blank" rel="noopener">FAQ</a>
-    
+
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
     <a href="https://god.gw.postman.com/run-collection/29542085-bb17460a-ed1a-4267-8c58-a8cc50a48f7a?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-bb17460a-ed1a-4267-8c58-a8cc50a48f7a%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
