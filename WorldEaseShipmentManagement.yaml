@@ -1,5 +1,5 @@
 openapi: 3.1.0
-info: 
+info:
   title: WorldEase Shipment Management API v1
   description: |
     ## Purpose
@@ -7,27 +7,27 @@ info:
 tags:
   - name: World Ease Shipment Management - Shipment
     description: For endpoint that allows user to finalize the close out shipments
-  - name: Shipment Modification 
+  - name: Shipment Modification
     description: For endpoints that allow deletion of master and child shipments
 
 servers:
   - url: "https://wwwcie.ups.com/api/ship/{version}"
     description: "Customer Integration Environment"
     variables:
-      version: 
+      version:
         description: Indicates WorldEase Shipment Management API to display the new release features
         default: v1
-        enum:  
+        enum:
            - v1
   - url: "https://onlinetools.ups.com/api/ship/{version}"
     description: "Production"
     variables:
-      version: 
+      version:
         description: Indicates WorldEase Shipment Management API to display the new release features
         default: v1
-        enum:  
+        enum:
            - v1
- 
+
 paths:
   /master-shipment/closeout/{shipment-gccn}:
     post:
@@ -37,12 +37,12 @@ paths:
       summary: Close Out Shipment
       description: |
         Finalizes the shipment process by marking a package or set of packages as ready for dispatch, effectively ending the consolidation stage.
-      parameters: 
+      parameters:
         - name: shipment-gccn
           in: path
           required: true
           description: The unique identifier of the shipment to close Out. It also known as GCCN.
-          schema: 
+          schema:
             type: string
             maxLength: 11
             pattern: '^[A-Za-z0-9]{11}$'
@@ -50,12 +50,12 @@ paths:
           in: header
           required: true
           schema:
-              $ref: "#/components/schemas/CustomTransactionId" 
-        - name: transactionSrc 
+              $ref: "#/components/schemas/CustomTransactionId"
+        - name: transactionSrc
           in: header
           required: true
           schema:
-              $ref: "#/components/schemas/CustomTransactionSrc" 
+              $ref: "#/components/schemas/CustomTransactionSrc"
         - name: version
           in: path
           description: Indicates WorldEase Shipment Management API to display the new release features
@@ -88,58 +88,58 @@ paths:
                 CloseOutResponse:
                   value:
                     transId: "4ce27ff5-8e17-4797-a8c1-089796db"
-                    label: 
-                       opTyp: "PNG" 
-                       lblNmbr: "MVpJU1VTMDE2NzIzODc4Mjc3" 
+                    label:
+                       opTyp: "PNG"
+                       lblNmbr: "MVpJU1VTMDE2NzIzODc4Mjc3"
                        lblData: "asdfhkjuiovrtyuiopfghjkxcv"
-                         
-                          
-                  
+
+
+
         '400':
           description: "Missing required values or incorrect values or validation fails"
           content:
-            application/json: 
+            application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               examples:
-                BadGCCNExample: 
+                BadGCCNExample:
                   value:
                     errors:
                       - code: "20007"
-                        message: "Missing GCCN" 
-                    
-        '401': 
+                        message: "Missing GCCN"
+
+        '401':
             description: Unauthorized
-            content: 
-              application/json: 
-                schema: 
+            content:
+              application/json:
+                schema:
                   $ref: "#/components/schemas/ErrorResponse"
                 examples:
-                  Invalid Token: 
+                  Invalid Token:
                     value:
                       errors:
                         - code: "250002"
-                          message: "Invalid Authentication Information" 
+                          message: "Invalid Authentication Information"
 
         '404':
-          description: Not Found 
-          content: 
-            application/json: 
-              schema: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                GCCNNotFound:
                   value:
                     errors:
                       -  code: "20008"
-                         message: "GCCN Not Found"   
+                         message: "GCCN Not Found"
                AccountNumberNotFound:
                   value:
                     errors:
                       - code: "20008"
-                        message: "Shipper Account Number Not Found"                
-          
-            
+                        message: "Shipper Account Number Not Found"
+
+
   /master-shipment/{shipment-gccn}:
     delete:
       tags:
@@ -147,12 +147,12 @@ paths:
       operationId: "deleteMasterShipment"
       summary: "Deletes the master shipment"
       description: " Deletes the specified master shipment from the system. Once deleted system cannot be recovered"
-      parameters: 
+      parameters:
         - name: shipment-gccn
           in: path
           required: true
           description: The unique identifier of the shipment to delete the master shipment. It is also known as GCCN.
-          schema: 
+          schema:
             type: string
             maxLength: 11
             pattern: '^[A-Za-z0-9]{11}$'
@@ -160,12 +160,12 @@ paths:
           in: header
           required: true
           schema:
-             $ref: "#/components/schemas/CustomTransactionId" 
-        - name: transactionSrc 
+             $ref: "#/components/schemas/CustomTransactionId"
+        - name: transactionSrc
           in: header
           required: true
           schema:
-             $ref: "#/components/schemas/CustomTransactionSrc"  
+             $ref: "#/components/schemas/CustomTransactionSrc"
         - name: version
           in: path
           description: Indicates WorldEase Shipment Management API to display the new release features
@@ -174,10 +174,10 @@ paths:
             type: string
             default: v1
             enum:
-                - v1             
+                - v1
       security:
         - OAuth2: []
-      
+
       requestBody:
         content:
           application/json:
@@ -186,7 +186,7 @@ paths:
             examples:
               DeleteRequest:
                 value:
-                  shipperAccountNumber: "ISUS01"            
+                  shipperAccountNumber: "ISUS01"
       responses:
         '200':
           description: "Successful Operation"
@@ -199,7 +199,7 @@ paths:
                  value:
                   code: "1"
                   message: "The Delete request has been done successfully for the following GCCN - 12345678901 "
-                  
+
         '400':
           description: "Missing required values or incorrect values or validation fails"
           content:
@@ -207,43 +207,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               examples:
-                BadGCCNExample: 
+                BadGCCNExample:
                   value:
                     errors:
                       - code: "20007"
-                        message: "Missing GCCN" 
-                    
-        '401': 
+                        message: "Missing GCCN"
+
+        '401':
             description: Unauthorized
-            content: 
-              application/json: 
-                schema: 
+            content:
+              application/json:
+                schema:
                   $ref: "#/components/schemas/ErrorResponse"
                 examples:
-                  Invalid Token: 
+                  Invalid Token:
                     value:
                       errors:
                         - code: "250002"
-                          message: "Invalid Authentication Information"    
+                          message: "Invalid Authentication Information"
         '404':
-          description: Not Found 
-          content: 
-            application/json: 
-              schema: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 GCCNNotFound:
-                  value: 
+                  value:
                     errors:
                       -  code: "20008"
-                         message: "GCCN Not Found" 
+                         message: "GCCN Not Found"
                 AccountNumberNotFound:
                   value:
                     errors:
                       - code: "20008"
-                        message: "Shipper Account Number Not Found"          
-                                         
-              
+                        message: "Shipper Account Number Not Found"
+
+
   /child-shipment/{shipment-gccn}/{tracking-number}:
     delete:
       tags:
@@ -251,12 +251,12 @@ paths:
       operationId: "deleteChildShipment"
       summary: "Delete the child shipment "
       description: " This is used to delete the child shipment record from the database"
-      parameters: 
+      parameters:
         - name: shipment-gccn
           in: path
           required: true
-          description: The unique identifier of the shipment to identify the master shipment. It is also known as GCCN.  
-          schema: 
+          description: The unique identifier of the shipment to identify the master shipment. It is also known as GCCN.
+          schema:
             type: string
             maxLength: 11
             pattern: '^[A-Za-z0-9]{11}$'
@@ -264,18 +264,18 @@ paths:
           in: path
           required: true
           description: The identifier of the shipment to identify the child shipment. It is also known as 1Z Tracking Number.
-          schema: 
-            type: string  
+          schema:
+            type: string
         - name: transId
           in: header
           required: true
           schema:
-            $ref: "#/components/schemas/CustomTransactionId" 
-        - name: transactionSrc 
+            $ref: "#/components/schemas/CustomTransactionId"
+        - name: transactionSrc
           in: header
           required: true
           schema:
-            $ref: "#/components/schemas/CustomTransactionSrc" 
+            $ref: "#/components/schemas/CustomTransactionSrc"
         - name: version
           in: path
           description: Indicates WorldEase Shipment Management API to display the new release features
@@ -286,11 +286,11 @@ paths:
             enum:
                 - v1
 
-            
+
       security:
         - OAuth2: []
-     
-                  
+
+
       responses:
         '200':
           description: "Successful Operation"
@@ -310,53 +310,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               examples:
-                BadGCCNExample: 
+                BadGCCNExample:
                   value:
                     errors:
                       - code: "20007"
-                        message: "Missing GCCN" 
-        '401': 
+                        message: "Missing GCCN"
+        '401':
             description: Unauthorized
-            content: 
-              application/json: 
-                schema: 
+            content:
+              application/json:
+                schema:
                   $ref: "#/components/schemas/ErrorResponse"
                 examples:
-                  Invalid Token: 
+                  Invalid Token:
                     value:
                       errors:
                         - code: "250002"
-                          message: "Invalid Authentication Information"    
-                      
+                          message: "Invalid Authentication Information"
+
         '404':
-          description: Not Found 
-          content: 
-            application/json: 
-              schema: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 GCCNNotFound:
                   value:
                      errors:
                        - code: "20008"
-                         message: "GCCN Not Found" 
+                         message: "GCCN Not Found"
                 TrackingNumberNotFound:
                   value:
                      errors:
                       -  code: "20008"
-                         message: "1Z Tracking Number Not Found"        
+                         message: "1Z Tracking Number Not Found"
 
-                            
-  
-                        
+
+
+
 components:
   securitySchemes:
     OAuth2:
       type: oauth2
       description: |
-        Find your Client ID and Secret on your app info page. 
-          1. Select "Try It" 
-          2. In the Security section enter your Client ID and Secret 
+        Find your Client ID and Secret on your app info page.
+          1. Select "Try It"
+          2. In the Security section enter your Client ID and Secret
           3. Select "Request Token"
           4. Enter any additional information in the Body and Parameters sections
           5. Select "Send" to execute your API request"
@@ -367,8 +367,8 @@ components:
           scopes: {}
 
   schemas:
-    
- 
+
+
     PostRequest:
       type: "object"
       required:
@@ -377,8 +377,8 @@ components:
         shipperAccountNumber:
           type: "string"
           description: "This is the unique account number associated with the Shipper. It is also known as UPS Shipper Account Number"
-          
-                
+
+
     PostResponse:
       type: "object"
       required:
@@ -395,14 +395,14 @@ components:
               type: 'string'
               enum: [PNG, GIF, PDF, ZPL, EPL, STAR, SPL]
               description: "The is the output type in which label is generated "
-            lblNmbr: 
+            lblNmbr:
               type: "string"
               description: "The label number assigned to this label"
-            lblData: 
+            lblData:
               type: "string"
               description: "Base64 encoded label image"
-            
-          
+
+
     deleteResponse:
       type: "object"
       required:
@@ -415,34 +415,34 @@ components:
         message:
           type: "string"
           description: "Succesful text message"
-  
-    
 
-    ErrorResponse: 
+
+
+    ErrorResponse:
       description: Error response entity
       type: object
       required:
         - errors
       properties:
-        errors:  
+        errors:
           type: array
-          description: error payload - array containing one or more Errors  
+          description: error payload - array containing one or more Errors
           items:
-            $ref: "#/components/schemas/Error" 
+            $ref: "#/components/schemas/Error"
 
-    Error:  
-     type: object   
+    Error:
+     type: object
      properties:
       code:
         type: "string"
         description: "The code is specific to the error "
       message:
         type: "string"
-        description: "The message that associated with the above error code "   
+        description: "The message that associated with the above error code "
 
 
     CustomTransactionId:
-      description: Client generated id which is treated as the Transaction ID 
+      description: Client generated id which is treated as the Transaction ID
       type: string
       minLength: 32
       maxLength: 32
@@ -453,6 +453,6 @@ components:
     CustomTransactionSrc:
       description: An identifier of the client/source application that is making the request.Length 512
       type: string
-      maxLength: 512  
+      maxLength: 512
       example:
         SAM

@@ -9,15 +9,15 @@ info:
 
     ## Key Business Values
     - Simplifies the International Cross Border shipping process.
-   
+
     For more information on the Global Checkout API, please visit the <a href="https://developer.ups.com/api/reference/globalcheckout/product-info" target="_blank" rel="noopener noreferrer">Product Info</a> page.
-    
+
     <a href="https://developer.ups.com/api/reference/globalcheckout/appendix?loc=en_US" target="_blank" rel="noopener noreferrer">Appendix</a>
     </br><p>Explore API documentation and sample applications through GitHub.</p>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
-servers: 
+servers:
   - url: https://wwwcie.ups.com/api/brokerage/{version}
     description: UPS Customer Integration Environment
     variables:
@@ -32,10 +32,10 @@ servers:
         default: v1
         enum:
         - v1
-tags: 
+tags:
   - name: Global Checkout
     description: Operations related to guaranteed rate quotes
-security: 
+security:
   - OAuth2: []
 paths:
   /content/glc/request-quote:
@@ -44,10 +44,10 @@ paths:
       summary: returns a guaranteed landed cost quote
       description: This endpoint requests guaranteed quotes for landed cost duties and taxes.
       security:
-        - OAuth2: [] 
-      tags: 
+        - OAuth2: []
+      tags:
         -  Global Checkout
-      parameters: 
+      parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
         - $ref: "#/components/parameters/Accept"
@@ -99,7 +99,7 @@ paths:
                     quantity:
                       value: 12
                       unitOfMeasure: pallets
-                    grossWeight: 
+                    grossWeight:
                       value: 1250
                       unitOfMeasure: kg
                     unitPrice:
@@ -200,16 +200,16 @@ paths:
                       field: partNumber
                       message: PART_NUMBER is not valid
                       value: ''
-components: 
+components:
   securitySchemes:
     OAuth2:
       type: oauth2
       description: |
-        "Find your Client ID and Secret on your app info page. <br/> 
-         1. Select \\\"Try It\\\" <br/>  
-         2. In the Security section enter your Client ID and Secret.<br/> 
-         3. Select \\\"Request Token\\\"<br/> 
-         4. Enter any additional information in the Body and Parameters sections.<br> 
+        "Find your Client ID and Secret on your app info page. <br/>
+         1. Select \\\"Try It\\\" <br/>
+         2. In the Security section enter your Client ID and Secret.<br/>
+         3. Select \\\"Request Token\\\"<br/>
+         4. Enter any additional information in the Body and Parameters sections.<br>
          5. Select \\\"Send\\\" to execute your API request"
       flows:
         clientCredentials:
@@ -227,7 +227,7 @@ components:
       description: An identifier unique to the request.
       required: true
       schema:
-        type: string 
+        type: string
         example: 0a1b9c2d8e3f7g4h6i5
     transactionSrc:
       name: transactionSrc
@@ -262,7 +262,7 @@ components:
         type: string
         pattern: '^[0-9a-fA-F]{8}[-]?([0-9a-fA-F]{4}[-]?){3}[0-9a-fA-F]{12}$'
         example: "643F7EAC-DC06-19E3-84C9-0274164A04E9"
-  schemas: 
+  schemas:
     BSIS_v1_QuoteRequest:
       type: object
       required:
@@ -272,7 +272,7 @@ components:
       properties:
         buyerCurrencyCode:
           type: string
-          description: | 
+          description: |
             Buyer's currency code adhering to ISO 4217 standard.
             Click <a href="https://developer.ups.com/api/reference/globalcheckout/appendix?loc=en_US" target="_blank" rel="noopener noreferrer">here</a> for more information.
           minLength: 3
@@ -281,7 +281,7 @@ components:
           example: USD
         shipperCurrencyCode:
           type: string
-          description: | 
+          description: |
             Shipper's currency code adhering to ISO 4217 standard.
             Click <a href="https://developer.ups.com/api/reference/globalcheckout/appendix?loc=en_US" target="_blank" rel="noopener noreferrer">here</a> for more information.
           minLength: 3
@@ -290,7 +290,7 @@ components:
           example: USD
         serviceLevelCode:
           type: string
-          description: | 
+          description: |
             The code for the UPS Service associated with the shipment.
             Click <a href="https://developer.ups.com/api/reference/globalcheckout/appendix?loc=en_US" target="_blank" rel="noopener noreferrer">here</a> for more information.
           enum: ["01", "02", "03", "07", "08", "11", "12", "13", "17", "54", "65", "M2", "M3", "M4", "M5", "M6", "M7", "71", "72", "74", "75", "82", "83", "84", "85", "86", "96"]
@@ -322,7 +322,7 @@ components:
       properties:
         importCountryCode:
           type: string
-          description: | 
+          description: |
             The ISO 3166 code of the country imported from.
             Click <a href="https://developer.ups.com/api/reference/globalcheckout/appendix?loc=en_US" target="_blank" rel="noopener noreferrer">here</a> for more information.
           minLength: 2
@@ -372,22 +372,22 @@ components:
           example: INT_AIR
         transportCost:
           description: |
-            Specifies the Transport Costs, which are used for tariff calculations in some governments. 
+            Specifies the Transport Costs, which are used for tariff calculations in some governments.
             If needed and not provided then internal Rate call will be made to retrieve it.
           $ref: "#/components/schemas/BSIS_v1_ChargeDetail"
         insuranceCost:
-          description: | 
+          description: |
             Specifies the fee charged by UPS for insuring the package, which could be used for tariff calculations in some governments.
             This will be defaulted to 0 if needed and not provided.
           $ref: "#/components/schemas/BSIS_v1_ChargeDetail"
         shipmentType:
           type: string
-          description: | 
+          description: |
             Specifies the shipment type.
 
             | Type  | Description                                                       |
             | :--:  | :--                                                               |
-            | GIFT  | GIFT                                                              | 
+            | GIFT  | GIFT                                                              |
             | COMM  | Sale, Sample, Repair                                              |
             | OTHR  | Return, Other, and Intercompany Data, Anything else not supported |
             | PERS  | Personal                                                          |
@@ -402,7 +402,7 @@ components:
             - properties:
                 residentialAddressIndicator:
                   type: boolean
-                  description: | 
+                  description: |
                     Indicate as true if the shipTo address is classified as residential (vs. commercial). Valid only for US50 addresses.
                     Needed for internal rate call to calculate transportCost if that is needed and not provided.
                   enum: [true,false]
@@ -414,7 +414,7 @@ components:
           description: array of request ShipmentItems.
           items:
             $ref: "#/components/schemas/BSIS_v1_ShipmentItemRequest"
-      additionalProperties: false    
+      additionalProperties: false
     BSIS_v1_ShipmentItemRequest:
       type: object
       description: Object containing the details of each item in the shipment.
@@ -454,7 +454,7 @@ components:
               example: 4
             unitOfMeasure:
               type: string
-              description: | 
+              description: |
                 Item count Unit Of Measure
                 Click <a href="https://developer.ups.com/api/reference/globalcheckout/appendix?loc=en_US" target="_blank" rel="noopener noreferrer">here</a> for more information.
               examples:
@@ -577,7 +577,7 @@ components:
             - 999999999999.99
         currencyCode:
           type: string
-          description: | 
+          description: |
             Currency Code of the unit total value adhering to ISO 4217 standard.
             Click <a href="https://developer.ups.com/api/reference/globalcheckout/appendix?loc=en_US" target="_blank" rel="noopener noreferrer">here</a> for more information.
           minLength: 3
@@ -644,7 +644,7 @@ components:
           description: The backend transaction id.
           example: UJ0001
         transId:
-          type: string 
+          type: string
           description: An identifier unique to the request.
           example: 0a1b9c2d8e3f7g4h6i5
         transactionSrc:
@@ -679,13 +679,13 @@ components:
     BSIS_v1_ErrorResponse:
       type: object
       description: response container.
-      required: 
+      required:
         - response
       properties:
         response:
           type: object
           description: errors container.
-          required: 
+          required:
             - errors
           properties:
             errors:
@@ -722,4 +722,3 @@ components:
           type: string
           description: The path to the field causing the error as returned from the backend services.
           example: shipment.importCountryCode
-  
