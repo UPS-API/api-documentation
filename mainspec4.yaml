@@ -27,6 +27,9 @@ tags:
   - name: Dangerous Goods
     description: 
       $ref: "DangerousGoods-Ready.yaml#/info/description"
+  - name: Forwarding
+    description: 
+      $ref: "Forwarding.yaml#/info/description"
   #- name: Global Checkout
   #  description:
   #    $ref: "GlobalCheckout.yaml#/info/description"
@@ -82,6 +85,22 @@ paths:
     "$ref": "DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1chemicalreferencedata"
   "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
     "$ref": "DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1acceptanceauditprecheck"
+  "/forwarding/{version}/air/rate":
+    "$ref": "Forwarding.yaml#/paths/~1air~1rate"
+  "/forwarding/{version}/air/orders":
+    "$ref": "Forwarding.yaml#/paths/~1air~1orders"
+  "/forwarding/{version}/air/orders/print-label":
+    "$ref": "Forwarding.yaml#/paths/~1air~1orders~1print-label"
+  "/forwarding/{version}/air/orders/postpone":
+    "$ref": "Forwarding.yaml#/paths/~1air~1orders~1postpone"
+  "/forwarding/{version}/air/orders/search":
+    "$ref": "Forwarding.yaml#/paths/~1air~1orders~1search"
+  "/forwarding/{version}/air/shipment":
+    "$ref": "Forwarding.yaml#/paths/~1air~1shipment"
+  "/forwarding/{version}/air/utility/city-details":
+    "$ref": "Forwarding.yaml#/paths/~1air~1utility~1city-details"
+  "/forwarding/{version}/payment/status/{session_id}":
+    "$ref": "Forwarding.yaml#/paths/~1payment~1status~1{session_id}"
   "/landedcost/{version}/quotes":
     "$ref": "LandedCost-Ready.yaml#/paths/~1landedcost~1{version}~1quotes"
   "/locations/{version}/search/availabilities/{reqOption}":
