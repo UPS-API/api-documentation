@@ -18,6 +18,7 @@ info:
     - <a href="https://developer.ups.com/api/reference/tracking/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/trackingapi/errors" target="_blank" rel="noopener noreferrer">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/tracking/best-practices" target="_blank" rel="noopener noreferrer">Tracking Best Practices</a>
     - <a href="https://developer.ups.com/api/reference/mcp/guide" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS MCP Server</a>
 
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
@@ -826,4 +827,5 @@ components:
           type: string
           description: 'The weight units of measurement. Valid values: ''LBS'' - pounds.
             ''KGS'' - kilograms.'
+
 
