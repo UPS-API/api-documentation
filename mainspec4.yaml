@@ -82,6 +82,22 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1chemicalreferencedata"
   "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1acceptanceauditprecheck"
+  "/forwarding/{version}/air/rate":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1rate"
+  "/forwarding/{version}/air/orders":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1orders"
+  "/forwarding/{version}/air/orders/print-label":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1orders~1print-label"
+  "/forwarding/{version}/air/orders/postpone":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1orders~1postpone"
+  "/forwarding/{version}/air/orders/search":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1orders~1search"
+  "/forwarding/{version}/air/shipment":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1shipment"
+  "/forwarding/{version}/air/utility/city-details":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1utility~1city-details"
+  "/forwarding/{version}/payment/status/{session_id}":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1payment~1status~1{session_id}"
   "/landedcost/{version}/quotes":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/LandedCost-Ready.yaml#/paths/~1landedcost~1{version}~1quotes"
   "/locations/{version}/search/availabilities/{reqOption}":
@@ -186,3 +202,4 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
+
