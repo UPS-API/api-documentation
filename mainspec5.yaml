@@ -15,6 +15,9 @@ tags:
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods-Ready.yaml#/info/description"
+  - name: Forwarding
+    description: 
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/info/description"
   #- name: Global Checkout
   #  description:
   #    $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/GlobalCheckout.yaml#/info/description"
@@ -173,5 +176,6 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
