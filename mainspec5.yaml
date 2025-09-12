@@ -11,149 +11,150 @@ servers:
 tags:
   - name: Address Validation
     description: 
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/AddressValidation-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/AddressValidation-Ready.yaml#/info/description"
   - name: Dangerous Goods
     description: 
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods-Ready.yaml#/info/description"
   #- name: Global Checkout
   #  description:
-  #    $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/GlobalCheckout.yaml#/info/description"
+  #    $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/GlobalCheckout.yaml#/info/description"
   - name: Landed Cost
     description: 
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/LandedCost-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/LandedCost-Ready.yaml#/info/description"
   - name: Locator
     description: 
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Locator.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Locator.yaml#/info/description"
   - name: OAuth Auth Code
     description: 
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/info/description"
   - name: OAuth Client Credentials
     description: 
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthClientCredentials-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthClientCredentials-Ready.yaml#/info/description"
   - name: Paperless
     description: 
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Paperless-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Paperless-Ready.yaml#/info/description"
   - name: Pickup
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/info/description"
   - name: Pre-Notification
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/PreNotification-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PreNotification-Ready.yaml#/info/description"
   - name: Quantum View
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/QuantumView-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/QuantumView-Ready.yaml#/info/description"
   - name: Rating
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Rating.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Rating.yaml#/info/description"
   - name: Shipping
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Shipping.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Shipping.yaml#/info/description"
   - name: Time in Transit
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/TimeInTransit.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/TimeInTransit.yaml#/info/description"
   - name: Tracking
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Tracking-Ready.yaml#/info/description"
   - name: World Ease Shipment Management - Shipment
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/info/description"
 paths:
   "/addressvalidation/{version}/{requestoption}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/AddressValidation-Ready.yaml#/paths/~1addressvalidation~1{version}~1{requestoption}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/AddressValidation-Ready.yaml#/paths/~1addressvalidation~1{version}~1{requestoption}"
   "/addressvalidation/{deprecatedVersion}/{requestoption}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/AddressValidation-Ready.yaml#/paths/~1addressvalidation~1{deprecatedVersion}~1{requestoption}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/AddressValidation-Ready.yaml#/paths/~1addressvalidation~1{deprecatedVersion}~1{requestoption}"
   "/dangerousgoods/{version}/chemicalreferencedata":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{version}~1chemicalreferencedata"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{version}~1chemicalreferencedata"
   "/dangerousgoods/{version}/acceptanceauditprecheck":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{version}~1acceptanceauditprecheck"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{version}~1acceptanceauditprecheck"
   "/dangerousgoods/{deprecatedVersion}/chemicalreferencedata":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1chemicalreferencedata"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1chemicalreferencedata"
   "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1acceptanceauditprecheck"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1acceptanceauditprecheck"
   "/landedcost/{version}/quotes":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/LandedCost-Ready.yaml#/paths/~1landedcost~1{version}~1quotes"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/LandedCost-Ready.yaml#/paths/~1landedcost~1{version}~1quotes"
   "/locations/{version}/search/availabilities/{reqOption}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Locator.yaml#/paths/~1locations~1{version}~1search~1availabilities~1{reqOption}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Locator.yaml#/paths/~1locations~1{version}~1search~1availabilities~1{reqOption}"
   "/locations/{deprecatedVersion}/search/availabilities/{reqOption}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Locator.yaml#/paths/~1locations~1{deprecatedVersion}~1search~1availabilities~1{reqOption}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Locator.yaml#/paths/~1locations~1{deprecatedVersion}~1search~1availabilities~1{reqOption}"
   "/v1/oauth/authorize":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/paths/~1v1~1oauth~1authorize"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/paths/~1v1~1oauth~1authorize"
   "/v1/oauth/token":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/paths/~1v1~1oauth~1token"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/paths/~1v1~1oauth~1token"
   "/v1/oauth/refresh":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/paths/~1v1~1oauth~1refresh"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/paths/~1v1~1oauth~1refresh"
   "/security/v1/oauth/token":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthClientCredentials-Ready.yaml#/paths/~1security~1v1~1oauth~1token"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthClientCredentials-Ready.yaml#/paths/~1security~1v1~1oauth~1token"
   "/paperlessdocuments/{version}/upload":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{version}~1upload"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{version}~1upload"
   "/paperlessdocuments/{version}/image":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{version}~1image"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{version}~1image"
   "/paperlessdocuments/{version}/DocumentId/ShipperNumber":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{version}~1DocumentId~1ShipperNumber"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{version}~1DocumentId~1ShipperNumber"
   "/paperlessdocuments/{deprecatedVersion}/upload":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1upload"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1upload"
   "/paperlessdocuments/{deprecatedVersion}/image":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1image"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1image"
   "/paperlessdocuments/{deprecatedVersion}/DocumentId/ShipperNumber":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1DocumentId~1ShipperNumber"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Paperless-Ready.yaml#/paths/~1paperlessdocuments~1{deprecatedVersion}~1DocumentId~1ShipperNumber"
   "/shipments/{version}/pickup/{pickuptype}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1shipments~1{version}~1pickup~1{pickuptype}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/paths/~1shipments~1{version}~1pickup~1{pickuptype}"
   "/shipments/{version}/pickup/{CancelBy}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1shipments~1{version}~1pickup~1{CancelBy}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/paths/~1shipments~1{version}~1pickup~1{CancelBy}"
   "/pickupcreation/{version}/pickup":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1pickupcreation~1{version}~1pickup"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/paths/~1pickupcreation~1{version}~1pickup"
   "/pickup/{version}/countries/{countrycode}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1pickup~1{version}~1countries~1{countrycode}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/paths/~1pickup~1{version}~1countries~1{countrycode}"
   "/pickup/{version}/servicecenterlocations":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1pickup~1{version}~1servicecenterlocations"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/paths/~1pickup~1{version}~1servicecenterlocations"
   "/shipments/{deprecatedVersion}/pickup/{CancelBy}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1shipments~1{deprecatedVersion}~1pickup~1{CancelBy}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/paths/~1shipments~1{deprecatedVersion}~1pickup~1{CancelBy}"
   "/pickupcreation/{deprecatedVersion}/pickup":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1pickupcreation~1{deprecatedVersion}~1pickup"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/paths/~1pickupcreation~1{deprecatedVersion}~1pickup"
   "/dangerousgoods/{version}/prenotification":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/PreNotification-Ready.yaml#/paths/~1dangerousgoods~1{version}~1prenotification"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PreNotification-Ready.yaml#/paths/~1dangerousgoods~1{version}~1prenotification"
   "/dangerousgoods/{deprecatedVersion}/prenotification":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/PreNotification-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1prenotification"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PreNotification-Ready.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1prenotification"
   "/quantumview/{version}/events":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/QuantumView-Ready.yaml#/paths/~1quantumview~1{version}~1events"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/QuantumView-Ready.yaml#/paths/~1quantumview~1{version}~1events"
   "/quantumview/{deprecatedVersion}/events":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/QuantumView-Ready.yaml#/paths/~1quantumview~1{deprecatedVersion}~1events"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/QuantumView-Ready.yaml#/paths/~1quantumview~1{deprecatedVersion}~1events"
   "/rating/{version}/{requestoption}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Rating.yaml#/paths/~1rating~1{version}~1{requestoption}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Rating.yaml#/paths/~1rating~1{version}~1{requestoption}"
   "/rating/{deprecatedVersion}/{requestoption}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Rating.yaml#/paths/~1rating~1{deprecatedVersion}~1{requestoption}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Rating.yaml#/paths/~1rating~1{deprecatedVersion}~1{requestoption}"
   "/shipments/{version}/ship":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Shipping.yaml#/paths/~1shipments~1{version}~1ship"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Shipping.yaml#/paths/~1shipments~1{version}~1ship"
   "/shipments/{version}/void/cancel/{shipmentidentificationnumber}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Shipping.yaml#/paths/~1shipments~1{version}~1void~1cancel~1{shipmentidentificationnumber}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Shipping.yaml#/paths/~1shipments~1{version}~1void~1cancel~1{shipmentidentificationnumber}"
   "/labels/{version}/recovery":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Shipping.yaml#/paths/~1labels~1{version}~1recovery"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Shipping.yaml#/paths/~1labels~1{version}~1recovery"
   "/shipments/{deprecatedVersion}/ship":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Shipping.yaml#/paths/~1shipments~1{deprecatedVersion}~1ship"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Shipping.yaml#/paths/~1shipments~1{deprecatedVersion}~1ship"
   "/shipments/{deprecatedVersion}/void/cancel/{shipmentidentificationnumber}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Shipping.yaml#/paths/~1shipments~1{deprecatedVersion}~1void~1cancel~1{shipmentidentificationnumber}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Shipping.yaml#/paths/~1shipments~1{deprecatedVersion}~1void~1cancel~1{shipmentidentificationnumber}"
   "/shipments/{version}/transittimes":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/TimeInTransit.yaml#/paths/~1shipments~1{version}~1transittimes"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/TimeInTransit.yaml#/paths/~1shipments~1{version}~1transittimes"
   "/track/v1/details/{inquiryNumber}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/paths/~1track~1v1~1details~1{inquiryNumber}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Tracking-Ready.yaml#/paths/~1track~1v1~1details~1{inquiryNumber}"
   "/track/v1/reference/details/{referenceNumber}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/paths/~1track~1v1~1reference~1details~1{referenceNumber}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Tracking-Ready.yaml#/paths/~1track~1v1~1reference~1details~1{referenceNumber}"
   #"/brokerage/{version}/content/glc/request-quote":
-  #  "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/GlobalCheckout.yaml#/paths/~1content~1glc~1request-quote"
+  #  "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/GlobalCheckout.yaml#/paths/~1content~1glc~1request-quote"
   "/ship/{version}/master-shipment/closeout/{shipment-gccn}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1closeout~1{shipment-gccn}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1closeout~1{shipment-gccn}"
   "/ship/{version}/master-shipment/{shipment-gccn}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1{shipment-gccn}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1{shipment-gccn}"
   "/ship/{version}/child-shipment/{shipment-gccn}/{tracking-number}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
 components:
   securitySchemes:
     OAuth2:
-      $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/AddressValidation-Ready.yaml#/components/securitySchemes/OAuth2'
+      $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/AddressValidation-Ready.yaml#/components/securitySchemes/OAuth2'
     BasicAuth:
-      $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthClientCredentials-Ready.yaml#/components/securitySchemes/BasicAuth'
+      $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthClientCredentials-Ready.yaml#/components/securitySchemes/BasicAuth'
     BasicAuthGenerate:
-      $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthGenerate'
+      $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthGenerate'
     BasicAuthRefresh:
 
-      $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
+      $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
+
