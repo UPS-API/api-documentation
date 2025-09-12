@@ -131,7 +131,7 @@ paths:
   "/pickup/{version}/servicecenterlocations":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1pickup~1{version}~1servicecenterlocations"
   "/shipments/{deprecatedVersion}/pickup/{CancelBy}":
-    "$ref": "Pickup.yaml#/paths/~1shipments~1{deprecatedVersion}~1pickup~1{CancelBy}"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1shipments~1{deprecatedVersion}~1pickup~1{CancelBy}"
   "/pickupcreation/{deprecatedVersion}/pickup":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/paths/~1pickupcreation~1{deprecatedVersion}~1pickup"
   "/dangerousgoods/{version}/prenotification":
@@ -226,3 +226,4 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
