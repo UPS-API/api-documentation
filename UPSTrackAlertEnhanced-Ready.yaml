@@ -36,6 +36,7 @@ info:
     
     # Reference
     - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
+    - <a href="https://developer.ups.com/api/reference/trackalert/best-practices" target="_blank" rel="noopener">Track Alert Best Practices</a>
     
     # FAQs
   
@@ -775,3 +776,4 @@ components:
         description:
           type: string
           description: The current activity status description.
+
