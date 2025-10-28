@@ -4,7 +4,7 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-  
+
     The Shipping Package API gives the application many ways to manage the shipment of packages to their destination.
     # Reference
     - <a href="https://developer.ups.com/api/reference/shipping/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -16,7 +16,7 @@ info:
 
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-   
+
     <a href="https://god.gw.postman.com/run-collection/29542085-af2f70b3-405b-4aee-af8d-1eb715e4cebc?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-af2f70b3-405b-4aee-af8d-1eb715e4cebc%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
@@ -33,7 +33,7 @@ paths:
       description: "The Shipping API makes UPS shipping services available to client
         applications that communicate with UPS \nusing the Internet"
       summary: Shipment
-      tags: 
+      tags:
         - Shipping
       security:
         - OAuth2: []
@@ -1836,7 +1836,7 @@ paths:
                           PackedByStoreIndicator: ''
                           PackageIdentifier: '123'
               '14':
-                summary: Trade direct - Master shipment 
+                summary: Trade direct - Master shipment
                 description: Trade direct master shipment creation request.
                 value:
                   ShipmentRequest:
@@ -1971,7 +1971,7 @@ paths:
                           CurrencyCode: USD
                           MonetaryValue: '10'
                         NumOfPiecesInShipment: '1'
-                        ShipmentServiceOptions: ''                
+                        ShipmentServiceOptions: ''
                         BarCodeImageIndicator: ''
                         BarCodeAndLabelIndicator: ''
                         ShipmentDate: '20250424'
@@ -1979,9 +1979,9 @@ paths:
                         LabelImageFormat:
                           Code: GIF
                           Description: GIF
-                        HTTPUserAgent: Mozilla/4.5  
+                        HTTPUserAgent: Mozilla/4.5
               '15':
-                summary: Trade direct - Child shipment 
+                summary: Trade direct - Child shipment
                 description: Trade direct child shipment creation request.
                 value:
                   ShipmentRequest:
@@ -2072,7 +2072,7 @@ paths:
                           ShipmentCharge:
                             Type: '01'
                             BillShipper:
-                              AccountNumber: 'XXXXXX'                                
+                              AccountNumber: 'XXXXXX'
                         Service:
                           Code: '01'
                           Description: UPS Ground
@@ -2120,7 +2120,7 @@ paths:
                           Height: '6'
                           Width: '4'
               '16':
-                summary: Trade direct - LTL shipment 
+                summary: Trade direct - LTL shipment
                 description: Trade direct LTL child shipment creation request.
                 value:
                   ShipmentRequest:
@@ -2163,7 +2163,7 @@ paths:
                                 CountryOriginCode: US
                                 UnitOfMeasure: CR
                             LtlPackage:
-                              NumberOfIdenticalUnits: "1"                                   
+                              NumberOfIdenticalUnits: "1"
                               HandlingUnits:
                                 Quantity: '1'
                                 Type: BOXES
@@ -2244,7 +2244,7 @@ paths:
                           CurrencyCode: USD
                           MonetaryValue: '10'
                         NumOfPiecesInShipment: '1'
-                        ShipmentServiceOptions: ''                
+                        ShipmentServiceOptions: ''
                         ShipmentDate: '20250424'
                         Package:
                           Description: Worldwide econmoy Postal
@@ -2281,7 +2281,7 @@ paths:
                   Request:
                     RequestOption: Validate
                     SubVersion: "1607"
-                    TransactionReference: 
+                    TransactionReference:
                       CustomerContext: GovTest
                       TransactionIdentifier: UPS123
                   Shipment:
@@ -2317,7 +2317,7 @@ paths:
                         CountryCode: US
                         PostalCode: "21093"
                         StateProvinceCode: MD
-                      Phone: "1234567890"   
+                      Phone: "1234567890"
                       FaxNumber: "1234567999"
                       TaxIdentificationNumber: "456999"
                     Package:
@@ -2384,7 +2384,7 @@ paths:
       description: The Void Shipping API is used to cancel the previously scheduled
         shipment
       summary: Void Shipment
-      tags: 
+      tags:
         - Shipping
       security:
         - OAuth2: []
@@ -2470,7 +2470,7 @@ paths:
       description: The Label Shipping API allows us to retrieve forward and return
         labels.
       summary: Label Recovery
-      tags: 
+      tags:
         - Shipping
       security:
         - OAuth2: []
@@ -2575,7 +2575,7 @@ paths:
       description: "The Shipping API makes UPS shipping services available to client
         applications that communicate with UPS \nusing the Internet"
       summary: Shipment
-      tags: 
+      tags:
         - Shipping
       security:
         - OAuth2: []
@@ -4422,7 +4422,7 @@ paths:
       description: The Void Shipping API is used to cancel the previously scheduled
         shipment
       summary: Void Shipment
-      tags: 
+      tags:
         - Shipping
       security:
         - OAuth2: []
@@ -4565,7 +4565,7 @@ components:
           type: array
           description: Address Line
           minLength: 1
-          maxLength: 35          
+          maxLength: 35
           example: 12380 Morris Rd.
           maximum: 2
           items:
@@ -4574,11 +4574,11 @@ components:
           type: string
           description: City
           maxLength: 30
-          example: Alpharetta        
+          example: Alpharetta
         StateProvinceCode:
           type: string
           description: |
-            The code of the address's admininstrative division (state, province, distict, prefecture, etc...). 
+            The code of the address's admininstrative division (state, province, distict, prefecture, etc...).
           minLength: 2
           maxLength: 5
           example: GA
@@ -4604,7 +4604,7 @@ components:
         - CountryCode
       type: object
     Shipment_WorldEase:
-                                                                
+
       description: |
         WorldEase is a contract service offering in the UPS shipping that decreases brokerage fees by consolidating
         loose packages into one shipment for customs clearance.
@@ -4632,7 +4632,7 @@ components:
           example: 123X56GPFWZ
         MasterEUConsolidationIndicator:
           type: string
-          description: 1 indicates a Master Consolidation request for the European Union. 
+          description: 1 indicates a Master Consolidation request for the European Union.
         MasterHasDocBox:
           type: string
           description: This field is a flag to indicate if the request is a master shipment. This is required for Master shipment only. If MasterHasDocBox is "0" then request is considered a master shipment.
@@ -4652,8 +4652,8 @@ components:
           enum: ["CAF","COL","DDP","FOB","PRE","SDT"]
         VendorCollectIDNumberExemptIndicator:
           type: string
-          description: This field indicates if VendorCollectIDTypeCode and VendorCollectIDNumber should be exempt from validation. "0" indicates VendorCollectIDTypeCode and VendorCollectIDNumber fields are required. 
-                                                                                                                                                                             
+          description: This field indicates if VendorCollectIDTypeCode and VendorCollectIDNumber should be exempt from validation. "0" indicates VendorCollectIDTypeCode and VendorCollectIDNumber fields are required.
+
         PortOfEntry:
           type: object
           description: Container for port of entry details
@@ -4683,9 +4683,9 @@ components:
       required:
         - DestinationCountryCode
         - MasterShipmentChgType
-                               
+
         - PortOfEntry
-      type: object 
+      type: object
     ShipmentRequest_Request:
       type: object
       maximum: 1
@@ -5097,7 +5097,7 @@ components:
         TaxIdentificationNumber:
           deprecated: true
           description: Shipper's Tax Identification Number.  Conditionally required
-            if EEI form (International forms) is requested and ship From is not mentioned. 
+            if EEI form (International forms) is requested and ship From is not mentioned.
             This element has been deprecated, replacement can be found in the GlobalTaxInformation container.
           maximum: 1
           type: string
@@ -9023,7 +9023,7 @@ components:
             value is ignored. If present, indicates that the package contains
             Ecigarettes  Shippers account needs to have a valid contract for
             Ecigarettes.
-          maximum: 1  
+          maximum: 1
           type: string
       xml:
         name: RestrictedArticles
@@ -9122,7 +9122,7 @@ components:
         Child:
           $ref: '#/components/schemas/TradeDirect_Child'
         GeneralDescriptionOfGoods:
-          description: General description of the goods being shipped. It is required for master shipment. 
+          description: General description of the goods being shipped. It is required for master shipment.
           pattern: ^[a-zA-Z0-9 ]{1,100}$
           type: string
         ShipmentType:
@@ -9130,14 +9130,14 @@ components:
             Consolidated shipment types.
 
             Valid values:
-            - TRADEDIRECTAIR =  TradeDirect Air - consolidation, custom clearance, deconsolidation and delivery to multiple addresses 
+            - TRADEDIRECTAIR =  TradeDirect Air - consolidation, custom clearance, deconsolidation and delivery to multiple addresses
                                 within destination country, with Airport-to-door or door-to-door.
-                                
-            - TRADEDIRECTOCEAN = TradeDirect Ocean - consolidation, ocean transportation, customs clearance, deconsolidation and delivery 
+
+            - TRADEDIRECTOCEAN = TradeDirect Ocean - consolidation, ocean transportation, customs clearance, deconsolidation and delivery
                                  to multiple addresses within a destination country, with port-to-door and door-to-door service from shipper to consignee. Available from more than 70 ports.
-                                 
+
             - TRADEDIRECTCROSSBORDER = TradeDirect CrossBoarder - consolidation, customs clearance, deconsolidation and delivery to multiple addresses
-                                       within the destination country, with door-to-door service across North American borders.                
+                                       within the destination country, with door-to-door service across North American borders.
           enum: ["TRADEDIRECTAIR", "TRADEDIRECTOCEAN", "TRADEDIRECTCROSSBORDER"]
           type: string
         CurrencyCode:
@@ -9169,14 +9169,14 @@ components:
             The type of measurement used for the shipment. Imperial(lbs, in) & Metric(kgs, cm)
 
             Valid values are:
-            
+
             - Imperial	= This system of measurement uses units such as pounds (lbs) for weight and inches (in) for length.
-            
+
             - Metric = This system of measurement uses units such as kilograms (kgs) for weight and centimeters (cm) for length.
 
-          type: string                   
+          type: string
           example: Imperial
-          enum : ["Imperial", "Metric"] 
+          enum : ["Imperial", "Metric"]
         NotificationBeforeDelivery:
           $ref: '#/components/schemas/TradeDirect_NotificationBeforeDelivery'
       xml:
@@ -9329,9 +9329,9 @@ components:
         TermsOfShipment:
           description: |
             The terms of sale for the invoice.
-            
+
              Valid values:
-             
+
             - CFR =	Cost and Freight
             - CIF =	Cost Insurance and Freight
             - CIP =	Carriage and Insurance Paid
@@ -9346,8 +9346,8 @@ components:
             - EXW =	Ex Works
             - FAS =	Free Alongside Ship
             - FCA =	Free Carrier
-            - FOB =	Free On Board  
-            
+            - FOB =	Free On Board
+
           type: string
           enum: ["CFR","CIF","CIP","CPT","DAF","DAP","DAT","DDP","DDU","DEQ","DES","EXW","FAS","FCA","FOB",]
           example: FOB
@@ -9362,14 +9362,14 @@ components:
         DeclarationStatement:
           description: |
             The type of declaration statement. Can be invoice or NAFTA.
-            
+
              Valid values:
-             
+
             - Invoice =	Invoice declaration
-            - NAFTA = NAFTA declaration	
-            
+            - NAFTA = NAFTA declaration
+
           type: string
-          enum: ["Invoice", "NAFTA"]  
+          enum: ["Invoice", "NAFTA"]
       xml:
        name: TradeComplianceDetails
       description: 'Contains trade compliance details for the master shipment, such as invoice terms, export reasons, and declaration statements. It also includes additional comments or instructions for customs clearance.'
@@ -9384,8 +9384,8 @@ components:
       properties:
         USI:
           description: 'The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.'
-          type: string 
-          pattern: ^(?:[0-9]{10}|[0-9]{9}T)$  
+          type: string
+          pattern: ^(?:[0-9]{10}|[0-9]{9}T)$
           example: 578299028T
         HazMatIndicator:
           description: Indicates the Presence/Absence of HazMat on the shipment.
@@ -9394,14 +9394,14 @@ components:
         Type:
           description: |
             The type of shipment.
-            
+
              Valid values:
-             
-            - LTL 
-            - SMALLPACKAGE 	
-            
+
+            - LTL
+            - SMALLPACKAGE
+
           type: string
-          enum: ["LTL", "SMALLPACKAGE"]  
+          enum: ["LTL", "SMALLPACKAGE"]
         Product:
           $ref: '#/components/schemas/Child_Product'
         LtlPackage:
@@ -9449,7 +9449,7 @@ components:
         UnitOfMeasure:
           description: |
             Unit of Measure for the product being shipped.
-            
+
             Valid values are :
              - BA = Barrel
              - BE = Bundle
@@ -9491,7 +9491,7 @@ components:
              - SYD = Square Yards
              - TU =	Tube
              - YD =	Yard
-            
+
           type: string
           enum: [ "BA", "BE", "BG", "BH", "BOX", "BT", "LB", "LBS", "L", "M", "NMB", "PA", "BU", "CI", "CM", "CON", "CR", "CS", "CT", "CY", "DOZ", "EA", "EN", "FT", "KG", "KGS", "PAL", "PC", "PCS", "PF", "OTH", "PKG", "PR", "PRS", "RL", "SET", "SME", "SYD", "TU", "YD" ]
       xml:
@@ -9514,7 +9514,7 @@ components:
         HandlingUnits:
           $ref: '#/components/schemas/LTL_Handling_Units'
         ReferenceNumber:
-          $ref: '#/components/schemas/LTL_Reference_Number'  
+          $ref: '#/components/schemas/LTL_Reference_Number'
       xml:
         name: LtlPackage
       description: 'LTL package information. Applicable only for LTL child.'
@@ -9528,7 +9528,7 @@ components:
         - Dimensions
         - PackageWeight
       properties:
-        Quantity: 
+        Quantity:
           description: Quantity of handling units.
           type: string
           example: 1
@@ -9542,9 +9542,9 @@ components:
         FreightClass:
           description: |
             Freight class of the handling unit.
-            
+
             Valid values are:
-            
+
             - 50 = over 50 lbs - Fits on standard shrink-wrapped 4X4 pallet, very durable
             - 55 = 35-50 pounds - Bricks, cement, mortar, hardwood flooring
             - 60 = 30-35 pounds - Car accessories & car parts
@@ -9563,7 +9563,7 @@ components:
             - 300 =	2-3 pounds - Wood cabinets, tables, chairs setup, model boats
             - 400 =	1-2 pounds - Deer antlers
             - 500 =	Less than 1 lbs - Bags of gold dust, ping pong balls
-            
+
           type: string
           example: 150
           enum: [ "50", "55", "60", "65", "70", "77.5", "85", "92.5", "100", "110", "125", "150", "175", "200", "250", "300", "400", "500" ]
@@ -9584,13 +9584,13 @@ components:
         Code:
           description: |
             Reference number code supplied by customer.
-            
+
             Valid values are:
-            
+
             - PO = Purchase Order Number
             - REF =	Reference Number
             - INV = Invoice Number
-            
+
           type: string
           example: PO
           enum: [ "PO", "REF", "INV" ]
@@ -9599,7 +9599,7 @@ components:
           type: string
           example: REF834950
       xml:
-        name: ReferenceNumber      
+        name: ReferenceNumber
       description: LTL Reference number.
     LTL_Dimensions:
       type: object
@@ -9631,9 +9631,9 @@ components:
         UnitOfMeasurement:
           description: |
             The code associated with unit of measurement. The requested code must be valid for the shipper country or territory.
-            
+
             Valid values are :
-            
+
             - IN = Inches
             - CM = Centimeters
           type: string
@@ -9658,9 +9658,9 @@ components:
         UnitOfMeasurement:
           description: |
             Unit of measurement of the weight.
-            
+
             Valid values are:
-            
+
             - KGS = Kilograms
             - LBS =	Pounds
           type: string
@@ -9678,7 +9678,7 @@ components:
           type: string
           maximum: 1000000
           minimum: 0
-          pattern: ^[0-9]+(\.[0-9]{1,2})?$    
+          pattern: ^[0-9]+(\.[0-9]{1,2})?$
         FreightCharges:
           description: Freight charges.
           type: string
@@ -9727,9 +9727,9 @@ components:
         RequestType:
           description: |
             The type of notification request.
-            
+
             Valid values are:
-            
+
             - 001 = QV Ship Notification
             - 002 = QV Delivery Notification
             - 003 = QV Exception Notification
@@ -9739,9 +9739,9 @@ components:
         MediaTypeCode:
           description:  |
             The media type code for the notification.
-            
+
             Valid values are:
-            
+
             - 03 = Email
             - 04 = Fax
           type: string
@@ -9793,7 +9793,7 @@ components:
           maxLength: 50
       xml:
         name: NotificationBeforeDelivery
-      description: 'Notification container for the before delivery notification.'    
+      description: 'Notification container for the before delivery notification.'
     Package_Packaging:
       type: object
       maximum: 1
@@ -10020,7 +10020,7 @@ components:
         Package reference number information container.  For Mail Innovation shipments, up to 3 reference numbers are supported. If 5 reference numbers are specified (CostCenter, PackageID, and 3 ReferenceNumbers) the 3 desigated by the ReferenceNumber container will not be visible on 4x6 label supported by the API. These additional reference numbers are only be visible on the 4x8 label..
 
         For non-Mail Innovation shipments only the first 2 reference numbers will be visible on labels.
-        
+
         Required for Trade Direct shipments.
     Package_SimpleRate:
       type: object
@@ -10121,7 +10121,7 @@ components:
         HazMatTypeCode:
           description: |-
            Field to be used when a shipment contains a HazMat. It will specify the existence of HazMat, and what type. Initially this will be used for UPS Ground saver and Mail Innovations 'USPS Limited Quantities HazMat' Shipments (but may be extended for other types of HazMat in the future).
-            Valid values are 01. 
+            Valid values are 01.
             - USPS Limited Quantities HazMat - 01
           maximum: 2
           type: string
@@ -11241,8 +11241,8 @@ components:
           type: string
         USI:
           description: The unique shipment identifier (USI) is used to create Master, LTL and Child shipments. Used for Freight shipments.
-          type: string 
-          pattern: ^(?:[0-9]{10}|[0-9]{9}T)$  
+          type: string
+          pattern: ^(?:[0-9]{10}|[0-9]{9}T)$
           example: 578299028T
         Message:
           description: A message indicating the status or result of the operation.
@@ -13864,11 +13864,11 @@ components:
         IDNumberEncryptionIndicator:
           description: >-
             to determine if decryption is required. 0 = Identification number is
-            not 
+            not
 
             Encrypted
 
-            1 = Identification number is 
+            1 = Identification number is
 
             Encrypted
           type: string

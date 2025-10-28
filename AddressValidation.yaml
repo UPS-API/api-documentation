@@ -4,7 +4,7 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-  
+
     The Address Validation Street Level API can be used to.
     check addresses against the United States Postal Service database of valid addresses in the U.S. and Puerto Rico.
     # Reference
@@ -21,7 +21,7 @@ info:
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
-    </a> 
+    </a>
 servers:
   - url: https://wwwcie.ups.com/api
     description: Customer Integration Environment
@@ -687,4 +687,3 @@ components:
           type: string
           description: The error message.
       description: The error response containing any errors that occurred.
-

@@ -2,17 +2,17 @@ openapi: 3.1.0
 info:
   title: Interactive Description Guidance
   description: |
-    The Interactive Commodity Description API will guide an International shipper through a series of 
-      multiple-choice questions in order to improve the commodity description such that it can be tied to a full, 
-      destination country specific Harmonized Tariff Schedule code (HTS). The tariff code is used for expediting customs 
-      clearance, avoiding customs holds, and ensuring accurate assessing of duties and taxes. Both an updated, natural 
+    The Interactive Commodity Description API will guide an International shipper through a series of
+      multiple-choice questions in order to improve the commodity description such that it can be tied to a full,
+      destination country specific Harmonized Tariff Schedule code (HTS). The tariff code is used for expediting customs
+      clearance, avoiding customs holds, and ensuring accurate assessing of duties and taxes. Both an updated, natural
       language description and tariff code will be returned. The chargeable event is the return of the full tariff code.
 
     For more information on the Interactive Description API, please visit the <a href="https://developer.ups.com/api/reference/exportassure/product-info" target="_blank" rel="noopener">Product Info</a> page.
-    
+
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-    
+
     <a href="https://god.gw.postman.com/run-collection/29542085-1a9d5822-0333-4bec-b1a5-c2ec6b5a81da?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-1a9d5822-0333-4bec-b1a5-c2ec6b5a81da%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
@@ -49,7 +49,7 @@ paths:
       summary: Initiates an interactive description session for a product.
       description: Initiates an interactive description session for a product.
       security:
-        - OAuth2: [] 
+        - OAuth2: []
       operationId: start_interactive_post
       parameters:
         - name: transId
@@ -83,13 +83,13 @@ paths:
       responses:
         "200":
           description: Successful Response
-          headers: 
+          headers:
             x-api-success-count:
-              description: |- 
-                UPS monetization header indicating the full completion of the API service. 
+              description: |-
+                UPS monetization header indicating the full completion of the API service.
                 A value of 1 would indicate a completed transaction, while a value of 0 would be the default for uncomplete.
                 A value of 1 should be present whenever the "noMoreQuestions" field is set to true.
-              schema: 
+              schema:
                 type: integer
                 example: 1
           content:
@@ -113,7 +113,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E4000:
                   value:
                     response:
@@ -173,7 +173,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 UJ0001:
                   value:
                     response:
@@ -197,7 +197,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                   E4015:
                     value:
                       response:
@@ -221,7 +221,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E4022:
                   value:
                     response:
@@ -245,7 +245,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E5000:
                   value:
                     response:
@@ -258,11 +258,11 @@ paths:
         - Interactive Description
       summary: Continues refinement of product description and HTS code via questions and answers.
       description: |
-        This endpoint facilitates the ongoing interactive process for refining a product description and determining its corresponding Harmonized Tariff Schedule (HTS) code. 
-        
+        This endpoint facilitates the ongoing interactive process for refining a product description and determining its corresponding Harmonized Tariff Schedule (HTS) code.
+
         After initiating a session with the initial product description using the /interactive endpoint, users can continue their interaction via this endpoint by providing answers to the questions returned from the previous interaction. Each interaction refines the product description further, helping the system to accurately identify the correct HTS code. The {sessionId} parameter uniquely identifies the user's session and ensures that the interaction is continued seamlessly.
       security:
-        - OAuth2: [] 
+        - OAuth2: []
       operationId: iterate_interactive__sessionId__post
       parameters:
         - name: sessionId
@@ -300,13 +300,13 @@ paths:
       responses:
         "200":
           description: Successful Response
-          headers: 
+          headers:
             x-api-success-count:
-              description: |- 
-                UPS monetization header indicating the full completion of the API service. 
+              description: |-
+                UPS monetization header indicating the full completion of the API service.
                 A value of 1 would indicate a completed transaction, while a value of 0 would be the default for uncomplete.
                 A value of 1 should be present whenever the "noMoreQuestions" field is set to true.
-              schema: 
+              schema:
                 type: integer
                 example: 1
           content:
@@ -330,7 +330,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E4000:
                   value:
                     response:
@@ -372,7 +372,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 UJ0001:
                   value:
                     response:
@@ -396,7 +396,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E4015:
                   value:
                     response:
@@ -420,7 +420,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E4022:
                   value:
                     response:
@@ -444,7 +444,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E5000:
                   value:
                     response:
@@ -460,7 +460,7 @@ paths:
       description: Allows the user to provide feedback on a specific question of the
         overall session.
       security:
-        - OAuth2: [] 
+        - OAuth2: []
       operationId: submit_feedback_interactive_feedback__sessionId__post
       parameters:
         - name: sessionId
@@ -503,7 +503,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E4000:
                   value:
                     response:
@@ -539,7 +539,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 UJ0001:
                   value:
                     response:
@@ -563,7 +563,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E4015:
                   value:
                     response:
@@ -587,7 +587,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E4022:
                   value:
                     response:
@@ -611,7 +611,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomErrorResponse"
-              examples: 
+              examples:
                 E5000:
                   value:
                     response:
@@ -625,13 +625,13 @@ components:
       properties:
         id:
           type: string
-          description: |- 
+          description: |-
             The "id" field in the response structure represents the unique identifier of the question that was answered.
             This identifier helps track which specific question the user's response corresponds to, ensuring the accuracy and continuity of the interactive session. It is used to maintain the sequence of interactions and to provide context for subsequent questions and answers.
         selected:
           type: integer
           description: |-
-            The "selected" field represents the index of the chosen option from the multiple-choice answers provided for a specific question. 
+            The "selected" field represents the index of the chosen option from the multiple-choice answers provided for a specific question.
             This is a 0-based index, meaning the first option is represented by 0, the second by 1, and so on.
             This field ensures that the system accurately records the user's choice and continues the interactive session based on the selected answer.
       required:
@@ -699,13 +699,13 @@ components:
       properties:
         id:
           type: string
-          description: |- 
+          description: |-
             The "id" field in the response structure represents the unique identifier of the question that was answered.
             This identifier helps track which specific question the user's response corresponds to, ensuring the accuracy and continuity of the interactive session. It is used to maintain the sequence of interactions and to provide context for subsequent questions and answers.
         selected:
           type: integer
           description: |-
-            The "selected" field represents the index of the chosen option from the multiple-choice answers provided for a specific question. 
+            The "selected" field represents the index of the chosen option from the multiple-choice answers provided for a specific question.
             This is a 0-based index, meaning the first option is represented by 0, the second by 1, and so on.
             This field ensures that the system accurately records the user's choice and continues the interactive session based on the selected answer.
         assumed:
@@ -788,8 +788,8 @@ components:
           example: ["For decorative purposes", "For storing or drinking water"]
         other:
           type: array
-          description: |- 
-            An extended list of "options". When a large list of potential options are generated by the API, uncommon options will be categorized into the "other" field. 
+          description: |-
+            An extended list of "options". When a large list of potential options are generated by the API, uncommon options will be categorized into the "other" field.
             For all intensive purposes, selecting an option from the other list should be treated as an indexable list as a continuation of options. For example, if "options" is a list of 5 items, selecting the first value from "other" would be index 5.
           items:
             type: string
@@ -797,7 +797,7 @@ components:
         selected:
           type: integer
           description: |-
-            The "selected" field represents the index of the chosen option from the multiple-choice answers provided for a specific question. 
+            The "selected" field represents the index of the chosen option from the multiple-choice answers provided for a specific question.
             This is a 0-based index, meaning the first option is represented by 0, the second by 1, and so on.
             This field ensures that the system accurately records the user's choice and continues the interactive session based on the selected answer.
         assumed:
@@ -882,9 +882,9 @@ components:
     OAuth2:
       type: oauth2
       description: |
-        Find your Client ID and Secret on your app info page. 
-          1. Select "Try It" 
-          2. In the Security section enter your Client ID and Secret 
+        Find your Client ID and Secret on your app info page.
+          1. Select "Try It"
+          2. In the Security section enter your Client ID and Secret
           3. Select "Request Token"
           4. Enter any additional information in the Body and Parameters sections
           5. Select "Send" to execute your API request"
