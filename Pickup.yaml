@@ -3,7 +3,7 @@ info:
   title: Pickup
   version: ''
   description: |
-  
+
     Using the Pickup API, applications can schedule pickups, manage previously scheduled pickups, or cancel previously scheduled pickups.
     # Reference
     - <a href="https://developer.ups.com/api/reference/pickup/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -1109,7 +1109,7 @@ components:
         Alert:
            type: array
            items:
-            "$ref": "#/components/schemas/Response_Alert"         
+            "$ref": "#/components/schemas/Response_Alert"
         TransactionReference:
           "$ref": "#/components/schemas/Response_TransactionReference"
       xml:
@@ -2238,7 +2238,7 @@ components:
       xml:
         name: Notification
       maximum: 1
-      description: Container for pickup notification  
+      description: Container for pickup notification
     ShipmentDetail_PalletInformation:
       type: object
       properties:
@@ -3381,7 +3381,7 @@ components:
           "$ref": "#/components/schemas/PickupPendingStatusResponse_Response"
         PendingStatus:
           type: array
-          items:            
+          items:
            "$ref": "#/components/schemas/PickupPendingStatusResponse_PendingStatus"
       xml:
         name: PickupPendingStatusResponse

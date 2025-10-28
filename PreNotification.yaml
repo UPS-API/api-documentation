@@ -3,9 +3,9 @@ info:
   title: PreNotification
   version: ''
   description: |
-  
+
     The Pre-Notification API allows customer applications to inform UPS operations of Dangerous Goods shipments as they are processed and will enter the UPS transportation network prior to an upload of manifest information at the end of the day.
- 
+
     # Reference
     - <a href="https://developer.ups.com/api/reference/prenotification/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/prenotification/errors" target="_blank" rel="noopener">Errors</a>

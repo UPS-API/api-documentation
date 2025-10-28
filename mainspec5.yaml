@@ -10,28 +10,28 @@ servers:
     description: Production
 tags:
   - name: Address Validation
-    description: 
+    description:
       $ref: "AddressValidation-Ready.yaml#/info/description"
   - name: Dangerous Goods
-    description: 
+    description:
       $ref: "DangerousGoods-Ready.yaml#/info/description"
   #- name: Global Checkout
   #  description:
   #    $ref: "GlobalCheckout.yaml#/info/description"
   - name: Landed Cost
-    description: 
+    description:
       $ref: "LandedCost-Ready.yaml#/info/description"
   - name: Locator
-    description: 
+    description:
       $ref: "Locator.yaml#/info/description"
   - name: OAuth Auth Code
-    description: 
+    description:
       $ref: "OAuthAuthCode-Ready.yaml#/info/description"
   - name: OAuth Client Credentials
-    description: 
+    description:
       $ref: "OAuthClientCredentials-Ready.yaml#/info/description"
   - name: Paperless
-    description: 
+    description:
       $ref: "Paperless-Ready.yaml#/info/description"
   - name: Pickup
     description:

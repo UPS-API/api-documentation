@@ -9,10 +9,10 @@ info:
     - Acceptance of requests later in the delivery process
 
     For more information on the Delivery Intercept® API, please visit the <a href="https://developer.ups.com/api/reference/deliveryintercept/product-info" target="_blank" rel="noopener">Product Info</a> page.
-    
+
     ## Reference
     - <a href="https://developer.ups.com/api/reference/deliveryintercept/errors" target="_blank" rel="noopener">Errors</a>
-    
+
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
 
@@ -25,7 +25,7 @@ info:
     ## CIE Behavior
 
     The Delivery Intercept API will return a stubbed success response if the correct data is used for a given endpoint. The static data that is valid for each of the endpoints is in the table below:
-    
+
     | Endpoint | transId | trackingNumber                                                                                                                                                                                              |
     |------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
     | /charges     | SIICharges         | 1Z4096YY0316914058
@@ -57,7 +57,7 @@ paths:
       summary: Get charges by inquiry type
       description: Obtains intercept charges specified by the inquiry type and tracking number passed in the interface.
       operationId: getCharges
-      tags: 
+      tags:
         - Delivery Intercept
       security:
         - OAuth2: []
@@ -85,10 +85,10 @@ paths:
             example:
               clientIP: 10.9.100.220
               ratingRequest:
-                - redirectAddress: 
+                - redirectAddress:
                     addressNickName: John's work address
                     addressInfo:
-                      addressLine1: "1899" 
+                      addressLine1: "1899"
                       city: Baltimore
                       state: MD
                       postalCode: 21230-3410
@@ -104,8 +104,8 @@ paths:
                     phoneNumber: "+1987654324"
                     phoneExt: "+123"
                     emailAddress: aups@ups.com
-                  fromAddress: 
-                    addressLine1: "1899" 
+                  fromAddress:
+                    addressLine1: "1899"
                     city: Baltimore
                     state: MD
                     postalCode: 21230-3410
@@ -128,7 +128,7 @@ paths:
                     lastName: carren
                     fullName: RICA80 CDW80
                     phoneNumber: "+1987654324"
-                  trackInfo: 
+                  trackInfo:
                     interceptOption: AL
       responses:
         '200':
@@ -149,7 +149,7 @@ paths:
               examples:
                 ALL INTERCEPT:
                   summary: ALL Intercept Response
-                  value: 
+                  value:
                     response:
                       transactionId: ASR1212
                       statusCode: "000"
@@ -216,7 +216,7 @@ paths:
                               taxAmount: "5.00"
                             - tax: State
                               taxAmount: "2.00"
-                          totalTax: "7.00"                      
+                          totalTax: "7.00"
                       accessorialGrandTotal: ""
                       interceptGrandTotal: ""
                       transportationGrandTotal: ""
@@ -225,7 +225,7 @@ paths:
                       preTaxGrandTotal: ""
                 SINGLE INTERCEPT:
                   summary: Single Intercept Response
-                  value: 
+                  value:
                     response:
                       transactionId: ASR1212
                       statusCode: "000"
@@ -264,7 +264,7 @@ paths:
                               taxAmount: "5.00"
                             - tax: State
                               taxAmount: "2.00"
-                          totalTax: "7.00"                      
+                          totalTax: "7.00"
                       accessorialGrandTotal: ""
                       interceptGrandTotal: ""
                       transportationGrandTotal: ""
@@ -364,24 +364,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeliveryInterceptEligibilityOptionsResponseV2"
-              examples: 
+              examples:
                 SUCCESS:
                   summary: Success Response
                   value:
-                    response: 
+                    response:
                       transactionId: b2e514fc8a2
                       statusCode: "000"
                       statusMsg: SUCCESS
                       success: true
                       errors: null
                       warnings: null
-                      commonEligibilityMap: 
+                      commonEligibilityMap:
                         - interceptFeature: FD
                           eligibilityValue:
                             createEligibility: ELIGIBLE
                             modifyEligibility: NOT_ELIGIBLE
                             cancelEligibility: NOT_ELIGIBLE
-                            dateOptionsforFutureDelivery: 
+                            dateOptionsforFutureDelivery:
                               - date: 20250110
                                 dayOfWeekText: Friday
                                 dayOfWeekNumber: 06
@@ -408,19 +408,19 @@ paths:
                             createEligibility: ELIGIBLE
                             modifyEligibility: NOT_ELIGIBLE
                             cancelEligibility: NOT_ELIGIBLE
-                            reasonOptionsForRTS: 
+                            reasonOptionsForRTS:
                             - id: AN
                               value: Duplicate Order
                             - id: AS
                 ERROR:
                   summary: Error Response
                   value:
-                    response: 
+                    response:
                       transactionId: b2e514fc8a2
                       statusCode: "500"
                       statusMsg: ERROR
                       success: false
-                      errors: 
+                      errors:
                         - errorCode: "500"
                           errorMessage: System Error
                       commonEligibilityMap: null
@@ -509,7 +509,7 @@ paths:
             example:
               requestType: AA
               specialInstructions: Handle With Care
-              requesterContactInfo: 
+              requesterContactInfo:
                 name: andreas
                 telephone: "+12010000000"
                 phoneExt: "+123"
@@ -517,9 +517,9 @@ paths:
                 altTelephone: "+12345678"
                 altPhoneExt: "+1"
                 displayPhoneNumber: false
-              newDeliveryAddress: 
+              newDeliveryAddress:
                 addressNickName: John's new address
-                addressInfo: 
+                addressInfo:
                   addressLine1: 12911 FORK RD
                   addressLine2: Washington
                   addressLine3: Washington
@@ -566,12 +566,12 @@ paths:
                     subStatusCode: ""
                 ERROR:
                   summary: Error Response
-                  value: 
+                  value:
                     transactionId: ASR1212
                     statusCode: "500"
                     statusMsg: System Error
                     success: false
-                    errors: 
+                    errors:
                       - errorCode: "500"
                         errorMessage: System Error
                     subStatusCode: ""
@@ -626,7 +626,7 @@ paths:
                   statusCode: "401"
                   errors:
                     - code: "605"
-                      message: Package address token does not match any tokens in the user's profile.       
+                      message: Package address token does not match any tokens in the user's profile.
   /willcall/{tracking_number}:
     post:
       summary: Request to hold the package at a UPS facility for pickup
@@ -660,7 +660,7 @@ paths:
             example:
               requestType: WC
               specialInstructions: Handle With Care
-              requesterContactInfo: 
+              requesterContactInfo:
                 name: John
                 telephone: "+3522098238"
                 phoneExt: "+123"
@@ -701,7 +701,7 @@ paths:
                     statusCode: "000"
                     statusMsg: Success
                     success: false
-                    errors: 
+                    errors:
                       - errorCode: "500"
                         errorMessage: System Error
                     subStatusCode: ""
@@ -790,7 +790,7 @@ paths:
             example:
               requestType: RS
               specialInstructions: Handle With Care
-              requesterContactInfo: 
+              requesterContactInfo:
                 name: andreas
                 telephone: "+112010000000"
                 phoneExt: "+123"
@@ -832,7 +832,7 @@ paths:
                     statusCode: "000"
                     statusMsg: Success
                     success: false
-                    errors: 
+                    errors:
                       - errorCode: "500"
                         errorMessage: System Error
                     subStatusCode: ""
@@ -921,7 +921,7 @@ paths:
             example:
               requestType: FD
               specialInstructions:
-              requesterContactInfo: 
+              requesterContactInfo:
                 name: andreas
                 telephone: "+112010000000"
                 phoneExt: "+1"
@@ -963,7 +963,7 @@ paths:
                     statusCode: "000"
                     statusMsg: Success
                     success: false
-                    errors: 
+                    errors:
                       - errorCode: "500"
                         errorMessage: System Error
                     subStatusCode: ""
@@ -1093,7 +1093,7 @@ paths:
                     statusCode: "000"
                     statusMsg: Success
                     success: false
-                    errors: 
+                    errors:
                       - errorCode: "500"
                         errorMessage: System Error
                     subStatusCode: ""
@@ -1154,9 +1154,9 @@ components:
     OAuth2:
       type: oauth2
       description: |
-        Find your Client ID and Secret on your app info page. 
-          1. Select "Try It" 
-          2. In the Security section enter your Client ID and Secret 
+        Find your Client ID and Secret on your app info page.
+          1. Select "Try It"
+          2. In the Security section enter your Client ID and Secret
           3. Select "Request Token"
           4. Enter any additional information in the Body and Parameters sections
           5. Select "Send" to execute your API request"
@@ -1172,7 +1172,7 @@ components:
       description: A unique value that will be used to identify the transaction for logging and troubleshooting purposes
       required: true
       schema:
-        type: string 
+        type: string
         pattern: ^[a-zA-Z0-9-.]{3,14}$
         minLength: 3
         maxLength: 14
@@ -1202,7 +1202,7 @@ components:
       schema:
         type: string
         description: indicator for UPS Shipper Initiated Intercepts
-        enum: 
+        enum:
           - U
     tracking_number:
       name: tracking_number
@@ -1240,7 +1240,7 @@ components:
     transId:
       description: An identifier unique to the request.
       schema:
-        type: string 
+        type: string
         pattern: ^[a-zA-Z0-9-.]{3,36}$
         minLength: 3
         maxLength: 36
@@ -1291,7 +1291,7 @@ components:
                 properties:
                   addressNickName:
                     type: string
-                    description: The nickname string assigned to the address entry. 
+                    description: The nickname string assigned to the address entry.
                     minLength: 2
                     maxLength: 20
                     example: John's woek address
@@ -1300,7 +1300,7 @@ components:
                     $ref: '#/components/schemas/DeliveryInterceptAddressV2'
                   nameOrCompanyName:
                     type: string
-                    description: The name of the company or person customer address.(Required When calling submitAddress() API  Empty String  can be passed)          
+                    description: The name of the company or person customer address.(Required When calling submitAddress() API  Empty String  can be passed)
                     example: ACME Inc.
                   contactName:
                     type: string
@@ -1342,7 +1342,7 @@ components:
                 properties:
                   interceptOption:
                     type: string
-                    description: Intercept option to be mentioned to find the charges 
+                    description: Intercept option to be mentioned to find the charges
                     minLength: 2
                     maxLength: 2
                     oneOf:
@@ -1351,7 +1351,7 @@ components:
                       - const: SC
                         title: SAME DAY WILL CALL
                       - const: FD
-                        title: FUTURE DELIVERY 
+                        title: FUTURE DELIVERY
                       - const: AA
                         title: ALTERNATE ADDRES
                       - const: RS
@@ -1359,7 +1359,7 @@ components:
                       - const: AL
                         title: ALL INTERCEPT
                 additionalProperties: false
-                required: 
+                required:
                   - interceptOption
             additionalProperties: false
             required:
@@ -1367,7 +1367,7 @@ components:
               - toAddress
               - trackInfo
       additionalProperties: true
-      required: 
+      required:
         - ratingRequest
     DeliveryInterceptChargesResponseV2:
       type: object
@@ -1380,7 +1380,7 @@ components:
               properties:
                 chargeInfo:
                   type: array
-                  description: For each 1z there will exist a ChargeInfo object. These are the charges that were applied. This array is unbounded.                  
+                  description: For each 1z there will exist a ChargeInfo object. These are the charges that were applied. This array is unbounded.
                   minItems: 1
                   items:
                     type: object
@@ -1418,7 +1418,7 @@ components:
                         type: boolean
                         default: false
                       downgradeServiceCode:
-                        type: 
+                        type:
                           - string
                           - "null"
                         description: Downgraded service code.
@@ -1426,7 +1426,7 @@ components:
                         maxLength: 3
                         example: "003"
                       oversizeCode:
-                        type: 
+                        type:
                           - string
                           - "null"
                         description: Oversize indicator. May be set by NRF during rating LPK.
@@ -1481,7 +1481,7 @@ components:
                       displayShipperPaidTransportationCharges:
                         type: boolean
                         description: |
-                          Indicates if a message should be displayed that the shipper has paid for the charges related to transportation. 
+                          Indicates if a message should be displayed that the shipper has paid for the charges related to transportation.
                           Applicable only for Redirect to Another Address and Redirect to UPS Location intercepts. TRUE - display a message
                           that the shipper has paid the transportation charges.
                         default: false
@@ -1551,7 +1551,7 @@ components:
                       - preTaxTotalCharge
                       - taxDisclaimerIndicator
               additionalProperties: true
-              required: 
+              required:
                 - chargeInfo
       additionalProperties: false
       required:
@@ -1596,7 +1596,7 @@ components:
           description: Indicates if charges related to the intercept are paid by the shipper.
           default: false
           example: false
-        successful: 
+        successful:
           type: boolean
         currencyCode:
           type: string
@@ -1621,7 +1621,7 @@ components:
                     interceptFeature:
                       type: string
                       description: The specific delivery change options eligibilty is being returned for
-                      oneOf: 
+                      oneOf:
                         - const: SDWC
                           title: Same Day Will Call
                         - const: RTS
@@ -1646,7 +1646,7 @@ components:
                           type: array
                           description: Unbounded array of future delivery dates. Available only for future delivery intercept option
                           minItems: 1
-                          items: 
+                          items:
                             type: object
                             description: Object that holds the future delivery dates user is eligible for
                             properties:
@@ -1654,7 +1654,7 @@ components:
                                 $ref: "#/components/schemas/DeliveryInterceptDateV2"
                               dayOfWeekText:
                                 type: string
-                                description: Provides the day of the week 
+                                description: Provides the day of the week
                                 enum:
                                   - Sunday
                                   - Monday
@@ -1685,11 +1685,11 @@ components:
                           description: Array of reasons why the item is being returned. Available only for RTS intercept option
                           minItems: 1
                           maxItems: 9
-                          items: 
+                          items:
                             type: object
                             description: Object that holds the return to sender reasons the user is eligible for
                             properties:
-                              id: 
+                              id:
                                 type: string
                                 description: Provides the reason code for RTS
                                 oneOf:
@@ -1720,7 +1720,7 @@ components:
                                   - const: KV
                                     title: OTHER
                                     description: OTHER NON-DELIVERY
-                              value: 
+                              value:
                                 type: string
                                 description: Provides the reason text for RTS
                                 example: COD Will Not Be Accepted
@@ -1753,7 +1753,7 @@ components:
             - const: SC
               title: SAME DAY WILL CALL
             - const: FD
-              title: FUTURE DELIVERY 
+              title: FUTURE DELIVERY
             - const: AA
               title: ALTERNATE ADDRES
             - const: RS
@@ -1807,7 +1807,7 @@ components:
               description: Indicates if the phone number of a UAP can be displayed to external clients.
               default: false
           additionalProperties: true
-          required: 
+          required:
             - name
             - telephone
         reasonForReturn:
@@ -1868,7 +1868,7 @@ components:
               example: John's woek address
             addressInfo:
               type: object
-              description: Address object, include line1, line2, line 3 state, postal code and country code. Required when processing a request if imsAddressIdentifier is not present.  
+              description: Address object, include line1, line2, line 3 state, postal code and country code. Required when processing a request if imsAddressIdentifier is not present.
               properties:
                 addressLine1:
                   type: string
@@ -1917,7 +1917,7 @@ components:
                   pattern: ^[A-Z]{2}$
                   example: US
               additionalProperties: true
-              required: 
+              required:
                 - addressLine1
                 - city
                 - state
@@ -1925,7 +1925,7 @@ components:
                 - countryCode
             nameOrCompanyName:
               type: string
-              description: The name of the company or person customer address.(Required When calling submitAddress() API  Empty String  can be passed)          
+              description: The name of the company or person customer address.(Required When calling submitAddress() API  Empty String  can be passed)
               example: ACME Inc.
             contactName:
               type: string
@@ -1948,7 +1948,7 @@ components:
               pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$'
               example: aups@ups.com
       additionalProperties: false
-      required: 
+      required:
         - requesterContactInfo
         - specialInstructions
     DeliveryInterceptResponseV2:
@@ -1982,7 +1982,7 @@ components:
           description: Indicates if the transaction is considered successful.
           default: false
         errors:
-          type: 
+          type:
             - array
             - "null"
           description: Unbounded array of error objects
@@ -1994,7 +1994,7 @@ components:
           additionalProperties:
             type: string
       additionalProperties: false
-      required: 
+      required:
         - transactionId
         - statusCode
         - success
@@ -2029,12 +2029,12 @@ components:
           description: Indicates if the transaction is considered successful.
           default: false
         warnings:
-          type: 
+          type:
             - object
             - "null"
           description: A map containing warning codes and descriptions as key/value pairs
         errors:
-          type: 
+          type:
             - array
             - "null"
           description: Unbounded array of error objects
@@ -2094,7 +2094,7 @@ components:
           pattern: ^[A-Z]{2}$
           example: US
       additionalProperties: true
-      required: 
+      required:
         - addressLine1
         - city
         - state
@@ -2143,7 +2143,7 @@ components:
       example: "20250110"
     DeliveryInterceptEligibilityValueV2:
       type: string
-      enum: 
+      enum:
         - ELIGIBLE
         - NOT_ELIGIBLE
         - UNKNOWN
@@ -2155,12 +2155,12 @@ components:
       example: 1ZA2F8810719086435
     DeliveryInterceptErrorResponseV2:
       type: object
-      required: 
+      required:
         - response
       properties:
         response:
           type: object
-          required: 
+          required:
             - statusCode
             - errors
           properties:
@@ -2210,9 +2210,9 @@ components:
                     type: string
     DeliveryInterceptSuccessErrorV2:
       type: object
-      description: | 
+      description: |
         Container to hold details related to an individual error. Will only be returned if the HTTP statusCode isn't '200'(success).
-        On the API version v3 the first element of the errors array contains the statusCode and scoring statusMessage field. 
+        On the API version v3 the first element of the errors array contains the statusCode and scoring statusMessage field.
       properties:
         errorCode:
           type: string
@@ -2230,6 +2230,6 @@ components:
           type: string
           description: The source of the error
       additionalProperties: false
-      required: 
+      required:
         - errorCode
         - errorMessage

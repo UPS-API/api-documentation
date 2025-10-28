@@ -3,7 +3,7 @@ info:
   title: Paperless Document
   version: ''
   description: |
-  
+
     The Paperless Documents API allows users to upload specific trade documents for paperless processing of international shipments. <br />The /upload endpoint of the API requires document details, including file name, file format, and document type (such as authorization form, commercial invoice, certificate of origin, export license, etc).<br />The /image endpoint helps users upload document images as support documents for shipping<br />The /delete endpoint of the API helps delete a specific document the user has uploaded.
     # Reference
     - <a href="https://developer.ups.com/api/reference/paperlessdocument/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -11,11 +11,11 @@ info:
     - <a href="https://developer.ups.com/api/reference/paperlessdocument/faq" target="_blank" rel="noopener">FAQ</a>
 
     Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
-    
+
     <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
     </a>
-    
+
     <p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
 

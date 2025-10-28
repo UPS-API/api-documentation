@@ -12,8 +12,8 @@ info:
       - Comprehensive Shipment Closure: Enables closing out master shipments, ensuring proper finalization of shipment processes for external trade.
     # Reference
     - <a href="https://developer.ups.com/api/reference/tradedirect/errors" target="_blank" rel="noopener">Errors</a>
-    
-    
+
+
 servers:
   - url: "https://onlinetools.ups.com/api/ship/tradedirect/{version}"
     variables:
@@ -1440,9 +1440,9 @@ components:
     oauth2:
       type: "oauth2"
       description: |
-        Find your Client ID and Secret on your app info page. 
-          1. Select "Try It" 
-          2. In the Security section enter your Client ID and Secret 
+        Find your Client ID and Secret on your app info page.
+          1. Select "Try It"
+          2. In the Security section enter your Client ID and Secret
           3. Select "Request Token"
           4. Enter any additional information in the Body and Parameters sections
           5. Select "Send" to execute your API request"

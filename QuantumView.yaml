@@ -3,7 +3,7 @@ info:
   title: Quantum View
   version: ''
   description: |
-  
+
     UPS Quantum View is a suite of services that gives you and your customers details regarding UPS shipments.
     # Reference
     - <a href="https://developer.ups.com/api/reference/quantumview/business-rules" target="_blank" rel="noopener">Business Rules</a>
@@ -2716,7 +2716,7 @@ components:
       properties:
         ActivityType:
           description: |
-            Unique identifier that defines the type of activity. 
+            Unique identifier that defines the type of activity.
             - VM = Void for Manifest
             - UR = Undeliverable Returns
             - IR = Invoice Removal Successful
@@ -2724,7 +2724,7 @@ components:
             - FN = UPS Access Point/Alternate Delivery Location Email Notification Failure
             - DS = Destination Scan
             - AG = Package is in transit to a UPS facility
-            - RE = UPS Returns Exchange 
+            - RE = UPS Returns Exchange
             - RP = Retail Pickup
             - UD = Updated delivery date
             - OD = Out for Delivery

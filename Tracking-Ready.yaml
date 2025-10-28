@@ -4,7 +4,7 @@ info:
   termsOfService: https://www.ups.com/upsdeveloperkit/assets/html/serviceAgreement.html
   version: ''
   description: |
-  
+
     The Track API helps retrieves current status of shipments such as Small Package 1Z, Infonotice, Mail Innovations, FGV, or UPS Freight shipments using the package number or the reference number. The tracking response data typically includes package movements/activities, destination UPS access point information, expected delivery dates/times, etc. Required parameters are the inquiryNumber, transaction ID, and transaction source.<br />The response returns an array of shipment objects containing detailed tracking information and status for the package(s) associated with the inquiryNumber, including current status, activity history, delivery details, package details, and more. For more information on the Track API, please visit the <a href="https://developer.ups.com/api/reference/tracking/product-info" target="_blank" rel="noopener noreferrer">Product Overview</a> page.
 
     **Note:** Data is rolled off after the 120 day retention period and may not be returned in the response after the retention period.
@@ -22,15 +22,15 @@ info:
     - <a href="https://developer.ups.com/api/reference/mcp/guide" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS MCP Server</a>
 
     Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
-    
+
     <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
     </a>
-    
+
     <br/>
     <p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-    
+
     <a href="https://god.gw.postman.com/run-collection/29542085-003f5ace-291f-4d93-b2a2-6be86eb9961d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-003f5ace-291f-4d93-b2a2-6be86eb9961d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
@@ -177,19 +177,19 @@ paths:
         description: The Destination Country associated with above reference number
         schema:
           type: string
-          default: 
+          default:
       - name: destZip
         in: query
         description: The Destination Zip associated with above reference number
         schema:
           type: string
-          default: 
+          default:
       - name: shipperNum
         in: query
         description: The Shipper Number (Account Number) associated with above reference number
         schema:
           type: string
-          default: 		  
+          default:
       - name: refNumType
         in: query
         description: The Reference number type which will define the tracking information is related to small package or fgv
@@ -363,7 +363,7 @@ components:
           description: The date of this delivery detail. Format - YYYYMMDD
         type:
           type: string
-          description: 'The list of delivery dates associated with the package. 
+          description: 'The list of delivery dates associated with the package.
             Valid values:
               SDD - Scheduled Delivery Date
               RDD - Rescheduled Delivery Date
@@ -398,12 +398,12 @@ components:
     DeliveryPhoto:
       title: DeliveryPhoto
       type: object
-      description: Container with all information related to the delivery photo of the 
+      description: Container with all information related to the delivery photo of the
         package.
       properties:
         isNonPostalCodeCountry:
           type: boolean
-          description: 'The indication if the country does not use postal code. 
+          description: 'The indication if the country does not use postal code.
             Valid values: ''true'' this country does not use postal code.
             ''false'' this country uses postal code'
         photo:
@@ -414,7 +414,7 @@ components:
             photo capture. ''N'' the photo is not a capture'
         photoDispositionCode:
           type: string
-          description: 'The photo disposition code. Valid values: ''V'' the photo is 
+          description: 'The photo disposition code. Valid values: ''V'' the photo is
             viewable. ''N'' the photo is not viewable. ''U'' the photo is not stored'
     DeliveryTime:
       title: DeliveryTime
@@ -834,5 +834,3 @@ components:
           type: string
           description: 'The weight units of measurement. Valid values: ''LBS'' - pounds.
             ''KGS'' - kilograms.'
-
-
