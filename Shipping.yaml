@@ -4975,6 +4975,22 @@ components:
           type: string
           minLength: 2
           maxLength: 2
+        ShipperType:
+          description: |-
+            Shipment Value for ShipperType. 01 = Business 02 = Consumer/Individual  NA = Not Applicable
+            Required for EU Inbound Shipments
+          maximum: 1
+          type: string
+          minLength: 2
+          maxLength: 2
+        ConsigneeType:
+          description: |-
+            Shipment Value for ConsigneeType. 01 = Business 02 = Consumer/Individual  NA = Not Applicable
+            Required for EU Inbound Shipments
+          maximum: 1
+          type: string
+          minLength: 2
+          maxLength: 2
         MasterCartonID:
           description: 'Master Carton ID. If Economy Service (17 or 72) : Economy
             Shipment will be associated with given Master Carton ID. If Non-Economy
@@ -5668,7 +5684,7 @@ components:
             - 1051 = Singapore GST Registration Number
             - 1052 = ARN Registration Number
             - 1053 = IRD Registration Number
-            - 1054 = Malaysia Low Value Goods Sales Tax Registration
+            - 1054 = Malaysia Low Value Goods Sales Tax Registration Number
 
             Vendor Collect ID Number type code will be printed on commercial invoice if present.
           maximum: 1
@@ -5790,13 +5806,13 @@ components:
           type: string
           minLength: 2
           maxLength: 2
-      xml:
+          xml:
         name: BillShipper
       description: Container for the BillShipper billing option. The three payment
         methods that are available for the Bill Shipper billing option are alternate
         payment method, account number or credit card.  This element or its sibling
         element, BillReceiver, BillThirdParty or ConsigneeBilledIndicator, must be
-        present but no more than one can be present.
+        present but no more than one can be present.  
     BillShipper_CreditCard:
       type: object
       maximum: 1
@@ -7236,7 +7252,8 @@ components:
           type: string
       xml:
         name: InternationalForms
-      description: International Forms information.
+      description: International Forms information. This is applicable to Trade Direct SMALLPACKAGE International Child
+        movements and not applicable to Trade Direct Master or Trade Direct LTL Child movements.
     InternationalForms_UserCreatedForm:
       type: object
       maximum: 13
@@ -7430,11 +7447,21 @@ components:
           type: string
           minLength: 40
           maxLength: 40
+        DDSReferenceNumber:
+          "$ref": "#/components/schemas/CN22Content_CN22DDSReferenceNumber"
       xml:
         name: CN22Content
       description: "Container for CN22 content.  Required if the CN22 form container
         is present. \nNote: The maximum number of goods printed on the CN22 form when
         a combined MI package and CN22 form label is requested is 30."
+    CN22Content_CN22DDSReferenceNumber:
+      type: object
+      maximum: 1
+      properties:
+        Number:
+          description: holds a list of DDS Reference Numbers
+          maximum: 5
+          type: string
     CN22Content_CN22ContentWeight:
       type: object
       required:
@@ -8268,6 +8295,8 @@ components:
           "$ref": "#/components/schemas/Product_PackingListInfo"
         EEIInformation:
           "$ref": "#/components/schemas/Product_EEIInformation"
+        DDSReferenceNumber:
+          "$ref": "#/components/schemas/Product_DDSReferenceNumber"
       xml:
         name: Product
       description: "Contains the commodity/product information.  Applies to EEI, Invoice,
@@ -8534,6 +8563,14 @@ components:
       description: |-
         Data Container holding package/product related information that will break up the product into each package on the packing list.  Total product amount must equal the product unit value above. Required for packaging list and Air Freight Packing list.                                                      Packaging list max allowed : 20
         Air Freight Packaging list max allowed: 200
+    Product_DDSReferenceNumber:
+      type: object
+      maximum: 1
+      properties:
+        Number:
+          description: holds a list of DDS Reference Numbers
+          maximum: 5
+          type: string
     Product_EEIInformation:
       type: object
       maximum: 1
@@ -9107,8 +9144,8 @@ components:
         name: Package
       required:
       - Packaging
-      description: Package Information container.  For Return Shipments up to and
-        including 20 packages are allowed. US/PR origin return movements are limited
+      description: Package Information container.  For Return Shipments up to 
+        20 packages are allowed. US/PR origin return movements are limited
         to only one package. For Mail Innovations and Simple Rate shipments only one
         package is allowed.
     Shipment_TradeDirect:
@@ -9123,7 +9160,7 @@ components:
           $ref: '#/components/schemas/TradeDirect_Child'
         GeneralDescriptionOfGoods:
           description: General description of the goods being shipped. It is required for master shipment. 
-          pattern: ^[a-zA-Z0-9 ]{1,100}$
+          pattern: ^(?!\s*$)[a-zA-Z0-9 ]+$
           type: string
         ShipmentType:
           description: |
@@ -9143,7 +9180,7 @@ components:
         CurrencyCode:
           description: The currency code for the shipment as per ISO 4217.
           type: string
-          pattern: ^[A-Z]{3}$
+          pattern: ^(?!\s*$)[A-Z]{3}$
       xml:
         name: TradeDirect
       maximum: 1
@@ -9196,12 +9233,14 @@ components:
           type: string
           minLength: 1
           maxLength: 35
+          pattern: ^(?!\s*$).{1,35}$
         AttentionName:
           description: Master Sold to Contact Name.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
+          pattern: ^.{0,35}$
         TaxIdentificationNumber:
           deprecated: true
           description: Master Sold To Tax Identification Number. This element has been deprecated, replacement can be found in the GlobalTaxInformation container.
@@ -9248,12 +9287,14 @@ components:
           type: string
           minLength: 1
           maxLength: 35
+          pattern: ^(?!\s*$).{1,35}$
         AttentionName:
           description: Master Pickup Contact Name.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
+          pattern: ^.{0,35}$
         Phone:
           $ref: '#/components/schemas/TradeDirect_Phone'
         Address:
@@ -9297,12 +9338,12 @@ components:
           description: Primary address line includes street number and street name (when applicable).
           maximum: 3
           type: string
-          pattern: ^[A-Za-z0-9\s.,#/-]{1,35}$
+          pattern: ^(?!\s*$).{1,35}$
           example: 123 South Main St
         City:
           description: The name of the city for the address.
           type: string
-          pattern: ^[a-zA-Z\s.,]{1,35}$
+          pattern: ^(?!\s*$).{1,35}$
           example: Atlanta
         StateProvinceCode:
           description: The code for the state or province for the address.
@@ -9425,7 +9466,7 @@ components:
         Description:
           description: Description of the product being shipped.
           type: string
-          pattern: ^[a-zA-Z0-9 ]{1,100}$
+          pattern: ^(?!\s*$)[a-zA-Z0-9 ]{1,100}$
           example: ALPHA BRAIN INSTANT PEACH
         UnitPrice:
           description: Price per unit of the product being shipped.
@@ -9441,7 +9482,7 @@ components:
           description: Product number of the product being shipped.
           type: string
           example: IDID767640
-          pattern: ^[a-zA-Z0-9 ]{1,20}$
+          pattern: ^(?!\s*$)[a-zA-Z0-9 ]{1,20}$
         CountryOriginCode:
           description: Country code of the product being shipped.
           type: string
@@ -9714,7 +9755,7 @@ components:
           description: 'Description of what the other charges are for.'
           type: string
           example: Miscellaneous charge
-          pattern: ^[a-zA-Z0-9 ]{1,30}$
+          pattern: ^(?!\s*$)[a-zA-Z0-9 ]{1,30}$
       xml:
         name: OtherCharges
       description: 'Any other miscellaneous charges.'
@@ -10694,8 +10735,9 @@ components:
         RegulationSet:
           description: 'Regulation set for dryIce Shipment. Valid values: CFR = HazMat
             regulated by US Dept. of Transportation within the U.S. or ground shipments
-            to Canada, IATA= Worldwide Air movement.  The following values are valid:
-            IATA, CFR.'
+            to Canada, IATA= Worldwide Air movement, ADR = Europe to
+            Europe Ground Movement. The following values are valid:
+            IATA, CFR, ADR.'
           maximum: 1
           type: string
           minLength: 3
@@ -13822,11 +13864,16 @@ components:
       maximum: 1
       properties:
         AgentRole:
-          description: '(SHIP_FROM=20, CONSIGNEE=30)'
+          description: 'When the value passed to the AgentRole parameter is 30, 
+          the value passed to the IDNumberTypeCode parameter must be 1002, 1005 or 0005.
+          (SHIP_FROM=20, CONSIGNEE=30)'
           type: string
         TaxIdentificationNumber:
-          $ref: >-
-            #/components/schemas/AgentTaxIdentificationNumber_TaxIdentificationNumber
+          items:
+             $ref: >-
+               #/components/schemas/AgentTaxIdentificationNumber_TaxIdentificationNumber
+          maximum: 8
+          type: array
       required:
         - AgentRole
       type: object
@@ -13985,8 +14032,11 @@ components:
           minLength: 2
           maxLength: 2
         AgentTaxIdentificationNumber:
-          $ref: >-
-            #/components/schemas/GlobalTaxInformation_AgentTaxIdentificationNumber
+          type: array
+          items:
+             $ref: >-
+               #/components/schemas/GlobalTaxInformation_AgentTaxIdentificationNumber
+          maximum: 4
       type: object
       xml:
         name: GlobalTaxInformation
