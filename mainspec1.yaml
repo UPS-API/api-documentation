@@ -97,7 +97,7 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1chemicalreferencedata"
   "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1acceptanceauditprecheck"
-   "/forwarding/{version}/air/rate":
+  "/forwarding/{version}/air/rate":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1rate"
   "/forwarding/{version}/air/orders":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1orders"
@@ -245,6 +245,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
