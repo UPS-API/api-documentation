@@ -3,7 +3,7 @@ info:
   title: Forwarding API v1
   version: "1.0"
   description: |
-    Links the UPS Forarding Hub to backend applications for the management of ocean and air freight shipments.
+    Links the UPS Forwarding Hub to backend applications for the management of ocean and air freight shipments.
  
     # Key Business Values
     - UPS Forwarding Hub APIs unify ocean and air freight through a single, modern RESTful interface.
@@ -300,7 +300,7 @@ paths:
                       message: Internal Server Error
   /orders:
     post:
-      summary: Create a order
+      summary: Create a Order
       operationId: orderCreate
       description: Create a pending order which becomes a shipment when processed at end-of-day
       parameters:
@@ -657,7 +657,7 @@ paths:
                     - code: "1003"
                       message: Internal Server Error
     delete:
-      summary: Cancel an order
+      summary: Cancel an Order
       operationId: orderCancel
       tags:
         - Orders
@@ -816,7 +816,7 @@ paths:
                     - code: "1003"
                       message: Internal Server Error
     patch:
-      summary: Set Date for orders
+      summary: Set Date for Orders
       operationId: orderSetDate
       tags:
         - Orders
@@ -1474,7 +1474,7 @@ paths:
  
   /shipments:
     patch:
-      summary: Processes all shipments
+      summary: Processes All Shipments
       operationId: submitAirShipment
       tags:
         - Forwarding
@@ -1706,7 +1706,7 @@ paths:
                     - code: "1003"
                       message: Internal Server Error
     delete:
-      summary: Cancels a shipment
+      summary: Cancels a Shipment
       operationId: cancelAirShipment
       tags:
         - Shipments
@@ -2396,7 +2396,7 @@ paths:
       operationId: getCity
       tags:
         - Forwarding
-      summary: City Data.
+      summary: City Data
       description: Retrieves city details matching the provided search criteria.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -2582,7 +2582,7 @@ paths:
       operationId: getCurrencies
       tags:
         - Forwarding
-      summary: Retrieves Currencies.
+      summary: Retrieves Currencies
       description: Retrieves the currency details matching the provided search criteria.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -2741,7 +2741,7 @@ paths:
       operationId: getAirPaymentTypes
       tags:
         - Forwarding
-      summary: get payment types.
+      summary: Get Payment Types
       description: Retrieves payment types matching the provided search criteria.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -2943,7 +2943,7 @@ paths:
       operationId: getCountries
       tags:
         - Forwarding
-      summary: Country Data.
+      summary: Get Country Data
       description: Retrieves country details matching the provided search criteria.
       parameters:
         - $ref: "#/components/parameters/transId"
