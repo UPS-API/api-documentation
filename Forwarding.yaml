@@ -660,7 +660,7 @@ paths:
       summary: Cancel an Order
       operationId: orderCancel
       tags:
-        - Orders
+        - Forwarding
       description: Cancel an pending order
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -819,7 +819,7 @@ paths:
       summary: Set Date for Orders
       operationId: orderSetDate
       tags:
-        - Orders
+        - Forwarding
       description: Set Date for one or all active orders from a shipper to a future date. Past dates are not allowed except for yesterday
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -1008,7 +1008,7 @@ paths:
       summary: Order Search
       operationId: orderSearch
       tags:
-        - Orders
+        - Forwarding
       description: Search for orders based on criteria
       parameters:
         - $ref: "#/components/parameters/transId"
