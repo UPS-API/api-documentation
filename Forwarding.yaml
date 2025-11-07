@@ -1209,7 +1209,7 @@ paths:
                       message: Internal Server Error
   /documents/labels:
     post:
-      summary: Re-Print label
+      summary: Re-Print Label
       operationId: printLabel
       tags:
         - Forwarding
