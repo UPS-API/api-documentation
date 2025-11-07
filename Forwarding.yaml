@@ -1709,7 +1709,7 @@ paths:
       summary: Cancels a Shipment
       operationId: cancelAirShipment
       tags:
-        - Shipments
+        - Forwarding
       description: Cancels a shipment using the provided shipment number and shipper's UPS Freight Account Number.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -1868,7 +1868,7 @@ paths:
       description: Generate estimated freight rates based on the provided shipment and party details, and create the shipment.
       operationId: freightShip
       tags:
-        -  Shipments
+        -  Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
