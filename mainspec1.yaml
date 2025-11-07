@@ -102,7 +102,7 @@ paths:
   "/forwarding/{version}/orders":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1orders"
   "/forwarding/{version}/documents/labels":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1documents~1label"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1documents~1labels"
   "/forwarding/{version}/shipments":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1shipments"
   "/forwarding/{version}/documents/manifest":
@@ -251,6 +251,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
