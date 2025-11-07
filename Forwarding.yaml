@@ -5,7 +5,7 @@ info:
   description: |
     Links the UPS Forarding Hub to backend applications for the management of ocean and air freight shipments.
  
-    **Key Business Values:**
+    # Key Business Values
     - UPS Forwarding Hub APIs unify ocean and air freight through a single, modern RESTful interface.
     - They accelerate time to market with simplified, scalable integration.
     - Real-time rate quotes and booking enhance the customer experience.
@@ -13,6 +13,10 @@ info:
     - Streamlined documentation and developer support reduce onboarding time
  
     NOTE: Please contact for GUID support
+    
+    # Reference
+    - <a href="https://developer.ups.com/api/reference/forwarding/errors" target="_blank" rel="noopener">Errors</a>
+
 servers:
   - url: https://www.onlinetools.ups.com/api/forwarding/{version}
     description: URL for OAuth based authentication that can be used for the UPS Production environment.
@@ -51,7 +55,7 @@ paths:
       description: Generate estimated freight charges based on the provided origin, destination, payor information, and cargo details.
       operationId: freightRating
       tags:
-        - Shipments
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -306,7 +310,7 @@ paths:
         - $ref: "#/components/parameters/X-BusinessGUID"
         - $ref: "#/components/parameters/X-ClientId"
       tags:
-        - Orders
+        - Forwarding
       requestBody:
         required: true
         description: Container for shipment & package details to be made into an order.
@@ -1208,7 +1212,7 @@ paths:
       summary: Re-Print label
       operationId: printLabel
       tags:
-        - Documents
+        - Forwarding
       description: Re-Print label for an existing Order
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -1473,7 +1477,7 @@ paths:
       summary: Processes all shipments
       operationId: submitAirShipment
       tags:
-        - Shipments
+        - Forwarding
       description: Processes all shipments created for a specific shipper during the day and returns a manifest.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -2139,7 +2143,7 @@ paths:
       summary: Print Air Manifest
       operationId: printAirManifest
       tags:
-        - Documents
+        - Forwarding
       description: Generates and returns the manifest for the specified manifest number in the requested format.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -2391,8 +2395,8 @@ paths:
     get:
       operationId: getCity
       tags:
-        - Info
-      summary: citydata.
+        - Forwarding
+      summary: City Data.
       description: Retrieves city details matching the provided search criteria.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -2577,8 +2581,8 @@ paths:
     get:
       operationId: getCurrencies
       tags:
-        - Info
-      summary: retrieves currencies.
+        - Forwarding
+      summary: Retrieves Currencies.
       description: Retrieves the currency details matching the provided search criteria.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -2736,7 +2740,7 @@ paths:
     get:
       operationId: getAirPaymentTypes
       tags:
-        - Info
+        - Forwarding
       summary: get payment types.
       description: Retrieves payment types matching the provided search criteria.
       parameters:
@@ -2938,8 +2942,8 @@ paths:
     get:
       operationId: getCountries
       tags:
-        - Info
-      summary: country data.
+        - Forwarding
+      summary: Country Data.
       description: Retrieves country details matching the provided search criteria.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -3099,7 +3103,7 @@ paths:
       description: Retrieve airport details by country code.
       operationId: getAirportDetails
       tags:
-        - Info
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -3228,7 +3232,7 @@ paths:
       description: Retrieves available service types based on shipper and consignee information.
       operationId: getServiceTypes
       tags:
-        - Info
+        - Forwarding
       parameters:
       - $ref: "#/components/parameters/shipper_city"
       - $ref: "#/components/parameters/shipper_state_code"
