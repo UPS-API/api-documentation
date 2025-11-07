@@ -80,8 +80,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1shipments~1rates"
   "/forwarding/{version}/orders":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1orders"
-  "/forwarding/{version}/air/documents/labels":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1air~1documents~1label"
+  "/forwarding/{version}/documents/labels":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1documents~1labels"
   "/forwarding/{version}/shipments":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1shipments"
   "/forwarding/{version}/documents/manifest":
@@ -92,6 +92,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1info~1currencies"
   "/forwarding/{version}/info/payment-types":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1info~1payment-types"
+  "/forwarding/{version}/info/countries":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1info~1countries"
   "/forwarding/{version}/info/airports":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1info~1airports"
   "/forwarding/{version}/info/service-types":
@@ -193,6 +195,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
