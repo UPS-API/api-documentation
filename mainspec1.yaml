@@ -15,12 +15,6 @@ tags:
   - name: UPS Track Alert with Photo
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlertEnhanced.yaml#/info/description"
-  - name: Delivery Defense
-    description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryDefense.yaml#/info/description"
-  - name: Delivery Intercept
-    description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryIntercept.yaml#/info/description"
   - name: Export Assure
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSExportAssure.yaml#/info/description"
@@ -30,9 +24,6 @@ tags:
   - name: Address Validation
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/AddressValidation.yaml#/info/description"
-  - name: Commerce Guard
-    description: 
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CommerceGuard.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods.yaml#/info/description"
@@ -41,7 +32,7 @@ tags:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/info/description"
   #- name: Global Checkout
   #  description:
-  #    $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/GlobalCheckout.yaml#/info/description"
+  #    $ref: "GlobalCheckout.yaml#/info/description"
   - name: Landed Cost
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/LandedCost.yaml#/info/description"
@@ -199,22 +190,6 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking.yaml#/paths/~1track~1v1~1reference~1details~1{referenceNumber}"
   "/track/{version}/subscription/enhanced/package":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlertEnhanced.yaml#/paths/~1subscription~1enhanced~1package"
-  "/deliveryintercept/{version}/charges/{tracking_number}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryIntercept.yaml#/paths/~1charges~1{tracking_number}"
-  "/deliveryintercept/{version}/eligibility/intercept/{tracking_number}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryIntercept.yaml#/paths/~1eligibility~1intercept~1{tracking_number}"
-  "/deliveryintercept/{version}/redirect/address/{tracking_number}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryIntercept.yaml#/paths/~1redirect~1address~1{tracking_number}"
-  "/deliveryintercept/{version}/willcall/{tracking_number}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryIntercept.yaml#/paths/~1willcall~1{tracking_number}"
-  "/deliveryintercept/{version}/return/{tracking_number}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryIntercept.yaml#/paths/~1return~1{tracking_number}"
-  "/deliveryintercept/{version}/reschedule/{tracking_number}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryIntercept.yaml#/paths/~1reschedule~1{tracking_number}"
-  "/deliveryintercept/{version}/cancel/{tracking_number}":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryIntercept.yaml#/paths/~1cancel~1{tracking_number}"
-  "/deliverydefense/external/v1.0/address/score":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DeliveryDefense.yaml#/paths/~1address~1score"
   "/brokerage/{version}/importexport/exportassure":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSExportAssure.yaml#/paths/~1importexport~1exportassure"
   "/export-assure/{version}/interactive":
@@ -223,8 +198,6 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/InteractiveDescriptionGuidance.yaml#/paths/~1interactive~1{sessionId}"
   "/export-assure/{version}/interactive/feedback/{sessionId}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/InteractiveDescriptionGuidance.yaml#/paths/~1interactive~1feedback~1{sessionId}"
-  #"/brokerage/{version}/content/glc/request-quote":
-  #  "$ref": "GlobalCheckout.yaml#/paths/~1content~1glc~1request-quote"
   "/ship/{version}/master-shipment/closeout/{shipment-gccn}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1closeout~1{shipment-gccn}"
   "/ship/{version}/master-shipment/{shipment-gccn}":
@@ -233,8 +206,6 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
   "/track/{version}/subscription/standard/package":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert.yaml#/paths/~1subscription~1standard~1package"
-  "/commerce-guard/{version}/verify":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert.yaml#/webhooks/TrackingEvent"
