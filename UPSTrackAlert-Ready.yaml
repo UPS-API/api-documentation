@@ -4,7 +4,6 @@ info:
   description: |
 
     # Product Info
-
     The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
     Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency. For more information on the UPS Track Alert API, please visit the <a href="https://developer.ups.com/api/reference/trackalertenhanced/product-info"
     target="_blank" rel="noopener">Product Info</a> page.
@@ -16,10 +15,9 @@ info:
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
     </a>
     <br/>
-    
-   Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
-    target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.
-    
+    Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
+    target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
+
     <a href="https://god.gw.postman.com/run-collection/29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
@@ -36,27 +34,26 @@ info:
     
     # Reference
     - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
-    - <a href="https://developer.ups.com/api/reference/trackalert/best-practices" target="_blank" rel="noopener">Track Alert Best Practices</a>
     
     # FAQs
   
     - **How does it work once I am setup as a user?**
-    > You submit up to 100 UPS 1Z package tracking numbers to the API at a time, using OAUTH in a JSON format.  Your submission needs to include the URL where Track Alert will send a message with any events that occur to your 1Z package for the next 14 days.  This saves you the effort of polling UPS to determine what is the current status of your package.
+    > You submit up to 100 UPS tracking numbers to the API at a time, using OAUTH in a JSON format.  Your submission needs to include the URL where Track Alert will send a message with any events that occur to your tracking number for the next 14 days.  This saves you the effort of polling UPS to determine what is the current status of your package.
       
     - **What type of packages does Track Alert support?
-    > Track Alert supports UPS packages that have a 1Z tracking number.
+    > Track Alert supports UPS packages that have a 1Z tracking number, as well as Roadie packages (1R tracking numbers).
     
-    - **How do I check if a subscription to a 1Z was successful?**
-    >  Once 1Z package tracking number(s) is submitted to Track Alert, you will receive a response confirming successful and unsuccessful 1Z's.  
+    - **How do I check if a subscription to a tracking number was successful?**
+    >  Once tracking number(s) is submitted to Track Alert, you will receive a response confirming successful and unsuccessful tracking numbers.  
 
     - **I stopped receiving event messages after 2 weeks and my package hasn’t been delivered. Why?**
-    >  Each 1Z subscription is valid for 14 days. If the package has not been delivered within 14 days, you must resubscribe to the 1Z to continue receiving updates/events.
+    >  Each tracking number subscription is valid for 14 days. If the package has not been delivered within 14 days, you must resubscribe to the tracking number to continue receiving updates/events.
 
     - **How do I get events that occurred prior to subscription?**
     >  Track Alert does not retain any history.  You should use the UPS Track API to receive history about your package.  
 
-    - **How many 1Z tracking numbers can a subscriber subscribe to in one request?**
-    >  You can subscribe to up to 100 1Z in each submission to the API.  A reply message will be sent via the API with details showing successful and unsuccessful 1Z's submissions.
+    - **How many tracking numbers can a subscriber subscribe to in one request?**
+    >  You can subscribe to up to 100 tracking numbers in each submission to the API.  A reply message will be sent via the API with details showing successful and unsuccessful tracking numbers.
 
     - **What types of event data does Track Alert provide?**
     >  In addition to the expected local dates and times when the event occurred (including GMT date and time), you will receive details about the event that include status-type, status-code, status-description and status-description code.
@@ -73,7 +70,7 @@ info:
     - **What does the message look like?**
     >  This is what a message looks like for an event that is sent to your URL.  Not every field will have a value for every message.  We have converted the JSON format message to text format for clarity.  
         Those fields are: 
-        1Z package tracking number 
+        tracking number 
         scheduled delivery date (this field maybe updated, example '20240905')
         actual delivery date (this field is blank until the delivery event occurs)
         actual delivery time (this field is blank until the delivery event occurs)
@@ -95,7 +92,7 @@ info:
         delivery photo (this field is only available for enhanced users)
 
     - **Can I test this process?**
-    >  Yes, there are two test 1Z's that you can submit, and resubmit that will send several events spaced 1 second apart.  Those two test 1Z's are 1ZCIETST0111111114 and 1ZCIETST0422222228.  Please ensure to use UPS Production CIE(https://wwwcie.ups.com/api/track/{version}). You can submit these 1Z's as often as you like. (no stress testing please.) 
+    >  Yes, there are two test tracking numbers that you can submit, and resubmit that will send several events spaced 1 second apart.  Those two test tracking numbers are 1ZCIETST0111111114 and 1ZCIETST0422222228.  Please ensure to use UPS Production CIE(https://wwwcie.ups.com/api/track/{version}). You can submit these tracking numbers as often as you like. (no stress testing please.) 
 
     # Overview
       When the UPS system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
@@ -129,8 +126,8 @@ info:
     | VSS110    | 400           | Hard          | Subscription request is empty or not present. The Subscription request has been rejected.                                                                                                             |
     | VSS200    | 400           | Hard          | Tracking Number List is required. The Subscription request has been rejected.                                                                                                                         |
     | VSS210    | 400           | Hard          | The Subscription request should have at least one valid tracking number. The Subscription request has been rejected.                                                                                  |
-    | VSS215    | 400           | Hard          | The 1Z tracking number that was submitted is not a valid CIE 1Z and has been rejected.                                                                                                                |
-    | VSS220    | 400           | Hard          | You have submitted over 100 1Z numbers which is not allowed. The entire submission of 1Z numbers has been rejected.  Please resubmit your request again using groups of no more than 100 1Z numbers.  |
+    | VSS215    | 400           | Hard          | The tracking number that was submitted is not a valid CIE tracking number and has been rejected.                                                                                                                |
+    | VSS220    | 400           | Hard          | You have submitted over 100 tracking numbers which is not allowed. The entire submission of tracking numbers has been rejected.  Please resubmit your request again using groups of no more than 100 tracking numbers.  |
     | VSS300    | 400           | Hard          | Locale is required. The Subscription request has been rejected.                                                                                                                                       |
     | VSS310    | 400           | Hard          | Please enter a valid locale. The Subscription request has been rejected                                                                                                                               |
     | VSS400    | 400           | Hard          | Please enter a valid country code. The Subscription request has been rejected.                                                                                                               |
@@ -542,8 +539,8 @@ components:
             - 1ZCIETST0422222228
           items:
             type: string
-            pattern: '^1Z[0-9A-Z]{16}$'
-            description: Represents tracking numbers starting with '1Z', followed by 16 alphanummeric characters in request.
+            pattern: '^1Z[0-9A-Z]{16}$|^1R[0-9A-Z]{14}$|^1R[0-9A-Z]{26}$'
+            description: Represents tracking numbers starting with '1Z', followed by 16 alphanummeric characters in request, as well as tracking numbers starting with '1R', followed by 14 or 26 alphanumeric characters.
         destination:
           $ref: '#/components/schemas/Destination'
     ErrorMessage:
@@ -658,6 +655,13 @@ components:
           maxLength: 6
           pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
           example: "235959"
+        gmtOffset:
+          type: string
+          description: "A field that shows how local time was calculated. In the format (-/+)HH.MM (24 hr)"
+          minLength: 6
+          maxLength: 6
+          pattern: ^[+-]([01]\d|2[0-3])\.[0-5]\d$
+          example: "-04.00"
         deliveryStartTime:
           type: string
           description: 'The start time of a delivery. Format: HHMMSS (24 hr).'
@@ -729,4 +733,3 @@ components:
         description:
           type: string
           description: The current activity status description.
-
