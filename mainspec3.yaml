@@ -195,3 +195,4 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
