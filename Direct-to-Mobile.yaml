@@ -5,10 +5,10 @@ info:
     The UPS Direct to Mobile program enables retailers, manufacturers, and other 
       UPS shippers to offer their customers a convenient “No printer? No problem.” package label option for 
       forward shipments and returns.
-    
+
     ## Key Business Values
-      - This API provides the capability to participate in the “No Box, No Label” return program.
-      - The Direct to Mobile API is a paid contract program that supports ALL of the different types of drop-offs (forward AND return shipments) within a single DTM API request.
+    - This API provides the capability to participate in the “No Box, No Label” return program.
+    - The Direct to Mobile API is a paid contract program that supports ALL of the different types of drop-offs (forward AND return shipments) within a single DTM API request.
       
         - **Label Only**
           The drop-off item is required to arrive at the store packed and sealed.
