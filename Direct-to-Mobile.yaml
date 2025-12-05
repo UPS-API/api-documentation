@@ -19,9 +19,6 @@ info:
           Does not require the item be pre-packed. The drop-off item is eligible for a custom The UPS 
           Store® packaging program.
   version: "1.0" 
-  contact: 
-    name: "Priyanka Manubarthi"
-    email: "pmanubarthi@ups.com"
 tags:
   - name: "Direct-to-Mobile"
     description: Provides the capability to participate in the new “No Box, No Label” return program.
