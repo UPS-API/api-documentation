@@ -6,7 +6,7 @@ info:
       UPS shippers to offer their customers a convenient “No printer? No problem.” package label option for 
       forward shipments and returns.
     
-    **Key Business Values:**
+     ## Key Business Values
       - This API provides the capability to participate in the “No Box, No Label” return program.
       - The Direct to Mobile API is a paid contract program that supports ALL of the different types of drop-offs (forward AND return shipments) within a single DTM API request.
       
@@ -18,7 +18,7 @@ info:
         - **Label & Packaging**
           Does not require the item be pre-packed. The drop-off item is eligible for a custom The UPS 
           Store® packaging program.
-  version: "1.0" 
+  version: "1.0"
 tags:
   - name: "Direct-To-Mobile"
     description: Provides the capability to participate in the new “No Box, No Label” return program.
