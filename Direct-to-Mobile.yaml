@@ -20,7 +20,7 @@ info:
           Store® packaging program.
   version: "1.0" 
 tags:
-  - name: "Direct-to-Mobile"
+  - name: "Direct-To-Mobile"
     description: Provides the capability to participate in the new “No Box, No Label” return program.
 
 servers:
@@ -39,7 +39,7 @@ paths:
         Creates a Direct to Mobile (DTM) drop-off entry. This endpoint is used after a shipment has been created in the retailer's manifesting system.
       operationId: createDropoff
       tags:
-        - Direct-to-Mobile
+        - Direct-To-Mobile
       security:
         - oauth2: []
       parameters: 
@@ -423,7 +423,7 @@ components:
             1 : Saturday Delivery Requested
         serviceID:
           type: integer
-          description: Direct-to-Mobile service ID.
+          description:  service ID.
         signatureType:
           type: integer
           nullable: true
