@@ -21,7 +21,7 @@ tags:
   - name: Delivery Intercept
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DeliveryIntercept.yaml#/info/description"
-  - name: Direct To Mobile 
+  - name: Direct-To-Mobile 
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Direct-to-Mobile.yaml#/info/description"
   - name: Export Assure
@@ -256,6 +256,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
