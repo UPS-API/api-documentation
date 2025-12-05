@@ -1,0 +1,1001 @@
+openapi: 3.1.0
+info:
+  title: "Direct-to-Mobile API v1"
+  description: |-
+    The UPS Direct to Mobile program enables retailers, manufacturers, and other 
+      UPS shippers to offer their customers a convenient “No printer? No problem.” package label option for 
+      forward shipments and returns.
+    
+    **Key Business Values:**
+      - This API provides the capability to participate in the “No Box, No Label” return program.
+      - The Direct to Mobile API is a paid contract program that supports ALL of the different types of drop-offs (forward AND return shipments) within a single DTM API request.
+      
+        - **Label Only**
+          The drop-off item is required to arrive at the store packed and sealed.
+        - **No Box No Label**
+          Does not require the item be pre-packed. The unpacked/loose drop-off item is eligible for the “No 
+          Box No Label / 360 Simple Returns” shipping pak program.
+        - **Label & Packaging**
+          Does not require the item be pre-packed. The drop-off item is eligible for a custom The UPS 
+          Store® packaging program.
+  version: "1.0" 
+  contact: 
+    name: "Priyanka Manubarthi"
+    email: "pmanubarthi@ups.com"
+tags:
+  - name: "Direct-to-Mobile"
+    description: Provides the capability to participate in the new “No Box, No Label” return program.
+
+servers:
+  - url: "https://onlinetools.ups.com/api/ups-store/iship/{version}"
+    description: URL for OAuth based authentication that can be used for any environment (production, staging, product test) via hosts file.
+    variables:
+          version:
+            default: v1
+            enum:
+              - v1
+paths:
+  /direct-to-mobile:
+    post:
+      summary: Create a Direct to Mobile Dropoff
+      description: |
+        Creates a Direct to Mobile (DTM) drop-off entry. This endpoint is used after a shipment has been created in the retailer's manifesting system.
+      operationId: createDropoff
+      tags:
+        - Direct-to-Mobile
+      security:
+        - oauth2: []
+      parameters: 
+      - name: transId
+        in: header
+        style: simple
+        required: true
+        description: Unique ID used for dropoff requests.
+        schema:
+          type: string           
+          example: dtm20241205111040  
+      - name: transactionSrc
+        in: header
+        style: simple
+        required: true
+        description: Identifies the client/source application that is calling.
+        schema:
+          type: string    
+      - name: Content-Type
+        in: header
+        description: The Content Type header is used to indicate the acceptable body format of the response coming from the API. 
+        required: true
+        schema:
+          type: string
+          example: application/json;type=vnd.iShip.Dropoff
+      - $ref: "#/components/parameters/x-iship-date"
+      - $ref: "#/components/parameters/x-iship-CorrelationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DirectToMobileRequest'
+            example:
+              description: "Coffee maker"
+              fromAddress:
+                companyName: "Jane Doe"
+                contactName: ""
+                address1: "12020 101st Ave NE"
+                address2: "Apt F1"
+                address3: ""
+                city: "Kirkland"
+                stateProv: "WA"
+                postalCode: "98034"
+                country: "US"
+                phone: "4255554848"
+              toAddress:
+                companyName: "Central Perk"
+                address1: "1234 Returns Way"
+                address2: "#D4"
+                address3: null
+                city: "New York"
+                stateProv: "NY"
+                postalCode: "10101"
+                country: "US"
+                phone: "4255551234"
+              dimensions:
+                units: "inches"
+                height: 10
+                length: 8
+                width: 6
+              weight:
+                actual:
+                  units: "lbs"
+                  value: 3.5
+                billable:
+                  units: "lbs"
+                  value: 0
+                dimensionalWeight:
+                  units: "lbs"
+                  value: ""
+                chargeMethod: 0
+              referenceNumbers:
+                reference1: "customer reference 1"
+                reference2: "customer reference 2"
+              mobileInfo:
+                mobileId: "RMA0037488"
+                billMethod: 2
+                movementType: 1
+                programType: 2
+                programRef1: "Central Perk"
+                programRef2: ""
+              carrierId: 1
+              cod:
+                amount: null
+                currencyCode: null
+                codPayType: null
+                codType: null
+              demoFlag: 1
+              expiresAtUTC: null
+              hazardousMaterial:
+                detail: null
+                type: null
+              identification:
+                type: null
+                number: null
+                stateProv: null
+                country: null
+              returnsType: 1
+              routeCode: null
+              saturdayDelivery: null
+              serviceID: 1991
+              signatureType: null
+              sortCode: null
+              trackingNo: "1ZXX74W59018531040"
+              voidFlag: 0
+      responses:
+        '200':
+          description: Successful dropoff creation
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            x-iship-RequestID:
+              $ref: "#/components/headers/x-iship-RequestID"
+            x-iship-date:
+               $ref: "#/components/headers/x-iship-date"           
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectToMobileResponse'
+              example:
+                dropoffOID: "70318a17e84e451ebb80ea97664b7403"
+                fromAddress:
+                  companyName: "Jane Doe"
+                  address1: "12020 101st Ave NE"
+                  city: "Kirkland"
+                  stateProv: "WA"
+                  postalCode: "98034"
+                  country: "US"
+                  phone: "4255554848"
+                toAddress:
+                  companyName: "Central Perk"
+                  address1: "1234 Returns Way"
+                  city: "New York"
+                  stateProv: "NY"
+                  postalCode: "10101"
+                  country: "US"
+                  phone: "4255551234"
+                dimensions:
+                  height: 10
+                  length: 8
+                  width: 6
+                weight:
+                  actual:
+                    units: "lbs"
+                    value: 3.5
+                  billable:
+                    units: "lbs"
+                    value: 0
+                  dimensional:
+                    units: "lbs"
+                    value: 0
+                  chargeMethod: 0
+                  manualFlag: 1
+                referenceNumbers:
+                  reference1: "RMA0037488"
+                  reference2: ""
+                  reference3: null
+                  reference4: null
+                mobileInfo:
+                  mobileId: "RMA0037488"
+                  billMethod: 2
+                  movementType: 1
+                  programType: 2
+                  programRef1: "Central Perk"
+                  programRef2: ""
+                cod:
+                  amount: null
+                  currencyCode: null
+                  payType: null
+                  type: null
+                hazardousMaterial:
+                  messages: null
+                  type: null
+                dropOffDocument:
+                  documentPath: "urn:universalapplication1/edop.positiondocuments:Root/Enterprises/Mobile Edop/Mobile Dropoff/Document?docname=mobilereturns&xposfloat=30.0&yposfloat=75.0&symbology=code93&heightfloat=100.0&narrow=15&output=png"
+                  imageOutput: "iVBORw0KGgoAAAANSUhEUgAAAfQAAAIcAQMAAAA65867AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURQAAAP///6XZn90AAAAJcEhZcwAAPYQAAD2EAdWsr3QAAAQ5SURBVHja7du9biM3EAfwVQScSiIvIAbIC5yruBDEJwmQPoVh+BAFkCEqTdRZT5A0eQiniSVDgNXFZYoUsrxFmkC3i8vdbqA9ToZcfQe3G0oWAvj+05gW9kdryeGA1MoBHRQRPPxhfhjsH/IZ+NH+o2fg4eHh4eHh4eHh4eHh4eHh4eHh4eHhPwY/DARlQVDYgIeHhz+qt082q/krQd6wkdlnfgoeHh7+SJ4jv2hVrbL8ywaCdgMeHh7+Cf0qdndLW13Dw8PDP71fXGSjumwEXuc3eHh4+IO8Wp7f7EFuEcLr/AYPDw/v6XfLlo3sXw14eHj4p/cbRWpxdbTsaFHIFDw8PPxR/KJ+LS7aakTrB2nw8PDwR/OL2Lo62uoaHh4e/om9WHfkYrWR8vn8Gh4eHn4vv33R6vuLu1sreHh4+GP53d3SqiOCh4eHP4rfKFJZvoMSy0bgcf6Dh4eH9/Yb/6Sx+/yMPM5/8PDw8N6+PBQ8PDz8EbxnwMPDw8PDw8PDw8PDw8P/Dz7TWUcaFVSNyhSfhfUDpSqTNNSpGoWVOhv6lIky3zFqFSzlw/aeW6wtj42gR6KIi/YB0ZF7rPABx2xN4EYVtKgwX6aBbJbLfEy7agp0ZicT/tGitE0ulT0hm6zpuyNinyNfdZUI+t7uc9UrxfFRtIfdJtqIaZFnsdOmqbqWT9+VI8q6mV63E+nJOmevkupL+Mi/3nuxcrHY+dD9n2qlPoT55tyw6cUykyzl+bTUv/S+YZyPpR3KgxzbxQpc1J6/6fOn2o3fps+VZxV56Xj3+jw+HdeWm+E9aNp7oea+zg3gRrWCn3Tzv9n2uaPDPu/qnGc+y77KCZO6sL8azZt/n2irFdh/2rtVUpxXJp/zbrN/xfSerK+ny7GT/LPOO0IcVvkFfuaESKqjqcU3v+ousFi/kRMo7h0/tSVkvx6j31E4bi+9v2YenFMd3wfRf5769WYfaqtD4JvV74bnJT6O+dDnr9MhWOejWzpw3LPK/fR+WnuHzmTs0ae/+Wey45RD85HNn+k9co08vUn+D0V3z//ytL51NWPhXfrn6T1heNPYsrSeb5f66NOQ1Pd1Z9Mjq1XovbB9UOucuZeufWT+7z+KesL84+6NSut52pl12/U4ZUo8vqrrS9cP1zal54E+1GYmlOivqv/FbK+sP57Bzw8PDw8PPxz8stNwmBAdFknbap+45e8Xvv5jOj9e0+frH3yjvt44euvkp/Ok8HP010y/Retdra03+TXF/MEvXDRLdN++La18/mX59dT84GNxN92Zm3fqv5+ai+9DPSV+zPPP++mX/51RfD3L9j3/L3Z8nk9eDmT2pZ397Du/f/1vnfDfl5at0kLTv+b6k9m1/84ps/1L9Jk5jnf875O3/V8czfdczz7mhfnxzo7w/0ReH8f/nOxIfiOfiDAv6j9hT9A/qf1YLYhevGAAAAAElFTkSuQmCC"
+                  text: "UNPK-RMA0037488"
+                identification:
+                  country: null
+                  number: null
+                  stateProv: null
+                  type: null
+                accountNo: null
+                billingOptionId: 1
+                carrierAccountId: null
+                carrierId: 1
+                createdByAccountNO: "AXFDTR"
+                createDate: "2021-11-16T01:02:23.387"
+                demoFlag: 1
+                description: null
+                dropoffGroupOID: null
+                dropoffStateId: 4
+                dropoffTime: null
+                dropoffTimeUTC: null
+                dropoffType: null
+                dropoffTypeAbbr: null
+                expiresAtUTC: "2022-01-17T08:02:23.387"
+                notifyFlag: null
+                numberOfPackages: null
+                packageNumber: null
+                pickupDate: "2999-12-31T23:24:00"
+                pickupOID: ""
+                receiptPrintFlag: null
+                returnsType: 1
+                routeCode: null
+                saturdayDelivery: false
+                serviceID: 1991
+                shipDate: null
+                signatureType: null
+                sortCode: null
+                trackingNo: "1ZXX74W59018531040"
+                transactionTypeId: null
+                voidFlag: 0
+                workstationOID: null
+                descriptionOfGoods: "Coffee maker"
+        '400':
+            $ref: "#/components/responses/BadRequest"
+        '401':
+            $ref: "#/components/responses/Unauthorized"
+        '403':
+            $ref: "#/components/responses/Forbidden"
+        '404':
+            $ref: "#/components/responses/NotFound"
+        '500':
+            $ref: "#/components/responses/InternalError"
+        '503':
+            $ref: "#/components/responses/ServiceMaintenance"
+
+components:
+  securitySchemes:
+    oauth2:
+      type: "oauth2"
+      description: |
+          Find your Client ID and Secret on your app info page.
+          1. Select "Try It"
+          2. In the Security section enter your Client ID and Secret
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
+          scopes: {}
+  headers: 
+    BkndTransId:
+      description: The backend transaction id. This will be the same as the transId received from client or otherwise a random ID.
+      schema:
+        type: string
+        example: 383f7d397a48
+    transId:
+      description: An identifier unique to the request.
+      schema:
+        type: string        
+        minLength: 3
+        maxLength: 36
+        example: 0a1b9c2d8e3f7g4h6i5
+    transactionSrc:
+      description: Identifies the client/source application that is calling.
+      schema:
+        type: string        
+        minLength: 1
+        maxLength: 36
+        example: Burberry
+    Content-Type:
+      description: The Content-Type header provides the client with the actual content/media type of the returned content.
+      schema:
+        type: string
+        example: application/json
+    APIErrorCode:
+      description: The API error code.
+      schema:
+        type: number
+        example: 400
+    APIErrorMsg:
+      description: The API error message.
+      schema:
+        type: string
+        example: Invalid token or token is not present.
+    x-iship-RequestID:
+      description: All responses returned from the Direct to Mobile API will include a x-iship-RequestID header that contains a unique 32-digit alphanumeric GUID (Globally Unique Identifier) that is assigned by the iShip server.
+      schema:
+        type: string
+    x-iship-date:
+      description: "Send a standard HTTP Date: header in every request. The Date: header may be blocked on some implementations of HTTP client APIs. If this occurs, use x-iship-date instead"
+      schema:
+        type: string
+        example: "Wed, 10 Nov 2021 21:42:37 GMT"
+  parameters:
+    x-iship-date:
+      name: x-iship-date
+      in: header
+      description: "Send a standard HTTP Date: header in every request. The Date: header may be blocked on some implementations of HTTP client APIs. If this occurs, use x-iship-date instead"
+      required: true
+      schema:
+        type: string
+        example: "Wed, 10 Nov 2021 21:42:37 GMT"
+    x-iship-CorrelationID:
+      name: x-iship-CorrelationID
+      in: header
+      description: Identifies the client/source application that is calling.
+      required: false
+      schema:
+        type: string
+        description: Optional GUID for correlating requests
+        example: "90aac7c1081c4720a8c48a632b144de8"
+  schemas:
+    DirectToMobileRequest:
+      type: object
+      required:
+        - description
+        - fromAddress
+        - toAddress
+        - dimensions
+        - weight
+        - mobileInfo
+        - trackingNo
+        - carrierId
+        - serviceID
+      properties:
+        description:
+          type: string
+          maxLength: 35
+          description: Merchandise description / package contents.
+        fromAddress:
+          $ref: '#/components/schemas/Address'
+        toAddress:
+          $ref: '#/components/schemas/Address'
+        dimensions:
+          $ref: '#/components/schemas/Dimensions'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        referenceNumbers:
+          description: Barcode & Text on Label
+          $ref: '#/components/schemas/ReferenceNumbers'
+        mobileInfo:
+          $ref: '#/components/schemas/MobileInfo'
+        carrierId:
+          type: integer
+          description: The value indicates the carrier type.
+        cod:
+          $ref: '#/components/schemas/COD'
+        demoFlag:
+          type: integer
+          enum: [0,1]
+          default: 0
+          description: |
+            0 : Live Drop Off Package (Default)
+            1 : Demo Drop Off Package 
+        expiresAtUTC:
+          type: string
+          format: date-time
+          nullable: true
+          description: UTC time that Dropoff package will expire.
+        hazardousMaterial:
+           $ref: '#/components/schemas/HazardousMaterial'
+        identification:
+           $ref: '#/components/schemas/Identification'       
+        returnsType:
+          type: integer
+          description: |
+             0 : No Return Service (Default)
+             13 : Return Service - Print Label
+        routeCode:
+          type: string
+          maxLength: 40
+          nullable: true
+          description: Destination routing code associated with UPS transaction.
+        saturdayDelivery:
+          type: integer
+          nullable: true
+          description: |
+            0 : Not Selected (Default)
+            1 : Saturday Delivery Requested
+        serviceID:
+          type: integer
+          description: Direct-to-Mobile service ID.
+        signatureType:
+          type: integer
+          nullable: true
+          description: |
+            0 : No Selection / Preference (Default)
+            1 : Signature Release
+            2 : Signature Required
+            3 : Adult Signature Required
+        sortCode:
+          type: string
+          maxLength: 2
+          nullable: true
+          description: Custom Sort Code (Requires UPS Approval)
+        trackingNo:
+          type: string
+          description: Carrier tracking number of dropoff package.
+        voidFlag:
+          type: integer
+          description: |
+            0 : Live Package
+            1 : Voided Package
+
+    # ADDRESS
+    Address:
+      type: object
+      required:
+        - companyName
+        - address1
+        - city
+        - postalCode
+        - country
+      properties:
+        companyName:
+          type: string
+          maxLength: 35
+          description: The sender's/receiver's personal name or a company name.
+        contactName:
+          type: string
+          maxLength: 35
+          description: The sender's/receiver's contact name or attention.
+        address1:
+          type: string
+          maxLength: 35
+          description: The sender's/receiver's street address.         
+        address2:
+          type: string
+          maxLength: 35
+          description: The sender's/receiver's Suite, Apt, Building, etc.
+        address3:
+          type: string
+          maxLength: 35
+          nullable: true
+          description: Additional address information.
+        city:
+          type: string
+          maxLength: 40
+          description: The sender's/receiver's city name.
+        stateProv:
+          type: string
+          maxLength: 15
+          description: The sender's/receiver's State or Province.
+        postalCode:
+          type: string
+          maxLength: 10
+          description: The sender's/receiver's Zip or postal code.
+        country:
+          type: string
+          maxLength: 2
+          description: The sender's/receiver's Country or Territory Abbreviation e.g. “CA”, “MX” or “US”
+        phone:
+          type: string
+          maxLength: 25
+          description: The sender's/receiver's Telephone number.
+
+    # DIMENSIONS
+    Dimensions:
+      type: object
+      required:
+        - height
+        - length
+        - width
+      properties:
+        units:
+          type: string
+          enum: [inches, centimeters]
+          default: inches
+        height:
+          type: number
+          description: The height of the package
+        length:
+          type: number
+          description: The length of the package
+        width:
+          type: number
+          description: The width of the package
+
+    # WEIGHT
+    Weight:
+      type: object
+      properties:
+        actual:
+          description: The actual weight of the package.
+          $ref: '#/components/schemas/WeightClass'
+        billable:
+          description: The billable weight of the package.
+          $ref: '#/components/schemas/WeightClass'
+        dimensional:
+          description: The dimensional weight of the package.
+          $ref: '#/components/schemas/WeightClass'
+        chargeMethod:
+          type: integer
+          description: |
+            The “chargeMethod” is a required Direct to Mobile API request element.
+            Actual Weight : 0
+            Dimensional Weight : 1
+            Oversize Weight : 2
+            Letter Weight : 3
+            Carrier Pack Billable Weight : 4
+            Minimum Billable Weight for Large Package : 5
+            Box Weight : 6
+        manualFlag:
+          type: integer
+    WeightClass:
+      type: object
+      required:
+        - value
+      properties:
+        units:
+          type: string
+          enum: [lbs, kgs]
+          default: lbs
+        value:
+          type: number
+          description: Weight value.
+          default: 0
+
+    # REFERENCE NUMBERS
+    ReferenceNumbers:
+      type: object
+      properties:
+        reference1:
+          type: string
+          maxLength: 100
+          nullable: true
+        reference2:
+          type: string
+          maxLength: 100
+          nullable: true
+        reference3:
+          type: string
+          maxLength: 100
+          nullable: true
+        reference4:
+          type: string
+          maxLength: 100
+          nullable: true
+    # MOBILE INFO
+    MobileInfo:
+      type: object
+      required:
+        - mobileId
+        - programRef1
+      properties:
+        mobileId:
+          type: string
+          maxLength: 35
+          pattern: ^[a-zA-Z0-9]+$
+          description: A unique identifier for the dropoff package. Value must be comprised of unaccented letters (a-z, A-Z) or numbers (0-9).
+        billMethod:
+          type: integer
+          enum: [1,2,3]
+          description: |
+            For accounting purposes; the value that identifies how the transactions will be billed and/or the entity responsible for billing. Inquire with iShip as to which value to use.
+            1 : The UPS Store Corporate Retail Solutions (CRS)
+            2 : value is reserved exclusively for the “No Box No Label” offering
+            3 : UPS Solutions
+        movementType:
+          type: integer
+          enum: [1,2]
+          description: |
+            The value that identifies the movement of the item/shipment
+            1 = Return
+            2 = Forward
+        programType:
+          type: integer
+          enum: [1,2]
+          description: |
+            The value that identifies either how the item should arrive or how it should be processed when it reaches the drop-off location.
+            1 = Label Only
+            2 = Label & Packaging
+        programRef1:
+          type: string
+          maxLength: 100
+          description: Human-readable retailer or shipper name.
+        programRef2:
+          type: string
+          maxLength: 100
+          description:  A reference value which is not visible to clerk or customer but can be reflected back in data feed or export.
+    # COD
+    COD:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: Required when codType is greater than 0.
+          nullable: true
+        currencyCode:
+          type: string
+          maxLength: 3
+          description: ISO 3-character abbreviation “USD” (US Dollar), “MXN” (Mexican Peso), etc.
+          nullable: true
+        payType:
+          type: integer
+          nullable: true
+          description: |
+            Required when codType is greater than 0
+            1 : Guaranteed
+            2 : Cash Only
+            3 : Any Funds
+        type:
+          type: integer
+          nullable: true
+          description: |
+            0 : Not Selected (Default)
+            11 : Regular COD
+
+    # RESPONSE SCHEMA
+    DirectToMobileResponse:
+      type: object
+      properties:
+        dropoffOID:
+          type: string
+        fromAddress:
+          $ref: '#/components/schemas/Address'
+        toAddress:
+          $ref: '#/components/schemas/Address'
+        dimensions:
+          $ref: '#/components/schemas/Dimensions'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        referenceNumbers:
+          $ref: '#/components/schemas/ReferenceNumbers'
+        mobileInfo:
+          $ref: '#/components/schemas/MobileInfo'
+        cod:
+          $ref: '#/components/schemas/COD'
+        hazardousMaterial:
+          $ref: '#/components/schemas/HazardousMaterial'
+        dropOffDocument:
+          $ref: '#/components/schemas/DropOffDocument'
+        identification:
+          $ref: '#/components/schemas/Identification'
+        accountNo:
+          type: string
+          nullable: true
+        billingOptionID:
+          type: integer
+          enum: [1,2,3,9]
+        carrierAccountId:
+          type: string
+          nullable: true
+        carrierID:
+          type: integer
+        createdByAccountNO:
+          type: string
+          nullable: true
+        createDate:
+          type: string
+          nullable: true
+        demoFlag:
+          type: integer
+        description:
+          type: string
+          nullable: true
+        dropoffGroupOID:
+          type: string
+          nullable: true
+        dropoffStateId:
+          type: integer
+          nullable: true
+        dropoffTime:
+          type: string
+          nullable: true
+        dropoffTimeUTC:
+          type: string
+          nullable: true
+        dropoffType:
+          type: string
+          nullable: true
+        dropoffTypeAbbr:
+          type: string
+          nullable: true
+        expiresAtUTC:
+          type: string
+          nullable: true
+        notifyFlag:
+          type: string
+          nullable: true
+        numberOfPackages:
+          type: string
+          nullable: true
+        packageNumber:
+          type: string
+          nullable: true
+        pickupDate:
+          type: string
+          nullable: true
+        pickupOID:
+          type: string
+          nullable: true
+        receiptPrintFlag:
+          type: string
+          nullable: true
+        returnsType:
+          type: integer
+          nullable: true
+        routeCode:
+          type: string
+          nullable: true
+        saturdayDelivery:
+          type: boolean
+          nullable: true
+        serviceID:
+          type: integer
+        shipDate:
+          type: string
+          nullable: true
+        signatureType:
+          type: integer
+          nullable: true
+        sortCode:
+          type: string
+          nullable: true
+        trackingNo:
+          type: string
+          nullable: true
+        transactionTypeId:
+          type: string
+          nullable: true
+        voidFlag:
+          type: integer
+          nullable: true
+        workstationOID:
+          type: string
+          nullable: true
+        descriptionOfGoods:
+          type: string
+          nullable: true
+    # DROP OFF DOCUMENT (IMAGE + TEXT)
+    DropOffDocument:
+      type: object
+      properties:
+        documentPath:
+          type: string
+        imageOutput:
+          type: string
+          description: Base64 encoded barcode image.
+        text:
+          type: string
+          description: Human-readable barcode text.
+    # identification
+    Identification:
+      type: object
+      properties:
+        country:
+          type: string
+          nullable: true
+        number:
+          type: string
+          nullable: true
+          description: Internal Use.
+        stateProv:
+          type: string
+          nullable: true
+          description: Internal Use.
+        type:
+          type: string
+          nullable: true
+          description: Internal Use.
+    # hazardousMaterial
+    HazardousMaterial:
+      type: object
+      properties:
+        messages:
+          type: string
+          nullable: true
+        type:
+          type: string
+          description: Internal Use.
+          nullable: true
+
+    ErrorResponse:
+      type: object
+      description: Response object for errors
+      properties:
+        response:
+          description: Response container to store errors
+          type: object
+          properties:
+            errors:
+              type: array
+              description: Unbounded array containing one or more errors
+              items:
+                type: object
+                description: Error entity
+                properties:
+                  code:
+                    type: integer
+                    description: error code
+                  message:
+                    type: string
+                    description: error message
+                    minLength: 1
+                required:
+                  -  code
+                  -  message
+                additionalProperties: false
+          required:
+            -  errors
+          additionalProperties: false
+      required:
+        - response
+      additionalProperties: false
+
+  responses:      
+    BadRequest:
+          description: Bad Request
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: 400
+                    message: The URI could not be parsed
+  
+    Unauthorized:
+          description: Authentication failed
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: 401
+                    message: Authentication failed
+
+    Forbidden:
+          description: Authorization Failed
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: 403
+                    message: Authorization Failed
+
+    NotFound:
+          description: Unknown URI
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: 404
+                    message: The service could not find the resource requested.  
+    InternalError:
+          description: This is a server-side issue.
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: 500
+                    message: The service encountered an error and couldn't continue.
+    ServiceMaintenance:
+          description: This error may appear during regular scheduled data center maintenance. 
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: 503
+                    message: Sorry for the inconvenience. The service is down for maintenance.
