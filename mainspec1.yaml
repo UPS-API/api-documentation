@@ -218,7 +218,7 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DeliveryIntercept.yaml#/paths/~1cancel~1{tracking_number}"
   "/deliverydefense/external/v1.0/address/score":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DeliveryDefense.yaml#/paths/~1address~1score"
-  "/api/ups-store/iship/{version}/direct-to-mobile":
+  "/ups-store/iship/{version}/direct-to-mobile":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Direct-to-Mobile.yaml#/paths/~1direct-to-mobile"
   "/brokerage/{version}/importexport/exportassure":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSExportAssure.yaml#/paths/~1importexport~1exportassure"
@@ -256,6 +256,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
