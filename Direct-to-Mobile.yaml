@@ -18,6 +18,10 @@ info:
         - **Label & Packaging**
           Does not require the item be pre-packed. The drop-off item is eligible for a custom The UPS 
           Store® packaging program.
+          
+     # Reference
+    - <a href="https://developer.ups.com/api/reference/direct-to-mobile/error-codes" target="_blank" rel="noopener">Errors</a>
+    
   version: "1.0"
 tags:
   - name: "Direct-To-Mobile"
