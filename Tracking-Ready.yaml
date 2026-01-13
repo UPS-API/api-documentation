@@ -18,6 +18,7 @@ info:
     - <a href="https://developer.ups.com/api/reference/tracking/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/trackingapi/errors" target="_blank" rel="noopener noreferrer">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/tracking/best-practices" target="_blank" rel="noopener noreferrer">Tracking Best Practices</a>
     - <a href="https://developer.ups.com/api/reference/mcp/guide" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS MCP Server</a>
 
     Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
@@ -26,8 +27,7 @@ info:
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
     </a>
     
-    <br/>
-    <p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
+    <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
     
     <a href="https://god.gw.postman.com/run-collection/29542085-003f5ace-291f-4d93-b2a2-6be86eb9961d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-003f5ace-291f-4d93-b2a2-6be86eb9961d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
@@ -195,6 +195,93 @@ paths:
         schema:
           type: string
           default: 'SmallPackage. Valid values: SmallPackage, fgv'
+      - name: transId
+        in: header
+        description: An identifier unique to the request.
+        required: true
+        schema:
+          type: string
+      - name: transactionSrc
+        in: header
+        description: Identifies the client/source application that is calling
+        required: true
+        schema:
+          type: string
+          default: testing
+      responses:
+        '200':
+          description: Tracking Information found
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/TrackApiResponse"
+        '400':
+          description: Invalid request
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Response"
+        '403':
+            description: Blocked Merchant
+            content:
+                application/json:
+                  schema:
+                    "$ref": "#/components/schemas/Response"
+        '404':
+          description: Tracking number information not found
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Response"
+        '500':
+          description: Internal server error
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Response"
+        '503':
+          description: Resource is not available
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Response"
+      deprecated: false
+  "/track/v1/shipment/details/{inquiryNumber}":
+    get:
+      summary: Track each pacakge in shipment
+      tags:
+        - Tracking
+      security:
+        - OAuth2: []
+      description: ''
+      operationId: Shipment Tracking API
+      parameters:
+      - name: inquiryNumber
+        in: path
+        description: The tracking number for which tracking information is requested.
+          Each inquiry number must be between 7 and 34 characters in length.
+        required: true
+        schema:
+          type: string
+      - name: locale
+        in: query
+        description: Language and country code of the user, separated by an underscore.
+          Default value is 'en_US'
+        schema:
+          type: string
+          default: en_US
+      - name: offset
+        in: query
+        description: This is used to support pagination of package results. The offset is a 0-based index which defines the starting record to be returned.
+        schema:
+          type: string
+          default: 0
+      - name: count
+        in: query
+        description: This is used to support pagination of package results. The count is the maximum number of packages to return starting with the offset.
+        schema:
+          type: string
+          default: 50
       - name: transId
         in: header
         description: An identifier unique to the request.
@@ -833,4 +920,3 @@ components:
           type: string
           description: 'The weight units of measurement. Valid values: ''LBS'' - pounds.
             ''KGS'' - kilograms.'
-
