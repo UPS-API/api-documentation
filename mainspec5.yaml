@@ -163,6 +163,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/paths/~1track~1v1~1details~1{inquiryNumber}"
   "/track/v1/reference/details/{referenceNumber}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/paths/~1track~1v1~1reference~1details~1{referenceNumber}"
+  "/track/v1/shipment/details/{inquiryNumber}":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/paths/~1track~1v1~1shipment~1details~1{inquiryNumber}"
   #"/brokerage/{version}/content/glc/request-quote":
   #  "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/GlobalCheckout.yaml#/paths/~1content~1glc~1request-quote"
   "/ship/{version}/master-shipment/closeout/{shipment-gccn}":
@@ -182,4 +184,5 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
