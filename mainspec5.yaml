@@ -12,6 +12,9 @@ tags:
   - name: Address Validation
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/AddressValidation-Ready.yaml#/info/description"
+  - name: Commerce Guard
+    description: 
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CommerceGuard.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods-Ready.yaml#/info/description"
@@ -173,6 +176,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1{shipment-gccn}"
   "/ship/{version}/child-shipment/{shipment-gccn}/{tracking-number}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
+  "/commerce-guard/{version}/verify":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
 components:
   securitySchemes:
     OAuth2:
@@ -184,6 +189,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
