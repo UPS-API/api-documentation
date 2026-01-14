@@ -30,6 +30,9 @@ tags:
   - name: Address Validation
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/AddressValidation-Ready.yaml#/info/description"
+  - name: Commerce Guard
+    description: 
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CommerceGuard.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods-Ready.yaml#/info/description"
@@ -181,6 +184,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/paths/~1track~1v1~1details~1{inquiryNumber}"
   "/track/v1/reference/details/{referenceNumber}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/paths/~1track~1v1~1reference~1details~1{referenceNumber}"
+  "/track/v1/shipment/details/{inquiryNumber}":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking-Ready.yaml#/paths/~1track~1v1~1shipment~1details~1{inquiryNumber}"
   "/track/{version}/subscription/enhanced/package":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlertEnhanced.yaml#/paths/~1subscription~1enhanced~1package"
   "/deliveryintercept/{version}/charges/{tracking_number}":
@@ -217,6 +222,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
   "/track/{version}/subscription/standard/package":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert-Ready.yaml#/paths/~1subscription~1standard~1package"
+  "/commerce-guard/{version}/verify":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify" 
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert-Ready.yaml#/webhooks/TrackingEvent"
@@ -233,5 +240,8 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
+
+
+
 
 

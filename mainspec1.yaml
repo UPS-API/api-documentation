@@ -197,6 +197,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking.yaml#/paths/~1track~1v1~1details~1{inquiryNumber}"
   "/track/v1/reference/details/{referenceNumber}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking.yaml#/paths/~1track~1v1~1reference~1details~1{referenceNumber}"
+  "/track/v1/shipment/details/{inquiryNumber}":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Tracking.yaml#/paths/~1track~1v1~1shipment~1details~1{inquiryNumber}"
   "/track/{version}/subscription/enhanced/package":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlertEnhanced.yaml#/paths/~1subscription~1enhanced~1package"
   "/deliveryintercept/{version}/charges/{tracking_number}":
@@ -251,4 +253,5 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
