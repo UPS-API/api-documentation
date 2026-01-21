@@ -2,15 +2,17 @@ openapi: 3.1.0
 info:
   title: Customs Detail
   version: "1.0"
-  description: >
-    ## Product Info               
-    Provides clients with up-to-date compliance requirements for data fields that must be captured during the creation of UPS Brokerage shipments. The API then validates these field values and submits them for backend merging into the shipment. For more information on the Customs Detail API, please visit the Product Info page.
+
+  description: |
+     ## Product Info
+     Provides clients with up-to-date compliance requirements for data fields that must be captured during the creation of UPS Brokerage shipments. The API then validates these field values and submits them for backend merging into the shipment. For more information on the Customs Detail API, please visit the Product Info page.
 
      ## Key Business Values
-    - Ensures clients always receive the latest compliance requirements.
-    - Allows field collection to be fully managed through configurable user settings.
-    - Flexible framework eliminates additional code changes as compliance fields evolve.
-    - Flexible field model supports new country rules without disruptive changes, so you can expand lanes and stay current as regulations evolve.
+     - Ensures clients always receive the latest compliance requirements.
+     - Allows field collection to be fully managed through configurable user settings.
+     - TFlexible framework eliminates additional code changes as compliance fields evolve.
+     - Flexible field model supports new country rules without disruptive changes, so you can expand lanes and stay current as regulations evolve.
+
 servers:
   - url: https://www.livesite.ups.com/trade/compliance/{version}
     description: URL for JWT based authentication that can be used for any environment (production, staging, product test) via hosts file.
