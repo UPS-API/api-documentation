@@ -3,9 +3,10 @@ info:
   title: Customs Detail
   version: "1.0"
   description: >
+    ## Product Info               
     Provides clients with up-to-date compliance requirements for data fields that must be captured during the creation of UPS Brokerage shipments. The API then validates these field values and submits them for backend merging into the shipment. For more information on the Customs Detail API, please visit the Product Info page.
 
-    ## Key Business Values
+     ## Key Business Values
     - Ensures clients always receive the latest compliance requirements.
     - Allows field collection to be fully managed through configurable user settings.
     - Flexible framework eliminates additional code changes as compliance fields evolve.
@@ -283,6 +284,21 @@ paths:
                 $ref: "#/components/headers/transactionSrc"
               Content-Type:
                 $ref: "#/components/headers/Content-Type"
+                
+                                    
+                    
+                          
+                                                        
+                      
+                                                    
+                             
+                                                           
+                           
+                                                         
+                           
+                                                         
+                              
+                                                        
             content:
               application/json:
                 schema:
@@ -518,10 +534,73 @@ paths:
                           keyAlias: ManufacturerPostalCode
                           level: Product
           "401":
+                                                           
+                    
+                          
             $ref: '#/components/responses/Unauthorized'
+                      
+                                                    
+                             
+                                                           
+                           
+                                                         
+                           
+                                                         
+                              
+                                                        
+                    
+                               
+                       
+                                                                           
+                        
+                           
+                           
+                                       
+                                                                      
+                                         
+                                   
+                                   
           "422":
+                                             
+                    
+                          
             $ref: '#/components/responses/UnprocessableEntity'
+                      
+                                                    
+                             
+                                                           
+                           
+                                                         
+                           
+                                                         
+                              
+                                                        
+                    
+                               
+                       
+                                                                           
+                        
+                           
+                           
+                                     
+                                                
+                                          
+                                                                                           
+                                  
+                                     
+                                              
+                                          
+                                                                         
+                                     
+                                     
+                                                   
+                                          
+                                                          
+                                                   
           "500":
+                                     
+                    
+                          
             $ref: '#/components/responses/ServerError'
 components:
   securitySchemes:
@@ -540,7 +619,25 @@ components:
           tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
           scopes: {}
     oauthCie:
+                                   
+                                                      
+                                                   
+                                   
+                                   
+          
+                                                
+                                                                                                                     
+                   
+                                                   
+                                                          
+                                                        
+                                     
+                     
+                           
+                   
       type: oauth2
+                        
+                        
       description: |
         Find your Client ID and Secret on your app info page. 
           1. Select "Try It" 
@@ -559,6 +656,9 @@ components:
       bearerFormat: JWT
   parameters:
     transId:
+                          
+                                 
+                         
       name: transId
       in: header
       required: true
@@ -572,6 +672,17 @@ components:
       schema:
         type: string
         description: Identifies the clients/source application that is calling
+                          
+                  
+                  
+                                  
+                      
+                            
+                                                          
+                        
+                                                      
+                               
+                                                             
     Content-Type:
       name: Content-Type
       in: header
@@ -595,8 +706,20 @@ components:
     transactionSrc:
       description: Identifies the client/source application that is calling.
       schema:
+                                         
+                                   
+                                                 
+                                           
+                                         
+                                         
+                                                  
+                                           
+                                         
+                                          
         type: string
         pattern: ^[a-zA-Z0-9-.]+$
+                                   
+                                         
         maxLength: 512
         example: UPS.com
     Content-Type:
@@ -645,6 +768,31 @@ components:
                   field: "shipperNumber"
                   value: null
     Unauthorized:
+                                            
+                                   
+                                         
+                                         
+                                                           
+                                    
+                                            
+                                     
+                                                         
+                                                  
+                                                                
+                                                    
+                                                            
+                                                   
+                                                     
+                                                  
+                                                     
+                                                  
+                                                          
+                                                   
+                                                         
+                                                      
+                                                   
+                                                
+                  
       description: Unauthorized
       headers:
         BkndTransId:
@@ -700,6 +848,16 @@ components:
                   value: USA
     ServerError:
       description: Server Error
+                                       
+                                                              
+                                                            
+                                         
+                                                     
+                                       
+                                                                   
+                                     
+                  
+                                       
       headers:
         BkndTransId:
           $ref: "#/components/headers/BkndTransId"
@@ -728,23 +886,95 @@ components:
   schemas:
     #/content/fields/country-fields
     CountryFieldsPostFieldsRequestV2:
+                    
+                      
+                                                                       
+                                          
+                                                                           
+                                               
+                                                                                       
+                                                             
+              
+                            
+                                                          
+                                                                                                      
+                      
+              
+                    
+                      
+                         
+               
+              
+                     
+                  
+                      
+               
+                      
+                                     
+                     
+                            
+                  
+                      
+               
+                      
+                                                                                
+                   
+                          
+                  
+                      
+               
+                      
+                                                      
+            
+                  
+                                                
+               
       type: object
       description: Container for the posting of field data
       properties:
         shipperNumber:
+               
+                       
+                                        
+                      
+                       
+                                      
+                     
+                                                                              
+               
+                      
+                                        
+                      
+                       
+                          
+                   
+                                                                                                                            
+               
           type: string
+                                   
+                   
           description: This represents the shipper account number. Required when actionType is save.
           minLength: 6
           maxLength: 6
           example: X5R660
         actionType:
           type: string
+                         
+                  
           description: Specify the intent of the request. 'Save' will inherently perform validation.
           enum:
             - validate
             - save
         trackingNumber:
           type: string
+                                                         
+            
+                                       
+                    
+                                                            
+                   
+                        
+                        
           description: Tthe lead 1Z number fore the shipment. Required when actionType is save.
           minLength: 18
           maxLength: 18
@@ -753,11 +983,18 @@ components:
         shipmentMetaData:
           $ref: '#/components/schemas/CountryFieldsRequestMetaDataV2'
         products:
+                        
+                    
+                         
           type: array
           description: Unbounded list of containers for products included on the shipment being updated
           minItems: 1
           items:
+                                     
+                                       
+                          
             type: object
+                                                                                                      
             properties:
               productId:
                 type: string
@@ -955,14 +1192,116 @@ components:
                       minLength: 1
                       maxLength: 2
                       default: 1
+                                             
+                            
+                         
+                           
+                  
+                            
+                                                                                 
+                                       
+                     
+                      
+                   
+                                   
+                 
+                      
+                            
+                                              
+                   
+                                                                                       
+              
+                      
+                     
+                
+                          
+                                                                 
+                                
+                        
+                    
+                        
+                        
+                            
+                                                                                                                                     
+                                      
+                          
+                          
+                                 
+                         
+                         
+                          
+                                                                                      
+                    
+                                                  
+                               
+                                                   
+                               
+                                                  
+                             
+                    
+                          
+                                                                                                                 
+                                                                 
+                   
+                         
+                                                        
+                    
+                            
+                                                                                 
+                           
+                        
+                                
+                                                                                                            
+                                
+                                
                       example: 1
                     validation:
+                                
+                                                                                                                        
+                                
+                                
+                                  
+                        
+                                
+                                                                                          
+                                     
+                          
+                          
+                              
+                              
+                                                                                                             
+                                                                                   
+                             
+                                
+                                                                        
+                          
+                                    
+                                  
+                                   
+                                  
+                                            
+                                                                                                   
+                                  
+                                        
+                               
+                                                                                                      
+                          
                       type: object
                       description: rule validation object
+                                                                                               
+                                                                           
                       properties:
                         minLength:
                           type:
                             - integer
+                                                                                                                          
+                                                                    
+                               
+                                   
+                                  
+                                 
+                                
+                                    
                             - "null"
                           description: The min length allowed for text fields
                           minLength: 1
@@ -1052,18 +1391,182 @@ components:
                       additionalProperties: false
                       required:
                         - minLength
+                                  
+                               
+                       
+                                
+                                                                                           
+                         
+                               
+                            
+                              
+                             
+                                
+                                
+                            
+                                    
+                                 
+                                                                           
+                                
                         - maxLength
                         - errorMessage
                         - dataType
                     regulationSections:
                       $ref: '#/components/schemas/CountryFieldsRegulationSectionV2'
                     keyAlias:
+                               
+                                
+                              
+                                   
+                                  
+                                                                           
+                                    
+                                    
+                                  
+                                   
+                                  
+                                
+                              
+                                   
+                                  
+                                                                           
+                                    
+                                    
+                                    
+                                    
+                                   
+                                   
+                              
+                                  
+                                  
+                                                  
+                                                                   
                       type:
+                                    
+                                                                             
+                              
+                                         
+                                                                                              
+                                         
+                                       
+                                                                                                                          
+                                       
+                                       
+                                       
+                                        
+                                        
+                                          
+                                          
+                                               
+                                               
+                                          
+                                          
+                                          
+                                          
+                                       
+                                       
+                                      
+                                      
+                                        
+                                        
+                                   
+                              
+                                  
+                                  
+                                      
+                                                                                                                  
+                                                             
+                                               
+                                 
+                                   
+                                                                                                                  
+                              
+                                      
+                                                                
+                                     
+                                        
+                                          
+                                                                                         
+                                       
+                                                
+                                                       
+                                                   
+                                            
+                                            
+                                                 
+                                                
+                                          
+                                          
+                                          
+                                                                                                            
+                                       
+                                       
+                                         
+                                        
+                                       
+                                       
+                                        
+                                           
+                                     
+                                                     
+                                   
+                                         
+                                           
+                                               
+                             
+                                 
+                                 
+                                    
+                            
+                                           
+                         
+                         
+                       
+                         
+                           
+                              
+                        
+                                     
+                              
+                                     
+                   
+                 
+                          
+                     
+                    
+                                   
+                    
+                                               
+                   
+                   
+                                                           
+                        
+                        
+                     
+                           
+                                                                          
+                       
+                              
+                                           
+                              
+                         
+                                  
+                                                             
+                                  
+                                        
+                            
+                                  
+                                                                              
+                                  
+                                                                         
+                                
+                            
                         - string
                         - "null"
                       description: Alias used to identify the field when mapping to downstream systems.
                       example: ManufacturerName
                     level:
+                          
                       type:
                         - string
                         - "null"
@@ -1071,6 +1574,11 @@ components:
                       enum:
                         - Shipment
                         - Product
+                            
+                                
+                                
+                                                                  
+                                  
                       example: Product
                   additionalProperties: false
                   required:
