@@ -1908,10 +1908,6 @@ components:
             only for HazMat request and with subversion greater than or equal to 1701.
           maximum: 1
           type: string
-        ShipmentDate:
-          description: 	Shipment date. If a ShipmentDate is not provided, it will be defaulted to the current system date.Valid value "yyyyMMdd".
-          maximum: 1
-          type: string
         Shipper:
           "$ref": "#/components/schemas/Shipment_Shipper"
         ShipTo:
