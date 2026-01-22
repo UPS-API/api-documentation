@@ -11,8 +11,9 @@ info:
     - <a href="https://developer.ups.com/api/reference/rating/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/rating/error-codes" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/rating/faq" target="_blank" rel="noopener">FAQ</a>
-    - <a href="https://developer.ups.com/api/reference/rating/best-practices" target="_blank" rel="noopener noreferrer">Best Practices</a>
-   
+    - <a href="https://developer.ups.com/api/reference/rating/best-practices" target="_blank" rel="noopener noreferrer"> Best Practices</a>
+    - <a href="https://developer.ups.com/api/reference/mcp/guide" target="_blank" rel="noopener noreferrer">Accelerate API Integration with UPS MCP Server</a>
+
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
 
@@ -1905,6 +1906,10 @@ components:
           description: The time that the request was made from the originating system.
             UTC time down to milliseconds. Example - 2016-07-14T12:01:33.999  Applicable
             only for HazMat request and with subversion greater than or equal to 1701.
+          maximum: 1
+          type: string
+        ShipmentDate:
+          description: 	Shipment date. If a ShipmentDate is not provided, it will be defaulted to the current system date.Valid value "yyyyMMdd".
           maximum: 1
           type: string
         Shipper:
@@ -5978,6 +5983,3 @@ components:
           type: string
           description: The error message.
       description: The error response containing any errors that occurred.
-
-
-
