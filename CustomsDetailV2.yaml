@@ -4,14 +4,14 @@ info:
   version: ""
 
   description: |
-     ## Product Info
-     Provides clients with up-to-date compliance requirements for data fields that must be captured during the creation of UPS Brokerage shipments. The API then validates these field values and submits them for backend merging into the shipment. For more information on the Customs Detail API, please visit the <a href="https://developer.ups.com/api/reference/customsdetail/product-info" target="_blank" rel="noopener"> Product Info</a> page.
+    ## Product Info
+    Provides clients with up-to-date compliance requirements for data fields that must be captured during the creation of UPS Brokerage shipments. The API then validates these field values and submits them for backend merging into the shipment. For more information on the Customs Detail API, please visit the <a href="https://developer.ups.com/api/reference/customsdetail/product-info" target="_blank" rel="noopener"> Product Info</a> page.
 
-     ## Key Business Values
-     - Ensures clients always receive the latest compliance requirements.
-     - Allows field collection to be fully managed through configurable user settings.
-     - TFlexible framework eliminates additional code changes as compliance fields evolve.
-     - Flexible field model supports new country rules without disruptive changes, so you can expand lanes and stay current as regulations evolve.
+    ## Key Business Values
+    - Ensures clients always receive the latest compliance requirements.
+    - Allows field collection to be fully managed through configurable user settings.
+    - TFlexible framework eliminates additional code changes as compliance fields evolve.
+    - Flexible field model supports new country rules without disruptive changes, so you can expand lanes and stay current as regulations evolve.
 
 servers:
   - url: https://www.livesite.ups.com/trade/compliance/{version}
@@ -34,7 +34,7 @@ servers:
       version:
         default: v2
         enum:
-        - v2
+          - v2
 
 paths:
   /content/fields/country-fields:
@@ -57,8 +57,6 @@ paths:
         - oauth2: []
         - oauthCie: []
         - JWTAuth: []
-      tags:
-        - Field Data
       requestBody:
         content:
           application/json:
@@ -201,13 +199,13 @@ paths:
             Content-Type:
               $ref: "#/components/headers/Content-Type"
         "400":
-          $ref: '#/components/responses/BadRequest'
+          $ref: "#/components/responses/BadRequest"
         "401":
-          $ref: '#/components/responses/Unauthorized'
+          $ref: "#/components/responses/Unauthorized"
         "422":
-          $ref: '#/components/responses/UnprocessableEntity'
+          $ref: "#/components/responses/UnprocessableEntity"
         "500":
-          $ref: '#/components/responses/ServerError'
+          $ref: "#/components/responses/ServerError"
     get:
       summary: Returns Required Country Fields
       description: This returns an array of fields that are required for the provided import and/or export country
@@ -219,7 +217,7 @@ paths:
           in: query
           required: false
           schema:
-            type: 
+            type:
               - string
               - "null"
             description: |
@@ -233,7 +231,7 @@ paths:
           in: query
           required: false
           schema:
-            type: 
+            type:
               - string
               - "null"
             description: |
@@ -259,7 +257,7 @@ paths:
           required: false
           description: Optional comma-separated list of tariff codes to filter results.
           schema:
-            type: 
+            type:
               - string
               - "null"
             minLength: 1
@@ -270,338 +268,260 @@ paths:
         - oauth2: []
         - oauthCie: []
         - JWTAuth: []
-      tags:
-        - Field Data
       responses:
-          "200":
-            description: Success
-            headers:
-              BkndTransId:
-                $ref: "#/components/headers/BkndTransId"
-              TransId:
-                $ref: "#/components/headers/transId"
-              transactionSrc:
-                $ref: "#/components/headers/transactionSrc"
-              Content-Type:
-                $ref: "#/components/headers/Content-Type"
-                
-                                    
-                    
-                          
-                                                        
-                      
-                                                    
-                             
-                                                           
-                           
-                                                         
-                           
-                                                         
-                              
-                                                        
+        "200":
+          description: Success
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
             content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/CountryFieldsGetFieldsSuccessResponseV2"
-                example:
-                  commodityCodes:
-                    - commodityCode: "2926400000"
-                      regulations:
-                        - regulation: FDA
-                          regulationSections:
-                            - sectionKey: DRU
-                    - commodityCode: "3003395000"
-                      regulations:
-                        - regulation: FDA
-                          regulationSections:
-                            - sectionKey: DRU
-                  fieldGroups:
-                    - countryCode: US
-                      countryName: UNITED STATES OF AMERICA
-                      shipmentType: Import
-                      groupKey: US-IMP-FDA
-                      details: This is for US import FDA fields
-                      regulation: FDA
-                      regulationSections:
-                        - sectionKey: Cos
-                          sectionName: Cosmetics
-                        - sectionKey: Bio
-                          sectionName: Biologics
-                        - sectionKey: Dev
-                          sectionName: Device
-                        - sectionKey: Foo
-                          sectionName: Food
-                      fields:
-                        - sectionKey: MnuNa
-                          label: Manufacturer Name
-                          order: "1"
-                          tooltip: Type of shipping bill to be processed for the shipment
-                          isRequired: C
-                          requirementConditions:
-                            - fieldKey: MnuPslCd
-                              operator: "!="
-                              value: ""
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerName
-                          level: Product
-                        - sectionKey: MnuPslCd
-                          label: Manufacturer Postal Code
-                          order: "8"
-                          tooltip: The postal code address of the manufacturer for the product
-                          isRequired: Y
-                          requirementConditions: null
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerPostalCode
-                          level: Product
-                        - sectionKey: MnuAdLn1Te
-                          label: Manufacturer Address Line 1
-                          order: "1"
-                          tooltip: Line 1 of the address of the manufacturer for the product
-                          isRequired: N
-                          requirementConditions: null
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerAddressLine1
-                          level: Product
-                        - sectionKey: MnuAdLn2Te
-                          label: Manufacturer Address Line 2
-                          order: "1"
-                          tooltip: Line 2 of the address of the manufacturer for the product
-                          isRequired: N
-                          requirementConditions: null
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerAddressLine2
-                          level: Product
-                        - sectionKey: MnuAdLn3Te
-                          label: Manufacturer Address Line 3
-                          order: "1"
-                          tooltip: Line 3 of the address of the manufacturer for the product
-                          isRequired: N
-                          requirementConditions: null
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerAddressLine3
-                          level: Product
-                        - sectionKey: MnuCtyNa
-                          label: Manufacturer City Name
-                          order: "1"
-                          tooltip: Line 3 of the address of the manufacturer for the product
-                          isRequired: N
-                          requirementConditions: null
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerAddressLine3
-                          level: Product
-                        - sectionKey: MnuStPrvCd
-                          label: Manufacturer State/Province Code
-                          order: "1"
-                          tooltip: The state/province for the address of the manufacturer for the product
-                          isRequired: N
-                          requirementConditions: null
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerStateProvinceCode
-                          level: Product
-                        - sectionKey: MnuCtyCd
-                          label: Manufacturer Country Code
-                          order: "1"
-                          tooltip: The country code for the address of the manufacturer for the product
-                          isRequired: N
-                          requirementConditions: null
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerCountryCode
-                          level: Product
-                        - sectionKey: MnuPslCd
-                          label: Manufacturer Postal Code
-                          order: "1"
-                          tooltip: The postal code address of the manufacturer for the product
-                          isRequired: Y
-                          requirementConditions: null
-                          fieldType: textbox
-                          allowedValueCount: 1
-                          validation:
-                            minLength: null
-                            maxLength: null
-                            errorMessage: Enter a valid value
-                            dataType: Text
-                            regexPattern: null
-                            listValues: []
-                          regulationSections:
-                            - sectionKey: Cos
-                            - sectionKey: Bio
-                            - sectionKey: Dev
-                            - sectionKey: Foo
-                          keyAlias: ManufacturerPostalCode
-                          level: Product
-          "401":
-                                                           
-                    
-                          
-            $ref: '#/components/responses/Unauthorized'
-                      
-                                                    
-                             
-                                                           
-                           
-                                                         
-                           
-                                                         
-                              
-                                                        
-                    
-                               
-                       
-                                                                           
-                        
-                           
-                           
-                                       
-                                                                      
-                                         
-                                   
-                                   
-          "422":
-                                             
-                    
-                          
-            $ref: '#/components/responses/UnprocessableEntity'
-                      
-                                                    
-                             
-                                                           
-                           
-                                                         
-                           
-                                                         
-                              
-                                                        
-                    
-                               
-                       
-                                                                           
-                        
-                           
-                           
-                                     
-                                                
-                                          
-                                                                                           
-                                  
-                                     
-                                              
-                                          
-                                                                         
-                                     
-                                     
-                                                   
-                                          
-                                                          
-                                                   
-          "500":
-                                     
-                    
-                          
-            $ref: '#/components/responses/ServerError'
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountryFieldsGetFieldsSuccessResponseV2"
+              example:
+                commodityCodes:
+                  - commodityCode: "2926400000"
+                    regulations:
+                      - regulation: FDA
+                        regulationSections:
+                          - sectionKey: DRU
+                  - commodityCode: "3003395000"
+                    regulations:
+                      - regulation: FDA
+                        regulationSections:
+                          - sectionKey: DRU
+                fieldGroups:
+                  - countryCode: US
+                    countryName: UNITED STATES OF AMERICA
+                    shipmentType: Import
+                    groupKey: US-IMP-FDA
+                    details: This is for US import FDA fields
+                    regulation: FDA
+                    regulationSections:
+                      - sectionKey: Cos
+                        sectionName: Cosmetics
+                      - sectionKey: Bio
+                        sectionName: Biologics
+                      - sectionKey: Dev
+                        sectionName: Device
+                      - sectionKey: Foo
+                        sectionName: Food
+                    fields:
+                      - sectionKey: MnuNa
+                        label: Manufacturer Name
+                        order: "1"
+                        tooltip: Type of shipping bill to be processed for the shipment
+                        isRequired: C
+                        requirementConditions:
+                          - fieldKey: MnuPslCd
+                            operator: "!="
+                            value: ""
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerName
+                        level: Product
+                      - sectionKey: MnuPslCd
+                        label: Manufacturer Postal Code
+                        order: "8"
+                        tooltip: The postal code address of the manufacturer for the product
+                        isRequired: Y
+                        requirementConditions: null
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerPostalCode
+                        level: Product
+                      - sectionKey: MnuAdLn1Te
+                        label: Manufacturer Address Line 1
+                        order: "1"
+                        tooltip: Line 1 of the address of the manufacturer for the product
+                        isRequired: N
+                        requirementConditions: null
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerAddressLine1
+                        level: Product
+                      - sectionKey: MnuAdLn2Te
+                        label: Manufacturer Address Line 2
+                        order: "1"
+                        tooltip: Line 2 of the address of the manufacturer for the product
+                        isRequired: N
+                        requirementConditions: null
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerAddressLine2
+                        level: Product
+                      - sectionKey: MnuAdLn3Te
+                        label: Manufacturer Address Line 3
+                        order: "1"
+                        tooltip: Line 3 of the address of the manufacturer for the product
+                        isRequired: N
+                        requirementConditions: null
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerAddressLine3
+                        level: Product
+                      - sectionKey: MnuCtyNa
+                        label: Manufacturer City Name
+                        order: "1"
+                        tooltip: Line 3 of the address of the manufacturer for the product
+                        isRequired: N
+                        requirementConditions: null
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerAddressLine3
+                        level: Product
+                      - sectionKey: MnuStPrvCd
+                        label: Manufacturer State/Province Code
+                        order: "1"
+                        tooltip: The state/province for the address of the manufacturer for the product
+                        isRequired: N
+                        requirementConditions: null
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerStateProvinceCode
+                        level: Product
+                      - sectionKey: MnuCtyCd
+                        label: Manufacturer Country Code
+                        order: "1"
+                        tooltip: The country code for the address of the manufacturer for the product
+                        isRequired: N
+                        requirementConditions: null
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerCountryCode
+                        level: Product
+                      - sectionKey: MnuPslCd
+                        label: Manufacturer Postal Code
+                        order: "1"
+                        tooltip: The postal code address of the manufacturer for the product
+                        isRequired: Y
+                        requirementConditions: null
+                        fieldType: textbox
+                        allowedValueCount: 1
+                        validation:
+                          minLength: null
+                          maxLength: null
+                          errorMessage: Enter a valid value
+                          dataType: Text
+                          regexPattern: null
+                          listValues: []
+                        regulationSections:
+                          - sectionKey: Cos
+                          - sectionKey: Bio
+                          - sectionKey: Dev
+                          - sectionKey: Foo
+                        keyAlias: ManufacturerPostalCode
+                        level: Product
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+        "500":
+          $ref: "#/components/responses/ServerError"
 components:
   securitySchemes:
     oauth2:
@@ -619,25 +539,8 @@ components:
           tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
           scopes: {}
     oauthCie:
-                                   
-                                                      
-                                                   
-                                   
-                                   
-          
-                                                
-                                                                                                                     
-                   
-                                                   
-                                                          
-                                                        
-                                     
-                     
-                           
-                   
       type: oauth2
-                        
-                        
+
       description: |
         Find your Client ID and Secret on your app info page. 
           1. Select "Try It" 
@@ -656,9 +559,6 @@ components:
       bearerFormat: JWT
   parameters:
     transId:
-                          
-                                 
-                         
       name: transId
       in: header
       required: true
@@ -672,17 +572,7 @@ components:
       schema:
         type: string
         description: Identifies the clients/source application that is calling
-                          
-                  
-                  
-                                  
-                      
-                            
-                                                          
-                        
-                                                      
-                               
-                                                             
+
     Content-Type:
       name: Content-Type
       in: header
@@ -699,27 +589,16 @@ components:
     transId:
       description: An identifier unique to the request.
       schema:
-        type: string 
+        type: string
         pattern: ^[a-zA-Z0-9-.]+$
         maxLength: 512
         example: 0a1b9c2d8e3f7g4h6i5
     transactionSrc:
       description: Identifies the client/source application that is calling.
       schema:
-                                         
-                                   
-                                                 
-                                           
-                                         
-                                         
-                                                  
-                                           
-                                         
-                                          
         type: string
         pattern: ^[a-zA-Z0-9-.]+$
-                                   
-                                         
+
         maxLength: 512
         example: UPS.com
     Content-Type:
@@ -756,7 +635,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CountryFieldsErrorResponseV2'
+            $ref: "#/components/schemas/CountryFieldsErrorResponseV2"
           example:
             response:
               errors:
@@ -768,31 +647,6 @@ components:
                   field: "shipperNumber"
                   value: null
     Unauthorized:
-                                            
-                                   
-                                         
-                                         
-                                                           
-                                    
-                                            
-                                     
-                                                         
-                                                  
-                                                                
-                                                    
-                                                            
-                                                   
-                                                     
-                                                  
-                                                     
-                                                  
-                                                          
-                                                   
-                                                         
-                                                      
-                                                   
-                                                
-                  
       description: Unauthorized
       headers:
         BkndTransId:
@@ -810,15 +664,15 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CountryFieldsErrorResponseV2'
-          example: 
+            $ref: "#/components/schemas/CountryFieldsErrorResponseV2"
+          example:
             response:
-              errors: 
+              errors:
                 - code: "105.401"
                   message: Invalid token or token is not present
                   description: null
                   field: null
-                  value: null    
+                  value: null
     UnprocessableEntity:
       description: Unprocessable Entity
       headers:
@@ -835,8 +689,8 @@ components:
         APIErrorMessage:
           $ref: "#/components/headers/APIErrorMsg"
       content:
-        application/json: 
-          schema: 
+        application/json:
+          schema:
             $ref: "#/components/schemas/CountryFieldsErrorResponseV2"
           example:
             response:
@@ -848,16 +702,7 @@ components:
                   value: USA
     ServerError:
       description: Server Error
-                                       
-                                                              
-                                                            
-                                         
-                                                     
-                                       
-                                                                   
-                                     
-                  
-                                       
+
       headers:
         BkndTransId:
           $ref: "#/components/headers/BkndTransId"
@@ -874,9 +719,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CountryFieldsErrorResponseV2'
+            $ref: "#/components/schemas/CountryFieldsErrorResponseV2"
           example:
-            response: 
+            response:
               errors:
                 - code: "105.500"
                   message: Internal Server Error
@@ -886,115 +731,40 @@ components:
   schemas:
     #/content/fields/country-fields
     CountryFieldsPostFieldsRequestV2:
-                    
-                      
-                                                                       
-                                          
-                                                                           
-                                               
-                                                                                       
-                                                             
-              
-                            
-                                                          
-                                                                                                      
-                      
-              
-                    
-                      
-                         
-               
-              
-                     
-                  
-                      
-               
-                      
-                                     
-                     
-                            
-                  
-                      
-               
-                      
-                                                                                
-                   
-                          
-                  
-                      
-               
-                      
-                                                      
-            
-                  
-                                                
-               
       type: object
       description: Container for the posting of field data
       properties:
         shipperNumber:
-               
-                       
-                                        
-                      
-                       
-                                      
-                     
-                                                                              
-               
-                      
-                                        
-                      
-                       
-                          
-                   
-                                                                                                                            
-               
           type: string
-                                   
-                   
+
           description: This represents the shipper account number. Required when actionType is save.
           minLength: 6
           maxLength: 6
           example: X5R660
         actionType:
           type: string
-                         
-                  
+
           description: Specify the intent of the request. 'Save' will inherently perform validation.
           enum:
             - validate
             - save
         trackingNumber:
           type: string
-                                                         
-            
-                                       
-                    
-                                                            
-                   
-                        
-                        
+
           description: Tthe lead 1Z number fore the shipment. Required when actionType is save.
           minLength: 18
           maxLength: 18
           pattern: ^1Z[0-9A-Z]{16}$
           example: 1Z1234567891234560
         shipmentMetaData:
-          $ref: '#/components/schemas/CountryFieldsRequestMetaDataV2'
+          $ref: "#/components/schemas/CountryFieldsRequestMetaDataV2"
         products:
-                        
-                    
-                         
           type: array
           description: Unbounded list of containers for products included on the shipment being updated
           minItems: 1
           items:
-                                     
-                                       
-                          
             type: object
-                                                                                                      
+
             properties:
               productId:
                 type: string
@@ -1009,9 +779,9 @@ components:
                 maxLength: 105
                 example: Sample pharma goods
               commodityCode:
-                $ref: '#/components/schemas/CountryFieldsCommodityCodeV2'
+                $ref: "#/components/schemas/CountryFieldsCommodityCodeV2"
               productMetaData:
-                $ref: '#/components/schemas/CountryFieldsRequestMetaDataV2'
+                $ref: "#/components/schemas/CountryFieldsRequestMetaDataV2"
             additionalProperties: false
             required:
               - productId
@@ -1031,7 +801,7 @@ components:
             type: object
             properties:
               commodityCode:
-                $ref: '#/components/schemas/CountryFieldsCommodityCodeV2'
+                $ref: "#/components/schemas/CountryFieldsCommodityCodeV2"
               regulations:
                 type: array
                 description: Regulations that require additional data for this commodity code.
@@ -1040,9 +810,9 @@ components:
                   type: object
                   properties:
                     regulation:
-                      $ref: '#/components/schemas/CountryFieldsRegulationV2'
+                      $ref: "#/components/schemas/CountryFieldsRegulationV2"
                     regulationSections:
-                      $ref: '#/components/schemas/CountryFieldsRegulationSectionV2'
+                      $ref: "#/components/schemas/CountryFieldsRegulationSectionV2"
                   additionalProperties: false
                   required:
                     - regulation
@@ -1080,15 +850,15 @@ components:
                   - title: Fields for both movements
                     const: Both
               groupKey:
-                $ref: '#/components/schemas/CountryFieldsGroupKeyV2'
+                $ref: "#/components/schemas/CountryFieldsGroupKeyV2"
               details:
                 type: string
                 description: Provides details on why and when the information is needed.
                 example: This is for US import FDA fields
               regulation:
-                $ref: '#/components/schemas/CountryFieldsRegulationV2'
+                $ref: "#/components/schemas/CountryFieldsRegulationV2"
               regulationSections:
-                $ref: '#/components/schemas/CountryFieldsRegulationSectionV2'
+                $ref: "#/components/schemas/CountryFieldsRegulationSectionV2"
               fields:
                 type: array
                 description: Unbounded list of individual field definitions.
@@ -1097,7 +867,7 @@ components:
                   type: object
                   properties:
                     sectionKey:
-                      $ref: '#/components/schemas/CountryFieldsSectionKeyV2'
+                      $ref: "#/components/schemas/CountryFieldsSectionKeyV2"
                     label:
                       type: string
                       description: Human-readable name of the field.
@@ -1126,7 +896,7 @@ components:
                           description: "If returned there will be at least one requirement condition"
                           const: "C"
                     requirementConditions:
-                      type: 
+                      type:
                         - array
                         - "null"
                       description: Unbounded array of rules. Conditionally required when is 'isRequired' flag is set.
@@ -1174,7 +944,7 @@ components:
                         required:
                           - fieldKey
                           - operator
-                          - value                          
+                          - value
                     fieldType:
                       type: string
                       description: The type of the field, based on available html form inputs
@@ -1192,116 +962,17 @@ components:
                       minLength: 1
                       maxLength: 2
                       default: 1
-                                             
-                            
-                         
-                           
-                  
-                            
-                                                                                 
-                                       
-                     
-                      
-                   
-                                   
-                 
-                      
-                            
-                                              
-                   
-                                                                                       
-              
-                      
-                     
-                
-                          
-                                                                 
-                                
-                        
-                    
-                        
-                        
-                            
-                                                                                                                                     
-                                      
-                          
-                          
-                                 
-                         
-                         
-                          
-                                                                                      
-                    
-                                                  
-                               
-                                                   
-                               
-                                                  
-                             
-                    
-                          
-                                                                                                                 
-                                                                 
-                   
-                         
-                                                        
-                    
-                            
-                                                                                 
-                           
-                        
-                                
-                                                                                                            
-                                
-                                
+
                       example: 1
                     validation:
-                                
-                                                                                                                        
-                                
-                                
-                                  
-                        
-                                
-                                                                                          
-                                     
-                          
-                          
-                              
-                              
-                                                                                                             
-                                                                                   
-                             
-                                
-                                                                        
-                          
-                                    
-                                  
-                                   
-                                  
-                                            
-                                                                                                   
-                                  
-                                        
-                               
-                                                                                                      
-                          
                       type: object
                       description: rule validation object
-                                                                                               
-                                                                           
+
                       properties:
                         minLength:
                           type:
                             - integer
-                                                                                                                          
-                                                                    
-                               
-                                   
-                                  
-                                 
-                                
-                                    
+
                             - "null"
                           description: The min length allowed for text fields
                           minLength: 1
@@ -1391,182 +1062,19 @@ components:
                       additionalProperties: false
                       required:
                         - minLength
-                                  
-                               
-                       
-                                
-                                                                                           
-                         
-                               
-                            
-                              
-                             
-                                
-                                
-                            
-                                    
-                                 
-                                                                           
-                                
+
                         - maxLength
                         - errorMessage
                         - dataType
                     regulationSections:
-                      $ref: '#/components/schemas/CountryFieldsRegulationSectionV2'
+                      $ref: "#/components/schemas/CountryFieldsRegulationSectionV2"
                     keyAlias:
-                               
-                                
-                              
-                                   
-                                  
-                                                                           
-                                    
-                                    
-                                  
-                                   
-                                  
-                                
-                              
-                                   
-                                  
-                                                                           
-                                    
-                                    
-                                    
-                                    
-                                   
-                                   
-                              
-                                  
-                                  
-                                                  
-                                                                   
                       type:
-                                    
-                                                                             
-                              
-                                         
-                                                                                              
-                                         
-                                       
-                                                                                                                          
-                                       
-                                       
-                                       
-                                        
-                                        
-                                          
-                                          
-                                               
-                                               
-                                          
-                                          
-                                          
-                                          
-                                       
-                                       
-                                      
-                                      
-                                        
-                                        
-                                   
-                              
-                                  
-                                  
-                                      
-                                                                                                                  
-                                                             
-                                               
-                                 
-                                   
-                                                                                                                  
-                              
-                                      
-                                                                
-                                     
-                                        
-                                          
-                                                                                         
-                                       
-                                                
-                                                       
-                                                   
-                                            
-                                            
-                                                 
-                                                
-                                          
-                                          
-                                          
-                                                                                                            
-                                       
-                                       
-                                         
-                                        
-                                       
-                                       
-                                        
-                                           
-                                     
-                                                     
-                                   
-                                         
-                                           
-                                               
-                             
-                                 
-                                 
-                                    
-                            
-                                           
-                         
-                         
-                       
-                         
-                           
-                              
-                        
-                                     
-                              
-                                     
-                   
-                 
-                          
-                     
-                    
-                                   
-                    
-                                               
-                   
-                   
-                                                           
-                        
-                        
-                     
-                           
-                                                                          
-                       
-                              
-                                           
-                              
-                         
-                                  
-                                                             
-                                  
-                                        
-                            
-                                  
-                                                                              
-                                  
-                                                                         
-                                
-                            
                         - string
                         - "null"
                       description: Alias used to identify the field when mapping to downstream systems.
                       example: ManufacturerName
                     level:
-                          
                       type:
                         - string
                         - "null"
@@ -1574,11 +1082,7 @@ components:
                       enum:
                         - Shipment
                         - Product
-                            
-                                
-                                
-                                                                  
-                                  
+
                       example: Product
                   additionalProperties: false
                   required:
@@ -1626,7 +1130,7 @@ components:
         type: object
         properties:
           groupKey:
-            $ref: '#/components/schemas/CountryFieldsGroupKeyV2'
+            $ref: "#/components/schemas/CountryFieldsGroupKeyV2"
           fields:
             type: array
             description: Unbounded list of key-value pairs describing product fields
@@ -1654,7 +1158,7 @@ components:
                     - MnuCtyCd
                     - MnuPslCd
                 regulationSections:
-                  $ref: '#/components/schemas/CountryFieldsRegulationSectionV2'
+                  $ref: "#/components/schemas/CountryFieldsRegulationSectionV2"
                 fieldValue:
                   type: string
                   description: Value of the field
@@ -1695,7 +1199,7 @@ components:
         properties:
           sectionKey:
             description: Identifier for the field. Conditionaly required when sectionName is not present.
-            $ref: '#/components/schemas/CountryFieldsSectionKeyV2'
+            $ref: "#/components/schemas/CountryFieldsSectionKeyV2"
           sectionName:
             type: string
             description: Human-readable regulationSection label. Conditionally required when sectionKey is not present.
@@ -1710,14 +1214,14 @@ components:
         response:
           description: Response container to store errors
           type: object
-          properties: 
+          properties:
             errors:
               type: array
               description: Unbounded array containing one or more errors
-              items: 
+              items:
                 type: object
                 description: Error entity
-                properties: 
+                properties:
                   code:
                     type: string
                     description: code for the given message
@@ -1729,7 +1233,7 @@ components:
                     minLength: 1
                     example: Supplied Key was not in the correct range.
                   description:
-                    type: 
+                    type:
                       - string
                       - "null"
                     description: Internal description of the error
@@ -1743,19 +1247,19 @@ components:
                     minLength: 1
                     example: shipperNumber
                   value:
-                    type: 
+                    type:
                       - string
                       - "null"
                     description: The value that caused the error
                     minLength: 1
                     example: "789999"
                 additionalProperties: false
-                required: 
-                  -  code
-                  -  message
-          required: 
-            -  errors
+                required:
+                  - code
+                  - message
+          required:
+            - errors
           additionalProperties: false
-      required: 
+      required:
         - response
       additionalProperties: false
