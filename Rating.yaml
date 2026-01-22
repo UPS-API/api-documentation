@@ -843,7 +843,6 @@ paths:
                         Pickup:
                           Date: '20250624'
                           Time: '1616'
-                      ShipmentDate: '20250624'
       responses:
         '200':
           description: successful operation
@@ -1720,7 +1719,6 @@ paths:
                             "Time": "161682"
                           }
                         },
-                        "ShipmentDate": "20250624"
                       }
                     }
                   }
@@ -1906,10 +1904,6 @@ components:
           description: The time that the request was made from the originating system.
             UTC time down to milliseconds. Example - 2016-07-14T12:01:33.999  Applicable
             only for HazMat request and with subversion greater than or equal to 1701.
-          maximum: 1
-          type: string
-        ShipmentDate:
-          description: 	Shipment date. If a ShipmentDate is not provided, it will be defaulted to the current system date.Valid value "yyyyMMdd".
           maximum: 1
           type: string
         Shipper:
@@ -3379,6 +3373,8 @@ components:
           "$ref": "#/components/schemas/Insurance_ExtendedFlexibleParcelIndicator"
         TimeInTransitFlexibleParcelIndicator:
           "$ref": "#/components/schemas/Insurance_TimeInTransitFlexibleParcelIndicator"
+        ParcelProtection:
+          "$ref": "#/components/schemas/Insurance_ParcelProtection"  
       description: Insurance Accesorial. Only one type of insurance can exist at a time on the shipment. Valid for UPS World Wide Express Freight shipments.
     Insurance_BasicFlexibleParcelIndicator:
       type: object
@@ -3458,6 +3454,27 @@ components:
         name: TimeInTransitFlexibleParcelIndicator
       description: Container to hold Time In Transit Flexible Parcel Indicator information.  Valid
         for UPS World Wide Express Freight shipments.
+    Insurance_ParcelProtection:
+      type: object
+      maximum: 1
+      required:
+           - CurrencyCode
+           - MonetaryValue
+      properties:
+          CurrencyCode:
+            description: Required if a value for the package declared value amount exists in the MonetaryValue tag. 
+             Must match one of the IATA currency codes. Length is not validated. UPS does not support all international currency codes. 
+             Refer to Currency Codes in the Appendix for a list of valid codes.
+            maximum: 1
+            type: string
+            minLength: 3
+            maxLength: 3
+          MonetaryValue:
+            description: Max value of 5,000 USD for Local and 50,000 USD for Remote. Absolute maximum value is 21474836.47
+            maximum: 1
+            type: string
+            minLength: 8
+            maxLength: 8   
     PackageServiceOptions_HazMat:
       type: object
       maximum: 1
