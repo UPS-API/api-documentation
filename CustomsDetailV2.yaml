@@ -10,7 +10,7 @@ info:
     ## Key Business Values
     - Ensures clients always receive the latest compliance requirements.
     - Allows field collection to be fully managed through configurable user settings.
-    - TFlexible framework eliminates additional code changes as compliance fields evolve.
+    - Flexible framework eliminates additional code changes as compliance fields evolve.
     - Flexible field model supports new country rules without disruptive changes, so you can expand lanes and stay current as regulations evolve.
 
 servers:
