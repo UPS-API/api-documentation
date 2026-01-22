@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Customs Detail API
-  version: "1.0"
+  version: ""
 
   description: |
      ## Product Info
@@ -35,9 +35,7 @@ servers:
         default: v2
         enum:
         - v2
-tags:
-  - name: Field Data
-    description:  Endpoints related to the required fields
+
 paths:
   /content/fields/country-fields:
     post:
