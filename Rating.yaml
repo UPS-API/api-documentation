@@ -843,7 +843,6 @@ paths:
                         Pickup:
                           Date: '20250624'
                           Time: '1616'
-                      ShipmentDate: '20250624'
       responses:
         '200':
           description: successful operation
@@ -1720,7 +1719,6 @@ paths:
                             "Time": "161682"
                           }
                         },
-                        "ShipmentDate": "20250624"
                       }
                     }
                   }
@@ -3453,7 +3451,7 @@ components:
       xml:
         name: TimeInTransitFlexibleParcelIndicator
       description: Container to hold Time In Transit Flexible Parcel Indicator information.  Valid
-        for UPS World Wide Express Freight shipments.
+        for UPS World Wide Express Freight shipments. 
     PackageServiceOptions_HazMat:
       type: object
       maximum: 1
@@ -4667,12 +4665,6 @@ components:
           "$ref": "#/components/schemas/RatedShipment_TimeInTransit"
         GuaranteedDelivery:
           "$ref": "#/components/schemas/RatedShipment_GuaranteedDelivery"
-        ScheduledDeliveryDate:
-          description: The rated shipments scheduled delivery date, ScheduledDeliveryDate
-            returned only when Subversion of 2205 was sent in the request and the
-            customer has the specific contract.
-          maximum: 1
-          type: string
         RoarRatedIndicator:
           description: Informational only
           maximum: 1
