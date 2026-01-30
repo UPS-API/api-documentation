@@ -14,7 +14,7 @@ servers:
     description: This is the Symphony server URL for partner publisher api.
 
 paths:
-  /Ingest:
+  /ingest:
     post:
       summary: Ingest partner's shipments data in bulk  
       description: "This API is used to ingest the partner's shipments data into Symphony."   
