@@ -14,11 +14,13 @@ servers:
     description: This is the Symphony server URL for partner publisher api.
 
 paths:
-  /ingest:
+  "/Ingest":
     post:
       summary: Ingest partner's shipments data in bulk  
       description: "This API is used to ingest the partner's shipments data into Symphony."   
       operationId: SC360_PublisherAPI_Ingest
+      tags:
+        - Transportation
       security:
         - OAuth2ClientCredentialsWithAssertion: []
       x-slo:
