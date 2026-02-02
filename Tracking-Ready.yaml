@@ -248,7 +248,7 @@ paths:
       deprecated: false
   "/track/v1/shipment/details/{inquiryNumber}":
     get:
-      summary: Track each Package in shipment
+      summary: Track Each Package in Shipment
       tags:
         - Tracking
       security:
@@ -920,4 +920,5 @@ components:
           type: string
           description: 'The weight units of measurement. Valid values: ''LBS'' - pounds.
             ''KGS'' - kilograms.'
+
 
