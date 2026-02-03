@@ -1,0 +1,1306 @@
+openapi: 3.1.0
+info:
+    title: "UPS Partner’s Transportation Data Ingestion API"
+    description: |
+        ## Purpose
+        The Transportation API is used to ingest UPS SCS customer shipments data into Symphony. This data is processed and made visible on Symphony for tracking.            
+        API to post transportation order data for point to point shipments to allow for a near real time visibility. API supports only standalone transactions and does not support data aggregations or orchestration with different source systems.             
+    version: "1.0"  
+tags:
+    - name: "UPS SCS Transportation"
+      description: "Partner Publisher API"
+servers:
+  - url: https:onlinetools.ups.com/api/transaction-visibility-dashboard/v1
+    description: This is the Symphony server URL for partner publisher api.
+
+paths:
+  "/Ingest":
+    post:
+      summary: Ingest partner's shipments data in bulk  
+      description: "This API is used to ingest the partner's shipments data into Symphony."   
+      operationId: SC360_PublisherAPI_Ingest
+      tags:
+        - UPS SCS Transportation
+      security:
+        - OAuth2ClientCredentialsWithAssertion: []
+      x-slo:
+        availability: "99%"
+        response_time:
+          - percentile: 99
+            value: "900 ms"
+          - percentile: 95
+            value: "750 ms"       
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SC360InterfaceSC360IngestRequest"    
+            examples:
+              sampleTransportationOrderRequest:
+                value:
+                    request:
+                      docFlow: 'Inbound'
+                      docId: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+                      docType: Order
+                      docVer: 1.0.0.0
+                      orderDetails:
+                      - customerAccountNumber: DEMO
+                        orderNumber: LD123437
+                        customerPONumber: PO44859478
+                        orderPlacedDate: '2023-07-09T11:07:38.446'
+                        shipmentDetails:
+                        - activityInformation:
+                            gmtDateTime: '2019-08-24T14:15:22Z'
+                            gmtOffset: "-04:00"
+                            activityID: Delivered
+                            activityLocation:
+                              city: Houston
+                              country: US
+                              latitude: "+29.749907"
+                              longitude: "-95.358421"
+                              postalCode: '75847'
+                              stateProvince: TX
+                            deliveryInformation:
+                              actualDeliveryDateTime: '2023-08-03 10:13:00.000'
+                              actualDeliveryDateTimegmtOffset: "-04:00"
+                              podSignedBy: John
+                              podSignedOn: '2023-08-03 10:13:00.000'
+                            description: delivered
+                            localDateTime: '2019-08-24T14:15:22Z'
+                            sensorEvent: true
+                            type: activity
+                          actualPickupDateTime: '2019-08-24T14:15:22Z'
+                          billingInformation:
+                            billingTermCode: consignee
+                            billingTermDescription: to be paid by consignee
+                          carrier:
+                            carrierCode: convergence
+                            carrierName: Sample                              
+                          earliestDeliveryDateTime: '2019-08-24T14:15:22Z'
+                          internationalShipment:
+                            harmonizedCommodityCode: 
+                            shipmentExportCountryCode: 
+                            specialInstructions: 
+                          latestDeliveryDateTime: '2019-08-24T14:15:22Z'
+                          leadShipmentNumber: SN4765746545
+                          partyDetails:                              
+                          - city: CLEVELAND                               
+                            countryCode: US                               
+                            stateCode: 'GA'
+                            type: Shipper
+                          - city: Atlanta
+                            countryCode: US                                
+                            stateCode: 'GA'
+                            type: Consignee
+                          rescheduledDeliveryDateTime: '2019-08-24T14:15:22Z'
+                          scheduledDeliveryDateTime: '2019-08-24T14:15:22Z'
+                          scheduledPickupDateTime: '2019-08-24T14:15:22Z'
+                          sensorData:
+                            gps:
+                              city: Houston
+                              country: US
+                              latitude: "+29.749907"
+                              longitude: "-95.358421"
+                              gmtDateTime: '2019-08-24T14:15:22Z'
+                              gmtOffset: "-04:00"
+                              localDateTime:
+                            humidityLevel:
+                              gmtDateTime: '2019-08-24T14:15:22Z'
+                              gmtOffset: "-04:00"
+                              humidity: '40'
+                              humidityUOM: g/m3
+                              localDateTime:
+                            lightStrength:
+                              gmtDateTime: '2019-08-24T14:15:22Z'
+                              gmtOffset: "-04:00"
+                              light: '100'
+                              lightUOM: lux
+                              localDateTime:
+                            shockForce:
+                              gmtDateTime: '2019-08-24T14:15:22Z'
+                              gmtOffset: "-04:00"
+                              localDateTime:
+                              shock: '10'
+                              shockUOM: g
+                            temperature:
+                              gmtDateTime: '2019-08-24T14:15:22Z'
+                              gmtOffset: "-04:00"
+                              localDateTime:
+                              temperatureInfo: '10'
+                              temperatureUOM: C
+                          service:
+                            carrierServiceCode: Standard
+                            carrierServiceDescription: Standard
+                            handlingCode: 
+                            handlingDescription: 
+                            saturdayDeliveryFlag: Y
+                            serviceCode: Ground
+                            serviceDescription: Ground
+                          shipUnits:
+                          - dimensionWeight: '100'
+                            dimensionWeightUOM: kg
+                            height: '2.0'
+                            heightUOM: m
+                            itemDesciption: medical equipment
+                            length: '5.0'
+                            lengthUOM: m
+                            weight: '50'
+                            weightUOM: kg
+                            width: '5.0'
+                            widthUOM: m
+                            shipmentQuantity: 100
+                            volume: '50.0'
+                            volumeUOM: dm3
+                          shipmentDescription: Vaccination
+                          shipmentNumber: SN1658566
+                          shipmentReferences:
+                          - referenceType: Order
+                            referenceValue: SO67890
+                          specialInformation:
+                            hazmatCategoryCode: Explosives
+                            hazmatCategoryDescription: Explosives
+                            hazmatFlag: 'Y'
+                          temperatureCondition: cold
+                          shipmentPlacedDate: '2019-08-24T14:15:22Z'
+                          carrierShipmentNumber:
+                          - 1Z7Y47110445061158
+                          - 1Z0445067Y47111148
+                          shipmentUniqueKey: DEMO_SN1658566_20230709
+                          shipmentBookedDate: '2019-08-24T14:15:22Z'                            
+                          exceptionInformation:
+                            exceptionType: Damaged
+                            reasonCode: Damaged due to weather
+                            reasonDescription: Damaged due to weather
+                            resolutionCode: Damaged
+                            resolutionDescription: 
+                            statusCode: 
+                            statusDescription: Damaged delivery
+                            exceptionCreatedDate: '2019-08-24T14:15:22Z'
+                            exceptionCreatedDateGmt: '2019-08-24T14:15:22Z'
+                            exceptionCreatedDateGmtOffset: "-04:00"
+                      originalDocId: 2767bc53-060c-46d7-bc66-739a09216b35
+                      sourceSystem: PartnerA
+                    apiVersion: v1.0     
+           
+          
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SC360ResponseListServiceResponse"
+              examples:
+               sampleTransportationOrderSuccessResponse:
+                value:
+                    errors:
+                      - code: 
+                        message: 
+                        source: 
+                    isCompleted: true
+                    isFaulted: false
+                    result:
+                      - messageId: 27628ba3-6996-4c01-a0f5-0d4c6ac2d337
+                        orderNumber: LD123437
+                        shipmentNumber: SN1658566
+                        shipmentUniquekey: DEMO_SN1658566_20230709
+                        docId: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+                        docType: Order
+                        isCompleted: true                                 
+        '207':
+          description: Multi-Status Success Response
+          content:              
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SC360ResponseListServiceResponse"   
+              examples:
+                sampleTransportationOrderSuccessResponse:
+                  value:
+                       errors:
+                         - code: 
+                           message: 
+                           source: 
+                       isCompleted: true
+                       isFaulted: false
+                       result:
+                         - messageId: 27628ba3-6996-4c01-a0f5-0d4c6ac2d337
+                           orderNumber: LD123437
+                           shipmentNumber: SN1658566
+                           shipmentUniquekey: DEMO_SN1658566_20230709
+                           docId: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+                           docType: Order
+                           isCompleted: true    
+                         - messageId: a9ea93db-1e51-492f-83c4-d864c95db056
+                           orderNumber: LD123438
+                           shipmentNumber: SN1658567
+                           shipmentUniquekey: DEMO_SN1658566_20230710
+                           docId: 62551ca8-36c8-4655-84f1-1459440ee9ee
+                           docType: Order
+                           isCompleted: false          
+        '400':
+          description: Bad Request
+          content:                
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ObjectServiceResponse"
+              examples:
+                sampleTransportationOrderErrorResponse:
+                 value:
+                  errors:
+                    - code: '400'
+                      message: One or more required property is not provided value
+                      source: shipmentUniqueKey
+                  isCompleted: true
+                  isFaulted: true
+                  result:
+        '401':
+          description: Authorization Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ObjectServiceResponse"
+              examples:
+                sampleTransportationOrderErrorResponse:
+                  value:
+                    errors:
+                      - code: '401'
+                        message: Unauthorized
+                        source: 
+                    isCompleted: true
+                    isFaulted: true
+                    result:         
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ObjectServiceResponse"
+              examples:
+                sampleTransportationOrderErrorResponse:
+                   value:
+                    errors:
+                      - code: '500'
+                        message: Unexpected server error has occurred. Please try again after some time.
+                        source: 
+                    isCompleted: true
+                    isFaulted: true
+                    result:
+components:
+  schemas:
+    ActivityInformation:
+      type: object
+      description: Use this to provide info about activities and milestones updates for the shipment.
+      properties:
+        gmtDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+          example: '2023-07-09T11:07:38.446'
+        gmtOffset:
+          minLength: 1
+          maxLength: 20
+          type: [string, "null"]
+          pattern: '[+-][0-9]{2}:[0-9]{2}\b'
+          example: "-04:00"
+        activityID:
+          description: Unique identifier for the activity
+          minLength: 1
+          maxLength: 128
+          type: [string, "null"]
+          example: Delivered
+        activityLocation:
+          description: Location details of the activity 
+          "$ref": "#/components/schemas/ActivityLocation"
+        activitySubType:
+          description: Optional field used to specify additional details for the activity
+          minLength: 1
+          maxLength: 250
+          type: [string, "null"]
+          example: OnTime
+        activitySubTypeDescription:
+          description: Field used to specify additional details for the activity sub type
+          minLength: 1
+          maxLength: 250
+          type: [string, "null"]
+        deliveryInformation:          
+          description: This field is used to capture any details about package delivery
+          "$ref": "#/components/schemas/DeliveryInformation"
+        description:
+          minLength: 1
+          maxLength: 250
+          type: string
+          description: activity description
+          example: Package delivered to consignee
+        localDateTime:
+          minLength: 1
+          maxLength: 100
+          type: string
+          format: date-time
+        sensorEvent:
+          description: Use this flag to specify if this activity is a result of sensor event
+          type: [boolean, "null"]
+        type:
+          description: This field is used to specify the type of activity or event
+          minLength: 1
+          maxLength: 25
+          type: string        
+      additionalProperties: true
+    ActivityLocation:
+      type: object
+      properties:
+        city:
+          description: City name where the activity generated
+          minLength: 1
+          maxLength: 512
+          type: string
+          example: Atlanta
+        country:
+          description: Country name where the activity generated
+          minLength: 1
+          maxLength: 512
+          type: string
+          example: United States Of America
+        latitude:
+          minLength: 1
+          maxLength: 20
+          type: [string, "null"]
+          description: Latitude
+          example: "+29.749907"
+        longitude:
+          minLength: 1
+          maxLength: 20
+          type: [string, "null"]
+          description: Longitude
+          example: "-95.358421"
+        postalCode:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+        stateProvince:
+          minLength: 1
+          maxLength: 512
+          type: [string, "null"]
+          example: "GA"
+      additionalProperties: false
+    BillingInformation:
+      type: object
+      description: Use this field to specify whom the shipment is charged to and descriptions for billing code
+      properties:
+        billingTermCode:
+          description: Use this field to specify whom the shipment is charged to (consignee, shipper, third party)
+          minLength: 1
+          maxLength: 10
+          type: [string, "null"]
+          example: ThirdParty
+        billingTermDescription:
+          description: Descriptions for billing code
+          minLength: 1
+          maxLength: 1000
+          type: [string, "null"]
+          example: Paid by third party
+      additionalProperties: false
+    Carrier:
+      type: object
+      description: Use this field to provide info about carrier used for shipment
+      properties:
+        carrierCode:
+          description: Carrier code of carrier used for shipment
+          minLength: 1
+          maxLength: 50
+          type: [string, "null"]
+          example: UGFF
+        carrierName:
+          minLength: 1
+          maxLength: 255
+          type: [string, "null"]
+        carrierType:
+          description: Carrier type of carrier used for shipment
+          minLength: 1
+          maxLength: 255
+          type: [string, "null"]
+          example: Freight
+      additionalProperties: false
+    DeliveryInformation:
+      type: object
+      description: This field is used to capture any details about package delivery
+      properties:
+        actualDeliveryDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+          example: '2023-07-09T11:07:38.446'
+        actualDeliveryDateTimegmtOffset:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          description: actual delivery datetime gmt offset
+          pattern: '[+-][0-9]{2}:[0-9]{2}\b'
+          example: "-04:00"
+        podSignatureImage:
+          minLength: 1              
+          type: [string, "null"]
+          format: base64encodedstring
+        podSignatureText:
+          minLength: 1             
+          type: [string, "null"]
+        podSignedBy:
+          minLength: 1
+          maxLength: 500
+          type: [string, "null"]
+          example: "John"
+        podSignedOn:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        code:
+          minLength: 1
+          maxLength: 500
+          type: [string, "null"]
+        message:
+          minLength: 1
+          maxLength: 500
+          type: [string, "null"]
+        source:
+          description: Source method name from where the exception is generated
+          minLength: 1
+          maxLength: 500
+          type: [string, "null"]
+      additionalProperties: false
+    ExceptionInformation:
+      type: object
+      description: This is used to provide additional details about the package delivery exception
+      properties:
+        exceptionType:
+          description: This field is used to provide type of exception
+          minLength: 1
+          maxLength: 255
+          type: string
+          example: Damaged
+        reasonCode:
+          description: This field is used to provide reason code of exception
+          minLength: 1
+          maxLength: 255
+          type: [string, "null"]
+          example: Weather
+        reasonDescription:
+          description: This field is used to provide reason description of exception
+          minLength: 1
+          maxLength: 2000
+          type: [string, "null"]
+          example: Hot weather
+        resolutionCode:
+          description: This field is used to provide resolution code of exception
+          minLength: 1
+          maxLength: 255
+          type: string
+          example: Freezer
+        resolutionDescription:
+          description: This field is used to provide resolution description of exception
+          minLength: 1
+          maxLength: 2000
+          type: [string, "null"]
+          example: Freezer will be used for vaccines
+        statusCode:
+          description: This field is used to provide status code of exception
+          minLength: 1
+          maxLength: 255
+          type: [string, "null"]
+          example: Controllable
+        statusDescription:
+          description: This field is used to provide status description of exception
+          minLength: 1
+          maxLength: 255
+          type: [string, "null"]
+          example: Controllable
+        exceptionCreatedDate:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+          example: '2019-08-24T14:15:22Z'
+        exceptionCreatedDateGmt:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        exceptionCreatedDateGmtOffset:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          pattern: '[+-][0-9]{2}:[0-9]{2}\b'
+          example: "-04:00"
+      additionalProperties: false
+    Gps:
+      type: object
+      description: Use this field for shipment tracking
+      properties:
+        city:
+          description: City name where the shipment is currently present
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: Atlanta
+        country:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          description: Country name where the shipment is currently present
+          example: United States Of America
+        gmtDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        gmtOffset:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          pattern: '[+-][0-9]{2}:[0-9]{2}\b'
+          example: "-04:00"
+        latitude:
+          minLength: 1
+          maxLength: 20
+          type: [string, "null"]
+          description: Latitude
+          example: "+29.749907"
+        localDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        longitude:
+          minLength: 1
+          maxLength: 20
+          type: [string, "null"]
+          description: Longitude
+          example: "-95.358421"
+      additionalProperties: false
+    HumidityLevel:
+      type: object
+      description: Use this field to provide information about the shipment humidity conditions
+      properties:
+        gmtDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        gmtOffset:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          pattern: '[+-][0-9]{2}:[0-9]{2}\b'
+          example: "-04:00"
+        humidity:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: "40"
+        humidityUOM:
+          description: Humidity Unit of measurement
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: g/m3
+        localDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+      additionalProperties: false
+    InternationalShipment:
+      description: Use this field for international shipment info like country and commodity code
+      type: object
+      properties:
+        harmonizedCommodityCode:
+          description: The international commodity or harmonized code that represents the commodity contained in the invoice line
+          minLength: 1
+          maxLength: 50
+          type: [string, "null"]
+          example: "0701.10"
+        shipmentExportCountryCode:
+          description: Country Code of shipment export
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: US
+        specialInstructions:
+          description: Any international special instructions required
+          minLength: 1              
+          type: [string, "null"]
+      additionalProperties: false
+    LightStrength:
+      description: Light sensor data
+      type: object
+      properties:
+        gmtDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        gmtOffset:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          pattern: '[+-][0-9]{2}:[0-9]{2}\b'
+          example: "-04:00"
+        light:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          description: Light sensor
+          example: "20"
+        lightUOM:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          enum: 
+          - lux
+          - candles
+          - lumens
+          - footcandles
+        localDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+      additionalProperties: false
+    ObjectServiceResponse:
+      description: Service response object containgin details if the shipments were processed successfully or not.
+      type: object
+      properties:
+        errors:
+          type: [array, "null"]
+          items:
+            "$ref": "#/components/schemas/Error"
+        isCompleted:
+          description: This field denotes if the request was processed successfully or not
+          type: boolean
+        isFaulted:
+          description: This field denotes if there is any error while precessing the shipments
+          type: boolean
+        result:
+          description: List of shipments received in request with the status if they were processed successfully or not
+          type: [object, "null"]
+      additionalProperties: false
+    OrderDetails:
+      required:
+      - customerAccountNumber
+      - shipmentDetails
+      type: object    
+      description: Use this section to provide/map info about the order (ex load, shipment etc)    
+      properties:
+        customerAccountNumber:
+          minLength: 1
+          maxLength: 100
+          type: string
+          pattern: ^[a-zA-Z0-9_]*$
+        orderNumber:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+        customerPONumber:
+          minLength: 1              
+          type: [string, "null"]
+          description: Customer Purchase Order Number
+          example: "SO1023674"
+        orderPlacedDate:
+          minLength: 1
+          maxLength: 100
+          type: string
+          format: date-time
+          example: '2023-07-09T11:07:38.446'
+        shipmentDetails:
+          type: array
+          description: Use this section to provide information about the shipment
+          maxItems: 500
+          items:
+            "$ref": "#/components/schemas/ShipmentDetail"
+      additionalProperties: false
+    PartyDetail:
+      description: Use this section to provide info about entities associated with the shipment. For ex, Shipper, Consignee etc.
+      type: object
+      properties:
+        city:
+          minLength: 1
+          maxLength: 512
+          type: string
+          description: Party(Shipper, Consignee, etc) city name
+          example: Atlanta
+        countryCode:
+          minLength: 1
+          maxLength: 50
+          type: string   
+          description: Party(Shipper, Consignee, etc) Country code
+          example: US        
+        stateCode:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: "GA"
+        type:
+          minLength: 1
+          maxLength: 10
+          type: string
+          enum: 
+          - Shipper
+          - Consignee
+      additionalProperties: false
+    SC360Interface:
+      description: Supply chain 360 interface
+      required:
+      - docType
+      - orderDetails
+      - sourceSystem
+      type: object
+      properties:
+        sbMessageId:
+          description: Service Bus message id
+          minLength: 1
+          type: [string, "null"]
+          example: "6e01c1d5-3ee4-49ad-bc3a-b6b787670f71"
+        docFlow:
+          minLength: 1
+          maxLength: 25
+          type: string
+          description: Field for publishers to populate about the document flow type
+          enum:
+          -  Inbound
+          -  Outbound
+        docId:
+          minLength: 16
+          maxLength: 50
+          type: string
+          description: Unique Identifier for JSON message. Source system will generate a value for this field and ensure it is unique.
+        docTime:
+          minLength: 1
+          maxLength: 100
+          type: string
+          description: Current Date/Time when message is generated in UTC format
+          format: date-time
+        docType:
+          minLength: 1
+          maxLength: 25
+          type: string
+          enum: 
+          - OrderStatus
+          - Order
+        docVer:
+          minLength: 1
+          maxLength: 10
+          type: string
+          description: Document version. Current version is 1.0
+        transactionType:
+          minLength: 1
+          type: [string, "null"]
+        orderDetails:
+          type: array
+          maxItems: 500
+          items:
+            "$ref": "#/components/schemas/OrderDetails"
+        originalDocId:
+          minLength: 1
+          maxLength: 50
+          type: [string, "null"]
+          description: Unique Identifier for JSON message at the publisher side. Optional field for message publishers to populate
+        sourceSystem:
+          minLength: 1
+          maxLength: 50
+          type: string
+          description: source system name
+          example: "BOMI"
+        partnerId:
+          minLength: 1
+          type: [string, "null"]
+      additionalProperties: false
+    SC360InterfaceSC360IngestRequest:
+      description: Supply chain 360 interface ingest request
+      required:
+      - apiVersion
+      - request
+      type: object
+      properties:
+        request:
+          "$ref": "#/components/schemas/SC360Interface"
+        apiVersion:
+          minLength: 1
+          type: string
+          enum: 
+          - v1.0
+      additionalProperties: false
+    SC360Response:
+      description: Supply chain 360 response
+      required:
+      - docId
+      - docType
+      - messageId
+      - orderNumber
+      - shipmentNumber
+      - shipmentUniquekey
+      type: object
+      properties:
+        messageId:
+          description: Service bus message id for a shipment
+          minLength: 1
+          type: string
+          example: "6e01c1d5-3ee4-49ad-bc3a-b6b787670f71"
+        orderNumber:
+          description: Unique identifier for the order/load. An order could have multiple shipments.
+          minLength: 1
+          type: string
+          example: LD123437
+        shipmentNumber:
+          minLength: 1
+          type: string
+          description: Unique identifier of a shipment
+          example: SN12345678
+        shipmentUniquekey:
+          minLength: 1
+          type: string
+          description: shipmentUniqueKey is used to uniquely identify a shipment
+          example:  BOMI_SN1658566_20230709
+        docId:
+          minLength: 1
+          type: string
+          description: Unique Identifier for JSON message. Source system will generate a value for this field and ensure it is unique.
+          example: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+        docType:
+          minLength: 1
+          type: string
+          enum: 
+            - OrderStatus
+            - Order
+        isCompleted:
+          type: boolean
+      additionalProperties: false
+    SC360ResponseListServiceResponse:
+      description: Supply chain 360 response list of process shipments
+      type: object
+      properties:
+        errors:
+          type: [array, "null"]
+          items:
+            "$ref": "#/components/schemas/Error"
+        isCompleted:
+          description: This field denotes if the request was processed successfully or not
+          type: boolean
+        isFaulted:
+          description: This field denotes if there is any error while precessing the shipments
+          type: boolean
+        result:
+          description: List of shipments received in request with the status if they were processed successfully or not
+          type: [array, "null"]
+          items:
+            "$ref": "#/components/schemas/SC360Response"
+      additionalProperties: false
+    SensorData:
+      type: object
+      description: This section is used for capturing sensor level data for the package when the sensor event flag is true
+      properties:
+        gps:
+          "$ref": "#/components/schemas/Gps"
+        humidityLevel:
+          "$ref": "#/components/schemas/HumidityLevel"
+        lightStrength:
+          "$ref": "#/components/schemas/LightStrength"
+        shockForce:
+          "$ref": "#/components/schemas/ShockForce"
+        temperature:
+          "$ref": "#/components/schemas/Temperature"
+      additionalProperties: false
+    Service:
+      type: object
+      description: Service information like service code (ex ground, overnight, international and descriptions)
+      properties:
+        carrierServiceCode:
+          description: Use this field to specify the carrier service level if different than service level
+          minLength: 1
+          maxLength: 255
+          type: string
+          example: Standard
+        carrierServiceDescription:
+          description: Description for carrier service level
+          minLength: 1              
+          type: [string, "null"]
+          example: Standard
+        handlingCode:
+          description: Shipment package handling instructions code
+          minLength: 1
+          maxLength: 255
+          type: [string, "null"]
+          example: Fragile
+        handlingDescription:
+          description: Shipment package handling instructions description
+          minLength: 1              
+          type: [string, "null"]
+          example: Fragile content, handle with care
+        saturdayDeliveryFlag:
+          minLength: 1      
+          maxLength: 1        
+          type: [string, "null"]
+          enum: 
+          - Y
+          - N
+        serviceCode:
+          description: Code of service level for the shipment 
+          minLength: 1
+          maxLength: 255
+          type: [string, "null"]
+          example: GND
+        serviceDescription:
+          description: Description for the level of service
+          minLength: 1
+          type: [string, "null"]
+          example: Ground
+      additionalProperties: false
+    ShipUnit:
+      description: List of shipping units like items, length, width, height, etc
+      type: object
+      properties:
+        dimensionWeight:
+          description: Shipment Unit Dimensional Weight. This is the estimated weight of the package based on its dimensions.
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: "200.00"
+        dimensionWeightUOM:
+          description: Dimensional weight unit of measurement
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: kg/dm3
+        height:
+          description: Height of the shipment package unit
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: "25.10"
+        heightUOM:
+          description: Height unit of measurement
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: cm
+        itemDesciption:
+          description: Shipment unit items description
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: medical equipments
+        length:
+          description: Length of the shipment package unit
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: "25.10"
+        lengthUOM:
+          description: Length unit of measurement
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: cm
+        weight:
+          description: Weight of the shipment package unit
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: "20"
+        weightUOM:
+          description: Weight unit of measurement
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: kg
+        width:
+          description: Widht of the shipment package unit
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: "25.10"
+        widthUOM:
+          description: Width unit of measurement
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: cm
+        shipmentQuantity:
+          description: Quantity of items in shipment unit
+          type: [integer, "null"]
+          format: int32
+          example: 20
+        volume:
+          description: Volume of the shipment package unit
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: "50.0"
+        volumeUOM:
+          description: Volume unit of measurement
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          example: dm3
+      additionalProperties: false
+    ShipmentDetail:
+      required:
+      - shipmentNumber
+      - shipmentPlacedDate
+      - shipmentUniqueKey
+      type: object
+      properties:
+        activityInformation:
+          description: Use this to provide info about activities and milestones updates for the shipment.
+          "$ref": "#/components/schemas/ActivityInformation"
+        actualPickupDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+          example: '2019-08-24T14:15:22Z'
+        billingInformation:
+          description: Use this field to specify whom the shipment is charged to and descriptions for billing code
+          "$ref": "#/components/schemas/BillingInformation"
+        carrier:
+          description: Use this field to provide info about carrier used for shipment
+          "$ref": "#/components/schemas/Carrier"
+        collectOnDeliveryAmount:
+          minLength: 1
+          maxLength: 225
+          type: [string, "null"]
+        collectOnDeliveryCurrency:
+          minLength: 1
+          maxLength: 200
+          type: [string, "null"]
+          description: Currency code of the amount received on delivery
+        earliestDeliveryDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+          example: '2019-08-24T14:15:22Z'
+        internationalShipment:
+          "$ref": "#/components/schemas/InternationalShipment"
+        latestDeliveryDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+          example: '2019-08-24T14:15:22Z'
+        leadShipmentNumber:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          description: Use this field to provide key information for the lead shipment in case there are multiple packages in a shipment
+        partyDetails:
+          type: [array, "null"]
+          description: Use this section to provide info about entities associated with the shipment. For ex, Shipper, Consignee etc
+          items:
+            "$ref": "#/components/schemas/PartyDetail"
+        rescheduledDeliveryDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        scheduledDeliveryDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        scheduledPickupDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        sensorData:
+          description: This section is used for capturing sensor level data for the package
+          "$ref": "#/components/schemas/SensorData"
+        service:
+          "$ref": "#/components/schemas/Service"
+        shipUnits:
+          type: [array, "null"]
+          description: List of shipping units like number of items, length, width, height, 
+          items:
+            "$ref": "#/components/schemas/ShipUnit"
+        shipmentDescription:
+          minLength: 1
+          maxLength: 1000
+          type: [string, "null"]
+          description: Shipment contents description text
+          example: fragile material
+        shipmentNumber:
+          minLength: 1
+          maxLength: 100
+          type: string
+          description: Unique identifier of a shipment
+          example: SN12345678
+        shipmentReferences:
+          type: [array, "null"]
+          description: List of reference information about the package
+          items:
+            "$ref": "#/components/schemas/ShipmentReference"
+        specialInformation:
+          description: Provide any special information about shipment like Hazardous material 
+          "$ref": "#/components/schemas/SpecialInformation"
+        temperatureCondition:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          description: Temperature condition
+          example: "Amber"
+        shipmentPlacedDate:
+          type: string
+          format: date-time
+        carrierShipmentNumber:
+          type: [array, "null"]
+          items:
+            type: string
+        shipmentUniqueKey:
+          minLength: 1
+          maxLength: 100
+          type: string
+          description: shipmentUniqueKey is used to uniquely identify a shipment
+        shipmentBookedDate:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        exceptionInformation:
+          description: This is used to provide additional details about the package delivery exception
+          "$ref": "#/components/schemas/ExceptionInformation"
+      additionalProperties: false
+    ShipmentReference:
+      type: object
+      description: List of reference information about the package
+      properties:
+        referenceCode:
+          minLength: 1
+          maxLength: 50
+          type: [string, "null"]
+          description: Code that identifies the reference value
+          example: Order
+        referenceType:
+          minLength: 1
+          maxLength: 50
+          type: string
+          description: This field is used to specify the type of reference field
+          example: shipment
+        referenceValue:
+          minLength: 1
+          maxLength: 255
+          type: string
+          description: Reference value
+          example: PO12345
+      additionalProperties: false
+    ShockForce:
+      type: object
+      description: Has shipment been dropped or otherwise exposed to an impact force that exceeds a predetermined level
+      properties:
+        gmtDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        gmtOffset:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          pattern: '[+-][0-9]{2}:[0-9]{2}\b'
+          example: "-04:00"
+        localDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        shock:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          description: Shipment has been dropped or otherwise exposed to an impact force that exceeds a predetermined level
+          example: "20"
+        shockUOM:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          description: Shock Unit of measurement
+          example: "g's"
+      additionalProperties: false
+    SpecialInformation:
+      type: object
+      description: Provide any special information about shipment like Hazardous material 
+      properties:
+        hazmatCategoryCode:
+          minLength: 1
+          maxLength: 255
+          type: [string, "null"]
+          description: Hazardous material category code
+          example: Explosives
+        hazmatCategoryDescription:
+          minLength: 1
+          maxLength: 1000
+          type: [string, "null"]
+          description: Hazardous material category description
+          example: Explosives
+        hazmatFlag:
+          minLength: 1
+          maxLength: 1
+          type: [string, "null"]
+          enum: 
+          - Y
+          - N
+      additionalProperties: false
+    Temperature:
+      type: object
+      description: Temperature information of the shipment
+      properties:
+        gmtDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        gmtOffset:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          pattern: '[+-][0-9]{2}:[0-9]{2}\b'
+          example: "-04:00"
+        localDateTime:
+          minLength: 1
+          maxLength: 100
+          type: [string, "null"]
+          format: date-time
+        temperatureInfo:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          description: Temperature value of the container
+          example: "10"
+        temperatureUOM:
+          minLength: 1
+          maxLength: 25
+          type: [string, "null"]
+          description: Temperature unit of measurement
+          example: "C"
+          enum: 
+          - C
+          - F
+      additionalProperties: false
+  securitySchemes:        
+    OAuth2ClientCredentialsWithAssertion:
+      type: oauth2
+      description: |
+        This API uses OAuth 2.0 with mutual TLS for client authentication.
+        The client must include a client assertion signed with a certificate in the token request to token endpoint
+        client_assertion_type: urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
+          scopes: {}
+security:
+- OAuth2ClientCredentialsWithAssertion: []
+  
