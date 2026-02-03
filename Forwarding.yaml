@@ -12,10 +12,8 @@ info:
     - Built-in tracking and visibility tools improve shipment transparency.
     - Streamlined documentation and developer support reduce onboarding time
  
-										 
     # Reference
     - <a href="https://developer.ups.com/api/reference/forwarding/errors" target="_blank" rel="noopener">Errors</a>
-																																						
 servers:
   - url: https://www.onlinetools.ups.com/api/forwarding/{version}
     description: URL for OAuth based authentication that can be used for the UPS Production environment.
