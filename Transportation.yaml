@@ -3,7 +3,7 @@ info:
     title: "UPS Partner’s Transportation Data Ingestion API"
     description: |
         ## Purpose
-        This API is used to ingest the partner's(UPS SCS customers) shipments data into Symphony. This data is processed and made visible on Symphony for tracking.            
+        The Transportation API is used to ingest UPS SCS customer shipments data into Symphony. This data is processed and made visible on Symphony for tracking.            
         API to post transportation order data for point to point shipments to allow for a near real time visibility. API supports only standalone transactions and does not support data aggregations or orchestration with different source systems.             
     version: "1.0"  
 tags:
