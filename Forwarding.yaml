@@ -12,10 +12,11 @@ info:
     - Built-in tracking and visibility tools improve shipment transparency.
     - Streamlined documentation and developer support reduce onboarding time
  
-    NOTE: Please contact for GUID support
-    
+										 
     # Reference
     - <a href="https://developer.ups.com/api/reference/forwarding/errors" target="_blank" rel="noopener">Errors</a>
+			   
+																																						 
 
 servers:
   - url: https://www.onlinetools.ups.com/api/forwarding/{version}
@@ -107,8 +108,8 @@ paths:
                 company: Third Party Logistics
                 account: "123456789"
                 address1: 7890 LOGISTICS RD
-							
-							
+	   
+	   
                 city: ATLANTA
                 state: GA
                 postalCode: "30303"
@@ -343,13 +344,13 @@ paths:
                 contactName: Subaru
                 contactPhone: "541813846"
                 contactEmail: subaru@ups.com
-						
-										
-											
-								 
-											
-										
-									   
+	  
+		  
+		   
+		 
+		   
+		  
+			
                 company: SUBARU OF AMERICA
                 address1: 1410 N LOMBARD ST
                 city: PORTLAND
@@ -359,7 +360,7 @@ paths:
               consignee:
                 account: 
                 serviceCenterCode: MAA
-														   
+				 
                 contactName: Harry
                 contactPhone: "8885888778"
                 contactEmail: HarryTest@ups.com
@@ -1071,19 +1072,19 @@ paths:
           description: The criteria used to search for Orders
           required: true
           schema:
-				   
+	   
             $ref: "#/components/schemas/ApolloOrderSearchRequestV1"
 
             
-						   
-											 
-										 
-									
-										  
-										
-										   
-											
-							 
+		 
+			
+		   
+		 
+			
+		  
+			 
+		   
+		
       responses:
         "200":
           description: OK
@@ -1112,7 +1113,7 @@ paths:
                       consignee:
                         account: "123456789"
                         serviceCenterCode: BOS
-																   
+																							  
                         contactName: Sheldon
                         contactPhone: "8888888778"
                         contactEmail: test2@ups.com
@@ -1958,8 +1959,8 @@ paths:
               shipper:
                 account: "123456789"
                 address1: "123 Main St"
-							
-							
+	   
+	   
                 city: "New York"
                 state: "NY"
                 postalCode: "10001"
@@ -1979,8 +1980,8 @@ paths:
               consignee:
                 account: "999999999"
                 address1: "456 Market St"
-							
-							
+	   
+	   
                 city: "San Francisco"
                 state: "CA"
                 postalCode: "94105"
@@ -2001,8 +2002,8 @@ paths:
                 company: Third Party Logistics
                 account: "123456789"
                 address1: 7890 LOGISTICS RD
-							
-							
+	   
+	   
                 city: ATLANTA
                 state: GA
                 postalCode: "30303"
@@ -2055,10 +2056,10 @@ paths:
                       - key: serialNumber
                         value: SN654321
                 details:
-								 
-								 
-												  
-								 
+		 
+		 
+			  
+		 
                   - key: DV
                     value: "1000"
                   - key: DV-Currency
@@ -2166,7 +2167,7 @@ paths:
                 label:
                   format: "PDF"
                   layout: "AF-GEMINI"
-													
+			 
                   image: "Base64EncodedPDF"                   
         "400":
           description: Bad Request
@@ -2256,10 +2257,10 @@ paths:
       summary: Get Shipment Details
       description: Retrieves shipment details for air or ocean quotes based on the specified request parameters.
       operationId: getShipmentDetails
-								   
+		   
       tags:
         - Forwarding
-																												
+																							  
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -2268,7 +2269,7 @@ paths:
         - $ref: "#/components/parameters/X-ClientId"
         - name: request_type
           in: query
-														   
+				 
           required: true
           schema:
             type: string
@@ -2276,26 +2277,26 @@ paths:
             enum: [Air, Ocean]
             example: Ocean
           description: The type of shipment ("Air" or "Ocean").
-						
-				 
-						
-							   
-						 
+	  
+	 
+	  
+		  
+	   
         - name: shipment_id
           in: query
-									  
+		   
           required: true
           schema:
             type: string
-				 
-					
-				   
-						
-				   
-							   
-						 
-				 
-						
+	 
+	 
+	   
+	  
+	   
+		  
+	   
+	 
+	  
             description: Unique identifier for the shipment.
             example: "200025511"
           description: The unique identifier for the shipment.
@@ -5243,21 +5244,21 @@ components:
                 - AMG
                 - AM
                 - D2G
-							
-												  
+	   
+			  
                 - D2
                 - DFG
-							
-												 
+	   
+			 
                 - DF
                 - CX
-							
-							   
+	   
+		  
                 - CA
-									 
+		  
                 - EC
-								
-						   
+		
+		 
             paymentType:
               type: string
               description: Payment type.
@@ -5758,8 +5759,8 @@ components:
       required:
         - shipperAccountNumber
         - orderNumber
-				
-				
+	
+	
       properties:
         shipperAccountNumber:
           $ref: "#/components/schemas/ApolloShipperAccountNumberV1"
@@ -6015,35 +6016,35 @@ components:
                               type: integer
                               format: int32
                               minimum: 1
-										  
+			
                               example: 1
                             length:
                               description: The length of each component in the item
                               type: number
                               format: float
                               minimum: 1
-										  
+			
                               example: 10
                             width:
                               description: The width of each component in the item
                               type: number
                               format: float
                               minimum: 1
-										  
+			
                               example: 10
                             height:
                               description: The height of each component in the item
                               type: number
                               format: float
                               minimum: 1
-										  
+			
                               example: 10
                             weight:
                               description: The weight of each component in the item
                               type: number
                               format: float
                               minimum: 1
-										  
+			
                               example: 10
                           additionalProperties: false
                     additionalProperties: false
@@ -6748,7 +6749,7 @@ components:
             - integer
             - "null"
           format: int32
-					  
+	   
           minimum: 1
           maximum: 99999
           example: 10
@@ -6756,7 +6757,7 @@ components:
           description: Length of this item
           type: number
           format: float
-					  
+	   
           minimum: 1
           maximum: 999
           example: 10
@@ -6764,7 +6765,7 @@ components:
           description: Width of this item
           type: number
           format: float
-					  
+	   
           minimum: 1
           maximum: 999
           example: 10
@@ -6772,7 +6773,7 @@ components:
           description: Height of this item
           type: number
           format: float
-					  
+	   
           minimum: 1
           maximum: 999
           example: 10
@@ -6780,7 +6781,7 @@ components:
           description: Total weight of these items
           type: number
           format: float
-					  
+	   
           minimum: 1
           maximum: 99999
           example: 10
@@ -6986,7 +6987,7 @@ components:
                   description: The total number of items in the order
                   type: integer
                   format: int32
-							  
+		 
                   minimum: 1
                   example: 2
                 labelService:
@@ -7025,9 +7026,9 @@ components:
     ApolloPartyV1:
       type: object
       description: Party information (shipper, consignee, or third party).
-			   
-			  
-					 
+	  
+	 
+	  
       properties:
         company:
           type:
@@ -7340,7 +7341,7 @@ components:
         required:
           - op
           - path
-				 
+	 
         properties:
           op:
             type: 
@@ -7392,12 +7393,12 @@ components:
           type: string
           description: Indicates if charge is included in base rate (Y/N)
           example: "N"
-			   
-					
-					 
-					  
-				  
-							  
+	  
+	 
+	  
+	   
+	  
+		 
    
     #/air/ship
     ApolloAirShipRequestV1:
@@ -7409,9 +7410,9 @@ components:
         consignee:
           $ref: '#/components/schemas/PartyDetails'
         thirdParty:
-												   
-														   
-						
+			   
+				 
+	  
           type: [object, "null"]
           description: ThirdParty details for the shipment.
           oneOf:
@@ -7590,12 +7591,12 @@ components:
           pattern: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
           example: "john.doe@shipper.com"
         partySectionDetails:
-					  
-							   
-						
+	   
+		  
+	  
           description: Additional details about the party as key-value pairs.
           $ref: "#/components/schemas/ApolloCustomArrayV1"
-								   
+		   
         details:
           description: Additional details about the party as key-value pairs.
           $ref: "#/components/schemas/ApolloCustomArrayV1"
@@ -7824,8 +7825,8 @@ components:
           description: The hold at airport time.
           example: "2025-08-12T12:00:00Z"
         totalCharge:
-					  
-						 
+	   
+	   
           description: Total charge for the shipment.
           $ref: "#/components/schemas/ApolloChargeAmountV1"
         currency:
@@ -7869,10 +7870,10 @@ components:
           type: string
           description: The layout of the label.
           example: "4x6"
-			   
-					  
-													   
-											 
+	  
+	   
+				
+			
         image:
           type: string
           format: byte
