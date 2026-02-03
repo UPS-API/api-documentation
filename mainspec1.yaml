@@ -39,10 +39,7 @@ tags:
   - name: Forwarding
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/info/description"
-  #- name: Global Checkout
-  #  description:
-  #    $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/GlobalCheckout.yaml#/info/description"
-  - name: Landed Cost
+ - name: Landed Cost
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/LandedCost.yaml#/info/description"
   - name: Locator
@@ -262,20 +259,5 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
