@@ -72,9 +72,9 @@ tags:
   - name: TradeDirect
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/TradeDirect.yaml#/info/description"
-  - name: UPS SCS Transportation API
+  - name: UPS SCS Transportation
     description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSSCSTransportationAPI.yaml#/info/description"
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSSCSTransportation.yaml#/info/description"
   - name: Time in Transit
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/TimeInTransit.yaml#/info/description"
@@ -198,7 +198,7 @@ paths:
   "/ship/tradedirect/{version}/master-shipments/documents":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/TradeDirect.yaml#/paths/~1master-shipments~1documents"
   "/transaction-visibility-dashboard/v1/Ingest":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSSCSTransportationAPI.yaml#/paths/~1Ingest"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSSCSTransportation.yaml#/paths/~1Ingest"
   "/shipments/{version}/transittimes":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/TimeInTransit.yaml#/paths/~1shipments~1{version}~1transittimes"
   "/track/v1/details/{inquiryNumber}":
@@ -259,6 +259,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
