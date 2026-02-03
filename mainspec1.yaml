@@ -21,9 +21,6 @@ tags:
   - name: Delivery Intercept
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DeliveryIntercept.yaml#/info/description"
-  - name: Direct-To-Mobile 
-    description:
-      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Direct-to-Mobile.yaml#/info/description"
   - name: Export Assure
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSExportAssure.yaml#/info/description"
@@ -231,8 +228,6 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DeliveryIntercept.yaml#/paths/~1cancel~1{tracking_number}"
   "/deliverydefense/external/v1.0/address/score":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DeliveryDefense.yaml#/paths/~1address~1score"
-  "/ups-store/iship/{version}/direct-to-mobile":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Direct-to-Mobile.yaml#/paths/~1direct-to-mobile"
   "/brokerage/{version}/importexport/exportassure":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSExportAssure.yaml#/paths/~1importexport~1exportassure"
   "/export-assure/{version}/interactive":
@@ -241,8 +236,6 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/InteractiveDescriptionGuidance.yaml#/paths/~1interactive~1{sessionId}"
   "/export-assure/{version}/interactive/feedback/{sessionId}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/InteractiveDescriptionGuidance.yaml#/paths/~1interactive~1feedback~1{sessionId}"
-  #"/brokerage/{version}/content/glc/request-quote":
-  #  "$ref": "GlobalCheckout.yaml#/paths/~1content~1glc~1request-quote"
   "/ship/{version}/master-shipment/closeout/{shipment-gccn}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1closeout~1{shipment-gccn}"
   "/ship/{version}/master-shipment/{shipment-gccn}":
@@ -269,6 +262,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
