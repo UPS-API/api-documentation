@@ -7,7 +7,7 @@ info:
         API to post transportation order data for point to point shipments to allow for a near real time visibility. API supports only standalone transactions and does not support data aggregations or orchestration with different source systems.             
     version: "1.0"  
 tags:
-    - name: "Transportation"
+    - name: "UPS SCS Transportation API"
       description: "Partner Publisher API"
 servers:
   - url: https:onlinetools.ups.com/api/transaction-visibility-dashboard/v1
@@ -20,7 +20,7 @@ paths:
       description: "This API is used to ingest the partner's shipments data into Symphony."   
       operationId: SC360_PublisherAPI_Ingest
       tags:
-        - Transportation
+        - UPS SCS Transportation API
       security:
         - OAuth2ClientCredentialsWithAssertion: []
       x-slo:
