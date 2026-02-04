@@ -97,16 +97,14 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1chemicalreferencedata"
   "/dangerousgoods/{deprecatedVersion}/acceptanceauditprecheck":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods.yaml#/paths/~1dangerousgoods~1{deprecatedVersion}~1acceptanceauditprecheck"
-  "/forwarding/{version}/shipments/rates":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1shipments~1rates"
   "/forwarding/{version}/orders":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1orders"
-  "/forwarding/{version}/documents/labels":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1documents~1labels"
+  "/forwarding/{version}/shipments/rates":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1shipments~1rates"
   "/forwarding/{version}/shipments":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1shipments"
-  "/forwarding/{version}/documents/manifest":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1documents~1manifest"
+  "/forwarding/{version}/shipments/milestones":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1shipments~1milestones"
   "/forwarding/{version}/info/cities":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1info~1cities"
   "/forwarding/{version}/info/currencies":
@@ -119,6 +117,14 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1info~1airports"
   "/forwarding/{version}/info/service-types":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1info~1service-types"
+  "/forwarding/{version}/info/accessorials":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1info~1accessorials"
+  "/forwarding/{version}/documents/labels":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1documents~1labels"
+  "/forwarding/{version}/documents/manifests":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1documents~1manifests"
+  "/forwarding/{version}/quotes":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1quotes"  
   "/landedcost/{version}/quotes":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/LandedCost.yaml#/paths/~1landedcost~1{version}~1quotes"
   "/locations/{version}/search/availabilities/{reqOption}":
@@ -253,5 +259,6 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
