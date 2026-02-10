@@ -339,10 +339,12 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              "$ref": "#/components/schemas/PICKUPCreationRequestWrapper"
+            schema:  
+             oneOf:
+               - $ref: "#/components/schemas/PICKUPCreationRequestWrapper"
+               - $ref: "#/components/schemas/PICKUPTriggerGWNRequestWrapper"
             examples:
-              json:
+              '1':
                 summary: A sample JSON request (Standard Example)
                 value:
                   PickupCreationRequest:
@@ -388,13 +390,82 @@ paths:
                     PaymentMethod: '01'
                     SpecialInstruction: 'Test '
                     ReferenceNumber: CreatePickupRef
+              '2':     
+                summary: A sample JSON request (Smart Pickup)
+                value:
+                  PickupTriggerGWNRequest:
+                    Request:
+                      TransactionReference:
+                         CustomerContext: "Smart Pickup Request"
+                      AccountNumber: "1004YY"
+                      ServiceDateOption: "01"      
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PICKUPCreationResponseWrapper"
+                oneOf:
+                 - $ref: "#/components/schemas/PICKUPCreationResponseWrapper"
+                 - $ref: "#/components/schemas/PICKUPTriggerGWNResponseWrapper"
+              examples:
+                '1': 
+                  summary:  A sample JSON response (Standard Example)
+                  value:
+                    PickupCreationResponse:
+                      Response:
+                        ResponseStatus:
+                          Code: "1"
+                          Description: "Success"
+                        Alert:
+                          - Code: "string"
+                            Description: "string"
+                        TransactionReference:
+                          CustomerContext: "string"
+                      PRN: "stringstrin"
+                      WeekendServiceTerritory:
+                        SatWST: "s"
+                        SunWST: "s"
+                      WeekendServiceTerritoryIndicator: "s"
+                      RateStatus:
+                        Code: "st"
+                        Description: "string"
+                      RateResult:
+                        Disclaimer:
+                          Code: "st"
+                          Description: "string"
+                        RateType: "st"
+                        CurrencyCode: "str"
+                        ChargeDetail:
+                          - ChargeCode: "s"
+                            ChargeDescription: "string"
+                            ChargeAmount: "stringst"
+                            IncentedAmount: "stringst"
+                            TaxAmount: "stringst"
+                        TaxCharges:
+                          - Type: "str"
+                            MonetaryValue: "stringst"
+                        TotalTax: "stringst"
+                        GrandTotalOfAllCharge: "stringst"
+                        GrandTotalOfAllIncentedCharge: "string"
+                        PreTaxTotalCharge: "stringst"
+                        PreTaxTotalIncentedCharge: "string"
+                '2':
+                  summary:  A sample JSON response (Smart Pickup)
+                  value:
+                    PickupTriggerGWNResponse:
+                      Response:
+                        ResponseStatus:
+                          Code: "1"
+                          Description: "Success"
+                        TransactionReference:
+                          CustomerContext: "string"
+                          TransactionIdentifier: "string"
+                        ServiceDate: "20260206"
+                        PRN: "GPD49B1D615"
+                        TriggerStatus:
+                          Code: "02"
+                          Description: "EXISTING"               
         '400':
             description: Invalid Request
             content:
@@ -2518,6 +2589,103 @@ components:
         name: Disclaimer
       description: Container to hold Disclaimer message applicable to taxes and charges.
         Available only when tax information is requested.
+    PICKUPTriggerGWNRequestWrapper:
+      xml:
+        name: PickupTriggerGWNRequest
+      description:
+      maximum: 1
+      type: object
+      required:
+      - PickupTriggerGWNRequest
+      properties:
+        PickupTriggerGWNRequest:
+           "$ref": "#/components/schemas/PickupTriggerGWNRequest"
+    PICKUPTriggerGWNResponseWrapper:
+      xml:
+        name: PickupTriggerGWNResponse
+      description:
+      maximum: 1
+      type: object
+      required:
+      - PickupTriggerGWNResponse
+      properties:
+        PickupTriggerGWNResponse:
+           "$ref": "#/components/schemas/PickupTriggerGWNResponse"
+    PickupTriggerGWNRequest:
+      type: object
+      description: Request to trigger a Smart Pickup (GWN - Green When Needed).
+       This flow applies to accounts enabled for Smart Pickup and supports
+       same-day or future-day pickup requests. Unlike regular Pickup Creation,
+       Smart Pickup does not require a separate Shipper object - it uses
+       the pickup address pre-configured on the UPS account.
+      required:
+      - Request
+      - AccountNumber
+      - ServiceDateOption
+      properties:
+        Request:
+          "$ref": "#/components/schemas/PickupCreationRequest_Request"
+        AccountNumber:
+          type: string
+          description: The UPS account number configured for Smart Pickup.
+             Must be a valid 6-character alphanumeric UPS account number
+             associated with the authenticated user. The pickup address
+             and notification preferences are retrieved from this account.
+          example: "1004YY"
+          minLength: 6
+          maxLength: 6
+        ServiceDateOption:
+          type: string
+          description: |
+           Specifies when the pickup should be scheduled.
+           - 01 -- Same Day - Request pickup for today 
+           - 02 -- Future Day - Request pickup for next available business day 
+           
+            If same-day is requested but cutoff time has passed,the pickup will be automatically scheduled for the next business day. 
+          example: "01"
+      xml:
+        name: PickupTriggerGWNRequest
+    PickupTriggerGWNResponse:
+      type: object
+      description: Response from Smart Pickup trigger request.
+      properties:
+        Response:
+          "$ref": "#/components/schemas/PickupCreationResponse_Response"
+        ServiceDate:
+          type: string
+          description: The scheduled pickup date.
+          example: "20260128"
+        NextBusinessDayIndicator:
+          type: string
+          description: |
+           Indicates if the pickup was scheduled for the next business day instead 
+           of the requested same-day pickup. Present only when same-day cutoff time has passed.
+           - Y -- Pickup scheduled for next business day.
+          example: "Y"
+        PRN:
+          type: string
+          description: Pickup Reference Number - unique identifier for the scheduled pickup.
+            Use this number to track or cancel the pickup.
+          example: "GPE58AB041C"
+        TriggerStatus:
+            "$ref": "#/components/schemas/PickupTriggerGWNResponse_TriggerStatus"
+      xml:
+        name: PickupTriggerGWNResponse
+    PickupTriggerGWNResponse_TriggerStatus:
+      type: object
+      description: Status of the Smart Pickup trigger operation
+      properties:
+        Code:
+          type: string
+          description: |
+           Status code indicating the result.
+           - 01 -- NEW - New pickup scheduled
+           - 02 -- EXISTING - Pickup already exists for this date
+          example: "01"
+        Description:
+          type: string
+          description: Human readable description of the trigger status.
+          example: "NEW"    
     PICKUPPolDivRequestWrapper:
       xml:
         name: PickupGetPoliticalDivision1ListRequest
