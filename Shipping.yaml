@@ -313,7 +313,7 @@ paths:
                       ShipmentServiceOptions:
                         InternationalForms:
                           FormType: '04'
-                          FormGroupIdName: USMCA Form
+                          FormGroupIdName: NAFTA Form
                           Contacts:
                             SoldTo:
                               Option: " "
@@ -2863,7 +2863,7 @@ paths:
                       ShipmentServiceOptions:
                         InternationalForms:
                           FormType: '04'
-                          FormGroupIdName: USMCA Form
+                          FormGroupIdName: NAFTA Form
                           Contacts:
                             SoldTo:
                               Option: " "
@@ -4975,22 +4975,6 @@ components:
           type: string
           minLength: 2
           maxLength: 2
-        ShipperType:
-          description: |-
-            Shipment Value for ShipperType. 01 = Business 02 = Consumer/Individual  NA = Not Applicable
-            Required for EU Inbound Shipments
-          maximum: 1
-          type: string
-          minLength: 2
-          maxLength: 2
-        ConsigneeType:
-          description: |-
-            Shipment Value for ConsigneeType. 01 = Business 02 = Consumer/Individual  NA = Not Applicable
-            Required for EU Inbound Shipments
-          maximum: 1
-          type: string
-          minLength: 2
-          maxLength: 2
         MasterCartonID:
           description: 'Master Carton ID. If Economy Service (17 or 72) : Economy
             Shipment will be associated with given Master Carton ID. If Non-Economy
@@ -5141,8 +5125,7 @@ components:
           minLength: 1
           maxLength: 14
         EMailAddress:
-          description: Shipper's email address.  Must be associated with the UserId
-            specified in the AccessRequest XML.
+          description: Shipper's email address.
           maximum: 1
           type: string
           minLength: 1
@@ -5684,7 +5667,7 @@ components:
             - 1051 = Singapore GST Registration Number
             - 1052 = ARN Registration Number
             - 1053 = IRD Registration Number
-            - 1054 = Malaysia Low Value Goods Sales Tax Registration Number
+            - 1054 = Malaysia Low Value Goods Sales Tax Registration
 
             Vendor Collect ID Number type code will be printed on commercial invoice if present.
           maximum: 1
@@ -5806,13 +5789,13 @@ components:
           type: string
           minLength: 2
           maxLength: 2
-          xml:
-            name: BillShipper
+      xml:
+        name: BillShipper
       description: Container for the BillShipper billing option. The three payment
         methods that are available for the Bill Shipper billing option are alternate
         payment method, account number or credit card.  This element or its sibling
         element, BillReceiver, BillThirdParty or ConsigneeBilledIndicator, must be
-        present but no more than one can be present.  
+        present but no more than one can be present.
     BillShipper_CreditCard:
       type: object
       maximum: 1
@@ -6475,7 +6458,8 @@ components:
             - 83 = UPS Today Dedicated Courier
             - 84 = UPS Today Intercity
             - 85 = UPS Today Express
-            - 86 = UPS Today Express Saver            
+            - 86 = UPS Today Express Saver
+            - 93 = Ground Saver
             - 96 = UPS Worldwide Express Freight.
             - C6 = Roadie XD AM (Morning delivery)
             - C7 = Roadie XD PM (Afternoon delivery)
@@ -6966,7 +6950,7 @@ components:
             Valid values:
             - 01 - Invoice
             - 03 - CO
-            - 04 - USMCA
+            - 04 - NAFTA CO
             - 05 - Partial Invoice
             - 06 - Packinglist
             - 07 - Customer Generated Forms
@@ -6992,9 +6976,9 @@ components:
           "$ref": "#/components/schemas/InternationalForms_CN22Form"
         AdditionalDocumentIndicator:
           description: "Presence of the indicator means user will supply additional
-            document, such as EEI, USMCA or CO.  This indicator should be set when
+            document, such as EEI, NAFTA_CO or CO.  This indicator should be set when
             the shipper intends to utilize UPS paperless invoice functionality AND
-            the shipper has SELF-PREPARED other International Forms (EEI, CO, USMCA)
+            the shipper has SELF-PREPARED other International Forms (EEI, CO, NAFTACO)
             to accompany the shipment. \nIt is evaluated only when: \n1. Account is
             paperless enabled. \n2. Movement requires an invoice.\n3. Destination
             country or territory accepts paperless invoice. \n4. Invoice data is supplied
@@ -7076,7 +7060,7 @@ components:
             used by Customs. Examples of declarations that might be entered in this
             field are: I hereby certify that the goods covered by this shipment qualify
             as originating goods for purposes of preferential tariff treatment under
-            the USMCA. I hereby certify that the information on this invoice is true
+            the NAFTA. I hereby certify that the information on this invoice is true
             and correct and the contents and value of this shipment is as stated above.  EEA
             statement:  The exporter of the products covered by this document declares
             that except where otherwise clearly indicated these products are of EEA
@@ -7232,7 +7216,7 @@ components:
           type: string
         OverridePaperlessIndicator:
           description: The application will automatically provide a copy of the invoice
-            or USMCA with each response regardless of whether the user has enabled
+            or NAFTA/CO with each response regardless of whether the user has enabled
             Paperless account. The user now has the option to print or ignore the
             copy provided.
           maximum: 1
@@ -7251,8 +7235,7 @@ components:
           type: string
       xml:
         name: InternationalForms
-      description: International Forms information. This is applicable to Trade Direct SMALLPACKAGE International Child
-        movements and not applicable to Trade Direct Master or Trade Direct LTL Child movements.
+      description: International Forms information.
     InternationalForms_UserCreatedForm:
       type: object
       maximum: 13
@@ -7446,21 +7429,11 @@ components:
           type: string
           minLength: 40
           maxLength: 40
-        DDSReferenceNumber:
-          "$ref": "#/components/schemas/CN22Content_CN22DDSReferenceNumber"
       xml:
         name: CN22Content
       description: "Container for CN22 content.  Required if the CN22 form container
         is present. \nNote: The maximum number of goods printed on the CN22 form when
         a combined MI package and CN22 form label is requested is 30."
-    CN22Content_CN22DDSReferenceNumber:
-      type: object
-      maximum: 1
-      properties:
-        Number:
-          description: holds a list of DDS Reference Numbers
-          maximum: 5
-          type: string
     CN22Content_CN22ContentWeight:
       type: object
       required:
@@ -7636,9 +7609,9 @@ components:
       xml:
         name: Contacts
       description: Holds the contact information of various parties.  Applicable for
-        EEI and USMCA only. Required for USMCA and EEI. Ultimate consignee contact
+        EEI and NAFTA CO only. Required for NAFTA CO and EEI. Ultimate consignee contact
         information is required for EEI.  Producer contact information is required
-        for USMCA
+        for NAFTA CO
       maximum: 1
     Contacts_ForwardAgent:
       type: object
@@ -7900,7 +7873,7 @@ components:
             list of additional producers, including the legal name, address (including
             country or territory), and legal tax identification number, cross-referenced
             to the goods described in the Description of Goods field.  Applies to
-            USMCA.  \nValid values: \n01 - AVAILABLE TO CUSTOMS UPON REQUEST\n02
+            NAFTA CO.  \nValid values: \n01 - AVAILABLE TO CUSTOMS UPON REQUEST\n02
             - SAME AS EXPORTER\n03 - ATTACHED LIST\n04 - UNKNOWN"
           maximum: 1
           type: string
@@ -7908,14 +7881,14 @@ components:
           maxLength: 2
         CompanyName:
           description: 'Company Name or the Individual name of the Producer.  Applies
-            to USMCA.  Only applicable when producer option is empty or not present.
-            Conditionally required for: USMCA, when Producer option is not specified.'
+            to NAFTA CO.  Only applicable when producer option is empty or not present.
+            Conditionally required for: NAFTA CO, when Producer option is not specified.'
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
         TaxIdentificationNumber:
-          description: Tax ID of the Producer.  Applies to USMCA. Only applicable
+          description: Tax ID of the Producer.  Applies to NAFTA CO. Only applicable
             when producer option is empty or not present
           maximum: 1
           type: string
@@ -7924,7 +7897,7 @@ components:
         Address:
           "$ref": "#/components/schemas/Producer_Address"
         AttentionName:
-          description: Contact name at the Producer location.  Applies to USMCA.
+          description: Contact name at the Producer location.  Applies to NAFTA CO.
           maximum: 1
           type: string
           minLength: 1
@@ -7932,18 +7905,18 @@ components:
         Phone:
           "$ref": "#/components/schemas/Producer_Phone"
         EMailAddress:
-          description: Producer email address.  Applies to USMCA.
+          description: Producer email address.  Applies to NAFTA CO.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 50
       xml:
         name: Producer
-      description: "Information of the producer. The USMCA Certificate of Origin must
+      description: "Information of the producer. The NAFTA Certificate of Origin must
         be completed, signed, and dated by the exporter. \nWhen the Certificate is
         completed by the producer for use by the exporter, it must be completed, signed,
         and dated by the producer. The date must be the date the Certificate was completed
-        and signed.  Applies to USMCA.  Required for USMCA forms."
+        and signed.  Applies to NAFTA CO.  Required for NAFTA CO forms."
     Producer_Address:
       type: object
       maximum: 1
@@ -7961,13 +7934,13 @@ components:
           minLength: 1
           maxLength: 35
         City:
-          description: "City of the Producer.  Applies to USMCA. Conditionally required for: USMCA, when Producer option is not specified."
+          description: "City of the Producer.  Applies to NAFTA CO. Conditionally required for: NAFTA CO, when Producer option is not specified."
           maximum: 1
           type: string
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: State of the Producer.  Applies to USMCA. Required for certain countries or territories.
+          description: State of the Producer.  Applies to NAFTA CO. Required for certain countries or territories.
           maximum: 1
           type: string
           minLength: 1
@@ -7979,22 +7952,22 @@ components:
           minLength: 1
           maxLength: 30
         PostalCode:
-          description: Postal code of the Producer.  Applies to USMCA. Required for certain countries or territories. The length of the postal code depends on the country or territory code.
+          description: Postal code of the Producer.  Applies to NAFTA CO. Required for certain countries or territories. The length of the postal code depends on the country or territory code.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 9
         CountryCode:
-          description: Country or Territory code of the Producer.  Applies to USMCA.
+          description: Country or Territory code of the Producer.  Applies to NAFTA CO.
           maximum: 1
           type: string
           minLength: 2
           maxLength: 2
       xml:
         name: Address
-      description: 'Address information of the Producer.  Applies to USMCA. Only
+      description: 'Address information of the Producer.  Applies to NAFTA CO. Only
         applicable if producer option is empty or not present. Conditionally required
-        for: USMCA, when Producer option is not specified.'
+        for: NAFTA CO, when Producer option is not specified.'
     Producer_Phone:
       type: object
       maximum: 1
@@ -8002,20 +7975,20 @@ components:
       - Number
       properties:
         Number:
-          description: The locations phone number of the Producer. Applies to USMCA.
+          description: The locations phone number of the Producer. Applies to NAFTA CO.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 15
         Extension:
-          description: The locations phone extension of the Producer. Applies to USMCA.
+          description: The locations phone extension of the Producer. Applies to NAFTA CO.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 4
       xml:
         name: Phone
-      description: Phone number information of Producer.  Applies to USMCA.
+      description: Phone number information of Producer.  Applies to NAFTA CO.
     Contacts_SoldTo:
       type: object
       maximum: 1
@@ -8046,7 +8019,7 @@ components:
         Phone:
           "$ref": "#/components/schemas/SoldTo_Phone"
         Option:
-          description: "The text associated with the code will be printed in the sold to section of the USMCA form.  The values indicate the following: 01 – Unknown.  Applies to USMCA form. Possible Values are 01 and 02."
+          description: "The text associated with the code will be printed in the sold to section of the NAFTA CO form.  The values indicate the following: 01 – Unknown.  Applies to NAFTA CO form. Possible Values are 01 and 02."
           maximum: 1
           type: string
           minLength: 2
@@ -8069,8 +8042,8 @@ components:
         name: SoldTo
       description: SoldTo Container. The Sold To party's country code must be the
         same as the Ship To party's country code with the exception of Canada and
-        satellite countries.  Applies to Invoice and USMCA Forms. Required if Invoice
-        or USMCA (International Form) is requested.
+        satellite countries.  Applies to Invoice and NAFTA CO Forms. Required if Invoice
+        or NAFTA CO (International Form) is requested.
     SoldTo_Phone:
       type: object
       maximum: 1
@@ -8101,7 +8074,7 @@ components:
       - CountryCode
       properties:
         AddressLine:
-          description: SoldTo location's street address.  Applies to USMCA.
+          description: SoldTo location's street address.  Applies to NAFTA CO.
           maximum: 3
           type: array
           items:
@@ -8140,7 +8113,7 @@ components:
           maxLength: 2
       xml:
         name: Address
-      description: Sold To Address Container.  Applies to USMCA.
+      description: Sold To Address Container.  Applies to NAFTA CO.
     InternationalForms_Product:
       type: object
       maximum: 1
@@ -8162,8 +8135,8 @@ components:
         CommodityCode:
           description: '6-to-15-alphanumeric commodity code. Customs uses this code
             to determine what duties should be assessed on the commodity.  Applies
-            to Invoice, Partial Invoice and USMCA. Required for USMCA and optional
-            for Partial Invoice. Should be at least 6 alphanumeric. For USMCA:
+            to Invoice, Partial Invoice and NAFTA CO. Required for NAFTA CO and optional
+            for Partial Invoice. Should be at least 6 alphanumeric. For NAFTA CO:
             For each good described in Description of Goods field, identify the H.S.
             tariff classification to six digits. If the good is subject to a specific
             rule of origin in Annex 401 that requires eight digits, identify to eight
@@ -8194,13 +8167,13 @@ components:
           maxLength: 2
         JointProductionIndicator:
           description: If present, JNT will be used as the origin of country or territory
-            code on the USMCA form and the Product/Origincountry or territoryCode
-            tag will be ignored.  Applies to USMCA only.
+            code on the NAFTA form and the Product/Origincountry or territoryCode
+            tag will be ignored.  Applies to NAFTA CO only.
           maximum: 1
           type: string
         NetCostCode:
           description: |
-            For each good described in the Description of Goods field, where the good is subject to a regional value content (RVC) requirement, indicate NC if the RVC is calculated according to the net cost method; otherwise, indicate NO. If the RVC is calculated over a period of time then indicate "NC with begin/end date" by passing code "ND"  Applies to USMCA only. Required for USMCA.  Valid values:
+            For each good described in the Description of Goods field, where the good is subject to a regional value content (RVC) requirement, indicate NC if the RVC is calculated according to the net cost method; otherwise, indicate NO. If the RVC is calculated over a period of time then indicate "NC with begin/end date" by passing code "ND"  Applies to NAFTA CO only. Required for NAFTA CO.  Valid values:
             - NC
             - ND
             - NO
@@ -8216,7 +8189,7 @@ components:
             are contained in Chapter Four and Annex 401. \n\nAdditional rules are
             described in Annex 703.2 (certain agricultural goods), Annex 300-B, Appendix
             6 (certain textile goods) and Annex 308.1 (certain automatic data processing
-            goods and their parts).  Applies to USMCA only."
+            goods and their parts).  Applies to NAFTA CO only."
           maximum: 1
           type: string
           minLength: 1
@@ -8228,7 +8201,7 @@ components:
             an originating good. \nNo [2] - Reliance on the producers written representation
             (other than a Certificate of Origin) that the good qualifies as an originating
             good. \nNo [3] - A completed and signed Certificate for the good voluntarily
-            provided to the exporter by the producer.  Applicable for USMCA and
+            provided to the exporter by the producer.  Applicable for NAFTA CO and
             is required. Valid values: Yes, No [1], No [2], and No [3]."
           maximum: 1
           type: string
@@ -8294,15 +8267,13 @@ components:
           "$ref": "#/components/schemas/Product_PackingListInfo"
         EEIInformation:
           "$ref": "#/components/schemas/Product_EEIInformation"
-        DDSReferenceNumber:
-          "$ref": "#/components/schemas/Product_DDSReferenceNumber"
       xml:
         name: Product
       description: "Contains the commodity/product information.  Applies to EEI, Invoice,
-        Partial Invoice, CO and USMCA. When any International form is requested,
+        Partial Invoice, CO and NAFTA CO. When any International form is requested,
         at least one Product must be present. \n\nMaximum number of products allowed
         for different forms are:\n\n50: Package Packing List\n\n100: Commercial Invoice,
-        USMCA, CO, EEI\n\n1000: Air Freight packing list\n\nNote: For Partial Invoice
+        NAFTA, CO, EEI\n\n1000: Air Freight packing list\n\nNote: For Partial Invoice
         this container is optional."
     Product_Unit:
       type: object
@@ -8377,7 +8348,7 @@ components:
         BeginDate:
           description: 'If the RVC is calculated over a period of time, it should
             be identified by the begin date (yyyyMMdd) of that period. (Reference:
-            Articles 402.1, 402.5).  Applies to USMCA only. Format is yyyyMMdd.'
+            Articles 402.1, 402.5).  Applies to NAFTA CO only. Format is yyyyMMdd.'
           maximum: 1
           type: string
           minLength: 8
@@ -8385,14 +8356,14 @@ components:
         EndDate:
           description: 'If the RVC is calculated over a period of time, it should
             be identified by the End date (yyyyMMdd) of that period. (Reference: Articles
-            402.1, 402.5).  Applies to USMCA only. Format is yyyyMMdd.'
+            402.1, 402.5).  Applies to NAFTA CO only. Format is yyyyMMdd.'
           maximum: 1
           type: string
           minLength: 8
           maxLength: 8
       xml:
         name: NetCostDateRange
-      description: Date Range for regional value content (RVC).  Applies to USMCA
+      description: Date Range for regional value content (RVC).  Applies to NAFTA
         CO only.
     Product_ProductWeight:
       type: object
@@ -8509,7 +8480,7 @@ components:
       - FormType
       properties:
         FormType:
-          description: Indicates the name of the International form requested to NOT have product information.  Possible Values are 04 – USMCA.  Please note that if this is used and you DO NOT have the corresponding form type requested this will be IGNORED.
+          description: Indicates the name of the International form requested to NOT have product information.  Possible Values are 04 – NAFTA CO.  Please note that if this is used and you DO NOT have the corresponding form type requested this will be IGNORED.
           type: array
           items:
             type: string
@@ -8562,14 +8533,6 @@ components:
       description: |-
         Data Container holding package/product related information that will break up the product into each package on the packing list.  Total product amount must equal the product unit value above. Required for packaging list and Air Freight Packing list.                                                      Packaging list max allowed : 20
         Air Freight Packaging list max allowed: 200
-    Product_DDSReferenceNumber:
-      type: object
-      maximum: 1
-      properties:
-        Number:
-          description: holds a list of DDS Reference Numbers
-          maximum: 5
-          type: string
     Product_EEIInformation:
       type: object
       maximum: 1
@@ -8811,7 +8774,7 @@ components:
           description: Begin date of the blanket period. It is the date upon which
             the Certificate becomes applicable to the good covered by the blanket
             Certificate (it may be prior to the date of signing this Certificate).  Applies
-            to USMCA form only. Required for USMCA. Format is yyyyMMdd. This
+            to NAFTA CO form only. Required for NAFTA CO. Format is yyyyMMdd. This
             is not valid for a paperless shipment.
           maximum: 1
           type: string
@@ -8819,7 +8782,7 @@ components:
           maxLength: 8
         EndDate:
           description: End Date of the blanket period. It is the date upon which the
-            blanket period expires.  Applies to USMCA form only. Required for USMCA
+            blanket period expires.  Applies to NAFTA CO form only. Required for NAFTA
             CO. Format is yyyyMMdd.  This is not valid for a paperless shipment.
           maximum: 1
           type: string
@@ -8827,12 +8790,12 @@ components:
           maxLength: 8
       xml:
         name: BlanketPeriod
-      description: This field should be entered if the  USMCA Certificate covers multiple
+      description: This field should be entered if the  NAFTA Certificate covers multiple
         shipments of identical goods as described in the Description of Goods field
-        that are imported into a USMCA country or territory for a specified period
+        that are imported into a NAFTA country or territory for a specified period
         of up to one year (the blanket period). The importation of a good for which
         preferential treatment is claimed based on this certificate must occur between
-        these dates.  Applies to USMCA form only. Required for USMCA.  This
+        these dates.  Applies to NAFTA CO form only. Required for NAFTA CO.  This
         is not valid for a paperless shipment.
     ShipmentServiceOptions_DeliveryConfirmation:
       type: object
@@ -9143,8 +9106,8 @@ components:
         name: Package
       required:
       - Packaging
-      description: Package Information container.  For Return Shipments up to 
-        20 packages are allowed. US/PR origin return movements are limited
+      description: Package Information container.  For Return Shipments up to and
+        including 20 packages are allowed. US/PR origin return movements are limited
         to only one package. For Mail Innovations and Simple Rate shipments only one
         package is allowed.
     Shipment_TradeDirect:
@@ -9159,7 +9122,7 @@ components:
           $ref: '#/components/schemas/TradeDirect_Child'
         GeneralDescriptionOfGoods:
           description: General description of the goods being shipped. It is required for master shipment. 
-          pattern: ^(?!\s*$)[a-zA-Z0-9 ]+$
+          pattern: ^[a-zA-Z0-9 ]{1,100}$
           type: string
         ShipmentType:
           description: |
@@ -9179,7 +9142,7 @@ components:
         CurrencyCode:
           description: The currency code for the shipment as per ISO 4217.
           type: string
-          pattern: ^(?!\s*$)[A-Z]{3}$
+          pattern: ^[A-Z]{3}$
       xml:
         name: TradeDirect
       maximum: 1
@@ -9232,14 +9195,12 @@ components:
           type: string
           minLength: 1
           maxLength: 35
-          pattern: ^(?!\s*$).{1,35}$
         AttentionName:
           description: Master Sold to Contact Name.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
-          pattern: ^.{0,35}$
         TaxIdentificationNumber:
           deprecated: true
           description: Master Sold To Tax Identification Number. This element has been deprecated, replacement can be found in the GlobalTaxInformation container.
@@ -9250,7 +9211,7 @@ components:
         Phone:
           $ref: '#/components/schemas/TradeDirect_Phone'
         Option:
-          description: "The text associated with the code will be printed in the sold to section of the USMCA form.  The values indicate the following: 01 – Unknown.  Applies to USMCA form. Possible Values are 01 and 02."
+          description: "The text associated with the code will be printed in the sold to section of the NAFTA CO form.  The values indicate the following: 01 – Unknown.  Applies to NAFTA CO form. Possible Values are 01 and 02."
           maximum: 1
           type: string
           minLength: 2
@@ -9286,14 +9247,12 @@ components:
           type: string
           minLength: 1
           maxLength: 35
-          pattern: ^(?!\s*$).{1,35}$
         AttentionName:
           description: Master Pickup Contact Name.
           maximum: 1
           type: string
           minLength: 1
           maxLength: 35
-          pattern: ^.{0,35}$
         Phone:
           $ref: '#/components/schemas/TradeDirect_Phone'
         Address:
@@ -9337,12 +9296,12 @@ components:
           description: Primary address line includes street number and street name (when applicable).
           maximum: 3
           type: string
-          pattern: ^(?!\s*$).{1,35}$
+          pattern: ^[A-Za-z0-9\s.,#/-]{1,35}$
           example: 123 South Main St
         City:
           description: The name of the city for the address.
           type: string
-          pattern: ^(?!\s*$).{1,35}$
+          pattern: ^[a-zA-Z\s.,]{1,35}$
           example: Atlanta
         StateProvinceCode:
           description: The code for the state or province for the address.
@@ -9401,15 +9360,15 @@ components:
           maxLength: 150
         DeclarationStatement:
           description: |
-            The type of declaration statement. Can be invoice or USMCA.
+            The type of declaration statement. Can be invoice or NAFTA.
             
              Valid values:
              
             - Invoice =	Invoice declaration
-            - USMCA = USMCA declaration	
+            - NAFTA = NAFTA declaration	
             
           type: string
-          enum: ["Invoice", "USMCA"]  
+          enum: ["Invoice", "NAFTA"]  
       xml:
        name: TradeComplianceDetails
       description: 'Contains trade compliance details for the master shipment, such as invoice terms, export reasons, and declaration statements. It also includes additional comments or instructions for customs clearance.'
@@ -9438,11 +9397,10 @@ components:
              Valid values:
              
             - LTL 
-            - SMALLPACKAGE 
-            - MI
+            - SMALLPACKAGE 	
             
           type: string
-          enum: ["LTL", "SMALLPACKAGE", "MI"]  
+          enum: ["LTL", "SMALLPACKAGE"]  
         Product:
           $ref: '#/components/schemas/Child_Product'
         LtlPackage:
@@ -9466,7 +9424,7 @@ components:
         Description:
           description: Description of the product being shipped.
           type: string
-          pattern: ^(?!\s*$)[a-zA-Z0-9 ]{1,100}$
+          pattern: ^[a-zA-Z0-9 ]{1,100}$
           example: ALPHA BRAIN INSTANT PEACH
         UnitPrice:
           description: Price per unit of the product being shipped.
@@ -9482,7 +9440,7 @@ components:
           description: Product number of the product being shipped.
           type: string
           example: IDID767640
-          pattern: ^(?!\s*$)[a-zA-Z0-9 ]{1,20}$
+          pattern: ^[a-zA-Z0-9 ]{1,20}$
         CountryOriginCode:
           description: Country code of the product being shipped.
           type: string
@@ -9535,123 +9493,6 @@ components:
             
           type: string
           enum: [ "BA", "BE", "BG", "BH", "BOX", "BT", "LB", "LBS", "L", "M", "NMB", "PA", "BU", "CI", "CM", "CON", "CR", "CS", "CT", "CY", "DOZ", "EA", "EN", "FT", "KG", "KGS", "PAL", "PC", "PCS", "PF", "OTH", "PKG", "PR", "PRS", "RL", "SET", "SME", "SYD", "TU", "YD" ]
-        CommodityCode:
-          description: '6-to-15-alphanumeric commodity code. Customs uses this code
-            to determine what duties should be assessed on the commodity.  Applies
-            to Invoice, Partial Invoice and USMCA. Required for USMCA and optional
-            for Partial Invoice. Should be at least 6 alphanumeric. For USMCA:
-            For each good described in Description of Goods field, identify the H.S.
-            tariff classification to six digits. If the good is subject to a specific
-            rule of origin in Annex 401 that requires eight digits, identify to eight
-            digits, using the H.S. tariff classification of the country or territory
-            into whose territory the good is imported.'
-          maximum: 1
-          type: string
-          minLength: 6
-          maxLength: 15        
-        JointProductionIndicator:
-          description: If present, JNT will be used as the origin of country or territory
-            code on the USMCA form and the Product/Origincountry or territoryCode
-            tag will be ignored.  Applies to USMCA only.
-          maximum: 1
-          type: string
-        NetCostCode:
-          description: |
-            For each good described in the Description of Goods field, where the good is subject to a regional value content (RVC) requirement, indicate NC if the RVC is calculated according to the net cost method; otherwise, indicate NO. If the RVC is calculated over a period of time then indicate "NC with begin/end date" by passing code "ND"  Applies to USMCA only. Required for USMCA.  Valid values:
-            - NC
-            - ND
-            - NO
-          maximum: 1
-          type: string
-          minLength: 2
-          maxLength: 2
-        NetCostDateRange:
-          "$ref": "#/components/schemas/Product_NetCostDateRange"
-        PreferenceCriteria:
-          description: "Indicates the criterion (A through F) for each good described
-            in the Description of Goods field if applicable. \n\nThe rules of origin
-            are contained in Chapter Four and Annex 401. \n\nAdditional rules are
-            described in Annex 703.2 (certain agricultural goods), Annex 300-B, Appendix
-            6 (certain textile goods) and Annex 308.1 (certain automatic data processing
-            goods and their parts).  Applies to USMCA only."
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 1
-        ProducerInfo:
-          description: "Indicate the following:  Yes - If shipper is the producer
-            of the good. If not, state 02, 03, and 04 depending on whether this certificate
-            was based upon:  \nNo [1] - Knowledge of whether the good qualifies as
-            an originating good. \nNo [2] - Reliance on the producers written representation
-            (other than a Certificate of Origin) that the good qualifies as an originating
-            good. \nNo [3] - A completed and signed Certificate for the good voluntarily
-            provided to the exporter by the producer.  Applicable for USMCA and
-            is required. Valid values: Yes, No [1], No [2], and No [3]."
-          maximum: 1
-          type: string
-          minLength: 3
-          maxLength: 5
-        MarksAndNumbers:
-          description: Any special marks, codes, and numbers that may appear on package.  Applies
-            to CO Only.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 35
-        NumberOfPackagesPerCommodity:
-          description: The total number of packages, cartons, or containers for the
-            commodity.  Applicable for CO and is required. Should be numeric. Valid
-            characters are 0 -9.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 3
-        ProductWeight:
-          "$ref": "#/components/schemas/Product_ProductWeight"
-        VehicleID:
-          description: 'Includes the following information for used self-propelled
-            vehicles as defined in Customs regulations 19 CFR 192.1: The unique Vehicle
-            Identification Number (VIN) in the proper format. Or The Product Identification
-            Number (PIN) for those used self-propelled vehicles for which there are
-            no VINs.  Or the Vehicle Title Number.  Applies to EEI forms only.'
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 25
-        ScheduleB:
-          "$ref": "#/components/schemas/Product_ScheduleB"
-        ExportType:
-          description: 'Code indicating Domestic: Exports that have been produced,
-            manufactured, or grown in the United States or Puerto Rico. This includes
-            imported merchandise which has been enhanced in value or changed from
-            the form in which imported by further manufacture or processing in the
-            United States or Puerto Rico. Foreign: Merchandise that has entered the
-            United States and is being exported again in the same condition as when
-            imported.   Applies to EEI forms only. Required for EEI form.  Valid values:  D:
-            Domestic; F: Foreign.'
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 1
-        SEDTotalValue:
-          description: |
-            This amount will always be USD.  Applies to EEI forms only. Required for EEI form. Valid characters are 0-9 and \'.\' (Decimal point). Limit to 2 digit after the decimal. The maximum length of the field is 15 including \'.\' and can hold up to 2 decimal places.
-
-            Note: This value is calculated based on the Product/Unit/Value and /Product/Unit/Number (Number of Units * Price per Unit). If the total value is incorrect it will be replaced by the actual calculated total value.
-          maximum: 1
-          type: string
-          minLength: 1
-          maxLength: 15
-        TaxesPaid:
-          description: "Invoice Commodity Level Tax Collected Code for each shipment commodity line.Taxes paid Indicator is only applicable for shipments to Singapore. [TaxesPaid = 0 - No on Report], [TaxesPaid = 1 -Yes on Report], [TaxesPaid = empty - null on Report], [If TaxesPaid is not passed in input request = null on Report]"
-          type: string
-        ExcludeFromForm:
-          "$ref": "#/components/schemas/Product_ExcludeFromForm"
-        PackingListInfo:
-          "$ref": "#/components/schemas/Product_PackingListInfo"
-        EEIInformation:
-          "$ref": "#/components/schemas/Product_EEIInformation"
-          
       xml:
         name: Product
       description: This variable represents the product details. It is used to provide information about the product being shipped.
@@ -9872,7 +9713,7 @@ components:
           description: 'Description of what the other charges are for.'
           type: string
           example: Miscellaneous charge
-          pattern: ^(?!\s*$)[a-zA-Z0-9 ]{1,30}$
+          pattern: ^[a-zA-Z0-9 ]{1,30}$
       xml:
         name: OtherCharges
       description: 'Any other miscellaneous charges.'
@@ -13980,16 +13821,11 @@ components:
       maximum: 1
       properties:
         AgentRole:
-          description: 'When the value passed to the AgentRole parameter is 30, 
-          the value passed to the IDNumberTypeCode parameter must be 1002, 1005 or 0005.
-          (SHIP_FROM=20, CONSIGNEE=30)'
+          description: '(SHIP_FROM=20, CONSIGNEE=30)'
           type: string
         TaxIdentificationNumber:
-          items:
-             $ref: >-
-               #/components/schemas/AgentTaxIdentificationNumber_TaxIdentificationNumber
-          maximum: 8
-          type: array
+          $ref: >-
+            #/components/schemas/AgentTaxIdentificationNumber_TaxIdentificationNumber
       required:
         - AgentRole
       type: object
@@ -14148,11 +13984,8 @@ components:
           minLength: 2
           maxLength: 2
         AgentTaxIdentificationNumber:
-          type: array
-          items:
-             $ref: >-
-               #/components/schemas/GlobalTaxInformation_AgentTaxIdentificationNumber
-          maximum: 4
+          $ref: >-
+            #/components/schemas/GlobalTaxInformation_AgentTaxIdentificationNumber
       type: object
       xml:
         name: GlobalTaxInformation
