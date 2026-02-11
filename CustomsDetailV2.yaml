@@ -1,32 +1,28 @@
 openapi: 3.1.0
 info:
-  title: UGC Customs Detail API v2
+  title: Customs Detail API v2
   version: "1.0"
-  description: >
-    Informs clients of the latest compliance needs for fields to be collected at the creation of UPS Brokerage shipments. 
-    This API can then validate the values for these fields and accept them for merging to a shipment in the backend.
+  description: |
 
-    **Key Business Values:**
-    - keeps clients updated with latest compliance needs
-    - field data collection can be handled through user configuration
-    - the flexible framework removes the need for additional code changes as fields change
+    # Product Info
+    Provides clients with up‑to‑date compliance requirements for data fields that must be captured for UPS shipments. The API then validates these field values and submits them for backend merging into the shipment. For more information on the Customs Detail API, please visit the <a href="https://developer.ups.com/api/reference/customsdetail/product-info"
+    target="_blank" rel="noopener">Product Info</a> page.<br/><br/>
+
+    # Key Business Values
+    - Ensures clients always receive the latest compliance requirements.
+    - Allows field collection to be fully managed through configurable user settings.
+    - Flexible framework eliminates additional code changes as compliance fields evolve.
+    - Flexible field model supports new country rules without disruptive changes, so you can expand lanes and stay current as regulations evolve.
 servers:
-  - url: https://www.livesite.ups.com/trade/compliance/{version}
-    description: URL for JWT based authentication that can be used for any environment (production, staging, product test) via hosts file.
-    variables:
-      version:
-        default: v2
-        enum:
-          - v2
   - url: https://onlinetools.ups.com/api/trade/compliance/{version}
-    description: URL for Oauth based authentication that can be used for any environment (production, staging, product test) via hosts file.
+    description: Production
     variables:
       version:
         default: v2
         enum:
           - v2
   - url: https://wwwcie.ups.com/api/trade/compliance/{version}
-    description: UPS Production CIE
+    description: Customer Integration Environment
     variables:
       version:
         default: v2
@@ -38,7 +34,7 @@ tags:
 paths:
   /content/fields/customs-detail:
     post:
-      summary: validate and/or submit the fields
+      summary: Validate and/or submit the fields
       description: This endpoint will provide the ability to validate and/or submit the additional field information for a shipment
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -208,7 +204,7 @@ paths:
         "500":
           $ref: '#/components/responses/ServerError'
     get:
-      summary: returns required custom details
+      summary: Returns required custom details
       description: This returns an array of fields that are required for the provided import and/or export country
       parameters:
         - $ref: "#/components/parameters/transId"
