@@ -339,7 +339,7 @@ paths:
         required: true
         content:
           application/json:
-            schema:  
+            schema:
              oneOf:
                - $ref: "#/components/schemas/PICKUPCreationRequestWrapper"
                - $ref: "#/components/schemas/PICKUPTriggerGWNRequestWrapper"
@@ -398,7 +398,7 @@ paths:
                       TransactionReference:
                          CustomerContext: "Smart Pickup Request"
                       AccountNumber: "1004YY"
-                      ServiceDateOption: "01"      
+                      ServiceDateOption: "01"        
       responses:
         '200':
           description: successful operation
@@ -2685,7 +2685,7 @@ components:
         Description:
           type: string
           description: Human readable description of the trigger status.
-          example: "NEW"    
+          example: "NEW"
     PICKUPPolDivRequestWrapper:
       xml:
         name: PickupGetPoliticalDivision1ListRequest
