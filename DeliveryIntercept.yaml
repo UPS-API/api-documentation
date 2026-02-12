@@ -58,7 +58,7 @@ paths:
       description: Obtains intercept charges specified by the inquiry type and tracking number passed in the interface.
       operationId: getCharges
       tags: 
-        - Delivery Intercept
+        - UPS Delivery Intercept
       security:
         - OAuth2: []
       parameters:
@@ -329,7 +329,7 @@ paths:
       description: Retrieves the delivery change eligibility information for the tracking number passed in the interface.
       operationId: getEligibilityOptions
       tags:
-        - Delivery Intercept
+        - UPS Delivery Intercept
       security:
         - OAuth2: []
       parameters:
@@ -482,7 +482,7 @@ paths:
       description: Submits a deliver to another address delivery change for the tracking number passed in the interface.
       operationId: getRedirectInterceptOptions
       tags:
-        - Delivery Intercept
+        - UPS Delivery Intercept
       security:
         - OAuth2: []
       parameters:
@@ -633,7 +633,7 @@ paths:
       description: Request your package to be held at or returned to a UPS facility where the receiver may claim the same-day.
       operationId: willcallInterceptOption
       tags:
-        - Delivery Intercept
+        - UPS Delivery Intercept
       security:
         - OAuth2: []
       parameters:
@@ -763,7 +763,7 @@ paths:
       description: Return a package to the original shipper prior to delivery.
       operationId: returnInterceptOption
       tags:
-        - Delivery Intercept
+        - UPS Delivery Intercept
       security:
         - OAuth2: []
       parameters:
@@ -894,7 +894,7 @@ paths:
       description: Have the package delivered to the original address but on a different day in the future.
       operationId: rescheduleInterceptOption
       tags:
-        - Delivery Intercept
+        - UPS Delivery Intercept
       security:
         - OAuth2: []
       parameters:
@@ -1025,7 +1025,7 @@ paths:
       description: Cancel a previously applied intercept on the package.
       operationId: cancelInterceptOption
       tags:
-        - Delivery Intercept
+        - UPS Delivery Intercept
       security:
         - OAuth2: []
       parameters:
@@ -2232,4 +2232,5 @@ components:
       additionalProperties: false
       required: 
         - errorCode
+
         - errorMessage
