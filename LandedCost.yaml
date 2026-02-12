@@ -35,7 +35,7 @@ paths:
     post:
       summary: Landed Cost Quote API
       tags:
-        - Landed Cost
+        - Estimated Landed Cost Quoting
       security:
         - OAuth2: []
       description: The Landed Cost Quote API allows you to estimate the all-inclusive
@@ -662,3 +662,4 @@ components:
           type: string
           description: The error message.
       description: The error response containing any errors that occurred.
+
