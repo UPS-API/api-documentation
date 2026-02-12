@@ -37,7 +37,7 @@ servers:
 security:
   - OAuth2: []
 tags:
-  - name: Interactive Description
+  - name: UPS® Export Assure Interactive Description of Goods
     description: Operations for interactively generating detailed product descriptions and HTC codes.
   - name: Feedback
     description: Operations for providing feedback using the 'id' of a question.
@@ -45,7 +45,7 @@ paths:
   /interactive:
     post:
       tags:
-        - Interactive Description
+        - UPS® Export Assure Interactive Description of Goods
       summary: Initiates an interactive description session for a product.
       description: Initiates an interactive description session for a product.
       security:
@@ -255,7 +255,7 @@ paths:
   /interactive/{sessionId}:
     post:
       tags:
-        - Interactive Description
+        - UPS® Export Assure Interactive Description of Goods
       summary: Continues refinement of product description and HTS code via questions and answers.
       description: |
         This endpoint facilitates the ongoing interactive process for refining a product description and determining its corresponding Harmonized Tariff Schedule (HTS) code. 
@@ -454,7 +454,7 @@ paths:
   /interactive/feedback/{sessionId}:
     post:
       tags:
-        - Interactive Description
+        - UPS® Export Assure Interactive Description of Goods
       summary: Allows the user to provide feedback on a specific question of the
         overall session.
       description: Allows the user to provide feedback on a specific question of the
@@ -892,4 +892,5 @@ components:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
           tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
+
           scopes: {}
