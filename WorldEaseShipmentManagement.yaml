@@ -32,7 +32,7 @@ paths:
   /master-shipment/closeout/{shipment-gccn}:
     post:
       tags:
-        - World Ease Shipment Management - Shipment
+        - World Ease Shipment Management
       operationId: saveCloseOutShipment
       summary: Close Out Shipment
       description: |
@@ -143,7 +143,7 @@ paths:
   /master-shipment/{shipment-gccn}:
     delete:
       tags:
-        - World Ease Shipment Management - Shipment
+        - World Ease Shipment Management
       operationId: "deleteMasterShipment"
       summary: "Deletes the master shipment"
       description: " Deletes the specified master shipment from the system. Once deleted system cannot be recovered"
@@ -247,7 +247,7 @@ paths:
   /child-shipment/{shipment-gccn}/{tracking-number}:
     delete:
       tags:
-        - World Ease Shipment Management - Shipment
+        - World Ease Shipment Management
       operationId: "deleteChildShipment"
       summary: "Delete the child shipment "
       description: " This is used to delete the child shipment record from the database"
@@ -456,3 +456,4 @@ components:
       maxLength: 512  
       example:
         SAM
+
