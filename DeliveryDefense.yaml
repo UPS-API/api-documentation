@@ -20,7 +20,7 @@ info:
     The API is designed to enable customers to obtain an Address Confidence score based on analysis of historical data.
 version: "1.0"
 tags:
-  - name: Delivery Defense
+  - name: DeliveryDefense™ Address Confidence
 servers:
   - url: https://wwwcie.ups.com/api/deliverydefense/external/v1.0
     description: DeliveryDefense Customer Integration Environment
@@ -30,7 +30,7 @@ paths:
   /address/score:
     post:
       tags:
-        - Delivery Defense
+        - DeliveryDefense™ Address Confidence
       operationId: "score"
       summary: Get Verified Address Score
       description: |
@@ -326,4 +326,5 @@ components:
               type: string
               description: >-
                 Indicates if the address used for lookup is residential or
+
                 commercial
