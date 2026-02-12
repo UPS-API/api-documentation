@@ -46,7 +46,7 @@ paths:
       security:
         - OAuth2: [] 
       tags: 
-        -  UPS® Global Checkout
+        - UPS® Global Checkout
       parameters: 
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -724,3 +724,4 @@ components:
           example: shipment.importCountryCode
 
   
+
