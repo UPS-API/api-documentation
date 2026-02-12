@@ -33,7 +33,7 @@ servers:
         enum:
         - v1
 tags: 
-  - name: Global Checkout
+  - name: UPS® Global Checkout
     description: Operations related to guaranteed rate quotes
 security: 
   - OAuth2: []
@@ -46,7 +46,7 @@ paths:
       security:
         - OAuth2: [] 
       tags: 
-        -  Global Checkout
+        -  UPS® Global Checkout
       parameters: 
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -722,4 +722,5 @@ components:
           type: string
           description: The path to the field causing the error as returned from the backend services.
           example: shipment.importCountryCode
+
   
