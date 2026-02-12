@@ -26,7 +26,7 @@ paths:
   /master-shipments/{usi-number}:
     delete:
       tags:
-        -  UPS TradeDirect
+        - UPS TradeDirect
       summary: Delete master shipment
       description: "This API allows users to delete a master shipment identified by a unique shipment identifier (USI) and the shipper's account number. The master shipment and its associated child shipments will be permanently removed."
       operationId: deleteMasterShipment
@@ -188,7 +188,7 @@ paths:
   /master-shipments/{usi-number}/child-shipments/{tracking-number}:
     delete:
       tags:
-        -  UPS TradeDirect
+        - UPS TradeDirect
       summary: Delete small package shipment
       description: "Deletes a small package child shipment identified by a unique shipment identifier (USI) representing the master shipment and the shipment's tracking number."
       operationId: deleteChildShipment
@@ -348,7 +348,7 @@ paths:
   /master-shipments/{usi-number}/closeout:
     post:
       tags:
-        -  UPS TradeDirect
+        - UPS TradeDirect
       operationId: closeoutMasterShipment
       summary: Closeout a Master Shipment
       description: Transitions a master shipment to a closed state, finalizing its processing. Identified by a unique shipment identifier (USI).
@@ -607,7 +607,7 @@ paths:
   /master-shipments/{usi-number}/ltl-child-shipments/{sub-pro-number}:
     delete:
       tags:
-        -  UPS TradeDirect
+        - UPS TradeDirect
       operationId: deleteLtlChildShipment
       summary: Delete Less Than Truckload (LTL) child shipment
       description: "Deletes a Less Than Truckload (LTL) child shipment identified by a unique shipment identifier (USI) and a sub pro number."
@@ -766,7 +766,7 @@ paths:
   /master-shipments/documents:
     post:
       tags:
-        -  UPS TradeDirect
+        - UPS TradeDirect
       operationId: documentLabelPlayback
       summary: Genereate Documents and Labels for LTL Shipments and Closeout
       description: "Generates documents and labels for master/ltl shipments identified by a unique shipment identifier (USI)."
@@ -1454,3 +1454,4 @@ components:
 security:
 
   - oauth2: []
+
