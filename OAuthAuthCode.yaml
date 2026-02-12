@@ -49,7 +49,7 @@ paths:
         - url: https://onlinetools.ups.com/security
           description: Production
       tags:
-        - OAuth Auth Code
+        - Authorization (OAuth)
       summary: Authorize Client
       description: |-
         The Authorize Client endpoint initiates the OAuth Authorization Code flow by redirecting the user to UPS for logging-in and authorize the client application. To begin the authorization flow, the application constructs a URL using the application's client Id, the redirect URI, the scope of permissions requested, and a random string used for subsequent verification. A successful response redirects back to the client with an authorization code that can be exchanged for an access token.
@@ -414,3 +414,4 @@ components:
           description: Error message
 
           type: string
+
