@@ -76,7 +76,7 @@ paths:
     post:
       operationId: submitExportAssure
       tags:
-        - Export Assure
+        - UPS® Export Assure Commodity Compliance Guidance
       summary: Submit shipment details for compliance guidance
       parameters:
         - $ref: '#/components/parameters/AccountNumber'
@@ -2025,4 +2025,5 @@ components:
         perfStats: 
           absLayerTime: "2322"
           fulfillTime: Tue Mar 19 12:29:16.523 -04:00 2024
+
           receiptTime: Tue Mar 19 12:29:14.201 -04:00 2024
