@@ -159,7 +159,7 @@ paths:
          - List of valid tracking number for which subscription created.
          - List of invalid tracking number for which subscription not created.
       tags:
-        - UPS Track Alert
+        - UPS Track Alert API
       summary: API to create subscriptions by tracking numbers.
       operationId: processSubscriptionTypeForTrackingNumber
       security:
@@ -280,7 +280,7 @@ webhooks:
       summary: Tracking Event
       description: This HTTPS POST request will send information about a new tracking event in the system. Please ensure the webhook URL provided in the subscription request is ready to receive this POST request. Note that not every field will have a value in each message. The webhook event dispatched by our API requires an acknowledgement within milliseconds to ensure optimal performance and reliability. Please ensure your endpoint is capable of handling and responding to events in this time frame.
       tags:
-        - UPS Track Alert
+        - UPS Track Alert API
       parameters:
         - name: credential
           in: header
@@ -727,4 +727,5 @@ components:
         description:
           type: string
           description: The current activity status description.
+
 
