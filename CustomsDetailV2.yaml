@@ -13,6 +13,11 @@ info:
     - Allows field collection to be fully managed through configurable user settings.
     - Flexible framework eliminates additional code changes as compliance fields evolve.
     - Flexible field model supports new country rules without disruptive changes, so you can expand lanes and stay current as regulations evolve.
+    
+    # Reference
+    - <a href="https://developer.ups.com/api/reference/customdetails/error-codes" target="_blank" rel="noopener">Errors</a>
+    - <a href="https://developer.ups.com/api/reference/customdetails/faq" target="_blank" rel="noopener">FAQ</a>
+    
 servers:
   - url: https://onlinetools.ups.com/api/trade/compliance/{version}
     description: Production
@@ -1246,3 +1251,4 @@ components:
       required: 
         - response
       additionalProperties: false
+
