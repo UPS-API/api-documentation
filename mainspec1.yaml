@@ -33,6 +33,9 @@ tags:
   - name: Commerce Guard
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CommerceGuard.yaml#/info/description"
+  - name: Customs Detail
+    description: 
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailsV2.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods.yaml#/info/description"
@@ -243,6 +246,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert.yaml#/paths/~1subscription~1standard~1package"
   "/commerce-guard/{version}/verify":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
+  "/trade/compliance/{version}/content/fields/customs-detail":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/paths/~1trade~1compliance~1{version}~1content~1fields~1customs-detail"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert.yaml#/webhooks/TrackingEvent"
@@ -259,6 +264,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
