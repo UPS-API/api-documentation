@@ -34,7 +34,7 @@ servers:
         enum:
         - v2
 tags:
-  - name: Field Data
+  - name: Customs-Detail
     description:  Endpoints related to the required fields
 paths:
   /content/fields/customs-detail:
@@ -58,7 +58,7 @@ paths:
         - oauthCie: []
         - JWTAuth: []
       tags:
-        - Field Data
+        - Customs-Detail
       requestBody:
         content:
           application/json:
@@ -271,7 +271,7 @@ paths:
         - oauthCie: []
         - JWTAuth: []
       tags:
-        - Field Data
+        - Customs-Detail
       responses:
           "200":
             description: Success
@@ -1251,4 +1251,5 @@ components:
       required: 
         - response
       additionalProperties: false
+
 
