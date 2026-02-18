@@ -42,9 +42,6 @@ tags:
   - name: Forwarding
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/info/description"
-  #- name: Global Checkout
-  #  description:
-  #    $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/GlobalCheckout.yaml#/info/description"
   - name: Landed Cost
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/LandedCost-Ready.yaml#/info/description"
@@ -221,8 +218,6 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/InteractiveDescriptionGuidance.yaml#/paths/~1interactive~1{sessionId}"
   "/export-assure/{version}/interactive/feedback/{sessionId}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/InteractiveDescriptionGuidance.yaml#/paths/~1interactive~1feedback~1{sessionId}"
-  #"/brokerage/{version}/content/glc/request-quote":
-  #  "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/GlobalCheckout.yaml#/paths/~1content~1glc~1request-quote"
   "/ship/{version}/master-shipment/closeout/{shipment-gccn}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1closeout~1{shipment-gccn}"
   "/ship/{version}/master-shipment/{shipment-gccn}":
@@ -231,6 +226,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
   "/track/{version}/subscription/standard/package":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert-Ready.yaml#/paths/~1subscription~1standard~1package"
+  "/trade/compliance/{version}/content/fields/customs-detail":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/paths/~1content~1fields~1customs-detail"
   "/commerce-guard/{version}/verify":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
 webhooks:
@@ -249,6 +246,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode-Ready.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
