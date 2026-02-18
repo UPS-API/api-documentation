@@ -30,15 +30,15 @@ tags:
   - name: Address Validation
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/AddressValidation.yaml#/info/description"
+  - name: Customs Detail
+    description: 
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DangerousGoods.yaml#/info/description"
   - name: Forwarding
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/info/description"
-  #- name: Global Checkout
-  #  description:
-  #    $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/GlobalCheckout.yaml#/info/description"
   - name: Landed Cost
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/LandedCost.yaml#/info/description"
@@ -252,6 +252,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
