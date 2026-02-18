@@ -247,7 +247,7 @@ paths:
   "/commerce-guard/{version}/verify":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
   "/trade/compliance/{version}/content/fields/country-fields":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/paths/~1trade~1compliance~1{version}~1content~1fields~1country-fields"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/paths/~1content~1fields~1country-fields"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert.yaml#/webhooks/TrackingEvent"
@@ -264,6 +264,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
