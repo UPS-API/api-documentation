@@ -212,6 +212,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1{shipment-gccn}"
   "/ship/{version}/child-shipment/{shipment-gccn}/{tracking-number}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
+  "/trade/compliance/{version}/content/fields/customs-detail":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/paths/~1content~1fields~1customs-detail"
   "/track/{version}/subscription/standard/package":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert.yaml#/paths/~1subscription~1standard~1package"
 webhooks:
@@ -230,6 +232,7 @@ components:
     BasicAuthRefresh:
 
       $ref: 'https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/OAuthAuthCode.yaml#/components/securitySchemes/BasicAuthRefresh'
+
 
 
 
