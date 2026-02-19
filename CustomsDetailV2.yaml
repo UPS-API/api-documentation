@@ -2,9 +2,8 @@ openapi: 3.1.0
 info:
   title: Customs Detail API v2
   version: "1.0"
-  description: |
-
-    # Product Info
+  description: >
+  # Product Info
     Provides clients with up‑to‑date compliance requirements for data fields that must be captured for UPS shipments. The API then validates these field values and submits them for backend merging into the shipment. For more information on the Customs Detail API, please visit the <a href="https://developer.ups.com/api/reference/customsdetail/product-info"
     target="_blank" rel="noopener">Product Info</a> page.<br/><br/>
 
@@ -17,7 +16,7 @@ info:
     # Reference
     - <a href="https://developer.ups.com/api/reference/customdetails/error-codes" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/customdetails/faq" target="_blank" rel="noopener">FAQ</a>
-    
+   
 servers:
   - url: https://onlinetools.ups.com/api/trade/compliance/{version}
     description: Production
@@ -27,7 +26,7 @@ servers:
         enum:
           - v2
   - url: https://wwwcie.ups.com/api/trade/compliance/{version}
-    description: Customer Integration Environment
+    description: CIE
     variables:
       version:
         default: v2
@@ -78,12 +77,8 @@ paths:
                 - groupKey: IN-EXP-CSB
                   fields:
                     - fieldKey: CSBType
-                      regulationSections:
-                        - sectionKey: CSB
                       fieldValue: "3"
                     - fieldKey: IECCode
-                      regulationSections:
-                        - sectionKey: CSB
                       fieldValue: "99"
               products:
                 - productId: PART-001
@@ -93,12 +88,8 @@ paths:
                     - groupKey: IN-EXP-CSB
                       fields:
                         - fieldKey: Amount
-                          regulationSections:
-                            - sectionKey: CSB
                           fieldValue: "10"
                         - fieldKey: CurrencyCode
-                          regulationSections:
-                            - sectionKey: CSB
                           fieldValue: USD
                     - groupKey: US-IMP-FDA
                       fields:
@@ -209,7 +200,7 @@ paths:
         "500":
           $ref: '#/components/responses/ServerError'
     get:
-      summary: Returns required custom details
+      summary: Returns required Custom Details
       description: This returns an array of fields that are required for the provided import and/or export country
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -695,7 +686,7 @@ components:
             response:
               errors:
                 - code: "105.001"
-                  description: INVALID_FIELD
+                  description: INVALID_FIELD_VALUE
                   field: importCountryCode
                   message: Supplied value was not in the correct range of valid values.
                   value: USA
@@ -810,7 +801,6 @@ components:
                   additionalProperties: false
                   required:
                     - regulation
-                    - regulationSections
             additionalProperties: false
             required:
               - commodityCode
@@ -1083,7 +1073,6 @@ components:
                     - fieldType
                     - allowedValueCount
                     - validation
-                    - regulationSections
               additionalProperties: false
             additionalProperties: false
             required:
@@ -1091,8 +1080,6 @@ components:
               - shipmentType
               - groupKey
               - details
-              - regulation
-              - regulationSections
               - fields
       additionalProperties: false
       required:
@@ -1107,7 +1094,7 @@ components:
       example: "300490"
     CustomDetailsGroupKeyv2:
       type: string
-      description: Field group key returned by the GET endpoint used to scope the shipment metadata payload.
+      description: Field group key returned by the GET endpoint used to scope the shipment metadata payload; value should match the selected `groupKey` from that response.
       minLength: 1
       maxLength: 50
       example: US-IMP-CDC
@@ -1129,7 +1116,7 @@ components:
               properties:
                 fieldKey:
                   type: string
-                  description: Identifier for the field.
+                  description: Unique field identifier (1-50 chars) that must match a `fieldKey` returned by the GET response for the selected group (e.g., ImportLicenseNumber, CSBType, MnuNa). 
                   minLength: 1
                   maxLength: 50
                   examples:
@@ -1148,9 +1135,10 @@ components:
                     - MnuPslCd
                 regulationSections:
                   $ref: '#/components/schemas/CustomDetailsRegulationSectionv2'
+                  description: Regulation sections for the field, copied from the GET response so the submission matches the returned metadata.
                 fieldValue:
                   type: string
-                  description: Value of the field
+                  description: User-entered value for the matched `fieldKey` (up to 500 chars); populate with the value provided for the field returned by the GET endpoint.
                   minLength: 0
                   maxLength: 500
                   example: UPS Labs
@@ -1226,7 +1214,7 @@ components:
                       - "null"
                     description: Internal description of the error
                     minLength: 1
-                    example: INVALID_KEY
+                    example: INVALID_FIELD_KEY
                   field:
                     type:
                       - string
@@ -1251,6 +1239,3 @@ components:
       required: 
         - response
       additionalProperties: false
-
-
-
