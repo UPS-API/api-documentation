@@ -3,7 +3,7 @@ info:
   title: Customs Detail API v2
   version: "1.0"
   description: >
-  # Product Info
+   # Product Info
     Provides clients with up‑to‑date compliance requirements for data fields that must be captured for UPS shipments. The API then validates these field values and submits them for backend merging into the shipment. For more information on the Customs Detail API, please visit the <a href="https://developer.ups.com/api/reference/customsdetail/product-info"
     target="_blank" rel="noopener">Product Info</a> page.<br/><br/>
 
