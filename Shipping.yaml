@@ -6,6 +6,7 @@ info:
   description: |
   
     The Shipping Package API gives the application many ways to manage the shipment of packages to their destination.
+    # Reference
     - <a href="https://developer.ups.com/api/reference/shipping/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/shipping/appendix1" target="_blank" rel="noopener">Appendix 1</a>
     - <a href="https://developer.ups.com/api/reference/shipping/appendix2" target="_blank" rel="noopener">Appendix 2</a>
