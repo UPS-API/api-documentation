@@ -6,13 +6,13 @@ info:
   description: |
   
     The Shipping Package API gives the application many ways to manage the shipment of packages to their destination.
-    # Reference
-    - <a href="https://developer.ups.com/api/reference/shipping/business-rules" target="_blank" rel="noopener">Business Rules</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/appendix1" target="_blank" rel="noopener">Appendix 1</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/appendix2" target="_blank" rel="noopener">Appendix 2</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/errors" target="_blank" rel="noopener">Errors</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/faq" target="_blank" rel="noopener">FAQ</a>
-    - <a href="https://developer.ups.com/api/reference/shipping/best-practices" target="_blank" rel="noopener noreferrer"> Best Practices</a>
+    test
+    <a href="https://developer.ups.com/api/reference/shipping/business-rules" target="_blank" rel="noopener">Business Rules</a>
+    <a href="https://developer.ups.com/api/reference/shipping/appendix1" target="_blank" rel="noopener">Appendix 1</a>
+    <a href="https://developer.ups.com/api/reference/shipping/appendix2" target="_blank" rel="noopener">Appendix 2</a>
+    <a href="https://developer.ups.com/api/reference/shipping/errors" target="_blank" rel="noopener">Errors</a>
+    <a href="https://developer.ups.com/api/reference/shipping/faq" target="_blank" rel="noopener">FAQ</a>
+    <a href="https://developer.ups.com/api/reference/shipping/best-practices" target="_blank" rel="noopener noreferrer"> Best Practices</a>
 
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
@@ -14180,5 +14180,6 @@ components:
           type: string
           description: The error message.
       description: The error response containing any errors that occurred.
+
 
 
