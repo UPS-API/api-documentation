@@ -83,7 +83,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/SHIPRequestWrapper"
             examples:
-              '1':
+              'Shipping Request(Standard Example)':
                 summary: Shipping Request(Standard Example)
                 value:
                   ShipmentRequest:
@@ -166,7 +166,7 @@ paths:
                         Code: GIF
                         Description: GIF
                       HTTPUserAgent: Mozilla/4.5
-              '2':
+              'Shipping Request with Negotiated Rates':
                 summary: Shipping Request with Negotiated Rates
                 value:
                   ShipmentRequest:
@@ -14180,3 +14180,4 @@ components:
           type: string
           description: The error message.
       description: The error response containing any errors that occurred.
+
