@@ -5141,8 +5141,7 @@ components:
           minLength: 1
           maxLength: 14
         EMailAddress:
-          description: Shipper's email address.  Must be associated with the UserId
-            specified in the AccessRequest XML.
+          description: Shipper's email address.
           maximum: 1
           type: string
           minLength: 1
