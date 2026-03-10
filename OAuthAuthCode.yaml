@@ -150,7 +150,7 @@ paths:
         - url: https://onlinetools.ups.com/security
           description: Production
       tags:
-        - OAuth Auth Code
+        - Authorization (OAuth)
       security:
       - BasicAuthGenerate: []
       description: The Generate Token endpoint exchanges the authorization code received
@@ -229,7 +229,7 @@ paths:
       - BasicAuthRefresh: []
       summary: Refresh Token
       tags:
-        - OAuth Auth Code
+        - Authorization (OAuth)
       operationId: RefreshToken
       description: The /refresh endpoint is used to refresh an expired access token
         in order to continue accessing a UPS API on behalf of a user. The endpoint
@@ -414,4 +414,5 @@ components:
           description: Error message
 
           type: string
+
 
