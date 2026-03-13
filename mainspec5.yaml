@@ -182,6 +182,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1master-shipment~1{shipment-gccn}"
   "/ship/{version}/child-shipment/{shipment-gccn}/{tracking-number}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
+  "/trade/compliance/{version}/content/fields/customs-detail":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/paths/~1content~1fields~1customs-detail"
 components:
   securitySchemes:
     OAuth2:
