@@ -737,7 +737,7 @@ components:
             - save
         trackingNumber:
           type: string
-          description: Tthe lead 1Z number for the shipment. Required when actionType is save.
+          description: The lead 1Z number for the shipment. Required when actionType is save.
           minLength: 18
           maxLength: 18
           pattern: ^1Z[0-9A-Z]{16}$
