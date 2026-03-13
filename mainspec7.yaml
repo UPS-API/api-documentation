@@ -30,6 +30,9 @@ tags:
   - name: Address Validation
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/AddressValidation.yaml#/info/description"
+  - name: Customs Detail
+    description: 
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods.yaml#/info/description"
