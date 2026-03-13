@@ -24,6 +24,9 @@ tags:
   - name: Address Validation
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/AddressValidation.yaml#/info/description"
+  - name: Customs Detail
+    description: 
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CustomsDetailV2.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods.yaml#/info/description"
@@ -214,6 +217,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/WorldEaseShipmentManagement.yaml#/paths/~1child-shipment~1{shipment-gccn}~1{tracking-number}"
   "/track/{version}/subscription/standard/package":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert.yaml#/paths/~1subscription~1standard~1package"
+  "/trade/compliance/{version}/content/fields/customs-detail":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CustomsDetailV2.yaml#/paths/~1content~1fields~1customs-detail"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert.yaml#/webhooks/TrackingEvent"

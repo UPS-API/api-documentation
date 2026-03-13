@@ -33,6 +33,9 @@ tags:
   - name: Commerce Guard
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CommerceGuard.yaml#/info/description"
+  - name: Customs Detail
+    description: 
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CustomsDetailV2.yaml#/info/description"
   - name: Dangerous Goods
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/DangerousGoods.yaml#/info/description"
@@ -243,6 +246,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert.yaml#/paths/~1subscription~1standard~1package"
   "/commerce-guard/{version}/verify":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
+  "/trade/compliance/{version}/content/fields/customs-detail":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CustomsDetailV2.yaml#/paths/~1content~1fields~1customs-detail"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert.yaml#/webhooks/TrackingEvent"
