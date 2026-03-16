@@ -81,6 +81,39 @@ tags:
   - name: World Ease Shipment Management - Shipment
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/info/description"
+  - name: Delivery Order
+    description: 
+      $ref: "Delivery-APIs.yml#/info/description"
+  - name: Eligibility
+    description: 
+      $ref: "Eligibility-APIs.yml#/info/description"
+  - name: Location Management
+    description:
+      $ref: "Location-API.yml#/info/description"
+  - name: Lynks
+    description:
+      $ref: "Lynks-APIs.yml#/info/description"   
+  - name: LynkUp Workflow
+    description:
+      $ref: "Lynkup-Workflow-Solutions-APIs.yml#/info/description"       
+  - name: Pickup Order
+    description: 
+      $ref: "Pickup-API.yml#/info/description"
+  - name: Provider Rates and Availability
+    description: 
+      $ref: "Rates-API.yml#/info/description"
+  - name: Returns
+    description: 
+      $ref: "Returns-API.yml#/info/description"
+  - name: Invoice Management
+    description: 
+      $ref: "Returns-Invoice-API.yml#/info/description"
+  - name: Shipping Order
+    description: 
+      $ref: "Shipping-Order-API.yml#/info/description"
+  - name: Tracker
+    description: 
+      $ref: "Tracker-API.yml#/info/description" 
 paths:
   "/addressvalidation/{version}/{requestoption}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/AddressValidation-Ready.yaml#/paths/~1addressvalidation~1{version}~1{requestoption}"
@@ -230,6 +263,74 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CustomsDetailV2.yaml#/paths/~1content~1fields~1customs-detail"
   "/commerce-guard/{version}/verify":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
+  "/delivery/{version}/deliveries":
+    "$ref": "Delivery-APIs.yml#/paths/~1deliveries"
+  "/delivery/{version}/deliveries/list":
+    "$ref": "Delivery-APIs.yml#/paths/~1deliveries~1list"
+  "/delivery/{version}/deliveries/{delivery_id}":
+    "$ref": "Delivery-APIs.yml#/paths/~1deliveries~1{delivery_id}"
+  "/delivery/{version}/deliveries/{delivery_id}/status-history":
+    "$ref": "Delivery-APIs.yml#/paths/~1deliveries~1{delivery_id}~1status-history"
+  "/delivery/{version}/deliveries/{delivery_id}/retry":
+    "$ref": "Delivery-APIs.yml#/paths/~1deliveries~1{delivery_id}~1retry"
+  "/eligibility/{version}/smart-windows":
+    "$ref": "Eligibility-APIs.yml#/paths/~1smart-windows"
+  "/eligibility/{version}/coverage/{services}":
+    "$ref": "Eligibility-APIs.yml#/paths/~1coverage~1{services}"
+  "/eligibility/{version}/confidence-score/{logistics_type}":
+    "$ref": "Eligibility-APIs.yml#/paths/~1confidence-score~1{logistics_type}"
+  "/location/{version}/locations":
+    "$ref": "Location-API.yml#/paths/~1locations"
+  "/location/{version}/locations/{location_external_id}":
+    "$ref": "Location-API.yml#/paths/~1locations~1{location_external_id}"
+  "/location/{version}/timings/{type}":
+    "$ref": "Location-API.yml#/paths/~1timings~1{type}"
+  "/location/{version}/timings/{type}/overrides":
+    "$ref": "Location-API.yml#/paths/~1timings~1{type}~1overrides"
+  "/location/{version}/alternate-locations":
+    "$ref": "Location-API.yml#/paths/~1alternate-locations"
+  "/location/{version}/boundaries/{boundary_id}":
+    "$ref": "Location-API.yml#/paths/~1boundaries~1{boundary_id}"
+  "/location/{version}/boundaries":
+    "$ref": "Location-API.yml#/paths/~1boundaries"
+  "/pickup/{version}/pickups":
+    "$ref": "Pickup-API.yml#/paths/~1pickups"
+  "/pickup/{version}/pickups/list":
+    "$ref": "Pickup-API.yml#/paths/~1pickups~1list"
+  "/pickup/{version}/pickups/{pickup_id}":
+    "$ref": "Pickup-API.yml#/paths/~1pickups~1{pickup_id}"
+  "/pickup/{version}/pickups/{pickup_id}/status-history":
+    "$ref": "Pickup-API.yml#/paths/~1pickups~1{pickup_id}~1status-history"
+  "/pickup/{version}/pickups/{pickup_id}/retry":
+    "$ref": "Pickup-API.yml#/paths/~1pickups~1{pickup_id}~1retry"
+  "/pickup/{version}/pickups/{pickup_id}/status":
+    "$ref": "Pickup-API.yml#/paths/~1pickups~1{pickup_id}~1status"
+  "/rate/{version}/rates":
+    "$ref": "Rates-API.yml#/paths/~1rates"
+  "/returns/{version}/requests/{return_request_id}":
+    "$ref": "Returns-API.yml#/paths/~1requests~1{return_request_id}"
+  "/returns/{version}/invoices":
+    "$ref": "Returns-Invoice-API.yml#/paths/~1invoices"
+  "/returns/{version}/invoices/{invoice_id}":
+    "$ref": "Returns-Invoice-API.yml#/paths/~1invoices~1{invoice_id}"
+  "/shipping/{version}/shipments":
+    "$ref": "Shipping-Order-API.yml#/paths/~1shipments"
+  "/shipping/{version}/shipments/list":
+    "$ref": "Shipping-Order-API.yml#/paths/~1shipments~1list"
+  "/shipping/{version}/shipments/{shipment_id}":
+    "$ref": "Shipping-Order-API.yml#/paths/~1shipments~1{shipment_id}"
+  "/shipping/{version}/shipments/{shipment_id}/status-history":
+    "$ref": "Shipping-Order-API.yml#/paths/~1shipments~1{shipment_id}~1status-history"
+  "/shipping/{version}/shipments/{shipment_id}/retry":
+    "$ref": "Shipping-Order-API.yml#/paths/~1shipments~1{shipment_id}~1retry"
+  "/tracker/{version}/trackers":
+    "$ref": "Tracker-API.yml#/paths/~1trackers"
+  "/lynk/{version}/applications/install":
+    "$ref": "Lynks-APIs.yml#/paths/~1applications~1install"
+  "/lynk/{version}/applications/{connected_lynk_id}/{action_type}":
+    "$ref": "Lynks-APIs.yml#/paths/~1applications~1{connected_lynk_id}~1{action_type}"
+  "/workflow/v1/solutions/{solution_id}":
+    "$ref": "Lynkup-Workflow-Solutions-APIs.yml#/paths/~1solutions~1{solution_id}"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert-Ready.yaml#/webhooks/TrackingEvent"
