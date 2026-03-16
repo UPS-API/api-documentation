@@ -1,0 +1,3157 @@
+openapi: 3.1.0
+
+info:
+  title: Pickup Order API v1
+  version: '1.0'
+  description: |
+
+   # Product Info
+
+    The **Pickup Order API** simplifies the creation and management of in-store pickup orders, providing a centralized platform to handle every step of the pickup process, from initiation to completion. Designed for retailers and businesses, this API ensures a seamless experience by supporting real-time order modifications and lifecycle management.
+    
+
+    # Business Values
+
+    - **Order Lifecycle Management**:  - Facilitate the creation and management of pickup orders, including real-time modifications. The API supports the full order lifecycle, from initiation to completion, accommodating diverse workflows. 
+
+    - **Status Updates**: - Monitor pickup orders across their lifecycle using configurable status updates via webhooks and alerts. This ensures transparency, proactive monitoring, and improved customer satisfaction. 
+
+
+    # How does it work once I am setup as a user?
+   Once set up as a user, the Pickup Order API allows you to asynchronously place in-store pickup orders for specific locations. By seamlessly submitting order details, such as pickup location and customer information, you can integrate this API into your system to streamline the management of pickup orders while maintaining a centralized platform for tracking and updates.
+
+    # FAQs    
+    - **How do I manage order modifications?**
+    >  Real-time order modifications can be performed through the API, allowing updates to details such as customer contact, pickup time, or item details. 
+    
+    # Error Codes
+
+    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+
+    Successful response may or may not include warnings.
+
+    1. **Without warnings** - Indicates the request has been processed as anticipated.
+    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+
+    The severity of an error may be transient or hard.
+      
+    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+
+    ---
+
+    ## /pickups
+
+    ### POST
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  VALIDATION_ERROR      |    400    |  Hard    | Invalid Data: locationExternalId is a required field or other invalid values in the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid Data: No such locationExternalId exists in our system. Please provide a valid locationExternalId. |
+    |  DUPLICATE_ID          |    422    |  Hard    | Resource with provided id already exists.                                  |
+    |  DUPLICATE_NAME        |    422    |  Hard    | Resource with provided name already exists.                                |
+    |  DUPLICATE_RESOURCE    |    422    |  Hard    | Resource already exists.                                                   |
+    |  NO_PROVIDER_ASSIGNED  |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
+    |  NO_PROVIDER_MATCHED   |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
+    |  PLACE_ORDER_FAILED    |    422    | Transient| Failed to place the requested order with the configured providers.         |
+    |  GEOCODING_FAILED      |    422    |  Hard    | Geocoding Service for the given address failed.                            |
+    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
+    ---
+
+    ### /pickups/list
+
+    ### POST
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    400    |  Hard    | Invalid Data: lastUpdatedAt date range cannot be greater than 30 days |
+
+    ---
+
+    ### /pickups/{pickup_external_id}
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid Order Id |
+    |  NOT_FOUND             |    404    |  Hard    | Not Found: Order with id, 1908241-0061, is not found |
+
+
+    ### DELETE
+    |           Type            | HTTP Code | Severity | Description |
+    |---------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
+    |  ORDER_ALREADY_CANCELED   |    409    |  Hard    | Requested order is already in Cancelled state.|
+    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
+
+    ### PUT
+    |           Type            | HTTP Code | Severity | Description |
+    |---------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA             |    400    |  Hard    | Invalid data: The value for the orderValue field is invalid or any other invalid value|
+    |  VALIDATION_ERROR         |    400    |  Hard    | packages parameter cannot be changed post order dispatch or any other invalid value |
+    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
+    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
+    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
+    |  PLACE_ORDER_FAILED       |    422    | Transient| Failed to place the requested order with the configured providers.         |
+    |  GEOCODING_FAILED         |    422    |  Hard    | Geocoding Service for the given address failed.                            |
+    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
+
+    ### /pickups/{pickup_external_id}/status-history
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+
+
+    ### /pickups/{pickup_external_id}/retry
+
+    ### POST
+    |           Type            | HTTP Code | Severity | Description |
+    |---------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
+    |  INVALID_DATA             |    422    |  Hard    | Order Id value is invalid |
+    |  INVALID_OPERATION        |    409    |  Hard    | The Order can no longer be retried |
+    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
+    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
+    |  PLACE_ORDER_FAILED       |    422    | Transient| Failed to place the requested order with the configured providers.         |
+    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
+
+    ### /pickups/{pickup_external_id}/status
+
+    ### PUT
+    |           Type            | HTTP Code | Severity | Description |
+    |---------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
+        
+servers:
+  - url: https://api.lynkup.com/pickup/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+        default: v1
+        enum:
+         - v1
+  - url: 'https://sanbox.api.lynkup.com/pickup/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+
+tags: 
+  - name: Pickup Order
+    description:  |
+      Endpoints for managing the lifecycle of pickup orders, including creation, updates, and cancellation.
+      
+security:
+  - OAuth2ClientCredentials: []
+
+paths:          
+  /pickups:
+     post:
+      summary: Create Pickup Order
+      description: |
+       This endpoint enables the creation of a pickup order. By providing the required details, clients can initiate a pickup request, which will be processed asynchronously in the background.
+       
+       - The request is handled asynchronously, returning a REQUEST_RECEIVED status upon successful submission.
+       - Real-time status updates for the Pickup order are available through the platform's Webhooks.
+      operationId: createPickup
+      tags: 
+        -  Pickup Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PickupRequest'
+            examples:
+              Complete request:
+                value:
+                  locationExternalId: "7709"
+                  orderExternalId: "7709-001"
+                  orderValue: 10
+                  customer:
+                    name: "asd"
+                    phone: "+1 234-567-8900"
+                    email: ""
+                  packages:
+                    - name: "Solid"
+                      size:
+                        length: 10
+                        width: 10
+                        height: 10
+                        unit: 'in'
+                      weight: 
+                        value: 10
+                        unit: 'lb'
+                      itemQuantity: 1
+                      description: "bungii pack 1"
+                  itemList:
+                    - sku: "sku 1"
+                      quantity: 1
+                      size:
+                        length: 3
+                        width: 2
+                        height: 2
+                        unit: 'in'
+                      weight: 
+                        value: 10
+                        unit: 'lb'
+                      price: 3
+                      salePrice: 3
+                      image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png"
+                      title: "Watch"
+                  pickupTime: null
+      responses:
+        "201":
+          description: "Resource is successfully created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PickupResponse'
+              examples:
+                Result:
+                  value: 
+                    locationExternalId: "7709"
+                    orderExternalId: "7709-001"
+                    orderValue: 10
+                    customer:
+                      name: "asd"
+                      phone: "+1 234-567-8900"
+                      email: ""
+                    packages:
+                      - name: "Solid"
+                        itemQuantity: 1
+                        size:
+                          length: 10
+                          width: 10
+                          height: 10
+                          unit: 'in'
+                        weight:
+                          value: 10
+                          unit: 'lb'
+                        description: "bungii pack 1"
+                        temperatureControl: "none"
+                        barcode: "1YT4V90308440011"
+                    itemList:
+                      - sku: "sku 1"
+                        quantity: 1
+                        size:
+                          length: 3
+                          width: 2
+                          height: 2
+                          unit: 'in'
+                        weight: 
+                          value: 10
+                          unit: 'lb'
+                        price: 3
+                        salePrice: 3
+                        image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png"
+                        title: "Watch"
+                    pickupTime:
+                      startsAt: 1679592688115
+                    orderAttributes: {}
+                    tenantId: "dummyaccount1"
+                    brandExternalId: "dummyaccount1"
+                    groupId: null
+                    currencyCode: "USD"
+                    pickupAddress:
+                      street1: "345 Harrison Avenue"
+                      street2: ""
+                      city: "Boston"
+                      postalCode: "02118"
+                      countryCode: "US"
+                      state: "MA"
+                      latitude: 42.3452369
+                      longitude: -71.0639399
+                    status: "REQUEST_RECEIVED"
+                    driver: null
+                    vehicle: null
+                    actualPickupTime: null
+                    createdAt: ""
+                    lastUpdatedAt: ""
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "No such locationExternalId exists in our system. Please provide a valid locationExternalId."
+                        parameter: locationExternalId
+                        entityId: location-1
+                        entity: location
+                    type: "INVALID_DATA"
+                    message: "No such locationExternalId exists in our system. Please provide a valid locationExternalId."
+        "400":
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: INVALID_DATA
+                        message: "locationExternalId is a required field. The field is missing."
+                        parameter: locationExternalId
+                        entityId: null
+                        entity: null
+                    type: VALIDATION_ERROR
+                    message: "Failed to process request"    
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+  /pickups/list:
+    post:
+      summary: "List Pickup Orders"
+      
+      description: |
+        Use this endpoint to retrieve a filtered list of pickups based on specified criteria. By default, if no filters are applied, PickupResponse: created within the last 24 hours will be returned.
+
+        This API supports advanced filtering options such as:
+
+        - **Time Filters**: Filter pickups based on their `createdAt`, `pickupTime`, or `lastUpdatedAt`.
+
+        - **Identifiers**: Search by `orderExternalIds` or `locationExternalIds`.
+
+        - **Statuses**: Retrieve pickups based on their current status (e.g., `PICKUP_STARTED`, `ORDER_DELIVERED`, `PICKUP_AT_LOCATION`).
+
+        - **Pagination**: Use the `paginationToken` field to retrieve subsequent sets of results when dealing with large datasets.
+
+        The request body allows flexible and precise filtering, making it easy to tailor the response to your specific needs. The response will contain the requested pickup data, and if applicable, a `paginationToken` to fetch additional results.
+      operationId: "listPickups"
+      tags: 
+        -  Pickup Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListPickupsRequest"
+            examples:
+              All parameters utilised:
+                value:
+                  limit: 100
+                  lastUpdatedAt:
+                    startsAt: 1651402682000
+                    endsAt: 1652266731000
+                  orderExternalIds:
+                    - "1908241"
+                  locationExternalIds:
+                    - "100983"
+                  pickupTime:
+                    startsAt: 1651402682000
+                  deliveryTime:
+                    endsAt: 1652266731000
+                  createdAt:
+                    startsAt: 1651402682000
+                    endsAt: 1652266731000
+                  status:
+                    - "ORDER_DISPATCHED"
+                    - "ORDER_DELIVERED"
+                    - "ORDER_CANCELLED"
+                    - "PICKUP_STARTED"
+                    - "PICKUP_COMPLETED"
+                  paginationToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+              Pagination token to get next set of results:
+                value:
+                  limit: 100
+                  paginationToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+      responses:
+        "400":
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Date range greater than 30 days:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "lastUpdatedAt date range cannot be greater than 30 days"
+                        parameter: lastUpdatedAt
+                        entityId: null
+                        entity: null
+                    type: "INVALID_DATA"
+                    message: "lastUpdatedAt date range cannot be greater than 30 days"
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  paginationToken:
+                    type: "object"
+                    properties:
+                       next:
+                         type: 
+                           - 'string'
+                           - 'null'
+                       previous:
+                         type: 
+                           - 'string'
+                           - 'null'
+                  data:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/PickupResponse"
+              examples:
+                Default response, last 24, no request body:
+                  value:
+                     data:
+                      - id: "6267cad7627f5f658c8b9c53"
+                        estimatedPickupTime: 
+                          startsAt: 1651574198000
+                          endsAt: 1650969304278
+                        locationExternalId: "100983"
+                        orderExternalId: "1908244"
+                        orderValue: 78.65
+                        pickupTime:
+                          startsAt: 1650969363042
+                        customer:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        brandExternalId: "devon"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T10:35:03.100Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T10:35:38.656Z"
+                        referenceLinks:
+                          hostedTrackingUrl: "https://s.dl-s.co/j_xSuvK3krj"
+                        actualPickupTime: null
+                      - id: "6267cad7627f5f658c8b9c51"
+                        estimatedPickupTime: 
+                          startsAt: 1651574198000
+                          endsAt: null
+                        locationExternalId: "100983"
+                        orderExternalId: "1908243"
+                        orderValue: 78.65
+                        pickupTime:
+                          startsAt: 1650972558678
+                        customer:
+                          name: "Charlize Brian"
+                          phone: "201-555-5555"
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        brandExternalId: "devon"
+                        pickupAddress:
+                          street1: "The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T11:06:56.863Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T11:08:56.086Z"
+                        referenceLinks:
+                          hostedTrackingUrl: "https://s.dl-s.co/Y2J1rSOBwOs"
+                        actualPickupTime: null
+                      - id: "6267c9ab03ab64947cafbbc1"
+                        estimatedPickupTime: 
+                          startsAt: 1651573897000
+                          endsAt: null
+                        locationExternalId: "100983"
+                        orderExternalId: "1908242"
+                        orderValue: 78.65
+                        pickupTime:
+                          startsAt: 1650969063020
+                        customer:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        brandExternalId: "devon"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T10:30:03.042Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T10:30:37.251Z"
+                        referenceLinks:
+                          hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
+                        actualPickupTime: null
+                      - id: "62668e6f44504ce0b5c3fde7"
+                        estimatedPickupTime: 
+                          startsAt: 1651493199000
+                          endsAt: null
+                        locationExternalId: "100983"
+                        orderExternalId: "1908241"
+                        orderValue: 78.65
+                        pickupTime:
+                          startsAt: 1650888363020
+                        customer:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        brandExternalId: "devon"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-25T12:31:03.042Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T12:30:37.251Z"
+                        referenceLinks:
+                          hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
+                        actualPickupTime: null
+                Pagination Token, both next and previous present:
+                  value: 
+                    data:
+                      - id: "6267c9ab03ab64947cafbbc1"
+                        estimatedPickupTime: 
+                          startsAt: 1651573897000
+                          endsAt: null
+                        locationExternalId: "100983"
+                        orderExternalId: "1908242"
+                        orderValue: 78.65
+                        pickupTime:
+                          startsAt: 1650969063020
+                        customer:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        brandExternalId: "devon"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T10:30:03.042Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T10:30:37.251Z"
+                        referenceLinks:
+                          hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
+                        actualPickupTime: null
+                    paginationToken:
+                      next: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+                      previous: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1MV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM="
+                Limit 1, Pagination Token Example:
+                  value: 
+                    data:
+                      - id: "6267cad7627f5f658c8b9c53"
+                        estimatedPickupTime: 
+                          startsAt: 1651574198000
+                          endsAt: null
+                        locationExternalId: "100983"
+                        orderExternalId: "1908244"
+                        orderValue: 78.65
+                        pickupTime:
+                          startsAt: 1650969363042
+                        customer:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        brandExternalId: "devon"
+                        pickupAddress:
+                          street1: "The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T10:35:03.100Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T10:35:38.656Z"
+                        referenceLinks:
+                          hostedTrackingUrl: "https://s.dl-s.co/j_xSuvK3krj"
+                        actualPickupTime: null
+                    paginationToken:
+                      next: "NjI2N2NhZDc2MjdmNWY2NThjOGI5YzUzXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1M182MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+                      previous: null
+                End of results, only previous pagination token present:
+                  value: 
+                    data:
+                      - id: "62668e6f44504ce0b5c3fde7"
+                        estimatedPickupTime: 
+                          startsAt: 1651493199000
+                          endsAt: null
+                        locationExternalId: "100983"
+                        orderExternalId: "1908241"
+                        orderValue: 78.65
+                        pickupTime:
+                          startsAt: 1650888363020
+                        customer:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        brandExternalId: "devon"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-25T12:05:03.047Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-02T12:05:39.742Z"
+                        referenceLinks:
+                          hostedTrackingUrl: "https://s.dl-s.co/aIEuY-nPcj4"
+                        actualPickupTime: null
+                    paginationToken:
+                      next: null
+                      previous: "NjI2NjhlNmY0NDUwNGNlMGI1YzNmZGU3XzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM="
+                No results:
+                  value:
+                    data: []
+                    paginationToken:
+                      next: null
+                      previous: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+  
+  /pickups/{pickup_id}:
+    get:
+      summary: "Get Pickup Order"
+      description: 
+        Use this API to retrieve detailed information about a specific pickup order using its `pickup_id`.
+
+        - By default, the response provides the most recently cached data about the pickup. 
+
+        - To fetch the latest information set the `force_update` query parameter to `true`.
+      operationId: "getPickupByExternalid"
+      tags:
+        - Pickup Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "pickup_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+        - name: "force_update"
+          in: "query"
+          description: "To retrieve the latest information from the provider about the pickup, this field should be assigned ```true```"
+          schema:
+            type: "boolean"
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/PickupResponse" 
+              examples:
+                Result:
+                  value:
+                    id: '5e1f1ef5167ab20010a74b94'
+                    brandExternalId: "demoBrand"
+                    locationExternalId: 'NYClocation101'
+                    orderExternalId: '876581'
+                    groupId: 'group1'
+                    orderValue: 11
+                    itemList: []
+                    pickupTime:
+                      startsAt: 1609513200000
+                      endsAt: 1609516800000
+                    customer:
+                      name: 'Robert Wan'
+                      phone: '4344344344'
+                      email: 'nycustomer@email.com'
+                    pickupAddress:
+                      street1: '8th 62nd Avenue, Times Square'
+                      street2: ''
+                      city: 'Manhattan'
+                      state: 'NY'
+                      postalCode: '10039'
+                      countryCode: 'US'
+                    packages:
+                      - name: 'custom'
+                        size:
+                          length: 2
+                          width: 2
+                          height: 2
+                          unit: 'in'
+                        weight: 
+                          value: 2
+                          unit: 'lb'
+                        itemQuantity: 1
+                        barcode: '1YT4V90308440011'
+                        temperatureControl: 'refrigerated'
+                        content: ['alcohol']
+                      - name: 'small'
+                        itemQuantity: 1
+                        size:
+                          length: 4
+                          width: 4
+                          height: 4
+                          unit: 'in'
+                        weight: 
+                          value: 4
+                          unit: 'lb'
+                        temperatureControl: 'warm'
+                      - name: 'large'
+                        itemQuantity: 1
+                        size:
+                          length: 9
+                          width: 8
+                          height: 8
+                          unit: 'in'
+                        weight: 
+                          value: 8
+                          unit: 'lb'
+                        temperatureControl: 'none'
+                    orderAttributes:
+                      payment: 'Cash'
+                    estimatedPickupTime: 
+                      startsAt: 1598421538000
+                      endsAt: null
+                    currencyCode: 'USD'
+                    pickupInstructions: 'Always be smiling'
+                    status: 'ORDER_CANCELLED'
+                    tenantId: 'NYC'
+                    lastUpdatedAt: '2020-01-15T14:17:26.099Z'
+                    createdAt: '2020-01-15T14:17:25.984Z'
+        "400":
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: 
+                   errors:
+                     - type: "INVALID_DATA"
+                       message: "Invalid Id"
+                       parameter: "pickup_id"
+                       entityId: null
+                       entity: null
+                   type: "INVALID_DATA"
+                   message: "Invalid Order Id"
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "404":
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Order with id, 1908241-0061, is not found"
+                        parameter: null
+                        entityId: null
+                        entity: null
+                    type: "NOT_FOUND"
+                    message: "Order with id, 1908241-0061, is not found"
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+    
+    delete:
+      summary: "Cancel Pickup"
+      description: 
+        Use this API to cancel an existing pickup order identified by its `pickup_id`. This operation ensures the order is canceled in Delivery Solutions' system.
+        
+        - Ensure that the provided `pickup_id` matches the ID returned during order creation to successfully process the cancellation and update all relevant systems.
+      operationId: "cancelPickupByPickupexternalid"
+      tags: 
+        -  Pickup Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "pickup_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/PickupResponse"
+              examples:
+                Successfully cancel an order:
+                  value:
+                    id: "62a9e3ce87f3c9df15080f00"
+                    estimatedPickupTime: 
+                      startsAt: null
+                      endsAt : null
+                    locationExternalId: "100983"
+                    orderExternalId: "15June11"
+                    groupId: null
+                    orderValue: 78.65
+                    customer:
+                      name: "Charlize Brian"
+                      phone: "+1 201-555-5555"
+                      email: ""
+                    packages:
+                      - name: "small"
+                        itemQuantity: 1
+                        size:
+                          length: 6
+                          width: 6
+                          height: 6
+                          unit: 'in'
+                        weight: 
+                          value: 10
+                          unit: 'lb'
+                        description: ""
+                        temperatureControl: "none"
+                        barcode: "1YT4V90308440011"
+                    itemList: []
+                    pickupInstructions: "Enter from the staff entrance to pick up the package"
+                    pickupTime:
+                      startsAt: 1655301130075
+                    orderAttributes: {}
+                    brandExternalId: "devon"
+                    currencyCode: "USD"
+                    pickupAddress:
+                      street1: " The Mall"
+                      street2: ""
+                      city: "Dallas"
+                      postalCode: "75219"
+                      countryCode: "US"
+                      state: "TX"
+                      latitude: 32.814645
+                      longitude: -96.81982339999999
+                    createdAt: "2022-06-15T13:51:10.096Z"
+                    status: "ORDER_CANCELLED"
+                    tenantId: "dummyaccount1"
+                    lastUpdatedAt: "2022-06-15T13:52:03.524Z"
+        "404":
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    message: "Order with id, sampleOrderExternalId, is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Order with id, sampleOrderExternalId, is not found"
+                        parameter: null
+                        entityId: null
+                        entity: null
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "409":
+          description: "Conflict between the request and the current state of the resource"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    errors:
+                      - type: "ORDER_ALREADY_CANCELED"
+                        message: "Order can not be cancelled because it is in ORDER_CANCELLED status."
+                        parameter: null
+                        entityId: null
+                        entity: null
+                    type: "ORDER_ALREADY_CANCELED"
+                    message: "Order can not be cancelled because it is in ORDER_CANCELLED status."
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+    put:
+      summary: "Edit Pickup Order"
+      description: "Use this API to update or adjust the details of a pickup order after it has been created in the system. This allows for real-time corrections and updates to ensure accuracy and alignment with current requirements."
+      operationId: "editPickupByPickupexternalId"
+      tags: 
+        -  Pickup Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "pickup_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+        - name: "force_update"
+          in: "query"
+          description: "To forcefully perform an Pickup edit operation this field should be assigned ```true```."
+          schema:
+            type: "boolean"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PickupPutRequest"
+            examples:
+              Edit Request:
+                value:
+                  pickupTime:
+                    startsAt: 1655468102000
+                  customer:
+                    name: "John Smith"
+                    phone: "232-323-2323"
+                    email: "john.smith@email.com"
+                  packages:
+                    - name: "custom"
+                      size:
+                        height: 2
+                        width: 2
+                        length: 2
+                        unit: 'in'
+                      weight: 
+                        value: 2
+                        unit: 'lb'
+                      quantity: 1
+                      itemQuantity: 2
+                      description: "Package Description"
+                  orderExternalId: "19082413"
+                  orderValue: 160.99 
+      responses:
+          "200":
+            description: "Request was successful"
+            content:
+              application/json:
+                schema: 
+                  $ref: "#/components/schemas/PickupResponse"
+                examples:
+                  Successful Edit responses:
+                     value:
+                        id: '5e1f1ef5167ab20010a74b94'
+                        brandExternalId: "Demobrand"
+                        itemList: []
+                        locationExternalId: 'NYClocation101'
+                        orderExternalId: '876581'
+                        groupId: 'group1'
+                        orderValue: 11
+                        pickupTime:
+                          startsAt: 1609513200000
+                          endsAt: 1609516800000
+                        customer:
+                          name: 'Robert Wan'
+                          phone: '4344344344'
+                          email: 'nycustomer@email.com'
+                        packages:
+                          - name: 'custom'
+                            size:
+                              length: 2
+                              width: 2
+                              height: 2
+                              unit: 'in'
+                            weight: 
+                              value: 2
+                              unit: 'lb'
+                            itemQuantity: 1
+                            barcode: '1YT4V90308440011'
+                            temperatureControl: 'refrigerated'
+                            content: ['alcohol']
+                          - name: 'small'
+                            itemQuantity: 1
+                            size:
+                              length: 4
+                              width: 4
+                              height: 4
+                              unit: 'in'
+                            weight: 
+                              value: 2
+                              unit: 'lb'
+                            temperatureControl: 'warm'
+                          - name: 'large'
+                            itemQuantity: 1
+                            size:
+                              length: 9
+                              width: 8
+                              height: 8
+                              unit: 'in'
+                            weight: 
+                              value: 2
+                              unit: 'lb'
+                            temperatureControl: 'none'
+                        orderAttributes:
+                          payment: 'Cash'
+                        estimatedPickupTime: 
+                          startsAt: 1598421538000
+                        currencyCode: 'USD'
+                        pickupAddress:
+                          street1: '7th 42nd Avenue, Times Square'
+                          street2: ''
+                          city: 'Manhattan'
+                          state: 'NY'
+                          postalCode: '10036'
+                          countryCode: 'US'
+                        pickupInstructions: 'Always be smiling'
+                        status: 'ORDER_CANCELLED'
+                        tenantId: 'NYC'
+                        lastUpdatedAt: '2020-01-15T14:17:26.099Z'
+                        createdAt: '2020-01-15T14:17:25.984Z'
+          "400":
+            description: "Bad Request"
+            headers: 
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string 
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/InvalidRequest"
+                examples:
+                  Value of the field passed in the request is invalid:
+                    value:
+                      errors:
+                        - type: "INVALID_DATA"
+                          message: "The value for the orderValue field is invalid."
+                      type: "INVALID_DATA"
+                      message: "The value for the orderValue field is invalid."
+          '422':
+            description: Invalid data provided
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+                examples:
+                  Result: 
+                    value:
+                      type: "INVALID_DATA"
+                      message: "Invalid Update Field: locationExternalId"
+                      errors:
+                        - type: "INVALID_DATA"
+                          message: "Invalid Update Field: locationExternalId"  
+                          parameter: "locationExternalId" 
+                          entityId: null
+                          entity: null   
+                  Field edit not allowed post assignment by the Provider:
+                    value:
+                      errors:
+                        - type: "INVALID_OPERATION"
+                          message: "Parameter cannot be changed post order dispatch"
+                          parameter: "email"
+                          entityId: null
+                          entity: null
+                        - type: "INVALID_OPERATION"
+                          message: "Parameter cannot be changed post order dispatch"
+                          parameter: "packages"
+                          entityId: null
+                          entity: null
+                      type: "VALIDATION_ERROR"
+                      message: "Failed to process request"         
+          "404":
+            description: "Resource was not found"
+            headers: 
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string 
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/InvalidRequest"
+                examples:
+                  Result:
+                    value:
+                      message: "Order with id, 19345234, is not found"
+                      type: "NOT_FOUND"
+                      errors:
+                        - type: "NOT_FOUND"
+                          message: "Order with id, 19345234, is not found"    
+                          parameter: null
+                          entityId: null
+                          entity: null
+          '500':
+            description: "Internal server error"
+            headers: 
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string
+            content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/InvalidRequest'
+                examples:
+                  Internal Server Error:
+                    value:
+                      message: "An unexpected error occurred. Please try again later."
+                      type: "INTERNAL_SERVER_ERROR"
+                      errors:
+                        - type: "SERVER_ERROR"
+                          message: "An unexpected error occurred while processing the request."
+          "401":
+            description: Unauthorized
+            headers: 
+              bkndtransid:
+                required: true
+                description: The backend transaction id.
+                schema: 
+                  type: string
+              transId:
+                description: The transaction id received from client
+                schema: 
+                  type: string
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UPSErrorResponse'
+                example:
+                  response:
+                    errors:
+                    - code: UJ0001
+                      message: Invalid token or token is not present.
+      deprecated: false
+
+  /pickups/{pickup_id}/status-history:
+    get:
+      summary: "Get Pickup Status"
+      description: 
+        Use this API to fetch the complete status history of a pickup order, identified by its `pickup_id`, including detailed timestamps for each status change.
+
+        - The status history provides a detailed chronological log of all status changes throughout the pickup lifecycle.
+
+        - Optionally, you can use the `is_unique` query parameter to retrieve only unique statuses.
+      operationId: "getPickupStatusByExternalId"
+      tags: 
+        -  Pickup Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "pickup_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+        - name: "is_unique"
+          in: "query"
+          description: "Return only unique Pickup status progressions"
+          schema:
+            type: "boolean"
+            default: false
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: "#/components/schemas/OrderStatus"
+              examples:
+                Result:
+                  value:
+                    - orderId: "6268f4a9d9f309c2a43e3a6a"
+                      tenantId: "dummyaccount1"
+                      orderStatus:
+                        - status: "REQUEST_RECEIVED"
+                          updatedAt: "April 27th 2022, 2:45:45 am CDT"
+                          note: null
+                          statusUser: "Default_Business_Key"
+                        - status: "ORDER_DISPATCHED"
+                          updatedAt: "April 27th 2022, 2:45:47 am CDT"
+                          note: null
+                          statusUser: "Default_Business_Key"
+                        - status: "ORDER_EXCEPTION"
+                          updatedAt: "October 26th 2022, 3:46:07 pm CDT"
+                          note: "ARRIVED_AT_RETURN( RT-001 - Customer rejected (missing item or quality issue) )"
+                          statusUser: "Walmart GoLocal"
+                          eventReason:
+                            code: "CUSTOMER_REJECTED"
+                            title: "Customer Rejected"
+                            note: "RT-001 - Customer rejected (missing item or quality issue)"
+                          subStatus: "RETURN_AT_LOCATION"
+                      trackingUrl: "https://www.ups.com/track?loc=en_IN&tracknum=1Z7A38W90308260011" 
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.     
+      deprecated: false
+
+  /pickups/{pickup_id}/retry:
+    post:
+      summary: "Retry Pickup Order"
+      description: 
+          Use this API to manually retry the dispatch process for a pickup order that previously failed. 
+          
+          - This endpoint is especially useful for resolving pickup failures caused by issues such as an invalid address or missing information. After addressing the underlying problems, you can use this API to reinitiate the dispatch process and ensure the order is successfully processed.
+
+      operationId: "retryPickupByPickupExternalId"
+      tags:
+        - Pickup Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "pickup_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+      responses:
+        "201":
+          description: "Pickup retry successful"
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/PickupResponse"
+              examples:
+                Result:
+                  value:
+                    brandExternalId: "demoBrand"
+                    estimatedPickupTime: 
+                      startsAt: 1655468102000
+                      endsAt: null
+                    itemList: []
+                    id: "62a9f879a69cdb7a3ad52ebe"
+                    currencyCode: USD
+                    status: ORDER_DISPATCHED
+                    referenceLinks:
+                      hostedTrackingUrl: https://s.dl-s.co/-a5C6qh357Q
+                    orderExternalId: "19082418"
+                    locationExternalId: "100983"
+                    tenantId: dummyaccount1
+                    orderAttributes: {}
+                    driver: null
+                    vehicle: null
+                    pickupInstructions: Enter from the staff entrance to pick up the package
+                    customer:
+                      name: John Smith
+                      phone: "+1 201-555-5555"
+                    packages:
+                      - name: custom
+                        size:
+                          height: 2
+                          width: 2
+                          length: 2
+                          unit: 'in'
+                        weight: 
+                          value: 2
+                          unit: 'lb'
+                        itemQuantity: 2
+                        description: Package Description
+                        temperatureControl: none
+                        barcode: 1YT4V90308440011
+                    pickupAddress:
+                      street1: The Mall
+                      street2: ""
+                      city: Dallas
+                      postalCode: "75219"
+                      countryCode: US
+                      state: TX
+                      latitude: 32.814645
+                      longitude: -96.81982339999999
+                    groupId: null
+                    pickupTime:
+                      startsAt: 1655468102000
+                      endsAt: null
+                    lastUpdatedAt: '2020-01-15T14:17:25.984Z'
+                    createdAt: '2020-01-15T14:17:25.984Z'
+        "400":
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    errors:
+                      - type: INVALID_DATA
+                        message: Id value is invalid
+                        parameter: "pickup_id"
+                        entityId: null
+                        entity: null
+                    type: INVALID_DATA
+                    message: Order Id value is invalid    
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "404":
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    message: Order with id, 190824181, is not found
+                    type: NOT_FOUND
+                    errors:
+                      - type: NOT_FOUND
+                        message: Order with id, 190824181, is not found
+                        parameter: null
+                        entityId: null
+                        entity: null
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "409":
+          description: "Conflict between the request and the current state of the resource"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: INVALID_OPERATION
+                        message: The Order can no longer be retried
+                        parameter: null
+                        entityId: null
+                        entity: null
+                    type: INVALID_OPERATION
+                    message: The Order can no longer be retried
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+   
+  /pickups/{pickup_id}/status:
+    put:
+      summary: Update Pickup Status
+      tags: 
+        -  Pickup Order
+      description: |
+         Refine and manage the status of a pickup order manually, ensuring smooth workflow transitions and providing real-time updates to reflect the most current order status.
+      operationId: updatePickupStatus
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: pickup_id
+          in: path
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: string
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  description: "The new status to which you want to move your Order."
+                note:
+                  type: string
+                  description: "Additional details about the update of the status."
+            examples:
+              Updating the Pickup Order:
+                value:
+                  status: ORDER_DELIVERED
+                  note: Marking the Order as Delivered
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/PickupResponse"
+              examples:
+                Result:
+                  value:
+                    id: 6422e72aaf4b02c5c9e2f9bb
+                    estimatedPickupTime: 
+                      startsAt: 1680071899000
+                    locationExternalId: "proximity test"
+                    orderExternalId: "28Mar006"
+                    groupId: null
+                    orderValue: 120
+                    customer:
+                      name: "Aman"
+                      phone: "+1 972-843-7092"
+                      email: ""
+                    packages:
+                      - name: custom
+                        size:
+                          length: 1
+                          width: 1
+                          height: 1
+                          unit: 'in'
+                        weight: 
+                          value: 1
+                          unit: 'lb'
+                        itemQuantity: 1
+                        content: []
+                        temperatureControl: none
+                        description: ""
+                        barcode: 1YT4V90308440011
+                    itemList: []
+                    pickupInstructions: null
+                    pickupTime:
+                      startsAt: 1680009062911
+                    orderAttributes: {}
+                    tenantId: chatrevamp
+                    brandExternalId: chatrevamp
+                    currencyCode: null
+                    pickupAddress:
+                      street1: "Nepeansea Road"
+                      street2: ""
+                      city: Mumbai
+                      postalCode: "400006"
+                      countryCode: US
+                      state: MH
+                      latitude: 18.9618298
+                      longitude: 72.8016608
+                    createdAt: "2023-03-28T13:10:02.940Z"
+                    status: ORDER_DELIVERED
+                    lastUpdatedAt: "2023-04-03T13:02:59.157Z"
+                    referenceLinks:
+                      customerWebflowUrl: "https://s.dl-s.co/jFSu2hNgVsB"
+                      hostedFeedbackUrl: "https://s.dl-s.co/BlhF9-1rrzR"
+                      hostedTrackingUrl: "https://s.dl-s.co/b5sBaf2y-ng"
+                    lastLocation:
+                      updatedAt: "2023-03-29T06:37:12.852Z"
+                      longitude: 72.80181
+                      latitude: 18.96077
+                      isManual: false 
+        "404":
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Order Not Found:
+                  value:
+                    message: "Order with id, 28Mar00600000, is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Order with id, 28Mar006000"
+                        parameter: null
+                        entityId: null
+                        entity: null
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+         
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+  
+  schemas:
+    Address:
+      type: object
+      description: Address of the location
+      required:
+        - street1
+        - postalCode
+      properties:
+        street1:
+          type: string
+          description: Address Line 1 (Street Number and Street Name)
+          maxLength: 100
+        street2:
+          type: string
+          description: Address Line 2 (not to be used for apartment / suite #)
+          maxLength: 100
+        apartmentNumber:
+          type: string
+          description: Apartment / Suite #
+          maxLength: 50
+        city:
+          type: string
+          description: City
+          maxLength: 100
+        state:
+          type: string
+          description: State
+          maxLength: 100
+        postalCode:
+          type: string
+          description: Postal code or zip.
+          maxLength: 20
+        countryCode:
+          type: string
+          description: 2-letter country code in ISO 3166-1 alpha-2 format. If not provided defaults to 'US'.
+          default: US
+          enum: 
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          type: number
+          format: double
+          description: Latitude coordinates of the address
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+
+    ErrorDetail:
+      type: object
+      required: 
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: 
+            - string
+            - 'null'
+        entityId:
+          type: 
+            - string
+            - 'null'
+        entity:
+          type: 
+            - string
+            - 'null'
+
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "ERROR_TYPE"
+        message:
+          type: string
+          example: "An error occurred" 
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+
+    Weight:
+      type: object
+      description: Weight of an item
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+          format: double
+          description: weight
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given weight in kg or lb
+          enum: 
+            - kg
+            - lb
+
+    Size:
+      type: object
+      description: Dimensions of the item.
+      required:
+        - height
+        - width
+        - length
+        - unit
+      properties:
+        height:
+          type: number
+          format: double
+          description: Height
+          minimum: 0
+        width:
+          type: number
+          format: double
+          description: Width
+          minimum: 0
+        length:
+          type: number
+          format: double
+          description: Length
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given size in cm or in
+          enum: 
+            - cm
+            - in
+              
+    TimeWindow:
+      type: object
+      properties:
+        startsAt:
+          oneOf:
+            - type: integer
+              description: "Start of the window. Unix time in milliseconds. (conditional)"
+              format: int64
+            - type: "null"
+        endsAt:
+          oneOf:
+            - type: integer
+              description: "End of the window. Unix time in milliseconds. (conditional)"
+              format: int64
+            - type: "null"
+
+    Driver:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: "Name of the driver"
+        photo:
+          type: string
+          maxLength: 1000
+          description: "URL to the driver's photo"
+        phoneNumber:
+          type: string
+          maxLength: 20
+          description: "Phone number of the driver"
+        driverExternalId:
+          type: string
+          maxLength: 100
+          description: "External identifier for the driver"
+        driverId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the driver"
+      required:
+        - name
+     
+    Vehicle:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 100
+          description: "Type of the vehicle"
+        color:
+          type: string
+          maxLength: 100
+          description: "Color of the vehicle"
+        number:
+          type: string
+          maxLength: 100
+          description: "License plate number of the vehicle"
+        make:
+          type: string
+          maxLength: 100
+          description: "Make of the vehicle"
+        description:
+          type: string
+          maxLength: 1000
+          description: "Additional description of the vehicle"
+        parkingSlot:
+          type: string
+          maxLength: 100
+          description: "Parking slot allocated to the vehicle"
+        vehicleExternalId:
+          type: string
+          maxLength: 100
+          description: "External identifier for the vehicle"
+        vehicleId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the vehicle"
+    Item:
+      type: object
+      description: "Details of an item within a package"
+      required:
+        - sku
+      properties:
+        sku:
+          type: string
+          description: "An ID that identify the product/variant from the brand's catalog."
+          maxLength: 100
+        upc:
+          type: string
+          description: "Universal Product Code for the item"
+          maxLength: 100
+        category:
+          type: string
+          description: "Category of Item"
+          maxLength: 100
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of items of the SKU"
+          minimum: 1
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        price:
+          type: number
+          format: double
+          description: "Retail price of the item."
+          minimum: 0
+        salePrice:
+          type: number
+          format: double
+          description: "Sale price of the item."
+          minimum: 0
+        image:
+          type: string
+          description: "Link to the image file of the item."
+          maxLength: 200
+        title:
+          type: string
+          description: "Title of the item."
+          maxLength: 200
+        description:
+          type: string
+          description: "Description of the item."
+          maxLength: 10000
+        itemAttributes:
+          type: object
+          description: "Custom item attributes."
+        tags:
+          type: array
+          description: "Additional information related to the item."
+          items:
+            type: string
+          minItems: 0
+          maxItems: 20
+    
+    Package:
+      type: object
+      description: "Package Details"
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: "Name of package created in our system, or pass the value 'custom'."
+          default: "custom"
+          maxLength: 100
+        description:
+          type: string
+          description: "A brief description about the package contents."
+          maxLength: 10000
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of Packages"
+          minimum: 1
+        itemQuantity:
+          type: integer
+          format: int32
+          description: "Number of items in a single package."
+          minimum: 1
+        itemList:
+          type: array
+          description: "Array of items in the package."
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 1000
+        temperatureControl:
+          type: string
+          description: "Temperature information of the package"
+          enum:
+            - frozen
+            - refrigerated
+            - cool
+            - ambient
+            - warm
+            - none
+        content:
+          type: array
+          description: "Content information of the package"
+          items:
+            type : string
+            enum:
+            - alcohol
+            - fragile
+            - tobacco
+            - rx
+            - perishable
+        barcode:
+          type: string
+          description: "Barcode sent to the provider for scanning the packages"
+          default: "null"
+          maxLength: 500
+
+    Customer:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: Name of the customer
+        email:
+          type: string
+          maxLength: 100
+          description: Email address of the customer
+        phone:
+          type: string
+          maxLength: 20
+          description: Phone number of the customer
+        userExternalId:
+          type: string
+          maxLength: 100
+          description: External identifier for the user
+      required:
+        - name
+        - phone
+
+    LastLocation:
+        type: object
+        properties:
+          updatedAt:
+            type: "string"
+            format: "date-time"
+            description: "Timestamp of the last update in ISO 8601 format"
+          latitude:
+            oneOf:
+              - type: "number"
+              - type: "null"
+            minimum: -90
+            maximum: 90
+            description: "Latitude of the last known location, within +/-90"
+          longitude:
+            oneOf:
+              - type: "number"
+              - type: "null"
+            minimum: -180
+            maximum: 180
+            description: "Longitude of the last known location, within +/-180"
+          isManual:
+            oneOf:
+              - type: "boolean"
+              - type: "null"
+            description: "Indicates whether the location was manually updated"
+  
+        required:
+          - updatedAt
+          - latitude
+          - longitude
+    
+    PickupReferenceLinkObject:
+      type: object
+      properties:
+        hostedTrackingUrl:
+          type: 
+            - string
+            - 'null'
+          maxLength: 100
+          description: "URL for hosted tracking"
+          format: uri
+          example: "https://tracking.example.com"
+        customerWebflowUrl:
+          type: 
+            - string
+            - 'null'
+          maxLength: 1000
+          format: uri
+          description: "Customer-facing webflow URL"
+          example: "https://customer.example.com/webflow"
+        hostedFeedbackUrl:
+          type: 
+            - string
+            - 'null'
+          maxLength: 100
+          format: uri
+          description: "URL for hosted feedback"
+          example: "https://feedback.example.com"
+      required: []
+            
+    PickupRequest:
+      type: object
+      properties:
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "Client-side identifier for the pickup record."
+        groupId:
+          oneOf:
+            - type: string
+              maxLength: 100
+            - type: "null"
+          description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
+        pickupTime:
+          oneOf:
+            - $ref: '#/components/schemas/TimeWindow'
+            - type: "null"
+          description: "Time window during which the package will be ready for pickup."
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the pickup location (see Create Location API)."
+        customer:
+          $ref: '#/components/schemas/Customer'
+          description: "Customer details associated with the pickup."
+        itemList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 100
+          description: >
+            Array of items included in the pickup order.
+            Each item in this list represents a unique SKU with its associated details and quantities.
+            These items are referenced by the `itemList` property within each package in the `packages` array.
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+          maxItems: 50
+          description: >
+            Array of packages included in the pickup order.
+            Each package contains an `itemList` property that references items from the order `itemList` by SKU.
+            The `quantity` of each item within a package must not exceed the total `quantity` provided for that item in the `itemList`.
+        pickupInstructions:
+          oneOf:
+            - type: string
+              maxLength: 10000
+            - type: "null"
+          description: "Instructions related to the pickup."
+        orderValue:
+          type: number
+          minimum: 0
+          description: "Total value of the order in major units as a decimal, e.g. 10.00 ($10.00 USD)."
+        createdDate:
+          type: integer
+          format: int64
+          description: "Unix timestamp in milliseconds representing the creation date."
+        locale:
+          type: string
+          maxLength: 5
+          description: Locale of the pickup request, in IETF BCP 47 format (e.g., 'en-US' for English - United States).
+        orderAttributes:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+                maxLength: 500
+              - type: number
+              - type: boolean
+              - type: array
+                maxItems: 100
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+                    - type: boolean
+          description: "Configurable key-value pairs of custom order attributes."
+      required:
+        - orderExternalId
+        - locationExternalId
+        - customer
+
+    Feedback:
+      type: object
+      properties:
+        rating:
+          type: number
+          minimum: 0
+          description: "Rating given in the feedback"
+          example: 4.5
+        comment:
+          type: string
+          maxLength: 100
+          description: "Optional comment provided with the feedback"
+          example: "Great service!"
+        source:
+          type: string
+          maxLength: 100
+          description: "Source of the feedback"
+          example: "Customer survey"
+      required: []
+
+    PickupResponse:
+      type: object
+      properties:
+        id: 
+          type: string
+          description: "Unique identifier for the pickup record generated by the system."
+          pattern: '^[a-fA-F0-9]{24}$'
+          example: '60b8d6c9e4b0f5d3a1a6e500'
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "Identifier for the order generated in the client system"
+        tenantId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the tenant making the pickup request."
+        groupId:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
+        pickupTime:
+          $ref: '#/components/schemas/TimeWindow'
+          description: "Time window during which the package will be ready for pickup."
+        actualPickupTime:
+          type: 
+            - number
+            - 'null'
+          minimum: 0
+          description: "Actual timestamp in milliseconds for when the package was picked up."
+        estimatedPickupTime:
+          $ref: '#/components/schemas/TimeWindow'
+          description: "Estimated time window for picking up the package."
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the pickup location (see Create Location API)."
+        brandExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the brand associated with the order."
+        pickupAddress:
+          $ref: '#/components/schemas/Address'
+          description: Address where the pickup will occur
+        customer:
+          $ref: '#/components/schemas/Customer'
+          description: Customer details associated with the pickup
+        itemList:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/Item'
+          description: 
+            Array of items included in the pickup order. 
+            Each item in this list represents a unique SKU with its associated details and quantities.
+            These items are referenced by the `itemList` property within each package in the `packages` array.
+        packages:
+          type: array
+          maxItems: 50
+          items:
+            $ref: '#/components/schemas/Package'
+          description: 
+            Array of packages included in the pickup order.
+            Each package contains an `itemList` property that references items from the order `itemList` by SKU.
+            The `quantity` of each item within a package must not exceed the total `quantity` provided for that item in the `itemList`.
+        status:
+          type: string
+          enum:
+            - REQUEST_RECEIVED
+            - PENDING_DISPATCH
+            - PENDING_RELEASE
+            - PENDING_AUTORETRY
+            - ORDER_DISPATCHED
+            - STAGED
+            - ORDER_FAILED
+            - PICKUP_STARTED
+            - PICKUP_NEARBY
+            - PICKUP_AT_LOCATION
+            - ORDER_DELIVERED
+            - ORDER_CANCELLED
+            - ORDER_REDELIVERY
+            - PICKUP_EXCEPTION
+            - ORDER_EXCEPTION
+            - ERROR_EXCEPTION
+          maxLength: 100
+          description: Status of the pickup
+        pickupInstructions:
+          oneOf: 
+            -  type: string
+               maxLength: 10000
+            -  type: 'null'        
+          description: "Additional notes related to the pickup"
+        referenceLinks:
+          $ref: "#/components/schemas/PickupReferenceLinkObject"
+          description: "Reference links for the pickup, such as customer webflow url."
+        orderValue:
+          type: number
+          minimum: 0
+          description: "Total value of the order in major units as a decimal, e.g. 10.00 ($10.00 USD)."
+        alternatePickupPerson:
+          $ref: "#/components/schemas/Customer"
+        driver:
+          oneOf: 
+            - $ref: '#/components/schemas/Driver'
+            - type: 'null'      
+          description: Driver details for the pickup
+        vehicle:
+          oneOf: 
+            - $ref: '#/components/schemas/Vehicle'
+            - type: 'null'   
+          description: Vehicle details for the pickup
+        lastLocation:
+          $ref: '#/components/schemas/LastLocation'
+          description: Last known location of the driver picking up the package/item
+        feedback:
+          oneOf: 
+            - $ref: "#/components/schemas/Feedback"
+            - type: 'null' 
+          description: "Feedback provided for the delivery experience."
+        orderAttributes:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+                maxLength: 500
+              - type: number
+              - type: boolean
+              - type: array
+                maxItems: 100
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+                    - type: boolean
+          description: Configurable key-value pairs of custom order attributes
+        currencyCode:
+          type: 
+            - string
+            - "null"
+          maxLength: 3
+          description: "Currency code following ISO 4217 standards (e.g., USD)."
+        locale:
+          type: string
+          maxLength: 5
+          description: Locale of the pickup request, in IETF BCP 47 format (e.g., 'en-US' for English - United States).
+        createdDate:
+          type: integer
+          format: int64
+          description: Unix Timestamp in milliseconds representing the creation date
+        createdAt:
+          type: string
+          description: Creation timestamp in ISO 8601 format
+        lastUpdatedAt:
+          type: string
+          description: Last update timestamp in ISO 8601 format
+      required:
+        - orderExternalId
+        - tenantId
+        - customer
+        - locationExternalId
+        - brandExternalId
+        - createdAt
+        - lastUpdatedAt
+    
+    ListPickupsRequest:
+      type: "object"
+      properties:
+        limit:
+          type: "integer"
+          description: "Limit the number of orders in the response. If not passed, the default is 1000. The maximum allowed is 1000."
+          default: 1000
+          format: "int32"
+        lastUpdatedAt:
+          type: "object"
+          description: "Get all the orders which were updated within the provided time window. The time window cannot be greater than 30 days."
+          properties:
+            startsAt:
+              type: "integer"
+              description: "Start of the window. Unix time in milliseconds. (conditional)"
+              format: "int64"
+            endsAt:
+              type: "integer"
+              description: "End of the window. Unix time in milliseconds. (conditional)"
+              format: "int64"
+        orderExternalIds:
+          type: "array"
+          description: "Get the orders for the provided array of orderExternalIds."
+          items:
+            type: "string"
+        groupId:
+          type: "string"
+          description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
+        locationExternalIds:
+          type: "array"
+          description: "Get the orders for the provided array of locationExternalIds."
+          items:
+            type: "string"
+        pickupTime:
+          type: "object"
+          description: "Get all orders whose pickupTime.startsAt is greater than or equal to the provided value. Only accepts startsAt from the Time Window. If pickupTime is present, deliveryTime.endsAt is required."
+          properties:
+            startsAt:
+              oneOf:
+                - type: integer
+                  description: "Start of the window. Unix time in milliseconds. (conditional)"
+                  format: int64
+                - type: "null"
+        deliveryTime:
+          type: "object"
+          description: "Get all orders whose deliveryTime.endsAt is lesser than or equal to the provided value. Only accepts endsAt from the Time Window. If deliveryTime is present pickupTime.startsAt is required."
+          properties:
+            endsAt:
+              oneOf:
+                - type: integer
+                  description: "End of the window. Unix time in milliseconds. (conditional)"
+                  format: int64
+                - type: "null"
+        createdAt:
+          type: "object"
+          description: "Get all orders which were created within the provided time window. The time window cannot be greater than 30 days."
+          properties:
+            startsAt:
+              type: "integer"
+              description: "Start of the window. Unix time in milliseconds. (conditional)"
+              format: "int64"
+            endsAt:
+              type: "integer"
+              description: "End of the window. Unix time in milliseconds. (conditional)"
+              format: "int64"
+        status:
+          type: "array"
+          description: "Get all orders having the provided statuses."
+          items:
+            type: "string"
+        paginationToken:
+          type: "string"
+          description: "Returns the previous or next set of orders based on the paginationToken provided"
+    
+    OrderStatus:
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: "Unique Identifier for the order"
+        tenantId:
+          type: string
+          description: "Identifier for the tenant"
+        trackingUrl:
+            type: string
+            description: "Tracking URL"
+        orderStatus:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: "string"
+                description: "Status of the order"
+                enum:
+                  - REQUEST_RECEIVED
+                  - PENDING_DISPATCH
+                  - PENDING_RELEASE
+                  - PENDING_AUTORETRY
+                  - ORDER_DISPATCHED
+                  - STAGED
+                  - ORDER_FAILED
+                  - PICKUP_STARTED
+                  - PICKUP_NEARBY
+                  - PICKUP_AT_LOCATION
+                  - ORDER_DELIVERED
+                  - ORDER_CANCELLED
+                  - ORDER_REDELIVERY
+                  - PICKUP_EXCEPTION
+                  - ORDER_EXCEPTION
+                  - ERROR_EXCEPTION
+              updatedAt:
+                type: "string"
+                description: "ISO 8601 date format"
+              note:
+                oneOf:
+                  - type: "string"
+                  - type: "null"
+                description: "Optional note for the status"
+              subStatus:
+                oneOf:
+                  - type: "string"
+                  - type: "null"
+              statusUser:
+                oneOf:
+                  - type: "string"
+                  - type: "null"
+                description: "User responsible for the status update"
+              eventReason:
+                type: object
+                properties:
+                  code:
+                    type: "string"
+                    description: "Code representing the reason for the event, e.g., CUSTOMER_REJECTED"
+                  title:
+                    type: "string"
+                    description: "Title describing the reason, e.g., Customer Rejected"
+                  note:
+                    type: "string"
+                    description: "Detailed note, e.g., RT-001 - Customer rejected (missing item or quality issue)"
+          
+    PickupPutRequest:
+      type: object
+      properties:
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: Client-side identifier for the pickup record
+        groupId:
+          type: string
+          maxLength: 100
+          description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
+        pickupTime:
+            oneOf: 
+              - $ref: '#/components/schemas/TimeWindow' 
+              - type: "null"
+            description: "Time window during which the package will be ready for pickup."
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the pickup location (see Create Location API)."
+        customer:
+          $ref: '#/components/schemas/Customer'
+          description: Customer details associated with the pickup
+        itemList:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/Item'
+          description:
+            Array of items included in the pickup order. 
+            Each item in this list represents a unique SKU with its associated details and quantities.
+            These items are referenced by the `itemList` property within each package in the `packages` array.
+        packages:
+          type: array
+          maxItems: 50
+          items:
+            $ref: '#/components/schemas/Package'
+          description: 
+            Array of packages included in the pickup order.
+            Each package contains an `itemList` property that references items from the order `itemList` by SKU.
+            The `quantity` of each item within a package must not exceed the total `quantity` provided for that item in the `itemList`.
+        pickupInstructions:
+          oneOf: 
+            -  type: string
+               maxLength: 10000
+            -  type: 'null'        
+          description: "Instructions related to the pickup"
+        orderValue:
+          type: number
+          minimum: 0
+          description: "Total value of the order in major units as a decimal, e.g. 10.00 ($10.00 USD)."
+        createdDate:
+          type: integer
+          format: int64
+          description: Unix Timestamp in milliseconds representing the creation date
+        locale:
+          type: string
+          maxLength: 5
+          description: Locale of the pickup request, in IETF BCP 47 format (e.g., 'en-US' for English - United States).
+        orderAttributes:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+                maxLength: 500
+              - type: number
+              - type: boolean
+              - type: array
+                maxItems: 100
+                items:
+                  oneOf:
+                    - type: string
+                    - type: number
+                    - type: boolean
+          description: Configurable key-value pairs of custom order attributes
+          
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+            $ref: '#/components/schemas/Response'
+    
+    Response:
+      type: object
+      properties:
+          errors:
+            type: array
+            description: The error response containing any errors that occurred.
+            items:
+                $ref: '#/components/schemas/ErrorMessage'
+    
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: Locale is required. The Subscription request has been rejected.
+      description: The error response containing any errors that occurred
+          

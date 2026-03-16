@@ -1,0 +1,507 @@
+openapi: 3.1.0
+
+info:
+  title: Lynks API v1
+  version: '1.0'
+  description: |
+    # Product Info
+
+    The **Lynks API** provides businesses an ability to install and manage Lynks without building integrations from scratch.
+
+    A Lynk is a pre-built integration connector that links a specific platform or service (for example, a Shopify store) to the Lynkup system, and helps gather & share information from or to the external systems.
+
+
+    # Business Values
+
+    - **Faster Onboarding**: - Lynks API provides out-of-the-box integrations, so integration is largely a matter of configuration (providing details and basic settings). This dramatically reduces integration time and complexity.
+
+    - **Eliminate Custom Integration Costs**: - Businesses can connect to new platforms or services with an API call rather than lengthy development projects.
+
+    - **Faster Time to Market**: - Lynks allow for quick and repeatable integration, and businesses can scale their solutions without lengthy development cycles, achieving a faster time-to-market for new offerings.
+
+    - **Automates Data Exchange and Centralizes Connectivity**: - Lynks unifies data and processes across all connections into a single platform, giving businesses centralized visibility and insights.
+
+    - **Quicker Lynk Introduction**: - The Lynks catalog is extensible, so new Lynks can be added to support additional platforms quickly.
+
+
+    # How does it work once I am setup as a user?
+
+    Once you’re set up, use the Install API to add any supported Lynk into Lynkup. 
+    
+    Enabling a Lynk kicks off its automated workflows. When you need to pause a Lynk (for maintenance or migration), the Disable API halts its data exchanges while preserving your configuration. 
+    
+    By leveraging these APIs, you maintain seamless connectivity and control over all your integrated apps with minimal manual effort.
+
+
+    # FAQs
+
+    - **Can Lynks API scale to support multiple platforms or services?**
+    >  Absolutely. Lynks are designed to be reusable and modular; businesses can connect multiple platforms and even multiple instances of the same platform to suit their business needs.
+
+    - **Will installing a Lynk affect my existing integrations?**
+    >  No. Each Lynk operates independently. Installing a new Lynk will not interfere with your existing Lynks.
+
+    - **What resources are required to maintain these integrations?**
+    >  Lynkup platform manages Lynks; connectors receive updates centrally on the platform. Businesses do not need dedicated development resources to sustain them, freeing IT to focus on strategic initiatives.
+
+    - **What happens to existing data when I disable a Lynk?**
+    >  Disabling a Lynk stops future data exchanges, but all historical data (orders, logs, configuration) remains intact in Lynkup, till the specified retention period.
+
+servers:
+  - url: https://api.lynkup.com/lynk/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+         - v1
+  - url: 'https://sanbox.api.lynkup.com/lynk/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+
+tags: 
+  - name: Lynks
+    description: |
+       Endpoint for performing actions on lynks.
+security:
+  - OAuth2ClientCredentials: []
+
+paths:     
+  /applications/install:
+    post:
+      summary: "Install a Lynk"
+      description: |
+          Creates a new connection between a selected Lynk and the Lynkup platform. Using the Lynk name and initial configuration, it registers the connection, manages any necessary onboarding (OAuth or credential checks). Once complete, the Lynk is ready for use in automated workflows.
+      operationId: "installLynk"
+      tags: 
+        -  Lynks
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LynkInstallRequest'
+            examples:
+              Complete request:
+                value:
+                  lynkKey: "shopify"
+                  lynkDisplayName: "Shopify Custom App"
+                  configuration:
+                    clientId: "1234"
+                    clientSecret: "XXXX"
+                  redirectUri: "http://example.com/list"
+                  tags: ['businessId']
+      responses:
+        '200':
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LynkInstallResponse'  
+              examples:
+                Result:
+                  value:
+                    connectedLynkId: "6821a0ef47c2aa82a98e62db"
+                    redirectUri: "https://example.com/authRedirect"
+                    isRedirectionNeeded: true
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "No such lynkKey exists in our system. Please provide a valid lynkKey."
+                        parameter: lynkKey
+                        entityId: Lynk-1
+                        entity: lynk
+                    type: "INVALID_DATA"
+                    message: "No such lynkKey exists in our system. Please provide a valid lynkKey."
+        '400':
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Result:
+                  value:
+                    message: "lynkKey is a required field. The field is missing."
+                    type: "INVALID_DATA"
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "lynkKey is a required field. The field is missing." 
+                        parameter: lynkKey
+                        entityId: null
+                        entity: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+  
+  /applications/{connected_lynk_id}/{action_type}:
+    post:
+      summary: "Enable/Disable a Lynk"
+      description: |
+          Switches a previously installed Lynk into an active/inactive state, triggering its automated workflows (order imports, shipping requests, etc) specific to the action.
+      operationId: "activeInactiveLynk"
+      tags: 
+        -  Lynks
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "connected_lynk_id"
+          in: "path"
+          description: "The unique lynk Id generated by the system after installing a lynk"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+        - name: "action_type"
+          in: "path"
+          description: "action to be performed on the specified lynk"
+          schema:
+            type: "string"
+            enum:
+              - enable
+              - disable
+          required: true
+      responses: 
+        '200':
+          description: "Request was successful"
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "No such connectedLynkId exists in our system. Please provide a valid connectedLynkId."
+                        parameter: connectedLynkId
+                        entityId: 6821a0ef47c2aa82a98e62de
+                        entity: lynk
+                    type: "INVALID_DATA"
+                    message: "No such connectedLynkId exists in our system. Please provide a valid connectedLynkId."
+        '400':
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Result:
+                  value:
+                    message: "connectedLynkId is a required field. The field is missing."
+                    type: "INVALID_DATA"
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "connectedLynkId is a required field. The field is missing." 
+                        parameter: null
+                        entityId: null
+                        entity: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+  
+  schemas:
+    LynkInstallRequest:
+      type: object
+      properties: 
+        lynkKey:
+          type: string
+          maxLength: 100
+          description: "key used to identify the lynk in our system"
+        lynkDisplayName:
+          type: string
+          maxLength: 100
+          description: "Display name of the lynk"
+        configuration:
+          type: object
+          description: "Configuration object specific to the lynk"
+        redirectUri:
+          type: string
+          maxLength: 10000
+          description: "URL to which a user is redirected after performing a specific action"
+        tags:
+          type: array
+          description: "Additional information related to the lynk."
+          items:
+            type: string
+          minItems: 0
+          maxItems: 20
+      required: 
+        -  lynkKey
+    
+    LynkInstallResponse:
+      type: object
+      properties:
+        connectedLynkId:
+          type: string
+          maxLength: 100
+          description: "Unique Id of the lynk in the Lynkup system"
+        redirectUri:
+          type: string
+          maxLength: 10000
+          description: "URL to which a user is redirected, specifically for OAuth"
+        isRedirectionNeeded:
+          type: boolean
+          description: "Flag to understand if redirection is needed"
+
+    ErrorDetail:
+      type: object
+      required: 
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: 
+            - string
+            - 'null'
+        entityId:
+          type: 
+            - string
+            - 'null'
+        entity:
+          type: 
+            - string
+            - 'null'
+
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "ERROR_TYPE"
+        message:
+          type: string
+          example: "An error occurred" 
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+                  
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+           $ref: '#/components/schemas/Response'
+    
+    Response:
+      type: object
+      properties:
+          errors:
+            type: array
+            description: The error response containing any errors that occurred.
+            items:
+                $ref: '#/components/schemas/ErrorMessage'
+    
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: lynkKey is required. Please provide a valid key.
+      description: The error response containing any errors that occurred

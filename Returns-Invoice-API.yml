@@ -1,0 +1,1154 @@
+openapi: 3.1.0
+
+info:
+  title: Invoice Management API v1
+  version: '1.0'
+  description: |
+ 
+   # Product Info
+
+    The **Invoice Managment API** empowers retailers to generate invoices for e-commerce orders dispatched outside the API platform. It captures essential data such as customer information, delivery addresses, and order details to enable seamless tracking and efficient returns processing. By utilizing this API, retailers can enhance operational efficiency and improve the customer experience.
+
+    # Business Values
+
+    - **Intelligent Invoice Grouping**:  - Streamline returns management by leveraging the `groupId` field in the Order Model
+      to intelligently group multiple invoices associated with a single e-commerce order.
+      This feature simplifies the processing of complex orders and improves organizational workflows. 
+    
+    - **Flexible Invoice Management**:  - Modify invoices effortlessly using the Update Invoice API, enabling seamless updates
+      when item details are unavailable during the initial Create Invoice call.
+
+    - **Efficient Product Returns**: - Facilitate a seamless and customer-friendly returns process with real-time tracking
+      and updates. The platform ensures accurate handling of return requests, reducing processing
+      time and enhancing overall customer satisfaction.
+
+
+    # How does it work once I am setup as a user?
+    Once set up as a user, you can leverage the Invoice Management API to ingest order information for e-commerce orders dispatched outside the API platform. By integrating this functionality, you can intelligently group multiple invoices for streamlined returns management and seamlessly update invoices as new details become available. This ensures accurate tracking and efficient processing.
+
+    # FAQs    
+
+    - **What information is required to create an invoice?**
+      - groupId: The e-commerce order ID mapped to the invoice for efficient tracking and returns management.
+      - orderExternalId: The retailer-specific order reference.
+      - customer object: Includes customer information.
+      - orderInfo object: Subset of the order data, including deliveryAddress.
+      - brandExternalId: Identifies the brand associated with the invoice.
+      - createdDate: The date the original order was created (in int64 format).
+      - timeZone: Timezone of the order creation date."
+      - storeExternalId: The ID of the store from which the order was dispatched.
+
+    - **When should I use the Update Invoice API?**
+    > The Update Invoice API is used to modify an existing invoice when new details, such as item specifics, become available or corrections are needed. For example, you can update the itemList to include SKU details, dimensions, or images after the initial invoice creation.
+
+    - **What is the role of the customer object in the API?**
+    > The customer object provides critical customer details, including delivery address and order information. This data ensures that invoices are correctly associated with the right customer and facilitates efficient returns management.
+
+    - **Can I update the delivery address for an existing invoice?**
+    > Yes, the Update Invoice API allows you to modify the deliveryAddress object if changes to the customer's address or return location are required.
+
+    - **Does the API support batch updates for invoices?**
+    > Currently, the API supports updating invoices individually using the Update Invoice API. For batch updates, separate calls for each invoice are required.
+    
+    # Error Codes
+
+    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+
+    Successful response may or may not include warnings.
+
+    1. **Without warnings** - Indicates the request has been processed as anticipated.
+    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+
+    The severity of an error may be transient or hard.
+      
+    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+
+    ---
+
+    ## /invoices
+
+    ### POST
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invoice already Exists |
+    |  INVALID_DATA          |    400    |  Hard    | Invalid data: Please enter the phone number in E.164 format" or other invalid values in the request  |
+    |  GEOCODING_FAILED      |    422    |  Hard    | Geocoding Service for the given address failed.                            |
+    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
+
+    ### /invoices/{invoice_id}
+
+    ### PUT
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NOT_FOUND             |    404    |  Hard    | Not Found: Invoice not found |
+    |  INVALID_DATA          |    400    |  Hard    | Invalid data: Please enter the phone number in E.164 format" or other invalid values in the request  |
+    |  GEOCODING_FAILED      |    422    | Hard     | Geocoding Service for the given address failed.                            |
+    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
+
+    
+servers:
+  - url: https://api.lynkup.com/returns/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+         - v1
+  - url: 'https://sanbox.api.lynkup.com/returns/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+
+tags: 
+  - name: Invoice Management
+    description: |
+      Operations related to creating and updating invoice records within Delivery Solutions' system.
+
+security:
+  - OAuth2ClientCredentials: []
+
+paths:     
+  /invoices:
+    post:
+      summary: Create Invoice
+      tags: 
+        -  Invoice Management
+      description: |
+        Use this endpoint to create an Invoice for any e-commerce order. This is essential for enabling returns management through Delivery Solutions when the order was not initially dispatched using Delivery Solutions' platform.
+      operationId: createInvoice
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoiceRequest"
+            examples:
+              Primary Example:
+                value:
+                  itemList:
+                    - sku: sku89
+                      quantity: 5
+                      size:
+                        length: 2
+                        width: 2
+                        height: 2
+                        unit : "in"
+                      weight: 
+                        value : 7
+                        unit: 'lb'
+                      price: 200
+                      salePrice: 100
+                      image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku89_1665035377206.png
+                      title: demo
+                      description: demodesc
+                    - sku: sku90
+                      quantity: 1
+                      size:
+                        length: 3
+                        width: 3
+                        height: 3
+                        unit : "in"
+                      weight: 
+                        value : 7
+                        unit: 'lb'
+                      price: 300
+                      salePrice: 250
+                      image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku90_1665035534831.png
+                      title: dmeotitle
+                      description: demodescription
+                  groupId: GAKunalA0089
+                  orderExternalId: AKunalA0089
+                  customer:
+                    name: Nupur
+                    userExternalId: nupur123
+                    phone: '+14343424224'
+                    email: nupur@deliverysolutions.co
+                  orderInfo:
+                    type: delivery
+                    amount: 30.00
+                    orderValue: 100
+                    tips: 10
+                    orderAttributes:
+                      key: "value"
+                    status: ORDER_DISPATCHED
+                  deliveryAddress:
+                    street1: 508 S Vine St
+                    street2: ''
+                    city: Atlanta
+                    state: IL
+                    postalCode: '61723'
+                    countryCode: US
+                    latitude: 40.2587474
+                    longitude: -89.2294067
+                  brandExternalId: kunal
+                  timeZone: America/Los_Angeles
+                  createdDate: 1707356123000
+      responses:
+        '201':
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceResponse"
+              examples:
+                Result:
+                  value:
+                    id: "656eb9dd180d13598624a50b"
+                    groupId: "GAKunalA0089"
+                    tenantId: "kunal"
+                    orderExternalId: "AKunalA0089"
+                    deliveryAddress:
+                      street1: "508 S Vine St"
+                      street2: ""
+                      city: "Atlanta"
+                      state: "IL"
+                      postalCode: "61723"
+                      countryCode: "US"
+                      latitude: 40.2587474
+                      longitude: -89.2294067
+                    customer:
+                      email: "nupur@deliverysolutions.co"
+                      phone: "+14343424224"
+                      name: "Nupur"
+                      userExternalId: "nupur123"
+                    brandExternalId: "kunal"
+                    locationExternalId: "location001"
+                    timeZone: "America/Los_Angeles"
+                    createdAt: "2024-07-23T10:34:01.695Z"
+                    createdDate: 1709231400000
+                    itemList:
+                      - sku: "sku89"
+                        quantity: 5
+                        size:
+                          length: 2
+                          width: 2
+                          height: 2
+                          unit : "in"
+                        weight: 
+                          value : 7
+                          unit: 'lb'
+                        price: 200
+                        salePrice: 100
+                        image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku89_1665035377206.png"
+                        title: "demo"
+                        description: "demodesc"
+                        tags: []
+                      - sku: "sku90"
+                        quantity: 1
+                        size:
+                          length: 3
+                          width: 3
+                          height: 3
+                          unit : "in"
+                        weight: 
+                          value : 7
+                          unit: 'lb'
+                        price: 300
+                        salePrice: 250
+                        image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku90_1665035534831.png"
+                        title: "dmeotitle"
+                        description: "demodescription"
+                        tags: []
+                    orderInfo:
+                      type: "delivery"
+                      amount: 30.00
+                      orderValue: 100
+                      tips: 10
+                      orderAttributes:
+                        key: "value"
+                      status: "ORDER_DISPATCHED"
+                    returnsUrl: "https://s.dl-s.co/0ShUHqCjvQS"
+        '400':
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    errors:
+                      - type: INVALID_DATA
+                        message: "Please enter the phone number in E.164 format"
+                        parameter: customer.phone
+                        entityId: null
+                        entity: null
+                    type: INVALID_DATA
+                    message: "Please enter the phone number in E.164 format"
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    type: INVALID_DATA
+                    message: "Invoice already exists."
+                    errors:
+                       - type: INVALID_DATA
+                         message: Invoice already exists.
+                         parameter: null
+                         entityId: "invoice-1"
+                         entity: invoice
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+  
+  /invoices/{invoice_id}:
+     put:
+      summary: Update Invoice
+      description: |
+        Use this API to update an Invoice by specifying the Invoice ID.
+      tags: 
+        -  Invoice Management
+      operationId: updateInvoice
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: invoice_id
+          in: path
+          description: Invoice Id (_id) created during the Create Invoice API
+          required: true
+          schema:
+            type: string    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InvoicePutRequest"
+            examples:
+              Request Example:
+                value:
+                  itemList:
+                    - sku: "sku89"
+                      quantity: 5
+                      size:
+                        length: 2
+                        width: 2
+                        height: 2
+                        unit : "in"
+                      weight: 
+                        value : 7
+                        unit: 'lb'
+                      price: 200
+                      salePrice: 100
+                      image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku89_1665035377206.png"
+                      title: "demo"
+                      description: "demodesc"
+                    - sku: "sku90"
+                      quantity: 1
+                      size:
+                        length: 3
+                        width: 3
+                        height: 3
+                        unit : "in"
+                      weight: 
+                        value : 7
+                        unit: 'lb'
+                      price: 300
+                      salePrice: 250
+                      image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku90_1665035534831.png"
+                      title: "dmeotitle"
+                      description: "demodescription"
+                  groupId: "GAKunalA0089"
+                  orderExternalId: "AKunalA0089"
+                  customer:
+                    name: "Nupur"
+                    userExternalId: "nupur123"
+                    phone: "+14343424224"
+                    email: "nupur@deliverysolutions.co"
+                  orderInfo:
+                    type: "delivery"
+                    amount: 30.00
+                    orderValue: 100
+                    tips: 10
+                    orderAttributes:
+                      key: "value"
+                    status: "ORDER_DISPATCHED"
+                  deliveryAddress:
+                    street1: "508 S Vine St"
+                    street2: ""
+                    city: "Atlanta"
+                    state: "IL"
+                    postalCode: "61723"
+                    countryCode: "US"
+                    latitude: 40.2587474
+                    longitude: -89.2294067
+                  brandExternalId: "kunal"
+                  timeZone: "America/Los_Angeles"
+                  createdDate: 1707356123000
+      responses:
+        '200':
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceResponse"
+              examples:
+                Result:
+                  value:
+                    groupId: "GAKunalA0089"
+                    tenantId: "kunal"
+                    orderExternalId: "AKunalA0089"
+                    deliveryAddress:
+                      street1: "508 S Vine St"
+                      street2: ""
+                      city: "Atlanta"
+                      state: "IL"
+                      postalCode: "61723"
+                      countryCode: "US"
+                      latitude: 40.2587474
+                      longitude: -89.2294067
+                    customer:
+                      email: "nupur@deliverysolutions.co"
+                      phone: "+14343424224"
+                      name: "Nupur"
+                      userExternalId: "nupur123"
+                    brandExternalId: "kunal"
+                    locationExternalId: "location001"
+                    timeZone: "America/Los_Angeles"
+                    createdAt: "2024-07-23T10:34:01.695Z"
+                    createdDate: 1709231400000
+                    itemList:
+                      - sku: "sku89"
+                        quantity: 5
+                        size:
+                          length: 2
+                          width: 2
+                          height: 2
+                          unit : "in"
+                        weight: 
+                          value : 2
+                          unit: 'lb'
+                        price: 200
+                        salePrice: 100
+                        image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku89_1665035377206.png"
+                        title: "demo"
+                        description: "demodesc"
+                        tags: []
+                      - sku: "sku90"
+                        quantity: 1
+                        size:
+                          length: 3
+                          width: 3
+                          height: 3
+                          unit : "in"
+                        weight: 
+                          value : 7
+                          unit: 'lb'
+                        price: 300
+                        salePrice: 250
+                        image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku90_1665035534831.png"
+                        title: "dmeotitle"
+                        description: "demodescription"
+                        tags: []
+                    orderInfo:
+                      type: "delivery"
+                      amount: 30.00
+                      orderValue: 100
+                      tips: 10
+                      orderAttributes:
+                        key: "value"
+                      status: "ORDER_DISPATCHED"
+                    id: "63ea84197afb7569bf4bc6eb"
+        '400':
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: INVALID_DATA
+                        message: "Please enter the phone number in E.164 format"
+                        parameter: customer.phone
+                        entityId: null
+                        entity: null
+                    type: INVALID_DATA
+                    message: "Please enter the phone number in E.164 format"
+        '422':
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Brand check:
+                  value: 
+                    errors:
+                      - type: INVALID_DATA
+                        message: brandExternalId, 152950 value is invalid
+                        parameter: brandExternalId
+                        entityId: "152950"
+                        entity: brand
+                    type: INVALID_DATA
+                    message: brandExternalId, 152950 value is invalid
+                Invoice check:
+                  value: 
+                    errors:
+                      - type: INVALID_DATA
+                        message: "Invoice already exists."
+                        parameter: null
+                        entityId: Invoice-001
+                        entity: invoice
+                    type: INVALID_DATA
+                    message: Invoice already exists.
+        '404':
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Result:
+                  value:
+                    message: "Invoice is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Invoice is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+  
+  schemas:  
+    Address:
+      type: object
+      description: Address of the location
+      required:
+        - street1
+        - city
+        - state
+        - postalCode
+      properties:
+        street1:
+          type: string
+          description: Address Line 1 (Street Number and Street Name)
+          maxLength: 100
+        street2:
+          type: string
+          description: Address Line 2 (not to be used for apartment / suite #)
+          maxLength: 100
+        apartmentNumber:
+          type: string
+          description: Apartment / Suite #
+          maxLength: 50
+        city:
+          type: string
+          description: City
+          maxLength: 100
+        state:
+          type: string
+          description: State
+          maxLength: 100
+        postalCode:
+          type: string
+          description: Postal code or zip.
+          maxLength: 20
+        countryCode:
+          type: string
+          description: 2-letter country code in ISO 3166-1 alpha-2 format. If not provided defaults to 'US'.
+          default: US
+          enum: 
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          type: number
+          format: double
+          description: Latitude coordinates of the address
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+
+    ErrorDetail:
+      type: object
+      required: 
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: 
+            - string
+            - 'null'
+        entityId:
+          type: 
+            - string
+            - 'null'
+        entity:
+          type: 
+            - string
+            - 'null'
+
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "ERROR_TYPE"
+        message:
+          type: string
+          example: "An error occurred" 
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    
+    Item:
+      type: object
+      description: "Details of an item within a package"
+      required:
+        - sku
+      properties:
+        sku:
+          type: string
+          description: "An ID that identify the product/variant from the brand's catalog."
+          maxLength: 100
+        upc:
+          type: string
+          description: "Universal Product Code for the item"
+          maxLength: 100
+        category:
+          type: string
+          description: "Category of Item"
+          maxLength: 100
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of items of the SKU"
+          minimum: 1
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        price:
+          type: number
+          format: double
+          description: "Retail price of the item."
+          minimum: 0
+        salePrice:
+          type: number
+          format: double
+          description: "Sale price of the item."
+          minimum: 0
+        image:
+          type: string
+          description: "Link to the image file of the item."
+          maxLength: 200
+        title:
+          type: string
+          description: "Title of the item."
+          maxLength: 200
+        description:
+          type: string
+          description: "Description of the item."
+          maxLength: 10000
+        itemAttributes:
+          type: object
+          description: "Custom item attributes."
+        tags:
+          type: array
+          description: "Additional information related to the item."
+          items:
+            type: string
+          minItems: 0
+          maxItems: 20
+
+    Customer:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+          example: "dhaval.parmar@deliverysolutions.co"
+          maxLength: 100
+        phone:
+          type: "string"
+          example: "+12015554312"
+          maxLength: 20
+        name:
+          type: "string"
+          example: "Dhaval Parmar"
+          maxLength: 100
+        userExternalId:
+          type: "string"
+          example: "test1"
+          maxLength: 100
+
+    OrderInfo:
+      type: object
+      description: "Subset of Order Object to control the rules."
+      required:
+        - orderValue
+        - status
+      properties:
+        tips:
+          type: integer
+          minimum: 0
+          description: "Optional tips for the order."
+        type:
+          type: string
+          description: "Type of the order e.g. shipping, delivery, pickup."
+        amount:
+          type: integer
+          format: int32
+          minimum: 0
+          description: "Any delivery or shipping charges applicable for the invoice."
+        orderValue:
+          type: number
+          format: float
+          minimum: 0
+          description: "Cost of the order in major units. e.g. $10.43."
+        orderAttributes:
+          type: object
+          description: "Key Value Pairs of attributes that you want to associate with the order."
+          additionalProperties: true
+        status:
+          type: string
+          description: "Status associated with the Order if any."
+          maxLength: 100
+        actualDeliveryTime:
+          type: string
+          format: date-time
+          description: "The time at which the order was delivered."
+
+    InvoiceRequest:
+      type: object
+      required:
+        - orderExternalId
+        - customer
+        - orderInfo
+        - brandExternalId
+        - createdDate
+        - timeZone
+        - itemList
+      properties:
+        itemList:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+          description: 
+             Array of Items for which Invoice has been created
+        groupId:
+          type: string
+          maxLength: 100
+          description: "E-commerce order id should be mapped to groupId field so that tracking and returns can be utilized efficiently."
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "Order Id by which retailer can refer to the Invoice."
+        customer:
+          $ref: "#/components/schemas/Customer"
+          description: "Customer Information for the Invoice."   
+        orderInfo:
+          description: "Subset of Order Object to control the rules."
+          $ref: "#/components/schemas/OrderInfo"
+        deliveryAddress:
+           $ref: "#/components/schemas/Address"
+        brandExternalId:
+          type: string
+          maxLength: 100
+          description: "Brand External Id for which the Invoice is being created."
+        createdDate:
+          type: integer
+          description: "The date at which the invoice was created."
+          format: int64
+        timeZone:
+          type: string
+          description: "The timezone in which the invoice was created."
+        locationExternalId:
+          type: string
+          description: "location External Id from where the Order was dispatched."
+    
+    InvoicePutRequest:
+      type: object
+      properties:
+        itemList:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+          description: 
+             Array of Items for which Invoice has been created
+        groupId:
+          type: string
+          maxLength: 100
+          description: "E-commerce order id should be mapped to groupId field so that tracking and returns can be utilized efficiently."
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "Order Id by which retailer can refer to the Invoice's order."
+        customer:
+          $ref: "#/components/schemas/Customer"
+          description: "Customer Information for the Invoice."
+        orderInfo:
+          $ref: "#/components/schemas/OrderInfo"
+          description: "Subset of Order Object to control the rules." 
+        deliveryAddress:
+          $ref: "#/components/schemas/Address"
+          description: "Customer delivery address at which the order being returned was delivered or customer address from which returns might get picked up."       
+        brandExternalId:
+          type: string
+          description: "Brand External Id for which the Invoice is being created."
+          maxLength: 100
+        createdDate:
+          type: integer
+          description: "The date at which the invoice was created."
+          format: int64
+        timeZone:
+          type: string
+          description: "The timezone in which the invoice was created."
+        locationExternalId:
+          type: string
+          description: "location External Id from where the Order was dispatched."
+    
+    InvoiceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        itemList:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+          description: 
+            Array of Items for which Invoice has been created
+        tenantId:
+          type: string
+          description: "Invoice associated with tenant."
+          maxLength: 100
+        groupId:
+          type: string
+          maxLength: 100
+          description: "E-commerce order id should be mapped to groupId field so that tracking and returns can be utilized efficiently."
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "Order Id by which retailer can refer to the Invoice."
+        customer:
+          $ref: "#/components/schemas/Customer"
+          description: "Customer Information for the Invoice."      
+        orderInfo:
+          $ref: "#/components/schemas/OrderInfo"
+          description: "Subset of Order Object to control the rules."     
+        deliveryAddress:
+          $ref: "#/components/schemas/Address"
+          description: "Customer delivery address at which the order being returned was delivered or customer address from which returns might get picked up."
+        brandExternalId:
+          type: string
+          description: "Brand External Id for which the Invoice is being created."
+          maxLength: 100
+        createdDate:
+          type: integer
+          description: "The date at which the invoice was created."
+          format: int64
+        timeZone:
+          type: string
+          description: "The timezone in which the invoice was created."
+        createdAt:
+          type: string
+          format: date-time
+          description: "Date when the Invoice was created."
+          example: "2023-02-13T16:59:10.205Z"
+        returnsUrl:
+          type: string
+          description: "Returns url for Invoice"
+          maxLength: 100
+          format : uri
+        locationExternalId:
+          type: string
+          description: "location External Id from where the Order was dispatched."
+          maxLength: 100
+ 
+    Weight:
+      type: object
+      description: Weight of an item
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+          format: double
+          description: weight
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given weight in kg or lb
+          enum: 
+            - kg
+            - lb
+
+    Size:
+      type: object
+      description: Dimensions of the item.
+      required:
+        - height
+        - width
+        - length
+        - unit
+      properties:
+        height:
+          type: number
+          format: double
+          description: Height
+          minimum: 0
+        width:
+          type: number
+          format: double
+          description: Width
+          minimum: 0
+        length:
+          type: number
+          format: double
+          description: Length
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given size in cm or in
+          enum: 
+            - cm
+            - in
+          
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+           $ref: '#/components/schemas/Response'
+    
+    Response:
+      type: object
+      properties:
+          errors:
+            type: array
+            description: The error response containing any errors that occurred.
+            items:
+                $ref: '#/components/schemas/ErrorMessage'
+    
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: Locale is required. The Subscription request has been rejected.
+      description: The error response containing any errors that occurred

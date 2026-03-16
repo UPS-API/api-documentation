@@ -1,0 +1,1869 @@
+openapi: 3.1.0
+info:
+  title: Tracker API v2
+  version: '1.0'
+  description: |
+    # Product Info
+
+    The **Tracker API** allows businesses to create trackers for orders **not** dispatched through our API Solutions, enabling use of post-purchase and returns features. 
+    
+    # Business Values
+
+    - **Post-Purchase Management**:  - The post-purchase experience encompasses timely alerts, notifications, and user-friendly tracking pages, helping customers stay informed about their order's journey.
+
+    - **Returns Module**: - Streamline the process for customers to initiate returns and exchanges efficiently.
+
+    # How does it work once I am setup as a user?
+    Once you are set up as a user, you can submit existing order details, including the carrier's tracking number, to facilitate a seamless post-purchase and returns experience based on the portal's configuration. The API will then respond with the appropriate links for customers to access these features.
+
+    # FAQs    
+    - **What is required for the difference between an order and a tracker?**
+    >  A **Delivery Order** contains all the critical details needed to execute a delivery, such as pickup and delivery addresses, contact information, and scheduling preferences. 
+    
+    # Error Codes
+
+    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+
+    Successful response may or may not include warnings.
+
+    1. **Without warnings** - Indicates the request has been processed as anticipated.
+    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+
+    The severity of an error may be transient or hard.
+      
+    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+
+
+    ---
+
+    ## /trackers:
+
+    ### POST
+
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_TRACKER_DATA  |    422    |  Hard    | Invalid data: This provider is not configured in corporate or other invalid values in the request |
+    |  MISSING_TRACKER_DATA  |    400    |  Hard    | Invalid data: Delivery Address not provided  or other invalid values in the request  |
+
+servers:
+  - url: https://api.lynkup.com/tracker/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+        default: v2
+        enum:
+         - v2 
+  - url: 'https://sanbox.api.lynkup.com/tracker/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v2
+       enum:
+          - v2         
+tags: 
+  - name: Tracker
+    description: Endpoints for creating and managing trackers to enable post-purchase tracking and notifications.
+paths:
+  /trackers:
+    post:
+      summary: Create Tracker
+      description: |
+        This endpoint allows businesses to create a tracker using the tracking number provided by the carrier. 
+        Trackers enable a unified post-purchase experience for all orders, including alerts, notifications, and tracking pages. 
+        To create a tracker, the carrier must be configured for the business, and a valid tracking number is required. 
+      operationId: createTracker
+      security:
+        - OAuth2ClientCredentials: []
+      tags: 
+        -  Tracker
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTrackerRequest"
+            examples:
+              Create Tracker:
+                value:
+                  provider: Self Delivery
+                  locationExternalId: Self Delivery Store
+                  trackerExternalId: tracker001
+                  trackingId: del_004
+                  barcodes:
+                    - "12312351"
+                    - "77091078"
+                  type: delivery
+                  orderAttributes: {}
+                  orderValue: 100
+                  pickupTime:
+                    startsAt: 1649253600000
+                  deliveryTime:
+                    endsAt: 1649268000000
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+12322322323"
+                    email: nycustomer@email.com
+                  deliveryAddress:
+                    street1: 8849 North Sam Houston Parkway West
+                    street2: ""
+                    city: Houston
+                    state: TX
+                    countryCode: US
+                    postalCode: "77064"
+                    latitude: 29.9259823
+                    longitude: -95.5523879
+                    apartmentNumber: ""
+              Wrong Name In Provider:
+                value:
+                  provider: DoorDash_123
+                  locationExternalId: Postmates_Store
+                  trackerExternalId: tracker001
+                  trackingId: del_004
+                  type: delivery
+                  orderValue: 100
+                  pickupTime:
+                    startsAt: 1649253600000
+                  deliveryTime:
+                    endsAt: 1649268000000
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+12322322323"
+                    email: nycustomer@email.com
+                  deliveryAddress:
+                    street1: 8849 North Sam Houston Parkway West
+                    street2: ""
+                    city: Houston
+                    state: TX
+                    countryCode: US
+                    postalCode: "77064"
+                    latitude: 29.9259823
+                    longitude: -95.5523879
+                    apartmentNumber: ""
+              Delivery Tracker - Address Field Missing:
+                value:
+                  provider: Self Delivery
+                  locationExternalId: Self Delivery Store
+                  trackerExternalId: tracker001
+                  trackingId: del_004
+                  type: delivery
+                  orderValue: 100
+                  pickupTime:
+                    startsAt: 1649253600000
+                  deliveryTime:
+                    endsAt: 1649268000000
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+232-232-2323"
+                    email: nycustomer@email.com
+              Tracker With Minimum Fields:
+                value:
+                  provider: Self Delivery
+                  locationExternalId: Self Delivery Store
+                  trackingId: del_004
+                  deliveryTime: null
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+232-232-2323"
+                    email: nycustomer@email.com
+                  deliveryAddress:
+                    street1: 8849 North Sam Houston Parkway West
+                    street2: ""
+                    city: Houston
+                    state: TX
+                    countryCode: US
+                    postalCode: "77064"
+                    latitude: 29.9259823
+                    longitude: -95.5523879
+                    apartmentNumber: ""
+              Tracker With Pickup:
+                value:
+                  provider: UPS Shipping
+                  pickup:
+                    name: location_name
+                    address:
+                      street1: 11111 Reserach Blvd
+                      city: Houston
+                      state: TX
+                      countryCode: US
+                      postalCode: "78759"
+                    contact:
+                      name: Steve
+                      phone: "+1 201-555-7898"
+                  trackingId : del_004
+                  deliveryTime: null
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+232-232-2323"
+                    email: nycustomer@email.com
+                  deliveryAddress:
+                    street1: 8849 North Sam Houston Parkway West
+                    street2: ""
+                    city: Houston
+                    state: TX
+                    countryCode: US
+                    postalCode: "77064"
+                    latitude: 29.9259823
+                    longitude: -95.5523879
+                    apartmentNumber: ""
+              Create Pre-Dispatch Tracker:
+                value:
+                  locationExternalId: TrackerRoadieStore
+                  type: delivery
+                  orderValue: 100
+                  pickupTime:
+                    startsAt: 1649253600000
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+12322322323"
+                    email: nycustomer@email.com
+                  deliveryAddress:
+                    street1: 8849 North Sam Houston Parkway West
+                    street2: ""
+                    city: Houston
+                    state: TX
+                    countryCode: US
+                    postalCode: "77064"
+                    latitude: 29.9259823
+                    longitude: -95.5523879
+                    apartmentNumber: ""
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/TrackerResponse"
+              examples:
+                Create Tracker Response:
+                  $ref: "#/components/examples/TrackerExample"
+                Pre-Dispatched Tracker Response:
+                  value: 
+                    locationExternalId: TrackerRoadieStore
+                    orderExternalId: 675be3979481f40f07a5a5c7
+                    packages: []
+                    type: delivery
+                    orderValue: 100
+                    status: PENDING_DISPATCH
+                    pickupTime:
+                      startsAt: 1649253600000
+                      endsAt: null
+                    estimatedPickupTime: 
+                      startsAt: null
+                    estimatedDeliveryTime: 
+                        startsAt: null
+                    lastLocation: null
+                    driver: null
+                    vehicle: null
+                    provider: null
+                    deliveryAddress:
+                      street1: 8849 North Sam Houston Parkway West
+                      street2: ""
+                      city: Houston
+                      state: TX
+                      countryCode: US
+                      postalCode: "77064"
+                      latitude: 29.9259823
+                      longitude: -95.5523879
+                      apartmentNumber: ""
+                    id: 675be3979481f40f07a5a5c7
+                    referenceLinks:
+                      hostedTrackingUrl: https://q.dl-s.co/LAGXd3Zhxa9
+                      trackingUrl: null
+                      customerWebflowUrl: null
+                    trackerExternalId: tracker001
+        "400":
+          description: Bad Request
+          headers: 
+            apierrorcode:
+              $ref: "#/components/headers/APIErrorCode"
+            apierrormsg:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Missing Tracker Data Error:
+                  value: 
+                    type: MISSING_TRACKER_DATA
+                    message: Delivery Address not provided.
+                    errors:
+                      - type: MISSING_TRACKER_DATA
+                        message: Delivery Address not provided.
+                        parameter: deliveryAddress
+                        entityId: null
+                        entity: null
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            apierrorcode:
+              $ref: "#/components/headers/APIErrorCode"
+            apierrormsg:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: "250002"
+                    message: Invalid Authentication Information.
+        "422":
+            description: Unprocessed Entity
+            headers: 
+              apierrorcode:
+                $ref: "#/components/headers/APIErrorCode"
+              apierrormsg:
+                $ref: "#/components/headers/APIErrorMsg"
+            content:
+              application/json:
+                schema: 
+                  $ref: "#/components/schemas/InvalidRequest"
+                examples:
+                  Provider Not Configured Error:
+                    value: 
+                      type: INVALID_TRACKER_DATA
+                      message: This provider is not configured in corporate.
+                      errors:
+                        - type: INVALID_TRACKER_DATA
+                          message: This provider is not configured in corporate.
+                          parameter: provider
+                          entityId: UPS-1
+                          entity: provider
+        "500":
+          description: Internal Server Error
+          headers: 
+            apierrorcode:
+              $ref: "#/components/headers/APIErrorCode"
+            apierrormsg:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: An unexpected error occurred. Please try again later.
+                    type: INTERNAL_SERVER_ERROR
+                    errors:
+                      - type: SERVER_ERROR
+                        message: An unexpected error occurred while processing the request.
+      deprecated: false
+  /trackers/{tracker_id}:
+    put:
+      summary: Edit a tracker using trackerId.
+      description: |
+        This endpoint allows businesses to update a tracker using the trackerId provided by LynkUp. Trackers enable a unified
+        post-purchase experience for all orders, including alerts, notifications, and tracking pages. To update a tracker, it should
+        be existing in the system. This api can also be used to move the trackers from pre-dispatch status to dispatch status.
+      operationId: updateTrackerUsingTrackerExternalId
+      security:
+        - OAuth2ClientCredentials: []
+      tags: 
+        -  Tracker
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
+        - name: tracker_id
+          in: path
+          description: The unique tracker id generated by the system after creating tracker
+          required: true
+          schema:
+            type: string
+            example: del_004
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTrackerRequest"
+            examples:
+              Update Tracker:
+                value:
+                  provider: Self Delivery
+                  trackingId: del_004
+                  orderAttributes: {}
+                  orderValue: 100
+                  pickupTime:
+                    startsAt: 1649253600000
+                  deliveryTime:
+                    endsAt: 1649268000000
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+12322322323"
+                    email: nycustomer@email.com
+              Wrong Name In Provider:
+                value:
+                  provider: DoorDash_123
+                  trackingId: del_004
+                  orderValue: 100
+                  pickupTime:
+                    startsAt: 1649253600000
+                  deliveryTime:
+                    endsAt: 1649268000000
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+12322322323"
+                    email: nycustomer@email.com
+              Tracker With Minimum Fields:
+                value:
+                  provider: Self Delivery
+                  trackingId: del_004
+              Tracker With Item List:
+                value:
+                  itemList: 
+                    - sku: sku 1
+                      quantity: 1
+                      size:
+                        length: 3
+                        width: 2
+                        height: 2
+                        unit: in
+                      weight: 
+                        value: 10
+                        unit: lb
+                      price: 3
+                      salePrice: 3
+                      image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
+                      title: Watch
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackerResponse"
+              examples:
+                Successful Response:
+                  $ref: "#/components/examples/TrackerExample"
+        "400":
+          description: Bad Request
+          headers: 
+            apierrorcode:  
+              required: true
+              description: The API error code
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: The API error message.
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Missing Tracker Data Error:
+                  value: 
+                    type: MISSING_TRACKER_DATA
+                    message: Delivery Address not provided.
+                    errors:
+                      - type: MISSING_TRACKER_DATA
+                        message: Delivery Address not provided.
+                        parameter: deliveryAddress
+                        entityId: null
+                        entity: null
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: The API error code
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: The API error message.
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+        "422":
+            description: Unprocessed Entity
+            headers: 
+              apierrorcode:  
+                required: true
+                description: The API error code
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: The API error message.
+                schema: 
+                  type: string 
+            content:
+              application/json:
+                schema: 
+                  $ref: "#/components/schemas/InvalidRequest"
+                examples:
+                  Provider Not Configured Error:
+                    value: 
+                      type: INVALID_TRACKER_DATA
+                      message: This provider is not configured in corporate.
+                      errors:
+                        - type: INVALID_TRACKER_DATA
+                          message: This provider is not configured in corporate.
+                          parameter: provider
+                          entityId: UPS-1
+                          entity: provider
+        "500":
+          description: Internal Server Error
+          headers: 
+            apierrorcode:  
+              required: true
+              description: The API error code
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: The API error message.
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: An unexpected error occurred. Please try again later.
+                    type: INTERNAL_SERVER_ERROR
+                    errors:
+                      - type: SERVER_ERROR
+                        message: An unexpected error occurred while processing the request.
+      deprecated: false
+  /trackers/list:
+    post:
+      summary: Fetch list of trackers based on filters.
+      description: |
+        Use this endpoint to retrieve a filtered list of trackers based on specified criteria. By default, if no filters
+        are applied, trackers created within the last 24 hours will be returned.
+
+        This API supports advanced filtering options such as:
+        - **Source Ids**: Use the `sourceIds` to pass an array of source ids. 
+        - **Time Filters**: Filter trackers based on their `createdAt` or `lastUpdatedAt`.
+        - **Identifiers**: Search by `orderExternalIds` or `locationExternalIds`.
+        - **Statuses**: Retrieve trackers based on their current status (e.g., `ORDER_DISPATCHED`, `ORDER_DELIVERED`, `ORDER_CANCELLED`).
+        - **Pagination**: Use the `pagination` field to retrieve subsequent sets of results when dealing with large datasets.
+
+        The request body allows flexible and precise filtering, making it easy to tailor the response to your specific needs. 
+        The response will contain the requested trackers data, and if applicable, use `pagination` field to fetch additional results.
+      operationId: listTrackers
+      security:
+        - OAuth2ClientCredentials: []
+      tags: 
+        -  Tracker
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                - v2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListTrackersRequest"
+            examples:
+              All Parameters Utilized:
+                value:
+                  lastUpdatedAt:
+                    startsAt: 1651402682000
+                    endsAt: 1652266731000
+                  orderExternalIds:
+                    - "1908241"
+                  locationExternalIds:
+                    - "100983"
+                  createdAt:
+                    startsAt: 1651402682000
+                    endsAt: 1652266731000
+                  statuses:
+                    - ORDER_DISPATCHED
+                    - ORDER_DELIVERED
+                    - ORDER_CANCELLED
+                    - PICKUP_STARTED
+                    - PICKUP_COMPLETED
+                  pagination:
+                    currentToken: NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA==
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TrackerResponse"
+                  pagination:
+                    type: object
+                    description: An object for the next and previous response data pagination tokens. Value will be null for no results.
+                    properties:
+                       nextToken:
+                         type: 
+                           - string
+                           - 'null'
+                       previousToken:
+                         type: 
+                           - string
+                           - 'null'
+              examples:
+                Successful Response:
+                  # 'value' must be literal and does not support 'allOf' or '$ref'
+                  # https://stackoverflow.com/questions/71077750/how-to-make-swagger-examples-component-with-allof/71081571#71081571
+                  # $ref: '#/components/examples/TrackerExample'
+                  value:
+                    data:                       
+                      - locationExternalId: Postmates_Store
+                        trackingId : del_004
+                        brandExternalId: trackers_business
+                        orderExternalId: tracker001
+                        packages: []
+                        type: delivery
+                        orderAttributes: {}
+                        orderValue: 100
+                        status: ORDER_DISPATCHED
+                        pickupTime:
+                          startsAt: 1649253600000
+                          endsAt: null
+                        deliveryTime:
+                          endsAt: 1649268000000
+                          startsAt: null
+                        estimatedPickupTime: 
+                          startsAt: null
+                        estimatedDeliveryTime: 
+                          startsAt: null
+                        tips: null
+                        lastLocation: null
+                        driver: null
+                        vehicle: null
+                        provider: 
+                          name: Postmates
+                          serviceType: Delivery
+                          displayName: Postmates
+                          id: '2323'
+                          serviceId: delivery
+                        currencyCode: USD
+                        deliveryAddress:
+                          street1: 8849 North Sam Houston Parkway West
+                          street2: ""
+                          city: Houston
+                          state: TX
+                          countryCode: US
+                          postalCode: "77064"
+                          latitude: 29.9259823
+                          longitude: -95.5523879
+                          apartmentNumber: ""
+                        deliveryContact:
+                          name: Mei Wan
+                          phone: "+12323232323"
+                          email: nycustomer@email.com
+                        deliveryInstructions: null
+                        pickupInstructions: location pickupInstructions
+                        groupId: null
+                        timeZone: America/Chicago
+                        pickupContact:
+                          name: Peter Brown
+                          phone: "+12142342232"
+                        pickupAddress:
+                          street1: 8849 North Sam Houston Parkway West
+                          street2: ""
+                          city: Houston
+                          postalCode: "77064"
+                          countryCode: US
+                          state: TX
+                          latitude: 29.9259823
+                          longitude: -95.5523879
+                        id: 62a051c1729b5dfcdeae1870
+                        referenceLinks:
+                          hostedTrackingUrl: https://q.dl-s.co/LAGXd3Zhxa9
+                          trackingUrl: https://q.dl-s.co/G-6FdYoxx5c
+                          customerWebflowUrl: null
+                        trackerExternalId: tracker001
+                        source:
+                          type: lynk
+                          id: "34567809876500"
+                          name: Shopify
+                    pagination:
+                      nextToken: NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA==
+                      previousToken: NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1MV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM=       
+        "400":
+          description: Bad Request
+          headers: 
+            apierrorcode:
+              $ref: "#/components/headers/APIErrorCode"
+            apierrormsg:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Date Range Greater Than 30 Days:
+                  value: 
+                    type: INVALID_DATA
+                    message: lastUpdatedAt date range cannot be greater than 30 days
+                    errors:
+                      - type: INVALID_DATA
+                        message: lastUpdatedAt date range cannot be greater than 30 days
+                        parameter: lastUpdatedAt
+                        entityId: null
+                        entity: null
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              $ref: "#/components/headers/BkndTransId"
+            transId:
+              $ref: "#/components/headers/transId"
+            apierrorcode:
+              $ref: "#/components/headers/APIErrorCode"
+            apierrormsg:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                    - code: "250002"
+                      message: Invalid Authentication Information.
+        "500":
+          description: Internal Server Error
+          headers: 
+            apierrorcode:
+              $ref: "#/components/headers/APIErrorCode"
+            apierrormsg:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: An unexpected error occurred. Please try again later.
+                    type: INTERNAL_SERVER_ERROR
+                    errors:
+                      - type: SERVER_ERROR
+                        message: An unexpected error occurred while processing the request.
+      deprecated: false
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      description: |
+          Find your Client ID and Secret on your app info page.
+            1. Select "Try It"
+            2. In the Security section enter your Client ID and Secret
+            3. Select "Request Token"
+            4. Enter any additional information in the Body and Parameters sections
+            5. Select "Send" to execute your API request"
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+  headers:
+    BkndTransId:
+      description: The backend transaction id.
+      required: true
+      schema:
+        type: string
+        example: 383f7d397a48
+    transId:
+      description: An identifier unique to the request.
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 36
+        pattern: ^[a-zA-Z0-9-.]{3,36}$
+        example: 0a1b9c2d8e3f7g4h6i5
+    APIErrorCode:
+      description: The API error code.
+      required: true
+      schema:
+        type: string
+        example: UJ0001
+    APIErrorMsg:
+      description: The API error message.
+      required: true
+      schema:
+        type: string
+        example: Invalid token or token is not present.
+  examples:
+    TrackerExample:
+      value:
+        locationExternalId: Postmates_Store
+        trackingId : del_004
+        brandExternalId: trackers_business
+        orderExternalId: tracker001
+        packages: []
+        type: delivery
+        orderAttributes: {}
+        orderValue: 100
+        status: ORDER_DISPATCHED
+        pickupTime:
+          startsAt: 1649253600000
+          endsAt: null
+        deliveryTime:
+          endsAt: 1649268000000
+          startsAt: null
+        estimatedPickupTime: 
+          startsAt: null
+        estimatedDeliveryTime: 
+          startsAt: null
+        tips: null
+        lastLocation: null
+        driver: null
+        vehicle: null
+        provider: 
+          name: Postmates
+          serviceType: Delivery
+          displayName: Postmates
+          id: '2323'
+          serviceId: delivery
+        currencyCode: USD
+        deliveryAddress:
+          street1: 8849 North Sam Houston Parkway West
+          street2: ""
+          city: Houston
+          state: TX
+          countryCode: US
+          postalCode: "77064"
+          latitude: 29.9259823
+          longitude: -95.5523879
+          apartmentNumber: ""
+        deliveryContact:
+          name: Mei Wan
+          phone: "+12323232323"
+          email: nycustomer@email.com
+        deliveryInstructions: null
+        pickupInstructions: location pickupInstructions
+        groupId: null
+        timeZone: America/Chicago
+        pickupContact:
+          name: Peter Brown
+          phone: "+12142342232"
+        pickupAddress:
+          street1: 8849 North Sam Houston Parkway West
+          street2: ""
+          city: Houston
+          postalCode: "77064"
+          countryCode: US
+          state: TX
+          latitude: 29.9259823
+          longitude: -95.5523879
+        id: 62a051c1729b5dfcdeae1870
+        referenceLinks:
+          hostedTrackingUrl: https://q.dl-s.co/LAGXd3Zhxa9
+          trackingUrl: https://q.dl-s.co/G-6FdYoxx5c
+          customerWebflowUrl: null
+        trackerExternalId: tracker001
+        source:
+          type: lynk
+          id: "34567809876500"
+          name: Shopify
+  schemas:
+    #/trackers
+    CreateTrackerRequest:
+      allOf:
+        - $ref: "#/components/schemas/SharedRequestResponse"
+        - type: object
+          required: []
+          properties:
+            barcodes:
+              type: array
+              description: Barcodes sent to the provider for scanning the packages
+              items:
+                type: string
+              example:
+                - "12312351"
+                - "77091078"
+            createdDate:
+              type: integer
+              description: Date at which the order was originally created in Unix time in milliseconds
+              format: int64
+              example: 1694354791000
+            itemList:
+              type: array 
+              items:
+                $ref: "#/components/schemas/Item"
+            locale:
+              type: string
+              description: |
+                Comprised of the <a href="https://www.iso.org/iso-639-language-code.html" target="_blank">ISO 639</a> language code and the
+                <a href="https://www.iso.org/iso-3166-country-codes.html" target="_blank">ISO 3166</a> country code separated by a dash.
+              minLength: 5
+              maxLength: 5
+              pattern: ^[a-z]{2}-[A-Z]{2}$
+              example: en-US
+            pickup:
+              type: object
+              description: Information about the pickup. Either locationExternalId or pickup is mandatory.
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Name of the pickup location.
+                  maxLength: 100
+                  example: Postmates
+                brandExternalId:
+                  type: string
+                  maxLength: 100
+                  description: Brand under which the pickup location will be created. Defaults to default brand.
+                  example: trackers_business
+                locationExternalId:
+                  type: string
+                  maxLength: 100
+                  description: Unique ID of the pickup location generated in your system and configured in our system.
+                address:
+                  $ref: "#/components/schemas/Address"
+                pickupInstructions:
+                  type: string
+                  maxLength: 10000
+                  description: Pickup instructions for the pickup location.
+                providers:
+                  type: array
+                  description: List of providers configured for the pickup location.
+                  items:
+                    $ref: "#/components/schemas/Provider"
+                contact:
+                  $ref: "#/components/schemas/Contact"
+                providerAttributes:
+                  type: object
+                  additionalProperties:
+                    type: 
+                      - string
+                      - integer
+                      - number
+                      - boolean
+                      - "null"
+                    maxLength: 100
+                  description: "Dynamic key-value pairs for provider attributes"
+            provider:
+              type: string
+              description: Name of the provider configured in business
+              maxLength: 100
+              example: Self Delivery
+    TrackerResponse:
+      allOf:
+        - $ref: "#/components/schemas/SharedRequestResponse"
+        - type: object
+          required: 
+            - id
+            - status
+          properties:
+            provider:
+              type: 
+                - 'null'
+                - object
+              properties:
+                id:
+                  type: 
+                    - string
+                    - "null"
+                  maxLength: 100
+                  description: Unique identifier for the provider
+                name:
+                  type: 
+                    - string
+                    - "null"
+                  maxLength: 100
+                  description: Name of the provider
+                displayName:
+                  type: 
+                    - string
+                    - "null"
+                  maxLength: 100
+                  description: Display name of the provider
+                serviceType:
+                  type:
+                    - string
+                    - "null"
+                  maxLength: 100
+                  description: Type of service provided
+                serviceId:
+                  type:
+                    - string
+                    - "null"
+                  maxLength: 100
+                  description: Unique identifier for the service
+              required:
+                - id
+                - name
+                - displayName
+                - serviceType
+            brandExternalId:
+              type: string
+              example: trackers_business
+              maxLength: 100
+            orderExternalId:
+              type: string
+              example: tracker001
+              maxLength: 100
+            status:
+              type: string
+              example: ORDER_DISPATCHED
+            estimatedPickupTime:
+              $ref: "#/components/schemas/TimeWindow" 
+            estimatedDeliveryTime: 
+              $ref: "#/components/schemas/TimeWindow"
+            tips: 
+              type: 
+                - number
+                - 'null'
+            lastLocation:
+              type: 
+                - 'null'
+                - object
+              properties:
+                updatedAt:
+                  type: string
+                  format: date-time
+                  description: Timestamp of the last update in ISO 8601 format
+                latitude:
+                  type:
+                    - number
+                    - "null"
+                  minimum: -90
+                  maximum: 90
+                  description: Latitude of the last known location, within +/-90
+                  example: 29.9259823
+                longitude:
+                  type:
+                    - number
+                    - "null"
+                  minimum: -180
+                  maximum: 180
+                  description: Longitude of the last known location, within +/-180
+                  example: -95.5523879
+                isManual:
+                  type: boolean
+                  description: Indicates whether the location was manually updated
+                  default: false
+              required:
+                - updatedAt
+                - latitude
+                - longitude
+            driver: 
+              type:
+                - 'null'
+                - object
+              properties:
+                name:
+                  type: string
+                  maxLength: 100
+                  description: Name of the driver
+                photo:
+                  type: string
+                  maxLength: 1000
+                  description: URL to the driver's photo
+                phone:
+                  type: string
+                  maxLength: 20
+                  description: Phone number of the driver
+                driverExternalId:
+                  type: string
+                  maxLength: 100
+                  description: External identifier for the driver
+                driverId:
+                  type: string
+                  maxLength: 100
+                  description: Unique identifier for the driver
+              required:
+                - name
+            vehicle:
+              type:
+                - 'null'
+                - object
+              properties:
+                type:
+                  type: string
+                  maxLength: 100
+                  description: Type of the vehicle
+                color:
+                  type: string
+                  maxLength: 100
+                  description: Color of the vehicle
+                number:
+                  type: string
+                  maxLength: 100
+                  description: License plate number of the vehicle
+                make:
+                  type: string
+                  maxLength: 100
+                  description: Make of the vehicle
+                description:
+                  type: string
+                  maxLength: 1000
+                  description: Additional description of the vehicle
+                parkingSlot:
+                  type: string
+                  maxLength: 100
+                  description: Parking slot allocated to the vehicle
+                vehicleExternalId:
+                  type: string
+                  maxLength: 100
+                  description: External identifier for the vehicle
+                vehicleId:
+                  type: string
+                  maxLength: 100
+                  description: Unique identifier for the vehicle
+            currencyCode:
+              type: string
+              example: USD
+            timeZone:
+              type: string
+              example: America/Chicago
+            pickupContact:
+              $ref: "#/components/schemas/Contact"
+            pickupAddress:
+              $ref: "#/components/schemas/Address"
+            id:
+              type: string
+              example: 62a051c1729b5dfcdeae1870
+            referenceLinks:
+              type: object
+              properties:
+                providerTrackingUrl:
+                  type:
+                    - string
+                    - 'null'
+                  maxLength: 1000
+                  description: URL for provider tracking
+                  example: https://provider.example.com/tracking
+                labelLink:
+                  type:
+                    - string
+                    - 'null'
+                  maxLength: 1000
+                  description: Label link generated for the delivery
+                  example: https://example.com/label
+                barcodeLink:
+                  type:
+                    - string
+                    - 'null'
+                  maxLength: 1000
+                  description: Barcode link generated for the delivery
+                  example: https://example.com/barcode
+                qrcodeLink:
+                  type:
+                    - string
+                    - 'null'
+                  maxLength: 1000
+                  description: QR code link generated for the delivery
+                  example: https://example.com/qrcode
+                trackingUrl:
+                  type:
+                    - string
+                    - 'null'
+                  maxLength: 100
+                  description: Tracking URL for the delivery
+                  example: https://example.com/tracking
+                hostedTrackingUrl:
+                  type:
+                    - string
+                    - 'null'
+                  maxLength: 100
+                  description: URL for hosted tracking
+                  example: https://example.com/hosted-tracking
+                customerWebflowUrl:
+                  type: 
+                    - string
+                    - 'null'
+                  maxLength: 1000
+                  description: Customer-facing webflow URL
+                  example: https://customer.example.com/webflow
+                hostedFeedbackUrl:
+                  type:
+                    - string
+                    - 'null'
+                  maxLength: 100
+                  description: URL for hosted feedback
+                  example: https://example.com/feedback
+                returnsUrl:
+                  type:
+                    - string
+                    - 'null'
+                  maxLength: 100
+                  description: URL for returns
+                  example: https://example.com/returns
+              required: []
+            feedback:
+              type:
+                - 'null'
+                - object
+              properties:
+                rating:
+                  type: number
+                  minimum: 0
+                  description: Rating given in the feedback
+                  example: 4.5
+                comment:
+                  type: string
+                  maxLength: 100
+                  description: Optional comment provided with the feedback
+                  example: Great service!
+                source:
+                  type: string
+                  maxLength: 100
+                  description: Source of the feedback
+                  example: Customer survey
+              required: []
+            source:
+              type: object
+              required:
+                - type
+                - id
+              properties:
+                type:
+                  type: string
+                  description: Source type
+                  example: lynk
+                id:
+                  type: string
+                  description: Unique source identifier
+                  example: "34567809876500"
+                name:
+                  type: string
+                  description: Optional source name
+                  example: Shopify
+    ListTrackersRequest:
+      type: object
+      properties:
+        lastUpdatedAt:
+          description: Get all the orders which were updated within the provided time window. The time window cannot be greater than 30 days.
+          $ref: "#/components/schemas/TimeWindow"
+        orderExternalIds:
+          type: array
+          maxItems: 100
+          description: Get the orders for the provided array of orderExternalIds.
+          items:
+            type: string
+          example:
+            - "1908241"
+        groupId:
+          type: string
+          description: Get orders belonging to the provided groupId. This value is case-sensitive.
+        locationExternalIds:
+          type: array
+          maxItems: 100
+          description: Get the orders for the provided array of locationExternalIds.
+          items:
+            type: string
+          example:
+            - "100983"
+        createdAt:
+          description: Get all orders which were created within the provided time window. The time window cannot be greater than 30 days.
+          $ref: "#/components/schemas/TimeWindow"
+        statuses:
+          type: array
+          maxItems: 10
+          description: Get all orders having the provided statuses.
+          items:
+            type: string
+          example: 
+            - ORDER_DELIVERED
+        pagination:
+          type: object
+          description: |
+            A opaque Base64 encoded string representing the position in the dataset from which
+            to start returning results.
+          properties:
+            currentToken:
+              type: string
+              description: |
+                A opaque Base64 encoded string representing the position in the dataset from which
+                to start returning results.
+              example: NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA==
+    UpdateTrackerRequest:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: Name of the provider configured in business
+          maxLength: 100
+        locationExternalId:
+            type: string
+            maxLength: 100
+            description: locationExternalId of the pickup location.
+        trackingId:
+          type: string
+          maxLength: 100
+          description: Tracking Id given by the carrier
+        groupId:
+          type: string
+          maxLength: 100
+          description: Group ID allows you to group a number of orders and trackers together. It further helps in providing a combined post-purchase experience for them.
+        orderAttributes:
+            type: object
+            additionalProperties:
+              oneOf:
+                - type: string
+                  maxLength: 500
+                - type: number
+                - type: boolean
+                - type: array
+                  items:
+                    type: string
+                  maxItems: 100
+                - type: array
+                  items:
+                    type: number
+                  maxItems: 100
+                - type: array
+                  items:
+                    type: boolean
+                  maxItems: 100
+            description: "Custom key-value pairs for configurable order attributes."       
+        orderValue:
+          type: number
+          description: Value of the order in major units as decimals. e.g., 10.00 or 116.50.
+          format: double
+          minimum: 0
+        pickupTime:
+          oneOf: 
+            - $ref: "#/components/schemas/TimeWindow"
+            - type: "null"
+          description: Time Window in which the package will be ready to be picked up. null defaults to ASAP.
+        deliveryTime:
+          oneOf: 
+            - $ref: "#/components/schemas/TimeWindow"
+            - type: "null"
+          description: Time Window in which the package must be delivered by. null defaults to ASAP. Not needed for pickup type of tracker.        
+        deliveryContact:
+          $ref: "#/components/schemas/Customer"
+        pickupInstructions:
+          type: string
+          maxLength: 10000
+          description: Pickup instruction for the location. This will override the instructions configured with the pickup location.
+        deliveryInstructions:
+          type: string
+          maxLength: 10000
+          description: Delivery instructions for drop-off.
+        itemList:
+          type: array 
+          items:
+            $ref: "#/components/schemas/Item"
+        locale:
+          type: string
+          maxLength: 5
+          description: Preferred locale by the customer for a tracker. Value to be sent in the format of language code(ISO-639-1)-country code(ISO-3166-1-alpha-2). E.g fr-CA, en-US. Here, fr, en are language codes & CA, US are country codes.
+        createdDate:
+          type: integer
+          description: Date at which the order was originally created in Unix time in milliseconds. e.g., 1694354791000.
+          format: int64
+
+    #COMMON
+    Address:
+      type: object
+      description: Address of the location
+      required:
+        - street1
+        - city
+        - state
+        - postalCode
+      properties:
+        street1:
+          type: string
+          description: Address Line 1 (Street Number and Street Name)
+          maxLength: 100
+          example: 12380 Morris Rd
+        street2:
+          type: string
+          description: Address Line 2 (not to be used for apartment / suite #)
+          maxLength: 100
+          example:  3rd Floor
+        apartmentNumber:
+          type: string
+          description: Apartment / Suite #
+          maxLength: 50
+          example: "S302"
+        city:
+          type: string
+          description: City
+          maxLength: 100
+          example: Alpharetta
+        state:
+          type: string
+          description: The <a href="https://en.wikipedia.org/wiki/ISO_3166-2:US" target="_blank">ISO 3166-2</a> country or territory code
+          minLength: 2
+          maxLength: 100
+          example: GA
+        postalCode:
+          type: string
+          description: Postal code or zip.
+          maxLength: 20
+          example: "30005"
+        countryCode:
+          type: string
+          description: The <a href="https://www.iso.org/iso-3166-country-codes.html" target="_blank">ISO 3166</a> country or territory code
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}
+          default: US
+          enum: 
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          type: number
+          format: double
+          description: Latitude coordinates of the address
+          example: 29.9259823
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+          example: -95.5523879
+    Contact:
+      type: object
+      required:
+        - name
+        - phone
+      description: Customer information.
+      properties:
+        name:
+          type: string
+          description: First Name of Contact
+          maxLength: 100
+          example: Mein Wan
+        phone:
+          type: string
+          description: Phone Number of the Contact
+          maxLength: 20
+          example: +232-232-2323
+        email:
+          type: string
+          description: Email address of the Contact
+          maxLength: 100
+          example: nycustomer@email.com
+    Customer:
+      allOf:
+        - $ref: '#/components/schemas/Contact'
+        - type: object
+          required:
+            - name
+            - phone
+          description: Customer information.
+          properties:
+            userExternalId:
+              type: string
+              description: External Id assigned to customer
+              maxLength: 100
+    ErrorDetail:
+      type: object
+      required: 
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: 
+            - string
+            - 'null'
+        entityId:
+          type: 
+            - string
+            - 'null'
+        entity:
+          type: 
+            - string
+            - 'null'
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: ERROR_TYPE
+        message:
+          type: string
+          example: An error occurred
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'    
+    Item:
+      type: object
+      description: Details of an item within a package
+      required:
+        - sku
+      properties:
+        sku:
+          type: string
+          description: An ID that identify the product/variant from the brand's catalog.
+          maxLength: 100
+          example: sku 1
+        upc:
+          type: string
+          description: Universal Product Code for the item
+          maxLength: 100
+        category:
+            type: string
+            description: Universal Product Code for the item
+            maxLength: 100
+        quantity:
+          type: integer
+          format: int32
+          description: Number of items of the SKU
+          minimum: 1
+          example: 10
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        price:
+          type: number
+          format: double
+          description: Retail price of the item.
+          minimum: 0
+          example: 10.20
+        salePrice:
+          type: number
+          format: double
+          description: Sale price of the item.
+          minimum: 0
+          example: 8.60
+        image:
+          type: string
+          description: Link to the image file of the item.
+          maxLength: 200
+          example: https://www.ups.com/webassets/icons/logo.svg
+        title:
+          type: string
+          description: Title of the item.
+          maxLength: 200
+          example: UPS Logo
+        description:
+          type: string
+          description: Description of the item.
+          maxLength: 10000
+          example: Thunmbnail UPS Logo from ups.com honmepage
+        itemAttributes:
+          type: object
+          description: Custom item attributes.
+          additionalProperties: true
+        tags:
+          type: array
+          description: Additional information related to the item.
+          items:
+            type: string
+            minItems: 0
+            maxItems: 20
+    Package:
+      type: object
+      description: Package Details
+      properties:
+        name:
+          type: string
+          description: Name of package created in our system, or pass the value 'custom'.
+          default: custom
+          maxLength: 100
+          example: ACME1
+        description:
+          type: string
+          description: A brief description about the package contents.
+          maxLength: 10000
+          example: Paper Targets
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        quantity:
+          type: integer
+          format: int32
+          description: Number of Packages
+          default: 1
+          minimum: 1
+          example: 15
+        itemQuantity:
+          type: integer
+          format: int32
+          description: Number of items in a single package.
+          default: 1
+          minimum: 1
+          example: 75
+        itemList:
+          type: array
+          description: Array of items in the package.
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 1000
+        temperatureControl:
+          type: string
+          description: Temperature information of the package
+          enum:
+            - frozen
+            - refrigerated
+            - cool
+            - ambient
+            - warm
+            - none
+        content:
+          type: array
+          description: Content information of the package
+          items:
+            type: string
+            enum:
+              - alcohol
+              - fragile
+              - tobacco
+              - rx
+              - perishable
+        barcode:
+          type: string
+          description: Barcode sent to the provider for scanning the packages
+          default: "null"
+          maxLength: 500
+          example: https://example.com/barcode
+    Provider:
+      type: object
+      properties:
+        name:
+          type:
+            - string
+            - "null"
+          maxLength: 100
+          description: Provider name
+          example: Self Delivery
+    SharedRequestResponse:
+      type: object
+      description: elements common between the request and response
+      properties:
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: locationExternalId of the pickup location. Either locationExternalId or pickup is mandatory.
+          example: "100983"
+        trackingId:
+          type: string
+          maxLength: 100
+          description: Tracking Id given by the carrier
+          example: del_004
+        type:
+          type: string
+          maxLength: 100
+          enum: 
+            - pickup
+            - delivery
+            - shipping
+          description: Tracker type. Options are delivery/ pickup/ shipping. Defaults to shipping.
+        groupId:
+          type: 
+            - string
+            - "null"
+          maxLength: 100
+          description: |
+            Group ID allows you to group a number of orders and trackers together. It further helps in providing
+            a combined post-purchase experience for them.
+        orderAttributes:
+            type: object
+            additionalProperties:
+              oneOf:
+                - type: string
+                  maxLength: 500
+                - type: number
+                - type: boolean
+                - type: array
+                  items:
+                    type: string
+                  maxItems: 100
+                - type: array
+                  items:
+                    type: number
+                  maxItems: 100
+                - type: array
+                  items:
+                    type: boolean
+                  maxItems: 100
+            description: "Custom key-value pairs for configurable order attributes."            
+        orderValue:
+          type: number
+          description: Value of the order in major units as decimals. e.g., 10.00 or 116.50.
+          format: double
+          minimum: 0
+          example: 100
+        pickupTime:
+          oneOf: 
+            - $ref: "#/components/schemas/TimeWindow"
+            - type: "null"
+          description: Time Window in which the package will be ready to be picked up. null defaults to ASAP.
+        deliveryTime:
+          oneOf: 
+            - $ref: "#/components/schemas/TimeWindow"
+            - type: "null"
+          description: Time Window in which the package must be delivered by. null defaults to ASAP. Not needed for pickup type of tracker.        
+        deliveryContact:
+          $ref: "#/components/schemas/Customer"
+        deliveryAddress:
+          $ref: "#/components/schemas/Address"
+        pickupInstructions:
+          type: string
+          maxLength: 10000
+          description: Pickup instruction for the location. This will override the instructions configured with the pickup location.
+          example: knock loudly
+        deliveryInstructions:
+          type: 
+            - string
+            - "null"
+          maxLength: 10000
+          description: Delivery instructions for drop-off.
+          example: gate code 123
+        packages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Package"
+        trackerExternalId:
+          type: string
+          maxLength: 100
+          description: Unique Id of the tracker generated in your system and configured in our system, has to be unique.
+    Size:
+      type: object
+      description: Dimensions of the item.
+      required:
+        - height
+        - width
+        - length
+        - unit
+      properties:
+        height:
+          type: number
+          format: double
+          description: Height
+          minimum: 0
+          example: 2
+        width:
+          type: number
+          format: double
+          description: Width
+          minimum: 0
+          example: 2
+        length:
+          type: number
+          format: double
+          description: Length
+          minimum: 0
+          example: 3
+        unit: 
+          type: string
+          description: units for given size in cm or in
+          enum: 
+            - cm
+            - in
+    TimeWindow:
+      type: object
+      properties:
+        startsAt:
+          type: 
+            - integer
+            - "null"
+          description: Start of the window. Unix time in milliseconds. (conditional)
+          format: int64
+          example: 1649253600000
+        endsAt:
+          type: 
+            - integer
+            - "null"
+          description: End of the window. Unix time in milliseconds. (conditional)
+          format: int64
+          example: 1649268000000
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            errors:
+              type: array
+              description: The error response containing any errors that occurred.
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: The error code.
+                    example: VSS300
+                  message:
+                    type: string
+                    description: The error message.
+                    example: Locale is required. The Subscription request has been rejected.
+                description: The error response containing any errors that occurred
+    Weight:
+      type: object
+      description: Weight of an item
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+          format: double
+          description: weight
+          minimum: 0
+          example: 18
+        unit: 
+          type: string
+          description: units for given weight in kg or lb
+          enum: 
+            - kg
+            - lb
+
+              

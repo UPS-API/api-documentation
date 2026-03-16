@@ -1,0 +1,4843 @@
+openapi: 3.1.0
+
+info:
+  title: Location Management
+  version: '1.0'
+  description: |
+    # Product Info
+
+    The **Location Management API** sprovides a centralized system for managing operational locations and their associated configurations. Designed to handle stores, warehouses, and distribution centers, it enables businesses to define, update, and customize location attributes to align with their logistics and delivery workflows.
+    
+
+    # Business Values
+
+    - **Streamlined Location Data Management**:  - Improve operational efficiency by managing structured location data, ensuring seamless integration with delivery workflows.
+
+    - **Flexible Timing Configurations**: - Enable accurate timing configurations for operations, ensuring alignment with customer expectations and logistical requirements.
+
+    - **Advanced Location Features**: - Support capabilities such as alternate drop-off locations, service boundaries, and configurable provider attributes, enhancing flexibility.
+
+
+    # How does it work once I am setup as a user?
+    Once set up as a user, you can submit relevant order details to asynchronously place an order from the selected pickup location to the delivery address. By integrating this API into your eCommerce platform, you gain access to a global multi-carrier ecosystem. This enables you to offer flexible, reliable delivery options while maintaining control over your brand’s delivery experience.
+
+    # FAQs    
+    - **How do I update an existing location?**
+    >  Use the Edit Location API to update fields dynamically. You can edit using the
+      storeExternalId or Delivery Solutions _id. Provide only the fields you wish to update
+      in the request body.
+
+    - **What is the significance of the storeExternalId?**
+    >  The storeExternalId is a unique identifier for the location. It is required during creation and is used by other APIs to associate operations with the specific location. 
+
+    - **Can I retrieve all my business locations?**
+    >  Yes, use the List Locations API to retrieve all locations associated with your
+      business. Each location includes details such as name, address, currency code,
+      pickup instructions, and configured providers.P
+    It enables businesses to define, update, and customize key attributes of their locations which may include stores, warehouses, or distribution centers, depending on the business model. This ensures seamless integration with logistics and delivery workflows. 
+    
+    # Error Codes
+
+    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+
+    Successful response may or may not include warnings.
+
+    1. **Without warnings** - Indicates the request has been processed as anticipated.
+    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+
+    The severity of an error may be transient or hard.
+      
+    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+
+    ---
+
+    ## /locations
+
+    ### POST
+    |           Type        | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  INVALID_DATA          |    400    |  Hard    | Bad Request: Missing required fields (e.g., `locationExternalId`) |
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  DUPLICATE_ID          |    422    |  Hard    | Bad Request: Duplicate location ID  |
+    |  NOT_FOUND             |    422    |  Hard    | Bad Request: provider is not configure in system |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+
+    ---
+
+    ## /locations/{location_external_id}
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Location not found |
+
+    ### PUT
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Location not found |
+
+    ---
+
+    ## /timings/{type}
+
+    ## POST
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
+
+    ### DELETE
+
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Timing not configured for given input|
+
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
+    |  NOT_FOUND             |    404    |  Hard    | Not Found: Timing not configured for given input|
+
+    ---
+
+    ## /timings/{type}/overrides
+
+    ### POST
+
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    |  Invalid data: Invalid `locationExternalId` or other invalid values in the request |
+    |  INVALID_DATA          |    400    |  Hard    |  Invalid data: Invalid Base Timing. Base timings cannot be blank for the mentioned type or other invalid values in the request |
+
+    ### DELETE
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
+    |  NOT_FOUND             |    404    |  Hard    | Not Found: Timing Override not configured for given input. |
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Timing Override not configured for given input. |
+
+    ---
+
+    ### /alternate-locations
+
+    ### POST
+
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NO_PROVIDER_MATCHED   |    422    |  Hard    | No provider Found: No Provider supporting Alternate Locations was found. |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Alternate location is not found |
+    |  INVALID_DATA          |    400    |  Hard    | Invalid Data: locationExternalId or providers field is missing  or other invalid values in the request  |
+
+    ---
+
+    ### /boundaries/{boundary_id}
+
+    ### GET
+
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid boundaryId |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Boundary not found |
+
+    ### PUT
+
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  VALIDATION_ERROR      |    400    |  Hard    | Invalid request data: Missing required fields or invalid values. |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Boundary not found |
+
+    ## DELETE
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid boundaryId |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Boundary not found |
+
+    ---
+
+    ## /boundaries
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+
+    ### POST
+
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+       VALIDATION_ERROR      |    400    |  Hard    | Bad Request: Invalid request data, e.g., invalid field shape or other invalid values in the request |
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid boundaryId invalid locationExternalId|
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+
+tags:
+  - name: "Location Management"
+    description: "A pickup location denotes an operational unit of a business with a physical address from which a delivery partner or a customer can pick up the order"
+  - name: "Timings"
+    description: "Time is a critical factor for operations and customer experience. In-store, pick-up and delivery experience revolve around proper expectation setting of time - both for the store operations team, and the customer."
+  - name: "Timings-Override"
+    description: " Timing Overrides are used when a location wants to operate during special hours or it is closed for a particular day. For example, consider if a location is not operational on Thanksgiving day, they can create an override for that day. A particular override is valid for the mentioned dates"
+  - name: "Alternate-Location"
+    description: "These are dropoff locations made available by providers. For example, providers like FedEx, UPS provide a standard set of pickup locations where they can deliver to, instead of the customer’s address."
+  - name: "Boundary"
+    description: "A boundary illustrates the service coverage for the Pickup Location by the business. This covers both In-Service and Out-of-Service coverage areas."
+servers:
+  - url: https://api.lynkup.com/location/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+        default: v1
+        enum:
+         - v1
+  - url: 'https://sanbox.api.lynkup.com/location/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+
+security:
+  - OAuth2ClientCredentials: []
+
+paths:
+  /locations:
+    post:
+      summary: Create Locations
+      description: | 
+         A Pickup Location represents a physical place within a business, such as a store, warehouse, or distribution center, where a delivery partner or customer can collect an order. Each pickup location is assigned a unique `locationExternalId` used across the system to identify and manage specific locations in various API operations. During creation, you can assign multiple providers to a pickup location, allowing flexibility in managing delivery options.
+
+         Use this API to create, update, retrieve, or delete pickup locations as needed, ensuring that each location is uniquely identifiable and accurately represented for operational purposes.
+      operationId: createLocation
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+            examples:
+              Required Fields Only:
+                value:
+                  name: Excellent Location
+                  locationExternalId: '152946'
+                  contact:
+                    name: Location Manager
+                    phone: '+1-214-234-2232'
+                  address:
+                    street1: 6615 Meadowbrook Dr
+                    city: Fort Worth
+                    state: TX
+                    postalCode: '76112'
+                    countryCode: US
+              All Fields Filled:
+                value:
+                  name: Great Location
+                  locationExternalId: '152950'
+                  brandExternalId: devon
+                  contact:
+                    name: Location Manager
+                    phone: '+1-214-234-2232'
+                  address:
+                    street1: 5510 S I-35 Frontage Rd
+                    city: Austin
+                    state: TX
+                    postalCode: '78745'
+                    countryCode: US
+                  active: true
+                  currencyCode: USD
+                  pickupInstructions: Park in the designated parking area, and come to the customer support desk
+                  returnLocationId: '152946'
+                  providers:
+                    - name: DoorDash
+                    - name: FedEx
+                  providerAttributes:
+                    FedEx:
+                      accountNumber: test-account-number
+                      returnStoreService: FEDEX_GROUND
+      responses:
+        '201':
+          description: Successful operation
+          content: 
+            application/json:
+               schema:
+                 $ref: '#/components/schemas/LocationResponse'
+               examples:
+                 Response for Required Fields Only Request: 
+                   value:
+                    id: "23232"
+                    tenantId: "dummyaccount1"
+                    active: true
+                    name: "Excellent Location"
+                    locationExternalId: "152946"
+                    contact:
+                      name: Location Manager
+                      phone: '+1-214-234-2232'
+                    address:
+                      street1: 6615 Meadowbrook Dr
+                      city: Fort Worth
+                      state: TX
+                      postalCode: '76112'
+                      countryCode: US
+                    timeZone: "America/Chicago"
+                    createdAt: "2022-04-26T03:03:30.559Z"
+                    lastUpdatedAt: "2022-04-26T03:03:30.559Z"
+                 Response for All Fields Filled Request :
+                   value:
+                    id: "232323"
+                    tenantId: "dummyaccount1"
+                    active: true
+                    name: Great Location
+                    locationExternalId: '152950'
+                    brandExternalId: devon
+                    contact:
+                      name: Location Manager
+                      phone: '+1-214-234-2232'
+                    address:
+                     street1: 5510 S I-35 Frontage Rd
+                     city: Austin
+                     state: TX
+                     postalCode: '78745'
+                     countryCode: US
+                    currencyCode: USD
+                    pickupInstructions: Park in the designated parking area, and come to the customer support desk
+                    returnLocationId: '152946'
+                    providers:
+                     - name: DoorDash
+                     - name: FedEx
+                    providerAttributes:
+                     FedEx:
+                      accountNumber: test-account-number
+                      returnStoreService: FEDEX_GROUND
+                    timeZone: "America/Chicago"
+                    createdAt: "2022-04-26T03:03:30.559Z"
+                    lastUpdatedAt: "2022-04-26T03:03:30.559Z"
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Bad Request - Duplicate location ID:
+                  value:
+                    errors:
+                      - type: "DUPLICATE_ID"
+                        message: "LocationID with id, 152950, already exists"
+                        parameter: locationExternalId
+                        entityId: "152950"
+                        entity: location
+                    type: "DUPLICATE_ID"
+                    message: "LocationID with id, 152950, already exists"
+                Bad Request - Provider not configured:
+                  value:
+                    errors:
+                    - type: "NOT_FOUND"
+                      message: "Walmart GoLocal DSP is not configure in system"
+                      parameter: null
+                      entityId: null
+                      entity: null
+                    type: "NOT_FOUND"
+                    message: "Walmart GoLocal DSP is not configure in system"
+        "400":
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Request Failed (Bad Request):
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "locationExternalId is a required field. The field is missing."
+                        parameter: locationExternalId
+                        entityId: null
+                        entity: null
+                    type: "INVALID_DATA"
+                    message: "locationExternalId is a required field. The field is missing."
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+    get:
+      summary: "List Locations"
+      description: "Use this API to list all the locations that have been created for the business."
+      operationId: "listLocations"
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      responses:
+        '200':
+          description: "Successful response with a list of locations."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LocationResponse'
+              examples:
+                Result:
+                  value: 
+                    - tenantId: "NYC"
+                      id: "23232"
+                      name: "NYCStore"
+                      locationExternalId: "NYCStore101"
+                      description: "Famous Store in Times Square and Central Park 101 Area"
+                      timeZone: "America/Chicago"
+                      contact: 
+                        name: "Peter Brown"
+                        phone: "214-234-2232"
+                      pickupInstructions: "Always be smiling"
+                      address: 
+                        street1: "7th 42nd Avenue, Times Square"
+                        street2: ""
+                        city: "Manhattan"
+                        state: "NY"
+                        postalCode: "10036"
+                        countryCode: "US"
+                        latitude: 29.9758379
+                        longitude: -95.4718175
+                      brandExternalId: "NYCBrand101"
+                      providers: 
+                        - name: "FedEx"
+                        - name: "Postmates"
+                        - name: "Shipt"
+                      providerAttributes: 
+                        Shipt: 
+                          deliverablePostalCodes: "22911, 22913, 22904"
+                      createdAt: "2020-01-14T07:25:04.743Z"
+                      lastUpdatedAt: "2020-01-14T07:25:04.743Z"
+                      active: true
+                      tags: 
+                        - "big&bulky"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false 
+  
+  /locations/{location_external_id}:
+    get:
+      summary: "Get Location"
+      description: "Use this API to get the details of a location using the user-specified locationExternalId which is associated with a location."
+      operationId: "getLocationById"
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "location_external_id"
+          in: "path"
+          description: "location_external_id of the Location. A unique id that you have used for the Create Location."
+          required: true
+          schema:
+            type: "string"
+            default: "152946"         
+      responses:
+        "200":
+          description: "Location details retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocationResponse"
+              examples:
+                Result:
+                  value:
+                    id: "32323"
+                    tenantId: "dummyaccount1"
+                    active: true
+                    name: "Excellent Location"
+                    locationExternalId: "152946"
+                    brandExternalId: "devon"
+                    contact:
+                      name: "Location Manager"
+                      phone: "+1-214-234-2232"
+                    address:
+                      street1: "6615 Meadowbrook Dr"
+                      city: "Fort Worth"
+                      state: "TX"
+                      postalCode: "76112"
+                      countryCode: "US"
+                      latitude: 32.7471299
+                      longitude: -97.2155298
+                    description: ""
+                    pickupInstructions: ""
+                    currencyCode: "USD"
+                    timeZone: "America/Chicago"
+                    createdAt: "2022-04-26T03:03:30.559Z"
+                    lastUpdatedAt: "2022-04-26T03:03:30.559Z"
+                    isDeleted: false
+                    isTemporary: false
+                    atRisk:
+                      isCorporateAtRisk: true
+                    tags:
+                      - "big&bulky"
+        "404":
+          description: "Location not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    message: "Location is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Location is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null
+        "500":
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request." 
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+    
+    put:
+      summary: Edit Location
+      tags:
+        - Location Management
+      description: |
+           Use this API to edit a location using the location external ID.
+
+           Edits a location using the location external ID assigned to a location.
+      operationId: editLocationUsingLocationExternalId
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "location_external_id"
+          in: path
+          description: locationExternalId of the Location. A unique id which you used during the creation of Location.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationPutRequest'
+            examples:
+              Modifying Description & Instructions:
+                value:
+                  description: "Nice location in Austin, Texas"
+                  pickupInstructions: "Park in the designated parking area, and come to the designated pick up desk"
+      responses:
+        '200':
+            description: Successful response with updated location details
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/LocationResponse"
+                examples:
+                  Response for Modifying Description & Instructions:
+                    value:
+                      id: "232323"
+                      tenantId: "dummyaccount1"
+                      active: true
+                      name: "Great Location"
+                      locationExternalId: "152950"
+                      brandExternalId: "devon"
+                      contact:
+                        name: "Location Manager"
+                        phone: "+1-214-234-2232"
+                      address:
+                        street1: "5510 S I-35 Frontage Rd"
+                        city: "Austin"
+                        state: "TX"
+                        postalCode: "78745"
+                        countryCode: "US"
+                        latitude: 30.2008384
+                        longitude: -97.7657652
+                      currencyCode: "USD"
+                      description: "Nice location in Austin, Texas"
+                      pickupInstructions: "Park in the designated parking area, and come to the designated pick up desk"
+                      returnLocationId: "152946"
+                      providers:
+                      - name: "DoorDash"
+                        providerId: "62667b2cdf13f556ef23e6cd"
+                      - name: "FedEx"
+                        providerId: "624c3b88ceebc92a0f5d4f7b"
+                      providerAttributes:
+                        FedEx:
+                          accountNumber: "test-account-number"
+                          returnStoreService: "FEDEX_GROUND"
+                      timeZone: "America/Chicago"
+                      lastUpdatedAt: "2022-04-26T04:38:55.794Z"
+                      isDeleted: false
+                      isTemporary: false
+        '404':
+          description: Bad request error response when location is not found
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Location with external id 1529500 doesn't exist."
+                        parameter: null
+                        entityId: null
+                        entity: null
+                    type: "NOT_FOUND"
+                    message: "Location with external id 1529500 doesn't exist."
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+  /timings/{type}:
+    post:
+      summary: Create Timing
+      description: | 
+         Efficient time management is essential for both operations and customer experience in pickup and delivery. 
+         
+         Use this API to set a location's operational hours and create specific time windows for various service categories. Each time window can include its own capacity and fee, allowing for effective scheduling and resource management.
+      operationId: createTiming
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: type
+          in: path
+          description: Type of timings. Options are `location`, `pickup`, `delivery`, or `return`.
+          required: true
+          schema:
+            type: string
+            enum:
+              - location
+              - pickup
+              - delivery
+              - return      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TimingsRequest"
+            examples:
+              Create Timings with hours provided:
+                value:
+                  entity: location
+                  locationExternalIds:
+                    - "100983"
+                  pickAndPack: 30
+                  timings:
+                    Su:
+                      isOpen: true
+                      is24Hrs: false
+                      hours:
+                        - opensAt: "10:00"
+                          closesAt: "12:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "12:00"
+                          closesAt: "14:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "14:00"
+                          closesAt: "16:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "16:00"
+                          closesAt: "18:00"
+                          capacity: 0
+                          fee: 0
+                    Mo:
+                      isOpen: true
+                      is24Hrs: false
+                      hours:
+                        - opensAt: "10:00"
+                          closesAt: "12:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "12:00"
+                          closesAt: "14:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "14:00"
+                          closesAt: "16:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "16:00"
+                          closesAt: "18:00"
+                          capacity: 0
+                          fee: 0
+                    Tu:
+                      isOpen: true
+                      is24Hrs: false
+                      hours:
+                        - opensAt: "10:00"
+                          closesAt: "12:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "12:00"
+                          closesAt: "14:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "14:00"
+                          closesAt: "16:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "16:00"
+                          closesAt: "18:00"
+                          capacity: 0
+                          fee: 0
+                    We:
+                      isOpen: true
+                      is24Hrs: false
+                      hours:
+                        - opensAt: "10:00"
+                          closesAt: "12:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "12:00"
+                          closesAt: "14:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "14:00"
+                          closesAt: "16:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "16:00"
+                          closesAt: "18:00"
+                          capacity: 0
+                          fee: 0
+                    Th:
+                      isOpen: true
+                      is24Hrs: false
+                      hours:
+                        - opensAt: "10:00"
+                          closesAt: "12:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "12:00"
+                          closesAt: "14:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "14:00"
+                          closesAt: "16:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "16:00"
+                          closesAt: "18:00"
+                          capacity: 0
+                          fee: 0
+                    Fr:
+                      isOpen: true
+                      is24Hrs: false
+                      hours:
+                        - opensAt: "10:00"
+                          closesAt: "12:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "12:00"
+                          closesAt: "14:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "14:00"
+                          closesAt: "16:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "16:00"
+                          closesAt: "18:00"
+                          capacity: 0
+                          fee: 0
+                    Sa:
+                      isOpen: true
+                      is24Hrs: false
+                      hours:
+                        - opensAt: "10:00"
+                          closesAt: "12:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "12:00"
+                          closesAt: "14:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "14:00"
+                          closesAt: "16:00"
+                          capacity: 0
+                          fee: 0
+                        - opensAt: "16:00"
+                          closesAt: "18:00"
+                          capacity: 0
+                          fee: 0
+                  category: Prime
+              Create Timings with opensAt & closesAt:
+                value:
+                  entity: location
+                  locationExternalIds:
+                    - "100983"
+                  pickAndPack: 30
+                  timings:
+                    Su:
+                      isOpen: true
+                      is24Hrs: false
+                      opensAt: "09:00"
+                      closesAt: "18:00"
+                      interval: 1
+                    Mo:
+                      isOpen: true
+                      is24Hrs: false
+                      opensAt: "09:00"
+                      closesAt: "18:00"
+                      interval: 1
+                    Tu:
+                      isOpen: true
+                      is24Hrs: false
+                      opensAt: "09:00"
+                      closesAt: "18:00"
+                      interval: 1
+                    We:
+                      isOpen: true
+                      is24Hrs: false
+                      opensAt: "09:00"
+                      closesAt: "18:00"
+                      interval: 1
+                    Th:
+                      isOpen: true
+                      is24Hrs: false
+                      opensAt: "09:00"
+                      closesAt: "18:00"
+                      interval: 1
+                    Fr:
+                      isOpen: true
+                      is24Hrs: false
+                      opensAt: "09:00"
+                      closesAt: "18:00"
+                      interval: 1
+                    Sa:
+                      isOpen: true
+                      is24Hrs: false
+                      opensAt: "09:00"
+                      closesAt: "18:00"
+                      interval: 1
+                  category: Prime-2
+      responses:
+        '207':
+          description: "207"
+          content:
+            application/json:
+              schema:
+               anyOf:
+                - $ref: "#/components/schemas/SuccessResponse"
+                - $ref: '#/components/schemas/InvalidRequest'          
+              examples:
+                Timing created / updated successfully:
+                  value:
+                    message: "success"
+                Some are created / updated successfully and some failed:
+                  value:
+                    message: ""
+                    type: INVALID_DATA
+                    errors:
+                        - message: "Invalid locationExternalId. Please enter a valid one."
+                          type: INVALID_DATA
+                          parameter: "locationExternalId[0]"
+                          entityId: null
+                          entity: null
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Request Failed:
+                  value: 
+                    message: "Invalid locationExternalId. Please enter a valid one."
+                    type: INVALID_DATA
+                    errors:
+                      - message: "Invalid locationExternalId. Please enter a valid one."
+                        type: INVALID_DATA
+                        parameter: locationExternalId[0]
+                        entityId: location-1
+                        entity: location
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+    
+    delete:
+      summary: "Delete Timing"
+      description: "Use this API to remove the timings created for a location for the given category."
+      operationId: "deleteTiming"
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: type
+          in: path
+          description: Type of timings. Options are `location`, `pickup`, `delivery`, or `return`.
+          required: true
+          schema:
+            type: string
+            enum:
+              - location
+              - pickup
+              - delivery
+              - return
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTimingRequest'
+            examples:
+              RequestExample:
+                value:
+                  entity: "location"
+                  locationExternalIds:
+                    - "100983"
+                  category: "Prime"
+      responses:
+        '200':
+          description: "Successful deletion of resource"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                SuccessResponse:
+                  value:
+                    message: "success"        
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                ErrorResponse:
+                  value:
+                    type: "INVALID_DATA"
+                    message: "Invalid locationExternalId. Please enter a valid one."
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid locationExternalId. Please enter a valid one."
+                        parameter: locationExternalId[0]
+                        entityId: location-1
+                        entity: location
+        '404':
+          description: "Not Found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                NotFoundResponse:
+                  value:
+                    message: "failure"
+                    type: "NOT_FOUND"
+                    errors:
+                        - message: "Timing not configured for given input."
+                          type: "NOT_FOUND"
+                          parameter:  "locationExternalId[0]"
+                          entityId: null
+                          entity: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+                        
+      deprecated: false
+    
+    get:
+      summary: "Get Timing"
+      description: "Use this API to retrieve all the timings/time windows configured for the given location and type."
+      operationId: "getTiming"
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: type
+          in: path
+          description: Type of timings. Options are `location`, `pickup`, `delivery`, or `return`.
+          required: true
+          schema:
+            type: string
+            enum:
+              - location
+              - pickup
+              - delivery
+              - return
+        - name: location_external_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            Location ID for which timing is to be fetched. Either `locationExternalId` or `brandExternalId` must be provided, not both.         
+        - name: brand_external_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            Brand ID for which timing is to be fetched. Either `locationExternalId` or `brandExternalId` must be provided, not both.
+      responses:
+        '200':
+          description: "Successful retrieval of timings"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimingsResponse'
+              examples:
+                SuccessResponse:
+                  value:
+                    - category: "Prime"
+                      id: "23232"
+                      entity: "location"
+                      locationExternalId: "100983"
+                      tenantId: "dummyaccount1"
+                      type: "delivery"
+                      lastUpdatedAt: "2022-04-25T12:12:58.223Z"
+                      pickAndPack: 30
+                      timings:
+                        Su:
+                          isOpen: true
+                          is24Hrs: false
+                          hours:
+                            - opensAt: "10:00"
+                              closesAt: "12:00"
+                            - opensAt: "12:00"
+                              closesAt: "14:00"
+                            - opensAt: "14:00"
+                              closesAt: "16:00"
+                            - opensAt: "16:00"
+                              closesAt: "18:00"
+                        Mo:
+                          isOpen: true
+                          is24Hrs: false
+                          hours:
+                            - opensAt: "10:00"
+                              closesAt: "12:00"
+                            - opensAt: "12:00"
+                              closesAt: "14:00"
+                            - opensAt: "14:00"
+                              closesAt: "16:00"
+                            - opensAt: "16:00"
+                              closesAt: "18:00"
+                        Tu:
+                          isOpen: true
+                          is24Hrs: false
+                          hours:
+                            - opensAt: "10:00"
+                              closesAt: "12:00"
+                            - opensAt: "12:00"
+                              closesAt: "14:00"
+                            - opensAt: "14:00"
+                              closesAt: "16:00"
+                            - opensAt: "16:00"
+                              closesAt: "18:00"
+                        We:
+                          isOpen: true
+                          is24Hrs: false
+                          hours:
+                            - opensAt: "10:00"
+                              closesAt: "12:00"
+                            - opensAt: "12:00"
+                              closesAt: "14:00"
+                            - opensAt: "14:00"
+                              closesAt: "16:00"
+                            - opensAt: "16:00"
+                              closesAt: "18:00"
+                        Th:
+                          isOpen: true
+                          is24Hrs: false
+                          hours:
+                            - opensAt: "10:00"
+                              closesAt: "12:00"
+                            - opensAt: "12:00"
+                              closesAt: "14:00"
+                            - opensAt: "14:00"
+                              closesAt: "16:00"
+                            - opensAt: "16:00"
+                              closesAt: "18:00"
+                        Fr:
+                          isOpen: true
+                          is24Hrs: false
+                          hours:
+                            - opensAt: "10:00"
+                              closesAt: "12:00"
+                            - opensAt: "12:00"
+                              closesAt: "14:00"
+                            - opensAt: "14:00"
+                              closesAt: "16:00"
+                            - opensAt: "16:00"
+                              closesAt: "18:00"
+                        Sa:
+                          isOpen: true
+                          is24Hrs: false
+                          hours:
+                            - opensAt: "10:00"
+                              closesAt: "12:00"
+                            - opensAt: "12:00"
+                              closesAt: "14:00"
+                            - opensAt: "14:00"
+                              closesAt: "16:00"
+                            - opensAt: "16:00"
+                              closesAt: "18:00"
+        "422":
+            description: "Processing failed as request contains invalid data"
+            headers: 
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string 
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+                examples:
+                  ErrorResponse:
+                    value:
+                      message: "Invalid locationExternalId. Please enter a valid one."
+                      type: "INVALID_DATA"
+                      errors:
+                        - message: "Invalid locationExternalId. Please enter a valid one."
+                          type: "INVALID_DATA" 
+                          parameter: locationExternalId
+                          entityId: location-1
+                          entity: location
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."  
+        "404":
+          description: "Timing not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    message: "Timing is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Timing is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+  /timings/{type}/overrides:
+    post:
+      summary: "Create Timing Override"
+      description: "Use this API to create an exception for the time window for a location. Timing Overrides are used when a location wants to operate during special hours or it is closed for a particular day. For example, consider if a location is not operational on Thanksgiving day, they can create an override for that day. A particular override is valid for the mentioned dates."
+      operationId: "createTimingOverride"
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "type"
+          in: "path"
+          description: "Type of timings. Options are `location`, `pickup`, `delivery`, or `return`."
+          required: true
+          schema:
+            type: string
+            enum:
+              - location
+              - pickup
+              - delivery
+              - return
+        - name: location_external_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            Location ID for which timing is to be fetched. Either `locationExternalId` or `brandExternalId` must be provided, not both.         
+        - name: brand_external_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+             Brand ID for which timing is to be fetched. Either `locationExternalId` or `brandExternalId` must be provided, not both.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimingsOverrideRequest'
+            examples:
+              CreateTimingOverrideWithHours:
+                value:
+                  name: "Thanksgiving"
+                  entity: "location"
+                  locationExternalIds: ["100983"]
+                  categories: ["Prime"]
+                  dates: ["2025-11-26", "2025-11-27"]
+                  is24Hrs: false
+                  isOpen: true
+                  pickAndPack: 60
+                  hours:
+                    - opensAt: "09:00"
+                      closesAt: "10:00"
+                      capacity: 90
+                      fee: 5.99
+                    - opensAt: "10:00"
+                      closesAt: "11:00"
+                      capacity: 90
+                      fee: 5.99
+                    - opensAt: "11:00"
+                      closesAt: "12:00"
+                      capacity: 90
+                      fee: 5.99
+                    - opensAt: "12:00"
+                      closesAt: "13:00"
+                      capacity: 90
+                      fee: 5.99
+                    - opensAt: "13:00"
+                      closesAt: "14:00"
+                      capacity: 90
+                      fee: 5.99
+                    - opensAt: "14:00"
+                      closesAt: "15:00"
+                      capacity: 90
+                      fee: 5.99
+                    - opensAt: "15:00"
+                      closesAt: "16:00"
+                      capacity: 90
+                      fee: 5.99
+                    - opensAt: "16:00"
+                      closesAt: "17:00"
+                      capacity: 90
+                      fee: 5.99
+              CreateTimingsWithoutHours:
+                value:
+                  name: "Thanksgiving"
+                  entity: "location"
+                  locationExternalIds: ["100983"]
+                  categories: ["Prime"]
+                  dates: ["2025-11-26", "2025-11-27"]
+                  is24Hrs: false
+                  isOpen: true
+                  pickAndPack: 60
+                  opensAt: "10:00"
+                  closesAt: "12:00"
+                  interval: 1
+                  capacity: 1
+                  fee: 10
+              CreateOverrideWithClosedLocationOperations:
+                value:
+                  name: "Xmas"
+                  entity: "location"
+                  locationExternalIds: ["100983"]
+                  categories: ["Prime"]
+                  dates: ["2025-11-24", "2025-11-25"]
+                  is24Hrs: false
+                  isOpen: false
+                  pickAndPack: 60
+      responses:
+        '201':
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+              examples:
+                Result:
+                  value:
+                    message: success
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid locationExternalId. Please enter a valid one."
+                        parameter: locationExternalId[0]
+                        entityId: location-1
+                        entity: location
+                    type: "INVALID_DATA"
+                    message: "Invalid locationExternalId. Please enter a valid one."
+        '400':
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                IfLocationTimingsAreNotPresent:
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid Base Timing. Base Timings cannot be blank for the mentioned type or category to create an override."
+                    type: "INVALID_DATA"
+                    message: "Invalid Base Timing. Base Timings cannot be blank for the mentioned type or category to create an override."
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string          
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+    delete:
+      summary: "Delete Timing Override"
+      description: "Use this API to remove configured overrides for a given location, category, and dates."
+      operationId: "deleteTimingOverride"
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "type"
+          in: "path"
+          description: "Type of timings. Options are `location`, `pickup`, `delivery`, or `return`."
+          required: true
+          schema:
+            type: string
+            enum:
+              - location
+              - pickup
+              - delivery
+              - return
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteTimingOverrideRequest"
+            examples:
+              Request Example:
+                value:
+                  entity: "location"
+                  locationExternalIds:
+                    - "100983"
+                  category: "Prime"
+                  dates:
+                    - "2025-11-26"
+                    - "2025-11-27"
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+              examples:
+                Result:
+                  value:
+                    message: success
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid locationExternalId. Please enter a valid one."
+                        parameter: locationExternalId[0]
+                        entityId: location-1
+                        entity: location
+                    type: "INVALID_DATA"
+                    message: "Invalid locationExternalId. Please enter a valid one."
+        "404":
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:  
+                    message: "failure"
+                    type: "NOT_FOUND"
+                    errors:
+                       - message: "Timing Override not configured for given input."
+                         type: "NOT_FOUND"
+                         parameter:  "locationExternalId[0]"
+                         entityId: null
+                         entity: null
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "500":
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers:
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+    
+    get:
+      summary: "Get Timing Override"
+      description: "Use this API to retrieve all the overrides configured for a given type and location."
+      operationId: "getTimingOverride"
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "type"
+          in: "path"
+          description: "Type of timings. Options are `location`, `pickup`, `delivery`, or `return`."
+          required: true
+          schema:
+            type: string
+            enum:
+              - location
+              - pickup
+              - delivery
+              - return
+        - name: location_external_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            Location ID for which timing is to be fetched. Either `locationExternalId` or `brandExternalId` must be provided, not both.         
+        - name: brand_external_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            Brand ID for which timing is to be fetched. Either `locationExternalId` or `brandExternalId` must be provided, not both.
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                type: 'array'
+                items:
+                  $ref: "#/components/schemas/TimingsOverrideResponse"
+              examples:
+                Result:
+                  value:
+                    - category: "Prime"
+                      date: "2025-11-26"
+                      id: "23232"
+                      locationExternalId: "100983"
+                      type: "delivery"
+                      entity: "location"
+                      hours:
+                        - opensAt: "09:00"
+                          closesAt: "10:00"
+                        - opensAt: "10:00"
+                          closesAt: "11:00"
+                        - opensAt: "11:00"
+                          closesAt: "12:00"
+                        - opensAt: "12:00"
+                          closesAt: "13:00"
+                        - opensAt: "13:00"
+                          closesAt: "14:00"
+                        - opensAt: "14:00"
+                          closesAt: "15:00"
+                        - opensAt: "15:00"
+                          closesAt: "16:00"
+                        - opensAt: "16:00"
+                          closesAt: "17:00"
+                      is24Hrs: false
+                      isOpen: true
+                      name: "Thanksgiving"
+                      pickAndPack: 60
+                      tenantId: "dummyaccount1"
+                    - category: "Prime"
+                      date: "2025-11-27"
+                      locationExternalId: "100983"
+                      type: "delivery"
+                      entity: "location"
+                      hours:
+                        - opensAt: "09:00"
+                          closesAt: "10:00"
+                        - opensAt: "10:00"
+                          closesAt: "11:00"
+                        - opensAt: "11:00"
+                          closesAt: "12:00"
+                        - opensAt: "12:00"
+                          closesAt: "13:00"
+                        - opensAt: "13:00"
+                          closesAt: "14:00"
+                        - opensAt: "14:00"
+                          closesAt: "15:00"
+                        - opensAt: "15:00"
+                          closesAt: "16:00"
+                        - opensAt: "16:00"
+                          closesAt: "17:00"
+                      is24Hrs: false
+                      isOpen: true
+                      name: "Thanksgiving"
+                      pickAndPack: 60
+                      tenantId: "dummyaccount1"
+        "422":
+            description: "Processing failed as request contains invalid data"
+            headers: 
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string 
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/InvalidRequest"
+                examples:
+                  Result:
+                    value:
+                      message: "Invalid locationExternalId. Please enter a valid one."
+                      type: "INVALID_DATA"
+                      errors:
+                        - message: "Invalid locationExternalId. Please enter a valid one."
+                          type: "INVALID_DATA"
+                          parameter: locationExternalId
+                          entityId: location-1
+                          entity: location
+        "500":
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "404":
+          description: "Timing Override not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    message: "Timing Override is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Timing Override is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+          
+      deprecated: false
+
+  /alternate-locations:
+    post:
+      summary: "Get Alternate Locations"
+      description: "Use this API to get the list of nearby locations. Customers can use these to hold the packages in case they are unavailable at the delivery address or don't want to have home deliveries. These locations can be access points, lockers, grocery stores etc."
+      operationId: "getAlternateLocations"
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlternateLocationRequest"
+            examples:
+              Request Example:
+                value:
+                  locationExternalId: "7709"
+                  deliveryAddress:
+                    street1: "508 S Vine St"
+                    street2: ""
+                    city: "Atlanta"
+                    state: "IL"
+                    countryCode: "US"
+                    postalCode: "61723"
+                  packages:
+                    - name: "custom"
+                      weight: 
+                        value : 0
+                        unit : 'lb'
+                      itemQuantity: 1
+                  matchProviderTags:
+                    - "providerTag-1"
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlternateLocationResponse"
+              examples:
+                Result:
+                  value:
+                    - provider: "UPS"
+                      address:
+                        street1: "60 CLINTON PLZ"
+                        street2: ""
+                        city: "CLINTON"
+                        state: "IL"
+                        countryCode: "US"
+                        postalCode: "61727"
+                        latitude: 40.14812088
+                        longitude: -88.976921
+                      providerLocationId: "179140"
+                      distance: 11.1
+                      locationTimings:
+                        - "Mon-Sat: 9:00am-8:00pm"
+                        - "Sun: 10:00am-5:00pm"
+                      serviceType: "UPS Access Point"
+                      type: "drop-off-point"
+                      providerLocationInfo:
+                        - "CHEMIST'S"
+                      name: "CVS STORE # 6931"
+                      phone: ""
+                      providerTags:
+                        - "providerTag-1"
+        "400":
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Request Failed (Bad Request):
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "deliveryAddress is a required field. The field is missing."
+                        parameter: deliveryAddress
+                        entityId: null
+                        entity: null
+                    type: "INVALID_DATA"
+                    message: "deliveryAddress is a required field. The field is missing."
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Request Failed (No provider found to support alternate location):
+                  value:
+                    errors:
+                      - type: "NO_PROVIDER_MATCHED"
+                        message: "No Provider supporting Alternate Locations was found."
+                        parameter: locationExternalId
+                        entityId: location-1
+                        entity: location
+                    type: "NO_PROVIDER_MATCHED"
+                    message: "No Provider supporting Alternate Locations was found."
+        "404":
+          description: "Alternate Location not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    message: "Alternate Location is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Alternate Location is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null 
+        "500":
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."   
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.     
+      deprecated: false
+
+  /boundaries/{boundary_id}:
+    get:
+      summary: Get Boundary Details
+      operationId: getBoundaryById
+      description: |
+         A boundary defines the service coverage area for a pickup location, illustrating the in-service and out-of-service zones for deliveries. The hierarchy is structured as follows: Account -> Business -> Brand -> Pickup Location -> Order.
+         Boundaries allow businesses to specify service coverage independently of delivery service providers (DSPs), enabling flexibility in managing service areas.
+
+         Each boundary can include a coverage map represented by polygons, radius, postal codes, or specific addresses. Multiple boundaries can be added to a single location. Optional tags can also be added to a boundary to assist with order orchestration. Boundaries are used in Delivery Availability (DA) checks and order creation to verify service coverage for a given location.
+      tags: 
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters: 
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: boundary_id
+          in: path
+          required: true
+          description: A unique numeric id for the boundary being fetched
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful response with boundary data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Returns success or failure.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Boundary'
+              examples:
+                polygonBoundary:
+                  value:
+                    message: "success"
+                    data:
+                      - id: "819745"
+                        locationExternalId: "100983"
+                        shape: "polygon"
+                        latitude: null
+                        longitude: null
+                        type: "in-service"
+                        address: null
+                        radius: null
+                        name: "Polygon Boundary 1"
+                        status: "inactive"
+                        postalCode: null
+                        tags:
+                          - "sdd"
+                        boundary:
+                          - latitude: 32.88017791805594
+                            longitude: -96.599225289648
+                          - latitude: 32.72781162864238
+                            longitude: -96.928815133398
+                          - latitude: 33.013859729261135
+                            longitude: -96.82581830722613
+                          - latitude: 32.94934892068774
+                            longitude: -96.61982465488238
+                          - latitude: 32.88017791805594
+                            longitude: -96.599225289648
+                postalCodeBoundary:
+                  value:
+                    message: "success"
+                    data:
+                      - id: "819748"
+                        locationExternalId: "100983"
+                        shape: "postal-code"
+                        latitude: 33.0243206
+                        longitude: -96.6745042
+                        address: null
+                        radius: null
+                        status: "active"
+                        name: "Postal code 75074 Boundary"
+                        type: "out-of-service"
+                        postalCode: "75074"
+                        tags: []
+                        boundary:
+                          - latitude: 33.0237493
+                            longitude: -96.7099754
+                          - latitude: 33.0465735
+                            longitude: -96.6997699
+                          - latitude: 33.073473
+                            longitude: -96.687131
+                          - latitude: 33.073176
+                            longitude: -96.682025
+                          - latitude: 33.052365
+                            longitude: -96.655478
+                          - latitude: 33.017387
+                            longitude: -96.642076
+                          - latitude: 33.0094674
+                            longitude: -96.6385032
+                          - latitude: 32.9988611
+                            longitude: -96.6649544
+                          - latitude: 33.0237493
+                            longitude: -96.7099754
+                circleBoundary:
+                  value:
+                    message: "success"
+                    data:
+                      - id: "819750"
+                        locationExternalId: "100983"
+                        shape: "circle"
+                        latitude: null
+                        longitude: null
+                        address: null
+                        radius: 10
+                        status: "active"
+                        name: "10 Mile Circle Boundary"
+                        type: "in-service"
+                        postalCode: null
+                        tags: []
+                        boundary:
+                          - latitude: 32.814645
+                            longitude: -96.64779585629269
+                          - latitude: 32.86997213995483
+                            longitude: -96.66089067334062
+                          - latitude: 32.934856202569556
+                            longitude: -96.72425001745674
+                          - latitude: 32.86997213995483
+                            longitude: -96.97875612665936
+                          - latitude: 32.814645
+                            longitude: -96.64779585629269
+                drivingDistanceBoundary:
+                  value:
+                    message: "success"
+                    data:
+                      - id: "44338"
+                        locationExternalId: "100983"
+                        shape: "driving-distance"
+                        latitude: null
+                        longitude: null
+                        type: "in-service"
+                        address: null
+                        radius: 100
+                        name: "100 Mile Driving Distance Boundary"
+                        status: "active"
+                        postalCode: null
+                        tags: []
+                        boundary:
+                          - latitude: 30.366211
+                            longitude: -99.091187
+                          - latitude: 30.366211
+                            longitude: -99.052734
+                          - latitude: 30.366211000000014
+                            longitude: -99.09118700000002
+                          - latitude: 30.366211
+                            longitude: -99.091187    
+        "422":
+          description: Bad request due to invalid boundaryId
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                invalidBoundaryId:
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid boundaryId"
+                        parameter: null
+                        entityId: "819745"
+                        entity: boundary
+                    type: "INVALID_DATA"
+                    message: "Invalid boundaryId"
+        "404":
+          description: "Boundary not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    message: "Boundary is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Boundary is not found"
+                        parameter: null
+                        entityId: null
+                        entity: null 
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response: 
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+    
+    put:
+      summary: Edit Boundary
+      description: Use this API to edit a boundary defined for a pickup location.
+      tags: 
+        -  Location Management
+      operationId: editBoundaryUsingBoundaryId
+      security:
+        - OAuth2ClientCredentials: []
+      parameters: 
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: boundary_id
+          in: path
+          required: true
+          description: A unique numeric id for the boundary being modified
+          schema:
+            type: integer
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BoundaryRequest"
+              examples:
+                Request:
+                  summary: Example Request Body
+                  value:
+                    status: "active"
+                    boundaries:
+                      - locationExternalId: "100983"
+                        shape: "circle"
+                        type: "in-service"
+                        name: "8 Mile Circle Boundary"
+                        radius: 8
+      responses:
+        '200':
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Returns success or failure.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Boundary'
+              examples:
+                Result:
+                  value:
+                    message: "success"
+                    data:
+                      - id: "819750"
+                        locationExternalId: "100983"
+                        shape: "circle"
+                        latitude: null
+                        longitude: null
+                        type: "in-service"
+                        address: null
+                        radius: 8
+                        name: "8 Mile Circle Boundary"
+                        status: "active"
+                        postalCode: null
+                        tags: []
+                        boundary:
+                          - latitude: 32.814645
+                            longitude: -96.64779585629269
+                          - latitude: 32.86997213995483
+                            longitude: -96.66089067334062
+                          - latitude: 32.934856202569556
+                            longitude: -96.72425001745674
+                          - latitude: 32.86997213995483
+                            longitude: -96.97875612665936
+                          - latitude: 32.814645
+                            longitude: -96.64779585629269
+        '400':
+          description: Invalid request data
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                example1:
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Missing required field. locationExternalId, shape, name, type are the required fields"
+                        parameter: locationExternalId
+                        entityId: null
+                        entity: null
+                      - type: "INVALID_DATA"
+                        message: "Invalid boundary type"
+                        parameter: type
+                        entityId: null
+                        entity: null
+                      - type: "INVALID_DATA"
+                        message: "Invalid field shape"
+                        parameter: shape
+                        entityId: null
+                        entity: null
+                    type: "VALIDATION_ERROR"
+                    message: "Failed to process request"
+        "404":
+          description: "Boundary not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    message: "Boundary is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Boundary is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+
+    delete:
+      summary: Delete Boundary
+      description: Use this API to remove a boundary associated with a pickup location.
+      tags: 
+        -  Location Management
+      operationId: deleteBoundaryUsingBoundaryId
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: boundary_id
+          in: path
+          required: true
+          description: A unique numeric id for the boundary being deleted
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Returns success status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+              examples:
+                Result:
+                  value:
+                    message: "success"
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                example1:
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid boundaryId"
+                        parameter: null
+                        entityId: boundary-1
+                        entity: boundary
+                    type: "INVALID_DATA"
+                    message: "Invalid boundaryId"
+        "404":
+          description: "Boundary not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    message: "Boundary is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Boundary is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+  
+  /boundaries:
+    get:
+      summary: List Boundaries
+      description:    
+        Use this API to list all the boundaries that are defined for the provided pickup locations.
+      operationId: getListOfBoundaries
+      tags: 
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters: 
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: location_external_ids
+          in: query
+          required: false
+          description: Specify the location_external_ids separated by a comma (,) to retrieve all the configured boundaries for a particular location.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a list of boundaries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Successfully processed the request
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Boundary'
+              examples:
+                success:
+                  value:
+                    message: "success"
+                    data:
+                      - id: "819745"
+                        locationExternalId: "100983"
+                        shape: "polygon"
+                        latitude: null
+                        longitude: null
+                        address: null
+                        radius: null
+                        status: "inactive"
+                        name: "Polygon Boundary 1"
+                        type: "in-service"
+                        postalCode: null
+                        tags:
+                          - "sdd"
+                        boundary:
+                          - latitude: 32.88017791805594
+                            longitude: -96.599225289648
+                          - latitude: 32.90785280535025
+                            longitude: -96.994733102148
+                          - latitude: 33.08982977767003
+                            longitude: -96.83268476230425
+                          - latitude: 32.88017791805594
+                            longitude: -96.599225289648
+                      - id: "819749"
+                        locationExternalId: "100983"
+                        shape: "postal-code"
+                        latitude: 32.6402238
+                        longitude: -96.7172907
+                        address: null
+                        radius: null
+                        status: "active"
+                        name: "Postal code 75141 Boundary"
+                        type: "out-of-service"
+                        postalCode: "75141"
+                        tags: []
+                        boundary:
+                          - latitude: 32.618567
+                            longitude: -96.735705
+                          - latitude: 32.638463
+                            longitude: -96.652569
+                          - latitude: 32.619231
+                            longitude: -96.64952
+                          - latitude: 32.606601
+                            longitude: -96.704667
+                          - latitude: 32.6236576
+                            longitude: -96.7176243
+                          - latitude: 32.618567
+                            longitude: -96.735705
+                      - id: "819750"
+                        locationExternalId: "100983"
+                        shape: "circle"
+                        latitude: null
+                        longitude: null
+                        address: null
+                        radius: 8
+                        status: "active"
+                        name: "8 Mile Circle Boundary"
+                        type: "in-service"
+                        postalCode: null
+                        tags: []
+                        boundary:
+                          - latitude: 32.814645
+                            longitude: -96.68220136503415
+                          - latitude: 32.92150222531701
+                            longitude: -96.87248907270978
+                          - latitude: 32.701205974664326
+                            longitude: -96.846672127118
+                          - latitude: 32.718476037944356
+                            longitude: -96.74336469396539
+                          - latitude: 32.814645
+                            longitude: -96.68220136503415
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+    
+    post:
+      summary: Create Boundaries
+      description: |
+          Use this API to include an In-Service or an Out-of-Service coverage area for a location
+
+          A boundary can be a single area or a combination of areas from the below:
+
+          a. polygon - provide the latitude and longitude details
+          b. radius - provide a distance in miles
+          c. postal code - use comma (,) to separate multiple postal codes
+          d. address - address location, if provided, will be used as the center point to determine the boundary location. This can differ from the pickup location address
+          e. driving distance - provide a driving distance in miles
+      operationId: createBoundary
+      tags:
+        - Location Management
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BoundaryRequest"
+            examples:
+              InactiveInServicePolygonBoundary:
+                summary: Inactive In-Service Polygon Boundary
+                value:
+                  status: "inactive"
+                  boundaries:
+                    - locationExternalId: "100983"
+                      shape: "polygon"
+                      type: "in-service"
+                      name: "Polygon Boundary 1"
+                      tags:
+                        - "sdd"
+                      boundary:
+                        - latitude: 32.88017791805594
+                          longitude: -96.599225289648
+                        - latitude: 32.72781162864238
+                          longitude: -96.928815133398
+                        - latitude: 33.013859729261135
+                          longitude: -96.82581830722613
+                        - latitude: 32.94934892068774
+                          longitude: -96.61982465488238
+                        - latitude: 32.88017791805594
+                          longitude: -96.599225289648
+              ActiveOutOfServicePostalCodeBoundaries:
+                summary: Active Out Of Service Postal Code Boundaries
+                value:
+                  status: "active"
+                  boundaries:
+                    - locationExternalId: "100983"
+                      shape: "postal-code"
+                      type: "out-of-service"
+                      name: "Postal code 75074 Boundary"
+                      postalCode: "75074"
+                    - locationExternalId: "100983"
+                      shape: "postal-code"
+                      type: "out-of-service"
+                      name: "Postal code 75141 Boundary"
+                      postalCode: "75141"
+              ActiveInServiceCircleBoundary:
+                summary: Active In Service Circle Boundary
+                value:
+                  status: "active"
+                  boundaries:
+                    - locationExternalId: "100983"
+                      shape: "circle"
+                      type: "in-service"
+                      name: "10 Mile Circle Boundary"
+                      radius: 10
+              ActiveOutOfServiceAddressBoundary:
+                summary: Active Out Of Service Address Boundary
+                value:
+                  status: "active"
+                  boundaries:
+                    - locationExternalId: "100983"
+                      shape: "address"
+                      type: "out-of-service"
+                      name: "Address Boundary Not Serviced"
+                      radius: 0.3
+                      address:
+                        street1: "2001 Greenville Ave"
+                        city: "Dallas"
+                        state: "TX"
+                        postalCode: "75206"
+                        countryCode: "US"
+                        latitude: 32.8147481
+                        longitude: -96.7708492
+      responses:
+        '201':
+          description: Returns success or failure.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Returns success or failure.
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Boundary'
+              examples:
+                InactiveInServicePolygonBoundary:
+                  summary: Inactive In-Service Polygon Boundary
+                  value:
+                    message: "success"
+                    data:
+                      - id: "819745"
+                        locationExternalId: "100983"
+                        shape: "polygon"
+                        latitude: null
+                        longitude: null
+                        type: "in-service"
+                        address: null
+                        radius: null
+                        name: "Polygon Boundary 1"
+                        status: "inactive"
+                        postalCode: null
+                        tags:
+                          - "sdd"
+                        boundary:
+                          - latitude: 32.88017791805594
+                            longitude: -96.599225289648
+                          - latitude: 32.72781162864238
+                            longitude: -96.928815133398
+                          - latitude: 33.013859729261135
+                            longitude: -96.82581830722613
+                          - latitude: 32.94934892068774
+                            longitude: -96.61982465488238
+                          - latitude: 32.88017791805594
+                            longitude: -96.599225289648
+                ActiveOutOfServicePostalCodeBoundaries:
+                  summary: Active Out Of Service Postal Code Boundaries
+                  value:
+                    message: "success"
+                    data:
+                      - id: "819748"
+                        locationExternalId: "100983"
+                        shape: "postal-code"
+                        latitude: 33.0243206
+                        longitude: -96.6745042
+                        address: null
+                        radius: null
+                        status: "active"
+                        name: "Postal code 75074 Boundary"
+                        type: "out-of-service"
+                        postalCode: "75074"
+                        tags: []
+                        boundary:
+                          - latitude: 33.0237493
+                            longitude: -96.7099754
+                          - latitude: 33.0465735
+                            longitude: -96.6997699
+                          - latitude: 33.073473
+                            longitude: -96.687131
+                          - latitude: 33.073176
+                            longitude: -96.682025
+                          - latitude: 33.052365
+                            longitude: -96.655478
+                          - latitude: 33.017387
+                            longitude: -96.642076
+                          - latitude: 33.0094674
+                            longitude: -96.6385032
+                          - latitude: 32.9988611
+                            longitude: -96.6649544
+                          - latitude: 33.0237493
+                            longitude: -96.7099754
+                      - id: "819749"
+                        locationExternalId: "100983"
+                        shape: "postal-code"
+                        latitude: 32.6402238
+                        longitude: -96.7172907
+                        address: null
+                        radius: null
+                        status: "active"
+                        name: "Postal code 75141 Boundary"
+                        type: "out-of-service"
+                        postalCode: "75141"
+                        tags: []
+                        boundary:
+                          - latitude: 32.618567
+                            longitude: -96.735705
+                          - latitude: 32.635083
+                            longitude: -96.729756
+                          - latitude: 32.640268
+                            longitude: -96.665538
+                          - latitude: 32.630725
+                            longitude: -96.631074
+                          - latitude: 32.635737
+                            longitude: -96.692603
+                          - latitude: 32.618567
+                            longitude: -96.735705
+                ActiveInServiceCircleBoundary:
+                  summary: Active In-Service Circle Boundary
+                  value:
+                    message: "success"
+                    data:
+                      - id: "819748"
+                        locationExternalId: "100983"
+                        shape: "circle"
+                        latitude: null
+                        longitude: null
+                        type: "in-service"
+                        address: null
+                        radius: 10
+                        name: "10 Mile Circle Boundary"
+                        status: "active"
+                        postalCode: null
+                        tags: []
+                        boundary:
+                          - latitude: 32.814645
+                            longitude: -96.64779585629269
+                          - latitude: 32.86997213995483
+                            longitude: -96.66089067334062
+                          - latitude: 32.934856202569556
+                            longitude: -96.72425001745674
+                          - latitude: 32.86997213995483
+                            longitude: -96.97875612665936
+                          - latitude: 32.814645
+                            longitude: -96.64779585629269
+                ActiveOutOfServiceAddressBoundary:
+                  summary: Active Out Of Service Address Boundary
+                  value:
+                    message: "success"
+                    data:
+                      - id: "825460"
+                        locationExternalId: "100983"
+                        shape: "address"
+                        latitude: 32.8147481
+                        longitude: -96.7708492
+                        type: "out-of-service"
+                        address: "2001 Greenville Ave, Dallas, TX, 75206, US"
+                        radius: 0.3
+                        name: "Address Boundary Not Serviced"
+                        status: "active"
+                        postalCode: "75206"
+                        tags: []
+                        boundary:
+                          - latitude: 32.814645
+                            longitude: -96.81466257368876
+                          - latitude: 32.81889896345009
+                            longitude: -96.81881657273307
+                          - latitude: 32.8137988340594
+                            longitude: -96.82488506248075
+                          - latitude: 32.8115780632682
+                            longitude: -96.8161741447188
+                          - latitude: 32.814645
+                            longitude: -96.81466257368876
+                ActiveInServiceDrivingDistanceBoundary:
+                  summary: Active In-Service Driving Distance Boundary
+                  value:
+                    message: "success"
+                    data:
+                      - id: "44338"
+                        locationExternalId: "100983"
+                        shape: "driving-distance"
+                        latitude: null
+                        longitude: null
+                        type: "in-service"
+                        address: null
+                        radius: 100
+                        name: "100 Mile Driving Distance Boundary"
+                        status: "active"
+                        postalCode: null
+                        tags: []
+                        boundary:
+                          - latitude: 30.366211
+                            longitude: -99.091187
+                          - latitude: 30.366211
+                            longitude: -99.052734
+                          - latitude: 30.366211000000014
+                            longitude: -99.09118700000002
+                          - latitude: 30.366211
+                            longitude: -99.091187
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                InvalidLocationExternalId:
+                  summary: Invalid Location External ID Error
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid locationExternalId 15295090887"
+                        parameter: locationExternalId
+                        entityId: location-1
+                        entity: location
+                    type: "INVALID_DATA"
+                    message: "Invalid locationExternalId 15295090887"
+        '400':
+          description: Invalid request data
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                example1:
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid field shape"
+                        parameter: shape
+                        entityId: null
+                        entity: null
+                    type: "VALIDATION_ERROR"
+                    message: "Failed to process request"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        '401':
+          description: Unauthorized
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+  
+  schemas: 
+    Location:
+      type: object
+      required: 
+        -  locationExternalId
+        -  name
+        -  address
+        -  contact
+      properties:
+        name :
+          type: string
+          description: Name of the location
+          maxLength: 100
+        description:
+          type: string
+          description: description for location
+          maxLength: 10000
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: It's a unique id by which your systems can identify the location. It's not editable after the creation of Location.
+        brandExternalId:
+          type: string
+          maxLength: 100
+          description: It's a unique id that you have associated with the brand during its creation. If not provided, the default brand is chosen.
+        contact:
+          $ref: '#/components/schemas/Contact'
+        address:
+          $ref: '#/components/schemas/Address'
+        active:
+          type: boolean
+          description: The location can be marked as active or inactive using the true/false flag. Default is true (location is enabled).
+        currencyCode:
+          type: string
+          maxLength: 3
+          description: Currency code in ISO 4217 alphabetical format, e.g. USD. It inherits from Brand or Business if not provided.
+        pickupInstructions:
+          type: string
+          maxLength: 10000
+          description: Pickup instruction for the location. These instruction are given to drivers/customers coming to pick up the order. If not provided it will be inherited from Brand or Business.
+        returnLocationId:
+          type: string
+          maxLength: 100
+          description: In the case of shipping carriers, if the order can't be delivered then it's returned to the same Location. You can associate a different Location in such a case by entering the desired location's locationExternalId here.
+        providers:
+          type: array
+          description: List of the providers that should be assigned for the location.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Provider Name
+              providerId:
+                type: string
+        providerAttributes:
+          type: object
+          description: Dependent on provider attributes e.g., providerLocationId.
+        tags:
+          type: array
+          description: Identifiers that can be used for finding and sorting relevant information.
+          items:
+            type: string
+
+    LocationPutRequest:
+      type: object
+      properties:
+        name :
+          type: string
+          maxLength: 100
+          description: Name of the location
+        description:
+          type: string
+          maxLength: 1000
+          description: description for location
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: It's a unique id by which your systems can identify the location. It's not editable after the creation of Location.
+        brandExternalId:
+          type: string
+          maxLength: 100
+          description: It's a unique id that you have associated with the brand during its creation. If not provided, the default brand is chosen.
+        contact:
+          $ref: '#/components/schemas/Contact'
+        address:
+          $ref: '#/components/schemas/Address'
+        active:
+          type: boolean
+          description: The location can be marked as active or inactive using the true/false flag. Default is true (location is enabled).
+        currencyCode:
+          type: string
+          maxLength: 3
+          description: Currency code in ISO 4217 alphabetical format, e.g. USD. It inherits from Brand or Business if not provided.
+        pickupInstructions:
+          type: string
+          maxLength: 10000
+          description: Pickup instruction for the location. These instruction are given to drivers/customers coming to pick up the order. If not provided it will be inherited from Brand or Business.
+        returnLocationId:
+          type: string
+          maxLength: 100
+          description: In the case of shipping carriers, if the order can't be delivered then it's returned to the same Location. You can associate a different Location in such a case by entering the desired location's locationExternalId here.
+        providers:
+          type: array
+          description: List of the providers that should be assigned for the location.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Provider Name
+              providerId:
+                type: string
+        providerAttributes:
+          type: object
+          description: Dependent on provider attributes e.g., providerLocationId.
+        tags:
+          type: array
+          description: Identifiers that can be used for finding and sorting relevant information.
+          items:
+            type: string
+        
+    Address:
+      type: object
+      description: Address of the location
+      required:
+        - street1
+        - city
+        - state
+        - postalCode
+      properties:
+        street1:
+          type: string
+          maxLength: 100
+          description: Address Line 1 (Street Number and Street Name)
+        street2:
+          type: string
+          maxLength: 100
+          description: Address Line 2 (not to be used for apartment / suite #)
+        apartmentNumber:
+          type: string
+          maxLength: 50
+          description: Apartment / Suite #
+        city:
+          type: string
+          maxLength: 100
+          description: City
+        state:
+          type: string
+          maxLength: 100
+          description: State
+        postalCode:
+          type: string
+          maxLength: 20
+          description: Postal code or zip.
+        countryCode:
+          type: string
+          description: 2-letter country code in ISO 3166-1 alpha-2 format. If not provided defaults to 'US'.
+          default: US
+          enum: 
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          type: number
+          format: double
+          description: Latitude coordinates of the address
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+
+    Contact:
+      type: object
+      required:
+        - name
+        - phone
+      description: Contact information.
+      properties:
+        name:
+          type: string
+          description: First Name of Contact
+          maxLength: 100
+        phone:
+          type: string
+          description: Phone Number of the Contact
+          maxLength: 20
+        email:
+          type: string
+          description: Email address of the Contact 
+          maxLength: 100       
+
+    LocationResponse:
+      type: object
+      required:
+         -  locationExternalId
+         -  name
+         -  address
+         -  contact
+      properties:
+        id:
+          type: string
+          example: "62668d60b02fd680c7071e39"
+          maxLength: 100
+        returnLocationId:
+          type: string
+          example: "dummyaccount1"
+          maxLength: 100
+        tenantId:
+          type: string
+          example: "dummyaccount1"
+          maxLength: 100
+        active:
+          type: boolean
+          example: true
+          default: true
+        name:
+          type: string
+          example: "Great Location"
+          maxLength: 100
+        locationExternalId:
+          type: string
+          example: "152950"
+          maxLength: 100
+        brandExternalId:
+          type: string
+          maxLength: 100
+          example: "devon"
+        contact:
+          $ref: '#/components/schemas/Contact'
+        address:
+          $ref: '#/components/schemas/Address'
+        description:
+          type: string
+          maxLength: 1000
+          example: "Great location in Austin, Texas"
+        pickupInstructions:
+          type: string
+          maxLength: 10000
+          example: "Park in the designated parking area, and come to the customer support desk"
+        currencyCode:
+          type: string
+          example: "USD"
+          maxLength: 3
+        timeZone:
+          type: string
+          example: "America/Chicago"
+        createdAt:
+          type: string
+          example: "2022-04-26T03:03:30.559Z"
+        lastUpdatedAt:
+          type: string
+          example: "2022-04-26T03:03:30.559Z"
+        isDeleted:
+          type: boolean
+          example: false
+          default: true
+        isTemporary:
+          type: boolean
+          example: false
+          default: true
+        providers:
+          type: array
+          description: List of the providers that should be assigned for the location.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Provider Name
+              providerId:
+                type: string
+        providerAttributes:
+          type: object
+          description: Dependent on provider attributes e.g., providerLocationId.
+        atRisk:
+          type: object
+          properties:
+            isCorporateAtRisk:
+              type: boolean
+              example: true
+              default: true
+        tags:
+          type: array
+          items:
+            type: string
+            example: "big&bulky"
+
+    Boundary:
+      type: object 
+      properties:
+        id:
+          type: string
+          description: Delivery Solutions' generated unique ID for the boundary.
+          maxLength: 100
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: ID of the pickup location to which the boundary is associated with.
+        shape:
+          type: string
+          enum: [polygon, circle, postal-code, address, driving-distance]
+          description: Shape of a boundary.
+        latitude:
+          type: 
+            - number
+            - 'null'
+          description: The latitudinal point of a boundary.
+        longitude:
+          type: 
+            - number
+            - 'null'
+          description: The longitudinal point of a boundary.
+        address:
+          type: 
+            - string
+            - 'null'
+          description: The address which acts as the center-point of a boundary, for shape address.
+        radius:
+          type: 
+            - number
+            - 'null'
+          description: The radius of a boundary in miles, for shape circle, address, or driving-distance.
+        status:
+          type: string
+          enum: [active, inactive]
+          description: A boundary can be either active or inactive.
+        name:
+          type: string
+          maxLength: 100
+          description: The name given to the boundary.
+        type:
+          type: string
+          enum: [in-service, out-of-service]
+          description: A boundary can be either of type in-service or out-of-service.
+        postalCode:
+          type: 
+            - string
+            - 'null'
+          maxLength: 20
+          description: For boundary shape postal code, it covers the entire area of the assigned postalcode.
+        tags:
+          type: array
+          items:
+            type: string
+          description: The boundary tags assigned to the boundary.
+        boundary:
+          type: array
+          items:
+            type: object
+            properties:
+              latitude:
+                type: number     
+              longitude:
+                type: number
+                description: Longitude point of the boundary.
+          description: Each object contains two keys, latitude and longitude, which have a number value. This contains the points of the boundary, which in its entirety forms the boundary.
+   
+    BoundaryRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [active, inactive]
+          description: Status of the boundary, either active or inactive.
+        boundaries:
+          type: array
+          minLength: 1
+          maxLength: 10
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                maxLength: 100
+                description: Name of the boundary
+              locationExternalId:
+                type: string
+                maxLength: 100
+                description: Unique external, customer defined id
+              shape:
+                type: string
+                enum: [postal-code, polygon, address, circle, driving-distance]
+                description: Shape of the boundary
+              type:
+                type: string
+                enum: [in-service, out-of-service]
+                description: Specify whether this boundary is to be considered for service or out-of-service
+              tags:
+                type: array
+                items: 
+                  type: string
+              radius:
+                type: number
+                format: double
+                description: Specifies the radius of coverage in miles. Required only if the shape is circle, address or driving-distance
+              address:
+                $ref: "#/components/schemas/Address"
+              postalCode:
+                type: string
+                maxLength: 20
+                description: Required only if the shape is post
+              boundary:
+                type: array
+                maxLength: 10000
+                items:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: double                
+                    longitude:
+                      type: number
+                      format: double
+      required:
+        - status
+        - boundaries
+    
+    TimingsRequest:
+      type: object
+      required:
+        - timings
+        - entity
+      properties:
+        locationExternalIds:
+          type: array
+          description: An array of location Ids for which timings are being created. This is required when entity is passed as `location`.
+          items:
+            type: string
+        brandExternalIds:
+          type: array
+          description: An array of location Ids for which timings are being created. This is required when entity is passed as `brand`.
+          items:
+            type: string
+        category:
+          type: string
+          description: Required if `type` is `pickup`, `delivery` or `return`
+          maxLength: 100
+        timings:
+          type: object
+          description: Base timings for each day of the week.
+          properties:
+            Su:
+              $ref: '#/components/schemas/DayTiming'
+            Mo:
+              $ref: '#/components/schemas/DayTiming'
+            Tu:
+              $ref: '#/components/schemas/DayTiming'
+            We:
+              $ref: '#/components/schemas/DayTiming'
+            Th:
+              $ref: '#/components/schemas/DayTiming'
+            Fr:
+              $ref: '#/components/schemas/DayTiming'
+            Sa:
+              $ref: '#/components/schemas/DayTiming'
+
+        pickAndPack:
+          type: integer
+          description: Approximate time duration (in minutes) that a location takes to pick-and-pack an order.
+          format: int32
+        entity:
+          type: string
+          description: It can be one value from location, brand or business.
+          enum:
+            - location
+            - brand
+            - business
+
+    TimingsResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "62668d60b02fd680c7071e39"
+          maxLength: 100
+        locationExternalId:
+          type: string
+          example: "100983"
+          maxLength: 100
+        category:
+          type: string
+          description: Required if `type` is `pickup`, `delivery` or `return`
+          maxLength: 100
+        tenantId:
+          type: string
+          example: "dummyaccount1"
+          maxLength: 100
+        type:
+          type: string
+          example: "delivery"
+          maxLength: 100
+        lastUpdatedAt:
+          type: string
+          format: date-time
+          example: "2022-04-25T12:12:58.223Z"
+        timings:
+          type: object
+          description: Base timings for each day of the week.
+          properties:
+            Su:
+              $ref: '#/components/schemas/DayTiming'
+            Mo:
+              $ref: '#/components/schemas/DayTiming'
+            Tu:
+              $ref: '#/components/schemas/DayTiming'
+            We:
+              $ref: '#/components/schemas/DayTiming'
+            Th:
+              $ref: '#/components/schemas/DayTiming'
+            Fr:
+              $ref: '#/components/schemas/DayTiming'
+            Sa:
+              $ref: '#/components/schemas/DayTiming'
+
+        pickAndPack:
+          type: integer
+          description: Approximate time duration (in minutes) that a location takes to pick-and-pack an order.
+          format: int32
+        entity:
+          type: string
+          description: It can be one value from location, brand or business.
+          enum:
+            - location
+            - brand
+            - business
+  
+    DayTiming:
+      type: object
+      required:
+        - isOpen
+        - is24Hrs
+      properties:
+        isOpen:
+          type: boolean
+          description: Set `true` to indicate location as `open` and `false` for closed.
+          default: true
+        is24Hrs:
+          type: boolean
+          description: Set `true` to indicate location open for 24hrs. This field only applicable for type `location`.
+          default: true
+        opensAt:
+          type: string
+        closesAt:
+          type: string
+        interval:
+          type: integer
+        hours:
+          type: array
+          items:
+            type: object
+            properties:
+              capacity:
+                type: number
+              fee: 
+                type: number
+              opensAt:
+                type: string
+                description: Required when `is24Hrs` under Day is marked as `false`. `opensAt` field takes 24hrs clock notation E.g., `13:00`.
+              closesAt:
+                type: string
+                description: Required when `is24Hrs` under Day is marked as `false`. `closesAt` field takes 24hrs clock notation E.g., `13:00`.
+
+    DeleteTimingRequest:
+      type: object
+      required:
+        - entity
+      properties:
+        locationExternalIds:
+          type: array
+          description: "An array of location IDs for which timings are being created. Required when entity is passed as `location`."
+          items:
+            type: string
+        brandExternalIds:
+          type: array
+          description: "An array of location IDs for which timings are being created. Required when entity is passed as `brand`."
+          items:
+            type: string
+        category:
+          type: string
+          description: "Required if type is `pickup` or `delivery`."
+          maxLength: 100
+        entity:
+          type: string
+          description: "Can be one value from `location`, `brand`, or `business`."
+          enum:
+            - location
+            - brand
+            - business     
+    
+    TimingsOverrideRequest:
+      type: object
+      required:
+        - name
+        - dates
+        - isOpen
+        - is24Hrs
+        - entity
+      properties:
+        locationExternalIds:
+          type: array
+          items: 
+            type: string
+            description: "An array of location Ids for which timings are being created. This is required when entity is passed as `location`."
+        brandExternalIds:
+          type: array
+          items: 
+            type: string
+          description: "An array of brand Ids for which timings are being created. This is required when entity is passed as `brand`."
+        categories:
+          type: array
+          description: "Required if type is `pickup`, `delivery`, or `return`."
+          items:
+            type: string
+        pickAndPack:
+          type: integer
+          format: int32
+          description: "Approximate time duration (in minutes) that a location takes to pick-and-pack an order. Only required for timing type `pickup` and `delivery`."
+        name:
+          type: string
+          description: "The name of the timing override."
+          maxLength: 100
+        dates:
+          type: array
+          description: "Dates for which the location timing override is being created. It has to be in ISO 8601 format (YYYY-MM-DD)."
+          items:
+            type: string
+        isOpen:
+          type: boolean
+          description: "To mark whether location is open or closed for a given day."
+        is24Hrs:
+          type: boolean
+          description: "To denote location is open 24hrs. This can be set to true for type `location` only."
+        capacity:
+           type: number
+           minimum: 0
+        fee: 
+          type: number
+          minimum: 0
+        entity:
+          type: string
+          description: "It can be one value from `location`, `brand`, or `business`."
+          enum:
+            - location
+            - brand
+            - business
+        opensAt:
+          type: string
+          description: "location opening time. Required if hours value is not set and isOpen flag is set to true."
+        closesAt:
+          type: string
+          description: "location closing time. Required if hours value is not set and isOpen flag is set to true."
+        interval:
+          type: integer
+          format: int32
+          description: "Interval between consecutive location operation hours. Required if hours value is not set and isOpen flag is set to true."
+        hours:
+          type: array
+          description: "Array of Hour objects if is24Hrs flag is set to false. Required if opensAt, closesAt, and interval values are not set."
+          items:
+            type: object
+            properties:
+              capacity:
+                type: number
+              fee: 
+                type: number
+              opensAt:
+                type: string
+                description: "Required when `is24Hrs` under Day is marked as `false`. `opensAt` field takes 24-hour clock notation, e.g., `13:00`."
+              closesAt:
+                type: string
+                description: "Required when `is24Hrs` under Day is marked as `false`. `closesAt` field takes 24-hour clock notation, e.g., `13:00`."
+    
+    TimingsOverrideResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "62668d60b02fd680c7071e39"
+          maxLength: 100
+        locationExternalId:
+          type: string
+          description: "location Id for which timings are created. This is required when entity is passed as `location`."
+          maxLength: 100
+        category:
+          type: string
+          maxLength: 100
+        type:
+          type: string
+          example: delivery
+          maxLength: 100
+        tenantId:
+          type: string
+          example: dummyaccount1
+          maxLength: 100
+        date:
+          type: string
+          description: "Date for which the location timing override is being created. It has to be in ISO 8601 format (YYYY-MM-DD)."
+        pickAndPack:
+          type: integer
+          format: int32
+          description: "Approximate time duration (in minutes) that a location takes to pick-and-pack an order. Only required for timing type `pickup` and `delivery`."
+        name:
+          type: string
+          description: "The name of the timing override."
+          maxLength: 100
+        isOpen:
+          type: boolean
+          description: "To mark whether location is open or closed for a given day."
+        is24Hrs:
+          type: boolean
+          description: "To denote location is open 24hrs. This can be set to true for type `location` only."
+        entity:
+          type: string
+          description: "It can be one value from `location`, `brand`, or `business`."
+          enum:
+            - location
+            - brand
+            - business
+        hours:
+          type: array
+          description: "Array of Hour objects if is24Hrs flag is set to false. Required if opensAt, closesAt, and interval values are not set."
+          items:
+            type: object
+            properties:
+              opensAt:
+                type: string
+                description: "Required when `is24Hrs` under Day is marked as `false`. `opensAt` field takes 24-hour clock notation, e.g., `13:00`."
+              closesAt:
+                type: string
+                description: "Required when `is24Hrs` under Day is marked as `false`. `closesAt` field takes 24-hour clock notation, e.g., `13:00`."
+     
+    DeleteTimingOverrideRequest:
+      type: "object"
+      required:
+        - "dates"
+        - "entity"
+      properties:
+        locationExternalIds:
+          type: "array"
+          description: "An array of location Ids for which timings are being created. This is required when entity is passed as `location`."
+          items:
+            type: "string"
+        brandExternalIds:
+          type: "array"
+          description: "An array of brand Ids for which timings are being created. This is required when entity is passed as `brand`."
+          items:
+            type: "string"
+          maxLength: 100
+        category:
+          type: "string"
+          description: "Required if type is `pickup`, `delivery`, or `return`."
+          maxLength: 100
+        dates:
+          type: "array"
+          description: "The date for which the location timing override is to be deleted. It has to be in ISO 8601 format (YYYY-MM-DD)"
+          items:
+            type: "string"
+        entity:
+          type: "string"
+          description: "It can be one value from `location`, `brand`, or `business`."
+          enum:
+            - "location"
+            - "brand"
+            - "business"
+
+    Weight:
+      type: object
+      description: Weight of an item
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+          format: double
+          description: weight
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given weight in kg or lb
+          enum: 
+            - kg
+            - lb
+  
+    Size:
+      type: object
+      description: Dimensions of the item.
+      required:
+        - height
+        - width
+        - length
+        - unit
+      properties:
+        height:
+          type: number
+          format: double
+          description: Height
+          minimum: 0
+        width:
+          type: number
+          format: double
+          description: Width
+          minimum: 0
+        length:
+          type: number
+          format: double
+          description: Length
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given size in cm or in
+          enum: 
+            - cm
+            - in
+          
+    Item:
+      type: object
+      description: "Details of an item within a package"
+      required:
+        - sku
+      properties:
+        sku:
+          type: string
+          description: "An ID that identify the product/variant from the brand’s catalog."
+          maxLength: 100
+        upc:
+          type: string
+          description: "Universal Product Code for the item"
+          maxLength: 100
+        category:
+          type: string
+          description: "Category of Item"
+          maxLength: 100
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of items of the SKU"
+          minimum: 1
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        price:
+          type: number
+          format: double
+          description: "Retail price of the item."
+          minimum: 0
+        salePrice:
+          type: number
+          format: double
+          description: "Sale price of the item."
+          minimum: 0
+        image:
+          type: string
+          description: "Link to the image file of the item."
+          maxLength: 200
+        title:
+          type: string
+          description: "Title of the item."
+          maxLength: 200
+        description:
+          type: string
+          description: "Description of the item."
+          maxLength: 10000
+        itemAttributes:
+          type: object
+          description: "Custom item attributes."
+        tags:
+          type: array
+          description: "Additional information related to the item."
+          items:
+            type: string
+          minItems: 0
+          maxItems: 20
+    
+    Package:
+      type: object
+      description: "Package Details"
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: "Name of package created in our system, or pass the value 'custom'."
+          default: "custom"
+          maxLength: 100
+        description:
+          type: string
+          description: "A brief description about the package contents."
+          maxLength: 10000
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of Packages"
+          minimum: 1
+        itemQuantity:
+          type: integer
+          format: int32
+          description: "Number of items in a single package."
+          minimum: 1
+        itemList:
+          type: array
+          description: "Array of items in the package."
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 1000
+        temperatureControl:
+          type: string
+          description: "Temperature information of the package"
+          enum:
+            - frozen
+            - refrigerated
+            - cool
+            - ambient
+            - warm
+            - none
+        content:
+          type: array
+          description: "Content information of the package"
+          items:
+            type : string
+            enum:
+            - alcohol
+            - fragile
+            - tobacco
+            - rx
+            - perishable
+        barcode:
+          type: string
+          description: "Barcode sent to the provider for scanning the packages"
+          default: "null"
+          maxLength: 500
+    
+    AlternateLocationRequest:
+      type: object
+      required:
+        - deliveryAddress
+      properties:
+        locationExternalId:
+          type: string
+          description: "Location Id for which the order is being placed."
+          maxLength: 100
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+        packages:
+          type: array
+          description: "Package Details"
+          items:
+            $ref: '#/components/schemas/Package'
+        type:
+          type: string
+          description: "Type of order. Options are 'delivery', 'pickup', or 'shipping'."
+        matchProviderTags:
+          type: array
+          description: "Alternate locations for providers matching at least one tag from the requested tags."
+          items:
+            type: string
+    
+    AlternateLocationResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          provider:
+            type: string
+            example: "UPS"
+            maxLength: 100
+          address:
+            $ref: '#/components/schemas/Address'
+          providerLocationId:
+            type: string
+            example: "179140"
+            maxLength: 100
+          distance:
+            type: number
+            example: 11.1
+            default: 0
+          locationTimings:
+            type: array
+            items:
+              type: string
+              example: "Mon-Sat: 9:00am-8:00pm"
+          serviceType:
+            type: string
+            example: "UPS Access Point"
+            maxLength: 100
+          type:
+            type: string
+            example: "drop-off-point"
+            maxLength: 100
+          providerLocationInfo:
+            type: array
+            items:
+              type: string
+              example: "CHEMIST'S"
+          name:
+            type: string
+            example: "CVS STORE # 6931"
+            maxLength: 100
+          phone:
+            type: string
+            example: ""
+            maxLength: 20
+          providerTags:
+            type: array
+            items:
+              type: string
+              example: "providerTag-1"
+      
+    ErrorDetail:
+      type: object
+      required: 
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: 
+            - string
+            - 'null'
+        entityId:
+          type: 
+            - string
+            - 'null'
+        entity:
+          type: 
+            - string
+            - 'null'
+
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "ERROR_TYPE"
+        message:
+          type: string
+          example: "An error occurred" 
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+           $ref: '#/components/schemas/Response'
+    
+    Response:
+      type: object
+      properties:
+          errors:
+            type: array
+            description: The error response containing any errors that occurred.
+            items:
+                $ref: '#/components/schemas/ErrorMessage'
+    
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: Locale is required. The Subscription request has been rejected.
+      description: The error response containing any errors that occurred

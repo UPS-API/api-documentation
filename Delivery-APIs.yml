@@ -1,0 +1,3895 @@
+openapi: 3.1.0
+
+info:
+  title: Delivery Order API v1
+  version: '1.0'
+  
+  description: |
+    # Product Info
+
+    The **Delivery Order API** streamlines the creation and management of delivery orders across an extensive network of providers. Designed for retailers and businesses, it serves as a centralized solution for handling every phase of the delivery process, from initiation to completion.
+    
+
+    # Business Values
+
+    - **Order Lifecycle Management**:  - Seamlessly create and manage delivery orders, including real-time edits. Supports the full order lifecycle, from pre-dispatched to dispatched statuses, enabling adaptability across various workflows.
+
+    - **Multi-Provider Integration**: - Efficiently retrieve and evaluate delivery estimates from a global network of providers, dynamically selecting the best-fit provider through customizable orchestration rules to optimize efficiency and elevate customer satisfaction.
+
+    - **Tracking and Status Updates**: - Track delivery orders throughout their entire lifecycle with real-time visibility. Receive instant updates through configurable webhooks and alerts, ensuring transparency and proactive monitoring.
+
+
+    # How does it work once I am setup as a user?
+    Once set up as a user, you can submit relevant order details to asynchronously place an order from the selected pickup location to the delivery address. By integrating this API into your eCommerce platform, you gain access to a global multi-carrier ecosystem. This enables you to offer flexible, reliable delivery options while maintaining control over your brand’s delivery experience.
+
+    # FAQs    
+    - **What information does a Delivery Order contain?**
+    >  A **Delivery Order** contains all the critical details needed to execute a delivery, such as pickup and delivery addresses, contact information, and scheduling preferences. 
+
+    - **What happens when an order is submitted?**
+    >  When a delivery order request is submitted, the platform fetches delivery estimates from integrated providers and applies configurable orchestration rules to select the most appropriate provider, ensuring efficiency and a high level of customer satisfaction.
+
+    - **Pre-Dispatched vs Dispatched Status**
+    > Pre-Dispatched orders are present on the platform but have not yet been shared with a provider.  Dispatched orders have been assigned to a provider for fulfillment.
+    
+    # Error Codes
+
+    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+
+    Successful response may or may not include warnings.
+
+    1. **Without warnings** - Indicates the request has been processed as anticipated.
+    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+
+    The severity of an error may be transient or hard.
+      
+    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+
+    ---
+
+    ## /deliveries
+
+    ### POST
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  VALIDATION_ERROR      |    400    |  Hard    | Field validation failed locationExternalId is a required field or Delivery Address not provided or other invalid values in the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid Data: No such locationExternalId exists in our system. Please provide a valid locationExternalId. |
+    |  DUPLICATE_ID          |    422    |  Hard    | Resource with provided id already exists.                                  |
+    |  DUPLICATE_NAME        |    422    |  Hard    | Resource with provided name already exists.                                |
+    |  DUPLICATE_RESOURCE    |    422    |  Hard    | Resource already exists.                                                   |
+    |  NO_PROVIDER_ASSIGNED  |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
+    |  NO_PROVIDER_MATCHED   |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
+    |  PLACE_ORDER_FAILED    |    422    | Transient| Failed to place the requested order with the configured providers.         |
+    |  GEOCODING_FAILED      |    422    |  Hard    | Geocoding Service for the given address failed.                            |
+    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
+
+    ---
+
+    ### /deliveries/list
+
+    ### POST
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    400    |  Hard    | Invalid Data: lastUpdatedAt date range cannot be greater than 30 days |
+
+    ---
+
+    ### /deliveries/{delivery_external_id}
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid Order Id |
+    |  NOT_FOUND             |    404    |  Hard    | Resource not found : Order with id, 1908241-0061, is not found. |
+
+
+    ### DELETE
+    |           Type            | HTTP Code | Severity | Description |
+    |---------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NOT_FOUND                |    404    |  Hard    | Resource not found: Order with id, 19345234, is not found. |
+    |  CANCELLATION_NOT_ALLOWED |    403    | Hard     | Provider does not allow cancellation of orders.                            |
+    |  ORDER_CANCELLATION_FAILED|    422    |  Hard    | Provider failed to cancel order |
+    |  ORDER_ALREADY_CANCELED   |    409    |  Hard    | Requested order is already in Cancelled state.|
+    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
+
+
+    ### PUT
+    |           Type            | HTTP Code | Severity | Description |
+    |---------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA             |    400    |  Hard    | Invalid data: The value for the orderValue field is invalid or any other invalid value|
+    |  VALIDATION_ERROR         |    400    |  Hard    | Field validation failed: packages parameter cannot be changed post order dispatch or any other invalid value |
+    |  NOT_FOUND                |    404    |  Hard    | Resource not found: Order with id, 19345234, is not found |
+    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.  |
+    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery. |
+    |  GEOCODING_FAILED         |    422    |  Hard    | Geocoding Service for the given address failed.                            |
+    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
+
+
+    ### /deliveries/{delivery_external_id}/status-history
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+
+
+    ### /deliveries/{delivery_external_id}/retry
+
+    ### POST
+    |           Type            | HTTP Code | Severity | Description |
+    |---------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  NOT_FOUND                |    404    |  Hard    | Resource not found:  Order with id, 19345234, is not found. |
+    |  INVALID_DATA             |    422    |  Hard    | Order Id value is invalid |
+    |  INVALID_OPERATION        |    409    |  Hard    | The Order can no longer be retried |
+    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
+    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
+    |  PLACE_ORDER_FAILED       |    422    | Transient| Failed to place the requested order with the configured providers.         |
+    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
+servers:
+  - url: https://api.lynkup.com/delivery/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+        default: v1
+        enum:
+         - v1
+  - url: 'https://sandbox.api.lynkup.com/delivery/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+
+tags: 
+  - name: Delivery Order
+    description:  |
+      Endpoints for managing the lifecycle of delivery orders, including creation, updates, and cancellation. These APIs enable seamless integration with multiple delivery providers to streamline order orchestration.
+security:
+  - OAuth2ClientCredentials: []
+
+paths:          
+  /deliveries:
+     post:
+      summary: Create Delivery
+      description: |
+        This endpoint enables clients to asynchronously create a new delivery order. Its primary function is to initiate a delivery request by submitting the required details for processing. The operation is designed to be asynchronous, meaning the initial response will include only basic metadata about the order. Subsequent status updates and detailed progress information are sent through Webhooks configured by the client.
+      operationId: createDelivery
+      tags: 
+        - Delivery Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryRequest'
+            examples:
+              Complete request:
+                value:
+                  locationExternalId: "7709"
+                  orderExternalId: "7709-001"
+                  orderValue: 10
+                  tips: 2
+                  deliveryContact:
+                    name: "asd"
+                    phone: "+1 234-567-8900"
+                    email: ""
+                  deliveryAddress:
+                    street1: "725 Albany Street"
+                    street2: ""
+                    city: "Boston"
+                    state: "MA"
+                    countryCode: "US"
+                    postalCode: "02118"
+                    latitude: 42.3346944
+                    longitude: -71.071818
+                    apartmentNumber: ""
+                  packages:
+                    - name: "Solid"
+                      size:
+                        length: 10
+                        width: 10
+                        height: 10
+                        unit: 'in'
+                      weight: 
+                        value: 10
+                        unit: 'lb'
+                      itemQuantity: 1
+                      description: "bungii pack 1"
+                  itemList:
+                    - sku: "sku 1"
+                      quantity: 1
+                      size:
+                        length: 3
+                        width: 2
+                        height: 2
+                        unit: 'in'
+                      weight: 
+                        value: 10
+                        unit: 'lb'
+                      price: 3
+                      salePrice: 3
+                      image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png"
+                      title: "Watch"
+                  pickupTime: null
+                  deliveryTime: null
+      responses:
+        "201":
+          description: "Resource is successfully created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryResponse'
+              examples:
+                Result:
+                  value: 
+                    locationExternalId: "7709"
+                    orderExternalId: "7709-001"
+                    orderValue: 10
+                    deliveryContact:
+                      name: "asd"
+                      phone: "+1 234-567-8900"
+                      email: ""
+                    deliveryAddress:
+                      street1: "725 Albany Street"
+                      street2: ""
+                      apartmentNumber: ""
+                      city: "Boston"
+                      state: "MA"
+                      postalCode: "02118"
+                      countryCode: "US"
+                      latitude: 42.3346944
+                      longitude: -71.071818
+                    packages:
+                      - name: "Solid"
+                        itemQuantity: 1
+                        size:
+                          length: 10
+                          width: 10
+                          height: 10
+                          unit: 'in'
+                        weight:
+                          value: 10
+                          unit: 'lb'
+                        description: "bungii pack 1"
+                        temperatureControl: "none"
+                        barcode: "1YT4V90308440011"
+                    itemList:
+                      - sku: "sku 1"
+                        quantity: 1
+                        size:
+                          length: 3
+                          width: 2
+                          height: 2
+                          unit: 'in'
+                        weight: 
+                          value: 10
+                          unit: 'lb'
+                        price: 3
+                        salePrice: 3
+                        image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png"
+                        title: "Watch"
+                    pickupTime:
+                      startsAt: 1679592688115
+                    deliveryTime:
+                      endsAt: 1679592748115
+                    orderAttributes: {}
+                    tenantId: "dummyaccount1"
+                    brandExternalId: "dummyaccount1"
+                    groupId: null
+                    currencyCode: "USD"
+                    pickupContact:
+                      name: "asd"
+                      phone: "+1 234-567-8900"
+                    pickupAddress:
+                      street1: "345 Harrison Avenue"
+                      street2: ""
+                      city: "Boston"
+                      postalCode: "02118"
+                      countryCode: "US"
+                      state: "MA"
+                      latitude: 42.3452369
+                      longitude: -71.0639399
+                    status: "REQUEST_RECEIVED"
+                    referenceLinks:
+                       labelLink: ""
+                       trackingUrl: null             
+                    provider: 
+                      name: ""
+                      id: ""
+                      displayName: ""
+                      serviceType: null
+                    trackingId: ""
+                    attachments: null
+                    driver: null
+                    vehicle: null
+                    amount: null
+                    labels: null             
+                    tips: null
+                    actualDeliveryTime: null
+                    actualPickupTime: null
+                    fee: null
+                    returnRequest: null
+                    proposedProviders: []
+                    providerBatch: null
+                    createdAt: ""
+                    lastUpdatedAt: ""
+                    undeliverableOrderReturnLocation:
+                      address:
+                        street1: "502 Park Avenue"
+                        street2: ""
+                        city: "New York"
+                        postalCode: "10022"
+                        countryCode: "US"
+                        state: "NY"
+                        latitude: 40.76321409999999
+                        longitude: -73.9698963
+                      contact:
+                        name: "John Smith"
+                        phone: "+1 201-555-0123"
+                      name: "WareHouse 301"
+                    returnLocationId: "301"
+                    deliveryDistance: 2
+                    drivingDistance: 3
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "No such locationExternalId exists in our system. Please provide a valid locationExternalId."
+                        parameter: locationExternalId
+                        entityId: location-1
+                        entity: location
+                    type: "INVALID_DATA"
+                    message: "No such locationExternalId exists in our system. Please provide a valid locationExternalId."
+        "400":
+          description: "The request cannot be processed due to incompleteness or invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: INVALID_DATA
+                        message: "locationExternalId is a required field. The field is missing."
+                        parameter: locationExternalId
+                        entityId: null
+                        entity: null
+                    type: VALIDATION_ERROR
+                    message: "Failed to process request"    
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+  /deliveries/list:
+    post:
+      summary: "List Deliveries"
+      description: |
+        Use this endpoint to retrieve a filtered list of deliveries based on specified criteria. By default, if no filters are applied, deliveries created within the last 24 hours will be returned.
+
+        This API supports advanced filtering options such as:
+
+        - **Time Filters**: Filter deliveries based on their `createdAt`, `pickupTime`, `deliveryTime`, or `lastUpdatedAt`.
+
+        - **Identifiers**: Search by `orderExternalIds` or `locationExternalIds`.
+
+        - **Statuses**: Retrieve deliveries based on their current status (e.g., `ORDER_DISPATCHED`, `ORDER_DELIVERED`, `ORDER_CANCELLED`).
+
+        - **Pagination**: Use the `paginationToken` field to retrieve subsequent sets of results when dealing with large datasets.
+
+        The request body allows flexible and precise filtering, making it easy to tailor the response to your specific needs. The response will contain the requested delivery data, and if applicable, a `paginationToken` to fetch additional results.
+      operationId: "listDeliveries"
+      tags: 
+        - Delivery Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListDeliveriesRequest"
+            examples:
+              All parameters utilised:
+                value:
+                  limit: 100
+                  lastUpdatedAt:
+                    startsAt: 1651402682000
+                    endsAt: 1652266731000
+                  orderExternalIds:
+                    - "1908241"
+                  locationExternalIds:
+                    - "100983"
+                  pickupTime:
+                    startsAt: 1651402682000
+                  deliveryTime:
+                    endsAt: 1652266731000
+                  createdAt:
+                    startsAt: 1651402682000
+                    endsAt: 1652266731000
+                  status:
+                    - "ORDER_DISPATCHED"
+                    - "ORDER_DELIVERED"
+                    - "ORDER_CANCELLED"
+                    - "PICKUP_STARTED"
+                    - "PICKUP_COMPLETED"
+                  paginationToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+              Pagination token to get next set of results:
+                value:
+                  limit: 100
+                  paginationToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+      responses:
+        "400":
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Date range greater than 30 days:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "lastUpdatedAt date range cannot be greater than 30 days"
+                        parameter: lastUpdatedAt
+                        entityId: null
+                        entity: null
+                    type: "INVALID_DATA"
+                    message: "lastUpdatedAt date range cannot be greater than 30 days"
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  paginationToken:
+                    type: "object"
+                    properties:
+                       next:
+                         type: 
+                           - 'string'
+                           - 'null'
+                       previous:
+                         type: 
+                           - 'string'
+                           - 'null'
+                  data:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/DeliveryResponse"
+              examples:
+                Default response, last 24, no request body:
+                  value:
+                     data:
+                      - id: "6267cad7627f5f658c8b9c53"
+                        estimatedDeliveryTime:
+                          startsAt: null 
+                          endsAt: 1651576074000
+                        estimatedPickupTime: 
+                          startsAt: 1651574198000
+                          endsAt: 1650969304278
+                        provider: 
+                          name: "DoorDash"
+                          serviceId: 'delivery'
+                          serviceType: Delivery
+                          displayName: "DoorDash"
+                          id: "dfdf"
+                        amount: 10.34
+                        locationExternalId: "100983"
+                        orderExternalId: "1908244"
+                        orderValue: 78.65
+                        deliveryTime:
+                          endsAt: 1650969423042
+                        pickupTime:
+                          startsAt: 1650969363042
+                        deliveryAddress:
+                          street1: "5411 Mercedes Avenue"
+                          street2: ""
+                          city: "Dallas"
+                          state: "TX"
+                          countryCode: "US"
+                          postalCode: "75206"
+                          latitude: 32.8284237
+                          longitude: -96.7768713
+                          apartmentNumber: ""
+                        deliveryContact:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        signature: "not_required"
+                        tips: 8
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        proposedProviders:
+                          - name: "DoorDash"
+                            services:
+                              - id: "delivery"
+                        brandExternalId: "devon"
+                        pickupContact:
+                          name: "Michele Parker"
+                          phone: "+1 201-555-0123"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T10:35:03.100Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T10:35:38.656Z"
+                        referenceLinks:
+                          trackingUrl: "https://doordash.com/drive/portal/track/cd0b36e1-4f2d-4d87-ac3f-f55e4732ff7d"
+                          barcodeLink: "https://sandbox.files.deliverysolutions.co/dummyaccount1/barcodes/2022-4/16509693031616267cad7627f5f658c8b9c53.png"
+                          labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=6267cad7627f5f658c8b9c53&token=NjI2N2NhZDc2MjdmNWY2NThjOGI5YzUz"
+                          qrcodeLink: null
+                          hostedTrackingUrl: "https://s.dl-s.co/j_xSuvK3krj"
+                        fee: 10.34
+                        labels: null
+                        trackingId: "1391249345"
+                        actualDeliveryTime: null
+                        actualPickupTime: null
+                        attachments: []
+                        deliveryDistance: 2
+                        drivingDistance: 3
+                      - id: "6267cad7627f5f658c8b9c51"
+                        estimatedDeliveryTime: 
+                          startsAt: 1651575226000
+                          endsAt: null
+                        estimatedPickupTime: 
+                          startsAt: 1651574198000
+                          endsAt: null
+                        provider: 
+                          name: "DoorDash"
+                          displayName: "DoorDash_123"
+                          serviceId: delivery
+                          serviceType: Delivery
+                          id: "2323"
+                        amount: 10.34
+                        locationExternalId: "100983"
+                        orderExternalId: "1908243"
+                        orderValue: 78.65
+                        deliveryTime:
+                          endsAt: 1650972618678
+                        pickupTime:
+                          startsAt: 1650972558678
+                        deliveryAddress:
+                          street1: "5411 Mercedes Avenue"
+                          street2: ""
+                          city: "Dallas"
+                          apartmentNumber: ""
+                          state: "TX"
+                          countryCode: "US"
+                          postalCode: "75206"
+                          latitude: 32.8284237
+                          longitude: -96.7768713
+                        deliveryContact:
+                          name: "Charlize Brian"
+                          phone: "201-555-5555"
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        signature: "not_required"
+                        tips: 8
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        proposedProviders:
+                          - name: "DoorDash"
+                            services:
+                              - id: "delivery"
+                        brandExternalId: "devon"
+                        pickupContact:
+                          name: "Michele Parker"
+                          phone: "+1 201-555-0123"
+                        pickupAddress:
+                          street1: "The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T11:06:56.863Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        referenceLinks:
+                          barcodeLink: "https://sandbox.files.deliverysolutions.co/dummyaccount1/barcodes/2022-4/1650972573082627cad7627f5f658c8b9c51.png"
+                          labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=6267cad7627f5f658c8b9c51&token=NjI2N2NhZDc2MjdmNWY2NThjOGI5YzUz"
+                          qrcodeLink: null
+                          hostedTrackingUrl: "https://s.dl-s.co/Y2J1rSOBwOs"
+                          trackingUrl: "https://s.dl-s.co/B947IctDQUv"
+                        lastUpdatedAt: "2022-05-03T11:08:56.086Z"                
+                        fee: 10.34
+                        labels: null               
+                        trackingId: "1391249346"
+                        actualDeliveryTime: null
+                        actualPickupTime: null
+                        attachments: []
+                        deliveryDistance: 2
+                        drivingDistance: 3
+                      - id: "6267c9ab03ab64947cafbbc1"
+                        estimatedDeliveryTime: 
+                          endsAt: 1651575771000
+                          startsAt: null 
+                        estimatedPickupTime: 
+                          startsAt: 1651573897000
+                          endsAt: null
+                        provider:
+                          name: "DoorDash"
+                          displayName: "DoorDash_123"
+                          serviceId: delivery
+                          serviceType: Delivery
+                          id: "2323"
+                        amount: 10.34
+                        locationExternalId: "100983"
+                        orderExternalId: "1908242"
+                        orderValue: 78.65
+                        deliveryTime:
+                          endsAt: 1650969123020
+                        pickupTime:
+                          startsAt: 1650969063020
+                        deliveryAddress:
+                          street1: "5411 Mercedes Avenue"
+                          street2: ""
+                          city: "Dallas"
+                          state: "TX"
+                          countryCode: "US"
+                          postalCode: "75206"
+                          latitude: 32.8284237
+                          longitude: -96.7768713
+                          apartmentNumber: ""
+                        deliveryContact:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        signature: "not_required"
+                        tips: 8
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        proposedProviders:
+                          - name: "DoorDash"
+                            services:
+                              - id: "delivery"
+                        brandExternalId: "devon"
+                        pickupContact:
+                          name: "Michele Parker"
+                          phone: "+1 201-555-0123"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T10:30:03.042Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        referenceLinks:
+                          barcodeLink: "https://sandbox.files.deliverysolutions.co/dummyaccount1/barcodes/2022-4/16509690030546267c9ab03ab64947cafbbc1.png"
+                          labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=6267c9ab03ab64947cafbbc1&token=NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMx"
+                          qrcodeLink: null
+                          hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
+                        lastUpdatedAt: "2022-05-03T10:30:37.251Z"
+                        fee: 10.34
+                        labels: null
+                        trackingId: "1391249133"
+                        actualDeliveryTime: null
+                        actualPickupTime: null
+                        attachments: []
+                        deliveryDistance: 2
+                        drivingDistance: 3
+                      - id: "62668e6f44504ce0b5c3fde7"
+                        estimatedDeliveryTime: 
+                          endsAt: 1651495135000
+                          startsAt: null
+                        estimatedPickupTime: 
+                          startsAt: 1651493199000
+                          endsAt: null               
+                        provider: 
+                          name: "DoorDash"
+                          displayName: "DoorDash_123"
+                          serviceId: delivery
+                          serviceType: Delivery
+                          id: "2323"
+                        amount: 10.34
+                        locationExternalId: "100983"
+                        orderExternalId: "1908241"
+                        orderValue: 78.65
+                        deliveryTime:
+                          endsAt: 1650888423020
+                        pickupTime:
+                          startsAt: 1650888363020
+                        deliveryAddress:
+                          street1: "5411 Mercedes Avenue"
+                          street2: ""
+                          city: "Dallas"
+                          state: "TX"
+                          countryCode: "US"
+                          postalCode: "75206"
+                          latitude: 32.8284237
+                          longitude: -96.7768713
+                          apartmentNumber: ""
+                        deliveryContact:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        signature: "not_required"
+                        tips: 8
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        proposedProviders:
+                          - name: "DoorDash"
+                            services:
+                              - id: "delivery"
+                        brandExternalId: "devon"
+                        pickupContact:
+                          name: "Michele Parker"
+                          phone: "+1 201-555-0123"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-25T12:31:03.042Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T12:30:37.251Z"
+                        referenceLinks:
+                          barcodeLink: "https://sandbox.files.deliverysolutions.co/dummyaccount1/barcodes/2022-4/16508890030446268e6f44504ce0b5c3fde7.png"
+                          labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=62668e6f44504ce0b5c3fde7&token=NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMx"
+                          qrcodeLink: null
+                          hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
+                          trackingUrl: "https://doordash.com/drive/portal/track/94de9d8e-d3ce-4e00-a990-3f8008803d8c"
+                        fee: 10.34
+                        labels: null
+                        trackingId: "1391249134"
+                        actualDeliveryTime: null
+                        actualPickupTime: null
+                        attachments: []
+                        deliveryDistance: 2
+                        drivingDistance: 3
+                Pagination Token, both next and previous present:
+                  value: 
+                    data:
+                      - id: "6267c9ab03ab64947cafbbc1"
+                        estimatedDeliveryTime: 
+                          startsAt: 1651575771000
+                          endsAt: null
+                        estimatedPickupTime: 
+                          startsAt: 1651573897000
+                          endsAt: null
+                        referenceLinks:
+                          trackingUrl: "https://doordash.com/drive/portal/track/d83e5950-91c5-4505-8b18-f527fd9365d3"
+                          barcodeLink: "https://sandbox.files.deliverysolutions.co/dummyaccount1/barcodes/2022-4/16509690030546267c9ab03ab64947cafbbc1.png"
+                          labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=6267c9ab03ab64947cafbbc1&token=NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMx"
+                          qrcodeLink: null
+                          hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
+                        provider: 
+                          name: 'Door Dash'
+                          serviceId: delivery
+                          serviceType: Delivery
+                          displayName: 'Door Dash'
+                          id: "3322"
+                        amount: 10.34
+                        locationExternalId: "100983"
+                        orderExternalId: "1908242"
+                        orderValue: 78.65
+                        deliveryTime:
+                          endsAt: 1650969123020
+                        pickupTime:
+                          startsAt: 1650969063020
+                        deliveryAddress:
+                          street1: "5411 Mercedes Avenue"
+                          street2: ""
+                          city: "Dallas"
+                          state: "TX"
+                          countryCode: "US"
+                          postalCode: "75206"
+                          latitude: 32.8284237
+                          longitude: -96.7768713
+                          apartmentNumber: ""
+                        deliveryContact:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        signature: "not_required"
+                        tips: 8
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        proposedProviders:
+                          - name: "DoorDash"
+                            services:
+                              - id: "delivery"
+                        brandExternalId: "devon"
+                        pickupContact:
+                          name: "Michele Parker"
+                          phone: "+1 201-555-0123"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T10:30:03.042Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T10:30:37.251Z"
+                        fee: 10.34
+                        labels: null
+                        trackingId: "1391249133"
+                        actualDeliveryTime: null
+                        actualPickupTime: null
+                        attachments: []
+                        deliveryDistance: 2
+                        drivingDistance: 3
+                    paginationToken:
+                      next: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+                      previous: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1MV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM="
+                Limit 1, Pagination Token Example:
+                  value: 
+                    data:
+                      - id: "6267cad7627f5f658c8b9c53"
+                        estimatedDeliveryTime: 
+                          startsAt: 1651576074000
+                          endsAt: null
+                        estimatedPickupTime: 
+                          startsAt: 1651574198000
+                          endsAt: null
+                        referenceLinks:
+                          trackingUrl: "https://doordash.com/drive/portal/track/d83e5950-91c5-4505-8b18-f527fd9365d3"
+                          barcodeLink: "https://sandbox.files.deliverysolutions.co/dummyaccount1/barcodes/2022-4/16509690030546267c9ab03ab64947cafbbc1.png"
+                          labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=6267c9ab03ab64947cafbbc1&token=NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMx"
+                          qrcodeLink: null
+                          hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
+                        provider: 
+                        amount: 10.34
+                        locationExternalId: "100983"
+                        orderExternalId: "1908244"
+                        orderValue: 78.65
+                        deliveryTime:
+                          endsAt: 1650969423042
+                        pickupTime:
+                          startsAt: 1650969363042
+                        deliveryAddress:
+                          street1: "5411 Mercedes Avenue"
+                          street2: ""
+                          city: "Dallas"
+                          state: "TX"
+                          countryCode: "US"
+                          postalCode: "75206"
+                          latitude: 32.8284237
+                          longitude: -96.7768713
+                          apartmentNumber: ""
+                        deliveryContact:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        signature: "not_required"
+                        tips: 8
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        proposedProviders:
+                          - name: "DoorDash"
+                            services:
+                              - id: "delivery"
+                        brandExternalId: "devon"
+                        pickupContact:
+                          name: "Michele Parker"
+                          phone: "+1 201-555-0123"
+                        pickupAddress:
+                          street1: "The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-26T10:35:03.100Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-03T10:35:38.656Z"
+                        fee: 10.34
+                        labels: null
+                        trackingId: "1391249345"
+                        actualDeliveryTime: null
+                        actualPickupTime: null
+                        attachments: []
+                        deliveryDistance: 2
+                        drivingDistance: 3
+                    paginationToken:
+                      next: "NjI2N2NhZDc2MjdmNWY2NThjOGI5YzUzXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1M182MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+                      previous: null
+                End of results, only previous pagination token present:
+                  value: 
+                    data:
+                      - id: "62668e6f44504ce0b5c3fde7"
+                        estimatedDeliveryTime: 
+                          startsAt: 1651495135000
+                          endsAt: null
+                        estimatedPickupTime: 
+                          startsAt: 1651493199000
+                          endsAt: null
+                        referenceLinks:
+                          trackingUrl: "https://doordash.com/drive/portal/track/d83e5950-91c5-4505-8b18-f527fd9365d3"
+                          barcodeLink: "https://sandbox.files.deliverysolutions.co/dummyaccount1/barcodes/2022-4/16509690030546267c9ab03ab64947cafbbc1.png"
+                          labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=6267c9ab03ab64947cafbbc1&token=NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMx"
+                          qrcodeLink: null
+                          hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
+                        provider: 
+                          name: 'Door Dash'
+                          serviceId: delivery
+                          serviceType: Delivery
+                          displayName: 'Point Pickup'
+                          id: "3322"
+                        amount: 10.34
+                        locationExternalId: "100983"
+                        orderExternalId: "1908241"
+                        orderValue: 78.65
+                        deliveryTime:
+                          endsAt: 1650888423020
+                        pickupTime:
+                          startsAt: 1650888363020
+                        deliveryAddress:
+                          street1: "5411 Mercedes Avenue"
+                          street2: ""
+                          city: "Dallas"
+                          state: "TX"
+                          countryCode: "US"
+                          postalCode: "75206"
+                          latitude: 32.8284237
+                          longitude: -96.7768713
+                          apartmentNumber: ""
+                        deliveryContact:
+                          name: "Charlize Brian"
+                          phone: "+1 201-555-5555"
+                          email: ""
+                        packages:
+                          - name: "small"
+                            itemQuantity: 1
+                            size:
+                              length: 6
+                              width: 6
+                              height: 6
+                              unit: 'in'
+                            weight: 
+                              value: 10
+                              unit: 'lb'
+                            description: ""
+                        signature: "not_required"
+                        tips: 8
+                        pickupInstructions: "Enter from the staff entrance to pick up the package"
+                        deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                        orderAttributes: {}
+                        currencyCode: "USD"
+                        itemList: []
+                        groupId: null
+                        proposedProviders:
+                          - name: "DoorDash"
+                            services:
+                              - id: "delivery"
+                        brandExternalId: "devon"
+                        pickupContact:
+                          name: "Michele Parker"
+                          phone: "+1 201-555-0123"
+                        pickupAddress:
+                          street1: " The Mall"
+                          street2: ""
+                          city: "Dallas"
+                          postalCode: "75219"
+                          countryCode: "US"
+                          state: "TX"
+                          latitude: 32.814645
+                          longitude: -96.81982339999999
+                        createdAt: "2022-04-25T12:05:03.047Z"
+                        tenantId: "dummyaccount1"
+                        status: "ORDER_CANCELLED"
+                        lastUpdatedAt: "2022-05-02T12:05:39.742Z"
+                        fee: 10.34
+                        labels: null
+                        actualDeliveryTime: null
+                        actualPickupTime: null
+                        attachments: []
+                        deliveryDistance: 2
+                        drivingDistance: 3
+                    paginationToken:
+                      next: null
+                      previous: "NjI2NjhlNmY0NDUwNGNlMGI1YzNmZGU3XzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM="
+                No results:
+                  value:
+                    data: []
+                    paginationToken:
+                      next: null
+                      previous: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+  
+  /deliveries/{delivery_id}:
+    get:
+      summary: "Get Delivery"
+      description: 
+        Use this API to retrieve detailed information about a specific delivery order using its `delivery_id`.
+
+        By default, the response provides the most recently cached data about the delivery. To fetch the latest information directly from the delivery provider and bypass the cache, set the `force_update` query parameter to `true`.
+      operationId: "getDeliveryByExternalid"
+      tags:
+        - Delivery Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "delivery_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+        - name: "force_update"
+          in: "query"
+          description: "To retrieve the latest information from the provider about the delivery, this field should be assigned ```true```"
+          schema:
+            type: "boolean"
+
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/DeliveryResponse" 
+              examples:
+                Result:
+                  value:
+                    id: '5e1f1ef5167ab20010a74b94'
+                    brandExternalId: "demoBrand"
+                    locationExternalId: 'NYClocation101'
+                    orderExternalId: '876581'
+                    groupId: 'group1'
+                    orderValue: 11
+                    tips: 2
+                    itemList: []
+                    pickupTime:
+                      startsAt: 1609513200000
+                      endsAt: 1609516800000
+                    deliveryTime:
+                      startsAt: 1609520400000
+                      endsAt: 1609527600000
+                    deliveryContact:
+                      name: 'Robert Wan'
+                      phone: '4344344344'
+                      email: 'nycustomer@email.com'
+                    deliveryAddress:
+                      street1: '8th 62nd Avenue, Times Square'
+                      street2: ''
+                      city: 'Manhattan'
+                      state: 'NY'
+                      postalCode: '10039'
+                      countryCode: 'US'
+                    packages:
+                      - name: 'custom'
+                        size:
+                          length: 2
+                          width: 2
+                          height: 2
+                          unit: 'in'
+                        weight: 
+                          value: 2
+                          unit: 'lb'
+                        itemQuantity: 1
+                        barcode: '1YT4V90308440011'
+                        temperatureControl: 'refrigerated'
+                        content: ['alcohol']
+                      - name: 'small'
+                        itemQuantity: 1
+                        size:
+                          length: 4
+                          width: 4
+                          height: 4
+                          unit: 'in'
+                        weight: 
+                          value: 4
+                          unit: 'lb'
+                        temperatureControl: 'warm'
+                      - name: 'large'
+                        itemQuantity: 1
+                        size:
+                          length: 9
+                          width: 8
+                          height: 8
+                          unit: 'in'
+                        weight: 
+                          value: 8
+                          unit: 'lb'
+                        temperatureControl: 'none'
+                    deliveryInstructions: 'Some text for delivery instructions'
+                    orderAttributes:
+                      payment: 'Cash'
+                    estimatedDeliveryTime: 
+                      startsAt: 1598421638000
+                      endsAt: null
+                    estimatedPickupTime: 
+                      startsAt: 1598421538000
+                      endsAt: null
+                    labels: null
+                    trackingId: 'del_MoMtkAakB1LDVk'
+                    referenceLinks:
+                     labelLink: 'https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=628f3ddf0a0a428480e89c80&token=NjI4ZjNkZGYwYTBhNDI4NDgwZTg5Yzgw'
+                     trackingUrl: 'https://postmates.com/track/del_MoMtkAakB1LDVk'
+                    provider: 
+                      name: 'Point Pickup'
+                      serviceId: delivery
+                      serviceType: Delivery
+                      displayName: 'Point Pickup'
+                      id: "3322"
+                    amount: 6.00
+                    currencyCode: 'USD'
+                    pickupContact:
+                      name: 'Peter Brown'
+                      phone: '432-234-2232'
+                    pickupAddress:
+                      street1: '7th 42nd Avenue, Times Square'
+                      street2: ''
+                      city: 'Manhattan'
+                      state: 'NY'
+                      postalCode: '10036'
+                      countryCode: 'US'
+                    pickupInstructions: 'Always be smiling'
+                    status: 'ORDER_CANCELLED'
+                    tenantId: 'NYC'
+                    lastUpdatedAt: '2020-01-15T14:17:26.099Z'
+                    createdAt: '2020-01-15T14:17:25.984Z'
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: 
+                   errors:
+                     - type: "INVALID_DATA"
+                       message: "Invalid Order Id"
+                       parameter: null
+                       entityId: "32323"
+                       entity: Order
+                   type: "INVALID_DATA"
+                   message: "Invalid Order Id"
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "404":
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Order with id, 1908241-0061, is not found"
+                        parameter: null
+                        entityId: null
+                        entity: null
+                    type: "NOT_FOUND"
+                    message: "Order with id, 1908241-0061, is not found"
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+    
+    delete:
+      summary: "Cancel Delivery"
+      description: 
+         Use this API to cancel an existing delivery order identified by its `delivery_id`. 
+         This operation ensures the order is canceled in both Delivery Solutions' system and the provider's system; however, the ability to cancel depends on the provider's stipulations.
+         Ensure that the provided `delivery_id` matches the ID returned during order creation to successfully process the cancellation and update all relevant systems.
+   
+      operationId: "cancelDeliveryByDeliveryId"
+      tags: 
+        -  Delivery Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "delivery_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/DeliveryResponse"
+              examples:
+                Successfully cancel an order:
+                  value:
+                    id: "62a9e3ce87f3c9df15080f00"
+                    estimatedDeliveryTime: 
+                      startsAt: null
+                      endsAt: null
+                    estimatedPickupTime: 
+                      startsAt: null
+                      endsAt : null
+                    referenceLinks:
+                      trackingUrl: null
+                      barcodeLink: "https://cdn.domain.com/dummyaccount1/barcodes/2022-6/165530107010862a9e3ce87f3c9df15080f00.png"
+                      labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=<ORDER_ID>&token=NjJhOWUzY2U4N2YzYzlkZjE1MDgwZjAw"
+                      qrcodeLink: null
+                    provider: 
+                      name: ""
+                      displayName: ""
+                      serviceId: null
+                      serviceType : null
+                      id: ""
+                    amount: null
+                    locationExternalId: "100983"
+                    orderExternalId: "15June11"
+                    groupId: null
+                    orderValue: 78.65
+                    tips: 8
+                    deliveryContact:
+                      name: "Charlize Brian"
+                      phone: "+1 201-555-5555"
+                      email: ""
+                    deliveryAddress:
+                      street1: "5411 Mercedes Avenue"
+                      street2: ""
+                      city: "Dallas"
+                      state: "TX"
+                      countryCode: "US"
+                      postalCode: "75206"
+                      latitude: 32.8284237
+                      longitude: -96.7768713
+                      apartmentNumber: ""
+                    proposedProviders:
+                      - name: "DoorDash"
+                        services:
+                          - id: "delivery"
+                    signature: "not_required"
+                    packages:
+                      - name: "small"
+                        itemQuantity: 1
+                        size:
+                          length: 6
+                          width: 6
+                          height: 6
+                          unit: 'in'
+                        weight: 
+                          value: 10
+                          unit: 'lb'
+                        description: ""
+                        temperatureControl: "none"
+                        barcode: "1YT4V90308440011"
+                    itemList: []
+                    deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                    pickupInstructions: "Enter from the staff entrance to pick up the package"
+                    pickupTime:
+                      startsAt: 1655301130075
+                    deliveryTime:
+                      endsAt: 1655301190075
+                    orderAttributes: {}
+                    brandExternalId: "devon"
+                    currencyCode: "USD"
+                    pickupContact:
+                      name: "Michele Parker"
+                      phone: "+1 201-555-0123"
+                    pickupAddress:
+                      street1: " The Mall"
+                      street2: ""
+                      city: "Dallas"
+                      postalCode: "75219"
+                      countryCode: "US"
+                      state: "TX"
+                      latitude: 32.814645
+                      longitude: -96.81982339999999
+                    createdAt: "2022-06-15T13:51:10.096Z"
+                    status: "ORDER_CANCELLED"
+                    tenantId: "dummyaccount1"
+                    lastUpdatedAt: "2022-06-15T13:52:03.524Z"
+                    deliveryDistance: 2
+                    drivingDistance: 3
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Provider does not cancel order:
+                  value:
+                    type: "ORDER_CANCELLATION_FAILED"
+                    message: "Provider failed to cancel order"
+                    errors:
+                      - parameter: null
+                        entityId: UPS Shipping
+                        entity: UPS Shipping
+                        type: "NON_CANCELABLE_DELIVERY"
+                        message: "No delivery found within the allowed void period"             
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "404":
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    message: "Order with id, sampleOrderExternalId, is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Order with id, sampleOrderExternalId, is not found"
+                        parameter: null
+                        entityId: null
+                        entity: null
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "409":
+          description: "Conflict between the request and the current state of the resource"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    errors:
+                      - type: "ORDER_ALREADY_CANCELED"
+                        message: "Order can not be cancelled because it is in ORDER_CANCELLED status."
+                        parameter: null
+                        entityId: null
+                        entity: null
+                    type: "ORDER_ALREADY_CANCELED"
+                    message: "Order can not be cancelled because it is in ORDER_CANCELLED status."
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+    put:
+      summary: "Edit Delivery"
+      description: "Use this API to modify the details of the delivery after it has been placed in our system."
+      operationId: "editDeliveryByDeliveryId"
+      tags: 
+        -  Delivery Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "delivery_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+        - name: "force_update"
+          in: "query"
+          description: "To forcefully perform an delivery edit operation this field should be assigned ```true```."
+          schema:
+            type: "boolean"
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryPutRequest"
+            examples:
+              Edit Request:
+                value:
+                  pickupTime:
+                    startsAt: 1655468102000
+                  deliveryTime:
+                    endsAt: 1655554502000
+                  deliveryContact:
+                    name: "John Smith"
+                    phone: "232-323-2323"
+                    email: "john.smith@email.com"
+                  deliveryAddress:
+                    street1: "5411 Mercedes Avenue"
+                    street2: ""
+                    city: "Dallas"
+                    state: "TX"
+                    postalCode: "75206"
+                    countryCode: "US"
+                  packages:
+                    - name: "custom"
+                      size:
+                        height: 2
+                        width: 2
+                        length: 2
+                        unit: 'in'
+                      weight: 
+                        value: 2
+                        unit: 'lb'
+                      quantity: 1
+                      itemQuantity: 2
+                      description: "Package Description"
+                  orderExternalId: "19082413"
+                  orderValue: 160.99 
+      responses:
+          "200":
+            description: "Request was successful"
+            content:
+              application/json:
+                schema: 
+                  $ref: "#/components/schemas/DeliveryResponse"
+                examples:
+                  Successful Edit responses:
+                     value:
+                        id: '5e1f1ef5167ab20010a74b94'
+                        brandExternalId: "Demobrand"
+                        itemList: []
+                        locationExternalId: 'NYClocation101'
+                        orderExternalId: '876581'
+                        groupId: 'group1'
+                        orderValue: 11
+                        tips: 2
+                        pickupTime:
+                          startsAt: 1609513200000
+                          endsAt: 1609516800000
+                        deliveryTime:
+                          startsAt: 1609520400000
+                          endsAt: 1609527600000
+                        deliveryContact:
+                          name: 'Robert Wan'
+                          phone: '4344344344'
+                          email: 'nycustomer@email.com'
+                        deliveryAddress:
+                          street1: '8th 62nd Avenue, Times Square'
+                          street2: ''
+                          city: 'Manhattan'
+                          state: 'NY'
+                          postalCode: '10039'
+                          countryCode: 'US'
+                        packages:
+                          - name: 'custom'
+                            size:
+                              length: 2
+                              width: 2
+                              height: 2
+                              unit: 'in'
+                            weight: 
+                              value: 2
+                              unit: 'lb'
+                            itemQuantity: 1
+                            barcode: '1YT4V90308440011'
+                            temperatureControl: 'refrigerated'
+                            content: ['alcohol']
+                          - name: 'small'
+                            itemQuantity: 1
+                            size:
+                              length: 4
+                              width: 4
+                              height: 4
+                              unit: 'in'
+                            weight: 
+                              value: 2
+                              unit: 'lb'
+                            temperatureControl: 'warm'
+                          - name: 'large'
+                            itemQuantity: 1
+                            size:
+                              length: 9
+                              width: 8
+                              height: 8
+                              unit: 'in'
+                            weight: 
+                              value: 2
+                              unit: 'lb'
+                            temperatureControl: 'none'
+                        deliveryInstructions: 'Some text for delivery instructions'
+                        orderAttributes:
+                          payment: 'Cash'
+                        estimatedDeliveryTime: 
+                          startsAt: 1598421638000
+                        estimatedPickupTime: 
+                          startsAt: 1598421538000
+                        labels: null
+                        referenceLinks:
+                          labelLink: 'https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=628f3ddf0a0a428480e89c80&token=NjI4ZjNkZGYwYTBhNDI4NDgwZTg5Yzgw'
+                          trackingUrl: 'https://postmates.com/track/del_MoMtkAakB1LDVk'
+                        trackingId: 'del_MoMtkAakB1LDVk'
+                        provider: 
+                          name: 'Point Pickup'
+                          serviceId: delivery
+                          serviceType: Delivery
+                          displayName: 'Point Pickup'
+                          id: '232'
+                        amount: 6.00
+                        currencyCode: 'USD'
+                        pickupContact:
+                          name: 'Peter Brown'
+                          phone: '432-234-2232'
+                        pickupAddress:
+                          street1: '7th 42nd Avenue, Times Square'
+                          street2: ''
+                          city: 'Manhattan'
+                          state: 'NY'
+                          postalCode: '10036'
+                          countryCode: 'US'
+                        pickupInstructions: 'Always be smiling'
+                        status: 'ORDER_CANCELLED'
+                        tenantId: 'NYC'
+                        lastUpdatedAt: '2020-01-15T14:17:26.099Z'
+                        createdAt: '2020-01-15T14:17:25.984Z'
+          "400":
+            description: "Bad Request"
+            headers: 
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string 
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/InvalidRequest"
+                examples:
+                  Value of the field passed in the request is invalid:
+                    value:
+                      errors:
+                        - type: "INVALID_DATA"
+                          message: "The value for the orderValue field is invalid."
+                      type: "INVALID_DATA"
+                      message: "The value for the orderValue field is invalid." 
+          '422':
+            description: Invalid data provided
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+                examples:
+                 Result: 
+                  value:
+                    type: "INVALID_DATA"
+                    message: "Invalid Update Field: locationExternalId"
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "Invalid Update Field: locationExternalId"  
+                        parameter: "locationExternalId" 
+                        entityId: null
+                        entity: null   
+                 Field edit not allowed post assignment by the Provider:
+                    value:
+                      errors:
+                        - type: "INVALID_OPERATION"
+                          message: "Parameter cannot be changed post order dispatch"
+                          parameter: "email"
+                          entityId: null
+                          entity: null
+                        - type: "INVALID_OPERATION"
+                          message: "Parameter cannot be changed post order dispatch"
+                          parameter: "packages"
+                          entityId: null
+                          entity: null
+                      type: "VALIDATION_ERROR"
+                      message: "Failed to process request"  
+          "404":
+            description: "Resource was not found"
+            headers: 
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string 
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/InvalidRequest"
+                examples:
+                  Result:
+                    value:
+                      message: "Order with id, 19345234, is not found"
+                      type: "NOT_FOUND"
+                      errors:
+                        - type: "NOT_FOUND"
+                          message: "Order with id, 19345234, is not found"  
+                          parameter: null
+                          entityId: null
+                          entity: null
+          '500':
+            description: "Internal server error"
+            headers: 
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string
+            content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/InvalidRequest'
+                examples:
+                  Internal Server Error:
+                    value:
+                      message: "An unexpected error occurred. Please try again later."
+                      type: "INTERNAL_SERVER_ERROR"
+                      errors:
+                        - type: "SERVER_ERROR"
+                          message: "An unexpected error occurred while processing the request."
+          "401":
+            description: Unauthorized
+            headers: 
+              bkndtransid:
+                required: true
+                description: The backend transaction id.
+                schema: 
+                  type: string
+              transId:
+                description: The transaction id received from client
+                schema: 
+                  type: string
+              apierrorcode:  
+                required: true
+                description: 'The API error code'
+                schema: 
+                  type: string 
+              apierrormsg:  
+                required: true
+                description: 'The API error message.'
+                schema: 
+                  type: string
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UPSErrorResponse'
+                example:
+                  response:
+                    errors:
+                    - code: UJ0001
+                      message: Invalid token or token is not present.  
+      deprecated: false
+
+  /deliveries/{delivery_id}/status-history:
+    get:
+      summary: "Get Delivery Status"
+      description: 
+          Use this API to retrieve the complete status history of a delivery order, including timestamps, identified by its `delivery_id`.
+
+          The status history provides a detailed chronological log of all status changes throughout the delivery lifecycle. Optionally, you can use the `is_unique` query parameter to retrieve only unique statuses.
+      operationId: "getDeliveryStatusByExternalId"
+      tags: 
+        -  Delivery Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "delivery_id"
+          in: "path"
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+          required: true
+        - name: "is_unique"
+          in: "query"
+          description: "Return only unique delivery status progressions (true or false)."
+          schema:
+            type: "boolean"
+            example: false
+      responses:
+        "200":
+          description: "Request was successful"
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: "#/components/schemas/OrderStatus"
+              examples:
+                Result:
+                  value:
+                    - orderId: "6268f4a9d9f309c2a43e3a6a"
+                      tenantId: "dummyaccount1"
+                      orderStatus:
+                        - status: "REQUEST_RECEIVED"
+                          updatedAt: "April 27th 2022, 2:45:45 am CDT"
+                          note: null
+                          statusUser: "Default_Business_Key"
+                        - status: "ESTIMATES_RECEIVED"
+                          updatedAt: "April 27th 2022, 2:45:46 am CDT"
+                          note: null
+                          statusUser: "Default_Business_Key"
+                        - status: "ORDER_DISPATCHED"
+                          updatedAt: "April 27th 2022, 2:45:47 am CDT"
+                          note: null
+                          statusUser: "Default_Business_Key"
+                        - status: "ORDER_UNDELIVERABLE"
+                          updatedAt: "October 26th 2022, 3:46:07 pm CDT"
+                          note: "ARRIVED_AT_RETURN( RT-001 - Customer rejected (missing item or quality issue) )"
+                          statusUser: "Walmart GoLocal"
+                          eventReason:
+                            code: "CUSTOMER_REJECTED"
+                            title: "Customer Rejected"
+                            note: "RT-001 - Customer rejected (missing item or quality issue)"
+                          subStatus: "RETURN_AT_LOCATION"
+                      trackingUrl: "https://www.ups.com/track?loc=en_IN&tracknum=1Z7A38W90308260011"  
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.    
+      deprecated: false
+
+  /deliveries/{delivery_id}/retry:
+    post:
+      summary: "Retry Delivery"
+      description: |
+         Use this API to manually retry the delivery dispatch process for a specific delivery order that previously failed. This endpoint is particularly useful in cases where a delivery failure occurred due to issues such as an invalid address or missing details. Once the necessary corrections have been made, you can use this API to initiate the dispatch process again.
+      operationId: "retryDeliveryByDeliveryId"
+      tags:
+        - Delivery Order
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "delivery_id"
+          in: "path"
+          required: true
+          description: "The unique order Id generated by the system after creating order"
+          schema:
+            type: "string"
+            pattern: '^[a-fA-F0-9]{24}$'
+            example: '60b8d6c9e4b0f5d3a1a6e500'
+      responses:
+        "201":
+          description: "Delivery retry successful"
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/DeliveryResponse"
+              examples:
+                Result:
+                  value:
+                    brandExternalId: "demoBrand"
+                    provider: 
+                      name: "DoorDash"
+                      displayName: "DoorDash_123"
+                      serviceId: delivery
+                      serviceType: Delivery
+                      id: "2323"
+                    trackingId: "1419285376"
+                    estimatedPickupTime: 
+                      startsAt: 1655468102000
+                      endsAt: null
+                    estimatedDeliveryTime:
+                      startsAt: null 
+                      endsAt: 1655469688000
+                    itemList: []
+                    amount: 10.33
+                    fee: 10.33
+                    currencyCode: USD
+                    status: ORDER_DISPATCHED
+                    referenceLinks: 
+                      trackingUrl: https://doordash.com/drive/portal/track/xxx-xxx-xxx-xxxx
+                      labelLink: https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=<ORDER_ID>&token=NjJhOWY4NzlhNjljZGI3YTNhZDUyZWJl
+                      hostedTrackingUrl: https://s.dl-s.co/-a5C6qh357Q
+                    id: "62a9f879a69cdb7a3ad52ebe"
+                    deliveryInstructions: null
+                    orderExternalId: "19082418"
+                    locationExternalId: "100983"
+                    tenantId: dummyaccount1
+                    orderAttributes: {}
+                    attachments: null
+                    driver: null
+                    vehicle: null
+                    labels: null
+                    pickupInstructions: Enter from the staff entrance to pick up the package
+                    deliveryContact:
+                      name: John Smith
+                      phone: "+1 201-555-5555"
+                    packages:
+                      - name: custom
+                        size:
+                          height: 2
+                          width: 2
+                          length: 2
+                          unit: 'in'
+                        weight: 
+                          value: 2
+                          unit: 'lb'
+                        itemQuantity: 2
+                        description: Package Description
+                        temperatureControl: none
+                        barcode: 1YT4V90308440011
+                    pickupAddress:
+                      street1: The Mall
+                      street2: ""
+                      city: Dallas
+                      postalCode: "75219"
+                      countryCode: US
+                      state: TX
+                      latitude: 32.814645
+                      longitude: -96.81982339999999
+                    deliveryAddress:
+                      street1: 5411 Mercedes Avenue
+                      street2: ""
+                      city: Dallas
+                      state: TX
+                      postalCode: "75206"
+                      countryCode: US
+                      latitude: 32.8284237
+                      longitude: -96.7768713
+                    tips: null
+                    proposedProviders: []
+                    groupId: null
+                    pickupTime:
+                      startsAt: 1655468102000
+                      endsAt: null
+                    deliveryTime:
+                      endsAt: 1655554502000
+                      startsAt: null
+                    deliveryDistance: 2
+                    drivingDistance: 3
+                    lastUpdatedAt: '2020-01-15T14:17:25.984Z'
+                    createdAt: '2020-01-15T14:17:25.984Z'
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    errors:
+                      - type: INVALID_DATA
+                        message: Order Id value is invalid
+                        parameter: null
+                        entityId: "121212"
+                        entity: order
+                    type: INVALID_DATA
+                    message: Order Id value is invalid
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "404":
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    message: Order with id, 190824181, is not found
+                    type: NOT_FOUND
+                    errors:
+                      - type: NOT_FOUND
+                        message: Order with id, 190824181, is not found
+                        parameter: null
+                        entityId: null
+                        entity: null
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        "409":
+          description: "Conflict between the request and the current state of the resource"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: INVALID_OPERATION
+                        message: The Order can no longer be retried
+                        parameter: null
+                        entityId: null
+                        entity: null
+                    type: INVALID_OPERATION
+                    message: The Order can no longer be retried
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+      
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://sandbox.api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+  
+  schemas:
+    Address:
+      type: object
+      description: Address of the location
+      required:
+        - street1
+        - postalCode
+      properties:
+        street1:
+          type: string
+          description: Address Line 1 (Street Number and Street Name)
+          maxLength: 100
+        street2:
+          type: string
+          description: Address Line 2 (not to be used for apartment / suite #)
+          maxLength: 100
+        apartmentNumber:
+          type: string
+          description: Apartment / Suite #
+          maxLength: 50
+        city:
+          type: string
+          description: City
+          maxLength: 100
+        state:
+          type: string
+          description: State
+          maxLength: 100
+        postalCode:
+          type: string
+          description: Postal code or zip.
+          maxLength: 20
+        countryCode:
+          type: string
+          description: 2-letter country code in ISO 3166-1 alpha-2 format. If not provided defaults to 'US'.
+          default: US
+          enum: 
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          type: number
+          format: double
+          description: Latitude coordinates of the address
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+
+    Contact:
+      type: object
+      required:
+        - name
+        - phone
+      description: Contact information.
+      properties:
+        name:
+          type: string
+          description: First Name of Contact
+        phone:
+          type: string
+          description: Phone Number of the Contact
+        email:
+          type: string
+          description: Email address of the Contact
+  
+    DeliveryReferenceLinkObject:
+      type: object
+      properties:
+        providerTrackingUrl:
+          type:
+            - string
+            - 'null'
+          maxLength: 1000
+          format: uri
+          description: "URL for provider tracking"
+          example: "https://provider.example.com/tracking"
+        labelLink:
+          type:
+            - string
+            - 'null'
+          maxLength: 1000
+          description: "Label link generated for the delivery"
+          example: "https://example.com/label"
+        barcodeLink:
+          type:
+            - string
+            - 'null'
+          maxLength: 1000
+          description: "Barcode link generated for the delivery"
+          example: "https://example.com/barcode"
+        qrcodeLink:
+          type:
+            - string
+            - 'null'
+          maxLength: 1000
+          description: "QR code link generated for the delivery"
+          example: "https://example.com/qrcode"
+        trackingUrl:
+          type:
+            - string
+            - 'null'
+          maxLength: 100
+          format: uri
+          description: "Tracking URL for the delivery"
+          example: "https://example.com/tracking"
+        hostedTrackingUrl:
+          type:
+            - string
+            - 'null'
+          maxLength: 100
+          format: uri
+          description: "URL for hosted tracking"
+          example: "https://example.com/hosted-tracking"
+        hostedFeedbackUrl:
+          type:
+            - string
+            - 'null'
+          maxLength: 100
+          format: uri
+          description: "URL for hosted feedback"
+          example: "https://example.com/feedback"
+        returnsUrl:
+          type:
+            - string
+            - 'null'
+          maxLength: 100
+          format: uri
+          description: "URL for returns"
+          example: "https://example.com/returns"
+      required: []
+
+    Customer:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: Name of the customer
+        email:
+          type: string
+          maxLength: 100
+          description: Email address of the customer
+        phone:
+          type: string
+          maxLength: 20
+          description: Phone number of the customer
+        userExternalId:
+          type: string
+          maxLength: 100
+          description: External identifier for the user
+      required:
+        - name
+        - phone
+          
+    ErrorDetail:
+      type: object
+      required: 
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: 
+            - string
+            - 'null'
+        entityId:
+          type: 
+            - string
+            - 'null'
+        entity:
+          type: 
+            - string
+            - 'null'
+
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "ERROR_TYPE"
+        message:
+          type: string
+          example: "An error occurred" 
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+
+    Weight:
+      type: object
+      description: Weight of an item
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+          format: double
+          description: weight
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given weight in kg or lb
+          enum: 
+            - kg
+            - lb
+
+    Size:
+      type: object
+      description: Dimensions of the item.
+      required:
+        - height
+        - width
+        - length
+        - unit
+      properties:
+        height:
+          type: number
+          format: double
+          description: Height
+          minimum: 0
+        width:
+          type: number
+          format: double
+          description: Width
+          minimum: 0
+        length:
+          type: number
+          format: double
+          description: Length
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given size in cm or in
+          enum: 
+            - cm
+            - in
+            
+    ProviderInfo:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Unique identifier for the provider"
+        name:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Name of the provider"
+        displayName:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Display name of the provider"
+        serviceType:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Type of service provided"
+        serviceId:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Unique identifier for the service"
+      required:
+        - id
+        - name
+        - displayName
+        - serviceType
+
+    TimeWindow:
+      type: object
+      properties:
+        startsAt:
+          oneOf:
+            - type: integer
+              description: "Start of the window. Unix time in milliseconds. (conditional)"
+              format: int64
+            - type: "null"
+        endsAt:
+          oneOf:
+            - type: integer
+              description: "End of the window. Unix time in milliseconds. (conditional)"
+              format: int64
+            - type: "null"
+
+    Attachment:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 100
+          description: "Type of the attachment"
+        url:
+          type: string
+          format: uri
+          description: "URL of the attachment"
+      required:
+        - type
+        - url
+     
+    Driver:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: "Name of the driver"
+        photo:
+          type: string
+          maxLength: 1000
+          description: "URL to the driver's photo"
+        phoneNumber:
+          type: string
+          maxLength: 20
+          description: "Phone number of the driver"
+        driverExternalId:
+          type: string
+          maxLength: 100
+          description: "External identifier for the driver"
+        driverId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the driver"
+      required:
+        - name
+     
+    Vehicle:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 100
+          description: "Type of the vehicle"
+        color:
+          type: string
+          maxLength: 100
+          description: "Color of the vehicle"
+        number:
+          type: string
+          maxLength: 100
+          description: "License plate number of the vehicle"
+        make:
+          type: string
+          maxLength: 100
+          description: "Make of the vehicle"
+        description:
+          type: string
+          maxLength: 1000
+          description: "Additional description of the vehicle"
+        parkingSlot:
+          type: string
+          maxLength: 100
+          description: "Parking slot allocated to the vehicle"
+        vehicleExternalId:
+          type: string
+          maxLength: 100
+          description: "External identifier for the vehicle"
+        vehicleId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the vehicle"
+    
+    SignatureInfo:
+      type: object
+      properties:
+        signedBy:
+          type: string
+          maxLength: 100
+          description: "Name of the person who signed"
+        signatureLink:
+          type: string
+          maxLength: 100
+          description: "URL link to the signature image or document"
+        signedAt:
+          type: string
+          format: date-time
+          description: "Timestamp of when the signature was made in ISO 8601 format"
+    
+    ProposedProvider:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 1000
+          description: "Name of the proposed provider"
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProposedProviderService"
+          description: "List of services associated with the provider"
+      required:
+        - name
+    
+    ProposedProviderService:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Unique identifier for the proposed provider service"
+
+    UndeliverableOrderReturnLocation:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: "Name of the return location"
+        address:
+         $ref: "#/components/schemas/Address"
+        contact:
+          $ref: "#/components/schemas/Contact"
+
+    ProviderBatchInfo:
+      type: object
+      properties:
+        batchId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the batch"
+        routeId:
+          type: string
+          maxLength: 100
+          description: "Route identifier for the batch"
+        sequenceNumber:
+          type: string
+          maxLength: 100
+          description: "Sequence number for the batch"
+        batchedAt:
+          type: number
+          minimum: 0
+          description: "Timestamp when the batch was created (Unix/Epoch in milliseconds)"
+      required: []
+
+    Label:
+      type: object
+      properties:
+        trackingId:
+          type: string
+          maxLength: 100
+          description: "Tracking ID associated with the label"
+        file:
+          type: string
+          maxLength: 1000
+          description: "File associated with the label"
+        fileType:
+          type: string
+          maxLength: 100
+          description: "Type of the file associated with the label"
+        url:
+          type: string
+          maxLength: 1000
+          description: "URL to access the label or related file"
+        code:
+          type: string
+          maxLength: 100
+          description: "Code associated with the label"
+        qrCodeImage:
+          type: string
+          maxLength: 1000
+          description: "URL to the QR code image for the label"
+        barcodeImage:
+          type: string
+          maxLength: 1000
+          description: "URL to the barcode image for the label"
+      required: []
+    
+    LastLocation:
+      type: object
+      properties:
+        updatedAt:
+          type: "string"
+          format: "date-time"
+          description: "Timestamp of the last update in ISO 8601 format"
+        latitude:
+          oneOf:
+            - type: "number"
+            - type: "null"
+          minimum: -90
+          maximum: 90
+          description: "Latitude of the last known location, within +/-90"
+        longitude:
+          oneOf:
+            - type: "number"
+            - type: "null"
+          minimum: -180
+          maximum: 180
+          description: "Longitude of the last known location, within +/-180"
+        isManual:
+          oneOf:
+            - type: "boolean"
+            - type: "null"
+          description: "Indicates whether the location was manually updated"
+
+      required:
+        - updatedAt
+        - latitude
+        - longitude
+    
+    Item:
+      type: object
+      description: "Details of an item within a package"
+      required:
+        - sku
+      properties:
+        sku:
+          type: string
+          description: "An ID that identify the product/variant from the brand's catalog."
+          maxLength: 100
+        upc:
+          type: string
+          description: "Universal Product Code for the item"
+          maxLength: 100
+        category:
+          type: string
+          description: "Category of Item"
+          maxLength: 100
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of items of the SKU"
+          minimum: 1
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        price:
+          type: number
+          format: double
+          description: "Retail price of the item."
+          minimum: 0
+        salePrice:
+          type: number
+          format: double
+          description: "Sale price of the item."
+          minimum: 0
+        image:
+          type: string
+          description: "Link to the image file of the item."
+          maxLength: 200
+        title:
+          type: string
+          description: "Title of the item."
+          maxLength: 200
+        description:
+          type: string
+          description: "Description of the item."
+          maxLength: 10000
+        itemAttributes:
+          type: object
+          description: "Custom item attributes."
+        tags:
+          type: array
+          description: "Additional information related to the item."
+          items:
+            type: string
+          minItems: 0
+          maxItems: 20
+    
+    Package:
+      type: object
+      description: "Package Details"
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: "Name of package created in our system, or pass the value 'custom'."
+          default: "custom"
+          maxLength: 100
+        description:
+          type: string
+          description: "A brief description about the package contents."
+          maxLength: 10000
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of Packages"
+          minimum: 1
+        itemQuantity:
+          type: integer
+          format: int32
+          description: "Number of items in a single package."
+          minimum: 1
+        itemList:
+          type: array
+          description: "Array of items in the package."
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 1000
+        temperatureControl:
+          type: string
+          description: "Temperature information of the package"
+          enum:
+            - frozen
+            - refrigerated
+            - cool
+            - ambient
+            - warm
+            - none
+        content:
+          type: array
+          description: "Content information of the package"
+          items:
+            type : string
+            enum:
+            - alcohol
+            - fragile
+            - tobacco
+            - rx
+            - perishable
+        barcode:
+          type: string
+          description: "Barcode sent to the provider for scanning the packages"
+          default: "null"
+          maxLength: 500
+
+    
+    ReturnRequest:
+      type: object
+      properties:
+        rmaId:
+          type: string
+          maxLength: 100
+          description: "Return Merchandise Authorization (RMA) ID"
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "External ID of the associated order"
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "External ID of the return location"
+        returnMethodCode:
+          type: string
+          maxLength: 100
+          description: "Code indicating the return method"
+        fee:
+          type: number
+          format: double
+          maximum: 100
+          minimum: 0
+          description: "Fee associated with the return request"
+      required: []
+    
+    DeliveryRequest:
+      type: object
+      properties:
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "Identifier for the order generated in the client system"
+        groupId:
+          type: string
+          maxLength: 100
+          description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
+        pickupTime:
+          oneOf: 
+            - $ref: '#/components/schemas/TimeWindow' 
+            - type: "null"
+          description: "Time window during which the package will be ready for pickup."
+        deliveryTime:
+          oneOf: 
+            - $ref: '#/components/schemas/TimeWindow' 
+            - type: "null"
+          description: "Time window during which the package must be delivered."
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the pickup location (see Create Location API)."
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+          description: "Address where the package will be delivered."
+        deliveryContact:
+          $ref: '#/components/schemas/Customer'
+          description: "Customer contact details for the delivery."
+        itemList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 100
+          description: 
+            Array of items included in the delivery order. 
+            Each item in this list represents a unique SKU with its associated details and quantities.
+            These items are referenced by the `itemList` property within each package in the `packages` array.
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+          maxItems: 50
+          description: 
+            Array of packages included in the delivery order.
+            Each package contains an `itemList` property that references items from the order `itemList` by SKU.
+            The `quantity` of each item within a package must not exceed the total `quantity` provided for that item in the `itemList`.
+        signature:
+          type: string
+          enum: ["unattended", "required_recipient", "required", "not_required"]
+          maxLength: 100
+          description: "Indicates whether a signature is required for the delivery. Defaults to provider-level configuration if not specified."
+        deliveryInstructions:
+          oneOf: 
+            - type: string
+              maxLength: 10000
+            - type: "null"        
+          description: "Special instructions for the Delivery location."
+        orderValue:
+          type: number
+          minimum: 0
+          description: "Total value of the order in major units as a decimal, e.g. 10.00 ($10.00 USD)"
+        tips:
+          type: number
+          minimum: 0
+          description: "Driver tip in major units as a decimal, e.g. 9.00 ($9.00 USD)."
+        locale:
+          type: string
+          maxLength: 5
+          description: |
+            "Preferred locale by the customer for the order, following the BCP47 format. 
+            Examples: 'en-US' (English - United States), 'fr-CA' (French - Canada)."
+        createdDate:
+          type: number
+          description: "The original creation date of the order in Unix time (milliseconds)."
+        orderAttributes:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+                maxLength: 500
+              - type: number
+              - type: boolean
+              - type: array
+                items:
+                  type: string
+                maxItems: 100
+              - type: array
+                items:
+                  type: number
+                maxItems: 100
+              - type: array
+                items:
+                  type: boolean
+                maxItems: 100
+          description: "Custom key-value pairs for configurable order attributes."
+        proposedProviders:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposedProvider'
+          description: "Overrides orchestration and places the order with specified providers."
+      required:
+        - orderExternalId
+        - locationExternalId
+        - deliveryContact
+        - deliveryAddress
+
+    DeliveryResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Unique identifier for the delivery record generated by the system."
+          pattern: '^[a-fA-F0-9]{24}$'
+          example: '60b8d6c9e4b0f5d3a1a6e500'
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "Identifier for the order generated in the client system"
+        tenantId:
+          type: string
+          maxLength: 200
+          description: "Unique identifier for the tenant making the delivery request."
+        groupId:
+          oneOf:
+            - type: string
+            - type: "null"
+          maxLength: 100
+          description: "Group ID used to group multiple orders together for combined post-purchase experiences."
+        trackingId:
+          type: string
+          maxLength: 100
+          description: "Unique tracking ID for monitoring delivery progress."
+        pickupTime:
+          $ref: '#/components/schemas/TimeWindow'
+          description: "Time window indicating when the package will be ready for pickup."
+        deliveryTime:
+          $ref: '#/components/schemas/TimeWindow'
+          description: "Time window indicating when the package is expected to be delivered."
+        actualDeliveryTime:
+          oneOf:
+            - type: number
+            - type: "null"
+          minimum: 0
+          description: "Actual timestamp in milliseconds for when the package was delivered."
+        actualPickupTime:
+          oneOf:
+            - type: number
+            - type: "null"
+          minimum: 0
+          description: "Actual timestamp in milliseconds for when the package was picked up."
+        estimatedPickupTime:
+          $ref: '#/components/schemas/TimeWindow'
+          description: "Estimated time window for picking up the package."
+        estimatedDeliveryTime:
+          $ref: '#/components/schemas/TimeWindow'
+          description: "Estimated time window for delivering the package."
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique external identifier for the delivery location."
+        brandExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the brand associated with the order."
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+          description: "Address where the package will be delivered."
+        pickupAddress:
+          $ref: '#/components/schemas/Address'
+          description: "Address where the package will be picked up."
+        provider:
+          oneOf:
+            - $ref: '#/components/schemas/ProviderInfo'
+            - type: "null"
+          description: "Information about the provider handling the delivery."
+        providerBatch:
+          oneOf:
+            - $ref: '#/components/schemas/ProviderBatchInfo'
+            - type: "null"
+          description: "Batch information related to the provider handling the delivery."
+        deliveryContact:
+          $ref: '#/components/schemas/Customer'
+          description: "Details of the customer receiving the delivery."
+        pickupContact:
+          $ref: '#/components/schemas/Contact'
+          description: "Details of the contact person at the pickup location."
+        itemList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 100
+          description: 
+            Array of items included in the delivery order. 
+            Each item in this list represents a unique SKU with its associated details and quantities.
+            These items are referenced by the `itemList` property within each package in the `packages` array.
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+          maxItems: 50
+          description: 
+            Array of packages included in the delivery order.
+            Each package contains an `itemList` property that references items from the order `itemList` by SKU.
+            The `quantity` of each item within a package must not exceed the total `quantity` provided for that item in the `itemList`.
+        status:
+          type: string
+          maxLength: 100
+          enum:
+            - REQUEST_RECEIVED
+            - PENDING_DISPATCH
+            - PENDING_RELEASE
+            - PENDING_AUTORETRY
+            - ESTIMATES_RECEIVED
+            - ESTIMATES_FAILED
+            - ORDER_DISPATCHED
+            - STAGED
+            - ORDER_FAILED
+            - ORDER_ASSIGNED
+            - ORDER_UNASSIGNED
+            - PICKUP_STARTED
+            - PICKUP_COMPLETED
+            - IN_TRANSIT
+            - OUT_FOR_DELIVERY
+            - ORDER_AT_LOCATION
+            - ORDER_DELIVERED
+            - ORDER_DELAYED
+            - ORDER_REDELIVERY
+            - ORDER_UNDELIVERABLE
+            - ERROR_EXCEPTION
+            - ORDER_CANCELLED
+          description: "Current status of the delivery (e.g., in transit, delivered)."
+        signature:
+          type: string
+          enum: ["unattended", "required_recipient", "required", "not_required"]
+          maxLength: 100
+          description: "Signature requirement for the delivery."
+        deliveryInstructions:
+          oneOf:
+            - type: string
+              maxLength: 10000
+            - type: "null"
+          description: "Instructions for the driver regarding the delivery."
+        pickupInstructions:
+          type: string
+          maxLength: 10000
+          description: "Instructions for the driver regarding the pickup."
+        labels:
+          oneOf:
+            - type: "array"
+              items:
+                $ref: '#/components/schemas/Label'
+            - type: "null"
+          description: "Array of labels associated with the delivery (e.g., fragile, perishable)."
+        referenceLinks:
+          $ref: "#/components/schemas/DeliveryReferenceLinkObject"
+          description: "Reference links for the delivery, such as tracking URLs."
+        orderValue:
+          type: number
+          minimum: 0
+          format: double
+          description: "Total value of the order in major units as a decimal, e.g. 10.00 ($10.00 USD)."
+        tips:
+          oneOf:
+            - type: "number"
+            - type: "null"
+          minimum: 0
+          format: double
+          description: "Driver tip in major units as a decimal, e.g. 9.00 ($9.00 USD)."
+        fee:
+          oneOf:
+            - type: "number"
+            - type: "null"
+          minimum: 0
+          format: double
+          description: "Fee charged for the delivery service."
+        amount:
+          oneOf:
+            - type: "number"
+            - type: "null"
+          minimum: 0
+          format: double
+          description: "Total amount charged for the delivery service."
+        proposedProviders:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposedProvider'
+          maxItems: 50
+          description: "Array of proposed providers to override default orchestration for delivery."
+        signatureInfo:
+          $ref: '#/components/schemas/SignatureInfo'
+          description: "Information regarding the signature obtained for the delivery."
+        attachments:
+          oneOf:
+            - type: "array"
+              items:
+                $ref: '#/components/schemas/Attachment'
+            - type: "null"
+          description: "Array of attachments associated with the delivery (e.g., images, documents)."
+        driver:
+          oneOf:
+            - $ref: '#/components/schemas/Driver'
+            - type: "null"
+          description: "Information about the driver handling the delivery."
+        vehicle:
+          oneOf:
+            - $ref: '#/components/schemas/Vehicle'
+            - type: "null"
+          description: "Details of the vehicle used for the delivery."
+        lastLocation:
+          oneOf:
+            - $ref: '#/components/schemas/LastLocation'
+            - type: "null"
+          description: "Last known location of the delivery."
+        feedback:
+          oneOf:
+            - $ref: "#/components/schemas/Feedback"
+            - type: "null"
+          description: "Feedback provided for the delivery experience."
+        deliveryDistance:
+          type: number
+          minimum: 0
+          description: "Total distance covered for the delivery."
+        drivingDistance:
+          type: number
+          minimum: 0
+          description: "Total driving distance covered for the delivery."
+        returnLocationId:
+          type: string
+          maxLength: 100
+          description: "Identifier for the return location in case the delivery is undeliverable."
+        returnRequest:
+          oneOf:
+            - $ref: '#/components/schemas/ReturnRequest'
+            - type: "null"
+          description: "Details of the return request, if applicable."
+        undeliverableOrderReturnLocation:
+          $ref: '#/components/schemas/UndeliverableOrderReturnLocation'
+          description: "Details of the location where undeliverable orders are returned."
+        orderAttributes:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+                maxLength: 500
+              - type: number
+              - type: boolean
+              - type: array
+                items:
+                  type: string
+                maxItems: 100
+              - type: array
+                items:
+                  type: number
+                maxItems: 100
+              - type: array
+                items:
+                  type: boolean
+                maxItems: 100
+          description: "Key-value pairs of custom order attributes."
+        currencyCode:
+          type: string
+          maxLength: 3
+          description: "Currency code following ISO 4217 standards (e.g., USD)."
+        locale:
+          type: string
+          maxLength: 5
+          description: |
+            Locale of the delivery request, in IETF BCP 47 format (e.g., 'en-US' for English - United States).
+        createdDate:
+          type: number
+          description: "Unix timestamp in milliseconds representing the creation date of the delivery record."
+        createdAt:
+          type: string
+          description: "ISO 8601 formatted date for when the delivery record was created."
+        lastUpdatedAt:
+          type: string
+          description: "ISO 8601 formatted date for when the delivery record was last updated."
+      required:
+        - orderExternalId
+        - brandExternalId
+        - deliveryAddress
+        - deliveryContact
+        - locationExternalId
+        - tenantId
+        - createdAt
+        - lastUpdatedAt
+
+    ListDeliveriesRequest:
+      type: "object"
+      properties:
+        limit:
+          type: "integer"
+          description: "Limit the number of orders in the response. If not passed, the default is 1000. The maximum allowed is 1000."
+          maximum: 1000
+          format: "int32"
+        lastUpdatedAt:
+          type: "object"
+          description: "Get all the orders which were updated within the provided time window. The time window cannot be greater than 30 days."
+          $ref: "#/components/schemas/TimeWindow"
+        orderExternalIds:
+          type: "array"
+          maxItems: 100
+          description: "Get the orders for the provided array of orderExternalIds."
+          items:
+            type: "string"
+        groupId:
+          type: "string"
+          description: "Get orders belonging to the provided groupId. This value is case-sensitive."
+        locationExternalIds:
+          type: "array"
+          maxItems: 100
+          description: "Get the orders for the provided array of locationExternalIds."
+          items:
+            type: "string"
+        pickupTime:
+          type: "object"
+          description: "Get all orders whose pickupTime.startsAt is greater than or equal to the provided value. Only accepts startsAt from the Time Window. If pickupTime is present, deliveryTime.endsAt is required."
+          properties:
+            startsAt:
+              oneOf:
+                - type: integer
+                  description: "Start of the window. Unix time in milliseconds. (conditional)"
+                  format: int64
+                - type: "null"
+        deliveryTime:
+          type: "object"
+          description: "Get all orders whose deliveryTime.endsAt is lesser than or equal to the provided value. Only accepts endsAt from the Time Window. If deliveryTime is present pickupTime.startsAt is required."
+          properties:
+            endsAt:
+              oneOf:
+                - type: integer
+                  description: "End of the window. Unix time in milliseconds. (conditional)"
+                  format: int64
+                - type: "null"
+        createdAt:
+          type: "object"
+          description: "Get all orders which were created within the provided time window. The time window cannot be greater than 30 days."
+          $ref: "#/components/schemas/TimeWindow"
+        status:
+          type: "array"
+          description: "Get all orders having the provided statuses."
+          items:
+            type: "string"
+        paginationToken:
+          type: "string"
+          description: |
+            The API has a limit of retrieving 1000 orders per call. If limit value is specified in the request, the number of orders are retrieved as per the value indicated in the limit (limit cannot be more than 1000). Use the paginationToken to navigate to the next or previous set of orders.
+
+            paginationToken returns an object of next and previous tokens:
+            If there are no results for the next page, the next value would be null.
+            If there are no results for the previous page, the previous value would be null.
+            To navigate to the next set of page results, use the next value from the paginationToken response and set it as the paginationToken value.
+            To navigate to the previous set of page results, use the previous value from the paginationToken response and set it as the paginationToken value.
+                
+    OrderStatus:
+      type: object
+      properties:
+        orderId:
+          type: string
+          maxLength: 100
+          description: "Unique Identifier for the order"
+        tenantId:
+          type: string
+          description: "Identifier for the tenant"
+          maxLength: 200
+        trackingUrl:
+            type: string
+            maxLength: 100
+            format: uri
+            description: "Tracking URL"
+        orderStatus:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: "string"
+                description: "Status of the order"
+                enum:
+                  - REQUEST_RECEIVED
+                  - PENDING_DISPATCH
+                  - PENDING_RELEASE
+                  - PENDING_AUTORETRY
+                  - ESTIMATES_RECEIVED
+                  - ESTIMATES_FAILED
+                  - ORDER_DISPATCHED
+                  - STAGED
+                  - ORDER_FAILED
+                  - ORDER_ASSIGNED
+                  - ORDER_UNASSIGNED
+                  - PICKUP_STARTED
+                  - PICKUP_COMPLETED
+                  - IN_TRANSIT
+                  - OUT_FOR_DELIVERY
+                  - ORDER_AT_LOCATION
+                  - ORDER_DELIVERED
+                  - ORDER_DELAYED
+                  - ORDER_REDELIVERY
+                  - ORDER_UNDELIVERABLE
+                  - ERROR_EXCEPTION
+                  - ORDER_CANCELLED
+              updatedAt:
+                type: "string"
+                description: "ISO 8601 date format"
+              note:
+                oneOf:
+                  - type: "string"
+                  - type: "null"
+                maxLength: 1000
+                description: "Optional note for the status"
+              subStatus:
+                oneOf:
+                  - type: "string"
+                  - type: "null"
+                maxLength: 100
+              statusUser:
+                oneOf:
+                  - type: "string"
+                  - type: "null"
+                maxLength: 100
+                description: "User responsible for the status update"
+              eventReason:
+                type: object
+                properties:
+                  code:
+                    type: "string"
+                    maxLength: 100
+                    description: "Code representing the reason for the event, e.g., CUSTOMER_REJECTED"
+                  title:
+                    type: "string"
+                    maxLength: 200
+                    description: "Title describing the reason, e.g., Customer Rejected"
+                  note:
+                    type: "string"
+                    maxLength: 1000
+                    description: "Detailed note, e.g., RT-001 - Customer rejected (missing item or quality issue)"
+    
+    Feedback:
+      type: object
+      properties:
+        rating:
+          type: number
+          minimum: 0
+          description: "Rating given in the feedback"
+          example: 4.5
+        comment:
+          type: string
+          maxLength: 100
+          description: "Optional comment provided with the feedback"
+          example: "Great service!"
+        source:
+          type: string
+          maxLength: 100
+          description: "Source of the feedback"
+          example: "Customer survey"
+      required: []
+  
+    DeliveryPutRequest:
+      type: object
+      properties:
+        orderExternalId:
+          type: string
+          maxLength: 100
+          description: "Client-side identifier for the delivery record"
+        groupId:
+          type: string
+          maxLength: 100
+          description: "Group ID to group a number of orders together"
+        pickupTime:
+          oneOf: 
+            - $ref: '#/components/schemas/TimeWindow' 
+            - type: "null"
+          description: "Scheduled date and time for the drop-off"
+        deliveryTime:
+          oneOf: 
+            - $ref: '#/components/schemas/TimeWindow' 
+            - type: "null"
+          description: "Scheduled date and time for the pickup"
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "External ID of the delivery location"
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+        deliveryContact:
+          $ref: '#/components/schemas/Customer'
+        itemList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 100
+          description: 
+            Array of items included in the delivery order. 
+            Each item in this list represents a unique SKU with its associated details and quantities.
+            These items are referenced by the `itemList` property within each package in the `packages` array.
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+          maxItems: 50
+          description: |
+             Array of packages included in the delivery order.
+             Each package contains an `itemList` property that references items from the order `itemList` by SKU.
+             The `quantity` of each item within a package must not exceed the total `quantity` provided for that item in the `itemList`.
+        signature:
+          type: string
+          enum: ["unattended", "required_recipient", "required", "not_required"]
+          maxLength: 100
+          description: "Indicates signature requirement"
+        deliveryInstructions:
+          type: string
+          maxLength: 10000
+          description: "Additional notes related to the delivery"
+        orderValue:
+          type: number
+          minimum: 0
+          description: "Total value of the order"
+        tips:
+          type: number
+          minimum: 0
+          description: "Driver tip in major units as a decimal, e.g. 9.00 ($9.00 USD)."
+        locale:
+          type: string
+          maxLength: 5
+        createdDate:
+          type: number
+          description: "Unix timestamp in milliseconds for creation date"
+        orderAttributes:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+                maxLength: 500
+              - type: number
+              - type: boolean
+              - type: array
+                items:
+                  type: string
+                maxItems: 100
+              - type: array
+                items:
+                  type: number
+                maxItems: 100
+              - type: array
+                items:
+                  type: boolean
+                maxItems: 100
+          description: "Configurable key-value pairs of custom order attributes"
+        proposedProviders:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposedProvider'
+          description: "List of proposed providers for the order"
+  
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+            $ref: '#/components/schemas/Response'
+    
+    Response:
+      type: object
+      properties:
+          errors:
+            type: array
+            description: The error response containing any errors that occurred.
+            items:
+                $ref: '#/components/schemas/ErrorMessage'
+    
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: Locale is required. The Subscription request has been rejected.
+      description: The error response containing any errors that occurred

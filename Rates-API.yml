@@ -1,0 +1,1882 @@
+openapi: 3.1.0
+
+info:
+  title: Provider Rates and Availability
+  version: '1.0'
+  description: |
+
+    # Product Info
+
+    The **Provider Rates and Availability API** allows applications to retrieve and evaluate service rates, availability, and estimated delivery times from logistics providers while leveraging orchestration capabilities to prioritize options, apply business rules, and determine service feasibility between shipping and delivery locations.
+    
+
+    # Business Values
+
+    - **Dynamic Rate Retrieval**:  - Retrieve service rates, availability, and estimated delivery times from multiple logistics providers, empowering businesses to make informed decisions tailored to specific delivery needs.
+
+    - **Orchestration Integration**: - Apply customizable business rules to prioritize rate options based on organizational objectives, ensuring the selection of optimal service providers.
+
+    - **Scalability and Flexibility**: - Support up to 10 shipping locations per rate request, enabling efficient handling of multiple store locations with minimal latency.
+
+    - **Enhanced Accuracy**: - Leverage package dimensions, weight, and item details for precise rate calculations, ensuring competitive and accurate service estimates.
+
+
+    # How does it work once I am setup as a user?
+    Once set up as a user, you can submit relevant order details, including the pickup location and delivery address, to retrieve rates and estimated delivery times from multiple providers. By integrating this API into your platform, you gain dynamic rate calculation and orchestration capabilities. This allows for seamless optimization of delivery costs and services while maintaining operational efficiency.
+
+    # FAQs    
+    - **What are the minimum required parameters?**
+    >  - Configured shipping provider within the portal.
+        >  - zipcode in deliveryAddress.
+           >  - storeExternalIds to identify the shipping locations.
+
+    - **What does the rates response include?**
+    >  The response includes service rates and estimated pickup/delivery times from multiple providers, along with errors and validation messages if a provider cannot fulfill the request.
+
+    - **What is the role of packages and itemList?**
+    > These provide dimensions, weight, and item details to calculate accurate rates and optimize
+      post-purchase experiences.
+
+    - **How does orchestration affect rate selection?**
+    >  If orchestration rules are applied, the selected rates are flagged (ruleApplied: true) in the response. To filter only the winning rates, set the displayWinningRates parameter to true.
+    
+    # Error Codes
+
+    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+
+    Successful response may or may not include warnings.
+
+    1. **Without warnings** - Indicates the request has been processed as anticipated.
+    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+
+    The severity of an error may be transient or hard.
+      
+    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+
+    ---
+
+    ## /rates
+
+    ### POST
+
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: No such locationExternalId exists in our system or other invalid values in the request |
+    |  INVALID_DATA          |    400    |  Hard    | Invalid data: Missing required fields (e.g., `deliveryAddress`)  or other invalid values in the request  |
+    |  VALIDATION_ERROR      |    400    |  Hard    | Field validation failed as per the expected input.                         |
+    |  NO_PROVIDER_ASSIGNED  |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
+    |  NO_PROVIDER_MATCHED   |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |                       
+    |  GEOCODING_FAILED      |    422    |  Hard    | Geocoding Service for the given address failed.                            |
+    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
+servers:
+  - url: https://api.lynkup.com/rate/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+         - v1
+  - url: 'https://sanbox.api.lynkup.com/rate/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+
+tags:
+  - name: "Provider Rates and Availability"
+    description: "Endpoints for retrieving rates, estimated times, and service availability based on location and orchestration rules."
+
+security:
+  - OAuth2ClientCredentials: []
+
+paths:
+  /rates:
+    post:
+      summary: Retrieve Rates, Estimated Times, and Service Availability
+      tags:
+        - Provider Rates and Availability
+      description: |
+        When placing an order with any Provider, the estimated pickup and delivery times along with the rate provided by each service offered by the Provider are crucial information that can help in deciding the Provider and the services offered by it. The Get Rates API helps achieve this for all the Providers assigned to the locations.
+
+        The minimum required parameters for the Rate API are `postalCode` in the `deliveryAddress` and the `locationExternalIds`. This provides the rates for all the Providers assigned to the locations for delivery to a location in that postalCode.
+
+        The Rate API comes with the ability to use Orchestration. If the orchestration module is used, then the `ruleApplied` is set to `true` on the rates which are selected by the orchestration module. By default, all the rates processed by the orchestration module are sent in the response. The API can be configured to send only those rates that are selected by the orchestration module and filter the rest by setting the `displayWinningRates` parameter to `true`.
+
+        The default options for the get rates can also be configured at the business level. Please contact Delivery Solutions Support if you wish to configure the default options for the Rates Request API. The configured default options can be overridden while using the API.
+
+        The rate response provides an array of rates - each rate consisting of the estimated pick up and delivery time offered by different services of the Providers along with the amounts that it shall charge for the service. The response also includes errors sent by the Provider if the provider is unable to provide a rate for the given parameters as well as any validation messages.
+      operationId: getRate
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RatesRequest"
+            examples:
+              Rate call with bare minimum fields:
+                value:
+                  type: delivery
+                  locationExternalIds:
+                    - "0001"
+                  deliveryAddress:
+                    postalCode: "75206"
+              Rate Call with delivery address and pick up and drop off times and packages:
+                value:
+                  type: delivery
+                  locationExternalIds:
+                    - "0001"
+                  deliveryAddress:
+                    street1: "5411 Mercedes Avenue"
+                    city: Dallas
+                    state: TX
+                    postalCode: "75206"
+                  pickupTime:
+                    startsAt: 1655913001000
+                    endsAt: 1655941801000
+                  deliveryTime:
+                    startsAt: 1655999401000
+                    endsAt: 1656028201000
+                  packages:
+                    - name: custom
+                      size:
+                        length: 8
+                        width: 5
+                        height: 4
+                        unit : 'in'
+                      weight:
+                        value : 1
+                        unit : 'lb'
+                      itemQuantity: 1
+                      description: ""
+              Rate call with multiple locations:
+                value:
+                  type: delivery
+                  locationExternalIds:
+                    - "0001"
+                    - "0003"
+                  deliveryAddress:
+                    street1: "5411 Mercedes Avenue"
+                    city: Dallas
+                    state: TX
+                    postalCode: "75206"
+                    countryCode: US
+                  pickupTime:
+                    startsAt: 1655913001000
+                    endsAt: 1655941801000
+                  deliveryTime:
+                    startsAt: 1655999401000
+                    endsAt: 1656028201000
+                  packages:
+                    - name: custom
+                      size:
+                        length: 8
+                        width: 5
+                        height: 4
+                        unit : 'in'
+                      weight:
+                        value : 2
+                        unit : 'lb'
+                      itemQuantity: 1
+                      description: ""
+              Display only winning rates:
+                value:
+                  type: delivery
+                  locationExternalIds:
+                    - "0001"
+                  deliveryAddress:
+                    street1: "5411 Mercedes Avenue"
+                    city: Dallas
+                    state: TX
+                    postalCode: "75206"
+                  pickupTime:
+                    startsAt: 1655913001000
+                    endsAt: 1655941801000
+                  deliveryTime:
+                    startsAt: 1655999401000
+                    endsAt: 1656028201000
+                  packages:
+                    - name: custom
+                      size:
+                        length: 8
+                        width: 5
+                        height: 4
+                        unit : 'in'
+                      weight:
+                        value : 1
+                        unit : 'lb'
+                      itemQuantity: 1
+                      description: ""
+                  option:
+                    displayWinningRates: true
+              Rate call with no orchestration:
+                value:
+                  type: delivery
+                  locationExternalIds:
+                    - "0001"
+                  deliveryAddress:
+                    street1: "5411 Mercedes Avenue"
+                    city: Dallas
+                    state: TX
+                    postalCode: "75206"
+                    countryCode: US
+                  pickupTime:
+                    startsAt: 1655913001000
+                    endsAt: 1655941801000
+                  deliveryTime:
+                    startsAt: 1655999401000
+                    endsAt: 1656028201000
+                  packages:
+                    - name: custom
+                      size:
+                        length: 8
+                        width: 5
+                        height: 4
+                        unit : 'in'
+                      weight:
+                        value: 1
+                        unit: 'lb'
+                      itemQuantity: 1
+                      description: ""
+                  option:
+                    allowOrchestration: false
+              Using provider tags:
+                value:
+                  type: delivery
+                  locationExternalIds:
+                    - "0001"
+                  deliveryAddress:
+                    street1: "5411 Mercedes Avenue"
+                    city: Dallas
+                    state: TX
+                    postalCode: "75206"
+                  pickupTime:
+                    startsAt: 1655913001000
+                    endsAt: 1655941801000
+                  deliveryTime:
+                    startsAt: 1655999401000
+                    endsAt: 1656028201000
+                  packages:
+                    - name: custom
+                      size:
+                        length: 8
+                        width: 5
+                        height: 4
+                        unit : 'in'
+                      weight:
+                        value : 2
+                        unit : 'lb'
+                      itemQuantity: 1
+                      description: ""
+                      quantity: 1
+                  matchProviderTags:
+                    - sdd
+              Using location tags:
+                value:
+                  locationExternalIds:
+                    - LTAGS
+                    - "0001"
+                  deliveryAddress:
+                    street1: 'street'
+                    postalCode: "78759"
+                    countryCode: US
+                  matchLocationTags:
+                    - heavy
+              Rate Call with ASAP pickup and delivery times:
+                value:
+                  type: delivery
+                  locationExternalIds:
+                    - "0001"
+                  deliveryAddress:
+                    street1: 'street'
+                    postalCode: "75206"
+                    countryCode: US
+                  pickupTime: null
+                  deliveryTime: null
+              Custom Rate Call with order attributes:
+                value:
+                  type: "shipping"
+                  locationExternalIds:
+                    - "0001"
+                  deliveryAddress:
+                    street1: "5411 Mercedes Avenue"
+                    city: Dallas
+                    state: TX
+                    postalCode: "75206"
+                  pickupTime:
+                    startsAt: 1655913001000
+                    endsAt: 1655941801000
+                  deliveryTime:
+                    startsAt: 1655999401000
+                    endsAt: 1656028201000
+                  orderValue: 100
+                  packages:
+                    - name: custom
+                      size:
+                        length: 8
+                        width: 5
+                        height: 4
+                        unit : 'in'
+                      weight:
+                        value : 1
+                        unit : 'lb'
+                      itemQuantity: 1
+                      description: ""
+                  orderAttributes:
+                    specialPackagingRequired: true
+      responses:
+        '200':
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RatesResponse"
+              examples:
+                Rate call with bare minimum fields:
+                  value:
+                    rates:
+                      - type: delivery
+                        provider:
+                          id: DoorDash
+                          name: DoorDash
+                          displayName: DoorDash
+                          serviceType: Delivery
+                          serviceId: delivery
+                        deliveryWindowId: "1"
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655830800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655841600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655832987000
+                        estimatedPickupTime:
+                          startsAt: 1655830800000
+                          endsAt: null
+                        expires: null
+                        currencyCode: USD
+                        amount: 20.76
+                        fee: 20.76
+                        chargeDetails: []
+                        ruleApplied: true
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                      - type: null
+                        provider:
+                          name: UPS Shipping
+                          serviceType: Ground
+                          serviceId: null
+                          displayName: UPS
+                          id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655830800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655841600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: null
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: null
+                        expires: null
+                        currencyCode: USD
+                        amount: 18.98
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                      - type: delivery
+                        provider:
+                          name: Roadie
+                          serviceType: Delivery
+                          serviceId: delivery
+                          id: null
+                          displayName: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655830800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655841600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655832004000
+                        estimatedPickupTime:
+                          startsAt: 1655824804000
+                          endsAt: null
+                        expires: null
+                        currencyCode: USD
+                        amount: 1462
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                    errors: []
+                    rateId: 62b1e1682810e724d36595ab
+                Provider does not provide estimates:
+                  value:
+                    rates:
+                      - type: delivery
+                        provider:
+                          name: Instacart
+                          serviceType: Delivery
+                          serviceId: delivery
+                          displayName: null
+                          id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655830800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655841600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: null
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: null
+                        expires: 1655826458876
+                        currencyCode: null
+                        amount: null
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: true
+                        hasEstimate: true
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: '0001'
+                      - type: delivery
+                        provider:
+                          name: JoeyCo
+                          serviceType: Delivery
+                          serviceId: delivery
+                          displayName: null
+                          id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655830800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655841600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: null
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: null
+                        expires: 1655826458876
+                        currencyCode: null
+                        amount: null
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: true
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: '0001'
+                    errors:
+                      - message: Instacart does not provide estimates
+                        type: PROVIDER_DOES_NOT_OFFER_ESTIMATES
+                        parameter: null
+                        entityId: Instacart
+                        entity: Instacart 123
+                      - message: JoeyCo does not provide estimates
+                        type: PROVIDER_DOES_NOT_OFFER_ESTIMATES
+                        parameter: null
+                        entityId: JoeyCo
+                        entity: JoeyCo 123
+                    rateId: 62b1e81a64d00d02d059606c
+                Delivery Rate Call with delivery address and pick up and drop off times:
+                  value:
+                    rates:
+                      - type: delivery
+                        provider:
+                          name: DoorDash
+                          serviceType: Delivery
+                          serviceId: delivery
+                          displayName: null
+                          id: null
+                        deliveryWindowId: '1'
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: 1655941801000
+                        requestedDeliveryTime:
+                          startsAt: 1655999401000
+                          endsAt:  1656028201000
+                        estimatedDeliveryTime:
+                          startsAt: 1655913001000
+                          endsAt: null
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: 1655915343000
+                        expires: null
+                        currencyCode: USD
+                        amount: 20.19
+                        fee: 20.19
+                        chargeDetails: []
+                        ruleApplied: true
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: '0001'
+                      - type: null
+                        provider:
+                          name: UPS Shipping
+                          serviceType: Ground
+                          serviceId: null
+                          displayName: null
+                          id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: 1655941801000
+                        requestedDeliveryTime:
+                          startsAt: 1655999401000
+                          endsAt:  1656028201000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: null
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: null
+                        expires: null
+                        currencyCode: USD
+                        amount: 17.67
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: '0001'
+                      - type: delivery
+                        provider:
+                          name: Roadie
+                          serviceType: Delivery
+                          serviceId: delivery
+                          displayName: null
+                          id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: 1655941801000
+                        requestedDeliveryTime:
+                          startsAt: 1655999401000
+                          endsAt:  1656028201000
+                        estimatedDeliveryTime:
+                          startsAt: 1655913001000
+                          endsAt: null
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: 1655915343000
+                        expires: null
+                        currencyCode: USD
+                        amount: 14.38
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: '0001'
+                    errors: []
+                    rateId: 62b1e8d064d00d02d0596078
+                Rate call with multiple locations:
+                  value:
+                      rates:
+                        - type: delivery
+                          provider:
+                            name: DoorDash
+                            serviceType: Delivery
+                            serviceId: delivery
+                            displayName: null
+                            id: null
+                          deliveryWindowId: "1"
+                          deliveryWindows: null
+                          requestedPickupTime:
+                            startsAt: 1655913001000
+                            endsAt: 1655941801000
+                          requestedDeliveryTime:
+                            startsAt: 1655999401000
+                            endsAt:  1656028201000
+                          estimatedDeliveryTime:
+                            startsAt: 1655913001000
+                            endsAt: null
+                          estimatedPickupTime:
+                            startsAt: null
+                            endsAt: 1655915343000
+                          expires: null
+                          currencyCode: USD
+                          amount: 20.19
+                          fee: 20.19
+                          chargeDetails: []
+                          ruleApplied: true
+                          hasEstimate: false
+                          orderType: null
+                          supportsAlternateLocation: false
+                          code: null
+                          tags: []
+                          locationExternalId: "0001"
+                        - type: null
+                          provider:
+                            name: UPS Shipping
+                            serviceType: Ground
+                            serviceId: null
+                            displayName: null
+                            id: null
+                          deliveryWindowId: null
+                          deliveryWindows: null
+                          requestedPickupTime:
+                            startsAt: 1655913001000
+                            endsAt: 1655941801000
+                          requestedDeliveryTime:
+                            startsAt: 1655999401000
+                            endsAt:  1656028201000
+                          estimatedDeliveryTime:
+                            startsAt: null
+                            endsAt: null
+                          estimatedPickupTime:
+                            startsAt: null
+                            endsAt: null
+                          expires: null
+                          currencyCode: USD
+                          amount: 17.67
+                          fee: null
+                          chargeDetails: []
+                          ruleApplied: false
+                          hasEstimate: false
+                          orderType: null
+                          supportsAlternateLocation: false
+                          code: null
+                          tags: []
+                          locationExternalId: "0001"
+                        - type: delivery
+                          provider:
+                            name: Roadie
+                            serviceType: Delivery
+                            serviceId: delivery
+                            displayName: null
+                            id: null
+                          deliveryWindowId: null
+                          deliveryWindows: null
+                          requestedPickupTime:
+                            startsAt: 1655913001000
+                            endsAt: 1655941801000
+                          requestedDeliveryTime:
+                            startsAt: 1655999401000
+                            endsAt:  1656028201000
+                          estimatedDeliveryTime:
+                            startsAt: 1655913001000
+                            endsAt: null
+                          estimatedPickupTime:
+                            startsAt: null
+                            endsAt:  1656028201000
+                          expires: null
+                          currencyCode: USD
+                          amount: 14.38
+                          fee: null
+                          chargeDetails: []
+                          ruleApplied: false
+                          hasEstimate: false
+                          orderType: null
+                          supportsAlternateLocation: false
+                          code: null
+                          tags: []
+                          locationExternalId: "0001"
+                        - type: null
+                          provider:
+                            name: UPS Shipping
+                            serviceType: Ground
+                            serviceId: null
+                            displayName: null
+                            id: null
+                          deliveryWindowId: null
+                          deliveryWindows: null
+                          requestedPickupTime:
+                            startsAt: 1655913001000
+                            endsAt: 1655941801000
+                          requestedDeliveryTime:
+                            startsAt: 1655999401000
+                            endsAt:  1656028201000
+                          estimatedDeliveryTime:
+                            startsAt: null
+                            endsAt: null
+                          estimatedPickupTime:
+                            startsAt: null
+                            endsAt: null
+                          expires: null
+                          currencyCode: USD
+                          amount: 2041
+                          fee: null
+                          chargeDetails: []
+                          ruleApplied: true
+                          hasEstimate: false
+                          orderType: null
+                          supportsAlternateLocation: false
+                          code: null
+                          tags: []
+                          locationExternalId: "0003"
+                      errors:
+                        - entityId: PickupNow
+                          entity: PickupNow
+                          parameter: null
+                          type: MISSING_DATA
+                          message: No items available with SKU or Dimensions
+                        - entityId: DoorDash
+                          entity: DoorDash
+                          type: OUTSIDE_THE_COVERAGE_AREA
+                          message: "delivery address not within service area: delivery_address"
+                          parameter: null
+                        - entityId: Roadie
+                          entity: Roadie
+                          type: UNMAPPED_ERROR
+                          message: Route Sorry, distance in passenger vehicles is limited to 30 miles.
+                          parameter: null
+                      rateId: "62b1e8fc64d00d02d0596088"
+                Display winning rates:
+                  value:
+                    rates:
+                      - type: "delivery"
+                        provider:
+                          name: "DoorDash"
+                          serviceType: "Delivery"
+                          serviceId: "delivery"
+                          displayName: null
+                          id: null
+                        deliveryWindowId: "1"
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: 1655941801000
+                        requestedDeliveryTime:
+                          startsAt: 1655999401000
+                          endsAt:  1656028201000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655915222000
+                        estimatedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: null
+                        expires: null
+                        currencyCode: "USD"
+                        amount: 20.19
+                        fee: 20.19
+                        chargeDetails: []
+                        ruleApplied: true
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                    errors: []
+                    rateId: "62b1ea222810e724d3659629"
+                Rate call with no orchestration:
+                  value:
+                    rates:
+                      - type: "delivery"
+                        provider:
+                          name: "DoorDash"
+                          serviceType: "Delivery"
+                          serviceId: "delivery"
+                          displayName: null
+                          id : null
+                        deliveryWindowId: "1"
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: 1655941801000
+                        requestedDeliveryTime:
+                          startsAt: 1655999401000
+                          endsAt:  1656028201000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655915222000
+                        estimatedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: null
+                        expires: null
+                        currencyCode: "USD"
+                        amount: 20.19
+                        fee: 20.19
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                      - type: null
+                        provider:
+                          name: "UPS Shipping"
+                          serviceType: "Ground"
+                          serviceId: null
+                          displayName: null
+                          id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: 1655941801000
+                        requestedDeliveryTime:
+                          startsAt: 1655999401000
+                          endsAt:  1656028201000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: null
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: null
+                        expires: null
+                        currencyCode: "USD"
+                        amount: 17.67
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                      - type: "delivery"
+                        provider:
+                          name: "Roadie"
+                          serviceType: "Delivery"
+                          serviceId: "delivery"
+                          displayName: null
+                          id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: 1655941801000
+                        requestedDeliveryTime:
+                          startsAt: 1655999401000
+                          endsAt:  1656028201000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1656028201000
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: null
+                        expires: null
+                        currencyCode: "USD"
+                        amount: 14.38
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                    errors: []
+                    rateId: "62b1ea3f64d00d02d05960c2"
+                Using provider tags:
+                  value:
+                    rates:
+                      - type: "delivery"
+                        provider:
+                          name: "DoorDash"
+                          serviceType: "Delivery"
+                          serviceId: "delivery"
+                          displayName: null
+                          id: null
+                        deliveryWindowId: "1"
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: 1655941801000
+                        requestedDeliveryTime:
+                          startsAt: 1655999401000
+                          endsAt:  1656028201000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655915222000
+                        estimatedPickupTime:
+                          startsAt: 1655913001000
+                          endsAt: null
+                        expires: null
+                        currencyCode: "USD"
+                        amount: 20.19
+                        fee: 20.19
+                        chargeDetails: []
+                        ruleApplied: true
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        providerTags:
+                          - "sdd"
+                        locationExternalId: "0001"
+                    errors: []
+                    rateId: "62b1eaf02810e724d3659637"
+                No Provider available to deliver the order:
+                  value:
+                    rateId: "636b5e87ded552973f58b16a"
+                    rates: []
+                    errors:
+                      - type: "NO_PROVIDER_MATCHED"
+                        message: "No Provider matched to deliver this order. Please try again."
+                        entityId: null
+                        entity: null
+                        parameter: null
+                      - type: "PROVIDER_TIMEOUT"
+                        message: "ESOCKETTIMEDOUT"
+                        entityId: FedEx
+                        entity: FedEx
+                        parameter: locationExternalId
+                Using location tags:
+                  value:
+                    rates:
+                      - type: "delivery"
+                        provider:
+                          name: "DoorDash"
+                          serviceType: "Delivery"
+                          serviceId: "delivery"
+                          displayName: null
+                          id: null
+                        deliveryWindowId: "1"
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1658854800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt:  1658865600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1658855938000
+                        estimatedPickupTime:
+                          startsAt: 1658854800000
+                          endsAt: null
+                        expires: null
+                        currencyCode: "USD"
+                        amount: 9.99
+                        fee: 9.99
+                        chargeDetails: []
+                        ruleApplied: true
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        locationExternalId: "LTAGS"
+                        providerTags: []
+                        locationTags:
+                          - "heavy"
+                    errors: []
+                    rateId: "62df9f2394a2b0e8a1369e41"
+                Rate Call with ASAP pickup and delivery times:
+                  value:
+                    rates:
+                      - type: delivery
+                        provider:
+                          name: DoorDash
+                          serviceType: Delivery
+                          serviceId: delivery
+                          id: null
+                          displayName: null
+                        deliveryWindowId: "1"
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1658854800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt:  1658865600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655832987000
+                        estimatedPickupTime:
+                          startsAt: 1658854800000
+                          endsAt: null
+                        expires: null
+                        currencyCode: USD
+                        amount: 20.76
+                        fee: 20.76
+                        chargeDetails: []
+                        ruleApplied: true
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                      - type: delivery
+                        provider:
+                           name: Roadie
+                           serviceType: Delivery
+                           serviceId: delivery
+                           displayName: null
+                           id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1658854800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt:  1658865600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655836140000
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: null
+                        expires: null
+                        currencyCode: USD
+                        amount: 14.62
+                        fee: null
+                        chargeDetails: []
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                    errors: []
+                    rateId: "62b1e1682810e724d36595ab"
+                Custom Rate Call with order attributes:
+                  value:
+                    rates:
+                      - type: "shipping"
+                        provider:
+                          name: UPS Shipping
+                          serviceType: Ground
+                          serviceId: null
+                          displayName: UPS
+                          id: null
+                        deliveryWindowId: null
+                        deliveryWindows: null
+                        requestedPickupTime:
+                          startsAt: 1655830800000
+                          endsAt: null
+                        requestedDeliveryTime:
+                          startsAt: null
+                          endsAt: 1655841600000
+                        estimatedDeliveryTime:
+                          startsAt: null
+                          endsAt: null
+                        estimatedPickupTime:
+                          startsAt: null
+                          endsAt: null
+                        expires: null
+                        currencyCode: USD
+                        amount: 18.98
+                        fee: null
+                        chargeDetails:
+                          - type: "additionalHandlingSurcharge"
+                            value: 1000
+                            currencyCode: "USD"
+                          - type: "largePackageSurcharge"
+                            value: 0
+                            currencyCode: "USD"
+                          - type: "deliveryConfirmation"
+                            value: 0
+                            currencyCode: "USD"
+                          - type: "chargebackForConsignee"
+                            value: 0
+                            currencyCode: "USD"
+                          - type: "declaredValue"
+                            value: 1000
+                            currencyCode: "USD"
+                          - type: "directDeliveryOnly"
+                            value: 0
+                            currencyCode: "USD"
+                          - type: "deliveryAreaSurcharge"
+                            value: 0
+                            currencyCode: "USD"
+                          - type: "remoteAreaSurcharge"
+                            value: 0
+                            currencyCode: "USD"
+                        ruleApplied: false
+                        hasEstimate: false
+                        orderType: null
+                        supportsAlternateLocation: false
+                        code: null
+                        tags: []
+                        locationExternalId: "0001"
+                        zoneInformation:
+                          originPostalCode: "78759"
+                          destinationPostalCode: "75206"
+                          zone: "zone2"
+                          billableWeight: 1
+                          baseRate: 1000
+                          surcharge: 2000
+                    errors: []
+                    rateId: 62b1e1682810e724d36595ab
+        "400":
+          description: "Bad Request"
+          headers:
+            apierrorcode:
+              required: true
+              description: 'The API error code'
+              schema:
+                type: string
+            apierrormsg:
+              required: true
+              description: 'The API error message.'
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Date range greater than 30 days:
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: Delivery Address not provided.
+                        parameter: deliveryAddress
+                        entityId: null
+                        entity: null
+                    type: "INVALID_DATA"
+                    message: Delivery Address not provided.
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers:
+            apierrorcode:
+              required: true
+              description: 'The API error code'
+              schema:
+                type: string
+            apierrormsg:
+              required: true
+              description: 'The API error message.'
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "No such locationExternalId exists in our system. Please provide a valid locationExternalId."
+                        parameter: "locationExternalId[0]"
+                        entityId: location-1
+                        entity: location
+                    type: "INVALID_DATA"
+                    message: "No such locationExternalId exists in our system. Please provide a valid locationExternalId."
+        '500':
+          description: "Internal server error"
+          headers:
+            apierrorcode:
+              required: true
+              description: 'The API error code'
+              schema:
+                type: string
+            apierrormsg:
+              required: true
+              description: 'The API error message.'
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers:
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema:
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema:
+                type: string
+            apierrorcode:
+              required: true
+              description: 'The API error code'
+              schema:
+                type: string
+            apierrormsg:
+              required: true
+              description: 'The API error message.'
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+
+  schemas:
+    Address:
+      type: object
+      description: Address of the location
+      required:
+        - postalCode
+      properties:
+        street1:
+          type: string
+          description: Address Line 1 (Street Number and Street Name)
+          maxLength: 100
+        street2:
+          type: string
+          description: Address Line 2 (not to be used for apartment / suite #)
+          maxLength: 100
+        apartmentNumber:
+          type: string
+          description: Apartment / Suite #
+          maxLength: 50
+        city:
+          type: string
+          description: City
+          maxLength: 100
+        state:
+          type: string
+          description: State
+          maxLength: 100
+        postalCode:
+          type: string
+          description: Postal code or zip.
+          maxLength: 20
+        countryCode:
+          type: string
+          description: 2-letter country code in ISO 3166-1 alpha-2 format. If not provided defaults to 'US'.
+          default: US
+          enum:
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          anyOf:
+            -  type: 'number'
+            -  type: 'null'
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+
+    RatesRequest:
+      type: object
+      required:
+        - deliveryAddress
+        - locationExternalIds
+      properties:
+        deliveryAddress:
+          $ref: "#/components/schemas/Address"
+        locationExternalIds:
+          type: array
+          description: Array of Unique Id of the pickup locations.
+          items:
+            type: string
+            maxLength: 100
+          maxItems: 5
+        type:
+          type: string
+          description: >
+            This field is used to indicate preferred fulfillment type. If 
+            `delivery`/`pickup`/`shipping` are provided as 
+            the type, the system will provide rates to only those Providers that 
+            matches the type. If type is not specified, all available fulfilment 
+            options will be considered for rates.
+          enum:
+            - delivery
+            - shipping
+            - pickup
+        orderValue:
+          type: number
+          description: Value of the order in dollars & cents. e.g., `10.00` or `116.50`.
+          format: float
+          minimum: 0
+        pickupTime:
+          oneOf:
+            -  type: object
+               description: |
+                  Check provider availability based on pickup time. If not provided, 
+                  the system will use the appropriate time window. If pickupTime is 
+                  null then it means that the package needs to be picked as soon as 
+                  possible.
+               $ref: "#/components/schemas/TimingWindow"
+            -  type: 'null'
+
+        deliveryTime:
+          oneOf:
+            - type: object
+              description: >
+                Check provider availability based on drop-off time. If not provided, 
+                the system will use the appropriate time window. If delivery time is 
+                null then it means that the package needs to be dropped off as soon 
+                as possible after the pickup.
+              $ref: "#/components/schemas/TimingWindow"
+            - type: 'null'
+        options:
+          type: object
+          description: Override default configured rate options set for the business.
+          properties:
+            allowOrchestration:
+              type: boolean
+              description: >
+                If this option is set to true then rates will be sent to the 
+                orchestration engine, which will filter the rates according to 
+                the orchestration rules.
+            displayWinningRates:
+              type: boolean
+              description: >
+                This option decides whether to send all the rates or to send only 
+                the rates selected by the orchestration engine.
+        packages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Package"
+          maxItems: 50
+          description:
+            Array of packages included in the order.
+            Each package contains an `itemList` property that references items from the order `itemList` by SKU.
+            The `quantity` of each item within a package must not exceed the total `quantity` provided for that item in the `itemList`.
+        itemList:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+          maxItems: 100
+          description:
+            Array of items included in the order. 
+            Each item in this list represents a unique SKU with its associated details and quantities.
+            These items are referenced by the `itemList` property within each package in the `packages` array.
+        matchProviderTags:
+          type: array
+          description: >
+            Rates for providers matching at least one tag from the requested tags are returned.
+          items:
+            type: string
+        orderAttributes:
+          type: object
+          description: Configurable key-value pairs of custom order attributes.
+        matchLocationTags:
+          type: array
+          description: >
+            Rates for locations matching at least one tag from the requested location tags are returned.
+          items:
+            type: string
+        proposedProviders:
+          type: array
+          items:
+            type: object
+          description: Override orchestration and get rates with the specified Provider and Service.
+        option:
+          type: object
+          additionalProperties: true
+
+    RatesResponse:
+      type: object
+      properties:
+        rates:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type:
+                  - string
+                  - "null"
+                example: delivery
+              provider:
+                 $ref: "#/components/schemas/ProviderInfo"
+              deliveryWindowId:
+                  type:
+                    - string
+                    - 'null'
+                  example: "1"
+              deliveryWindows:
+                oneOf:
+                  -  type : 'null'
+                  -  type: array
+                     items:
+                        type: string
+              requestedPickupTime:
+                $ref: "#/components/schemas/TimingWindow"
+              requestedDeliveryTime:
+                $ref: "#/components/schemas/TimingWindow"
+              estimatedPickupTime:
+                $ref: "#/components/schemas/TimingWindow"
+              estimatedDeliveryTime:
+                $ref: "#/components/schemas/TimingWindow"
+              expires:
+                oneOf:
+                  -   type: 'null'
+                  -   type: integer
+                      example: 1655826458876
+                      default: 0
+              currencyCode:
+                type:
+                  - string
+                  - "null"
+                example: USD
+                maxLength: 3
+              amount:
+                type:
+                  - number
+                  - 'null'
+                example: 2019
+                default: 0
+                minimum: 0
+              fee:
+                type:
+                   - number
+                   - 'null'
+                example: 2019
+                default: 0
+                minimum: 0
+              chargeDetails:
+                type:
+                  - array
+                  - 'null'
+                items:
+                  type: object
+              orderType:
+                type:
+                  - string
+                  - 'null'
+              ruleApplied:
+                type: boolean
+                example: true
+                default: true
+              hasEstimate:
+                type: boolean
+                example: true
+                default: true
+              supportsAlternateLocation:
+                type: boolean
+                example: false
+                default: true
+              code:
+                type:
+                  - string
+                  - 'null'
+              tags:
+                type: array
+                items:
+                  type: string
+              providerTags:
+                type: array
+                items:
+                  type: string
+              locationTags:
+                type: array
+                items:
+                  type: string
+              locationExternalId:
+                type: string
+                example: "0001"
+              zoneInformation:
+                $ref: "#/components/schemas/ZoneInformation"
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ErrorDetail"
+        rateId:
+          type: string
+          example: "62b1e81a64d00d02d059606c"
+          maxLength: 100
+
+    Item:
+      type: object
+      description: "Details of an item within a package"
+      required:
+        - sku
+      properties:
+        sku:
+          type: string
+          description: "An ID that identify the product/variant from the brand's catalog."
+          maxLength: 100
+        category:
+          type: string
+          description: "Category of Item"
+          maxLength: 100
+        upc:
+          type: string
+          description: "Universal Product Code for the item"
+          maxLength: 100
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of items of the SKU"
+          minimum: 1
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        price:
+          type: number
+          format: double
+          description: "Retail price of the item."
+          minimum: 0
+        salePrice:
+          type: number
+          format: double
+          description: "Sale price of the item."
+          minimum: 0
+        image:
+          type: string
+          description: "Link to the image file of the item."
+          maxLength: 200
+        title:
+          type: string
+          description: "Title of the item."
+          maxLength: 200
+        description:
+          type: string
+          description: "Description of the item."
+          maxLength: 10000
+        itemAttributes:
+          type: object
+          description: "Custom item attributes."
+        tags:
+          type: array
+          description: "Additional information related to the item."
+          items:
+            type: string
+            minItems: 0
+            maxItems: 20
+
+    Package:
+      type: object
+      description: "Package Details"
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: "Name of package created in our system, or pass the value 'custom'."
+          default: "custom"
+          maxLength: 100
+        description:
+          type: string
+          description: "A brief description about the package contents."
+          maxLength: 10000
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        quantity:
+          type: integer
+          format: int32
+          description: "Number of Packages"
+          minimum: 1
+        itemQuantity:
+          type: integer
+          format: int32
+          description: "Number of items in a single package."
+          minimum: 1
+        itemList:
+          type: array
+          description: "Array of items in the package."
+          items:
+            $ref: '#/components/schemas/Item'
+          maxItems: 1000
+        temperatureControl:
+          type: string
+          description: "Temperature information of the package"
+          enum:
+            - frozen
+            - refrigerated
+            - cool
+            - ambient
+            - warm
+            - none
+        content:
+          type: array
+          description: "Content information of the package"
+          items:
+            type : string
+            enum:
+            - alcohol
+            - fragile
+            - tobacco
+            - rx
+            - perishable
+        barcode:
+          type: string
+          description: "Barcode sent to the provider for scanning the packages"
+          default: "null"
+          maxLength: 500
+
+    Size:
+      type: object
+      description: Dimensions of the item.
+      required:
+        - height
+        - width
+        - length
+        - unit
+      properties:
+        height:
+          type: number
+          format: double
+          description: Height
+          minimum: 0
+        width:
+          type: number
+          format: double
+          description: Width
+          minimum: 0
+        length:
+          type: number
+          format: double
+          description: Length
+          minimum: 0
+        unit:
+          type: string
+          description: units for given size in cm or in
+          enum:
+            - cm
+            - in
+
+    Weight:
+      type: object
+      description: Weight of an item
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+          format: double
+          description: weight
+          minimum: 0
+        unit:
+          type: string
+          description: units for given weight in kg or lb
+          enum:
+            - kg
+            - lb
+
+    TimingWindow:
+      type: object
+      properties:
+        startsAt:
+          oneOf:
+            - type: integer
+              description: "Start of the window. Unix time in milliseconds. (conditional)"
+              format: int64
+            - type: "null"
+        endsAt:
+          oneOf:
+            - type: integer
+              description: "End of the window. Unix time in milliseconds. (conditional)"
+              format: int64
+            - type: "null"
+
+    ProviderInfo:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Unique identifier for the provider"
+        name:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Name of the provider"
+        displayName:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Display name of the provider"
+        serviceType:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Type of service provided"
+        serviceId:
+          oneOf:
+            - type: "string"
+            - type: "null"
+          maxLength: 100
+          description: "Unique identifier for the service"
+      required:
+        - id
+        - name
+        - displayName
+        - serviceType
+
+    ZoneInformation:
+      type:
+        - object
+        - 'null'
+      properties:
+        originPostalCode:
+          type: string
+          example: "78759"
+          description: "Pickup postal code of the zone"
+        destinationPostalCode:
+          type: string
+          example: "77064"
+          description: "Destination postal code of the zone"
+        zone:
+          type: string
+          example: "zone2"
+          description: "The selected zone for provider based on service, origin and  destination zip code"
+        billableWeight:
+          type: number
+          example: 10
+          description: "Calculated billable weight of order"
+        baseRate:
+          type: number
+          example: 1000
+          description: "Base rate excluding surcharges"
+        surcharge:
+          type: number
+          example: 2000
+          description: "Total surcharge applied to order"
+
+    ErrorDetail:
+      type: object
+      required:
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type:
+            - string
+            - 'null'
+        entityId:
+          type:
+            - string
+            - 'null'
+        entity:
+          type:
+            - string
+            - 'null'
+
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "ERROR_TYPE"
+        message:
+          type: string
+          example: "An error occurred"
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+            $ref: '#/components/schemas/Response'
+
+    Response:
+      type: object
+      properties:
+          errors:
+            type: array
+            description: The error response containing any errors that occurred.
+            items:
+                $ref: '#/components/schemas/ErrorMessage'
+
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: Locale is required. The Subscription request has been rejected.
+      description: The error response containing any errors that occurred

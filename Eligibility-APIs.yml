@@ -1,0 +1,1567 @@
+openapi: 3.1.0
+
+info:
+  title: Eligibility API
+  version: '1.0'
+  description: |
+
+
+
+    # Product Info
+
+    The Eligibility API provides tools to enhance logistics operations, including delivery coverage checks, smart window configurations, and address confidence scoring. It is designed to integrate seamlessly with various provider services and supports customizable orchestration rules for tailored responses.
+    
+
+    # Business Values
+
+    - **Delivery Assurance**:  - determines if a customer's address is covered by any locations as well as provides available fulfillment methods that the customer is eligible for.
+    - **Smart Windows**:  - returns available windows that take into account store timings as well as pick and pack time so that a customer can select their preferred window.
+    - **Address Confidence**:  - This provides a confidence score for a specified drop-off address in the ability to deliver an order. This allows a business to determine if they will deliver there or may need to require insurance for the order.
+
+    # FAQs   
+
+    - **Should I use the customers full address or can I just use the zip code in the Delivery Coverage request?**
+    >  The more address information you provide, the more accurate the response is — so the full address will be the most accurate.
+    
+    > If you are using the full address, you can turn on caching in the business settings.
+    
+     - **What if I use only the zip code in the Delivery Coverage request?**
+    >  For a zip code only request, we find an address around the center of the zip code to use for the request. If the customers final address is on the far end of the zip code from the store, there is the potential the added distance means they are no longer in a serviceable boundary once the order is placed and dispatched.
+
+    - **How is the delivery coverage determined?**
+    >  The delivery coverage can be requested at the store boundary, DSP, or store boundary + DSP level.
+    
+    - **Can I retrieve the providers windows instead of the store windows with the Smart Windows call?**
+    >  Yes, you can use the "provider" option in the call to return the providers available windows.
+
+    - **How many days of windows can I retrieve?**
+    >  The API provides up to 7 days of time windows
+
+    - **Where can I configure my businesses windows?**
+    >  Time windows can be configured at the Business, Brand, or Location level.
+
+    - **Is a higher or lower confidence score better?**
+    >  The higher the confidence score, the more confidence we have in the delivery of the order. So the higher the score the better.
+    
+    # Error Codes
+
+    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+
+    Successful response may or may not include warnings.
+
+    1. **Without warnings** - Indicates the request has been processed as anticipated.
+    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+
+    The severity of an error may be transient or hard.
+      
+    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+
+    ---
+
+    ## /smart-windows
+
+    ### POST
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Invalid data: No such locationExternalId exist or other invalid values in the request |
+    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Location Timings Not found  |
+    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
+    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
+
+    ---
+
+    ### /coverage/{services}
+
+    ### POST
+    | Type                      | HTTP Code | Severity   | Description                                                                 |
+    |---------------------------|-----------|------------|-----------------------------------------------------------------------------|
+    | UNAUTHORIZED              |    401    |  Hard      | Unauthorized: Invalid or missing authentication token                      |
+    | INTERNAL_SERVER_ERROR     |    500    | Transient  | Internal Server Error: An unexpected error occurred while processing the request |
+    | INVALID_DATA              |    400    |  Hard      | Invalid Data: Delivery Address Not Provided or other invalid values in the request |
+    | VALIDATION_ERROR          |    400    |  Hard      | Field validation failed as per the expected input.                         |
+    | NO_PROVIDER_ASSIGNED      |    422    |  Hard      | No Provider has been assigned to the mentioned location.                   |
+    | NO_PROVIDER_MATCHED       |    422    |  Hard      | No Provider matched the criteria for the requested delivery.               |
+    | GEOCODING_FAILED          |    422    |  Hard      | Geocoding Service for the given address failed.                            |
+    | TOO_MANY_REQUESTS         |    429    | Transient  | Too many requests received per second.                                     |
+    | UNMAPPED_ERROR            |    422    | Transient  | Request received unidentifiable error response.                            |
+
+    ---
+
+    ### /confidence-score/{logistics_type}
+
+    ### POST
+    | Type                      | HTTP Code | Severity   | Description                                                                 |
+    |---------------------------|-----------|------------|-----------------------------------------------------------------------------|
+    | UNAUTHORIZED              |    401    |  Hard      | Unauthorized: Invalid or missing authentication token                      |
+    | INTERNAL_SERVER_ERROR     |    500    | Transient  | Internal Server Error: An unexpected error occurred while processing the request |
+    | INVALID_DATA              |    400    |  Hard      | Invalid Data: Delivery Address Not Provided or other invalid values in the request |
+    | VALIDATION_ERROR          |    400    |  Hard      | Field validation failed as per the expected input.                         |
+    | NO_PROVIDER_ASSIGNED      |    422    |  Hard      | No Provider has been assigned to the mentioned location.                   |
+    | NO_PROVIDER_MATCHED       |    422    |  Hard      | No Provider matched the criteria for the requested delivery.               |
+    | GEOCODING_FAILED          |    422    |  Hard      | Geocoding Service for the given address failed.                            |
+    | TOO_MANY_REQUESTS         |    429    | Transient  | Too many requests received per second.                                     |
+    | UNMAPPED_ERROR            |    422    | Transient  | Request received unidentifiable error response.                            |
+
+
+servers:
+  - url: https://api.lynkup.com/eligibility/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+         - v1
+  - url: 'https://sanbox.api.lynkup.com/eligibility/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+
+tags:
+  - name: "Delivery-Coverage"
+    description: "Endpoints related to checking delivery coverage based on location and provider availability"
+  - name: "Smart-Windows"
+    description: "Smart Windows enables customers to manage their store timings, their pick-and-pack lead time windows, and associated pick-and-pack capacity and cost. It also allows customers to choose suitable windows for pick-up/delivery."
+  - name: "Address-Confidence"
+    description: "Endpoints for assessing confidence scores and validating drop-off addresses for logistics operations."
+security:
+  - OAuth2ClientCredentials: []
+
+paths:
+  /smart-windows: 
+    post:
+      summary: Retrieve Available Time Windows
+      description: |
+        The Smart Windows API allows customers to view configurable time windows for pick-up or delivery based on the specified category, date, and location. This API supports configurations for pick-and-pack lead times, packing times, and associated capacities and costs.
+        Time windows can be configured at the Business, Brand, or Location level, and the API provides up to 7 days of time windows. Optionally, the request can include a provider name to retrieve provider-specific time windows. Note that location timings must be configured before retrieving provider-specific windows.
+
+        Each time window takes into account:
+          - **Lead Time**: The preparation time required before an item can be picked.
+          - **Packing Time**: The time needed to pack an order.
+
+        This API enables flexible scheduling by providing a tailored view of available time windows, helping customers select suitable options for their operational needs.
+
+
+      operationId: getSmartWindows
+      tags:
+        - Eligibility
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmartWindowRequest'
+            examples:
+              GetSmartWindows:
+                value:
+                  locationExternalIds:
+                    - '100983'
+                  startDate: '2025-01-01'
+                  numberOfDays: 2
+                  types:
+                    - delivery
+                  categories:
+                    - Prime
+                  providerCheck: false
+              GetSmartWindowsWithProvider:
+                value:
+                  locationExternalIds:
+                    - '5101'
+                  numberOfDays: 1
+                  provider: PickupNow
+              GetReturnWindows:
+                value:
+                  locationExternalIds:
+                    - '100983'
+                  numberOfDays: 2
+                  types:
+                    - return
+                  categories:
+                    - Return 
+      responses:
+        '200':
+          description: "Request was successful"
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    message: "success"
+                    data:
+                      - locationExternalId: "100983"
+                        timeZone: "America/Chicago"
+                        delivery:
+                          - category: "Prime"
+                            pickAndPack: 30
+                            date: "2025-01-01"
+                            windows:
+                              - pickupTime:
+                                  startsAt: 1735747200000
+                                deliveryTime:
+                                  startsAt: 1735747200000
+                                  endsAt: 1735754400000
+                                tz: "America/Chicago"
+                                windowId: null
+                                provider: null
+                                available: -1
+                              - pickupTime:
+                                  startsAt: 1735754400000
+                                deliveryTime:
+                                  startsAt: 1735754400000
+                                  endsAt: 1735761600000
+                                tz: "America/Chicago"
+                                windowId: null
+                                provider: null
+                                available: -1
+                              - pickupTime:
+                                  startsAt: 1735761600000
+                                deliveryTime:
+                                  startsAt: 1735761600000
+                                  endsAt: 1735768800000
+                                tz: "America/Chicago"
+                                windowId: null
+                                provider: null
+                                available: -1
+                              - pickupTime:
+                                  startsAt: 1735768800000
+                                deliveryTime:
+                                  startsAt: 1735768800000
+                                  endsAt: 1735776000000
+                                tz: "America/Chicago"
+                                windowId: null
+                                provider: null
+                                available: -1
+                          - category: "Prime"
+                            pickAndPack: 30
+                            date: "2025-01-02"
+                            windows:
+                              - pickupTime:
+                                  startsAt: 1735833600000
+                                deliveryTime:
+                                  startsAt: 1735833600000
+                                  endsAt: 1735840800000
+                                tz: "America/Chicago"
+                                windowId: null
+                                provider: null
+                                available: -1
+                              - pickupTime:
+                                  startsAt: 1735840800000
+                                deliveryTime:
+                                  startsAt: 1735840800000
+                                  endsAt: 1735848000000
+                                tz: "America/Chicago"
+                                windowId: null
+                                provider: null
+                                available: -1
+                              - pickupTime:
+                                  startsAt: 1735848000000
+                                deliveryTime:
+                                  startsAt: 1735848000000
+                                  endsAt: 1735855200000
+                                tz: "America/Chicago"
+                                windowId: null
+                                provider: null
+                                available: -1
+                              - pickupTime:
+                                  startsAt: 1735855200000
+                                deliveryTime:
+                                  startsAt: 1735855200000
+                                  endsAt: 1735862400000
+                                tz: "America/Chicago"
+                                windowId: null
+                                provider: null
+                                available: -1
+                Response for Provider Specific Window:
+                  value:
+                    message: "success"
+                    data:
+                      - locationExternalId: "5101"
+                        timeZone: "America/New_York"
+                        delivery:
+                          - date: "2022-06-21"
+                            windows:
+                              - pickupTime:
+                                  startsAt: 1655823600000
+                                deliveryTime:
+                                  startsAt: 1655823600000
+                                  endsAt: 1655830800000
+                                capacity: -1
+                                available: -1
+                                fee: 0
+                                windowId: "5101_637914060000000000_2_5"
+                                provider: "PickupNow"
+                              - pickupTime:
+                                  startsAt: 1655830800000
+                                deliveryTime:
+                                  startsAt: 1655830800000
+                                  endsAt: 1655838000000
+                                capacity: -1
+                                available: -1
+                                fee: 0
+                                windowId: "5101_637914132000000000_2_5"
+                                provider: "PickupNow"
+                              - pickupTime:
+                                  startsAt: 1655838000000
+                                deliveryTime:
+                                  startsAt: 1655838000000
+                                  endsAt: 1655845200000
+                                capacity: -1
+                                available: -1
+                                fee: 0
+                                windowId: "5101_637914204000000000_2_5"
+                                provider: "PickupNow"
+                            category: null
+                            pickAndPack: 30
+                Response if Location is closed:
+                  value:
+                    message: "success"
+                    data:
+                      - locationExternalId: "100983"
+                        timeZone: "America/Chicago"
+                        delivery:
+                          - category: "Prime"
+                            pickAndPack: 30
+                            date: "2025-12-25"
+                            windows: []
+              schema:
+                anyOf:
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        example: success
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            locationExternalId:
+                              type: string
+                              example: "100983"
+                            timeZone:
+                              type: string
+                              example: "America/Chicago"
+                            delivery:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  category:
+                                    type: string
+                                    example: Prime
+                                  pickAndPack:
+                                    type: integer
+                                    example: 30
+                                    default: 0
+                                  date:
+                                    type: string
+                                    example: "2025-01-01"
+                                  windows:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        pickupTime:
+                                          type: object
+                                          properties:
+                                            startsAt:
+                                              type: integer
+                                              example: 1735747200000
+                                              default: 0
+                                        deliveryTime:
+                                          type: object
+                                          properties:
+                                            startsAt:
+                                              type: integer
+                                              example: 1735747200000
+                                              default: 0
+                                            endsAt:
+                                              type: integer
+                                              example: 1735754400000
+                                              default: 0
+                                        tz:
+                                          type: string
+                                          example: "America/Chicago"
+                                        windowId: {}
+                                        provider: {}
+                                        available:
+                                          type: integer
+                                          example: -1
+                                          default: 0
+                  - title: Response for Provider Specific Window
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: success
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            locationExternalId:
+                              type: string
+                              example: "5101"
+                            timeZone:
+                              type: string
+                              example: "America/New_York"
+                            delivery:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  date:
+                                    type: string
+                                    example: "2022-06-21"
+                                  windows:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        pickupTime:
+                                          type: object
+                                          properties:
+                                            startsAt:
+                                              type: integer
+                                              example: 1655823600000
+                                              default: 0
+                                        deliveryTime:
+                                          type: object
+                                          properties:
+                                            startsAt:
+                                              type: integer
+                                              example: 1655823600000
+                                              default: 0
+                                            endsAt:
+                                              type: integer
+                                              example: 1655830800000
+                                              default: 0
+                                        capacity:
+                                          type: integer
+                                          example: -1
+                                          default: 0
+                                        available:
+                                          type: integer
+                                          example: -1
+                                          default: 0
+                                        fee:
+                                          type: integer
+                                          example: 0
+                                          default: 0
+                                        windowId:
+                                          type: string
+                                          example: "5101_637914060000000000_2_5"
+                                        provider:
+                                          type: string
+                                          example: PickupNow
+                                  category: {}
+                                  pickAndPack:
+                                    type: integer
+                                    example: 30
+                                    default: 0
+                  - title: Response if Location is closed
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: success
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            locationExternalId:
+                              type: string
+                              example: "100983"
+                            timeZone:
+                              type: string
+                              example: "America/Chicago"
+                            delivery:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  category:
+                                    type: string
+                                    example: Prime
+                                  pickAndPack:
+                                    type: integer
+                                    example: 30
+                                    default: 0
+                                  date:
+                                    type: string
+                                    example: "2025-12-25"
+                                  windows:
+                                    type: array
+                                    items: {}
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value:
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "No such locationExternalId exist. Please enter a valid one."
+                        parameter: locationExternalId
+                        entityId: location-1
+                        entity: location
+                    type: "INVALID_DATA"
+                    message: "No such locationExternalId exist. Please enter a valid one."
+        '404':
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              examples:
+                Location Timings Not Found:
+                  value:
+                    message: "Location Timings is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Location Timings is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null 
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+  /coverage/{services}:
+    post:
+      summary: "Check Coverage Eligibility"
+      tags:
+        - Eligibility
+      description: |
+        This endpoint verifies delivery coverage for the requested services. The available services include:
+          - **Location Coverage**: Determines if the delivery address falls within the coverage area of any location and returns a list of locations that can service the address.
+
+          - **Provider Coverage**: Checks if at least one provider associated with a location offers delivery coverage.
+
+          - **Location + Provider Coverage**: Provides a combined check for both location and provider coverage.
+      operationId: "checkCoverage"
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: services
+          in: path
+          required: true
+          description: The service type to check coverage for.
+          schema:
+            type: string
+            enum:
+              - provider-coverage
+              - location-coverage
+              - location-provider-coverage
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryAssuranceRequest"
+            examples:
+              LocationboundaryCheckWithOnlyPostalCode:
+                summary: "Locationboundary check with only postalCode"
+                value:
+                  deliveryAddress:
+                    postalCode: "75206"
+                    countryCode: "US"
+              CheckingProviderAvailabilityForAddressAndTimeWindow:
+                summary: "Checking provider availability for an address and time window"
+                value:
+                  locationExternalId: "100940"
+                  deliveryAddress:
+                    street1: "5718 Ellsworth Ave"
+                    city: "Dallas"
+                    state: "Texas"
+                    postalCode: "75206"
+                    countryCode: "US"
+                  pickupTime:
+                    startsAt: 1651277722000
+                  deliveryTime:
+                    endsAt: 1651288522000
+              UsingTagsToSegregateBoundariesAndProviders:
+                summary: "Using tags to segregate boundaries & providers"
+                value:
+                  deliveryAddress:
+                    street1: "6161 Trail Glen Drive"
+                    city: "Dallas"
+                    state: "Texas"
+                    postalCode: "75217"
+                    countryCode: "US"
+                    latitude: 32.7143544281459
+                    longitude: -96.7157876717065
+                  matchProviderTags:
+                    - "nightDelivery"
+                  matchBoundaryTags:
+                    - "nightDelivery"
+              FindNearestPickupLocations:
+                summary: "Find nearest locations from a deliveryAddress irrespective of boundaries"
+                value:
+                  deliveryAddress:
+                    street1: "6161 Trail Glen Drive"
+                    city: "Dallas"
+                    state: "Texas"
+                    postalCode: "75217"
+                    countryCode: "US"
+                    latitude: 32.7143544281459
+                    longitude: -96.7157876717065
+                  nearestPickup:
+                    radius: 10
+                  sortByDistance: true
+              ProviderCheckWithOnlyPostalCode:
+                summary: "Provider check with only PostalCode"
+                value:
+                  deliveryAddress:
+                    postalCode: "75206"
+                    countryCode: "US"
+              CheckingBoundaryAndProviderCoverage:
+                summary: "Checking boundary and provider coverage"
+                value:
+                  deliveryAddress:
+                    street1: "5718 Ellsworth Ave"
+                    city: "Dallas"
+                    state: "Texas"
+                    postalCode: "75206"
+                    countryCode: "US"
+              UsingTagsToSegregateLocations:
+                summary: "Using tags to segregate locations"
+                value:
+                  deliveryAddress:
+                    street1: "11111 Research Blvd"
+                    city: "Houston"
+                    state: "Texas"
+                    postalCode: "78759"
+                    countryCode: "US"
+                  matchLocationTags:
+                    - "heavy"
+      responses:
+        '200':
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryAssuranceServiceResponse"
+              examples:
+                LocationboundaryCheckWithOnlyPostalCode:
+                  summary: "Locationboundary check with only PostalCode"
+                  value:
+                    locationCoverage:
+                      locations:
+                        - "100983"
+                        - "100940"
+                        - "100987"
+                CheckingProviderAvailabilityForAddressAndTimeWindow:
+                  summary: "Checking provider availability for an address and time window"
+                  value:
+                    providerCoverage:
+                      providers:
+                        - "DoorDash"
+                UsingTagsToSegregateBoundariesAndProviders:
+                  summary: "Using tags to segregate boundaries & providers"
+                  value:
+                    locationProviderCoverage:
+                      locations:
+                        - "100940"
+                      errors: []
+                FindNearestPickupLocations:
+                  summary: "Find nearest locations from a deliveryAddress irrespective of boundaries"
+                  value:
+                    locationCoverage:
+                      locations:
+                        - "100940"
+                        - "100987"
+                        - "1106"
+                        - "4652"
+                        - "100983"
+                      distances:
+                        - locationExternalId: "100940"
+                          distance: 3.96
+                          unit: "miles"
+                        - locationExternalId: "100987"
+                          distance: 6.91
+                          unit: "miles"
+                        - locationExternalId: "1106"
+                          distance: 8.32
+                          unit: "miles"
+                        - locationExternalId: "4652"
+                          distance: 8.85
+                          unit: "miles"
+                        - locationExternalId: "100983"
+                          distance: 9.21
+                          unit: "miles"
+                NoLocationAvailableToDeliverToAddress:
+                  summary: "No location is available to deliver to address"
+                  value:
+                    locationCoverage:
+                      locations: []
+                NoProviderAvailableToDeliverToAddress:
+                  summary: "No provider is available to deliver to address"
+                  value:
+                    providerCoverage:
+                      providers: []
+                      errors:
+                        - entityId: "DoorDash"
+                          entity: "DoorDash_123"
+                          type: "OUTSIDE_THE_COVERAGE_AREA"
+                          message: "Dropoff address not within service area: dropoff_address"
+                        - entityId: "Roadie"
+                          entity: "Roadie"
+                          type: "OUTSIDE_THE_COVERAGE_AREA"
+                          message: "Route Sorry, distance in passenger vehicles is limited to 30 miles."
+                          parameter: null
+                        - message: "No Provider matched to deliver this order. Please try again"
+                          type: "NO_PROVIDER_MATCHED"
+                          parameter: null
+                          entityId: null
+                          entity: null
+                ProviderCheckWithOnlyPostalCode:
+                  summary: "Provider check with only PostalCode"
+                  value:
+                    providerCoverage:
+                      providers:
+                        - "DoorDash"
+                CheckingBoundaryAndProviderCoverage:
+                  summary: "Checking boundary and provider coverage"
+                  value:
+                    locationProviderCoverage:
+                      locations:
+                        - "100983"
+                        - "100940"
+                        - "100987"
+                      errors: []
+                UsingTagsToSegregateLocations:
+                  summary: "Using tags to segregate locations"
+                  value:
+                    locationProviderCoverage:
+                      locations:
+                        - "LTAGS"
+                      errors: []
+        '400':
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Date range greater than 30 days:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: Delivery Address not provided.
+                        parameter: deliveryAddress
+                        entityId: null
+                        entity: null
+                    type: "INVALID_DATA"
+                    message: Delivery Address not provided.
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        '401':
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+  
+  /confidence-score/{logistics_type}:
+    post:
+      summary: "Check Confidence Score"
+      tags:
+        - Eligibility
+      description: |
+        This endpoint provides a confidence score for a specified drop-off address. The `logistics_type` parameter specifies the type of logistics (e.g., forward).
+      operationId: "checkConfidenceScore"
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: logistics_type
+          in: path
+          required: true
+          description: The type of logistics (e.g., forward).
+          schema:
+            type: string
+            enum:
+              - forward
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryAssuranceConfidenceScoreRequest"
+            examples:
+              ConfidenceScore:
+                summary: "Confidence Score"
+                value:
+                  deliveryAddress:
+                    street1: "37124 PARKWAY DR"
+                    city: "BEAUMONT"
+                    state: "CA"
+                    postalCode: "92223"
+      responses:
+        '200':
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryAssuranceConfidenceScoreResponse"
+              examples:
+                ConfidenceScore:
+                  summary: "Confidence Score"
+                  value:
+                    confidenceScore:
+                      score:
+                        addressScore: '972'
+                      scoredAddress: 
+                        street1: "37124 PARKWAY DR"
+                        city: "BEAUMONT"
+                        state: "CA"
+                        postalCode: "92223"
+                      isResidential: true
+        '204':
+          description: |
+              No confidence score is available. The request was processed successfully, 
+              but no content is available to return due to insufficient historical data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryAssuranceConfidenceScoreResponse"
+              examples:
+                ConfidenceScore:
+                  summary: "Confidence Score"
+                  value:
+                    confidenceScore:
+                      score:
+                        addressScore: null
+                      scoredAddress: 
+                        street1: "37124 PARKWAY DR"
+                        city: "BEAUMONT"
+                        state: "CA"
+                        postalCode: "92223"
+
+        '400':
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Date range greater than 30 days:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: Delivery Address not provided.
+                        parameter: deliveryAddress
+                        entityId: null
+                        entity: null
+                    type: "INVALID_DATA"
+                    message: Delivery Address not provided.
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        '401':
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+  
+  schemas: 
+    Address:
+      type: object
+      description: Address of the location
+      required:
+        - postalCode
+      properties:
+        street1:
+          type: string
+          description: Address Line 1 (Street Number and Street Name)
+          maxLength: 100
+        street2:
+          type: string
+          description: Address Line 2 (not to be used for apartment / suite #)
+          maxLength: 100
+        apartmentNumber:
+          type: string
+          description: Apartment / Suite #
+          maxLength: 50
+        city:
+          type: string
+          description: City
+          maxLength: 100
+        state:
+          type: string
+          description: State
+          maxLength: 100
+        postalCode:
+          type: string
+          description: Postal code or zip.
+          maxLength: 20
+        countryCode:
+          type: string
+          description: 2-letter country code in ISO 3166-1 alpha-2 format. If not provided defaults to 'US'.
+          default: US
+          enum: 
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          anyOf: 
+            -  type: 'number'
+            -  type: 'null'
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+    ConfidenceScoreAddress:
+      type: object
+      description: Address of the location
+      required:
+        - street1
+        - city
+        - state
+        - postalCode
+      properties:
+        street1:
+          type: string
+          description: Address Line 1 (Street Number and Street Name)
+          maxLength: 100
+        street2:
+          type: string
+          description: Address Line 2 (not to be used for apartment / suite #)
+          maxLength: 100
+        apartmentNumber:
+          type: string
+          description: Apartment / Suite #
+          maxLength: 50
+        city:
+          type: string
+          description: City
+          maxLength: 100
+        state:
+          type: string
+          description: State
+          maxLength: 100
+        postalCode:
+          type: string
+          description: Postal code or zip.
+          maxLength: 20
+        countryCode:
+          type: string
+          description: 2-letter country code in ISO 3166-1 alpha-2 format. If not provided defaults to 'US'.
+          default: US
+          enum: 
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          anyOf: 
+            -  type: 'number'
+            -  type: 'null'
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+
+    DeliveryAssuranceRequest:
+      type: object
+      required:
+        - deliveryAddress
+      properties:
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "Required when utilising provider service. If ```locationExternalId``` is provided for ```location-coverage``` service, the location boundary check will be limited to that location."
+        deliveryAddress:
+          $ref: '#/components/schemas/Address'
+        matchBoundaryTags:
+          type: array
+          description: "Match locations whose boundaries have at least one of the tags (eg: ```\"tags\":[\"sdd\",\"fleet\"]```) that are passed in an array and cover the dropoff address."
+          items:
+            type: string
+        matchProviderTags:
+          type: array
+          description: "All the providers matching at least one tag are returned. This is only available for the provider and location-provider-coverage services."
+          items:
+            type: string
+        pickupTime:
+          oneOf: 
+            - type: object
+              description: "Check provider availability based on pickup time. If not provided, the system will use the appropriate time window. If pickupTime is *null* then it means that the package needs to be picked as soon as possible."
+              $ref: "#/components/schemas/TimingWindow"
+            - type: 'null'        
+        deliveryTime:
+          oneOf: 
+            - type: object
+              description: "Check provider availability based on drop-off time. If not provided, the system will use the appropriate time window. If delivery time is *null* then it means that the package needs to be dropped off as soon as possible after the pickup."
+              $ref: "#/components/schemas/TimingWindow"
+            - type: 'null'         
+        sortByDistance:
+          type: boolean
+          description: "When true, it returns all the locations that cover the deliveryAddress sorted in the ascending order by distance."
+        nearestPickup:
+          type: object
+          description: "Fetches the nearest locations that serve the deliveryAddress for a given radius. When this field is provided, the coverage boundaries associated with the locations are ignored. This is only available for the location-coverage and location-provider-coverage services."
+          required:
+            - radius
+          properties:
+            radius:
+              type: number
+              description: "The radius (in miles) within which the locations need to be searched for."
+              format: float
+            count:
+              type: integer
+              description: "Limit the Number of locations in the response. locations are first sorted by distance i.e nearest appears first in list, and then limited by count."
+              format: int32
+        showFulfillmentOptions:
+          type: boolean
+          description: "When true, it returns the order type and provider services supported by the location."
+        bypassCache:
+          type: boolean
+          description: "If caching is enabled in the business profile to reduce latency, customers can bypass the cache for this API by including bypassCache set to true in their request"
+        matchLocationTags:
+          type: array
+          description: "All the locations matching at least one tag are returned. This is only available for the location-coverage and location-provider-coverage services."
+          items:
+            type: string
+
+    DeliveryAssuranceConfidenceScoreRequest:
+      type: object
+      required:
+        - deliveryAddress
+      properties:
+        deliveryAddress:
+          $ref: '#/components/schemas/ConfidenceScoreAddress'
+        bypassCache:
+          type: boolean
+          description: "If caching is enabled in the business profile to reduce latency, customers can bypass the cache for this API by including bypassCache set to true in their request"
+  
+    DeliveryAssuranceServiceResponse:
+      type: object
+      properties:
+        providerCoverage:
+          type: object
+          properties:
+            providers:
+              type: array
+              items:
+                type: string
+                example: "100983"
+            errors:
+              type: array
+              items: 
+                $ref: "#/components/schemas/ErrorDetail"    
+        locationCoverage:
+          type: object
+          properties:
+            locations:
+              type: array
+              items:
+                type: string
+                example: "DoorDash"
+            distances:
+              type: array
+              items:
+                type: object
+                properties:
+                  locationExternalId:
+                    type: string
+                    example: "100940"
+                  distance:
+                    type: number
+                    example: 3.96
+                    default: 0
+                  unit:
+                    type: string
+                    example: "miles"    
+        locationProviderCoverage:
+          type: object
+          properties:
+            locations:
+              type: array
+              items:
+                type: string
+                example: "100940"
+            errors:
+              type: array
+              items:
+                $ref: '#/components/schemas/ErrorDetail'
+
+    DeliveryAssuranceConfidenceScoreResponse:
+      type: object
+      properties:
+        confidenceScore:
+              type: object
+              required: 
+                - score
+                - scoredAddress
+              properties:
+                score:
+                  description: "AddressScore for the delivery address"
+                  type: object
+                  properties: 
+                    addressScore: 
+                      oneOf:
+                        - type: string
+                        - type: 'null'
+                scoredAddress:
+                  $ref: "#/components/schemas/Address"
+                isResidential:
+                  type: boolean
+                  description: "To Indicate whether address is Residential or commercial"
+                  example: true
+                errors: 
+                  type: array
+                  items: 
+                    $ref: "#/components/schemas/ErrorDetail"
+              
+    TimingWindow:
+      type: object
+      properties:
+        startsAt:
+          oneOf:
+            - type: integer
+              description: "Start of the window. Unix time in milliseconds. (conditional)"
+              format: int64
+            - type: "null"
+        endsAt:
+          oneOf:
+            - type: integer
+              description: "End of the window. Unix time in milliseconds. (conditional)"
+              format: int64
+            - type: "null"
+
+    SmartWindowRequest:
+      type: object
+      required:
+        - locationExternalIds
+      properties:
+        locationExternalIds:
+          type: array
+          description: Array of `locationExternalId`. One or many Location Ids for which delivery timings are to be returned.
+          items:
+            type: string
+        categories:
+          type: array
+          description: Categories of windows to return. Defaults to all categories.
+          items:
+            type: string
+        startDate:
+          type: string
+          format: date
+          description: |
+            Baseline date from which numberOfDays to be calculated. 
+            [ISO 8601 Calendar Date](https://en.wikipedia.org/wiki/ISO_8601) 
+            (YYYY-MM-DD) as per location’s timezone. Defaults to current date.
+        numberOfDays:
+          type: integer
+          format: int32
+          description: Non-zero positive integer indicating how many days of windows to return. Defaults to 1.
+        providerCheck:
+          type: boolean
+          description: |
+            Flag to indicate if the system should intelligently check top and bottom windows of each day 
+            to ensure providers availability for the start and end. Uses location’s address/postalcode for the check 
+            against the providers. Default is false.
+          default: false
+        types:
+          type: array
+          description: Type of window timings. Options are pickup, delivery, or return. Defaults to type delivery.
+          items:
+            type: string
+          default:
+            - delivery
+        provider:
+          type: string
+          description: Windows will be retrieved from the requested provider instead of matching windows configured at our end.
+        options:
+          $ref: '#/components/schemas/Options'
+
+    Options:
+      type: object
+      description: Override default configured options.
+      properties:
+        itemList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemForSmartWindows'
+    
+    ItemForSmartWindows:
+      type: object
+      description: Some Providers require items to fetch the Available Delivery Windows at their end.
+      required:
+        - quantity
+        - weight
+      properties:
+        quantity:
+          type: integer
+          format: int32
+          description: Number of items. Defaults to 1.
+          minimum: 1
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref: '#/components/schemas/Weight'
+    
+    Weight:
+      type: object
+      description: Weight of an item
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+          format: double
+          description: weight
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given weight in kg or lb
+          enum: 
+            - kg
+            - lb
+  
+    Size:
+      type: object
+      description: Dimensions of the item.
+      required:
+        - height
+        - width
+        - length
+        - unit
+      properties:
+        height:
+          type: number
+          format: double
+          description: Height
+          minimum: 0
+        width:
+          type: number
+          format: double
+          description: Width
+          minimum: 0
+        length:
+          type: number
+          format: double
+          description: Length
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given size in cm or in
+          enum: 
+            - cm
+            - in
+            
+    
+    ErrorDetail:
+      type: object
+      required: 
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: 
+            - string
+            - 'null'
+        entityId:
+          type: 
+            - string
+            - 'null'
+        entity:
+          type: 
+            - string
+            - 'null'
+
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "ERROR_TYPE"
+        message:
+          type: string
+          example: "An error occurred" 
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+            $ref: '#/components/schemas/Response'
+            
+    Response:
+      type: object
+      properties:
+          errors:
+            type: array
+            description: The error response containing any errors that occurred.
+            items:
+                $ref: '#/components/schemas/ErrorMessage'
+    
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: Locale is required. The Subscription request has been rejected.
+      description: The error response containing any errors that occurred
+  

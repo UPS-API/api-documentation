@@ -1,0 +1,878 @@
+openapi: 3.1.0
+
+info:
+  title: Returns API v1
+  version: '1.0'
+  description: | 
+    # Product Info
+
+    The **Returns API** enables customers to retrieve details of an existing return order. Designed to streamline the returns process, it allows businesses to access essential return order data seamlessly. 
+    
+
+    # Business Values
+
+    - **Efficient Returns Retrieval**:  - Access comprehensive return order details in real-time, enabling seamless tracking and management of the returns process.
+
+    - **Integration Flexibility**: - Enhance operational workflows by integrating return order retrieval functionality directly into your platform, ensuring consistency and ease of access.
+
+
+    # How does it work once I am setup as a user?
+    Once set up as a user, you can retrieve details of an existing return order via the Returns API.
+    Simply use the `Get Return Request by ID` endpoint to fetch information for a specific return
+    request initiated through the returns portal.
+
+    # FAQs    
+    - **How are return orders initiated?**
+    > Return orders are initiated through our returns portal based on an existing order.
+      They cannot be created directly via the API.  
+
+    - **What details can I retrieve using the Returns API?**
+    >  The API provides comprehensive details about an existing return order, including
+      return status, associated order information, and customer details.
+
+    - **How is the returnRequestId generated?**
+    > The `returnRequestId` is generated during the creation of a return request in the returns
+      portal and shared via a webhook. It serves as the unique identifier for the return order in subsequent API calls.
+      
+    # Error Codes
+
+    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+
+    Successful response may or may not include warnings.
+
+    1. **Without warnings** - Indicates the request has been processed as anticipated.
+    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+
+    The severity of an error may be transient or hard.
+      
+    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+
+    ---
+
+    ## /requests/{return_request_id}
+
+    ### GET
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Bad Request: brandExternalId is invalid |
+    |  NOT_FOUND             |    404    |  Hard    | Not Found: Return request not found  |
+
+
+    ---
+
+    ## /requests/list
+
+    ### POST
+    |           Type         | HTTP Code | Severity | Description |
+    |------------------------|-----------|----------|-------------|
+    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
+    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    |  INVALID_DATA          |    422    |  Hard    | Bad Request: brandExternalId is invalid |
+    
+servers:
+  - url: https://api.lynkup.com/returns/{version}
+    description: Integration hub Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+         - v1
+  - url: 'https://sanbox.api.lynkup.com/returns/{version}'
+    description: Integration hub Sandbox Production OAuth.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+
+tags: 
+  - name: Returns
+    description: |
+       Endpoint for retrieving customer return requests.
+security:
+  - OAuth2ClientCredentials: []
+
+paths:     
+  /requests/{return_request_id}:
+    get:
+      summary: "Retrieve Return Details"
+      description: |
+          Retrieve the details of a specific return by its unique identifier.
+      operationId: "getReturnRequestById"
+      tags: 
+        -  Returns
+      security:
+        - OAuth2ClientCredentials: []
+      parameters:
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+                - v1
+        - name: "return_request_id"
+          in: "path"
+          description: "The unique identifier of the return, provided at the time of its creation"
+          required: true
+          schema:
+            type: "string"  
+      responses:
+        '200':
+          description: "Request was successful"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReturnRequest'  
+              examples:
+                Result:
+                  value:
+                    id: "67038a29b15cd352cb984261"
+                    createdAt: "2024-10-07T07:13:45.034Z"
+                    rmaId: "1728285224896"
+                    status: "ACCEPTED"
+                    groupId: null
+                    returnReason:
+                      code: "DHA01"
+                      name: "Don't want the product anymore"
+                      type: "others"
+                    returnMethod:
+                      code: "DHARM03"
+                      name: "Drop it off - No Label Needed"
+                      type: "ship-it-back-qr-code"
+                      displayName: "Drop it off - No Label Needed"
+                    refundMode:
+                      code: "DHARFM01"
+                      name: "Cash"
+                    tenantId: "dhavalbusiness"
+                    brandExternalId: "dhavalbusiness"
+                    customerAddress:
+                      street1: "4147 Moselle Road"
+                      city: "Islandton"
+                      state: "SC"
+                      postalCode: "29929"
+                      countryCode: "US"
+                      latitude: 32.9423294
+                      longitude: -81.0004286
+                    itemList:
+                      - sku: "sku22"
+                        quantity: 1
+                        size:
+                          length: 0.01
+                          width: 0.01
+                          height: 0.01
+                          unit : "in"
+                        weight: 
+                          value : 7
+                          unit: 'lb'
+                        price: 1108
+                        salePrice: 1008
+                        title: "Green Shade Rayban Sunglasses"
+                        description: "Sunglasses"
+                        itemAttributes:
+                          size: "S"
+                          color: "green"
+                          style: "abstract"
+                          material: "linen"
+                        tags: []
+                        refId: "b3JkZXJxYTEwX19za3UyMl9fNw=="
+                    customer:
+                      email: "dhaval.parmar@deliverysolutions.co"
+                      phone: "+12015554312"
+                      name: "Dhaval Parmar"
+                      userExternalId: "test1"
+                    orderIdBeingReturned:
+                       - "6647528f6a63444b45da7492"
+                    orderBeingReturned:
+                       - "orderqa10"
+                    fee: 10.02
+                    locationExternalId: "dhavalbusiness"
+                    lastUpdatedAt: "2024-10-07T07:13:49.324Z"
+                    returnOrder:
+                      order: "67038a29a0a8f0e0a8cd88e1"
+                      providerInfo:
+                        providerId: ""
+                        name: "UPS"
+                        displayName: ""
+                      amount: 15.85
+                      trackingId: "1ZXXXXXXXXXXXXXXXX"
+                      referenceLinks:
+                        trackingUrl: "https://q.dl-s.co/6ytu7YD_UCQ"
+                        labelLink: "https://qa.api.deliverysolutions.co/api/v2/label?orderId=67038a29a0a8f0e0a8cd88e1&token=NjcwMzhhMjlhMGE4ZjBlMGE4Y2Q4OGUx"
+                        scanCodeLink: "https://qa.files.deliverysolutions.co/dhavalbusiness/delivery-qrcode/UPS/2024-10/1ZXXXXXXXXXXXXXXXX-b2f9377e-847b-11ef-9234-9ff61e6f0a5e.png"
+                      orderExternalId: "orderqa10-1728285224896"
+                      requestedTime: null
+                      shipments:
+                        - scanCodeLink: "https://qa.files.deliverysolutions.co/dhavalbusiness/delivery-qrcode/UPS/2024-10/1ZXXXXXXXXXXXXXXXX-b2f9377e-847b-11ef-9234-9ff61e6f0a5e.png"
+                    cancelRequestBy: "Fahad"
+                    pickupInstructions: "Pickup Window Instructions"
+                    deliveryTime:
+                      endsAt: 1738591200000
+                    pickupTime:
+                      startsAt: 1738580400000
+                      endsAt: 1738591200000
+                    subStatus: null
+        '404':
+          description: "Resource was not found"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Result:
+                  value:
+                    message: "Return Request is not found"
+                    type: "NOT_FOUND"
+                    errors:
+                      - type: "NOT_FOUND"
+                        message: "Return Request is not found" 
+                        parameter: null
+                        entityId: null
+                        entity: null
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                 errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
+  
+  schemas:  
+    Address:
+      type: object
+      description: Address of the location
+      required:
+        - street1
+        - city
+        - state
+        - postalCode
+      properties:
+        street1:
+          type: string
+          description: Address Line 1 (Street Number and Street Name)
+          maxLength: 100
+        street2:
+          type: string
+          description: Address Line 2 (not to be used for apartment / suite #)
+          maxLength: 100
+        apartmentNumber:
+          type: string
+          description: Apartment / Suite #
+          maxLength: 50
+        city:
+          type: string
+          description: City
+          maxLength: 100
+        state:
+          type: string
+          description: State
+          maxLength: 100
+        postalCode:
+          type: string
+          description: Postal code or zip.
+          maxLength: 20
+        countryCode:
+          type: string
+          description: 2-letter country code in ISO 3166-1 alpha-2 format. If not provided defaults to 'US'.
+          default: US
+          enum: 
+            - US
+            - CA
+            - GB
+            - AU
+            - IE
+        latitude:
+          type: number
+          format: double
+          description: Latitude coordinates of the address
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinates of the address
+
+    ErrorDetail:
+      type: object
+      required: 
+        -  type
+        -  message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type: 
+            - string
+            - 'null'
+        entityId:
+          type: 
+            - string
+            - 'null'
+        entity:
+          type: 
+            - string
+            - 'null'
+
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "ERROR_TYPE"
+        message:
+          type: string
+          example: "An error occurred" 
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    
+    ReturnRequest:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "63bbc8321567710b52abe349"
+          description: "Unique identifier for the return request."
+        createdAt:
+          type: "string"
+          example: "2024-10-07T07:13:45.034Z"
+          format: date-time
+          description: "Timestamp indicating when the return request was created."
+        rmaId:
+          type: "string"
+          example: "1728285224896"
+          maxLength: 100
+          description: "The Return Merchandise Authorization ID associated with the return request."
+        groupId:
+            type: 
+              - string
+              - 'null'
+            maxLength: 100
+            description: 
+              E-commerce order id should be mapped to groupId field so that tracking and returns can be utilise efficiently.
+        subStatus:
+           type: 
+             - "string"
+             - 'null'
+           maxLength: 100
+           example: "CUSTOMER_CANCELLED"
+           description: 
+             Provides additional information for the status of the Return Request. Currently helpful for Return Requests with FAILED status, to understand if it was RETAILER_REJECTED, PROVIDER_REJECTED, CUSTOMER_CANCELLED or PROVIDER_FAILED
+        status:
+          type: "string"
+          example: "ACCEPTED"
+          maxLength: 100
+          description: "Current status of the return request."
+        returnReason:
+          $ref: "#/components/schemas/ReturnReason"
+          description: "Details about the reason for the return."
+        returnMethod:
+          $ref: "#/components/schemas/ReturnMethod"
+          description: "The method selected for returning the item(s)."
+        refundMode:
+          $ref: "#/components/schemas/RefundMethod"
+          description: "Details about the mode of refund for the return request."
+        tenantId:
+          type: "string"
+          example: "dhavalbusiness"
+          maxLength: 100
+          description: "Unique identifier for the tenant making the return request."
+        brandExternalId:
+          type: "string"
+          example: "dhavalbusiness"
+          maxLength: 100
+          description: "External identifier for the brand associated with the return request."
+        customerAddress:
+          $ref: "#/components/schemas/Address"
+          description: "Address details of the customer initiating the return request."
+        itemList:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ItemForReturnRequest"
+          description: "List of items included in the return request."
+        customer:
+          $ref: "#/components/schemas/Customer"
+          description: "Details about the customer initiating the return request."
+        orderIdBeingReturned:
+          type: "array"
+          items:
+            type: "string"
+          description: "List of order IDs associated with the return."
+        orderBeingReturned:
+          type: "array"
+          items:
+            type: "string"
+          description: "List of orders being returned."
+        fee:
+          type: "number"
+          example: 10.02
+          minimum: 0
+          description: "Fee associated with processing the return request."
+        locationExternalId:
+          type: "string"
+          example: "dhavalbusiness"
+          maxLength: 100
+          description: "External ID of the location where the return is being processed."
+        lastUpdatedAt:
+          type: "string"
+          format: date-time
+          example: "2024-10-07T07:13:49.324Z"
+          description: "Timestamp indicating the last update to the return request."
+        returnOrder:
+          $ref: "#/components/schemas/ReturnOrder"
+          description: "Details about the return order associated with this request."
+        cancelRequestBy:
+          type: "string"
+          example: "Fahad"
+          maxLength: 100
+          description: "Name of the person who initiated the return request."
+        pickupInstructions:
+          type: "string"
+          example: "Pickup Window Instructions"
+          maxLength: 10000
+          description: "Pickup Instructions for return requests."
+        deliveryTime:
+          $ref: "#/components/schemas/TimeWindow"
+          description: "Details about the delivery time of return request."
+        pickupTime:
+          $ref: "#/components/schemas/TimeWindow"
+          description: "Details about the pickup time of return request."
+        
+    ReturnReason:
+      type: "object"
+      properties:
+        code:
+          type: "string"
+          description: "The code of the return reason configured at the business level."
+          example: "DHA01"
+          maxLength: 100
+        name:
+          type: "string"
+          description: "The name of the return reason configured at the business level."
+          example: "Don't want the product anymore"
+          maxLength: 100
+        type:
+          type: "string"
+          description: "The category of the return reason (e.g., 'others')."
+          example: "others"
+          enum:
+            - "too-small"
+            - "too-large"
+            - "wrong-size"
+            - "wrong-color"
+            - "dislike-color"
+            - "wrong-the-style"
+            - "dislike-the-style"
+            - "defective-item"
+            - "damaged-in-item"
+            - "compatibility-issues"
+            - "item-is-broken"
+            - "expired-item"
+            - "dissatisfaction"
+            - "changed-mind"
+            - "gift-return"
+            - "no-longer-needed"
+            - "quality-issue"
+            - "difficult-to-use"
+            - "product-not-as-displayed-on-website"
+            - "arrived-too-late"
+            - "item-parts-missing"
+            - "wrong-item"
+            - "overcharged-for-item"
+            - "non-compliance-with-safety-standards"
+            - "price-drop"
+            - "others"
+          maxLength: 100
+
+    ReturnMethod:
+      type: "object"
+      properties:
+        code:
+          type: "string"
+          description: "Unique code mapped to the return method."
+          example: "DHARM03"
+          maxLength: 100
+        name:
+          type: "string"
+          description: "Name of the return method (e.g., 'Drop it off - No Label Needed'). It is dependant on type of return method but user can still customize it"
+          example: "Drop it off - No Label Needed"
+          maxLength: 100
+        type:
+          type: "string"
+          description: |
+              Returns Methods Supported by Delivery Solutions for Returns MVP
+
+              Drop it off- Print Label(ship-it-back) - Option where the Customer can Print the label & drop that item off at the nearest shipping facility of the specific Carrier.
+
+              Drop it off- No Label Needed(ship-it-back-qr-code) - Option where the Customer can drop that item off at the nearest shipping facility of the specific Carrier by showing a QR code.
+
+              Drop it off- No Label or Box Needed(ship-it-back-qr-code-box) - Option where the Customer can drop that item off at the nearest shipping facility of the specific Carrier by showing a QR code. The carrier will print the label. The customer will package the return.
+
+              Return to Store(return-to-store) -  The customer must return the item to the nearest store.
+
+              Keep the Item(keep-item) - The customer gets to keep the item. 
+
+              Home Pickup - Print Label(home-pickup) - The provider will pick up the return from the customer’s home. Return will be packaged and labelled by the customer.
+
+              Home Pickup - No Label Needed(home-pickup-qr-code) - The provider will receive a mobile QR code, pick up the return from the customer’s home, and drop it off at the appropriate carrier network. The carrier will print the label. The customer will package the return.
+
+              Home Pickup - No Label or Box Needed(home-pickup-qr-code-box) - The provider will receive a mobile QR code, pick up the return from the customer’s home, and drop it off at the appropriate carrier network. The carrier will print the label and package the return.
+          enum:
+            - "ship-it-back"
+            - "ship-it-back-qr-code"
+            - "ship-it-back-qr-code-box"
+            - "return-to-store"
+            - "keep-item"
+            - "home-pickup"
+            - "home-pickup-qr-code"
+            - "home-pickup-qr-code-box"
+        displayName:
+          type: "string"
+          description: "Title of the return method to be shown to the end customer."
+          example: "Drop it off - No Label Needed"
+          maxLength: 100
+
+    RefundMethod:
+      type: "object"
+      properties:
+        code:
+          type: "string"
+          description: "Unique code representing the refund method."
+          example: "DHARFM01"
+          maxLength: 100
+        name:
+          type: "string"
+          description: "Name of the refund method (e.g., 'Cash')."
+          example: "Cash"
+          maxLength: 100
+
+    ItemForReturnRequest:
+      type: "object"
+      properties:
+        sku:
+          type: "string"
+          example: "sku22"
+          description: "An ID that identify the product/variant from the brand's catalog."
+          maxLength: 100
+        quantity:
+          type: "integer"
+          example: 1
+          minimum: 1
+          description: "Number of items of the SKU"
+        size:
+          $ref: '#/components/schemas/Size'
+        weight:
+          $ref : "#/components/schemas/Weight"
+        price:
+          type: "integer"
+          example: 1108
+          description: "Retail price of the item."
+          minimum: 0
+        salePrice:
+          type: "integer"
+          example: 1008
+          description: "Sale price of the item."
+          minimum: 0
+        title:
+          type: "string"
+          example: "Green Shade Rayban Sunglasses"
+          description: "Title of the item."
+          maxLength: 200
+        description:
+          type: "string"
+          example: "Sunglasses"
+          description: "Description of the item."
+          maxLength : 10000
+        itemAttributes:
+          type: "object"
+          description: "Custom item attributes."
+          properties:
+            size:
+              type: "string"
+              example: "S"
+            color:
+              type: "string"
+              example: "green"
+            style:
+              type: "string"
+              example: "abstract"
+            material:
+              type: "string"
+              example: "linen"
+        tags:
+          type: array
+          items:
+            type: string 
+        refId:
+          type: "string"
+          example: "b3JkZXJxYTEwX19za3UyMl9fNw=="
+
+    Customer:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: Name of the customer
+        email:
+          type: string
+          maxLength: 100
+          description: Email address of the customer
+        phone:
+          type: string
+          maxLength: 20
+          description: Phone number of the customer
+        userExternalId:
+          type: string
+          maxLength: 100
+          description: External identifier for the user
+      required:
+        - name
+        - phone
+
+    ReturnOrder:
+      type: "object"
+      description: "Information related to the Return Order created corresponding to the Return Request."
+      properties:
+        order:
+          type: "string"
+          example: "67038a29a0a8f0e0a8cd88e1"
+          maxLength: 100
+          description: "The ID corresponding to the orderExternalId created in DS for the return order."
+        providerInfo:
+          type: "object"
+          description: "Information related to the provider chosen for the Return Order."
+          properties:
+            providerId:
+              type: "string"
+              maxLength: 100
+              description: "Unique identifier for the provider handling the return."
+            name:
+              type: "string"
+              example: "UPS"
+              maxLength: 100
+              description: "Name of the provider handling the return."
+            displayName:
+              type: "string"
+              maxLength: 100
+              description: "Display name of the provider."
+        amount:
+          type: "number"
+          example: 15.85
+          minimum: 0
+          description: "Estimated amount that the provider will charge, represented in minor units without decimals. E.g., 1295 for $12.95."
+        trackingId:
+          type: "string"
+          example: "1ZXXXXXXXXXXXXXXXX"
+          maxLength: 100
+          description: "Tracking number provided by the provider, if available."
+        referenceLinks:
+          type: object
+          description: "Links related to tracking, label, and QR code for the Return Order."
+          properties: 
+            trackingUrl:
+              type: "string"
+              format: uri
+              example: "https://q.dl-s.co/6ytu7YD_UCQ"
+              description: "Tracking link provided by the provider or DS."
+            labelLink:
+              type: "string"
+              format: uri
+              example: "https://qa.api.deliverysolutions.co/api/v2/label?orderId=67038a29a0a8f0e0a8cd88e1&token=NjcwMzhhMjlhMGE4ZjBlMGE4Y2Q4OGUx"
+              description: "Link to the label generated for the Return Order."
+            scanCodeLink:
+              type: "string"
+              format: uri
+              example: "https://qa.files.deliverysolutions.co/dhavalbusiness/delivery-qrcode/UPS/2024-10/1ZXXXXXXXXXXXXXXXX-b2f9377e-847b-11ef-9234-9ff61e6f0a5e.png"
+              description: "Link to the QR code generated for the Return Order."
+        orderExternalId:
+          type: "string"
+          example: "orderqa10-1728285224896"
+          maxLength: 100
+          description: "The unique order external ID created in DS for the return order."
+        requestedTime: 
+          type: 
+            - integer
+            - 'null'
+          description: "The time requested for the return order, if applicable."
+        shipments:
+          type: "array"
+          description: "In case of shipping order, array of shipment details."
+          items:
+            type: "object"
+            properties:
+              scanCodeLink:
+                type: "string"
+                format: uri
+                example: "https://qa.files.deliverysolutions.co/dhavalbusiness/delivery-qrcode/UPS/2024-10/1ZXXXXXXXXXXXXXXXX-b2f9377e-847b-11ef-9234-9ff61e6f0a5e.png"
+                description: "Link to the QR code for the specific shipment."
+      
+    TimeWindow:
+      type: object
+      description: Delivery / Pickup Time of return request
+      properties:
+        startsAt:
+          type: number
+          format: double
+          description: startsAt
+          minimum: 0
+        endsAt: 
+          type: number
+          format: double
+          description: endsAt
+          minimum: 0
+ 
+    Weight:
+      type: object
+      description: Weight of an item
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+          format: double
+          description: weight
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given weight in kg or lb
+          enum: 
+            - kg
+            - lb
+
+    Size:
+      type: object
+      description: Dimensions of the item.
+      required:
+        - height
+        - width
+        - length
+        - unit
+      properties:
+        height:
+          type: number
+          format: double
+          description: Height
+          minimum: 0
+        width:
+          type: number
+          format: double
+          description: Width
+          minimum: 0
+        length:
+          type: number
+          format: double
+          description: Length
+          minimum: 0
+        unit: 
+          type: string
+          description: units for given size in cm or in
+          enum: 
+            - cm
+            - in
+                  
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+           $ref: '#/components/schemas/Response'
+    
+    Response:
+      type: object
+      properties:
+          errors:
+            type: array
+            description: The error response containing any errors that occurred.
+            items:
+                $ref: '#/components/schemas/ErrorMessage'
+    
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: Locale is required. The Subscription request has been rejected.
+      description: The error response containing any errors that occurred
