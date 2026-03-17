@@ -51,7 +51,7 @@ paths:
             type: string
             description: Used to confirm prsence of active account for Worldship clients
             example: 3DA124234342
-	    - name: version
+        - name: version
           in: path
           description: version
           required: true
@@ -265,7 +265,7 @@ paths:
             minLength: 1
             maxLength: 2000
             example: "2926400000,3003395000"
-		- name: version
+        - name: version
           in: path
           description: version
           required: true
