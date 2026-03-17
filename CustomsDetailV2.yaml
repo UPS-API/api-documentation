@@ -62,9 +62,7 @@ paths:
                 -   v2
       operationId: postCustomDetailData
       security:
-        - oauth2: []
-        - oauthCie: []
-        - JWTAuth: []
+        - OAuth2: []
       tags:
         - Customs Detail
       requestBody:
@@ -276,9 +274,7 @@ paths:
                 -   v2
       operationId: getCustomDetailData
       security:
-        - oauth2: []
-        - oauthCie: []
-        - JWTAuth: []
+        - OAuth2: []
       tags:
         - Customs Detail
       responses:
