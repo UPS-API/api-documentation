@@ -51,6 +51,15 @@ paths:
             type: string
             description: Used to confirm prsence of active account for Worldship clients
             example: 3DA124234342
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                -   v2
       operationId: postCustomDetailData
       security:
         - oauth2: []
@@ -256,6 +265,15 @@ paths:
             minLength: 1
             maxLength: 2000
             example: "2926400000,3003395000"
+        - name: version
+          in: path
+          description: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+                -   v2
       operationId: getCustomDetailData
       security:
         - oauth2: []
