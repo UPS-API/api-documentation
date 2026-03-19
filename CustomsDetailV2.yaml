@@ -255,7 +255,7 @@ paths:
         - name: commodity_codes
           in: query
           required: false
-          description: Optional comma-separated list of tariff codes to filter results.
+          description: comma-separated list of tariff code for the product for the selected import country and process type  to filter results.
           schema:
             type: 
               - string
