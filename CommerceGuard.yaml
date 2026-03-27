@@ -2,7 +2,14 @@ openapi: 3.1.0
 info:
   title: Chargeback Protection API v1
   version: "1.0"
-  description: API to verify and score risk of an order for chargeback protection.
+description: |
+  API to verify and score risk of an order for chargeback protection.
+  
+  <p>Explore API documentation and sample applications through GitHub.</p>
+  
+  <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+    <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
+  </a>
 servers:
   - url: https://wwwcie.ups.com/api
     description: Customer Integration Environment
