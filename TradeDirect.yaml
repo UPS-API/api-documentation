@@ -4,6 +4,11 @@ info:
   version: "1.0"
   description: |-
     The TradeDirect Shipments API facilitates the management of external trade shipments within the TradeDirect system, providing robust endpoints for creating, managing, and finalizing international and domestic shipments. This includes deleting master, small package, and LTL shipments, as well as closing out master shipments to ensure seamless trade operations.
+    <p>Explore API documentation and sample applications through GitHub.</p>
+  
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+    <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
+    </a>
 
     # Key Benefits Value
       - Streamlined External Trade Management: Simplify the process of creating and managing international and domestic shipments with a unified API.
