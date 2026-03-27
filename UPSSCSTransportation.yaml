@@ -5,6 +5,11 @@ info:
         ## Purpose
         The Transportation API is used to ingest UPS SCS customer shipments data into Symphony. This data is processed and made visible on Symphony for tracking.            
         API to post transportation order data for point to point shipments to allow for a near real time visibility. API supports only standalone transactions and does not support data aggregations or orchestration with different source systems.             
+        <p>Explore API documentation and sample applications through GitHub.</p>
+  
+          <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+            <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
+          </a> 
     version: "1.0"  
 tags:
     - name: "UPS SCS Transportation"
