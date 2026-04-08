@@ -60,6 +60,9 @@ tags:
   - name: Pickup
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/info/description"
+ - name: Pickup Notification Preferences
+    description:
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PickupNotificationPreferences.yaml#/info/description"
   - name: Pre-Notification
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PreNotification-Ready.yaml#/info/description"
@@ -331,6 +334,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Lynks-APIs.yml#/paths/~1applications~1{connected_lynk_id}~1{action_type}"
   "/workflow/v1/solutions/{solution_id}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Lynkup-Workflow-Solutions-APIs.yml#/paths/~1solutions~1{solution_id}"
+  "/digital-experience/preferences/{version}/account-pickup":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PickupNotificationPreferences.yaml#/paths/~1account-pickup"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert-Ready.yaml#/webhooks/TrackingEvent"
