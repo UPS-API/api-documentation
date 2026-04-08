@@ -1,0 +1,2246 @@
+openapi: 3.1.0
+info:
+  title: "CCPS WS General Preferences API v1"
+  
+  description: |
+    The Customer and Company Web Services (CCPS WS) General Preferences API is a strategic component of our service architecture, 
+    designed to act as a centralized data access layer for applications managing user preferences.
+    This API offers a suite of services that allow integrated applications to retrieve and manage settings 
+    such as custom package types, pickup configurations, declared statement options, 
+    and transit results sorting preferences. It facilitates a consistent and streamlined approach 
+    to preference management across different services, enhancing the capability of applications 
+    to provide a tailored and efficient user experience indirectly. By abstracting the complexity 
+    of user preference storage and retrieval, the API contributes to a cohesive ecosystem that promotes 
+    service agility, maintainability, and scalability.
+  
+  version: "1.0"
+
+tags:
+  - name: "Pickup Notification Preferences"
+    description: Pickup preferences for shipper accounts associated with a user
+
+servers:
+  - url: "https://onlinetools.ups.com/api/digital-experience/preferences/{version}"
+    description: Production
+    variables:
+      version:
+        default: v1
+        enum:
+          - v1
+  - url: "https://wwwcie.ups.com/api/digital-experience/preferences/{version}"
+    description: Customer Integration Environment
+    variables:
+      version:
+        default: v1
+        enum:
+          - v1	
+
+paths:
+  /account-pickup:
+    get: 
+      operationId: getUserAccountPickup
+      tags: 
+        -  Pickup Notification Preferences
+      summary: Get shipper account pickup preferences for user UUID.
+      description:  This endpoint retrieves the shipper account pickup preferences for specified user.  
+      security: 
+        - OAuth2: []
+        - JWTAuth: []
+      parameters: 
+        - $ref: "#/components/parameters/uuid"
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc" 
+        - $ref: "#/components/parameters/idToken"
+        - name: account_number
+          in: query
+          required: true
+          description: |
+            The account_number is required to retrieve pickup preferences for a specific shipper account associated with the user.
+          schema:
+            $ref: "#/components/schemas/AccountNumber"
+      responses: 
+        '200':
+          description: Successful retrieval of account pickup preferences in the user profile
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponseHeaders"   
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/AccountPickupGetResponse"
+              examples:
+                successfulResponseWithNoDataExample:
+                  value: 
+                    statusMessage: "Number of items in payload: 0"
+                    timeStamp: 2025-04-02T20:44:36Z
+                    payload: []
+                successfulResponseSpecifiedAccountExample:
+                  value:
+                    statusMessage: "Number of items in payload: 1"
+                    timeStamp: 2025-04-02T20:44:36Z
+                    payload: 
+                      - accountNumber: "123456"
+                        versionNumber: 1740530158285357000
+                        notificationIndicators:
+                          email:
+                            dayOfPickupInd: true
+                            dayBeforePickupInd: false
+                            preArrivalInd: false
+                            pickupUpdateInd: false
+                            pickupCompleteInd: true
+                            pickupCancellationInd: true
+                            enrollmentConfirmationInd: true
+                            smartPickupCutOffNotificationTimeInd: false
+                            smartPickupTriggerWarningInd: true
+                            smartPickupTriggerNotificationInd: true
+                            smartPickupTriggerCancellationInd: false
+                            pickupIncompleteNotificationInd: false
+                            pickupDelayedInd: true
+                          sms:
+                            dayOfPickupInd: true
+                            dayBeforePickupInd: false
+                            preArrivalInd: false
+                            pickupUpdateInd: false
+                            pickupCompleteInd: true
+                            pickupCancellationInd: true
+                            enrollmentConfirmationInd: true
+                            smartPickupCutOffNotificationTimeInd: false
+                            smartPickupTriggerWarningInd: true
+                            smartPickupTriggerNotificationInd: true
+                            smartPickupTriggerCancellationInd: false
+                            pickupIncompleteNotificationInd: false
+                            pickupDelayedInd: true
+                        locale: en_US
+                        emails: 
+                          - user@example.com
+                          - user2@example.com
+
+        '401':
+          description: "Unauthorized"
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackendErrorResponseHeaders"               
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                response:
+                  errors:
+                    - code: UJ0001
+                      message: Invalid token or token is not present
+        '400':
+          description: Validation/Request Error
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackendErrorResponseHeaders"               
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                response:
+                  errors:
+                    - code: PRF_GEN_006
+                      message: "uuid - Required field is missing"  
+        '404':
+          description: Resource Not Found
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackendErrorResponseHeaders"         
+          content:
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                response:
+                  errors:
+                    - code: "404"
+                      message: The requested resource was not found                         
+        "500":
+          description: Server Error
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackendErrorResponseHeaders"         
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                response: 
+                  errors:
+                    - code: "500"
+                      message: Internal Server Error                               
+
+    put:
+      operationId: addAccountPickupPref
+      tags: 
+        -  Pickup Notification Preferences
+      summary: "Add or update account level pickup preferences for user UUID."
+      description:  This operation allows the user to add or update account level pickup preference for a specified account number.
+      security: 
+        - OAuth2: []
+        - JWTAuth: []
+      parameters: 
+        - $ref: "#/components/parameters/uuid"
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc" 
+        - $ref: "#/components/parameters/idToken"     
+        - name: account_number
+          in: query
+          required: true
+          description: The account_number parameter is required to specify the account for which the pickup preferences are being set.
+          schema:         
+            $ref: "#/components/schemas/AccountNumber"        
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountPickupPreference"
+            example:
+                notificationIndicators:
+                  email:
+                    dayOfPickupInd: true
+                    dayBeforePickupInd: false
+                    preArrivalInd: false
+                    pickupUpdateInd: false
+                    pickupCompleteInd: true
+                    pickupCancellationInd: true
+                    enrollmentConfirmationInd: true
+                    smartPickupCutOffNotificationTimeInd: false
+                    smartPickupTriggerWarningInd: true
+                    smartPickupTriggerNotificationInd: true
+                    smartPickupTriggerCancellationInd: false
+                    pickupIncompleteNotificationInd: false
+                    pickupDelayedInd: true
+                  sms:
+                    dayOfPickupInd: true
+                    dayBeforePickupInd: false
+                    preArrivalInd: false
+                    pickupUpdateInd: false
+                    pickupCompleteInd: true
+                    pickupCancellationInd: true
+                    enrollmentConfirmationInd: true
+                    smartPickupCutOffNotificationTimeInd: false
+                    smartPickupTriggerWarningInd: true
+                    smartPickupTriggerNotificationInd: true
+                    smartPickupTriggerCancellationInd: false
+                    pickupIncompleteNotificationInd: false
+                    pickupDelayedInd: true
+                locale: en_US
+                emails: 
+                  - abc@example.com
+                  - def@example.com
+      responses:
+        '200':
+          description: Successful add or update of account pickup preferences
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponseHeaders"                
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountPickupModifyResponse"
+              example:
+                statusMessage: "Number of items in payload: 1"
+                timeStamp: 2025-04-02T20:44:36Z
+                payload: 
+                  accountNumber: "123456"
+                  versionNumber: 1740530158285357000
+                  notificationIndicators:
+                    email:
+                      dayOfPickupInd: true
+                      dayBeforePickupInd: false
+                      preArrivalInd: false
+                      pickupUpdateInd: false
+                      pickupCompleteInd: true
+                      pickupCancellationInd: true
+                      enrollmentConfirmationInd: true
+                      smartPickupCutOffNotificationTimeInd: false
+                      smartPickupTriggerWarningInd: true
+                      smartPickupTriggerNotificationInd: true
+                      smartPickupTriggerCancellationInd: false
+                      pickupIncompleteNotificationInd: false
+                      pickupDelayedInd: true
+                    sms:
+                      dayOfPickupInd: true
+                      dayBeforePickupInd: false
+                      preArrivalInd: false
+                      pickupUpdateInd: false
+                      pickupCompleteInd: true
+                      pickupCancellationInd: true
+                      enrollmentConfirmationInd: true
+                      smartPickupCutOffNotificationTimeInd: false
+                      smartPickupTriggerWarningInd: true
+                      smartPickupTriggerNotificationInd: true
+                      smartPickupTriggerCancellationInd: false
+                      pickupIncompleteNotificationInd: false
+                      pickupDelayedInd: true
+                  locale: en_US
+                  emails: 
+                    - abc@example.com
+                    - def@example.com
+
+        '400':
+          description: Validation/Request Error
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackendErrorResponseHeaders"               
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                response:
+                  errors:
+                    - code: PRF_GEN_006
+                      message: "uuid - Required field is missing"  
+                        
+        '401':
+          description: "Unauthorized"
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackendErrorResponseHeaders"               
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                response:
+                  errors:
+                    - code: UJ0001
+                      message: Invalid token or token is not present
+        '404':
+          description: Resource Not Found
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackendErrorResponseHeaders"         
+          content:
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                response:
+                  errors:
+                    - code: "404"
+                      message: The requested resource was not found                         
+        "500":
+          description: Server Error
+          headers:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackendErrorResponseHeaders"         
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                response: 
+                  errors:
+                    - code: "500"
+                      message: Internal Server Error                               
+                 
+
+                      
+components:
+  securitySchemes:
+    OAuth2:
+      type: "oauth2"
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://onlinetools.ups.com/security/v1/oauth/authorize"
+          tokenUrl: "https://onlinetools.ups.com/security/v1/oauth/token"
+          scopes:
+            read:package-type: read access to package type
+            read:transit-sort-direction: read access to transit sort direction 
+            read:declared-statement: read access to declared statements
+            read:pickup: read access to pickup
+            write:package-type: update access to package type
+            write:transit-sort-direction: update access to transit sort direction
+            write:declared-statement: update access to declared statements
+            write:pickup: update access to pickup
+    JWTAuth:
+      type: "http"
+      scheme: bearer
+      bearerFormat: JWT
+  parameters: 
+    transId:
+      name: transId
+      in: header
+      description: An identifier unique to the request.
+      required: true
+      schema:
+        type: string 
+        pattern: ^(?!.*[<>`]).{3,100}$
+        maxLength: 50
+        example: XOLTGateway-1742420314-1
+    transactionSrc:
+      name: transactionSrc
+      in: header
+      description: Identifies the client/source application that is calling.
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-_]{3,100}$
+        maxLength: 36
+        example: FCTC
+    idToken:
+      name: id_token
+      in: header
+      required: false
+      description: id token which will be required for auth0   
+      schema: 
+        type: string
+        format: token  
+    uuid:
+      name: UUID
+      in: header
+      description: User's UUID for preferences to be updated, needed for JWT, not required for OAuth2  
+      required: false
+      schema: 
+        $ref: "#/components/schemas/CustomerRegistrationNumber"
+          
+  schemas:
+
+    AccountNumber:
+      description: UPS shipper account number
+      type: string
+      minLength: 6
+      maxLength: 10
+      pattern: '^[0-9]{6,10}$'
+      example: "123456"
+
+    CustomerRegistrationNumber:
+      description: System generated id for the User
+      type: string
+      minLength: 36
+      maxLength: 36
+      pattern: '^[a-fA-F0-9\-]+$'
+      example: 4ce27ff5-8e17-4797-a8c1-089796dbed9c
+
+    CountryCode:
+      description: ISO 3166 alpha-2 country code.
+      type: string
+      maxLength: 2
+      pattern: "^[A-Z]{2}$"
+      example: "US"
+
+    BaseResponse:
+      description: Base Response object
+      type: object
+      required: 
+        -  statusMessage
+        -  timeStamp
+      properties: 
+        statusMessage:
+          description: Status message, will contain a count of elements in payload in case of success when no warnings
+          type: string
+        timeStamp:
+          description: Response time stamp
+          type: string
+          format: date-time
+
+    BasePreference:
+      description: Base preference entity
+      type: object
+      properties:
+        docId:
+          description: System generated id for preference entity
+          type: string
+          minLength: 5
+          pattern: '^[a-zA-Z0-9\-:]+$'
+          readOnly: true
+          #  minLength: 36
+          #  pattern: '^([a-zA-Z0-9]+)(::)([a-fA-F0-9\-_]+)$$'
+          #  example: customPackageType::4ce27ff5-8e17-4797-a8c1-089796dbed9c
+        customerRegistrationHashedNumber:
+          description: System generated id for the User
+          type: string
+          minLength: 36
+          maxLength: 36
+          pattern: '^[a-fA-F0-9\-]+$'
+          example: 4ce27ff5-8e17-4797-a8c1-089796dbed9c
+
+    VersionNumber:
+      description: Document version number
+      type: object
+      properties: 
+        versionNumber:
+          description: System generated id that represents the version of the document. 
+          type: integer
+          example: 1740530158285357000
+
+    CustomPackageTypeResponse:     
+      description: Custom Package Type Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - array containing zero or more CustomPackageTypes
+              type: array
+              maxItems: 20
+              items:
+                $ref: "#/components/schemas/CustomPackageType"
+
+    CustomPackageTypeModifiedData:
+      description: Custom Package Type value that was modified
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          properties: 
+            docId:
+              $ref: "#/components/schemas/BasePreference/properties/docId"
+            payload:
+              description: Response payload - object containing zero or one CustomPageType
+              $ref: "#/components/schemas/CustomPackageType"
+                
+    CustomPackageType:
+      description: Custom Package Type Entity
+      allOf:
+      - $ref: "#/components/schemas/BasePreference"
+      - type: object
+        required: 
+        -  customName
+        -  heightQuantity
+        -  lengthQuantity
+        -  widthQuantity
+        -  unitOfMeasure
+        properties:
+          customName:
+            description: Name for custom package type entity
+            type: string 
+            minLength: 2
+            pattern: '^((?!<script>).)*$'
+            example: big box
+          heightQuantity:
+            description: Height of the custom package type
+            type: integer
+            minimum: 1
+            example: 1
+          lengthQuantity:
+            description: Length of the custom package type
+            type: integer
+            minimum: 1
+            example: 1
+          widthQuantity:
+            description: Width of the custom package type
+            type: integer
+            minimum: 1
+            example: 1
+          unitOfMeasure:
+            description: Unit of measure of the custom package type dimensions
+            type: string
+            pattern: '^(in|cm)$'
+            maxLength: 2
+            example: cm
+          defaultCustomType: 
+            description: Type of custom package entity, optional
+            type: string
+            pattern: '^(import|rating|returns|shipping|)$'
+            example: import
+
+    DeclaredStatementResponse:
+      description: Declared Statement Response Object
+      allOf: 
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - array containing zero or more Declared Statement entity
+              type: array
+              maxLength: 10
+              items: 
+                $ref: "#/components/schemas/DeclaredStatement"
+    
+    DeclaredStatementModifiedData:
+      description: Declared Statement modified value
+      allOf: 
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one Declared Statement updated value
+              $ref: "#/components/schemas/DeclaredStatement"
+
+    DeclaredStatement:
+      description: Declared Statement entity
+      allOf: 
+        - $ref: "#/components/schemas/BasePreference"
+        - type: object
+        - required: 
+          -  name
+          properties: 
+            isDefault:
+              description: is this the default declared statement for this user
+              type: boolean
+            name:
+              description: name of the declared statement 
+              type: string
+              pattern: '^((?!<script>).)*$'
+            text:
+              description: text value of the declared statement
+              type: string
+              pattern: '^((?!<script>).)*$'
+    
+    TransitSortDirectionResponse:
+      description: Time in Transit Sort Direction Response Entity
+      allOf: 
+        - $ref: "#/components/schemas/BaseResponse"
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one transit sort direction entity
+              $ref: "#/components/schemas/TransitSortDirection"
+            
+    TransitSortDirection:
+      description: Time in Transit Sort Direction
+      type: object
+      properties:
+        lastUsedSortForTime: 
+          description: sort direction last used by user for Calculate Time and Cost (CTC) time in transit results table
+          type: string
+          enum: [mostTime, leastTime]
+          maxLength: 9
+          pattern: '^(mostTime|leastTime)$'
+          example: leastTime
+
+    PickupResponse:
+      description: Pickup Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one Pickup entity
+              $ref: "#/components/schemas/Pickup"
+
+    Pickup:
+      description: Pickup preference entity
+      type: object
+      properties:
+        default: 
+          $ref: "#/components/schemas/PickupDefaults"
+        email:
+          $ref: "#/components/schemas/PickupEmail"
+        address:
+          $ref: "#/components/schemas/PickupAddress"
+        daysInHistory:
+          description: Number of days to keep in history 
+          type: string
+          pattern: '^[0-9]*$'
+          maxLength: 3
+          example: "1"
+        startPage:
+          description: Pickup webapp start page 
+          type: string
+          pattern: '^((?!<script>).)*$'
+        useMyProfile:
+          description: Indicates if profile address should be used
+          type: boolean
+
+    PickupDefaults:
+      description: Container for defaults of pickup preferences
+      type: object
+      properties: 
+        locationCloseTime:
+          description: Close time value for the location, format is 24hr HHMM 
+          type: string
+          pattern: '^[0-9]*$'
+          maxLength: 4
+          example: "1900"
+        locationReadyTime:
+          description: Time value for when location has packages ready for pickup, format is 24hr HHMM
+          type: string
+          pattern: '^[0-9]*$'
+          maxLength: 4
+          example: "1400"
+        accountNumber:
+          description: Default account number to charge for pickups
+          type: string
+          pattern: '^[a-zA-Z0-9]*$'
+          maxLength: 20
+        floor:
+          description: Default floor to pickup from
+          type: string
+          pattern: '^[\s\S]*$'
+        pickupLocation:
+          description: Default pickup location
+          type: string
+          pattern: '^[\s\S]*$'
+        specialInstructions:
+          description: Special instructions
+          type: string
+          pattern: '^((?!<script>).)*$'
+
+    PickupAddress:
+      description: Pickup Address entity
+      allOf: 
+        - $ref: "#/components/schemas/Address"
+        - type: object
+          properties:        
+            LID:
+              description: pickup address LID (location id)
+              type: string
+              pattern: '^((?!<script>).)*$'
+            packageANSIQualifier1:
+              description: package level ANSI qualifier 1
+              type: string 
+              pattern: '^((?!<script>).)*$'
+            packageANSIQualifier2:
+              description: package level ANSI qualifier 2
+              type: string 
+              pattern: '^((?!<script>).)*$'
+            url:
+              description: URL for address
+              type: string
+              format: uri
+            consigneeBillableIndicator:
+              description: indicates if billing consignee
+              type: boolean
+  
+    Address:
+      description: Address entity
+      type: object
+      properties: 
+        key:
+          description: Address key
+          type: string
+          pattern: '^[\s\S]*$'
+        line1Text:
+          description: Address Line 1
+          type: string
+          pattern: '^[\s\S]*$'
+        line2Text: 
+          description: Address Line 2
+          type: string
+          pattern: '^[\s\S]*$'
+        line3Text:
+          description: Address Line 3
+          type: string
+          pattern: '^[\s\S]*$'
+        name:
+          description: Name
+          type: string
+          pattern: '^[\s\S]*$'
+        attentionName:
+          description: Attention Name
+          type: string
+          pattern: '^[\s\S]*$'
+        city:
+          description: City 
+          type: string
+          pattern: '^[\s\S]*$'
+        politicalDivision3:
+          description: Political Division 3, municipality
+          type: string
+          pattern: '^[\s\S]*$'
+        stateProv:
+          description: State or Province
+          type: string
+          pattern: '^[\s\S]*$'
+        postalCode:
+          description: Postal / Zip Code
+          type: string
+          pattern: '^[a-zA-Z0-9\-\s]+$'
+        countryCode:
+          description: Code for Country (2-3 char)
+          type: string
+          pattern: '^[a-zA-Z0-9]{2,3}$'
+        residentialIndicator:
+          description: Indicator if the address is residential
+          type: boolean
+        nickName:
+          description: Nickname for address
+          type: string
+          pattern: '^[\s\S]*$'
+        faxNumber:
+          description: Fax
+          type: string
+          pattern: '^[\s\S]*$'
+        telephone:
+          $ref: "#/components/schemas/Telephone"
+     
+    PickupEmail:
+      description: Email container for Pickup Preference
+      type: object
+      properties: 
+        address1: 
+          description: default email address
+          type: string
+          format: email
+        address2:
+          description: secondary email address
+          type: string
+          format: email
+        notificationAddress:
+          description: email address for notifications
+          type: string
+          format: email
+        message:
+          description: default email message
+          type: string
+          pattern: '^[\s\S]*$'
+            
+    Telephone:
+      description: Telephone entity
+      type: object
+      properties: 
+        number:
+          description: Phone Number
+          type: string
+          pattern: '^[\s\S]*$'
+        extensionNumber:
+          description: Phone Extension
+          type: string
+          pattern: '^[\s\S]*$'
+
+    ClaimResponse:
+      description: Claim Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          required: 
+            -  payload
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one Claim entity
+              $ref: "#/components/schemas/Claim"
+
+    Claim:
+      description: Claim preference entity
+      type: object
+      properties:
+        preferredChannel: 
+          description: Preferred communication method(s).
+          type: object
+          properties: 
+            indicators:
+              description: Indicators to indicate preferred communication method(s).
+              type: object
+              properties: 
+                email:
+                  description: Indication if email is preferred.
+                  type: boolean
+                fax:
+                  description: Indication if fax is preferred.
+                  type: boolean
+                written:
+                  description: Indication if written communication is preferred.
+                  type: boolean
+            emailAddress:
+              description: Preferred email address.
+              type: string
+              format: email
+            faxCountryCode:
+              description: Country code for fax number. ISO 3166 alpha-2 is used.
+              type: string
+              pattern: '^[0-9]{2}$'
+              maxLength: 2 
+            faxNumber:
+              description: Fax number
+              type: string
+              pattern: '^[0-9-]*$'
+              maxLength: 15
+        batchUploadNotificationOptionInd:
+          description: Indicate if batch upload notification is preferred.
+          type: boolean
+        batchUploadNotificationEmailAddress:
+          description: Preferred email address for batch upload notification.
+          type: string
+          format: email
+        claimReportedEmailInd:
+          description: Indicate if claim is reported in email.
+          type: boolean
+        claimUpdatedEmailInd:
+          description: Indicate if claim is updated in email.
+          type: boolean
+ 
+    RatingResponse:
+      description: Rating Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one Rating entity
+              $ref: "#/components/schemas/Rating"
+      
+    Rating:
+      description: Rating preference entity
+      type: object
+      properties:
+        dailyPickup:
+          description: Flag to indicate if daily pickup is preferred.
+          type: string
+          enum: 
+            - Y
+            - N
+          maxLength: 1
+        destinationType:
+          description: Destination type, R - Residential, C - Commercial
+          type: string
+          enum:
+            - R
+            - C
+          maxLength: 1  
+        dismissRatingPrefLink:
+          description: Indicate if rating preference link is dismissed.
+          type: string
+          maxLength: 1
+        shipmentMethodPreference:
+          description: Preferred option to get package to UPS. |
+            01 - I will pay shipping charges and ship my package at a retail location such as The UPS Store or UPS Customer Center
+            02 - I will drop off my prepaid package(s) at a UPS location or give my package(s) to my UPS driver
+            03 - I will schedule a pickup via - UPS.com
+            04 - I will schedule a pickup via - 1800-Pick-UPS
+          type: string
+          enum: 
+            - "01"
+            - "02"
+            - "03"
+            - "04"
+          maxLength: 2  
+        quoteType:
+          description: Preferred quote type. |
+            01 - Quick Time and Cost (Letter)
+            02 - Quick Time and Cost (Package)
+            03 - Detailed Time and Cost
+            04 - Time -in-Transit Only
+          type: string
+          enum: 
+            - "01"
+            - "02"
+            - "03"
+            - "04"
+          maxLength: 2       
+        shipmentRequestType:
+          description: Preferred shipment request type for rating. 01 - Package or Letter 02 - Freight
+          type: string
+          enum: 
+            - "01"
+            - "02"
+          maxLength: 2  
+        freightServiceRequestType:
+          description: Preferred freight service request type.
+          type: string
+          maxLength: 3 
+        measurementUnits:
+          description: Preferred units of the measurement. M - Centimeters/Kilograms; I - Inches/Pounds
+          type: string
+          enum: 
+            - M
+            - I 
+        itemHeight:
+          description: Item height for rating.
+          type: integer
+          maxLength: 5 
+        itemLength:
+          description: Item length for rating.
+          type: integer
+          maxLength: 5     
+        itemWidth:
+          description: Item width for rating.
+          type: integer
+          maxLength: 5           
+        shipmentItemType:
+          description: Item type for shipment rating. LOO - loose items; PLT - Pallet
+          type: string
+          enum: 
+            - PLT
+            - LOO                                                                  
+
+    MyUPSGetResponse:
+      description: MyUPS Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          required: 
+            -  payload
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one MyUPS entity
+              anyOf: 
+                - $ref: "#/components/schemas/MyUPS"
+                - $ref: "#/components/schemas/TermsConditionsInfo"
+
+    MyUPSResponse:
+      description: MyUPS Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          required: 
+            -  payload
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one MyUPS entity
+              $ref: "#/components/schemas/MyUPS"
+      
+    MyUPS:
+      description: MyUPS preference entity
+      type: object
+      properties:
+        dapPartnerIndicator:
+          description: Indicates if the user is DAP partner.
+          type: boolean
+        employeeCountCode:
+          description: |
+            Code for employee count
+            | Code | Description |
+            | :---: | :--- |
+            | 00 | Unclassified |
+            | 01 | 1     |
+            | 02 | 2-5   |
+            | 03 | 6-10  |
+            | 04 | 11-19 |
+            | 05 | 20-49 |
+            | 06 | 50-99 |
+            | 07 | 100+  |
+            | 09 | Data Not Available |
+          type: string
+          maxLength: 5       
+        industrySegmentCode:
+          description: |
+            Code for industry segment (Part of the list as below)
+            | Code | Description |
+            | :---: | :--- |
+            | 2000 | Diversified Vehicles & Parts |
+            | 3000 | High Tech     |
+            | 4000 | Industrial Manufacturing & Distribution   |
+            | 5000 | Retail and Consumer Goods  |
+            | 6000 | Professional Services |
+            | 7000 | Consumer Services |
+            | 8000 | Healthcare |
+            | 9000 | Government  |
+            | 9999 | Other |
+          type: string
+          maxLength: 8    
+        jobFunctionCode:
+          description: |
+            Code for job function (Part of the list as below)
+            | Code | Description |
+            | :---: | :--- |
+            | 00  | Select One |
+            | ADA | Administrative Assistant     |
+            | CEO | Chief Executive Officer   |
+            | CFO | Chief Financial Officer  |
+            | 41  | Chief Operating Officer |
+            | CSM | Customer Service Manager |
+            | OFM | Office Manager |
+            | OPM | Operations Manager  |
+            | OTH | Other  |
+            | OWN | Owner |
+            | PTR | Partner   |
+            | PSD | President  |
+            | SHM | Shipping Manager |
+            | VPT | Vice President |     
+            | WHM | Warehouse Manager |         
+          type: string
+          maxLength: 5  
+        merchantHubEnrollmentStatusCode:
+          description: |
+            Status Code for merchant hub enrollment:
+            | Code | Description |
+            | :---: | :--- |
+            | I  | Opt In  |
+            | O  | Opt out |
+            | U  | Unknown |            
+          type: string
+          maxLength: 1
+          enum: 
+            - "I"
+            - "O"
+            - "U"
+        myChoiceStandardUserInd:
+          description: Indicate if user is my choice standard user. 
+          type: boolean
+        personaCode:
+          description: Persona code 
+          type: string
+          maxLength: 3            
+        facebookID:
+          description: User's facebook ID 
+          maxLength: 100
+          type: string   
+        twitterHandle:
+          description: User's twitter handle 
+          maxLength: 100
+          type: string  
+        businessInd:
+          description: Indicates if it's business account
+          type: boolean  
+        dropShipperPrivilege:
+          description: Indicates if if account has drop shipping privilege
+          type: boolean        
+        adoCount:
+          description: Automatic discount offer (ADO) count
+          type: string
+          maxLength: 10   
+        adoTimestamp:
+          description: Automatic discount offer (ADO) timestamp
+          type: string
+          format: date-time
+        userPromotionIndicator:
+          description: Indicates if promotion applies to user
+          type: boolean
+        worldShipMigrationText1:
+          description: World Ship Migration Message 1 
+          type: string
+          maxLength: 250   
+        worldShipMigrationText2:
+          description: World Ship Migration Message 2 
+          type: string
+          maxLength: 250  
+        emailVerification:
+          description: Email verification information
+          type: object
+          properties: 
+            status:
+              description: Status of the user email verification X - Unknown, U - Unconfirmed, C - Confirmed, N - Need to confirm
+              type: string
+              maxLength: 1
+              enum: 
+                - X
+                - U
+                - C
+                - N  
+            pendingEmail:
+              description: Pending email address for email change
+              type: string
+              format: email
+            timestamp:
+              description: Email verification timestamp
+              type: string
+              format: date-time          
+        electronicMedia:
+          description: Electronic media information
+          type: object
+          properties: 
+            smsPhones:
+              description: SMS phone information
+              type: array
+              maxItems: 3
+              items: 
+                type: object
+                properties: 
+                  phoneNumber:
+                    description: Phone number
+                    type: string
+                    pattern: '^[0-9-]*$'
+                    maxLength: 50
+                    example: "4047832345"
+                  countryCode:
+                    description: Country code for the phone number. ISO 3166 alpha-2 is used.
+                    type: string
+                    pattern: '^[A-Z]{2}$'
+                    maxLength: 2 
+                    example: US
+        systemConfigurations:
+          description: User account configurations set by system for operational purpose.  
+          type: object
+          properties: 
+            auth0MigrationIndicator:
+              description: |
+                System-level configuration to Indicate if a user account has been migrated to Auth0. 
+                This is a temporary field to support account Auth0 migration. Deprecation of the field will be planned after Auth0 migration is complete (estimated as 2025). 
+              type: boolean
+              example: true
+        displayBillingCenterIndicator:
+          description: Indicates if the billing center should be displayed for the user.
+          type: boolean
+          default: false
+          example: false
+    TermsConditionsInfo:
+      description: |
+        MyUPS terms and conditions related information.
+        TermsConditionsInfo section contains read-only properties which will only be included in the response when the request has include_additional_info specified.
+      type: object
+      properties:
+        termsAndConditions:
+          description: array of user level terms
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                description: Resource the terms and conditions apply to
+                type: string
+                minLength: 1
+                maxLength: 50
+                enum:
+                  - mychoice
+              version:
+                description: Version of the terms and conditions.
+                type: string
+                example: v1.0
+                minLength: 1
+                maxLength: 20
+              acceptanceDate:
+                description: The <a href="https://www.rfc-editor.org/rfc/rfc3339#section-5.6" target="_blank">RFC 3339</a> date and time when the terms and conditions were accepted.
+                type: string
+                format: date-time
+                minLength: 20
+                maxLength: 24
+                example: 2025-07-01T12:00:00Z
+            required:
+              - type
+              - version
+              - acceptanceDate
+            additionalProperties: false
+      required:
+        - termsAndConditions
+      additionalProperties: false
+
+    UIFSResponse:
+      description: UIFS Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one UIFS entity
+              $ref: "#/components/schemas/UIFS"
+
+    UIFS:
+      description: UIFS preference entity
+      type: object
+      properties:
+        serviceLevel:
+          description: |
+            Service level
+            | Code | Description |
+            | :---: | :--- |
+            | 308 | UPS Freight LTL |
+            | 309 | UPS Freight LTL Guaranteed |
+            | 334 | UPS Freight LTL Guaranteed AM |
+            | 349 | Standard LTL |
+            | 003 | UPS Ground with Freight Pricing |
+          type: string
+          pattern: "^[a-zA-Z0-9]{3}$"
+          maxLength: 3
+          example: "309"
+        ltlDestinationCountry:
+          description: LTL (less than truckload) destination country
+          $ref: "#/components/schemas/CountryCode"
+        freightClassList:
+          description: Freight Class List. UPS uses the National Motor Freight Classification.
+          type: array
+          maxItems: 10          
+          items:
+            type: string
+            enum:
+              - "50" 
+              - "55"
+              - "60"
+              - "65"
+              - "70"
+              - "77.5"
+              - "85"
+              - "92.5"
+              - "100"
+              - "110"
+              - "125"
+              - "150"
+              - "175"
+              - "200"
+              - "250"
+              - "300"
+              - "400"
+              - "500"
+        notifications:
+          $ref: "#/components/schemas/UIFSEmailNotifications"
+        densityBasedRating: 
+          $ref: "#/components/schemas/UIFSDensityBasedRating"
+        accessorialServices:
+          $ref: "#/components/schemas/UIFSAccessorialServices"
+        billOfLand:
+          $ref: "#/components/schemas/UIFSBillOfLand"
+        labels: 
+          $ref: "#/components/schemas/UIFSLabels"
+        chargeDefaults:
+          $ref: "#/components/schemas/UIFSChargeDefaults"
+        refValues1:
+          description: |
+            Reference values
+            | Code | Description |
+            | :---: | :--- |
+            | PO | Purchase Order Number |
+            | BM | Bill of Landing Number |
+          type: string
+          maxLength: 3
+          example: "PO"
+        refValues2:
+          description: |
+            Reference values
+            | Code | Description |
+            | :---: | :--- |
+            | PO | Purchase Order Number |
+            | BM | Bill of Landing Number |
+          type: string
+          maxLength: 3
+          example: "BM"
+
+    UIFSEmailNotifications:
+      description: List of notification options for UIFS.
+      type: object
+      properties: 
+        emails:
+          type: array
+          maxItems: 5
+          items: 
+            $ref: "#/components/schemas/UIFSEmailNotification"
+        failureEmail:
+          description: Failure Email
+          type: string
+          format: email
+          example: johndoe@gmail.com      
+
+
+    UIFSEmailNotification:
+      description: Email notification preference for UIFS.
+      type: object
+      properties: 
+        email:
+          description: Email 
+          type: string
+          format: email
+          example: johndoe@gmail.com
+        shipNotificationInd:
+          description: Indicates if sends ship Notification.
+          type: boolean
+        deliveryNotificationEmailInd:
+          description: Indicates if sends delivery notification.
+          type: boolean
+        appointmentAttemptEmailInd:
+          description: Indicates if sends appointment notification.
+          type: boolean        
+
+    UIFSDensityBasedRating:
+      description: Container for density based rating of UIFS preference
+      type: object
+      properties: 
+        numUnits:
+          description: Number of units 
+          type: string
+          pattern: "^[0-9]*$"
+          maxLength: 25
+          example: "3"
+        unitType:
+          description: |
+            Unit type
+            | Code | Description |
+            | :---: | :--- |
+            | PLT | Pallet(s) |
+            | TOT | Tote(s) |
+            | SKD | Skid(s) |
+            | CBY | Carboy(s) |
+            | LOO | Loose items |
+          type: string
+          pattern: "^[a-zA-Z0-9]{3,25}$"
+          maxLength: 25
+          example: PLT
+        length:
+          description: Length
+          type: string
+          pattern: "^[0-9]*$"
+          maxLength: 25
+          example: "10"
+        width:
+          description: Width
+          type: string
+          pattern: "^[0-9]*$"
+          maxLength: 25
+          example: "5"
+        height:
+          description: Height
+          type: string
+          pattern: "^[0-9]*$"
+          maxLength: 25
+          example: "10"
+        palletSkidHeight:
+          description: Pallet skid height
+          type: string
+          pattern: "^[0-9]*$"
+          maxLength: 25
+          example: "20"
+        measureUnits:
+          description: |
+            Measurement unit
+            | Code | Description |
+            | :---: | :--- |
+            | IN | Inches |
+            | CM | Centimeter |
+          type: string
+          pattern: "^[a-zA-Z]*$"
+          maxLength: 25
+          example: IN
+
+    UIFSAccessorialServices:
+      description: Additional services for UIFS
+      type: object
+      properties:
+        pickup:
+          $ref: "#/components/schemas/PickupOpts"
+        delivery:
+          $ref: "#/components/schemas/DeliveryOpts"
+
+    PickupOpts:
+      description: Options related to pickup.
+      type: object
+      properties: 
+        pickupRequiredInd:
+          description: Indicates if pickup is required.
+        insideInd:
+          description: Indicates if it's inside pickup.
+          type: boolean
+          maxLength: 1
+        liftGateSrvOriginInd:
+          description: Indicates if liftgate is required.
+          type: boolean
+          maxLength: 1
+        residentInd: 
+          description: Indicates if it's residential pickup.
+          type: boolean
+          maxLength: 1
+        tradeShowInd:
+          description: Indicates if it's trade show pickup.
+          type: boolean
+          maxLength: 1
+        freezableProtectionInd:
+          description: Indicates if freezable protection is needed.
+          type: boolean
+          maxLength: 1
+        limitedAccessLocationInd: 
+          description: Indicates if it's limited access location.
+          type: boolean
+          maxLength: 1
+        extremeLengthInd: 
+          description: Indicates if it's oversized item.
+          type: boolean
+          maxLength: 1
+
+    DeliveryOpts:
+      description: Options related to delivery.
+      type: object
+      properties: 
+        insideInd:
+          description: Indicates if it's inside delivery.
+          type: boolean
+          maxLength: 1
+        liftGateSrvDestInd:
+          description: Indicates if liftgate is required.
+          type: boolean
+        residentInd: 
+          description: Indicates if it's residential delivery.
+          type: boolean
+          maxLength: 1
+        tradeShowInd:
+          description: Indicates if it's trade show delivery.
+          type: boolean
+          maxLength: 1
+        limitedAccessLocationInd: 
+          description: Indicates if it's limited access location.
+          type: boolean
+          maxLength: 1
+        callBeforeDeliveryInd: 
+          description: Indicates if it requires a call before delivery.
+          type: boolean
+          maxLength: 1
+        sortSegregateInd:
+          description: Indicates if sorting and segregation applies.
+          type: boolean
+          maxLength: 1
+        numberSortSegregate:
+          description: Sorting and segregation number.
+          type: string
+          maxLength: 3
+          example: "999"
+        codInd: 
+          description: Indicates if COD (Cash on delivery) applies.
+          type: boolean
+          maxLength: 1
+        codAmount:
+          description: The amount for code.
+          type: string
+          pattern: '^((?!<script>).)*$'
+          maxLength: 12
+          example: "$50"
+
+  
+    UIFSBillOfLand:
+      description: Bill of Land (BOL) container for UIFS preference
+      type: object
+      properties: 
+        showShipmentWeightMessageInd:
+          description: Indicates if includes shipment weight message.
+          type: boolean
+          default: true
+        format:
+          description: Preferred format "UPS Freight" and "VICS"
+          type: string
+          pattern: "^[a-zA-Z0-9-_. ]*$"
+          maxLength: 25
+          example: "UPS Freight"
+        template:
+          description: BOL template
+          type: string
+          pattern: '^((?!<script>).)*$'
+          maxLength: 100
+        printLabelInd: 
+          description: Print Label
+          type: boolean
+          maxLength: 1
+     
+    UIFSLabels:
+      description: Label container for UIFS Preference
+      type: object
+      properties: 
+        printerType: 
+          description: |
+            Printer type
+            | Code  | Description         |
+            | :---: | :---                |
+            | LT    | Laser Printer       |
+            | TP    | UPS Thermal Printer |
+          type: string
+          pattern: "^[a-zA-Z0-9]*$"
+          maxLength: 3
+          example: "LT"
+        labelsPerPage:
+          description: Label per page
+          type: string
+          pattern: "^[0-9]*$"
+          maxLength: 3
+          example: "2"
+        labelSize:
+          description: Label size
+          type: string
+          pattern: "^[a-zA-Z0-9]*$"
+          maxLength: 3
+          example: "003"
+
+    UIFSChargeDefaults:
+      description: Container for charge related UIFS Preference
+      type: object
+      properties: 
+        incentingValue: 
+          description: Incentive Value
+          type: string
+          pattern: '^((?!<script>).)*$'
+          maxLength: 10
+          example: "100"
+        incentingType: 
+          description: |
+            Incentive type
+            | Code | Description |
+            | :---: | :--- |
+            | PER | Percentage(%) |
+            | FIX | Fixed Dollar Amount |
+          type: string
+          pattern: "^[a-zA-Z0-9]*$"
+          maxLength: 3
+          example: FIX
+
+    PromoGetResponse:
+      description: Promo response entity
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing the list of promo details
+              type: array
+              maxItems: 250
+              items: 
+                required: 
+                  - versionNumber
+                allOf:
+                  - $ref: "#/components/schemas/BasePreference"
+                  - $ref: "#/components/schemas/VersionNumber"                
+                  - $ref: "#/components/schemas/PromoDetail"
+                  - type: object
+                    properties: 
+                      countryCode:
+                        $ref: "#/components/schemas/CountryCode"                   
+    PromoUpdateOrDeleteResponse:
+      description: Promo response entity
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing the list of promo details
+              type: object
+              required: 
+                - versionNumber
+              allOf:
+                - $ref: "#/components/schemas/BasePreference"
+                - $ref: "#/components/schemas/VersionNumber"                
+                - $ref: "#/components/schemas/PromoDetail"  
+                - type: object
+                  properties: 
+                    countryCode:
+                      $ref: "#/components/schemas/CountryCode"                    
+
+    
+    PromoDetail:
+      description: Promo detail entity
+      type: object
+      required: 
+        - promoCode
+      properties: 
+        bidNumber:
+          description: Billing id number
+          type: string
+          maxLength: 20
+          pattern: '^[a-zA-Z0-9-_]*$'
+        promoId:
+          description: Reference number for the promotion
+          type: string
+          maxLength: 20
+          pattern: '^[a-zA-Z0-9-_]*$'
+        promoCode:
+          description: Promotion code to get discount
+          type: string
+          maxLength: 20
+          pattern: '^[a-zA-Z0-9-_]*$'
+        promoStartDate:
+          description: Promotion code start date (yyyy-mm-dd)
+          type: string
+          maxLength: 50
+          format: date
+          example: "2025-03-14"
+        promoEndDate:
+          description: Promotion code end date (yyyy-mm-dd)
+          type: string
+          maxLength: 50
+          format: date 
+          example: "2025-06-14"   
+        agreementAcceptanceCode:
+          description: Agreement acceptance code
+          type: string
+          maxLength: 100
+          pattern: '^(?!.*<script[^>]*>).*$'
+          example: K89_01_17_2031-12-31                      
+
+    MarketplaceEnrollmentsGetResponse:
+      description: Marketplace enrollments GET response entity
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing the list of marketplace enrollments
+              type: array
+              items: 
+                required: 
+                  - versionNumber
+                  - marketplaceTypeCd
+                  - nickName
+                  - enrollmentIdentifier
+                allOf:
+                  - $ref: "#/components/schemas/BasePreference"
+                  - $ref: "#/components/schemas/VersionNumber"                
+                  - $ref: "#/components/schemas/MarketplaceEnrollmentBaseInfo"
+                  - $ref: "#/components/schemas/CredentialProviderInfo"
+
+    MarketplaceEnrollmentsModifiedResponse:
+      description: Marketplace enrollments POST, PUT, DELETE response entity
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing the added/updated/deleted marketplace enrollment object
+              type: object
+              required: 
+                - versionNumber
+                - marketplaceTypeCd
+                - nickName  
+                - enrollmentIdentifier              
+              allOf:
+                - $ref: "#/components/schemas/BasePreference"
+                - $ref: "#/components/schemas/VersionNumber"                
+                - $ref: "#/components/schemas/MarketplaceEnrollmentBaseInfo"  
+                - $ref: "#/components/schemas/CredentialProviderInfo"
+
+    MarketplaceEnrollmentPostRequest:
+      description: Marketplace enrollment POST request entity.
+      required: 
+        - marketplaceTypeCd    
+        - nickName 
+        - enrollmentIdentifier 
+      minProperties: 4
+      allOf: 
+        - $ref: "#/components/schemas/MarketplaceEnrollmentBaseInfo"
+        - $ref: "#/components/schemas/CredentialProviderInfo"
+
+    MarketplaceEnrollmentPatchRequest:
+      description: Marketplace enrollment PATCH request entity.
+      minProperties: 1
+      allOf: 
+        - $ref: "#/components/schemas/CredentialProviderInfo"        
+
+              
+    MarketplaceEnrollmentBaseInfo:
+        description: Marketplace enrollment entity
+        type: object
+        properties: 
+          marketplaceTypeCd:
+            description: |
+              Marketplace type / Service provider code
+              | Code | Description            |
+              | :---: | :---                  |
+              | 02    | AMAZON                |      
+              | 03    | EBAY                  |
+              | 04    | ALIBABA               |   
+              | 05    | ALIEXPRESS            |
+              | 06    | TAOBAO                |      
+              | 07    | TMALL                 |
+              | 08    | BIGCOMMERCE           | 
+              | 09    | WOOCOMMERCE           |
+              | 10    | MAGENTO               |   
+              | 11    | RAKUTEN               |
+              | 12    | SHOPIFY               |      
+              | 13    | TMETSYALL             |
+              | 15    | QUICKBOOKS ONLINE     | 
+              | 16    | 3D CART               | 
+              | 17    | ALLEGRO               | 
+              | 18    | ASPDOTNETSTOREFRONT   |
+              | 19    | BIG CARTEL            |
+              | 20    | BLUEFLY               |
+              | 21    | CHANNEL ADVISOR       |
+              | 22    | CS CART               |
+              | 23    | COMMERCEHUB           |
+              | 24    | DRUPAL COMMERCE       |
+              | 25    | FARFETCH              | 
+              | 26    | GOOGLE SHOPPING       |
+              | 27    | HOME DEPOT            |
+              | 28    | JET                   |
+              | 29    | JIGOSHOP              |
+              | 30    | MERCADO LIBRE         |
+              | 31    | NEWEGG                |
+              | 32    | OPENCART              |
+              | 33    | OSCOMMERCE            |
+              | 34    | OVERSTOCK             |
+              | 35    | PRESTA SHOP           |
+              | 36    | SEARS                 |
+              | 37    | SPREE COMMERCE        |
+              | 38    | SQUARESPACE           |
+              | 39    | VIRTUEMART            |
+              | 40    | VOLUSION              |
+              | 41    | WALMART               |
+              | 42    | WEEBLY                |
+              | 43    | X-CART                |
+              | 44    | YAHOO SHOPPING        |
+              | 45    | ZEN CART              |
+              | 46    | PRICEFALLS            |
+              | 47    | WAYFAIR               |
+              | 48    | 11MAIN                |
+              | 49    | HOUZZ                 |
+              | 50    | XIU                   | 
+              | 51    | HALF.COM              |
+              | 52    | SOLIDCOMMERCE		      |	                                                
+            type: string
+            maxLength: 2
+            enum: 
+              - "02"   
+              - "03"
+              - "04"
+              - "05"
+              - "06"
+              - "07"
+              - "08"
+              - "09"
+              - "10"
+              - "11"
+              - "12"
+              - "13"
+              - "15"
+              - "16"   
+              - "17"
+              - "18"
+              - "19"
+              - "20"
+              - "21"
+              - "22"
+              - "23"
+              - "24"
+              - "25"
+              - "26"
+              - "27"
+              - "28"
+              - "29"
+              - "30"
+              - "31"
+              - "32"
+              - "33"
+              - "34"
+              - "35"
+              - "36"
+              - "37"
+              - "38"
+              - "39"
+              - "40"
+              - "41"
+              - "42"
+              - "43"
+              - "44"
+              - "45"
+              - "46"
+              - "47"
+              - "48"
+              - "49"
+              - "50"
+              - "51"
+              - "52"       
+          enrollmentIdentifier:
+            description: Unique user identifier for the specific enrollment. The value is generated by service provider.
+            type: string         
+            pattern: '^(?!.*<script[^>]*>).*$'
+            maxLength: 254
+            example: 6d6zs088-1296-4147-b2cf-fe73d5744hi3                                          
+          
+    CredentialProviderInfo:
+      description: Marketplace enrollment credential provider related information. For POST request at least one of the properties must be present in the request payload.
+      type: object
+      properties: 
+        nickName:
+          description: User defined nickname to identify an marketplace enrollment
+          type: string
+          maxLength: 35
+          pattern: '^(?!.*<script[^>]*>).*$'
+          example: myEbayStore1          
+        merchantId:
+          description: Merchant ID for the enrollment
+          type: string
+          maxLength: 3000
+          pattern: '^(?!.*<script[^>]*>).*$'
+        encryptedMerchantId:
+          description: Encrypted merchant ID for the enrollment
+          type: string
+          maxLength: 3000
+          pattern: '^(?!.*<script[^>]*>).*$'          
+        marketplaceId:
+          description: Marketplace ID for the enrollment
+          type: string
+          maxLength: 3000
+          pattern: '^(?!.*<script[^>]*>).*$'
+        encryptedMarketplaceId:
+          description: Encrypted marketplace ID for the enrollment
+          type: string
+          maxLength: 3000
+          pattern: '^(?!.*<script[^>]*>).*$'                  
+        authToken:
+          description: Service Provider defined authorization token for the enrollment
+          type: string
+          maxLength: 3000
+          pattern: '^(?!.*<script[^>]*>).*$'
+        encryptedAuthToken:
+          description: Encrypted Service Provider defined authorization token for the enrollment
+          type: string
+          maxLength: 3000
+          pattern: '^(?!.*<script[^>]*>).*$'           
+        integratorUUID:
+          description: Unique value provided by the Marketplace integrator
+          type: string
+          maxLength: 3000
+          pattern: '^(?!.*<script[^>]*>).*$'  
+      minProperties: 1               
+
+    AccountPickupGetResponse:
+      description: Account Pickup GET response entity
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing the list of account pickup preferences
+              type: array
+              items: 
+                required: 
+                  - versionNumber
+                  - accountNumber
+                allOf:
+                  - type: object
+                    properties:
+                      accountNumber:
+                        $ref: "#/components/schemas/AccountNumber" 
+                  - $ref: "#/components/schemas/VersionNumber" 
+                  - $ref: "#/components/schemas/AccountPickupPreference"                  
+
+
+    AccountPickupModifyResponse:
+      description: Account Pickup Modify response entity
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing the list of account pickup preferences
+              type: object
+              required: 
+                -  accountNumber
+                -  versionNumber
+              allOf:
+                - type: object
+                  properties:
+                    accountNumber:
+                      $ref: "#/components/schemas/AccountNumber"                
+                - $ref: "#/components/schemas/VersionNumber" 
+                - $ref: "#/components/schemas/AccountPickupPreference"                  
+
+
+    AccountPickupPreference:
+        description: Account Pickup preference entity
+        type: object
+        required: 
+          - locale  
+          - notificationIndicators 
+        properties: 
+          locale:
+            description: Preferred locale for account pickup. Format follows <a href="https://www.iso.org/iso-639-language-code.html" target="_blank">ISO 639M</a> language code and region code combination.
+            type: string
+            maxLength: 5
+            pattern: '^[a-z]{2}_[A-Z]{2}$'
+            example: en_US
+          emails:
+            description: Emails associated with the account pickup preferences.
+            type: array
+            items:
+              type: string
+              format: email
+          notificationIndicators:
+            $ref: "#/components/schemas/NotificationIndicators"
+
+    NotificationIndicators:
+      type: object
+      description: Notification indicators container. Notifications can be sent in email or/and SMS.
+      properties:
+        email:
+          $ref: "#/components/schemas/CommonNotificationIndicators"
+        sms:
+          $ref: "#/components/schemas/CommonNotificationIndicators"
+
+
+    CommonNotificationIndicators:
+      description: Common notification indicators container.
+      type: object
+      required:
+        - dayOfPickupInd
+        - dayBeforePickupInd
+        - preArrivalInd
+        - pickupUpdateInd
+        - pickupCompleteInd
+        - pickupCancellationInd
+        - enrollmentConfirmationInd
+        - smartPickupCutOffNotificationTimeInd
+        - smartPickupTriggerWarningInd
+        - smartPickupTriggerNotificationInd
+        - smartPickupTriggerCancellationInd
+        - pickupIncompleteNotificationInd
+        - pickupDelayedInd
+      properties: 
+        dayOfPickupInd:
+          description: Indicates whether to send notifications on the day of pickup.
+          type: boolean
+          default: false
+        dayBeforePickupInd:
+          description: Indicates whether to send notifications on the day before pickup.
+          type: boolean
+          default: false
+        preArrivalInd:
+          description: Indicates whether to send notifications before arrival.
+          type: boolean
+          default: false
+        pickupUpdateInd:
+          description: Indicates whether to send notifications on pickup schedule update.
+          type: boolean
+          default: false    
+        pickupCompleteInd:
+          description: Indicates whether to send notifications on pickup completion.
+          type: boolean
+          default: false
+        pickupCancellationInd:
+          description: Indicates whether to send notifications on pickup cancellation.
+          type: boolean
+          default: false
+        enrollmentConfirmationInd:
+          description: Indicates enrollment confirmation
+          type: boolean
+          default: false
+        smartPickupCutOffNotificationTimeInd:
+          description: Indicates the Smart pickup cut off notification time
+          type: boolean
+          default: false
+        smartPickupTriggerWarningInd:
+          description: Indicates the Smart pickup trigger warning
+          type: boolean
+          default: false
+        smartPickupTriggerNotificationInd:
+          description: Indicates Smart pickup trigger notification
+          type: boolean
+          default: false
+        smartPickupTriggerCancellationInd:
+          description: Indicates Smart pickup trigger cancellation
+          type: boolean
+          default: false
+        pickupIncompleteNotificationInd:
+          description: Indicates incomplete pickup notification
+          type: boolean
+          default: false
+        pickupDelayedInd:
+          description: Indicates delayed pickup
+          type: boolean
+          default: false
+
+    DeliveryChangeGetResponse:
+      description: Delivery Change Preference GET Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response contains zero or one Delivery Change Preference entity
+              type: array
+              maxItems: 3
+              items:
+                required: 
+                  -  docId
+                allOf: 
+                  - $ref: "#/components/schemas/BasePreference"
+                  - $ref: "#/components/schemas/DeliveryChange"       
+
+    DeliveryChangeModifiedResponse:
+      description: Delivery Change Preference Response Object
+      allOf:
+        - $ref: "#/components/schemas/BaseResponse" 
+        - type: object
+          properties: 
+            payload:
+              description: Response payload - object containing zero or one Delivery Change Preference entity
+              required: 
+                -  docId
+              allOf:
+                - $ref: "#/components/schemas/BasePreference"                 
+                - $ref: "#/components/schemas/DeliveryChange"
+                
+    DeliveryChange:
+      description: Delivery Change preference entity. uapAddress and otherAddress are mutually exclusive.
+      type: object
+      required: 
+        -  optionSelected
+      properties:
+        optionSelected:
+          description: Delivery change option selected
+          type: string
+          example: RedirectToUAP
+        uapAddress:
+          $ref: "#/components/schemas/DeliveryChangeUAPAddress"
+        otherAddress: 
+          $ref: "#/components/schemas/DeliveryChangeOtherAddress"
+        deliveryInstructions:
+          $ref: "#/components/schemas/DeliveryInstructions"
+        surePostUpgradeInd:
+          description: Indicates whether the SurePost upgrade is enabled.
+          type: boolean
+          default: false
+          example: true       
+
+    DeliveryChangeUAPAddress:
+      description: Access point address
+      type: object 
+      properties:
+        uapId:
+          description: UAP internal id that is associated to the access point the customer selected from the map
+          type: string
+          pattern: ^[a-zA-Z0-9]{1,15}$
+          example: U87282
+        name:
+          description: Name
+          type: string
+          example: John Doe
+        phone:
+          description: Phone number
+          type: string
+          pattern: "^\\+?\\d{1,15}$"
+          example: "+15555555555"
+        phoneExt:
+          description: Phone extension
+          type: string
+          pattern: "^\\d{1,4}$"
+          example: "12"
+        address:
+          $ref: "#/components/schemas/AddressDetails"
+
+    DeliveryChangeOtherAddress:
+      description: Name and address for Leave with neighbor, deliver to another address, redeliver to my address
+      type: object 
+      properties:
+        name:
+          description: Name
+          type: string
+          example: John Doe
+        address:
+          $ref: "#/components/schemas/AddressDetails"
+
+    AddressDetails:
+      description: Address details
+      type: object 
+      properties:
+        line1:
+           description: Street number line 1
+           type: string
+           maxLength: 100
+           example: 1234 Main St
+        line2:
+           description: Street number line 2
+           type: string
+           maxLength: 100
+           example: Apt. 305
+        line3:
+           description: Street number line 3
+           type: string
+           maxLength: 100
+           example: Suite 24
+        municipalityName:
+           description: Name of city/municipality.
+           type: string
+           maxLength: 100
+           example: Atlanta
+        stateProvinceCode:
+           description: State/province code.
+           type: string
+           maxLength: 50
+           example: GA
+        postalCode:
+           description: Postal code.
+           type: string
+           maxLength: 10
+           example: "30303"
+        countryCode:
+           description: Country Code.
+           type: string
+           pattern: ^[a-zA-Z0-9]{2}$
+           maxLength: 2
+           example: US
+        addressTypeCode:
+           description: Code to indicate address type, eg. 01 - Residential, 02 - Commercial, 99 - Unspecified/Unclassified.
+           type: string
+           example: "01"
+
+    DeliveryInstructions:
+      description: Delivery instructions such as where to leave the package
+      type: object 
+      properties:
+        leaveAtCd: 
+            description: |
+                Delivery Change (DCWA) event leave at instruction. Possible leave at instruction values
+                | Code  | Description           |
+                | :---: | :---                  | 
+                | ML    | Front Door            | 
+                | MM    | Rear Door             |
+                | ZF    | Shed                  |
+                | IV    | Vestibule             |
+                | MP    | Garage                |
+                | MQ    | Porch                 | 
+                | M6    | Management Office     |
+                | ZG    | Concierge             |
+                | MR    | Deck                  |
+                | M4    | Reception             |
+                | MN    | Side Door             | 
+                | ZH    | Superintendent        |
+                | MS    | Patio                 |
+                | IS    | Mail Room             |
+                | M9    | Door Person           |
+            
+            type: string
+            maxLength: 2
+            example: ML
+        accessCode: 
+            description: Delivery change access code or gate code
+            type: string
+            pattern: ^[a-zA-Z0-9\-#]+$
+            maxLength: 100
+            example: "00110"
+        specialInstruction: 
+          description: Delivery change special instruction
+          type: string
+          pattern: '^(?!.*<script[^>]*>).*$'  
+          maxLength: 100
+          example: "Leave with neighbor on the left Side"
+
+    SuccessResponseHeaders:
+      description: The headers that are returned for all error responses.
+      type: object
+      required:
+        - bkndtransid
+      properties:
+        bkndtransid:
+          description: The backend transaction id.
+          type: string    
+
+    BackendErrorResponseHeaders:
+      description: The headers that are returned from the backend and gateway
+      required:        
+        - bkndtransid
+        - apierrorcode
+        - apierrormsg      
+      properties:
+        bkndtransid:
+          description: The backend transaction id.
+          type: string
+        apierrorcode:
+          description: The API error code.
+          type: string
+          example: UJ0001
+        apierrormsg:
+          description: The API error message.
+          type: string
+          example: Invalid token or token is not present.
+                    
+    Error:
+      description: Error entity
+      type: object
+      required: 
+        -  code
+        -  message
+      properties: 
+        code:
+          description: error code
+          type: string
+          pattern: '^[a-zA-Z0-9\-_]+$'
+          minLength: 3
+        message:
+          description: error message
+          type: string
+          minLength: 3
+          pattern: '^[a-zA-Z0-9\-_\s:]+$'
+
+    ResponseErrorsArr:
+        description: Error response entity
+        type: object
+        required: 
+          -  errors
+        properties: 
+          errors:
+            description: error payload - array containing one or more Errors
+            type: array
+            items: 
+              $ref: "#/components/schemas/Error"
+
+    ErrorResponse:
+      description: Response Object for error condition
+      type: object
+      properties: 
+        response:
+          $ref: "#/components/schemas/ResponseErrorsArr"
