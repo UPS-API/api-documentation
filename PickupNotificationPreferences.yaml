@@ -3,15 +3,7 @@ info:
   title: "CCPS WS General Preferences API v1"
   
   description: |
-    The Customer and Company Web Services (CCPS WS) General Preferences API is a strategic component of our service architecture, 
-    designed to act as a centralized data access layer for applications managing user preferences.
-    This API offers a suite of services that allow integrated applications to retrieve and manage settings 
-    such as custom package types, pickup configurations, declared statement options, 
-    and transit results sorting preferences. It facilitates a consistent and streamlined approach 
-    to preference management across different services, enhancing the capability of applications 
-    to provide a tailored and efficient user experience indirectly. By abstracting the complexity 
-    of user preference storage and retrieval, the API contributes to a cohesive ecosystem that promotes 
-    service agility, maintainability, and scalability.
+    The Pickup Notification Preferences API enables users to configure and manage their notification preferences at the account level.
   
   version: "1.0"
 
