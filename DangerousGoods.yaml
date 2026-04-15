@@ -1027,7 +1027,12 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: The Ship From locations state or province code.
+          description: |
+            The Ship From locations state or province code. Required for US, Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -1066,7 +1071,12 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: The Ship To locations state or province code.
+          description: |
+            The Ship To locations state or province code. Required for US, Canada, and Vietnam (VN).
+
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
