@@ -52,13 +52,6 @@ paths:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
         - $ref: "#/components/parameters/Content-Type"
-        - name: registrationId
-          in: header
-          required: false
-          schema:
-            type: string
-            description: Used to confirm prsence of active account for Worldship clients
-            example: 3DA124234342
         - name: version
           in: path
           description: version
