@@ -397,8 +397,8 @@ paths:
                     Request:
                       TransactionReference:
                          CustomerContext: "Smart Pickup Request"
-                      AccountNumber: "1004YY"
-                      ServiceDateOption: "01"        
+                    AccountNumber: "1004YY"
+                    ServiceDateOption: "01"        
       responses:
         '200':
           description: successful operation
@@ -1070,7 +1070,12 @@ components:
           minLength: 1
           maxLength: 50
         StateProvince:
-          description: State province code or equivalent
+          description: |
+            State province code or equivalent. Required for US, Canada, and Vietnam (VN).
+
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -1876,7 +1881,12 @@ components:
           minLength: 1
           maxLength: 50
         StateProvince:
-          description: Charge card billing State province code
+          description: |
+            Charge card billing State province code. Required for US, Canada, and Vietnam (VN).
+
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -2000,8 +2010,11 @@ components:
           minLength: 1
           maxLength: 50
         StateProvince:
-          description: State or province for postal countries; county for Ireland
-            (IE) and district code for Hong Kong (HK)
+          description: |
+            State or province for postal countries; county for Ireland (IE) and district code for Hong Kong (HK). Required for US, Canada, and Vietnam (VN).
+
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
           maximum: 1
           type: string
           minLength: 1
@@ -2886,9 +2899,11 @@ components:
           minLength: 1
           maxLength: 50
         StateProvince:
-          description: Indicates the address of the shipper to allow for the nearest
-            Drop off facility Search.  Conditionally required if proximitySearchIndicator
-            is present and if country or territory is US/CA/IE/HK.
+          description: |
+            Indicates the address of the shipper to allow for the nearest Drop off facility Search. Conditionally required if proximitySearchIndicator is present and if country or territory is US/CA/IE/HK.
+            
+            Required for Vietnam (VN).
+            For Vietnam (VN), the value must be a valid province code (for example, VN-44).
           maximum: 1
           type: string
           minLength: 1
@@ -2971,6 +2986,10 @@ components:
             1 = District code for Hong Kong (HK)
             2 = County for Ireland (IE)
             3 = State or province for all the postal countries  Required for non-postal countries including HK and IE.
+            
+            Required for US, Canada, and Vietnam (VN).
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
           maximum: 1
           type: string
           minLength: 1
