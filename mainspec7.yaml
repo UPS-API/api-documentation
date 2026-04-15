@@ -245,7 +245,7 @@ paths:
   "/trade/compliance/{version}/content/fields/customs-detail":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CustomsDetailV2.yaml#/paths/~1content~1fields~1customs-detail"
   "/digital-experience/preferences/{version}/account-pickup":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PickupNotificationPreferences.yaml#/paths/~1account-pickup"  
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/PickupNotificationPreferences.yaml#/paths/~1account-pickup"  
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert.yaml#/webhooks/TrackingEvent"
