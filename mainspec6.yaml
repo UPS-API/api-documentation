@@ -60,7 +60,7 @@ tags:
   - name: Pickup
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Pickup.yaml#/info/description"
- - name: Pickup Notification Preferences
+  - name: Pickup Notification Preferences
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PickupNotificationPreferences.yaml#/info/description"
   - name: Pre-Notification
