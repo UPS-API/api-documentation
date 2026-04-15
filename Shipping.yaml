@@ -2501,7 +2501,8 @@ paths:
           backward compatibility. \nv1  original features of the application. No \nsupport
           for CODTurn-inPage, HighValueReport \nor InternationalForms features returned
           in the \nresponse\nv1701  includes support for CODTurn-inPage \nfeatures
-          returned in the response.\nV1903\n Length 5"
+          returned in the response.\nV1903\n Length 5.To support Roadie labels, the API version
+          in the URL must be v2603."
         required: true
       requestBody:
         description: Generate sample code for popular API requests by selecting an
@@ -2514,8 +2515,8 @@ paths:
             schema:
               "$ref": "#/components/schemas/LABELRECOVERYRequestWrapper"
             examples:
-              json:
-                summary: A sample JSON request
+              '1':
+                summary: Label Recovery Request (Standard Example)
                 value:
                   LabelRecoveryRequest:
                     LabelDelivery:
@@ -2538,6 +2539,23 @@ paths:
                       Code: '01'
                       DialectCode: US
                       LanguageCode: eng
+              '2':
+                summary: Label Recovery Request (Roadie)
+                value:
+                  LabelRecoveryRequest:
+                    LabelSpecification:
+                      LabelImageFormat:
+                        Code: GIF
+                    Request:
+                      SubVersion: '2603'
+                      TransactionReference:
+                        CustomerContext: 'Success case'
+                    TrackingNumbers:
+                        TrackingNumber:
+                        - 1R12345678912345
+                        - 1R12356732456789
+                    ReferenceValues:
+                      ShipperNumber: 'XXXXXX'
       responses:
         '200':
           description: successful operation
@@ -4578,7 +4596,11 @@ components:
         StateProvinceCode:
           type: string
           description: |
-            The code of the address's admininstrative division (state, province, distict, prefecture, etc...). 
+            The code of the address's admininstrative division (state, province, distict, prefecture, etc...). Required for US, Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           minLength: 2
           maxLength: 5
           example: GA
@@ -5209,8 +5231,12 @@ components:
         StateProvinceCode:
           description: |
             Shipper's state or province code.
-
+            
             For forward Shipment 5 characters are accepted, but only 2 characters will be printed on the label.  For US, PR and CA accounts, the account must be either a daily pickup account, an occasional account, or a customer B.I.N account.
+            
+            Required for Vietnam (VN).
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -5357,9 +5383,11 @@ components:
           maxLength: 30
         StateProvinceCode:
           description: |
-            Consignee's state or province code. Required for US or Canada.  If destination is US or CA, then the value must be a valid US State/ Canadian Province code.
+            Consignee’s state or province code. Required for US, Canada, and Vietnam (VN).
 
-            If the country or territory is Ireland, the StateProvinceCode will contain the county.
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -5456,9 +5484,11 @@ components:
           maxLength: 30
         StateProvinceCode:
           description: |
-            Retail Location state or province code. Required for US or Canada.  If destination is US or CA, then the value must be a valid US State/Canadian Province code.
+            Retail Location state or province code. Required for US, Canada, and Vietnam (VN).
 
-            If the country or territory is Ireland, the StateProvinceCode will contain the county.
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -5630,7 +5660,11 @@ components:
           description: |
             Origin location's state or province code.  Required if ShipFrom is supplied, and ShipFrom country or territory is US.
 
-            If ShipFrom country or territory is US or CA, then the value must be a valid US State/ Canadian Province code. If the country or territory is Ireland, the StateProvinceCode will contain the county or territory.
+            Required for Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -5898,7 +5932,12 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: State or province code of the credit card billing address.
+          description: |
+            State or province code of the credit card billing address. Required for US, Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -7692,7 +7731,12 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: State of the Forwarding agent.  Applicable for EEI form only.
+          description: |
+            State of the Forwarding agent.  Applicable for EEI form only. Required for US, Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -7765,7 +7809,14 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: State of the Ultimate consignee.  Applicable for EEI form only. Required for certain countries or territories. The length of the postal code depends on the country or territory code
+          description: |
+            State of the Ultimate consignee.  Applicable for EEI form only.  Required for US, Canada, and Vietnam (VN).
+            
+            The length of the postal code depends on the country or territory code.
+                                  
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -7861,7 +7912,12 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: State of the Intermediate Consignee.  Applicable for EEI form only. Required for certain countries or territories.
+          description: |
+            State of the Intermediate Consignee.  Applicable for EEI form only. Required for US, Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -7966,7 +8022,12 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: State of the Producer.  Applies to USMCA. Required for certain countries or territories.
+          description: |
+            State of the Producer. Applies to USMCA. Required for US, Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -8114,7 +8175,12 @@ components:
           minLength: 1
           maxLength: 30
         StateProvinceCode:
-          description: SoldTo location's state or province code.  Required for certain countries or territories.
+          description: |
+            SoldTo location's state or province code. Required for US, Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           maximum: 1
           type: string
           minLength: 1
@@ -9344,7 +9410,12 @@ components:
           pattern: ^(?!\s*$).{1,35}$
           example: Atlanta
         StateProvinceCode:
-          description: The code for the state or province for the address.
+          description: |
+            The code for the state or province for the address. Required for US, Canada, and Vietnam (VN).
+            
+            - For US or Canada, the value must be a valid US state or Canadian province code.
+            - For Vietnam (VN), the value must be a valid province code (for example, VN-44).
+            - If the country or territory is Ireland, the StateProvinceCode must contain the county.
           type: string
           pattern: ^[a-zA-Z]{2,5}$
           example: GA
@@ -10851,8 +10922,9 @@ components:
         RegulationSet:
           description: 'Regulation set for dryIce Shipment. Valid values: CFR = HazMat
             regulated by US Dept. of Transportation within the U.S. or ground shipments
-            to Canada, IATA= Worldwide Air movement.  The following values are valid:
-            IATA, CFR.'
+            to Canada, IATA = Worldwide Air movement, ADR = For EU‑domestic, Standard Service 
+            shipments containing non‑hazmat dry ice, the regulation set must be ADR.
+            The following values are valid:IATA, CFR, ADR.'
           maximum: 1
           type: string
           minLength: 3
@@ -13159,6 +13231,8 @@ components:
       type: object
       required:
       - Request
+      - TrackingNumbers
+      - ReferenceValues
       properties:
         Request:
           "$ref": "#/components/schemas/LabelRecoveryRequest_Request"
@@ -13176,6 +13250,14 @@ components:
           type: string
           minLength: 1
           maxLength: 18
+        TrackingNumbers:
+          description: 'List of Roadie (1R) tracking numbers associated with the label recovery request. Each tracking number must start with "1R" or "1r" and must be either 16 characters (offline) or 28 characters (online) in length.'
+          maximum: 1
+          type: array
+          items:
+            type: string
+          minLength: 1
+          maxLength: 20
         MailInnovationsTrackingNumber:
           description: "Mail Innovations Tracking Number.  Required if Tracking Number
             or ReferenceNumber/Value is not populated. \nIf only MailInnovationsTrackingNumber
@@ -13219,10 +13301,10 @@ components:
           description: |-
             When UPS introduces new elements in the response that are not associated with new request elements, Subversion is used. This ensures backward compatibility.
 
-            To get such elements you need to have the right Subversion. The value of the subversion is explained in the Response element Description.
+            To get such elements you need to have the right Subversion. The value of the subversion is explained in the Response element Description. To support Roadie labels, the API version in the URL must be v2603.
 
             Format: YYMM = Year and month of the release.
-            Example: 1701 = 2017 January  Supported values: 1701, 1707, 1903
+            Example: 1701 = 2017 January  Supported values: 1701, 1707, 1903, 2603
           type: string
         RequestOption:
           description: Request option is no longer used.
@@ -13283,7 +13365,9 @@ components:
             - EPL -- Thermal label in EPL2 format.
             - SPL -- Thermal label in SPL format.
 
-            Default is GIF
+            Default is GIF.
+            
+            Roadie shipments only support GIF, PNG, and ZPL formats.
           maximum: 1
           type: string
           minLength: 4
@@ -13424,7 +13508,7 @@ components:
         name: ReferenceValues
       maximum: 1
       description: Container that holds reference number and shipper number  If tracking
-        number is not present use reference Number
+        number is not present use reference Number. This is mandatory for only Roadie shipments.
     ReferenceValues_ReferenceNumber:
       type: object
       maximum: 1
@@ -13467,7 +13551,7 @@ components:
         name: UPSPremiumCareForm
       description: "UPS Premium Care Form container.  Default is PDF when container
         is not provided. \n  Valid only for Canada to Canada movements. UPS Premium
-        Care Form will be returned in  both US English and Canadian French language."
+        Care Form will be returned in  both US English and Canadian French language."		
     LabelRecoveryResponse:
       type: object
       required:
