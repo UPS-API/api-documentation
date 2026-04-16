@@ -63,6 +63,9 @@ tags:
   - name: Pickup
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Pickup.yaml#/info/description"
+  - name: Pickup Notification Preferences
+    description:
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/PickupNotificationPreferences.yaml#/info/description"
   - name: Pre-Notification
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/PreNotification-Ready.yaml#/info/description"
@@ -235,6 +238,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CustomsDetailV2.yaml#/paths/~1content~1fields~1customs-detail"
   "/commerce-guard/{version}/verify":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify" 
+  "/digital-experience/preferences/{version}/account-pickup":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/PickupNotificationPreferences.yaml#/paths/~1account-pickup"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/UPSTrackAlert-Ready.yaml#/webhooks/TrackingEvent"
