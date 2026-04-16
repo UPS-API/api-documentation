@@ -10,9 +10,9 @@ info:
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/business-rules" target="_blank" rel="noopener">Business Rules</a>
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/dangerousgoods/errors" target="_blank" rel="noopener">Errors</a>
-    - <a href="https://developer.ups.com/api/reference/dangerousgoods/faq" target="_blank" rel="noopener">FAQ</a>
     
-	Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
+    - <a href="https://developer.ups.com/api/reference/dangerousgoods/faq" target="_blank" rel="noopener">FAQ</a>
+    Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
     
     <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;"></a>
