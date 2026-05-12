@@ -382,6 +382,11 @@ components:
           type: string
           description: 'The time of the activity. Format: HHMMSS (24 hr)'
           example: '071356'
+        logicalScan:
+          type: boolean
+          description: 'This indicates whether shipment event is physical or logical event.
+            Valid values: ''true'' for logical event.
+            ''false'' for physical event'
     Address:
       title: Address
       type: object
@@ -914,4 +919,3 @@ components:
           type: string
           description: 'The weight units of measurement. Valid values: ''LBS'' - pounds.
             ''KGS'' - kilograms.'
-
