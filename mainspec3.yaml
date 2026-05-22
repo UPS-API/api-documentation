@@ -63,6 +63,9 @@ tags:
   - name: Tracking
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Tracking.yaml#/info/description"
+  - name: UPS Pickup Points
+    description:
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/info/description"
   - name: World Ease Shipment Management - Shipment
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/WorldEaseShipmentManagement.yaml#/info/description"
