@@ -78,6 +78,9 @@ tags:
   - name: TradeDirect
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/TradeDirect.yaml#/info/description"
+  - name: UPS Pickup Points
+    description:
+      $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/info/description"
   - name: UPS SCS Transportation
     description:
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSSCSTransportation.yaml#/info/description"
@@ -251,7 +254,14 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/CommerceGuard.yaml#/paths/~1commerce-guard~1{version}~1verify"
   "/digital-experience/preferences/{version}/account-pickup":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/PickupNotificationPreferences.yaml#/paths/~1account-pickup"
-  
+  "/uppmanage/{version}/orders":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1orders"
+  "/uppmanage/{version}/locations/inbound/tracking-numbers":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1locations~1inbound~1tracking-numbers"
+  "/uppmanage/{version}/sites/{startdate}/{enddate}":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1sites~1{startdate}~1{enddate}"
+  "/uppmanage/{version}/subscriptions/sites":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1/subscriptions~1sites"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert.yaml#/webhooks/TrackingEvent"
