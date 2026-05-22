@@ -261,7 +261,7 @@ paths:
   "/uppmanage/{version}/sites/{startdate}/{enddate}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1sites~1{startdate}~1{enddate}"
   "/uppmanage/{version}/subscriptions/sites":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1/subscriptions~1sites"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1subscriptions~1sites"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert.yaml#/webhooks/TrackingEvent"
