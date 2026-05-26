@@ -33,7 +33,7 @@ tags:
   - name: Forwarding
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/info/description"
- - name: Landed Cost
+  - name: Landed Cost
     description: 
       $ref: "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/LandedCost.yaml#/info/description"
   - name: Locator
