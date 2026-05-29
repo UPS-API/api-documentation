@@ -3174,7 +3174,7 @@ paths:
       summary: Cancel Order
       operationId: orderCancel
       tags:
-        - Orders
+        - Forwarding
       description: Cancel a pending order
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -3334,7 +3334,7 @@ paths:
       summary: Set Order Date
       operationId: orderSetDate
       tags:
-        - Orders
+        - Forwarding
       description: Set Date for one or all active orders from a shipper to a future date. Past dates are not allowed except for yesterday
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -3524,7 +3524,7 @@ paths:
       summary: Get Order Details
       operationId: orderSearch
       tags:
-        - Orders
+        - Forwarding
       description: Search for orders based on criteria
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -4531,7 +4531,7 @@ paths:
       summary: Cancel Shipment
       operationId: cancelAirShipment
       tags:
-        - Shipments
+        - Forwarding
       description: Cancels a shipment using the provided shipment number and shipper's UPS Freight Account Number.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -4721,7 +4721,7 @@ paths:
       description: Generate estimated freight rates based on the provided shipment and party details, and create the shipment.
       operationId: freightShip
       tags:
-        -  Shipments
+        -  Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -5045,7 +5045,7 @@ paths:
       description: Retrieves shipment details for air or ocean quotes based on the specified request parameters.
       operationId: getShipmentDetails
       tags:
-        - Shipments
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -5317,7 +5317,7 @@ paths:
       summary: Create Manifest
       operationId: printAirManifest
       tags:
-        - Documents
+        - Forwarding
       description: Generates and returns the manifest for the specified manifest number in the requested format.
       parameters:
         - $ref: "#/components/parameters/transId"
@@ -5607,7 +5607,7 @@ paths:
     get:
       operationId: getCity
       tags:
-        - Info
+        - Forwarding
       summary: Get Cities
       description: Retrieves city details matching the provided search criteria.
       parameters:
@@ -5842,7 +5842,7 @@ paths:
     get:
       operationId: getCurrencies
       tags:
-        - Info
+        - Forwarding
       summary: Get Currencies
       description: Retrieves the currency details matching the provided search criteria.
       parameters:
@@ -6002,7 +6002,7 @@ paths:
     get:
       operationId: getAirPaymentTypes
       tags:
-        - Info
+        - Forwarding
       summary: Get Payment Types
       description: Retrieves payment types matching the provided search criteria.
       parameters:
@@ -6252,7 +6252,7 @@ paths:
     get:
       operationId: getCountries
       tags:
-        - Info
+        - Forwarding
       summary: Get Countries
       description: Retrieves country details matching the provided search criteria.
       parameters:
@@ -6424,7 +6424,7 @@ paths:
       description: Retrieve airport details by country code.
       operationId: getAirportDetails
       tags:
-        - Info
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -6577,7 +6577,7 @@ paths:
       description: Retrieves available service types based on shipper and consignee information.
       operationId: getServiceTypes
       tags:
-        - Info
+        - Forwarding
       parameters:
       - $ref: "#/components/parameters/shipper_city"
       - $ref: "#/components/parameters/shipper_state_code"
@@ -6755,7 +6755,7 @@ paths:
       description: Get accessorials by search criteria.
       operationId: getAccessorials
       tags:
-        - Info
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -7032,7 +7032,7 @@ paths:
       description: Creates a quote for air or ocean based on the provided request data.
       operationId: createAirOceanQuote
       tags:
-        - Quotes
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -7329,7 +7329,7 @@ paths:
       description: Retrieves detailed information for a specific air or ocean freight quote identified by the provided request parameters.
       operationId: getQuoteDetails
       tags:
-        - Quotes
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -7647,7 +7647,7 @@ paths:
       description: Creates a booking for air or ocean based on the provided request data.
       operationId: airOceanBookQuote
       tags:
-        - Quotes
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -7778,7 +7778,7 @@ paths:
       summary: Track Shipments
       operationId: getShipmentMilestones
       tags:
-        - Shipments
+        - Forwarding
       parameters:
          -  $ref: "#/components/parameters/transId"
          -  $ref: "#/components/parameters/transactionSrc"
@@ -8107,7 +8107,7 @@ paths:
       description: Get a list of commodities.
       operationId: getCommodities
       tags:
-        - Info
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
@@ -8251,7 +8251,7 @@ paths:
       operationId: getPrqStatus
       
       tags:
-        - Info
+        - Forwarding
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
