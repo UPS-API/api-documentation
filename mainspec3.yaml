@@ -110,6 +110,10 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1documents~1manifests"
   "/forwarding/{version}/quotes":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1quotes"  
+  "/forwarding/{version}/info/commodities":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1info~1commodities"  
+  "/forwarding/{version}/info/quote-status":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Forwarding.yaml#/paths/~1info~1quote-status" 
   "/landedcost/{version}/quotes":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/LandedCost.yaml#/paths/~1landedcost~1{version}~1quotes"
   "/locations/{version}/search/availabilities/{reqOption}":
