@@ -270,11 +270,11 @@ paths:
   "/uppmanage/{version}/subscriptions/sites":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1subscriptions~1sites"
   "/pin-mgmt-sys/{version}/pins/token":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1pins~1token"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/ProtectedDeliveryToken.yaml#/paths/~1pins~1token"
   "/pin-mgmt-sys/{version}/pins/retrieve":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1pins~1retrieve"
-	"/pin-mgmt-sys/{version}/pins/epra":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSPickupPoints.yaml#/paths/~1pins~1epra"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/ProtectedDeliveryToken.yaml#/paths/~1pins~1retrieve"
+  "/pin-mgmt-sys/{version}/pins/epra":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/ProtectedDeliveryToken.yaml#/paths/~1pins~1epra"
 webhooks:
   TrackingEvent:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert.yaml#/webhooks/TrackingEvent"
