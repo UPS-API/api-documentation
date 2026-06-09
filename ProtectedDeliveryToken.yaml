@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: PIN Management System API v1
   description: |
-    PIN Management System API is added as part of Verified Delivery that will offer shippers extra security to ensure the package is delivered to the intended recipient. A secure PIN will be required to release the package for delivery. 
+    The Protected Delivery Token or the PIN Management System API is a part of Verified Delivery that will offer shippers extra security to ensure the package is delivered to the intended recipient. A secure PIN will be required to release the package for delivery.
   version: "1.0"
 tags:
   - name: tokens
