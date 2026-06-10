@@ -3373,6 +3373,8 @@ components:
           "$ref": "#/components/schemas/Insurance_ExtendedFlexibleParcelIndicator"
         TimeInTransitFlexibleParcelIndicator:
           "$ref": "#/components/schemas/Insurance_TimeInTransitFlexibleParcelIndicator"
+        PackageProtection:
+          "$ref": "#/components/schemas/Insurance_PackageProtection"  
       description: Insurance Accesorial. Only one type of insurance can exist at a time on the shipment. Valid for UPS World Wide Express Freight shipments.
     Insurance_BasicFlexibleParcelIndicator:
       type: object
@@ -3451,7 +3453,28 @@ components:
       xml:
         name: TimeInTransitFlexibleParcelIndicator
       description: Container to hold Time In Transit Flexible Parcel Indicator information.  Valid
-        for UPS World Wide Express Freight shipments. 
+        for UPS World Wide Express Freight shipments.
+    Insurance_PackageProtection:
+      type: object
+      maximum: 1
+      required:
+           - CurrencyCode
+           - MonetaryValue
+      properties:
+          CurrencyCode:
+            description: Required if a value for the package declared value amount exists in the MonetaryValue tag. 
+             Must match one of the IATA currency codes. Length is not validated. UPS does not support all international currency codes. 
+             Refer to Currency Codes in the Appendix for a list of valid codes.
+            maximum: 1
+            type: string
+            minLength: 3
+            maxLength: 3
+          MonetaryValue:
+            description: The monetary value for the PackageProtection amount associated with the package.
+            maximum: 1
+            type: string
+            minLength: 8
+            maxLength: 8   
     PackageServiceOptions_HazMat:
       type: object
       maximum: 1
@@ -3713,8 +3736,9 @@ components:
         RegulationSet:
           description: 'Regulation set for DryIce Shipment. Valid values: CFR = For
             HazMat regulated by US Dept of Transportation within the U.S. or ground
-            shipments to Canada,IATA = For Worldwide Air movement.   The following
-            values are valid: CFR and IATA.'
+            shipments to Canada, IATA = For Worldwide Air movement, ADR = For EMEA
+            Ground movement on Standard service.   The following values are valid:
+            CFR, IATA and ADR.'
           maximum: 1
           type: string
           minLength: 3
