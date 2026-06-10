@@ -4773,7 +4773,9 @@ components:
             The packaging type is not UPS Letter; The ShipFrom and or ShipTo countries
             or territories are not in the European Union or the ShipFrom and ShipTo
             countries or territories are both in the European Union and the shipments
-            service type is not UPS Standard."
+            service type is not UPS Standard. \n\nThe Description of Goods field is required 
+			      for all UAE shipments, including Import, Export, and Domestic shipments. 
+      			This requirement applies to both Document and Non‑Document shipments."
           maximum: 1
           type: string
           minLength: 1
@@ -5050,6 +5052,12 @@ components:
           maxLength:  35
         TradeDirect:
           $ref: '#/components/schemas/Shipment_TradeDirect'
+        HealthcareIdentifier:
+          description: It is required to Identify the shipment as a Home Healthcare shipment. When present, triggers healthcare eligibility check and enables package-level healthcare processing. Valid value is 001.
+          maximum: 1
+          type: string
+          minLength: 3
+          maxLength: 3  
       xml:
         name: Shipment
       required:
@@ -10403,10 +10411,60 @@ components:
             account needs to have a valid contract for Refrigeration.
           maximum: 1
           type: string
+        Healthcare:
+          "$ref": "#/components/schemas/PackageServiceOptions_Healthcare"  
       xml:
         name: PackageServiceOptions
       maximum: 1
       description: Package Service Options container.
+    PackageServiceOptions_Healthcare:
+      type: object
+      description: This container is required when HealthcareIdentifier is present, grouping all healthcare fields for a package. Maximum 25 allowed.
+      maxItems: 25
+      properties:
+        ProgramIdentifier:
+          description: |
+            An indicator to identify the healthcare program. Default value is 000.
+            
+            Valid values:
+            - 000 = No Program
+            - 001 = Home Health / Direct to Patient
+            - 002 = Tissues, Organs, and Lab Specimens
+            - 003 = Investigative Drug Substance and Drug Product
+            - 004 = Specialty Drug Product and API
+            - 006 = Implantable Medical devices
+            - 007 = Medical Diagnostics Equipment
+            - 008 = Non-Sterile Pharmaceutical Drug Product and Substance
+            - 009 = Medical Inst. & Supplies
+            - 010 = Animal Health Non-Drug
+            - 011 = Consumer Health Perishable
+            - 012 = Consumer Health Non Perishable
+            - 013 = Non-Complex
+            - 099 = UNCLASSIFIED
+          maximum: 1
+          type: string
+          minLength: 3
+          maxLength: 3
+        SubAttribute:
+          description: Description of Program.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 25
+        UniqueIdentifier:
+          description: Unique Patient Identifier/Provider Identifier.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 25
+        Text:
+          description: Field for future use.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 50
+      xml:
+        name: Healthcare  
     PackageServiceOptions_DeliveryConfirmation:
       type: object
       maximum: 1
