@@ -1,2028 +1,874 @@
 openapi: 3.1.0
-
 info:
-  title: Export Assure API - Cross-Border Trade Guidance-v1
+  title: UPS Track Alert API v2
   description: |
-    This API offers businesses a powerful tool to manage shipping compliance with Description Guidance, Power of Attorney (POA) Requirements, UPS Prohibited Goods, and Commodity Compliance Guidance in order to help prevent delays, avoid fines, and keep your customers happy with fast, hassle-free customs clearances.
 
-        
-    For more information on the Export Assure API, please visit the <a href="https://developer.ups.com/api/reference/exportassure/product-info" target="_blank" rel="noopener">Product Info</a> page.
+    # Product Info
 
+    The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
+    Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency. For more information on the UPS Track Alert API, please visit the <a href="https://developer.ups.com/api/reference/trackalertenhanced/product-info"
+    target="_blank" rel="noopener">Product Info</a> page.
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-    
 
-    <a href="https://god.gw.postman.com/run-collection/29542085-eda5a2d6-ca6f-4a02-8e66-c43d9861ac2d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-eda5a2d6-ca6f-4a02-8e66-c43d9861ac2d%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+    <a href="https://god.gw.postman.com/run-collection/29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
     
-    ## Key Features
+    # Business Values
 
-    ### 1. Basic Description Guidance (Free Feature)
+    - **Enhanced Customer Experience**: Near real-time tracking information increases transparency, leading to higher customer satisfaction and trust.
+    - **Operational Efficiency**: Eliminates the necessity for continuous polling, thus saving resources and improving system responsiveness.
+    - **Data-Driven Decision Making**: Access to near real-time data can help businesses optimize their supply chain and make informed logistics decisions.
+    - **Optimizing Cash Flow Through Near Real-Time Delivery Tracking**: Improve cash flow by knowing that deliveries occurred in near real time.
+    - **Mitigating Fraud and Theft through Near Real-Time Package Status Monitoring**: Reduce fraud and theft by knowing any time something happens to your packages.
+    
+    # Reference
+    - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
+    
+    # FAQs
+  
+    - **How does it work once I am setup as a user?**
+    > You submit up to 100 UPS tracking numbers to the API at a time, using OAUTH in a JSON format.  Your submission needs to include the URL where Track Alert will send a message with any events that occur to your tracking number for the next 14 days.  This saves you the effort of polling UPS to determine what is the current status of your package.
+      
+    - **What type of packages does Track Alert support?
+    > Track Alert supports UPS packages that have a 1Z tracking number, as well as Roadie packages (1R tracking numbers).
+    
+    - **How do I check if a subscription to a tracking number was successful?**
+    >  Once tracking number(s) is submitted to Track Alert, you will receive a response confirming successful and unsuccessful tracking numbers.  
 
-    This feature helps you avoid commonly used, invalid shipment descriptions to avoid hold-ups at customs. For comprehensive description guidance, please refer the Interactive Commodity Description API. Basic Description Guidance includes:
+    - **I stopped receiving event messages after 2 weeks and my package hasn’t been delivered. Why?**
+    >  Each tracking number subscription is valid for 14 days. If the package has not been delivered within 14 days, you must resubscribe to the tracking number to continue receiving updates/events.
 
-      - Checking your commodity description against commonly used descriptions that typically result in a customs delay.
-      - Provide basic guidance for improving an invalid commodity description.
+    - **How do I get events that occurred prior to subscription?**
+    >  Track Alert does not retain any history.  You should use the UPS Track API to receive history about your package.  
 
-    ### 2. Power of Attorney (POA) Requirements
+    - **How many tracking numbers can a subscriber subscribe to in one request?**
+    >  You can subscribe to up to 100 tracking numbers in each submission to the API.  A reply message will be sent via the API with details showing successful and unsuccessful tracking numbers.
 
-    Understanding legal permissions is key for obeying international trade laws. This feature:
+    - **What types of event data does Track Alert provide?**
+    >  In addition to the expected local dates and times when the event occurred (including GMT date and time), you will receive details about the event that include status-type, status-code, status-description and status-description code.
+      Status types are:
+          M and MV = manifest information, 
+          X = exception information (something out of the normal happened to your package, but it may still be delivered on time), 
+          I = in-progress (on the way or moving normally through the UPS network), 
+          U = update (there is an update to your package, normally the scheduled delivery has been updated, but it may still be delivered on time)
+          D = delivery information (loaded on delivery vehicle, out for delivery, delivered)
+      Status codes are a 2-character code that provide details about the event.  There is a list of these codes and their translations elsewhere on this portal.
+      Status descriptions are a very brief (a few words) describing the status code.
+      Status-description code is a overly simplified description of the event.  This description is intended for those who do not understand transportation.
 
-      - Reviews commodity details for POA requirements.
-      - Determines when a POA is needed for customs clearance.
-      - Proactively notifies user of POA requirement to help avoid customs delays.
+    - **What does the message look like?**
+    >  This is what a message looks like for an event that is sent to your URL.  Not every field will have a value for every message.  We have converted the JSON format message to text format for clarity.  
+        Those fields are: 
+        tracking number 
+        scheduled delivery date (this field maybe updated, example '20240905')
+        actual delivery date (this field is blank until the delivery event occurs)
+        actual delivery time (this field is blank until the delivery event occurs)
+        activity location city
+        activity location state/province
+        activity location postal code (this field is blank until the delivery event occurs)
+        activity location country
+        activity status type
+        activity status code
+        activity status description
+        activity status description code
+        local activity date
+        local activity time
+        GMT activity date
+        GMT activity time
+        delivery start time (example '150000')
+        delivery end time (example '170000')
+        delivery time description (example 'estimated delivery window' or 'end of day')
+        delivery photo (this field is only available for enhanced users)
 
-    ### 3. UPS Prohibited Goods Guidance (Free Feature)
+    - **Can I test this process?**
+    >  Yes, there are two test tracking numbers that you can submit, and resubmit that will send several events spaced 1 second apart.  Those two test tracking numbers are 1ZCIETST0111111114 and 1ZCIETST0422222228.  Please ensure to use UPS Production CIE(https://wwwcie.ups.com/api/track/{version}). You can submit these tracking numbers as often as you like. (no stress testing please.) 
 
-    Note that this must be turned on in order to use feature 4, 
+    # Overview
+      When the UPS system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+      
+      Successful responses may or may not include warnings.
+      1. **Without warnings** - Indicates the request has been processed as anticipated.
+      2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+      
+      The severity of an error may be transient or hard.
+      1. **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
+      2. **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+      
+      The following error codes can apply to all APIs. 
+      
+    # Error Codes
 
-      - Reviews commodity details for POA requirements.
-      - Note 1: evaluateImportExportRequirements is the name of the endpoint which performs the UPS Prohibited goods check. There is no charge to call this endpoint.
-      - Note 2: evaluateImportExportRequirements MUST be set to true in order to use Feature #4
+    | **Code**  | **HTTP Code** | **Severity**  | **Description**                                                                                                                                                                                       |
+    | :--:      | :---:         | :---:         | :--                                                                                                                                                                                                   |
+    | UJ0001    | 401           | Hard          | Invalid token or token is not present                                                                                                                                                                    |
+    | 405       | 405           | Hard          | Method Not Allowed.                                                                                                                                                                                   |
+    | 10004     | 500           | Transient     | Something went wrong while processing your request, please try again later                                                                                                                            |
+    | 10007     | 400           | Hard          | Requested Content Type is not supported                                                                                                                                                               |
+    | 250002    | 401           | Hard          | Invalid authentication information.                                                                                                                                                |
+    | 251004    | 401           | Hard          | Bearer Token expired (oauth)                                                                                                                                                                          |
+    | VSS000    | 400           | Hard          | Invalid request and The Subscription request has been rejected.                                                                                                                                       |
+    | VSS002    | 400           | Hard          | Missing transId                                                                                                                                                                                       |
+    | VSS003    | 400           | Hard          | Please enter a valid Transaction ID, The Subscription request has been rejected.                                                                                                                      |
+    | VSS004    | 400           | Hard          | Missing transactionSrc                                                                                                                                                                       |
+    | VSS006    | 400           | Hard          | Please enter a valid Transaction SRC, The Subscription request has been rejected.                                                                                                                                 |
+    | VSS100    | 500           | Transient     | We're sorry, the system is temporarily unavailable.  Please try again later.                                                                                                                          |
+    | VSS110    | 400           | Hard          | Subscription request is empty or not present. The Subscription request has been rejected.                                                                                                             |
+    | VSS200    | 400           | Hard          | Tracking Number List is required. The Subscription request has been rejected.                                                                                                                         |
+    | VSS210    | 400           | Hard          | The Subscription request should have at least one valid tracking number. The Subscription request has been rejected.                                                                                  |
+    | VSS215    | 400           | Hard          | The tracking number that was submitted is not a valid CIE tracking number and has been rejected.                                                                                                                |
+    | VSS220    | 400           | Hard          | You have submitted over 100 tracking numbers which is not allowed. The entire submission of tracking numbers has been rejected.  Please resubmit your request again using groups of no more than 100 tracking numbers.  |
+    | VSS300    | 400           | Hard          | Locale is required. The Subscription request has been rejected.                                                                                                                                       |
+    | VSS310    | 400           | Hard          | Please enter a valid locale. The Subscription request has been rejected                                                                                                                               |
+    | VSS400    | 400           | Hard          | Please enter a valid country code. The Subscription request has been rejected.                                                                                                               |
+    | VSS500    | 400           | Hard          | Destination is required. The Subscription request has been rejected                                                                                                                                   |
+    | VSS600    | 400           | Hard          | URL is empty or not present. The Subscription request has been rejected.                                                                                                                              |
+    | VSS610    | 400           | Hard          | URL is too long. The Subscription request has been rejected.                                                                                                                                          |
+    | VSS700    | 400           | Hard          | Credential is empty or not present. The Subscription request has been rejected.                                                                                                                       |
+    | VSS800    | 400           | Hard          | CredentialType is empty or not present. The Subscription request has been rejected.                                                                                                                                        |
+    | VSS930    | 400           | Hard          | Type is missing or invalid, The Subscription request has been rejected.                                                                                                                               |
 
-
-    ### 4. Commodity Compliance Guidance (Premium Feature)
-
-      This premium feature checks for any restrictions or prohibitions for the specific commodity you are shipping (including any forms needed to clear customs) for the country you are shipping to. A chargeable event is when guidance is provided, including that no restrictions and prohibitions are found. Commodity Compliance Guidance requires a full, destination country specific tariff code to provide guidance. If you do not have this for each product in each country you ship to, you can use the Export Assure: Interactive Commodity Description API to determine this. Included in Commodity Compliance Guidance is:
-      -	Details on what commodities can be shipped to and from specific locations, including restrictions based on the country of origin of the good.
-      -	Information specific to the commodities and origins/destinations.
-      -	Notification for international shipping forms needed for the commodity to clear customs.
-      -	Note 1: evaluateImportExportRequirements - the free feature for UPS Prohibited Goods - MUST be set to true in order to use Commodity Compliance Guidance
-      -	Note 2: advancedImportExportRequirements is the endpoint for Commodity Compliance Guidance, and will incur a charge each time guidance is provided     
- 
-security: 
-  - OAuth2: []
 
 servers:
-  - url: https://wwwcie.ups.com/api/brokerage/{version}
-    description: Production CIE - External Interface
+  - url: https://wwwcie.ups.com/api/track/{version}
+    description: UPS Production CIE OAuth. This is for integration testing only and it will not create any subscription.
+    variables:
+      version:
+       default: v1
+       enum:
+          - v1
+  - url: https://onlinetools.ups.com/api/track/{version}
+    description: UPS Production OAuth.
     variables:
       version:
         default: v1
         enum:
           - v1
-  - url: https://onlinetools.ups.com/api/brokerage/{version}
-    description: Production - External Interface
-    variables:
-      version:
-        default: v1
-        enum:
-          - v1
+security: 
+  - oauth2: [] 
+tags:
+  - name: UPS Track Alert
+    description: Endpoints related to tracking subscriptions
 paths:
-  /importexport/exportassure:
+  /subscription/{type}/package:
     post:
-      operationId: submitExportAssure
-      tags:
-        - Export Assure
-      summary: Submit shipment details for compliance guidance
-      parameters:
-        - $ref: '#/components/parameters/AccountNumber'
-        - $ref: '#/components/parameters/TransactionSrc'
-        - $ref: '#/components/parameters/Content-Type'
-        - $ref: '#/components/parameters/Accept'
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
-        
       description: |
-        Submit shipment details and receive guidance from UPS. 
+        This endpoint takes a list of tracking numbers and creates a subscription for each.
+        Clients must provide the tracking numbers in the correct format.
         
-        This endpoint includes four separate operations which may be requested individually or simultaneously:
-          -	Basic Description Guidance (Free Feature)
-          -	Power of Attorney (POA) Requirements (Free Feature)
-          -	UPS Prohibited Goods Guidance (Free Feature)
-          -	Commodity Compliance Guidance (Premium Feature)
-          -	NOTE: requires UPS Prohibited Goods Guidance (evaluateImportExportRequirements) to be set to true. 
-
-          To request a specific operation, set the respective value for that property to true:
-            -	evaluateDescriptions to request basic description guidance for the shipment (free)
-          	- evaluatePoaRequirements to request POA requirements for the shipment (free)
-            - evaluateImportExportRequirements to request UPS Prohibited Goods Guidance only (free)
-            - evaluateAdvancedImportExportRequirements to request regulatory requirements, shipping restrictions, and required international forms (premium)
-          Examples:
-            -	To request only Description Guidance, set evaluateDescriptions: true and provide relevant description properties.
-            -	To request all three free operations, set evaluateDescriptions: true, evaluatePoaRequirements: true, evaluateImportExportRequirements: true, and include all required properties for all operations.
-            -	To request Commodity Compliance Guidance, set advancedImportExportRequirements: true, evaluateImportExportRequirements: true, and include all required properties for all operations.
-            -	If you do not wish to be charged, set advancedImportExportRequirements: false
+        Upon success it should return:
+        - List of valid tracking number for which subscription created.
+        - List of invalid tracking number for which subscription not created.
+      tags:
+        - UPS Track Alert
+      summary: API to create subscriptions by tracking numbers.
+      operationId: processSubscriptionTypeForTrackingNumber
       security:
-        - OAuth2: [] 
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc"
+        - $ref: "#/components/parameters/type"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ExportAssureRequest"
+              $ref: '#/components/schemas/PackageSubscriptionRequest'
             examples:
-              descriptionGuidanceRequestExample:
-                $ref: "#/components/examples/sample-description-guidance-request"
-              poaGuidanceRequestExample:
-                $ref: '#/components/examples/sample-poa-guidance-request'
-              importExportComplianceRequestExample:
-                $ref: "#/components/examples/sample-import-export-compliance-request"
-              allGuidanceRequestExample:
-                $ref: "#/components/examples/sample-all-guidance-request"
-              
+              '1':
+                summary: Standard Request
+                value:
+                  locale: en_US
+                  countryCode: US
+                  trackingNumberList:
+                    - 1ZCIETST0111111114
+                    - 1ZCIETST0422222228
+              '2':
+                summary: Enhanced Request
+                value:
+                  locale: en_US
+                  countryCode: US
+                  trackingNumberList:
+                    - 1ZCIETST0111111114
+                    - 1ZCIETST0422222228
+                  eventPreferences:
+                    - D
+                    - I
+                    - M
       responses:
-        "200":
-          description: OK
-          headers:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SuccessResponseHeaders"         
+        '200':
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExportAssureResponse'
+                $ref: '#/components/schemas/PackageSubscriptionSuccessResponse'
               examples:
-                descriptionGuidanceResponseExample:
-                  $ref: "#/components/examples/sample-description-guidance-response"
-                poaGuidanceResponseExample:
-                  $ref: '#/components/examples/sample-poa-guidance-response'
-                importExportComplianceResponseExample:
-                  $ref: "#/components/examples/sample-import-export-compliance-response"
-                allGuidanceResponseExample:
-                  $ref: "#/components/examples/sample-all-guidance-response"
-                cieResponseExample:
-                  $ref: "#/components/examples/cie-success-response"
-
-        "207":
-          description: Multi-Status. This is an example where inquiry was made for multiple compliance areas but not all succeeded.
-          headers:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BackendErrorResponseHeaders"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExportAssurePartialResponse'
-              examples:
-                samplePartialResponse:
-                  $ref: "#/components/examples/sample-partial-response"
+                PartialSuccessExample:
+                  description: Example response that contains valid tracking number for which subscription created and invalid tracking numbers.
+                  value:
+                    validTrackingNumbers:
+                      - 1Z1234567891234556
+                    invalidTrackingNumbers:
+                      - 1Z1234567$8
+                CompleteSuccessExample:
+                  description: Example response that contains valid tracking numbers for which subscription created.
+                  value:
+                    validTrackingNumbers:
+                      - 1Z1234567891234556
         '400':
-          description: Bad Request
-          headers:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BackendErrorResponseHeaders"
+          description: Invalid Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"  
+                $ref: '#/components/schemas/PackageSubscriptionErrorResponse'
               example:
+                invalidTrackingNumbers: 
+                  - 1Z1234567$8
                 response:
                   errors:
-                    - code: "EA_POA_04" 
-                      message: Country code is not valid
-                      field: evaluateImportExportRequirements
-                      value: 'NB'
-                      type: POA
-                perfStats:
-                  absLayerTime: "575"
-                  fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-                  receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
+                    - code: VSS300
+                      message: Locale is required. The Subscription request has been rejected.
         '401':
           description: Unauthorized
-          headers:
+          content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GatewayErrorResponseHeaders"   
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorMessage'
               example:
                 response:
                   errors:
-                    - code: "UJ0001"
-                      message: Invalid token or token is not present
-                perfStats:
-                  absLayerTime: "575"
-                  fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-                  receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
+                    - code: "250002"
+                      message: Invalid Authentication Information
         '404':
-          description: Not Found
-          headers:
+          description: URL does not exist or resource not found.
+          content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GatewayErrorResponseHeaders" 
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorMessage'
               example:
                 response:
                   errors:
                     - code: "404"
-                      message: The requested resource was not found
-                perfStats:
-                  absLayerTime: "575"
-                  fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-                  receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
-        '405':
-          description: Method Not Allowed
-          headers:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GatewayErrorResponseHeaders"   
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/ErrorResponse"
-              example:
-                response:
-                  errors:
-                    - code: "405"
-                      message: The requested method is not allowed for this resource
-                perfStats:
-                  absLayerTime: "575"
-                  fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-                  receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
-        "415":
-          description: Not Acceptable
-          headers:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GatewayErrorResponseHeaders" 
+                      message: The requested resource was not found.
         '500':
           description: Internal Server Error
-          headers:
+          content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BackendErrorResponseHeaders"
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorMessage'
               example:
                 response:
                   errors:
-                    - code: "500"
-                      message: Internal server error
-                perfStats:
-                  absLayerTime: "575"
-                  fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-                  receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
-
-components: 
-  securitySchemes:
-    OAuth2:
-      type: "oauth2"
+                    - code: "10004"
+                      message: Something went wrong while processing your request, please try again later
+  /subscription/{type}/account:
+    post:
+      summary: API to create subscriptions by account number.
       description: |
-        Find your Client ID and Secret on your app info page.  
-         1. Select **Try It**
-         2. In the Security section enter your **Client ID** and **Secret**
-         3. Select **Request Token**
-         4. Enter values for all parameters and properties
-         5. Select **Send** to send your API request
+        This endpoint takes an account number and creates a subscription.
+        Clients must provide the account number in the correct format. 
+        Please note, client needs to be party to the package for that account.
+        
+        Upon success, the API returns:
+        - A success message.
+        - Expiry date of the subscription.
+      operationId: createAccountSubscription
+      tags:
+        - UPS Track Alert
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc"
+        - $ref: "#/components/parameters/type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountSubscriptionRequest'
+            example:
+              locale: en_US
+              countryCode: US
+              eventPreferences:
+                - D
+                - M
+              subscriptionId: UPS_Client
+              clientSubscriptionId: UPS_Client
+              shipperAccountNumber: "123456"
+              subAccountType: 
+                - Outbound
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountSubscriptionResponse'
+              example:
+                expiryDate: 9999-12-31
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: VSS300
+                      message: Locale is required. The Subscription request has been rejected.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "250002"
+                      message: Invalid Authentication Information
+        '404':
+          description: URL does not exist or resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "404"
+                      message: The requested resource was not found.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "10004"
+                      message: Something went wrong while processing your request, please try again later
+    delete:
+      summary: API to unsubscribe subscriptions by account number.
+      description: |
+        This endpoint takes an account number and removes a subscription.
+        Clients must provide the account number in the correct format. 
+        Please note, client needs to be party to the package for that account.
+
+        Upon success, the API returns:
+        - A success message.
+      operationId: unsubscribeAccountSubscription
+      tags:
+        - UPS Track Alert
+      security:
+        - oauth2: [ ]
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc"
+        - $ref: "#/components/parameters/type"
+        - $ref: "#/components/parameters/shipper-account-number"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountUnsubscribeResponse'
+              example:
+                message: "Account unsubscribed"
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: VSS300
+                      message: Shipper Account Number is required.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "250002"
+                      message: Invalid token or token is not present.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "10004"
+                      message: Something went wrong while processing your request, please try again later
+webhooks:
+  TrackingEvent:
+    post:
+      summary: Tracking Event
+      description: This HTTPS POST request will send information about a new tracking event in the system. Please ensure the webhook URL provided in the subscription request is ready to receive this POST request. Note that not every field will have a value in each message.
+      operationId: trackingEvent
+      tags:
+        - UPS Track Alert
+      security:
+        - clientOauth2: [ ]
+      parameters:
+        - name: x-api-key
+          in: header
+          description: It is a string filed in header, which holds the clientID of the OAUTH token used for authentication. This is required for OAUTH clients and optional for non-OAUTH clients.
+          required: false
+          schema:
+            type: string
+        - name: User-Agent
+          in: header
+          description: Represents Track Alert application with value 'UPSPubSubTrackingService'.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackingEventRequest'
+            examples:
+              '1':
+                summary: Out for delivery message
+                value:
+                  trackingNumber: 1Z204W4R0308071865
+                  localActivityDate: '20240423'
+                  localActivityTime: '091519'
+                  activityLocation:
+                    city: Charlotte
+                    stateProvince: NC
+                    postalCode: '30004'
+                    country: US
+                  activityStatus:
+                    type: I
+                    code: OT
+                    description: Out for Delivery
+                    descriptionCode: 021
+                  scheduledDeliveryDate: '20240423'
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '131519'
+                  deliveryTimeDescription: end of day
+              '2':
+                summary: Delivery message
+                value:
+                  trackingNumber: 1Z204W4R0308071865
+                  localActivityDate: '20240423'
+                  localActivityTime: '095004'
+                  activityLocation:
+                    city: CHARLOTTE
+                    stateProvince: NC
+                    postalCode: '28209'
+                    country: US
+                  activityStatus:
+                    type: D
+                    code: FS
+                    description: Delivered
+                    descriptionCode: 011
+                  scheduledDeliveryDate: '20191014'
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '135004'
+                  actualDeliveryDate: '20240423'
+                  actualDeliveryTime: '095004'
+                  receivedBy: 'John'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page. 
+          1. Select "Try It" 
+          2. In the Security section enter your Client ID and Secret 
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request"
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
-          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
-          scopes: {}    
-
-  schemas:
-    AccountNumber: 
-      description: UPS account number
-      type: 
-        - string
-        - "null"
-      maxLength: 10
-      pattern: '^[a-zA-Z0-9]*$'
-      examples: 
-        - "985123"
-        - "766554"
-        - "446332"
-
-    CommodityId:
-      description: The commodity ID returned in the Import Export Compliance report.
-      type: string
-      maxLength: 50
-      pattern: ^[\s\S]*$
-      examples: 
-        - "28b210b9-e686-4617-8cf4-9973e3ed4087" 
-        - "8f971462-5e68-469a-809f-637a12af1305"
-
-    ComplianceDetails:
-      description: This object contains details of specific compliance requirements and controls that are applicable to the shipment, based on whether it is for import or export purposes.
-      type: object
-      properties:
-        categoryType:
-          description: Whether the compliance assessment regards imports or exports
-          type: string   
-          minLength: 6
-          maxLength: 6
-          enum: 
-            - Import
-            - Export
-        controlTypes:
-          type: array
-          minItems: 1
-          items:
-            $ref: "#/components/schemas/ControlTypes"
-      additionalProperties: false
-      required:
-        - categoryType
-        - controlTypes
-
-    ControlDetails:
-      description: This object contains an array of warning messages related to this control type. 
-      type: object
-      properties:
-        controlDetailName:
-          type: string
-          description: |-
-            The formal name or title of the control measure. This property serves as the header for `ControlDetails`.  Where no specific control name is applicable, this field may be left empty (and consequently, no header will be displayed in the response). This property is translated to the user's language as required. 
-            
-            **Note**: When the `controlTypeCode` is set to `DOC`, the `controlDetailName` is also the identifier for the corresponding DocuSign template.
-          maxLength: 150
-          pattern: ^[\s\S]*$
-          examples: 
-            - Controlling Authority
-            - Free Trade Agreement
-        controlDetailDescription:
-          description: A detailed description of the control measure, translated for the user as required.
-          type: string
-          maxLength: 4000
-          pattern: '^[\s\S]*$'
-          examples: 
-            - Trade Agreement between the United States and Canada (USMCA)
-            - Caribbean Basin Economic Recovery Act
-      additionalProperties: false
-      required: 
-        - controlDetailName
-        - controlDetailDescription
-
-    ControlTypes:
-      description: This object includes specific type of customs controls applicable to a shipment.
-      type: object
-      properties:
-        controlType:
-          description: The category of customs control applicable to the shipment. This property is translated to the user's language as required. 
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[\s\S]*$
-          examples: 
-            - Prohibition
-            - Embargo/Sanction
-            - Sample Data
-            - Import License
-        controlTypeCode:
-          description: A unique code that distinctly identifies each control type. This code is not translated and is used for specific system-logic related to the control type. 
-          type: string
-          maxLength: 50
-          pattern: ^[\s\S]*$
-          examples: 
-            - DOC
-            - FTA
-        isRequired:
-          description: Whether shipment compliance with a specific control type is required
-          type: string
-          maxLength: 10
-          enum: 
-            - "Yes"
-            - Maybe
-            - Applicable
-        controlTypeMessage:
-          description: Additional guidance or instructions based on the specific control type condition.
-          type: string
-          minLength: 1
-          maxLength: 4000
-          pattern: ^[\s\S]*$
-          examples: 
-            - Import Certificate may be required
-            - Free Trade Agreement may be applicable
-        controlDetails:
-          description: An array that contains a list of control types and codes
-          type: array
-          minItems: 1
-          items:
-            $ref: "#/components/schemas/ControlDetails"
-      additionalProperties: false
-      required: 
-        - controlType
-        - controlTypeCode
-        - controlTypeMessage
-        - controlDetails
-
-    CountryCodes:
-      description: The <a href="https://developer.ups.com/api/reference/shipping/appendix1" target="_blank" rel="noopener noreferrer">two-letter identification code</a> for countries.
-      type: string
-      minLength: 2
-      maxLength: 2
-      pattern: ^[a-zA-Z0-9]{2}$
-      examples: 
-        - AU
-        - US
-        - UK
-        - FR
-        - JP
-
-    CurrencyCodes:
-      description: |-
-        The three-letter code that represents the currency used to value the items in the shipment.
-
-        | Supported enum values        |
-        | :--------------------------- |
-        | `ARS`<br>Argentine Peso      |
-        | `AUD`<br>Australian Dollar   |
-        | `BRL`<br>Brazilian Real      |
-        | `CAD`<br>Canadian Dollar     |
-        | `CHF`<br>Swiss Franc         |
-        | `CLP`<br>Chilean Peso        |
-        | `CNY`<br>Chinese Yuan        |
-        | `CRC`<br>Costa Rican Colon   |
-        | `DKK`<br>Danish Krone        |
-        | `DOP`<br>Dominican Peso      |
-        | `EUR`<br>Euro                |
-        | `GBP`<br>Great Britain Pound |
-        | `HKD`<br>Hong Kong Dollar    |
-        | `INR`<br>India Rupee         |
-        | `JPY`<br>Japanese Yen        |
-        | `KRW`<br>Korean Won          |
-        | `MXN`<br>Mexican Peso        |
-        | `MYR`<br>Malaysian Ringgit   |
-        | `NOK`<br>Norwegian Kroner    |
-        | `NZD`<br>New Zealand Dollar  |
-        | `PEN`<br>Peruvian Nuevo Sol  |
-        | `PHP`<br>Philippine Peso     |
-        | `PLN`<br>Polish Zloty        |
-        | `SEK`<br>Swedish Krona       |
-        | `SGD`<br>Singapore Dollar    |
-        | `THB`<br>Thai Baht           |
-        | `TWD`<br>Taiwan Dollar       |
-        | `USD`<br>US Dollar           |
-        | `VEB`<br>Venezuelan Bolivar  |
-      type: string
-      minLength: 3
-      maxLength: 3
-      pattern: ^[a-zA-Z0-9]{3}$
-      enum: 
-        - ARS
-        - AUD
-        - BRL
-        - CAD
-        - CHF
-        - CLP
-        - CNY
-        - CRC
-        - DKK
-        - DOP
-        - EUR
-        - GBP
-        - HKD
-        - INR
-        - JPY
-        - KRW
-        - MXN
-        - MYR
-        - NOK
-        - NZD
-        - PEN
-        - PHP
-        - PLN
-        - SEK
-        - SGD
-        - THB
-        - TWD
-        - USD
-        - VEB
-
-    DescriptionGuidanceResponse:
-      description: This object contains the system's results to a request for Description Guidance
-      type: object
-      properties:
-        isMatched:
-          description: Whether the description guidance service has matched a keyword from the shipment description
-          type: boolean
-          default: false
-          examples: 
-            - true
-            - false
-        message:
-          description: A message with guidance on how to improve the shipment description
-          type: string
-          pattern: ^[\s\S]*$
-          examples: 
-            - DVD Player
-            - Stereo
-        sourceListName:
-          description: A list of terminology used to describe items from a particular regional source
-          type: string
-          maxLength: 250
-          pattern: ^[\s\S]*$
-          examples: 
-            - USA 
-            - France
-            - Germany
-        matchedKeyword:
-          description: The keyword(s) from the shipment description that matched the system criteria
-          type: string
-          maxLength: 250
-          pattern: ^[\s\S]*$
-          examples: 
-            - goods
-            - clothing
-            - perishables  
-
-    ErrorResponse: 
-      description: This object is the primary container for error responses.
-      type: object
-      properties:
-        response:
-          $ref: "#/components/schemas/ErrorResponseWrapper"
-        perfStats:
-          $ref: "#/components/schemas/ALPerfStats"
-      required: 
-        - response
-        - perfStats
-
-    ErrorResponseWrapper:
-      description: This object contains an array of error codes.
-      type: object
-      properties:            
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorCode'    
-      required: 
-        - errors   
-
-    ErrorCode:
-      description: This object contains error codes, error descriptions and other error properties.
-      type: object
-      properties:
-        code:
-          description: The error code.
-          type: string
-          pattern: '^[a-zA-Z0-9\-_\.]+$'
-          examples: 
-            - 400
-            - 401
-            - 404
-        description:
-          description: Description of the error.
-          pattern: '^[a-zA-Z0-9\-_\s:]+$'  
-          examples: 
-            - Not Found 
-            - Unauthorized
-        message:
-          description: Additional information for the user.
-          type: string
-          pattern: '^[a-zA-Z0-9\-_\s:]+$'  
-          examples: 
-            - Country Code is not valid
-            - Value is too large
-        field:
-          description: The path to the field causing the error as returned from the API backend services
-          type: string
-          pattern: '^[a-zA-Z0-9\-_\s:\.\[\]]+$'  
-          examples: 
-            - evaluateImportExportRequirements
-            - evaluatePoaRequirements
-            - evaluateImportExportRequirements
-        value:
-          description: The value that caused the error
-          type: string
-          pattern: ^[\s\S]*$
-          examples: 
-            - US
-            - EU
-            - NB
-        type:
-          description: |-
-            Specific operation the error message is relevant to.
-
-            | Supported enum values                  |
-            | :------------------------------------- |
-            | `DG`<br>Description Guidance           |
-            | `POA`<br>Power of Attorney Requirement |
-            | `IEC`<br>Import Export Compliance      |
-          type: string
-          minLength: 2
-          maxLength: 3
-          enum: 
-            - DG
-            - IEC
-            - POA
-      additionalProperties: false      
-
-    EvaluationCriteria:
-      description: |-
-        Criteria for evaluating POA requirements for both importer and exporter. Supported values:
-           
-           | Supported enum values                                                                                           |
-           | :-------------------------------------------------------------------------------------------------------------- |
-           | `NonConditional`<br>Standard evaluation without specific conditional criteria                                     |
-           | `Description`<br>Evaluation based on the detailed description of the commodity                                    |
-           | `FTA`<br>Free Trade Agreement. Evaluation considers Free Trade Agreement stipulations applicable to the shipment. |
-           | `Value`<br>Evaluation based on the monetary value of the commodities                                              |
-           | `HTS`<br>Harmonized Tariff Schedule. Evaluation uses HTS codes for tariff classification and compliance           |
-           | `Quantity`<br>Evaluation focuses on the quantity of the goods being shipped                                       |
-           | `Weight`<br>Evaluation based on the weight of the shipment                                                        |
-      type: string
-      enum: 
-        - NonConditional
-        - Description
-        - FTA
-        - Value
-        - HTS
-        - Quantity
-        - Weight
-        - HTS PGA
-      minLength: 3
-      maxLength: 14
-      pattern: ^[a-zA-Z0-9\-_\s:]+$
-
-    ExportAssureRequest:
-      description: This object is the primary request structure for the Export Assure API.
-      type: object
-      properties:
-        transID:
-          description: The unique, reference identifier that correlates an API request with its response 
-          type: string
-          maxLength: 50
-          pattern: ^[\s\S]*$
-          examples: 
-            - 10d622cc-a453-4054-bb62-ed71e6fc2239
-            - 798fe81e-2f28-430d-96fd-d45f0c7fe36a
-        evaluateDescriptions:
-          description: Whether the user has requested description guidance
-          type: boolean
-          default: true
-          examples: 
-            - true 
-            - false
-        evaluatePoaRequirements:
-          description: Whether the user has requested Power of Attorney (POA) requirements
-          type: boolean
-          default: true
-          examples: 
-            - true 
-            - false
-        evaluateAdvancedImportExportRequirements:
-          description: Whether the user has requested an Advanced Import/Export Compliance review
-          type: boolean
-          default: false
-          examples: 
-            - true 
-            - false          
-        evaluateImportExportRequirements:
-          description: Whether the user has requested an Import/Export Compliance review
-          type: boolean
-          default: true
-          examples: 
-            - true 
-            - false
-        shipment:
-          $ref: "#/components/schemas/ShipmentRequest"
-      additionalProperties: false
-      required:
-        - transID
-        - shipment
-
-    ExportAssureResponse:
-      description: This object is the primary request container for the Export Assure API.
-      type: object
-      properties:
-        transID:
-          $ref: '#/components/schemas/TransactionID'
-        shipment:
-          $ref: "#/components/schemas/ShipmentResponse"
-        perfStats:
-          $ref: "#/components/schemas/ALPerfStats"
-      additionalProperties: false
-      required:
-        - transID
-        - shipment
-        - perfStats
-    ExportAssurePartialResponse:
-      description: This object is the primary response container for the Export Assure API.
-      type: object
-      properties:
-        transID:
-          $ref: '#/components/schemas/TransactionID'
-        shipment:
-          $ref: "#/components/schemas/ShipmentResponse"
-        response:
-          $ref: "#/components/schemas/ErrorResponseWrapper"
-        perfStats:
-          $ref: "#/components/schemas/ALPerfStats"
-      additionalProperties: false
-      required:
-        - transID
-        - shipment
-        - response
-        - perfStats
-    HsCode:
-      description: The [Harmonized System (HS) code](https://www.trade.gov/harmonized-system-hs-codes). Used commonly throughout the export process for goods, the Harmonized System is a standardized numerical method of classifying traded products. It is used by customs authorities to identify products when assessing duties and taxes. 
-      type: string
-      maxLength: 13
-      pattern: ^[0-9.]{4,13}$
-      examples: 
-        - "3605.00.00.00"
-        - "3605000000"
-        - "3925.90.00.00"
-        - "3925900000"
-
-    ImportExportShipmentLevelResponse:
-      description: This object contains properties which describe the shipment's compliance with laws and regulations. 
-      type: object
-      properties:
-        shipmentValue:
-          type: number
-          description: The total monetary value of all items included in the shipment
-          format: double
-          maximum: 999999999999.99
-          examples: 
-            - 1500.25
-            - 456.99
-            - 9977.00
-        shipmentCurrencyCode:
-          description: The three-letter code of the currency used to value the items in the shipment.
-          $ref: '#/components/schemas/CurrencyCodes'
-        translationLocale:
-          $ref: "#/components/schemas/TranslationLocale"
-        hasShipmentWarnings:
-          description: Whether there are shipment-level warning. Shipment-level warnings include issues related to documentation and shipment packaging.  
-          type: boolean    
-          examples: 
-            - true
-            - false
-        hasCommodityWarnings:
-          description: Whether there are compliance-related warnings or issues at the commodity level within the shipment. A `true` value indicates potential compliance concerns that require the shipper's attention.
-          type: boolean
-          examples: 
-            - true 
-            - false
-        commodityWarningsMessage:
-          description: The warning message returned when the `hasCommodityWarnings` flag is set to true
-          type: string
-          pattern: ^[\s\S]*$      
-          examples: 
-            - Your shipment may have additional clearance considerations 
-            - Some shipment items may be prohibited from import to the EU
-        isShipmentOverGiftValueThreshold:
-          type: boolean
-          description: Whether the total value of the shipment exceeds the allowable threshold for categorizing it as a gift
-          examples: 
-            - true
-            - false
-        shipmentOverGiftValueThresholdMessage:
-          description: The message returned if the shipment's value surpasses the threshold for gift categorization
-          type: string
-          pattern: ^[\s\S]*$
-          examples: 
-            - "Your shipment may not be considered as a gift by Customs authorities due to the shipment value provided"
-            - "Your shipment may incur additional charges due to shipment value."
-        isShipmentOverGiftWeightThreshold:
-          description: Whether the total weight of the shipment exceeds the weight limit for being classified as a gift
-          type: boolean
-          examples: 
-            - true
-            - false
-        shipmentOverGiftWeightThresholdMessage:
-          description: A message explaining the implications if the shipment's weight goes beyond the threshold for gift categorization, guiding users in understanding customs considerations.
-          type: string
-          pattern: ^[\s\S]*$
-          examples: 
-            - "Your shipment may not be considered as a gift by Customs authorities due to the shipment weight provided"
-            - "Your shipment may incur additional charges due to shipment weight."
-      additionalProperties: false
-      required:
-        - shipmentCurrencyCode
-        - hasShipmentWarnings
-        - hasCommodityWarnings
-        - isShipmentOverGiftValueThreshold
-        - isShipmentOverGiftWeightThreshold
-
-    ImportExportItemLevelResponse:
-      description: This object includes details of the Import Export Compliance assessment.
-      type: object
-      properties:
-        isUpsProhibited:
-          description: Whether UPS prohibits shipment of the item
-          type: boolean
-          examples: 
-            - true
-            - false
-        upsProhibitedMessage:
-          description: A message explaining the reason for any prohibited shipment
-          oneOf:
-            - type: 'null'
-            - type: string
-          pattern: ^[\s\S]*$
-          examples: 
-            - US federal law prohibits shipment of this item from the US.  
-            - The EU prohibits import of this item.
-        isTranslatedIndicator:
-          description: Whether shipment details have been translated from the language of the origin country to the user's language 
-          type: boolean
-          examples: 
-            - true
-            - false
-        complianceOutput:
-          description: This array includes the output of the compliance review, including customs category and control codes.
-          type: array
-          minItems: 0
-          items:
-            $ref: "#/components/schemas/ComplianceDetails"
-      additionalProperties: false
-      required:
-        - isUpsProhibited
-        - isTranslatedIndicator
-
-    PowerOfAttorneyResponse:
-      description: This object includes details of the Power of Attorney (POA) requirements for the shipment.
-      type: object
-      properties:
-        importerPoaRequiredFlag:
-          description: Whether Power of Attorney (POA) is required for the importer
-          type: boolean 
-          examples: 
-            - true 
-            - false
-        importerEvaluationCriteria:
-          $ref: "#/components/schemas/EvaluationCriteria"
-        importerPoaOnFileIndicator:
-          description: Whether the importer already has a POA on file
-          type: 
-            - string
-            - "null"
-          maxLength: 3
-          enum: 
-            - "Yes"
-            - "No" 
-            - null
-        importerCommodityId:
-          description: The first commodity in the shipment that necessitates an importer POA
-          $ref: '#/components/schemas/CommodityId'
-        importerCommodityDescription:
-          description: A description of the commodity regarding what led to the POA requirement for the importer
-          type: string
-          pattern: ^[\s\S]*$
-          examples: 
-            - EQUIPMENT 
-            - COMPUTERS 
-            - BICYCLES
-        exporterPoaRequiredFlag:
-          description: Whether the exporter is required to provide a POA for customs clearance.
-          type: boolean
-          examples: 
-            - true 
-            - false
-        exporterEvaluationCriteria:
-          description: This schema includes details of whether a POA is required for the exporter.
-          $ref: "#/components/schemas/EvaluationCriteria" 
-        exporterPoaOnFileIndicator:
-          description: Whether the exporter has a POA already on file
-          type: 
-            - string
-            - "null"
-          maxLength: 3
-          enum:
-            - "Yes"
-            - "No"
-            - null
-        exporterCommodityId:
-          description: The first commodity in the shipment that necessitated an exporter POA
-          $ref: '#/components/schemas/CommodityId'     
-        exporterCommodityDescription:
-          description: The commodity that triggers the POA requirement for the exporter
-          type: string
-          pattern: ^[\s\S]*$
-          examples:
-            - Dynamite
-        exporterOnlineFormFlag:
-          description: Whether there is an online form available for the exporter to complete their POA documentation
-          type: boolean
-          examples: 
-            - true
-            - false
-        exporterDocuSignTemplateId:
-          description: The ID of the DocuSign template, which the exporter can use for electronic completion of the POA. 
-          type: string
-          maxLength: 100
-          pattern: ^[a-zA-Z0-9\-_\s:]+$
-          examples: 
-            - f215a2b8-8fad-4610-b06e-76877ec3016c  
-            - 8f971462-5e68-469a-809f-637a12af1305
-      required: 
-        - importerPoaRequiredFlag
-        - exporterPoaRequiredFlag
-        - exporterOnlineFormFlag   
-
-    ShipmentRequest:
-      description: This object contains all necessary details about a shipment for compliance evaluation. 
-      type: object
-      properties:
-        importerName:
-          description: The name of the importer
-          type: string
-          pattern: ^[\s\S]*$
-          maxLength: 100
-          examples: 
-            - Ford
-            - Acme
-        importerCity:
-          description: The city where the importer is located. Required if both importer's account number and importer's zip code are not provided and POA evaluation is requested. 
-          type: string
-          maxLength: 100
-          pattern: ^[\s\S]*$
-          examples: 
-            - Detroit
-            - Paris
-            - Amsterdam
-            - New York
-        importerZipcode:
-          description: The postal code of the importer's location. Required when the importer's account number and city are not specified and POA evaluation is requested.
-          type: string
-          pattern: ^[a-zA-Z0-9\-\s]+$
-          examples: 
-            - "48204" 
-            - "46664"
-        importerAccountNumber:
-          description: The UPS account number of the importer
-          type: 
-            - string
-            - "null"
-          pattern: '^[a-zA-Z0-9]*$'
-          minLength: 6
-          maxLength: 10
-          examples: 
-            - "985123"
-            - "766554"
-            - "446332" 
-        exporterName:
-          description: The name of the exporter. Required when the exporter's UPS account number is not available and POA requirements are under review.
-          type: string
-          pattern: ^[\s\S]*$
-          maxLength: 100
-          examples: 
-            - Lear
-            - Acme
-        exporterCity:
-          description: The city from which the exporter operates. Required if exporter's account number and zip code are not given and POA evaluation is requested. 
-          type: string
-          maxLength: 100
-          pattern: ^[\s\S]*$
-          examples: 
-            - Windsor 
-            - Paris 
-            - Amsterdam
-        exporterZipcode:
-          description: The postal code of the exporter's location. Required when exporter's account number and city are not provided and POA evaluation is requested.
-          type: string
-          pattern: ^[a-zA-Z0-9\-\s]+$
-          examples: 
-            - "20836"
-            - "43322"
-        exporterAccountNumber:
-          description: The UPS account number of the exporter
-          type: string
-          pattern: '^[a-zA-Z0-9]*$'
-          maxLength: 20
-          examples: 
-            - "998562" 
-            - "767839" 
-            - "332532"   
-        id:
-          description: The Shipment ID included on the Import Export compliance report.
-          $ref: '#/components/schemas/ShipmentId'
-        importCountryCode:
-          description: The [two-letter country code]() representing the destination country for the shipment
-          $ref: '#/components/schemas/CountryCodes'
-        exportCountryCode:
-          description: The [two-letter country code]() of the shipment's origin 
-          $ref: '#/components/schemas/CountryCodes'
-        translationLocale:
-          description: The language and country-based preferences of the user. This includes translated texts, currency type, and unit of measurements.
-          $ref: "#/components/schemas/TranslationLocale"
-        transModes:
-          description: |-
-            Mode of transportation for the shipment.
-
-            | Supported enum values                       |
-            |---------------------------------------------|
-            | `INT_AIR`<br>International Air Freight     |
-            | `INT_OCEAN`<br>International Ocean Freight |
-            | `INT_RAIL`<br>International Rail Freight   |
-            | `INT_TRUCK`<br>International Truck Freight |
-            | `DOM_AIR`<br>Domestic Air Freight          |
-            | `DOM_OCEAN`<br>Domestic Ocean Freight      |
-            | `DOM_RAIL`<br>Domestic Rail Freight        |
-            | `DOM_TRUCK`<br>Domestic Truck Freight      |
-          type: string
-          minLength: 7
-          maxLength: 20
-          enum: 
-            - INT_AIR
-            - INT_OCEAN
-            - INT_RAIL
-            - INT_TRUCK
-            - DOM_AIR
-            - DOM_OCEAN
-            - DOM_RAIL
-            - DOM_TRUCK
-        shipmentType:
-          description: |-
-            Shipment type. 
-            
-            | Supported enum values                                                                                |
-            | :--------------------------------------------------------------------------------------------------- |
-            | `GIFT`<br>Items sent as gifts, typically for personal reasons.                                       |
-            | `COMM`<br>Commercial goods or commodities, usually for business transactions. Sale, sample, repair.  |
-            | `OTHR`<br>Return, Other, and Intercompany Data, Anything else not supported.                         |
-            | `PERS`<br>Personal items, often for relocation or personal use                                       |
-          type: string
-          minLength: 4
-          maxLength: 4
-          enum: 
-            - GIFT 
-            - COMM 
-            - OTHR 
-            - PERS
-        shipmentDescription:
-          description: Description of the contents of the shipment. This description is required if the `evaluateDescriptions` flag is set to true.
-          type: string
-          maxLength: 2147483647
-          pattern: ^[\s\S]*$
-          examples: 
-            - goods
-            - electronics
-            - machinery
-        grossWeight:
-          description: The gross weight of the entire Shipment. If this field is not specified, `grossWeightUnit` must be `null`.
-          type: number 
-          format: decimal
-          maximum: 999999999999.99
-          pattern: ^(\d{1,12})(\.\d{1,2})?$
-          examples: 
-            - 10.6
-            - 25.6
-            - 155.99
-        grossWeightUnit:
-          description: Gross weight unit. Only required if there is a value for `grossWeight`; If `grossWeight` is not specified, this value must equal `null`. 
-          type: 
-            - string
-            - "null"
-          default: null
-          maxLength: 2
-          enum: 
-            - KG
-            - LB
-            - null
-        shipmentItems:
-          type: array
-          minItems: 1
-          maxItems: 150
-          items:
-            $ref: "#/components/schemas/ShipmentItemsRequest"
-      additionalProperties: false
-      required:
-        - id
-        - importCountryCode
-        - exportCountryCode
-        - shipmentType
-        - grossWeightUnit
-        - shipmentItems
-
-    ShipmentResponse:
-      description: This object contains metadata about the shipment and includes the response objects for each of the three operations.
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/ShipmentId'
-        hasCommodityWarnings:
-          description: Whether there are compliance-related warnings or issues at the commodity level within the shipment. A `true` value indicates potential compliance concerns that require the shipper's attention.
-          type: boolean
-          examples: 
-            - true 
-            - false
-        descriptionGuidance:
-          $ref: "#/components/schemas/DescriptionGuidanceResponse"
-        poaCompliance:
-          $ref: "#/components/schemas/PowerOfAttorneyResponse"    
-        importExportCompliance:
-          $ref: "#/components/schemas/ImportExportShipmentLevelResponse"
-        shipmentItems:
-          type: array
-          minItems: 1
-          items:
-            $ref: "#/components/schemas/ShipmentItemsResponse"
-      additionalProperties: false
-      required:
-        - id
-        - hasCommodityWarnings
-        - shipmentItems
-
-    ShipmentId: 
-      description: A unique identifier assigned to the shipment as part of the API's compliance review process. 
-      type: string
-      maxLength: 50
-      pattern: ^(?!-)[0-9a-zA-Z-]{1,50}(?<!-)$
-      examples: 
-        - "28b210b9-e686-4617-8cf4-9973e3ed4087" 
-        - "8f971462-5e68-469a-809f-637a12af1305"
-    ShipmentItemsRequest:
-      description: This object provides a detailed response for each individual commodity within a shipment
-      type: object
-      properties:
-        commodityId:
-          $ref: '#/components/schemas/CommodityId'
-        eccn:
-          description: The [US Export Commodity Control Number (ECCN)](https://www.bis.doc.gov/index.php/licensing/commerce-control-list-classification/export-control-classification-number-eccn)a key identifier used in the export control system. 
-          type: string
-          maxLength: 5
-          pattern: ^[a-zA-Z0-9]{5}$
-          examples:  
-            - 3A001 
-            - 1A984 
-            - 4A001
-        hsCode:
-          $ref: '#/components/schemas/HsCode'
-        description:
-          description: A description of the shipment item listed in the request.
-          maxLength: 150
-          type: string
-          pattern: ^[\s\S]*$
-          examples: 
-            - explosives
-            - computer keyboards
-            - men's cotton shirts
-        originCountryCode:
-          $ref: '#/components/schemas/CountryCodes'
-        amountValue:
-          description: Total value of the items in the shipment.
-          type: number
-          format: double
-          maximum: 999999999999.99
-          examples: 
-            - 1500.25
-            - 456.99
-            - 9977.00    
-        currencyCode:
-          $ref: '#/components/schemas/CurrencyCodes'
-        quantity:
-          description: The total number of items shipped.
-          type: number
-          format: integer
-          minimum: 1
-          maximum: 2147483647
-          pattern: ^([1-9][0-9]{0,11}|0)$
-        UOM:
-          description: The unit of measurement for the quantity of shipment items
-          type: string
-          pattern: ^[\s\S]*$
-          minLength: 3
-          maxLength: 10
-          enum: 
-            - Bag
-            - Barrel
-            - Bolt
-            - Box
-            - Bunch
-            - Bundle
-            - Butt
-            - Canister
-            - Carton
-            - Case
-            - Centimeter
-            - Container
-            - Crate
-            - Cylinder
-            - Dozen
-            - Each
-            - Envelope
-            - Feet
-            - Kilogram
-            - Liter
-            - Meter
-            - Number
-            - Package
-            - Packet
-            - Pairs
-            - Pallet
-            - Pieces
-            - Pounds
-            - ProofLiter
-            - Roll
-            - Set
-            - Square Meters
-            - Square Yards
-            - Tube
-            - Yard
-      additionalProperties: false
-      required:
-        - commodityId
-        - description
-        - originCountryCode
-        - amountValue
-        - currencyCode
-        - quantity
-        - UOM
-
-    ShipmentItemsResponse:
-      description: This object provides a detailed response for each individual commodity within a shipment
-      type: object
-      properties:
-        commodityId:
-          $ref: '#/components/schemas/CommodityId'
-        hsCode:
-          $ref: '#/components/schemas/HsCode'
-        description:
-          description: A description of the shipment item listed in the request.
-          type: string
-          maxLength: 150
-          pattern: ^[\s\S]*$
-          examples: 
-            - explosives
-            - computer keyboards
-            - men's cotton shirts
-        descriptionGuidance:
-          $ref: "#/components/schemas/DescriptionGuidanceResponse"
-        importExportCompliance:
-          $ref: "#/components/schemas/ImportExportItemLevelResponse"
-      additionalProperties: false
-      required:
-        - commodityId
-        - description
-    TransactionID:
-      description: The unique, reference identifier that correlates an API request with its response 
-      type: string
-      maxLength: 50
-      pattern: ^[\s\S]*$
-      examples: 
-        - 10d622cc-a453-4054-bb62-ed71e6fc2239
-        - 798fe81e-2f28-430d-96fd-d45f0c7fe36a
-
-    TranslationLocale:
-      description: |-
-        Translation locale. 
-        
-        | Supported enum values      |
-        | :------------------------- |
-        | `EN`<br>English            |
-        | `DE`<br>Germany            |
-        | `PL`<br>Polish             |
-        | `FR`<br>French             |
-        | `IT`<br>Italian            |
-        | `NL`<br>Dutch              |
-        | `ES`<br>Spanish            |
-        | `ZH`<br>Simplified Chinese |
-      type: string
-      minLength: 2
-      maxLength: 2
-      enum: 
-        - EN
-        - DE
-        - PL
-        - FR
-        - IT
-        - NL
-        - ES
-        - ZH
-      default: EN 
-  
-    ALPerfStats:
-      type: object
-      properties:
-        absLayerTime:
-          type: string
-          description: Time taken through the abstraction layer in milliseconds.
-          examples: 
-            - "13440"
-            - "44324"
-        fulfillTime:
-          type: string
-          description: Request completed time.
-          examples: 
-            - Sun Nov 19 10:42:46.145 -05:00 2023
-            - Mon Nov 20 12:16:26.600 -05:00 2023
-        receiptTime:
-          type: string
-          description: Request receipt time
-          examples: 
-            - Sun Nov 19 10:42:32.705 -05:00 2023
-            - Mon Nov 20 12:12:26.600 -05:00 2023
-      additionalProperties: false
-      required: 
-        - absLayerTime
-        - fulfillTime
-        - receiptTime
-      
-    SuccessResponseHeaders:
-      description: The headers that are returned for all error responses.
-      type: object
-      required:
-        - x-request-id
-        - BkndTransId
-      properties:
-        x-request-id:
-          description: The APIGEE transaction id.
-          type: string
-          example: d774b047-e945-4db6-8468-ea4e65fa61c4
-        BkndTransId:
-          description: The backend transaction id.
-          type: string
-          example: UJ0001
-        x-api-success-count:
-          description: Indicate the number of charges for the API call.
-          type: string
-          example: '1'          
-          
-    GatewayErrorResponseHeaders:
-      description: The headers returned from the gateway
-      type: object
-      required:        
-        - x-request-id
-      properties:
-        x-request-id:
-          type: string
-          description: The gateway transaction id.
-          example: d774b047-e945-4db6-8468-ea4e65fa61c4
-          
-    BackendErrorResponseHeaders:
-      description: The headers that are returned from the backend and gateway
-      $ref: '#/components/schemas/GatewayErrorResponseHeaders'
-      required:        
-        - bkndtransid
-        - apierrorcode
-        - apierrormsg      
-      properties:
-        bkndtransid:
-          description: The backend transaction id.
-          type: string
-        apierrorcode:
-          description: The API error code.
-          type: string
-          example: UJ0001
-        apierrormsg:
-          description: The API error message.
-          type: string
-          example: Invalid token or token is not present.
-
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
+          scopes: {}
+    clientOauth2:
+      type: oauth2
+      description: |
+        Oauth Token generator provide by the customer.
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://your-token-url.com/oauth/token
+          scopes: { }
   parameters:
-    AccountNumber:
-      in: header
-      name: accountNumber 
-      description: UPS account number for shipper or user
-      required: false
-      schema: 
+    shipper-account-number:
+      name: shipper_account_number
+      in: query
+      required: true
+      schema:
         $ref: '#/components/schemas/AccountNumber'
-    TransactionSrc:
+    transId:
+      name: transId
       in: header
+      description: An identifier unique to the request.
+      required: true
+      schema:
+        type: string
+    transactionSrc:
       name: transactionSrc
+      in: header
       description: Identifies the client/source application that is calling.
       required: true
       schema:
         type: string
-    Accept:
-      in: header
-      name: Accept
+    type:
+      name: type
+      in: path
       required: true
-      description: The Accept request HTTP header indicates which content types, expressed as MIME types, the client is able to understand.
+      description: Represents a subscription type that provides near real time updates on tracking status.
       schema:
         type: string
-    Content-Type:
-      in: header
-      name: Content-Type
-      required: true
-      description: The Content-Type header provides the client with the actual content/media type of the returned content.
-      schema:
-        type: string  
-  
-  examples:
-    sample-description-guidance-request:
-      summary: Description Guidance Request
-      value:
-        transID: c5d87df5-ac58-4ff7-9f96-103debe66496
-        evaluateDescriptions: true
-        evaluatePoaRequirements: false
-        evaluateImportExportRequirements: false
-        shipment:
-          id: 47cb07b6-69f1-4ded-95ff-953fee2667de
-          importCountryCode: CA
-          exportCountryCode: US
-          translationLocale: EN
-          transModes: INT_AIR
-          shipmentType: GIFT
-          shipmentDescription: gifts
-          grossWeight: 15
-          grossWeightUnit: KG
-          shipmentItems:
-            - commodityId: 47cb07b6-69f1-4ded-95ff-953fee2667de
-              eccn: EAR99
-              hsCode: 6109.10.0004
-              description: t-shirts
-              originCountryCode: US
-              amountValue: 1200
-              currencyCode: USD
-              quantity: 5
-              UOM: Dozen
-            - commodityId: 47cb07b6-69f1-4ded-95ff-953fee2667de 
-              eccn: EAR99
-              hsCode: 6109.10.0042
-              description: t-shirts
-              originCountryCode: US
-              amountValue: 2400
-              currencyCode: USD
-              quantity: 10
-              UOM: Dozen
-    sample-poa-guidance-request:
-      summary: POA Guidance Request
-      value:
-        transID: c5d87df5-ac58-4ff7-9f96-103debe66496
-        evaluateDescriptions: false
-        evaluatePoaRequirements: false
-        evaluateImportExportRequirements: true
-        shipment:
-          importerName: Ford
-          importerCity: Detroit
-          importerZipcode: "48204"
-          exporterName: Lear
-          exporterCity: Windsor
-          exporterZipcode: "56325"
-          exporterAccountNumber: "9687452"
-          importerAccountNumber: "9952736"
-          id: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-          importCountryCode: "CA"
-          exportCountryCode: "US"
-          translationLocale: "EN"
-          transModes: "INT_AIR"
-          shipmentType: "COMM"
-          shipmentDescription: "gifts"
-          grossWeight: 15
-          grossWeightUnit: "KG"
-          shipmentItems:
-            - commodityId: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-              eccn: "EAR99"
-              hsCode: "6109.10.0004"
-              description: "t-shirts"
-              originCountryCode: "US"
-              amountValue: 1200
-              currencyCode: "USD"
-              quantity: 5
-              UOM: "Dozen"
-            - commodityId: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-              eccn: "EAR99"
-              hsCode: "6109.10.0042"
-              description: "t-shirts"
-              originCountryCode: "CU"
-              amountValue: 2400
-              currencyCode: "USD"
-              quantity: 10
-              UOM: "Dozen"
-    sample-import-export-compliance-request:
-      summary: Import Export Compliance Request
-      value:
-        transID: c5d87df5-ac58-4ff7-9f96-103debe66496
-        evaluateDescriptions: false
-        evaluatePoaRequirements: false
-        evaluateImportExportRequirements: true
-        shipment:
-          id: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-          importCountryCode: "CA"
-          exportCountryCode: "US"
-          translationLocale: "EN"
-          transModes: "INT_AIR"
-          shipmentType: "COMM"
-          grossWeight: 15
-          grossWeightUnit: "KG"
-          shipmentItems:
-            - commodityId: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-              eccn: "EAR99"
-              hsCode: "6109.10.0004"
-              description: "t-shirts"
-              originCountryCode: "US"
-              amountValue: 1200
-              currencyCode: "USD"
-              quantity: 5
-              UOM: "Dozen"
-            - commodityId: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-              eccn: "EAR99"
-              hsCode: "6109.10.0042"
-              description: "t-shirts"
-              originCountryCode: "CU"
-              amountValue: 2400
-              currencyCode: "USD"
-              quantity: 10
-              UOM: "Dozen"
-    sample-all-guidance-request:
-      summary: All Guidance Request
-      value:
-        transID: "c5d87df5-ac58-4ff7-9f96-103debe66496"
-        evaluateDescriptions: true
-        evaluatePoaRequirements: true
-        evaluateImportExportRequirements: true
-        shipment:
-          importerName: "Ford"
-          importerCity: "Detroit"
-          importerZipcode: "48204"
-          exporterName: "Lear"
-          exporterCity: "Windsor"
-          exporterZipcode: "56325"
-          exporterAccountNumber: "9687452"
-          importerAccountNumber: "9952736"
-          id: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-          importCountryCode: "CA"
-          exportCountryCode: "US"
-          translationLocale: "EN"
-          transModes: "INT_AIR"
-          shipmentType: "COMM"
-          shipmentDescription: "shirts"
-          grossWeight: 15
-          grossWeightUnit: "KG"
-          shipmentItems:
-            - commodityId: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-              eccn: "EAR99"
-              hsCode: "6109.10.0004"
-              description: "t-shirts"
-              originCountryCode: "US"
-              amountValue: 1200
-              currencyCode: "USD"
-              quantity: 5
-              UOM: "Dozen"
-            - commodityId: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-              eccn: "EAR99"
-              hsCode: "6109.10.0042"
-              description: "t-shirts"
-              originCountryCode: "CU"
-              amountValue: 2400
-              currencyCode: "USD"
-              quantity: 10
-              UOM: "Dozen"
-    sample-description-guidance-response:
-      summary: Description Guidance Response
-      value:
-        transID: 28b210b9-e686-4617-8cf4-9973e3ed4087
-        shipment:
-          id: "a5de8df8-0ada-45d6-ae36-b7dbc4d6f127"
-          hasCommodityWarnings: true
-          descriptionGuidance:
-            isMatched: true
-            message: "Men's and women's cotton sport shirts"
-            sourceListName: "global"
-            matchedKeyword: "Gift"
-          poaCompliance:
-            importerPoaRequiredFlag: true
-            importerEvaluationCriteria: "Description"
-            importerPoaOnFileIndicator: "Yes"
-            importerCommodityId: "8e369c86-6c1f-4fbd-bd0c-55de5107e5ff"
-            importerCommodityDescription: 't-shirts'
-            exporterPoaRequiredFlag: true
-            exporterEvaluationCriteria: "Description"
-            exporterPoaOnFileIndicator: "Yes"
-            exporterCommodityId: '8e369c86-6c1f-4fbd-bd0c-55de5107e5ff'
-            exporterCommodityDescription: 't-shirts'
-            exporterOnlineFormFlag: true
-            exporterDocuSignTemplateId: "c0375e04-0c6e-4e56-b01d-30b2f4b613bd"  
-          importExportCompliance:
-            shipmentValue: 3600
-            shipmentCurrencyCode: "USD"
-            translationLocale: "EN"
-            hasShipmentWarnings: true
-            hasCommodityWarnings: true
-            commodityWarningsMessage: "Your shipment may have compliance considerations; see below for additional detail"
-            isShipmentOverGiftValueThreshold: true
-            shipmentOverGiftValueThresholdMessage: "Your shipment may not be considered as a gift by Customs authorities due to the shipment value provided"
-            isShipmentOverGiftWeightThreshold: false
-            shipmentOverGiftWeightThresholdMessage: ''
-          shipmentItems:
-            - commodityId: "8e369c86-6c1f-4fbd-bd0c-55de5107e5ff"
-              hsCode: "6109.10.0004"
-              description: "t-shirts"
-            - commodityId: "6604a366-0371-4e4f-9bf8-5595b016365e"
-              hsCode: "6109.10.0042"
-              description: "t-shirts"
-        perfStats:
-          absLayerTime: "575"
-          fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-          receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
-    sample-poa-guidance-response:
-      summary: POA Guidance Response
-      value:
-        transID: "28b210b9-e686-4617-8cf4-9973e3ed4087"
-        shipment:
-          id: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-          hasCommodityWarnings: true
-          descriptionGuidance:
-            isMatched: false
-            message: ""
-            sourceListName: "global"
-            matchedKeyword: "Gift"
-          importExportCompliance:
-            shipmentValue: 3600
-            shipmentCurrencyCode: "USD"
-            translationLocale: "EN"
-            hasShipmentWarnings: true
-            hasCommodityWarnings: true
-            isShipmentOverGiftValueThreshold: true
-            shipmentOverGiftValueThresholdMessage: "Your shipment may not be considered as a gift by Customs authorities due to the shipment value provided."
-            isShipmentOverGiftWeightThreshold: false
-            shipmentOverGiftWeightThresholdMessage: ''
-            commodityWarningsMessage: "Your shipment may have compliance considerations see below for additional detail"
-          poaCompliance:
-            importerPoaRequiredFlag: true
-            importerEvaluationCriteria: "Description"
-            importerPoaOnFileIndicator: "Yes"
-            importerCommodityId: "8e369c86-6c1f-4fbd-bd0c-55de5107e5ff"
-            importerCommodityDescription: 't-shirts'
-            exporterPoaRequiredFlag: true
-            exporterEvaluationCriteria: 'Description'
-            exporterPoaOnFileIndicator: "Yes"
-            exporterCommodityId: '8e369c86-6c1f-4fbd-bd0c-55de5107e5ff'
-            exporterCommodityDescription: 't-shirts'
-            exporterOnlineFormFlag: true
-            exporterDocuSignTemplateId: "c0375e04-0c6e-4e56-b01d-30b2f4b613bd"
-          shipmentItems:
-            - commodityId: "8e369c86-6c1f-4fbd-bd0c-55de5107e5ff"
-              hsCode: "6109.10.0004"
-              description: "t-shirts"
-            - commodityId: "6604a366-0371-4e4f-9bf8-5595b016365e"
-              hsCode: "6109.10.0042"
-              description: "t-shirts"
-        perfStats:
-          absLayerTime: "575"
-          fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-          receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
-    sample-import-export-compliance-response:
-      summary: Import Export Compliance Response
-      value:
-        transID: "28b210b9-e686-4617-8cf4-9973e3ed4087"
-        shipment:
-          id: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-          hasCommodityWarnings: true
-          importExportCompliance:
-            shipmentValue: 3600
-            shipmentCurrencyCode: "USD"
-            translationLocale: "EN"
-            hasShipmentWarnings: true
-            hasCommodityWarnings: true
-            isShipmentOverGiftValueThreshold: true
-            shipmentOverGiftValueThresholdMessage: Your shipment may not be considered as a gift by Customs authorities due to the shipment value provided.
-            isShipmentOverGiftWeightThreshold: false
-            shipmentOverGiftWeightThresholdMessage: ''
-            commodityWarningsMessage: "Your shipment may have compliance considerations see below for additional detail"
-          shipmentItems:
-            - commodityId: "8e369c86-6c1f-4fbd-bd0c-55de5107e5ff"
-              hsCode: "6109.10.0004"
-              description: t-shirts
-              importExportCompliance:
-                isUpsProhibited: false
-                upsProhibitedMessage: ''
-                isTranslatedIndicator: false
-                complianceOutput:
-                  - categoryType: "Export"
-                    controlTypes:
-                      - controlType: "Embargo/Sanction"
-                        controlTypeCode: "Embargo/Sanction"
-                        isRequired: 'Yes'
-                        controlTypeMessage: "Embargo/Sanction required"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: "United States Embargo - Office of Foreign Assets Control:Goods or services of Cuban origin may not be imported into the United States either directly or through third countries, such as Canada or Mexico. The exceptions are: publications, artwork, or other informational materials. This embargo supersedes any other regulations. Reference source: Electronic Code of Federal Regulations Title 31 Part 515."
-                      - controlType: "Document"
-                        controlTypeCode: "DOC"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Document may be required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Miscellaneous Controls - Notification"
-                        controlTypeCode: "Miscellaneous Controls"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Miscellaneous controls may be required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Free Trade Agreement"
-                        controlTypeCode: "FTA"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Free Trade Agreement may be Applicable"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: Caribbean Basin Economic Recovery Act
-            - commodityId: "6604a366-0371-4e4f-9bf8-5595b016365e"
-              hsCode: "6109.10.0042"
-              description: "t-shirts"
-              importExportCompliance:
-                isUpsProhibited: false
-                upsProhibitedMessage: ''
-                isTranslatedIndicator: false
-                complianceOutput:
-                  - categoryType: "Export"
-                    controlTypes:
-                      - controlType: "Embargo/Sanction"
-                        controlTypeCode: "Embargo/Sanction"
-                        isRequired: 'Yes'
-                        controlTypeMessage: "Embargo/Sanction required"
-                        controlDetails:
-                          - controlDetailName: 'f'
-                            controlDetailDescription: "United States Embargo - Office of Foreign Assets Control:Goods or services of Cuban origin may not be imported into the United States either directly or through third countries, such as Canada or Mexico. The exceptions are: publications, artwork, or other informational materials. This embargo supersedes any other regulations. Reference source: Electronic Code of Federal Regulations Title 31 Part 515."
-                      - controlType: "Document"
-                        controlTypeCode: "DOC"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Document maybe required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Miscellaneous Controls - Notification"
-                        controlTypeCode: "Miscellaneous Controls"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Miscellaneous Controls Maybe required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Free Trade Agreement"
-                        controlTypeCode: "FTA"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Free Trade Agreement Maybe Applicable"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: "Caribbean Basin Economic Recovery Act"
-        perfStats:
-          absLayerTime: "575"
-          fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-          receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
-    sample-all-guidance-response:
-      summary: All Guidance Response
-      value:
-        transID: "28b210b9-e686-4617-8cf4-9973e3ed4087"
-        shipment:
-          id: "47cb07b6-69f1-4ded-95ff-953fee2667de"
-          hasCommodityWarnings: true
-          importExportCompliance:
-            shipmentValue: 3600
-            shipmentCurrencyCode: "USD"
-            translationLocale: "EN"
-            hasShipmentWarnings: true
-            hasCommodityWarnings: true
-            isShipmentOverGiftValueThreshold: true
-            shipmentOverGiftValueThresholdMessage: "Your shipment may not be considered as a gift by Customs authorities due to the shipment value provided."
-            isShipmentOverGiftWeightThreshold: false
-            shipmentOverGiftWeightThresholdMessage: ''
-            commodityWarningsMessage: "Your shipment may have compliance considerations see below for additional detail"
-          descriptionGuidance:
-            isMatched: true
-            message: "Men's and women's cotton sport shirts"
-            sourceListName: global
-            matchedKeyword: "Gift"
-          poaCompliance:
-            importerPoaRequiredFlag: true
-            importerEvaluationCriteria: "Description"
-            importerPoaOnFileIndicator: "Yes"
-            importerCommodityId: '8e369c86-6c1f-4fbd-bd0c-55de5107e5ff'
-            importerCommodityDescription: 't-shirts'
-            exporterPoaRequiredFlag: true
-            exporterEvaluationCriteria: 'Description'
-            exporterPoaOnFileIndicator: "Yes"
-            exporterCommodityId: '8e369c86-6c1f-4fbd-bd0c-55de5107e5ff'
-            exporterCommodityDescription: 't-shirts'
-            exporterOnlineFormFlag: true
-            exporterDocuSignTemplateId: "c0375e04-0c6e-4e56-b01d-30b2f4b613bd"
-          shipmentItems:
-            - commodityId: "8e369c86-6c1f-4fbd-bd0c-55de5107e5ff"
-              hsCode: "6109.10.0004"
-              description: "t-shirts"
-              importExportCompliance:
-                isUpsProhibited: false
-                upsProhibitedMessage: ''
-                isTranslatedIndicator: false
-                complianceOutput:
-                  - categoryType: "Export"
-                    controlTypes:
-                      - controlType: "Embargo/Sanction"
-                        controlTypeCode: "Embargo/Sanction"
-                        isRequired: 'Yes'
-                        controlTypeMessage: "Embargo/Sanction required"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: "United States Embargo - Office of Foreign Assets Control:Goods or services of Cuban origin may not be imported into the United States either directly or through third countries, such as Canada or Mexico. The exceptions are: publications, artwork, or other informational materials. This embargo supersedes any other regulations. Reference source: Electronic Code of Federal Regulations Title 31 Part 515."
-                      - controlType: "Document"
-                        controlTypeCode: "DOC"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Document maybe required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Miscellaneous Controls - Notification"
-                        controlTypeCode: "Miscellaneous Controls"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Miscellaneous Controls Maybe required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Free Trade Agreement"
-                        controlTypeCode: "FTA"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Free Trade Agreement Maybe Applicable"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: "Caribbean Basin Economic Recovery Act"
-            - commodityId: "6604a366-0371-4e4f-9bf8-5595b016365e"
-              hsCode: "6109.10.0042"
-              description: "t-shirts"
-              importExportCompliance:
-                isUpsProhibited: false
-                upsProhibitedMessage: ''
-                isTranslatedIndicator: false
-                complianceOutput:
-                  - categoryType: "Export"
-                    controlTypes:
-                      - controlType: "Embargo/Sanction"
-                        controlTypeCode: "Embargo/Sanction"
-                        isRequired: "Yes"
-                        controlTypeMessage: "Embargo/Sanction required"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: "United States Embargo - Office of Foreign Assets Control:Goods or services of Cuban origin may not be imported into the United States either directly or through third countries, such as Canada or Mexico. The exceptions are: publications, artwork, or other informational materials. This embargo supersedes any other regulations. Reference source: Electronic Code of Federal Regulations Title 31 Part 515."
-                      - controlType: "Document"
-                        controlTypeCode: "DOC"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Document maybe required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Miscellaneous Controls - Notification"
-                        controlTypeCode: "Miscellaneous Controls"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Miscellaneous Controls Maybe required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Free Trade Agreement"
-                        controlTypeCode: "FTA"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Free Trade Agreement Maybe Applicable"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: "Caribbean Basin Economic Recovery Act"
-        perfStats:
-          absLayerTime: "575"
-          fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-          receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
-    sample-partial-response:
-      summary: "Example of a partial success transaction"
-      value:
-        transID: "WSCM003769601129231354517251D4CF"
-        shipment: 
-          id: "WSEXPID20231129135451752"
-          hasCommodityWarnings: true
-          descriptionGuidance: 
-            isMatched: true
-            message: "DVD Player Stereo"
-            sourceListName: "US origin"
-            matchedKeyword: "GOODS"
-          poaCompliance:
-            importerPoaRequiredFlag: true
-            importerEvaluationCriteria: "Description"
-            importerPoaOnFileIndicator: "Yes"
-            importerCommodityId: '8e369c86-6c1f-4fbd-bd0c-55de5107e5ff'
-            importerCommodityDescription: 't-shirts'
-            exporterPoaRequiredFlag: true
-            exporterEvaluationCriteria: 'Description'
-            exporterPoaOnFileIndicator: "Yes"
-            exporterCommodityId: '8e369c86-6c1f-4fbd-bd0c-55de5107e5ff'
-            exporterCommodityDescription: 't-shirts'
-            exporterOnlineFormFlag: true
-            exporterDocuSignTemplateId: "c0375e04-0c6e-4e56-b01d-30b2f4b613bd"
-          importExportCompliance: 
-            shipmentValue: 2365
-            shipmentCurrencyCode: "USD"
-            translationLocale: "EN"
-            hasShipmentWarnings: false
-            hasCommodityWarnings: false
-            commodityWarningsMessage: "sample message"
-            isShipmentOverGiftValueThreshold: false
-            shipmentOverGiftValueThresholdMessage: "sample message"
-            isShipmentOverGiftWeightThreshold: false
-            shipmentOverGiftWeightThresholdMessage: "sample message"
-          shipmentItems:
-            - commodityId: "1"
-              hsCode: "900150"
-              description: "DESCRIPTION"
-              descriptionGuidance:
-                isMatched: true
-                message: "provide a color and size"
-                sourceListName: "Global"
-                matchedKeyword: "DESCRIPTION"
-              importExportCompliance:
-                isUpsProhibited: false
-                upsProhibitedMessage: ''
-                isTranslatedIndicator: false
-                complianceOutput:
-                  - categoryType: "Export"
-                    controlTypes:
-                      - controlType: "Embargo/Sanction"
-                        controlTypeCode: "Embargo/Sanction"
-                        isRequired: 'Yes'
-                        controlTypeMessage: "Embargo/Sanction required"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: "United States Embargo - Office of Foreign Assets Control:Goods or services of Cuban origin may not be imported into the United States either directly or through third countries, such as Canada or Mexico. The exceptions are: publications, artwork, or other informational materials. This embargo supersedes any other regulations. Reference source: Electronic Code of Federal Regulations Title 31 Part 515."
-                      - controlType: "Document"
-                        controlTypeCode: "DOC"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Document maybe required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Miscellaneous Controls - Notification"
-                        controlTypeCode: "Miscellaneous Controls"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Miscellaneous Controls Maybe required"
-                        controlDetails:
-                          - controlDetailName: "DocuSignFormId"
-                            controlDetailDescription: "Trade Agreement between the United States and Canada (USMCA)"
-                      - controlType: "Free Trade Agreement"
-                        controlTypeCode: "FTA"
-                        isRequired: "Maybe"
-                        controlTypeMessage: "Free Trade Agreement Maybe Applicable"
-                        controlDetails:
-                          - controlDetailName: ''
-                            controlDetailDescription: "Caribbean Basin Economic Recovery Act"
-        response:
-          errors: 
-            - code: "105.305"
-              description: INVALID_FIELD_VALUE
-              field: shipment.shipmentItems[0].UOM
-              message: UOM is not valid
-              value: Liter
-              type: POA
-        perfStats:
-          absLayerTime: "575"
-          fulfillTime: Sun Mar 10 20:14:35.906 -04:00 2024
-          receiptTime: Sun Mar 10 20:14:35.331 -04:00 2024
+        description: type of subscription being requested
+        oneOf:
+          - title: standard
+            description: Returns standard event data to the webhook.
+            const: standard
+          - title: enhanced
+            description: Adds additional webhook details as requested through the request 'eventPreferences' code. Currently available for package subscription request only.
+            const: enhanced
+  schemas:
+    #ACCOUNT
+    AccountSubscriptionRequest:
+      allOf:
+        - $ref: '#/components/schemas/CommonRequest'
+        - type: object
+          required:
+            - shipperAccountNumber
+          properties:
+            subscriptionId:
+              type: string
+              description: Required for non-XOLT clients.
+              example: UPS_Client
+            clientSubscriptionId:
+              type: string
+              description: Required for non-XOLT clients.
+              example: UPS_Client
+            shipperAccountNumber:
+              $ref: '#/components/schemas/AccountNumber'
+            subAccountType:
+              type: array
+              description: Unbounded array of the packages account types
+              uniqueItems: true
+              items:
+                type: string
+                description: The account type used for package event identification.
+                enum: 
+                  - Outbound
+          additionalProperties: true
+    AccountSubscriptionResponse:
+      type: object
+      properties:
+        expiryDate:
+          type: string
+          format: date
+          example: 9999-12-31
+          description: Represents date of expiry for the subscription.
+      additionalProperties: false
+    AccountUnsubscribeResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Account unsubscribed"
+          description: Represents message for the un-subscription.
+      additionalProperties: false
 
-    cie-success-response:
-      summary: "Example of a CIE success transaction"
-      value:
-        transID: "1234"
-        shipment: 
-          id: "1234"
-          hasCommodityWarnings: true
-          descriptionGuidance: 
-            isMatched: true
-            message: DVD Player Stereo
-            sourceListName: US destination
-            matchedKeyword: GOODS
-          poaCompliance: 
-            importerPoaRequiredFlag: true
-            importerEvaluationCriteria: HTS PGA
-            importerPoaOnFileIndicator: No
-            importerCommodityId: Test102
-            importerCommodityDescription: EQUIPMENTS
-            exporterPoaRequiredFlag: false
-            exporterEvaluationCriteria: Value
-            exporterPoaOnFileIndicator: Yes
-            exporterCommodityId: order_2
-            exporterCommodityDescription: computers
-            exporterOnlineFormFlag: false
-            exporterDocuSignTemplateId: 3c499118-346d-41d8-99db-faf852b77888
-          importExportCompliance: 
-            shipmentValue: 2.00
-            shipmentCurrencyCode: USD
-            translationLocale: EN
-            hasShipmentWarnings: true
-            hasCommodityWarnings: true
-            commodityWarningsMessage: Your shipment may have additional clearance considerations see below for detail
-            isShipmentOverGiftValueThreshold: true
-            shipmentOverGiftValueThresholdMessage: Your shipment may not be considered as a gift by Customs authorities due to the shipment value provided.
-            isShipmentOverGiftWeightThreshold: true
-            shipmentOverGiftWeightThresholdMessage: Your shipment may not be considered as a gift by Customs authorities due to the shipment weight provided.
-          shipmentItems:
-            - commodityId: Test101
-              hsCode: "2106909999"
-              description: tshirt
-              descriptionGuidance: 
-                isMatched: true
-                message: Men's Shirts Lingerie Girls' Vests Boys' Jackets
-                sourceListName: Global
-                matchedKeyword: tshirt
-              importExportCompliance: 
-                  isUpsProhibited: false
-                  upsProhibitedMessage: null
-                  isTranslatedIndicator: false
-                  complianceOutput:
-                    - categoryType: Import
-                      controlTypes:
-                        - controlType: Free Trade Agreement
-                          controlTypeCode: FTA
-                          isRequired:  Maybe
-                          controlTypeMessage: Free Trade Agreement may apply
-                          controlDetails:
-                            - controlDetailName: Controlling Authority
-                              controlDetailDescription: Country A - Country B Comprehensive Economic and Trade Agreement
-        perfStats: 
-          absLayerTime: "2322"
-          fulfillTime: Tue Mar 19 12:29:16.523 -04:00 2024
-          receiptTime: Tue Mar 19 12:29:14.201 -04:00 2024
+    #PACKAGE
+    PackageSubscriptionRequest:
+      allOf:
+        - $ref: '#/components/schemas/CommonRequest'
+        - type: object
+          required:
+            - trackingNumberList
+          properties:
+            trackingNumberList:
+              type: array
+              description: Represents list of tracking numbers in request.
+              maxItems: 100
+              examples: 
+                - 1Z1234567891234556
+                - 1R12345678912345
+              items:
+                $ref: '#/components/schemas/TrackingNumber'
+          additionalProperties: true
+    PackageSubscriptionSuccessResponse:
+      type: object
+      description: container for package subscription response details
+      properties:
+        validTrackingNumbers:
+          type: array
+          description: Unbounded list of tracking numbers with successful subscription created.
+          items:
+            $ref: '#/components/schemas/TrackingNumber'
+          examples: 
+            - 1Z1234567891234556
+            - 1R12345678912345
+        invalidTrackingNumbers:
+          type: array
+          description: List of tracking numbers associated with errors preventing subscription creation.
+          items:
+            type: string
+          example: 
+            - 1Z1234567$8
+      additionalProperties: false
+    PackageSubscriptionErrorResponse:
+      allOf:
+        - type: object
+          properties:        
+            invalidTrackingNumbers:
+              $ref: "#/components/schemas/PackageSubscriptionSuccessResponse/properties/invalidTrackingNumbers"
+          additionalProperties: true
+          required:
+            - invalidTrackingNumbers
+        - $ref: '#/components/schemas/ErrorMessage'
+
+    #WEBHOOK
+    TrackingEventRequest:
+      required:
+        - trackingNumber
+        - activityStatus
+      type: object
+      description: Package event update payload.
+      properties:
+        trackingNumber:
+           $ref: '#/components/schemas/TrackingNumber'
+        localActivityDate:
+          description: 'The localized date of the activity. Format: YYYYMMDD'
+          $ref: '#/components/schemas/Date'
+        localActivityTime:
+          description: 'The localized time of the activity. Format: HHMMSS (24 hr)'
+          $ref: '#/components/schemas/Time'
+        activityLocation:
+          type: object
+          description: The container which has the current package activity location.
+          properties:
+            city:
+              type: string
+              description: The physical address city.
+              example: Alpharetta
+            stateProvince:
+              type: string
+              description: The physical address state or province.
+              minLength: 2
+              maxLength: 2
+              pattern: ^[A-Z]{2}$
+              example: GA
+            postalCode:
+              type: string
+              description: The physical address postal code (This field is blank until the delivery event occurs).
+              minLength: 5
+              maxLength: 9
+              pattern: ^\d{5}(?:[-\s]\d{4})?$
+              examples:
+                - "30004"
+                - "30004-4616"
+            country:
+              $ref: '#/components/schemas/Country'
+        activityStatus:
+          type: object
+          description: The container which has the current package activity status.
+          properties:
+            type:
+              type: string
+              description: |
+                The current activity status type.
+              oneOf:
+                - const: D
+                  title: Delivery
+                - const: I
+                  title: On the Way
+                - const: M
+                  title: Manifest
+                - const: MV
+                  title: Manifest Void
+                - const: U
+                  title: Updated Delivery Date or Time
+                - const: X
+                  title: Package Exception
+            code:
+              type: string
+              description: |
+                The current activity status code. See the 'Status Codes' document for more details.
+            description:
+              type: string
+              description: | 
+                The current activity status description.
+        scheduledDeliveryDate:
+          description: 'Original scheduled delivery date of the package. Format: YYYYMMDD'
+          $ref: '#/components/schemas/Date'
+        actualDeliveryDate:
+          description: 'Actual delivery date of the package. Format: YYYYMMDD (This field is blank until the delivery event occurs)'
+          $ref: '#/components/schemas/Date'
+        actualDeliveryTime:
+          description: 'Actual delivery time of the package. Format: HHMMSS (24 hr) (This field is blank until the delivery event occurs)'
+          $ref: '#/components/schemas/Time'
+        gmtActivityDate:
+          description: 'The GMT date of the activity. Format: YYYYMMDD'
+          $ref: '#/components/schemas/Date'
+        gmtActivityTime:
+          description: 'The GMT time of the activity. Format: HHMMSS (24 hr)'
+          $ref: '#/components/schemas/Time'
+        gmtOffset:
+          type: string
+          description: "A field that shows how local time was calculated. In the format (-/+)HH.MM (24 hr)"
+          minLength: 6
+          maxLength: 6
+          pattern: ^[+-]([01]\d|2[0-3])\.[0-5]\d$
+          example: "-04.00"
+        deliveryStartTime:
+          description: 'The start time of a delivery. Format: HHMMSS (24 hr).'
+          $ref: '#/components/schemas/Time'
+        deliveryEndTime:
+          description: 'The end time of a window or the committed time or the delivered time. Format: HHMMSS (24 hr)'
+          $ref: '#/components/schemas/Time'
+        deliveryTimeDescription:
+          type: string
+          description: The date of this delivery detail.
+        deliveryPhoto:
+          type: string
+          description: |
+            Base64 encoded image of the delivery photo (This field is blank until the delivery photo is made available for enhanced subscriptions).
+        alternateTrackingNumber:
+          type: string
+          description: |
+            Alternate tracking number for the package.
+          pattern: (^1Z[0-9A-Z]{16}$)|(^1R[0-9A-Z]{14}$)|(^1R[0-9A-Z]{26}$)
+          examples:
+            - 1Z1234567891234551
+        receivedBy:
+          type: string
+          description: Clarified signature provided with delivery, when available. (This field is only available for enhanced users)
+
+    #COMMON
+    AccountNumber:
+      type: string
+      description: The shipper account number for which subscription is requested.
+      example: "123456"
+    CommonRequest:
+      type: object
+      description: Common properties for both account and package subscription requests
+      properties:
+        locale:
+          $ref: '#/components/schemas/Locale'
+        countryCode:
+          $ref: '#/components/schemas/Country'
+        eventPreferences:
+          $ref: '#/components/schemas/EventPreferences'
+      required: 
+        - locale
+      additionalProperties: true
+    Country:
+      type: string
+      description: The physical address <a href="https://www.iso.org/iso-3166-country-codes.html" target="_blank">ISO 3166</a> country or territory code
+      minLength: 2
+      maxLength: 2
+      pattern: ^[A-Z]{2}
+      example: US
+    Date:
+      type: string      
+      minLength: 8
+      maxLength: 8
+      pattern: ^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$
+      example: "20191014"
+    EventPreferences:
+      type: array
+      description: |
+        Represents scan/event preferences for the subscription endpoint. If no value is provided in this array
+        then all activity types will be sent. (This field is only for enhanced users)
+      minItems: 1
+      maxItems: 4
+      items:
+        type: string
+        description: package activity identifier
+        oneOf:
+          - const: D
+            title: Delivery
+            description: Includes updates and delivery photo
+          - const: I
+            title: In-Progress
+          - const: M
+            title: Manifest
+          - const: X
+            title: Exception
+            description: Includes updates
+    Locale:
+      type: string
+      description: >
+        Locale setting is composed of ISO 639 language code and ISO 3166 country code,
+        separated by an underscore.
+        Currently only English (en_US) is supported, but this field is extensible for future locales.
+      pattern: ^[a-z]{2}_[A-Z]{2}$
+      example: en_US
+    Time:
+      type: string      
+      minLength: 6
+      maxLength: 6
+      pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
+      example: "235959"
+    TrackingNumber:
+      type: string
+      description: Represents tracking numbers starting with '1Z' followed by 16 alphanumeric characters, or '1R' followed by 14 or 26 alphanumeric characters, in request.
+      pattern: (^1Z[0-9A-Z]{16}$)|(^1R[0-9A-Z]{14}$)|(^1R[0-9A-Z]{26}$)
+      examples:
+        - 1Z1234567891234556
+        - 1R12345678912345
+        - 1R123456789123456789012345
+    ErrorMessage:
+      type: object
+      description: Response object for errors
+      properties:
+        response:
+          description: Response container to store errors
+          type: object
+          properties: 
+            errors:
+              type: array
+              description: Unbounded array containing one or more error objects
+              items: 
+                type: object
+                description: Error entity
+                properties: 
+                  code:
+                    type: string
+                    description: error code
+                    minLength: 1
+                    example: VSS300
+                  message:
+                    type: string
+                    description: error message
+                    minLength: 1
+                    example: Locale is required. The Subscription request has been rejected.
+                required: 
+                  -  code
+                  -  message
+                additionalProperties: false
+          required: 
+            -  errors
+          additionalProperties: false
+      required: 
+        - response
+      additionalProperties: true
