@@ -16,7 +16,7 @@ info:
     # Reference
     - <a href="https://developer.ups.com/api/reference/customdetails/error-codes" target="_blank" rel="noopener">Errors</a>
     - <a href="https://developer.ups.com/api/reference/customdetails/faq" target="_blank" rel="noopener">FAQ</a>
-    <br/>
+     <br/>
     <p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
     
@@ -24,7 +24,6 @@ info:
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
-    </a>  
 servers:
   - url: https://onlinetools.ups.com/api/trade/compliance/{version}
     description: Production
@@ -57,20 +56,13 @@ paths:
           required: false
           schema:
             type: string
-            description: Used to confirm prsence of active account for Worldship clients
+            description: this field is required for ews/fws/worldship
             example: 3DA124234342
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v2
-            enum:
-                -   v2
       operationId: postCustomDetailData
       security:
-        - OAuth2: []
+        - oauth2: []
+        - oauthCie: []
+        - JWTAuth: []
       tags:
         - Customs Detail
       requestBody:
@@ -82,30 +74,31 @@ paths:
               actionType: save
               shipperNumber: 1443YY
               trackingNumber: 1Z1443YY0161231327
+              invoiceFormGroupId: 1F1443YY0161231327
+              shipmentType: Gift
+              shipmentWeight: 32456
+              shipmentWeightUnit: KGS
+              shipmentValue: 10000
+              shipmentValueCurrency: USD
+              userRoles: [Importer,Exporter]
+              commerceModel: B2B
               shipmentMetaData:
-                - groupKey: US-IMP-CDC
+                - groupKey: DE-EXP-MRN
                   fields:
-                    - fieldKey: ImportLicenseNumber
-                      regulationSections:
-                        - sectionKey: Bio
-                      fieldValue: "123412351234123"
+                    - fieldKey: DEEORI
+                      fieldValue: "MN123456789"
                 - groupKey: IN-EXP-CSB
                   fields:
                     - fieldKey: CSBType
                       fieldValue: "3"
                     - fieldKey: IECCode
-                      fieldValue: "99"
+                      fieldValue: "1234567890"
               products:
                 - productId: PART-001
                   productDescription: Medical device
+                  lineNumber: 001
                   commodityCode: "3821000010"
                   productMetaData:
-                    - groupKey: IN-EXP-CSB
-                      fields:
-                        - fieldKey: Amount
-                          fieldValue: "10"
-                        - fieldKey: CurrencyCode
-                          fieldValue: USD
                     - groupKey: US-IMP-FDA
                       fields:
                         - fieldKey: MnuNa
@@ -168,32 +161,24 @@ paths:
                   productDescription: Sample pharma goods
                   commodityCode: "300490"
                   productMetaData:
-                    - groupKey: US-IMP-FDA
+                    - groupKey: US-IMP-232
                       fields:
-                        - fieldKey: MnuNa
+                        - fieldKey: NddUseAutIr
                           regulationSections:
-                            - sectionKey: Cos
-                          fieldValue: UPS Labs
-                        - fieldKey: MnuPslCd
+                            - sectionKey: Alum
+                          fieldValue: Yes
+                        - fieldKey: AlumCnxPr
                           regulationSections:
-                            - sectionKey: Cos
-                          fieldValue: "30301"
-                        - fieldKey: MnuAdLn1Te
+                            - sectionKey: Alum
+                          fieldValue: "Test"
+                        - fieldKey: AlumPrc1CnyCd
                           regulationSections:
-                            - sectionKey: Cos
-                          fieldValue: 55 Glenlake Pkwy NE
-                        - fieldKey: MnuCtyNa
+                            - sectionKey: Alum
+                          fieldValue: Testing
+                        - fieldKey: Prc2CnyCd
                           regulationSections:
-                            - sectionKey: Cos
-                          fieldValue: Atlanta
-                        - fieldKey: MnuStPrvCd
-                          regulationSections:
-                            - sectionKey: Cos
-                          fieldValue: GA
-                        - fieldKey: MnuCtyCd
-                          regulationSections:
-                            - sectionKey: Cos
-                          fieldValue: US
+                            - sectionKey: Alum
+                          fieldValue: Go
       responses:
         "204":
           description: Success
@@ -271,18 +256,81 @@ paths:
             minLength: 1
             maxLength: 2000
             example: "2926400000,3003395000"
-        - name: version
-          in: path
-          description: version
-          required: true
+        - name: shipment_type
+          in: query
+          required: false
           schema:
             type: string
-            default: v2
+            description: The type of shipment.
             enum:
-                -   v2
+              - Gift
+              - Commercial
+              - Sale
+              - Sample
+              - Repair
+              - Return
+              - Other
+            example: Gift
+        - name: shipment_weight
+          in: query
+          required: false
+          schema:
+            type: integer
+            description: The total weight of the shipment.
+            example: 32456	
+        - name: shipment_weight_unit
+          in: query
+          required: false
+          schema:
+            type: string
+            description: The unit of measure for shipment_weight.
+            enum:
+              - LBS
+              - KGS
+            example: KGS
+        - name: shipment_value
+          in: query
+          required: false
+          schema:
+            type: integer
+            description: The total declared value of the shipment.
+            example: 10000
+        - name: shipment_value_currency
+          in: query
+          required: false
+          schema:
+            type: string
+            description: The <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO 4217</a> currency code.
+            minLength: 3
+            maxLength: 3
+            pattern: ^[A-Z]{3}
+            example: USD
+        - name: user_roles
+          in: query
+          required: false
+          schema:
+            type: array
+            description: Comma-separated list of user roles.
+            items:
+              type: string
+            example: [Importer,Exporter]
+        - name: commerce_model
+          in: query
+          required: false
+          schema:
+            type: string
+            description: The commerce model used for this shipment.
+            enum:
+              - B2B
+              - B2C
+              - C2B
+              - C2C
+            example: B2B			
       operationId: getCustomDetailData
       security:
-        - OAuth2: []
+        - oauth2: []
+        - oauthCie: []
+        - JWTAuth: []
       tags:
         - Customs Detail
       responses:
@@ -307,12 +355,17 @@ paths:
                       regulations:
                         - regulation: FDA
                           regulationSections:
-                            - sectionKey: DRU
+                            - sectionKey: Bio
                     - commodityCode: "3003395000"
                       regulations:
                         - regulation: FDA
                           regulationSections:
-                            - sectionKey: DRU
+                            - sectionKey: Bio
+                    - commodityCode: "All"
+                      regulations:
+                        - regulation: FDA
+                          regulationSections:
+                            - sectionKey: Foo
                   fieldGroups:
                     - countryCode: US
                       countryName: UNITED STATES OF AMERICA
@@ -329,6 +382,9 @@ paths:
                           sectionName: Device
                         - sectionKey: Foo
                           sectionName: Food
+                      validationRules:
+                        - rule: "SteelContentPercentage + AluminumContentPercentage + CopperContentPercentage <= 100"
+                        - errorMessage: "Steel, aluminum, and copper percentages cannot total more than 100."
                       fields:
                         - sectionKey: MnuNa
                           label: Manufacturer Name
@@ -339,6 +395,17 @@ paths:
                             - fieldKey: MnuPslCd
                               operator: "!="
                               value: ""
+                          displayConditions:
+                            - ruleType: request
+                              fieldKey: shipmentWeight
+                              operator: ">"
+                              value: "5000"
+                              unit: KGS
+                            - ruleType: fieldInput
+                              fieldKey: SteelContentPercentage
+                              operator: ">"
+                              value: "0"
+                              unit: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -355,12 +422,14 @@ paths:
                             - sectionKey: Foo
                           keyAlias: ManufacturerName
                           level: Product
+                          includeOnInvoice: false
                         - sectionKey: MnuPslCd
                           label: Manufacturer Postal Code
                           order: "8"
                           tooltip: The postal code address of the manufacturer for the product
                           isRequired: Y
                           requirementConditions: null
+                          displayConditions: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -383,6 +452,7 @@ paths:
                           tooltip: Line 1 of the address of the manufacturer for the product
                           isRequired: N
                           requirementConditions: null
+                          displayConditions: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -405,6 +475,7 @@ paths:
                           tooltip: Line 2 of the address of the manufacturer for the product
                           isRequired: N
                           requirementConditions: null
+                          displayConditions: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -427,6 +498,7 @@ paths:
                           tooltip: Line 3 of the address of the manufacturer for the product
                           isRequired: N
                           requirementConditions: null
+                          displayConditions: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -449,6 +521,7 @@ paths:
                           tooltip: Line 3 of the address of the manufacturer for the product
                           isRequired: N
                           requirementConditions: null
+                          displayConditions: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -471,6 +544,7 @@ paths:
                           tooltip: The state/province for the address of the manufacturer for the product
                           isRequired: N
                           requirementConditions: null
+                          displayConditions: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -493,6 +567,7 @@ paths:
                           tooltip: The country code for the address of the manufacturer for the product
                           isRequired: N
                           requirementConditions: null
+                          displayConditions: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -515,6 +590,7 @@ paths:
                           tooltip: The postal code address of the manufacturer for the product
                           isRequired: Y
                           requirementConditions: null
+                          displayConditions: null
                           fieldType: textbox
                           allowedValueCount: 1
                           validation:
@@ -759,11 +835,66 @@ components:
             - save
         trackingNumber:
           type: string
-          description: The lead 1Z number for the shipment. Required when actionType is save.
+          description: Tthe lead 1Z number fore the shipment. Required when actionType is save.
           minLength: 18
           maxLength: 18
           pattern: ^1Z[0-9A-Z]{16}$
           example: 1Z1234567891234560
+        invoiceFormGroupId:
+          type: string
+          description: The form group ID for the current generated invoice available in IFC.
+          example: 1F1234567891234560
+        shipmentType:
+          type: string
+          description: The type of shipment.
+          enum:
+            - Gift
+            - Commercial
+            - Sale
+            - Sample
+            - Repair
+            - Return
+            - Other
+          example: Gift
+        shipmentWeight:
+          type: integer
+          description: The total weight of the shipment.
+          minimum: 0
+          example: 32456
+        shipmentWeightUnit:
+          type: string
+          description: The unit of measure for shipmentWeight.
+          enum:
+            - LBS
+            - KGS
+          example: KGS
+        shipmentValue:
+          type: integer
+          description: The total declared value of the shipment.
+          minimum: 0
+          example: 10000
+        shipmentValueCurrency:
+          type: string
+          description: The <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO 4217</a> currency code.
+          minLength: 3
+          maxLength: 3
+          pattern: ^[A-Z]{3}$
+          example: USD
+        userRoles:
+          type: array
+          description: List of user roles.
+          items:
+            type: string
+          example: [Importer, Exporter]
+        commerceModel:
+          type: string
+          description: The commerce model used for this shipment.
+          enum:
+            - B2B
+            - B2C
+            - C2B
+            - C2C
+          example: B2B
         shipmentMetaData:
           $ref: '#/components/schemas/CustomDetailsRequestMetaDatav2'
         products:
@@ -785,6 +916,10 @@ components:
                 minLength: 1
                 maxLength: 105
                 example: Sample pharma goods
+              lineNumber:
+                type: integer
+                description: This is the invoice line number that the fields should be associated to
+                example: 001
               commodityCode:
                 $ref: '#/components/schemas/CustomDetailsCommodityCodev2'
               productMetaData:
@@ -809,6 +944,7 @@ components:
             properties:
               commodityCode:
                 $ref: '#/components/schemas/CustomDetailsCommodityCodev2'
+                description: The tariff code for the product for the selected import country and process type. A value of "All" means the returned regulation applies regardless of commodity code and should be treated as applicable to every product line.
               regulations:
                 type: array
                 description: Regulations that require additional data for this commodity code.
@@ -865,6 +1001,20 @@ components:
                 $ref: '#/components/schemas/CustomDetailsRegulationv2'
               regulationSections:
                 $ref: '#/components/schemas/CustomDetailsRegulationSectionv2'
+              validationRules:
+                type: array
+                description: Expression-based validation rules evaluated against values entered for fields in the same groupKey and parameters in the request context.
+                items:
+                  type: object
+                  properties:
+                    rule:
+                      type: string
+                      description: A text expression that supports field key references, request parameter references.
+                      example: "SteelContentPercentage + AluminumContentPercentage + CopperContentPercentage <= 100"
+                    errorMessage:
+                      type: string
+                      description: The message shown to the user and returned by the API when the rule evaluates to false.
+                      example: "Steel, aluminum, and copper percentages cannot total more than 100."
               fields:
                 type: array
                 description: Unbounded list of individual field definitions.
@@ -950,7 +1100,73 @@ components:
                         required:
                           - fieldKey
                           - operator
-                          - value                          
+                          - value  
+                    displayConditions:
+                      type: 
+                        - array
+                        - "null"
+                      description: Unbounded array of rules.
+                      items:
+                        type: object
+                        description: |
+                          An object containing the specifics of each rule. Order is to be applied
+                          top-down (OR conditions align with the prior rule).
+                        properties:
+                          ruleType:
+                            type: string
+                            description: |
+                              Determines where and how this rule is evaluated. Rules with ruleType: request are evaluated by the Customs Detail API.
+                              Rules with ruleType: fieldInput are returned to API consumers and are evaluated in the client UI.
+                            enum:
+                              - "request"
+                              - "fieldInput"
+                          logicalOperator:
+                            type: string
+                            description: |
+                              Determines how the rules are joined when evaluating the condition if there are multiple rules.
+                              Required for all rules except the first.
+                            enum:
+                              - "AND"
+                              - "OR"
+                          fieldKey:
+                            type:
+                              - string
+                              - "null"
+                            description: The key for the field that this rule is evaluating
+                            example: shipmentWeight
+                          operator:
+                            type:
+                              - string
+                              - "null"
+                            description: The operator used when evaluating the rule. For List type fields in a rule, only the "Equals (=)" and "Contains" operators are supported. For all other field types, all operators are supported except "Contains".
+                            oneOf:
+                              - title: Equals
+                                const: "="
+                              - title: Greater Than
+                                const: ">"
+                              - title: Less Than
+                                const: "<"
+                              - title: Not Equal To
+                                const: "!="
+                              - title: Contains
+                                const: "Contains"
+                          value:
+                            type:
+                              - string
+                              - "null"
+                            description: The value used when evaluating the rule
+                            example: "34621"
+                          unit:
+                            type:
+                              - string
+                              - "null"
+                            description: The unit is used when shipmentWeight/shipmentValue is configured and evaluating the rule
+                            example: INR
+                        additionalProperties: false
+                        required:
+                          - fieldKey
+                          - operator
+                          - value 						  
                     fieldType:
                       type: string
                       description: The type of the field, based on available html form inputs
@@ -1085,6 +1301,11 @@ components:
                         - Shipment
                         - Product
                       example: Product
+                    includeOnInvoice:
+                      type: boolean
+                      description: Whether a field should appear on the commercial invoice.
+                      default: false
+                      example: false
                   additionalProperties: false
                   required:
                     - order
@@ -1138,7 +1359,7 @@ components:
               properties:
                 fieldKey:
                   type: string
-                  description: Unique field identifier (1-50 chars) that must match a `fieldKey` returned by the GET response for the selected group (e.g., ImportLicenseNumber, CSBType, MnuNa). 
+                  description: Unique field identifier (1-50 chars) that must match a `SectionKey/keyAlias` under fields returned by the GET response for the selected group (e.g., ImportLicenseNumber, CSBType, MnuNa). 
                   minLength: 1
                   maxLength: 50
                   examples:
