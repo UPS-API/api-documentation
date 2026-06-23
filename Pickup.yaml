@@ -387,6 +387,7 @@ paths:
                       Weight: '5.5'
                       UnitOfMeasurement: LBS
                     OverweightIndicator: N
+                    PremierIndicator: N
                     PaymentMethod: '01'
                     SpecialInstruction: 'Test '
                     ReferenceNumber: CreatePickupRef
@@ -1732,6 +1733,16 @@ components:
           type: string
           minLength: 1
           maxLength: 1
+        PremierIndicator:
+          description: |-
+            Indicates that the pickup includes one or more Premier service package.
+            Accepted values:
+            - Y = Includes Premier-eligible packages
+            - N = Does not include Premier-eligible packages (default)
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 1  
         Notification:
           "$ref": "#/components/schemas/PickupCreationRequest_Notification"
       xml:
