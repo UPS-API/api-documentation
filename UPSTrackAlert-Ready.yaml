@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: UPS Track Alert v2 API
+  title: UPS Track Alert API v2
   description: |
 
     # Product Info
