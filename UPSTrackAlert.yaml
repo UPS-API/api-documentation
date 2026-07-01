@@ -141,14 +141,14 @@ servers:
       version:
        default: v2
        enum:
-          - v1
+          - v2
   - url: https://onlinetools.ups.com/api/track/{version}
     description: UPS Production OAuth.
     variables:
       version:
         default: v2
         enum:
-          - v1
+          - v2
 security: 
   - oauth2: [] 
 tags:
