@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: UPS Track Alert API
+  title: UPS Track Alert API v2
   description: |
 
     # Product Info
@@ -14,10 +14,9 @@ info:
     <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
     </a>
-    <br/>
-    Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
+    <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
-    <br/>
+
     <a href="https://god.gw.postman.com/run-collection/29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
       <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
@@ -25,12 +24,13 @@ info:
     </a>
     
     # Business Values
-
+  
     - **Enhanced Customer Experience**: Near real-time tracking information increases transparency, leading to higher customer satisfaction and trust.
     - **Operational Efficiency**: Eliminates the necessity for continuous polling, thus saving resources and improving system responsiveness.
     - **Data-Driven Decision Making**: Access to near real-time data can help businesses optimize their supply chain and make informed logistics decisions.
     - **Optimizing Cash Flow Through Near Real-Time Delivery Tracking**: Improve cash flow by knowing that deliveries occurred in near real time.
     - **Mitigating Fraud and Theft through Near Real-Time Package Status Monitoring**: Reduce fraud and theft by knowing any time something happens to your packages.
+
     
     # Reference
     - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
@@ -144,154 +144,299 @@ servers:
     description: UPS Production CIE OAuth. This is for integration testing only and it will not create any subscription.
     variables:
       version:
-       default: v1
+       default: v2
        enum:
-          - v1
+          - v2
   - url: https://onlinetools.ups.com/api/track/{version}
     description: UPS Production OAuth.
     variables:
       version:
-        default: v1
+        default: v2
         enum:
-          - v1
+          - v2
+security: 
+  - oauth2: [] 
+tags:
+  - name: UPS Track Alert
+    description: Endpoints related to tracking subscriptions
 paths:
-  /subscription/standard/package:
+  /subscription/{type}/package:
     post:
       description: |
-         This endpoint takes a list of tracking numbers and creates a subscription for each.
-         Clients must provide the tracking numbers in the correct format.
-
-         Upon success it should return:
-         - List of valid tracking number for which subscription created.
-         - List of invalid tracking number for which subscription not created.
+        This endpoint takes a list of tracking numbers and creates a subscription for each.
+        Clients must provide the tracking numbers in the correct format.
+        
+        Upon success it should return:
+        - List of valid tracking number for which subscription created.
+        - List of invalid tracking number for which subscription not created.
       tags:
         - UPS Track Alert
       summary: API to create subscriptions by tracking numbers.
       operationId: processSubscriptionTypeForTrackingNumber
       security:
-        - OAuth2: []
+        - oauth2: []
       parameters:
-        - name: transId
-          in: header
-          description: An identifier unique to the request.
-          required: true
-          schema:
-            type: string
-        - name: transactionSrc
-          in: header
-          description: Identifies the client/source application that is calling.
-          required: true
-          schema:
-            type: string
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                -   v1
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc"
+        - $ref: "#/components/parameters/type"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TrackSubsServiceRequest'
+              $ref: '#/components/schemas/PackageSubscriptionRequest'
+            examples:
+              '1':
+                summary: Standard Request
+                value:
+                  locale: en_US
+                  countryCode: US
+                  trackingNumberList:
+                    - 1ZCIETST0111111114
+                    - 1ZCIETST0422222228
+              '2':
+                summary: Enhanced Request
+                value:
+                  locale: en_US
+                  countryCode: US
+                  trackingNumberList:
+                    - 1ZCIETST0111111114
+                    - 1ZCIETST0422222228
+                  eventPreferences:
+                    - D
+                    - I
+                    - M
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrackSubsServiceResponse'
+                $ref: '#/components/schemas/PackageSubscriptionSuccessResponse'
               examples:
                 PartialSuccessExample:
                   description: Example response that contains valid tracking number for which subscription created and invalid tracking numbers.
                   value:
                     validTrackingNumbers:
-                      - 1Z12345678912345560
+                      - 1Z1234567891234556
                     invalidTrackingNumbers:
                       - 1Z1234567$8
                 CompleteSuccessExample:
                   description: Example response that contains valid tracking numbers for which subscription created.
                   value:
                     validTrackingNumbers:
-                      - 1Z12345678912345560
+                      - 1Z1234567891234556
         '400':
           description: Invalid Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrackSubsServiceErrorResponse'
+                $ref: '#/components/schemas/PackageSubscriptionErrorResponse'
               example:
-                    response:
-                      errors:
-                        - code: VSS300
-                          message: Locale is required. The Subscription request has been rejected.
+                invalidTrackingNumbers: 
+                  - 1Z1234567$8
+                response:
+                  errors:
+                    - code: VSS300
+                      message: Locale is required. The Subscription request has been rejected.
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrackSubsServiceErrorResponse'
+                $ref: '#/components/schemas/ErrorMessage'
               example:
-                errors:
-                  - code: UJ0001
-                    message: Invalid token or token is not present.
+                response:
+                  errors:
+                    - code: "250002"
+                      message: Invalid Authentication Information
         '404':
           description: URL does not exist or resource not found.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response'
+                $ref: '#/components/schemas/ErrorMessage'
               example:
-                errors:
-                  - code: "404"
-                    message: The requested resource was not found.
-        '403':
-            description: Blocked Merchant
-            content:
-                application/json:
-                  schema:
-                    "$ref": "#/components/schemas/TrackSubsServiceErrorResponse"
-        '405':
-          description: Method Not Allowed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-              example:
-                errors:
-                  - code: "405"
-                    message: The requested method is not allowed for this resource.
-        '429':
-            description: Rate Limit Exceeded
-            content:
-                application/json:
-                  schema:
-                    "$ref": "#/components/schemas/TrackSubsServiceErrorResponse"
+                response:
+                  errors:
+                    - code: "404"
+                      message: The requested resource was not found.
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrackSubsServiceErrorResponse'
+                $ref: '#/components/schemas/ErrorMessage'
               example:
-                errors:
-                  - code: "10004"
-                    message: Internal Server Error
+                response:
+                  errors:
+                    - code: "10004"
+                      message: Something went wrong while processing your request, please try again later
+  /subscription/{type}/account:
+    post:
+      summary: API to create subscriptions by account number.
+      description: |
+        This endpoint takes an account number and creates a subscription.
+        Clients must provide the account number in the correct format. 
+        Please note, client needs to be party to the package for that account.
+        
+        Upon success, the API returns:
+        - A success message.
+        - Expiry date of the subscription.
+      operationId: createAccountSubscription
+      tags:
+        - UPS Track Alert
+      security:
+        - oauth2: []
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc"
+        - $ref: "#/components/parameters/type"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountSubscriptionRequest'
+            example:
+              locale: en_US
+              countryCode: US
+              eventPreferences:
+                - D
+                - M
+              subscriptionId: UPS_Client
+              clientSubscriptionId: UPS_Client
+              shipperAccountNumber: "123456"
+              subAccountType: 
+                - Outbound
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountSubscriptionResponse'
+              example:
+                expiryDate: 9999-12-31
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: VSS300
+                      message: Locale is required. The Subscription request has been rejected.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "250002"
+                      message: Invalid Authentication Information
+        '404':
+          description: URL does not exist or resource not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "404"
+                      message: The requested resource was not found.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "10004"
+                      message: Something went wrong while processing your request, please try again later
+    delete:
+      summary: API to unsubscribe subscriptions by account number.
+      description: |
+        This endpoint takes an account number and removes a subscription.
+        Clients must provide the account number in the correct format. 
+        Please note, client needs to be party to the package for that account.
+
+        Upon success, the API returns:
+        - A success message.
+      operationId: unsubscribeAccountSubscription
+      tags:
+        - UPS Track Alert
+      security:
+        - oauth2: [ ]
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc"
+        - $ref: "#/components/parameters/type"
+        - $ref: "#/components/parameters/shipper-account-number"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountUnsubscribeResponse'
+              example:
+                message: "Account unsubscribed"
+        '400':
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: VSS300
+                      message: Shipper Account Number is required.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "250002"
+                      message: Invalid token or token is not present.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                response:
+                  errors:
+                    - code: "10004"
+                      message: Something went wrong while processing your request, please try again later
 webhooks:
   TrackingEvent:
     post:
       summary: Tracking Event
-      description: This HTTPS POST request will send information about a new tracking event in the system. Please ensure the webhook URL provided in the subscription request is ready to receive this POST request. Note that not every field will have a value in each message. The webhook event dispatched by our API requires an acknowledgement within milliseconds to ensure optimal performance and reliability. Please ensure your endpoint is capable of handling and responding to events in this time frame.
+      description: This HTTPS POST request will send information about a new tracking event in the system. Please ensure the webhook URL provided in the subscription request is ready to receive this POST request. Note that not every field will have a value in each message.
+      operationId: trackingEvent
       tags:
         - UPS Track Alert
+      security:
+        - clientOauth2: [ ]
       parameters:
-        - name: credential
+        - name: x-api-key
           in: header
-          description: It is an opaque string meant for client authentication. Shared in Subscription request.
-          required: true
+          description: It is a string filed in header, which holds the clientID of the OAUTH token used for authentication. This is required for OAUTH clients and optional for non-OAUTH clients.
+          required: false
           schema:
             type: string
         - name: User-Agent
@@ -306,290 +451,209 @@ webhooks:
             schema:
               $ref: '#/components/schemas/TrackingEventRequest'
             examples:
-                '1':
-                  summary: Manifest (label created or billing information received) message
-                  value:
-                    activityLocation:
-                      city: ''
-                      country: US
-                      postalCode: ''
-                      stateProvince: ''
-                    activityStatus:
-                      code: MP
-                      description: Shipment Ready for UPS
-                      descriptionCode: '003'
-                      type: M
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    deliveryEndTime: ''
-                    deliveryPhoto: ''
-                    deliveryStartTime: ''
-                    deliveryTimeDescription: ''
-                    gmtActivityDate: '20240422'
-                    gmtActivityTime: '041230'
-                    localActivityDate: '20240422'
-                    localActivityTime: '091230'
-                    scheduledDeliveryDate: ''
-                    trackingNumber: " 1ZABCXYZ0112346789"
-                '2':
-                  summary: UPS has your package message
-                  value:
-                    activityLocation:
-                      city: Hickory
-                      country: US
-                      postalCode: ''
-                      stateProvince: NC
-                    activityStatus:
-                      code: OR
-                      description: On the Way
-                      descriptionCode: '005'
-                      type: I
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    deliveryEndTime: ''
-                    deliveryPhoto: ''
-                    deliveryStartTime: ''
-                    deliveryTimeDescription: end of day
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '012901'
-                    localActivityDate: '20240422'
-                    localActivityTime: '212901'
-                    scheduledDeliveryDate: '20240423'
-                    trackingNumber: 1ZABCXYZ0112346789
-                '3':
-                  summary: On the way (arrival or departure from a UPS building) message
-                  value:
-                    activityLocation:
-                      city: Hickory
-                      country: US
-                      postalCode: ''
-                      stateProvince: NC
-                    activityStatus:
-                      code: DP
-                      description: On the Way
-                      descriptionCode: '005'
-                      type: I
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    deliveryEndTime: ''
-                    deliveryStartTime: ''
-                    deliveryTimeDescription: end of day
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '025400'
-                    localActivityDate: '20240422'
-                    localActivityTime: '225400'
-                    scheduledDeliveryDate: '20240423'
-                    trackingNumber: 1ZABCXYZ0112346789
-                '4':
-                  summary: Preparing for delivery message
-                  value:
-                    trackingNumber: 1ZABCXYZ0112346789
-                    localActivityDate: '20240423'
-                    localActivityTime: '003052'
-                    activityLocation:
-                      city: Charlotte
-                      stateProvince: NC
-                      postalCode: ''
-                      country: US
-                    activityStatus:
-                      type: I
-                      code: YP
-                      description: Preparing for Delivery
-                      descriptionCode: '071'
-                    scheduledDeliveryDate: '20240423'
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '043052'
-                    deliveryStartTime: ''
-                    deliveryEndTime: ''
-                    deliveryTimeDescription: end of day
-                '5':
-                  summary: Preparing for delivery/loaded on vehicle message
-                  value:
-                    trackingNumber: 1ZABCXYZ0112346789
-                    localActivityDate: '20240423'
-                    localActivityTime: '063936'
-                    activityLocation:
-                      city: Charlotte
-                      stateProvince: NC
-                      postalCode: ''
-                      country: US
-                    activityStatus:
-                      type: I
-                      code: YP
-                      description: Preparing for Delivery
-                      descriptionCode: '071'
-                    scheduledDeliveryDate: '20240423'
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '103936'
-                    deliveryStartTime: ''
-                    deliveryEndTime: ''
-                    deliveryTimeDescription: end of day
-                '6':
-                  summary: Out for delivery message
-                  value:
-                    trackingNumber: 1Z204W4R0308071865
-                    localActivityDate: '20240423'
-                    localActivityTime: '091519'
-                    activityLocation:
-                      city: Charlotte
-                      stateProvince: NC
-                      postalCode: ''
-                      country: US
-                    activityStatus:
-                      type: I
-                      code: OT
-                      description: Out for Delivery
-                      descriptionCode: '021'
-                    scheduledDeliveryDate: '20240423'
-                    actualDeliveryDate: ''
-                    actualDeliveryTime: ''
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '131519'
-                    deliveryStartTime: ''
-                    deliveryEndTime: ''
-                    deliveryTimeDescription: end of day
-                '7':
-                  summary: Delivery message
-                  value:
-                    trackingNumber: 1Z204W4R0308071865
-                    localActivityDate: '20240423'
-                    localActivityTime: '095004'
-                    activityLocation:
-                      city: CHARLOTTE
-                      stateProvince: NC
-                      postalCode: '28209'
-                      country: US
-                    activityStatus:
-                      type: D
-                      code: FS
-                      description: Delivered
-                    scheduledDeliveryDate: '20191014'
-                    gmtActivityDate: '20240423'
-                    gmtActivityTime: '135004'
-                    actualDeliveryDate: '20240423'
-                    actualDeliveryTime: '095004'
+              '1':
+                summary: Out for delivery message
+                value:
+                  trackingNumber: 1Z204W4R0308071865
+                  localActivityDate: '20240423'
+                  localActivityTime: '091519'
+                  activityLocation:
+                    city: Charlotte
+                    stateProvince: NC
+                    postalCode: '30004'
+                    country: US
+                  activityStatus:
+                    type: I
+                    code: OT
+                    description: Out for Delivery
+                    descriptionCode: 021
+                  scheduledDeliveryDate: '20240423'
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '131519'
+                  deliveryTimeDescription: end of day
+              '2':
+                summary: Delivery message
+                value:
+                  trackingNumber: 1Z204W4R0308071865
+                  localActivityDate: '20240423'
+                  localActivityTime: '095004'
+                  activityLocation:
+                    city: CHARLOTTE
+                    stateProvince: NC
+                    postalCode: '28209'
+                    country: US
+                  activityStatus:
+                    type: D
+                    code: FS
+                    description: Delivered
+                    descriptionCode: 011
+                  scheduledDeliveryDate: '20191014'
+                  gmtActivityDate: '20240423'
+                  gmtActivityTime: '135004'
+                  actualDeliveryDate: '20240423'
+                  actualDeliveryTime: '095004'
+                  receivedBy: 'John'
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully
 components:
   securitySchemes:
-    OAuth2:
+    oauth2:
       type: oauth2
       description: |
-        "Find your Client ID and Secret on your app info page.
-         1. Select "Try It"
-         2. In the Security section enter your Client ID and Secret.
-         3. Select \"Request Token\"
-         4. Enter any additional information in the Body and Parameters sections.
-         5. Select "Send" to execute your API request"
+        Find your Client ID and Secret on your app info page. 
+          1. Select "Try It" 
+          2. In the Security section enter your Client ID and Secret 
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request"
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
-          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
           scopes: {}
+    clientOauth2:
+      type: oauth2
+      description: |
+        Oauth Token generator provide by the customer.
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://your-token-url.com/oauth/token
+          scopes: { }
+  parameters:
+    shipper-account-number:
+      name: shipper_account_number
+      in: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/AccountNumber'
+    transId:
+      name: transId
+      in: header
+      description: An identifier unique to the request.
+      required: true
+      schema:
+        type: string
+    transactionSrc:
+      name: transactionSrc
+      in: header
+      description: Identifies the client/source application that is calling.
+      required: true
+      schema:
+        type: string
+    type:
+      name: type
+      in: path
+      required: true
+      description: Represents a subscription type that provides near real time updates on tracking status.
+      schema:
+        type: string
+        description: type of subscription being requested
+        oneOf:
+          - title: standard
+            description: Returns standard event data to the webhook.
+            const: standard
+          - title: enhanced
+            description: Adds additional webhook details as requested through the request 'eventPreferences' code. Currently available for package subscription request only.
+            const: enhanced
   schemas:
-    Destination:
+    #ACCOUNT
+    AccountSubscriptionRequest:
+      allOf:
+        - $ref: '#/components/schemas/CommonRequest'
+        - type: object
+          required:
+            - shipperAccountNumber
+          properties:
+            subscriptionId:
+              type: string
+              description: Required for non-XOLT clients.
+              example: UPS_Client
+            clientSubscriptionId:
+              type: string
+              description: Required for non-XOLT clients.
+              example: UPS_Client
+            shipperAccountNumber:
+              $ref: '#/components/schemas/AccountNumber'
+            subAccountType:
+              type: array
+              description: Unbounded array of the packages account types
+              uniqueItems: true
+              items:
+                type: string
+                description: The account type used for package event identification.
+                enum: 
+                  - Outbound
+          additionalProperties: true
+    AccountSubscriptionResponse:
       type: object
-      description: The destination container related to the clients endpoint API. To which messages would be sent on an event on the package.
-      required:
-        - url
-        - credentialType
-        - credential
       properties:
-        url:
+        expiryDate:
           type: string
-          format: url
-          description: |
-            It is an HTTPS-based callback end point that is exposed by the client to receive event notification. This endpoint must be operational around the clock to ensure no event notifications are missed.
-            If this endpoint is not continuously available, incoming events will be lost.
-          example: "https://your-webhook-url.com"
-        credentialType:
-          type: string
-          description: It is an open-entry field that indicates type of credentials supported by the client.
-          example: Bearer
-        credential:
-          type: string
-          description: It is an opaque string meant for client authentication. If for any reason this credential changes then any event notification will fail until a new subscription is made.
-    TrackSubsServiceRequest:
-      required:
-        - locale
-        - trackingNumberList
-        - destination
+          format: date
+          example: 9999-12-31
+          description: Represents date of expiry for the subscription.
+      additionalProperties: false
+    AccountUnsubscribeResponse:
       type: object
       properties:
-        locale:
-          type: string
-          description: Locale setting is composed of language code and country code, separated by an underscore. Currently only english US(en_US) is accepted.
-          pattern: '^[a-z]{2}_[A-Z]{2}$'
-          example: en_US
-        countryCode:
-          type: string
-          description: Represents the country code. This field is reserved for future use.
-          example: US
-        trackingNumberList:
-          type: array
-          description: Represents list of tracking numbers in request.
-          maxItems: 100
-          example:
-            - 1ZCIETST0111111114
-            - 1ZCIETST0422222228
-          items:
-            type: string
-            pattern: '^1Z[0-9A-Z]{16}$|^1R[0-9A-Z]{14}$|^1R[0-9A-Z]{26}$'
-            description: Represents tracking numbers starting with '1Z', followed by 16 alphanummeric characters in request, as well as tracking numbers starting with '1R', followed by 14 or 26 alphanumeric characters.
-        destination:
-          $ref: '#/components/schemas/Destination'
-    ErrorMessage:
-      type: object
-      description: The error response containing any errors that occurred
-      properties:
-        code:
-          type: string
-          description: The error code.
-          example: VSS300
         message:
           type: string
-          description: The error message.
-          example: Locale is required. The Subscription request has been rejected.
-    TrackSubsServiceResponse:
+          example: "Account unsubscribed"
+          description: Represents message for the un-subscription.
+      additionalProperties: false
+
+    #PACKAGE
+    PackageSubscriptionRequest:
+      allOf:
+        - $ref: '#/components/schemas/CommonRequest'
+        - type: object
+          required:
+            - trackingNumberList
+          properties:
+            trackingNumberList:
+              type: array
+              description: Represents list of tracking numbers in request.
+              maxItems: 100
+              examples: 
+                - 1Z1234567891234556
+                - 1R12345678912345
+              items:
+                $ref: '#/components/schemas/TrackingNumber'
+          additionalProperties: true
+    PackageSubscriptionSuccessResponse:
       type: object
+      description: container for package subscription response details
       properties:
         validTrackingNumbers:
           type: array
-          description: List of tracking numbers with successful subscription created.
+          description: Unbounded list of tracking numbers with successful subscription created.
           items:
-            type: string
-          example:
+            $ref: '#/components/schemas/TrackingNumber'
+          examples: 
             - 1Z1234567891234556
-            - 1ZABCDEFH91234556
+            - 1R12345678912345
         invalidTrackingNumbers:
           type: array
           description: List of tracking numbers associated with errors preventing subscription creation.
           items:
             type: string
-          example:
+          example: 
             - 1Z1234567$8
-    TrackSubsServiceErrorResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ErrorResponse'
-        invalidTrackingNumbers:
-          $ref: "#/components/schemas/TrackSubsServiceResponse/properties/invalidTrackingNumbers"
-      required:
-       - response
-    ErrorResponse:
-      type: object
-      properties:
-         errors:
-          type: array
-          description: The error response containing any errors that occurred.
-          items:
-            $ref: '#/components/schemas/ErrorMessage'
+      additionalProperties: false
+    PackageSubscriptionErrorResponse:
+      allOf:
+        - type: object
+          properties:        
+            invalidTrackingNumbers:
+              $ref: "#/components/schemas/PackageSubscriptionSuccessResponse/properties/invalidTrackingNumbers"
+          additionalProperties: true
+          required:
+            - invalidTrackingNumbers
+        - $ref: '#/components/schemas/ErrorMessage'
+
+    #WEBHOOK
     TrackingEventRequest:
       required:
         - trackingNumber
@@ -598,63 +662,83 @@ components:
       description: Package event update payload.
       properties:
         trackingNumber:
-          type: string
-          description: The package's tracking number.
-          pattern: '^1Z[0-9A-Z]{16}$'
-          example: 1Z1234567891234556
+           $ref: '#/components/schemas/TrackingNumber'
         localActivityDate:
-          type: string
           description: 'The localized date of the activity. Format: YYYYMMDD'
-          minLength: 8
-          maxLength: 8
-          pattern: ^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$
-          example: "20191014"
+          $ref: '#/components/schemas/Date'
         localActivityTime:
-          type: string
           description: 'The localized time of the activity. Format: HHMMSS (24 hr)'
-          minLength: 6
-          maxLength: 6
-          pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
-          example: "235959"
+          $ref: '#/components/schemas/Time'
         activityLocation:
-          "$ref": "#/components/schemas/ActivityLocation"
+          type: object
+          description: The container which has the current package activity location.
+          properties:
+            city:
+              type: string
+              description: The physical address city.
+              example: Alpharetta
+            stateProvince:
+              type: string
+              description: The physical address state or province.
+              minLength: 2
+              maxLength: 2
+              pattern: ^[A-Z]{2}$
+              example: GA
+            postalCode:
+              type: string
+              description: The physical address postal code (This field is blank until the delivery event occurs).
+              minLength: 5
+              maxLength: 9
+              pattern: ^\d{5}(?:[-\s]\d{4})?$
+              examples:
+                - "30004"
+                - "30004-4616"
+            country:
+              $ref: '#/components/schemas/Country'
         activityStatus:
-          "$ref": "#/components/schemas/ActivityStatus"
+          type: object
+          description: The container which has the current package activity status.
+          properties:
+            type:
+              type: string
+              description: |
+                The current activity status type.
+              oneOf:
+                - const: D
+                  title: Delivery
+                - const: I
+                  title: On the Way
+                - const: M
+                  title: Manifest
+                - const: MV
+                  title: Manifest Void
+                - const: U
+                  title: Updated Delivery Date or Time
+                - const: X
+                  title: Package Exception
+            code:
+              type: string
+              description: |
+                The current activity status code. See the 'Status Codes' document for more details.
+            description:
+              type: string
+              description: | 
+                The current activity status description.
         scheduledDeliveryDate:
-          type: string
           description: 'Original scheduled delivery date of the package. Format: YYYYMMDD'
-          minLength: 8
-          maxLength: 8
-          pattern: ^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$
-          example: "20191014"
+          $ref: '#/components/schemas/Date'
         actualDeliveryDate:
-          type: string
           description: 'Actual delivery date of the package. Format: YYYYMMDD (This field is blank until the delivery event occurs)'
-          minLength: 8
-          maxLength: 8
-          pattern: ^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$
-          example: "20191014"
+          $ref: '#/components/schemas/Date'
         actualDeliveryTime:
-          type: string
           description: 'Actual delivery time of the package. Format: HHMMSS (24 hr) (This field is blank until the delivery event occurs)'
-          minLength: 6
-          maxLength: 6
-          pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
-          example: "235959"
+          $ref: '#/components/schemas/Time'
         gmtActivityDate:
-          type: string
           description: 'The GMT date of the activity. Format: YYYYMMDD'
-          minLength: 8
-          maxLength: 8
-          pattern: ^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$
-          example: "20191014"
+          $ref: '#/components/schemas/Date'
         gmtActivityTime:
-          type: string
           description: 'The GMT time of the activity. Format: HHMMSS (24 hr)'
-          minLength: 6
-          maxLength: 6
-          pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
-          example: "235959"
+          $ref: '#/components/schemas/Time'
         gmtOffset:
           type: string
           description: "A field that shows how local time was calculated. In the format (-/+)HH.MM (24 hr)"
@@ -663,73 +747,135 @@ components:
           pattern: ^[+-]([01]\d|2[0-3])\.[0-5]\d$
           example: "-04.00"
         deliveryStartTime:
-          type: string
           description: 'The start time of a delivery. Format: HHMMSS (24 hr).'
-          minLength: 6
-          maxLength: 6
-          pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
-          example: "235959"
+          $ref: '#/components/schemas/Time'
         deliveryEndTime:
-          type: string
           description: 'The end time of a window or the committed time or the delivered time. Format: HHMMSS (24 hr)'
-          minLength: 6
-          maxLength: 6
-          pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
-          example: "235959"
+          $ref: '#/components/schemas/Time'
         deliveryTimeDescription:
           type: string
           description: The date of this delivery detail.
-    ActivityLocation:
-      type: object
-      description: The container which has the current package activity location.
-      properties:
-        city:
+        deliveryPhoto:
           type: string
-          description: The physical address city.
-          example: Alpharetta
-        stateProvince:
+          description: |
+            Base64 encoded image of the delivery photo (This field is blank until the delivery photo is made available for enhanced subscriptions).
+        alternateTrackingNumber:
           type: string
-          description: The physical address state or province.
-          minLength: 2
-          maxLength: 2
-          pattern: ^[A-Z]{2}$
-          example: GA
-        postalCode:
-          type: string
-          description: The physical address postal code (This field is blank until the delivery event occurs).
-          minLength: 5
-          maxLength: 9
-          pattern: ^\d{5}(?:[-\s]\d{4})?$
+          description: |
+            Alternate tracking number for the package.
+          pattern: (^1Z[0-9A-Z]{16}$)|(^1R[0-9A-Z]{14}$)|(^1R[0-9A-Z]{26}$)
           examples:
-            - "30004"
-            - "30004-4616"
-        country:
+            - 1Z1234567891234551
+        receivedBy:
           type: string
-          description: The physical address country.
-          minLength: 2
-          maxLength: 2
-          pattern: ^[A-Z]{2}
-          example: US
-    ActivityStatus:
-      type: object
-      description: The container which has the current package activity status.
-      properties:
-        type:
-          type: string
-          description: | 
-            The current activity status type.
+          description: Clarified signature provided with delivery, when available. (This field is only available for enhanced users)
 
-            | Code  | Type                          |
-            | :--:  | :--                           |
-            | D     | Delivery                      |
-            | I     | On the Way                    |
-            | M     | Manifest                      | 
-            | MV    | Manifest Void                 | 
-            | U     | Updated Delivery Date or Time | 
-            | X     | Package Exception             | 
-        code:
-          type: string
-          description: The current activity status code. See the 'Status Codes' document for more details.
-        description:
-          type: string
-          description: The current activity status description.
+    #COMMON
+    AccountNumber:
+      type: string
+      description: The shipper account number for which subscription is requested.
+      example: "123456"
+    CommonRequest:
+      type: object
+      description: Common properties for both account and package subscription requests
+      properties:
+        locale:
+          $ref: '#/components/schemas/Locale'
+        countryCode:
+          $ref: '#/components/schemas/Country'
+        eventPreferences:
+          $ref: '#/components/schemas/EventPreferences'
+      required: 
+        - locale
+      additionalProperties: true
+    Country:
+      type: string
+      description: The physical address <a href="https://www.iso.org/iso-3166-country-codes.html" target="_blank">ISO 3166</a> country or territory code
+      minLength: 2
+      maxLength: 2
+      pattern: ^[A-Z]{2}
+      example: US
+    Date:
+      type: string      
+      minLength: 8
+      maxLength: 8
+      pattern: ^\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$
+      example: "20191014"
+    EventPreferences:
+      type: array
+      description: |
+        Represents scan/event preferences for the subscription endpoint. If no value is provided in this array
+        then all activity types will be sent. (This field is only for enhanced users)
+      minItems: 1
+      maxItems: 4
+      items:
+        type: string
+        description: package activity identifier
+        oneOf:
+          - const: D
+            title: Delivery
+            description: Includes updates and delivery photo
+          - const: I
+            title: In-Progress
+          - const: M
+            title: Manifest
+          - const: X
+            title: Exception
+            description: Includes updates
+    Locale:
+      type: string
+      description: >
+        Locale setting is composed of ISO 639 language code and ISO 3166 country code,
+        separated by an underscore.
+        Currently only English (en_US) is supported, but this field is extensible for future locales.
+      pattern: ^[a-z]{2}_[A-Z]{2}$
+      example: en_US
+    Time:
+      type: string      
+      minLength: 6
+      maxLength: 6
+      pattern: ^([01]?\d|2[0-3])([0-5]?\d){2}$
+      example: "235959"
+    TrackingNumber:
+      type: string
+      description: Represents tracking numbers starting with '1Z' followed by 16 alphanumeric characters, or '1R' followed by 14 or 26 alphanumeric characters, in request.
+      pattern: (^1Z[0-9A-Z]{16}$)|(^1R[0-9A-Z]{14}$)|(^1R[0-9A-Z]{26}$)
+      examples:
+        - 1Z1234567891234556
+        - 1R12345678912345
+        - 1R123456789123456789012345
+    ErrorMessage:
+      type: object
+      description: Response object for errors
+      properties:
+        response:
+          description: Response container to store errors
+          type: object
+          properties: 
+            errors:
+              type: array
+              description: Unbounded array containing one or more error objects
+              items: 
+                type: object
+                description: Error entity
+                properties: 
+                  code:
+                    type: string
+                    description: error code
+                    minLength: 1
+                    example: VSS300
+                  message:
+                    type: string
+                    description: error message
+                    minLength: 1
+                    example: Locale is required. The Subscription request has been rejected.
+                required: 
+                  -  code
+                  -  message
+                additionalProperties: false
+          required: 
+            -  errors
+          additionalProperties: false
+      required: 
+        - response
+      additionalProperties: true
