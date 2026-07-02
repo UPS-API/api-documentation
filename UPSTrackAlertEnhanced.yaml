@@ -1,13 +1,19 @@
 openapi: 3.1.0
 info:
-  title: UPS Track Alert API with Photo v2
+  title: UPS Track Alert API v2
   description: |
 
     # Product Info
-
     The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
     Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency. For more information on the UPS Track Alert API, please visit the <a href="https://developer.ups.com/api/reference/trackalertenhanced/product-info"
     target="_blank" rel="noopener">Product Info</a> page.
+    <br/>
+    
+    Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
+    
+    <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
+    </a>
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
 
@@ -136,18 +142,10 @@ info:
 servers:
   - url: https://wwwcie.ups.com/api/track/{version}
     description: UPS Production CIE OAuth. This is for integration testing only and it will not create any subscription.
-    variables:
-      version:
-       default: v2
-       enum:
-          - v2
+
   - url: https://onlinetools.ups.com/api/track/{version}
     description: UPS Production OAuth.
-    variables:
-      version:
-        default: v2
-        enum:
-          - v2
+
 security: 
   - oauth2: [] 
 tags:
@@ -160,9 +158,12 @@ paths:
         This endpoint takes a list of tracking numbers and creates a subscription for each.
         Clients must provide the tracking numbers in the correct format.
         
+        **Note:** The current version of the Track Alert API is v2. While v1 remains supported, we recommend using v2 for all new integrations and future development. In v2, the destination object has been removed, and webhook credentials are now managed through [Manage Webhook Credentials](https://developer.ups.com/update-webhook).
+        
         Upon success it should return:
         - List of valid tracking number for which subscription created.
         - List of invalid tracking number for which subscription not created.
+       
       tags:
         - UPS Track Alert
       summary: API to create subscriptions by tracking numbers.
@@ -170,6 +171,19 @@ paths:
       security:
         - oauth2: []
       parameters:
+        - in: path
+          name: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+              - v2
+          description: |
+            Version
+
+            Valid values:
+            - v2
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
         - $ref: "#/components/parameters/type"
