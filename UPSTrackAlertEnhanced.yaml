@@ -4,16 +4,10 @@ info:
   description: |
 
     # Product Info
+
     The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
     Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency. For more information on the UPS Track Alert API, please visit the <a href="https://developer.ups.com/api/reference/trackalertenhanced/product-info"
     target="_blank" rel="noopener">Product Info</a> page.
-    <br/>
-    
-    Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
-    
-    <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
-      <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
-    </a>
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
 
