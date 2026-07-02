@@ -224,7 +224,7 @@ paths:
   "/track/v1/shipment/details/{inquiryNumber}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/Tracking.yaml#/paths/~1track~1v1~1shipment~1details~1{inquiryNumber}"
   "/track/{version}/subscription/{type}/package":
-    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlertEnhanced.yaml#/paths/~1subscription~1{type}~1package"
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/UPSTrackAlert.yaml#/paths/~1subscription~1{type}~1package"
   "/deliveryintercept/{version}/charges/{tracking_number}":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/ups-apis-redocly/DeliveryIntercept.yaml#/paths/~1charges~1{tracking_number}"
   "/deliveryintercept/{version}/eligibility/intercept/{tracking_number}":
