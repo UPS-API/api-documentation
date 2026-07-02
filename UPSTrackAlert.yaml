@@ -136,18 +136,10 @@ info:
 servers:
   - url: https://wwwcie.ups.com/api/track/{version}
     description: UPS Production CIE OAuth. This is for integration testing only and it will not create any subscription.
-    variables:
-      version:
-       default: v2
-       enum:
-          - v2
+
   - url: https://onlinetools.ups.com/api/track/{version}
     description: UPS Production OAuth.
-    variables:
-      version:
-        default: v2
-        enum:
-          - v2
+
 security: 
   - oauth2: [] 
 tags:
@@ -170,6 +162,19 @@ paths:
       security:
         - oauth2: []
       parameters:
+        - in: path
+          name: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+              - v2
+          description: |
+            Version
+
+            Valid values:
+            - v2
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
         - $ref: "#/components/parameters/type"
