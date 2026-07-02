@@ -155,6 +155,8 @@ paths:
         Upon success it should return:
         - List of valid tracking number for which subscription created.
         - List of invalid tracking number for which subscription not created.
+        
+        Note: The current version of the Track Alert API is v2. While v1 remains supported, we recommend using v2 for all new integrations and future development. In v2, the destination object has been removed, and webhook credentials are now managed through <a href="https://developer.ups.com/update-webhook" target="_blank" rel="noopener">Manage Webhook Credentials</a>
       tags:
         - UPS Track Alert
       summary: API to create subscriptions by tracking numbers.
