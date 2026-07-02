@@ -152,7 +152,7 @@ paths:
         This endpoint takes a list of tracking numbers and creates a subscription for each.
         Clients must provide the tracking numbers in the correct format.
         
-        **Note:** The current version of the Track Alert API is v2. While v1 remains supported, we recommend using v2 for all new integrations and future development. In v2, the destination object has been removed, and webhook credentials are now managed through <a href="https://developer.ups.com/update-webhook" target="_blank" rel="noopener">Manage Webhook Credentials</a>
+        Note: The current version of the Track Alert API is v2. While v1 remains supported, we recommend using v2 for all new integrations and future development. In v2, the destination object has been removed, and webhook credentials are now managed through 
         
         Upon success it should return:
         - List of valid tracking number for which subscription created.
