@@ -24,7 +24,7 @@ paths:
   /pins/token:
     post:
       tags:
-        - tokens
+        - Protected Delivery Token
       operationId: generateToken
       summary: Generate Token
       description: |
