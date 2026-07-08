@@ -14,12 +14,7 @@ tags:
 servers:
   - url: https://onlinetools.ups.com/api/pin-mgmt-sys/{version}
     description: external url for PIN Management System
-    variables:
-      version:
-        description: API version
-        default: v1
-        enum: 
-          - v1
+
 paths:
   /pins/token:
     post:
@@ -30,6 +25,19 @@ paths:
       description: |
         This endpoint is used to generate a token using Shipper generated PIN
       parameters:
+        - in: path
+          name: version
+          required: true
+          schema:
+            type: string
+            default: v1
+            enum:
+              - v1
+          description: |
+            Version
+
+            Valid values:
+            - v1
         - $ref: '#/components/parameters/transID'
         - $ref: '#/components/parameters/transactionSrc'
       security:
