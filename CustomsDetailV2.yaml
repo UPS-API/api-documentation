@@ -28,18 +28,9 @@ info:
 servers:
   - url: https://onlinetools.ups.com/api/trade/compliance/{version}
     description: Production
-    variables:
-      version:
-        default: v2
-        enum:
-          - v2
   - url: https://wwwcie.ups.com/api/trade/compliance/{version}
     description: CIE
-    variables:
-      version:
-        default: v2
-        enum:
-        - v2
+
 tags:
   - name: Customs Detail
     description:  Endpoints related to the required fields
@@ -59,11 +50,22 @@ paths:
             type: string
             description: this field is required for ews/fws/worldship
             example: 3DA124234342
+        - in: path
+          name: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+              - v2
+          description: |
+            Version
+
+            Valid values:
+            - v2
       operationId: postCustomDetailData
       security:
-        - oauth2: []
-        - oauthCie: []
-        - JWTAuth: []
+        - OAuth2: []
       tags:
         - Customs Detail
       requestBody:
@@ -207,6 +209,19 @@ paths:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
         - $ref: "#/components/parameters/Content-Type"
+        - in: path
+          name: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+              - v2
+          description: |
+            Version
+
+            Valid values:
+            - v2
         - name: import_country_code
           in: query
           required: false
@@ -329,9 +344,7 @@ paths:
             example: B2B			
       operationId: getCustomDetailData
       security:
-        - oauth2: []
-        - oauthCie: []
-        - JWTAuth: []
+        - OAuth2: []
       tags:
         - Customs Detail
       responses:
