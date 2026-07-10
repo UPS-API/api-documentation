@@ -2404,6 +2404,12 @@ paths:
         description: An identifier of the client/source application that is making
           the request.Length 512
         required: false
+      - in: header
+        name: shipperNumber
+        schema:
+          type: string
+        description: "Shipper Number<br/>Required only for Roadie Shipments"
+        required: false
       - in: query
         name: trackingnumber
         schema:
@@ -2424,6 +2430,7 @@ paths:
             API Version
 
             Valid values:
+            - v3 (Valid only for Roadie Shipments)
             - v2409
         required: true
       - in: path
