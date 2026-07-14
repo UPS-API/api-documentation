@@ -2404,6 +2404,12 @@ paths:
         description: An identifier of the client/source application that is making
           the request.Length 512
         required: false
+      - in: header
+        name: shipperNumber
+        schema:
+          type: string
+        description: "Shipper Number<br/>Required only for Roadie Shipments"
+        required: false
       - in: query
         name: trackingnumber
         schema:
@@ -2424,6 +2430,7 @@ paths:
             API Version
 
             Valid values:
+            - v3 (Valid only for Roadie Shipments)
             - v2409
         required: true
       - in: path
@@ -5001,16 +5008,16 @@ components:
           maxLength: 2
         ShipperType:
           description: |-
-            Shipment Value for ShipperType. 01 = Business 02 = Consumer/Individual  NA = Not Applicable
-            Required for EU Inbound Shipments
+            Shipment Value for ShipperType. 01 = Business 02 = Consumer/Individual  NA = Not Applicable.
+            Required for EU Inbound Shipments.
           maximum: 1
           type: string
           minLength: 2
           maxLength: 2
         ConsigneeType:
           description: |-
-            Shipment Value for ConsigneeType. 01 = Business 02 = Consumer/Individual  NA = Not Applicable
-            Required for EU Inbound Shipments
+            Shipment Value for ConsigneeType. 01 = Business 02 = Consumer/Individual  NA = Not Applicable.
+            Required for EU Inbound Shipments.
           maximum: 1
           type: string
           minLength: 2
@@ -5749,9 +5756,71 @@ components:
           type: string
           minLength: 2
           maxLength: 2
+        IOSSContact:
+          "$ref": "#/components/schemas/VendorInfo_IOSSContact"
       xml:
         name: VendorInfo
       description: Vendor Information Container
+    VendorInfo_IOSSContact:
+      type: object  
+      properties:
+        Name:
+          description: IOSS registered name.
+          maximum: 1
+          type: string
+        Address:
+          "$ref": "#/components/schemas/IOSSContact_Address"
+      xml:
+        name: IOSSContact
+      description: Optional IOSS information. Applicable only when Vendor Collect ID type Code 0356 is provided in vendorInformation.
+    IOSSContact_Address:
+      type: object
+      maximum: 1
+      properties:
+        AddressLine:
+          description: |
+            The  street address including name and number (when applicable). Up to three occurrences are allowed;
+ 
+            35 characters are accepted, but for the first occurrence, only 30 characters will be printed on the label for return shipments.
+          maximum: 3
+          type: array
+          items:
+            type: string
+          minLength: 1
+          maxLength: 35
+        City:
+          description:  City. 
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 30
+        StateProvinceCode:
+          description: |
+            State or province code.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 5
+        PostalCode:
+          description:  postal code.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 9
+        CountryCode:
+          description: |
+            IOSS's country or territory code.
+ 
+            Refer to country or territory Codes in the Appendix for valid values.
+ 
+          maximum: 1
+          type: string
+          minLength: 2
+          maxLength: 2
+      xml:
+        name: Address
+      description: |
+        IOSS Registered Address tag Container.  
     Shipment_PaymentInformation:
       type: object
       required:
@@ -6737,6 +6806,11 @@ components:
             Goods Service.
           maximum: 1
           type: string
+        EUDeMinimisIndicator:
+          description: |-
+            Required for EU Inbound Shipments.Valid values are Y and N.Y= If shipment with total value less than or equal to 150 Euro.
+          maximum: 1
+          type: string  
       xml:
         name: ShipmentServiceOptions
       description: Container for Shipment Service Options.
@@ -7104,7 +7178,7 @@ components:
         ReasonForExport:
           description: |-
             A reason to export the current international shipment.
-            Valid values: SALE, GIFT, SAMPLE, RETURN, REPAIR, INTERCOMPANYDATA, Any other reason.  Applies to Invoice and Partial Invoice forms only. Required for Invoice forms and Optional for Partial Invoice. No validation.
+            Valid values: SALE, GIFT, SAMPLE, RETURN, REPAIR, INTERCOMPANYDATA, Any other reason.  Applies to Invoice and Partial Invoice forms only. Required for Invoice forms and Optional for Partial Invoice.Required for EU Inbound Shipments.
           maximum: 1
           type: string
           minLength: 1
@@ -8369,6 +8443,12 @@ components:
           "$ref": "#/components/schemas/Product_EEIInformation"
         DDSReferenceNumber:
           "$ref": "#/components/schemas/Product_DDSReferenceNumber"
+        ProductIdentifier:
+          "$ref": "#/components/schemas/Product_ProductIdentifier"
+        CommodityFieldSpecialConditionCode:
+          description: Conditionally required for EU inbound shipments. Must be set to "01" when a Standardized Product ID is not provided.
+          maximum: 1
+          type: string
       xml:
         name: Product
       description: "Contains the commodity/product information.  Applies to EEI, Invoice,
@@ -8643,6 +8723,21 @@ components:
           description: holds a list of DDS Reference Numbers
           maximum: 5
           type: string
+    Product_ProductIdentifier:
+      type: array
+      maximum: 6
+      properties:
+        ProductID:
+          description: The Field can contain any type of product identifier used to specify a commodity/product.
+          maximum: 1
+          type: string
+        ProductIDTypeCode:
+          description: A code that specifies the type of product identifier in the ProductID field. valid values:'0100' = Merchant, '0200' = Manufacturer, '0300' = Standardized.
+          maximum: 1
+          type: string
+      xml:
+        name: ProductIdentifier
+      description: The Product Identifier list contains the following pair of fields:1)Product ID 2)Product ID Type Code. Required for EU Inbound Shipments.
     Product_EEIInformation:
       type: object
       maximum: 1
