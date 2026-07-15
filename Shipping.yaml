@@ -4664,7 +4664,7 @@ components:
           description: 1 indicates a Master Consolidation request for the European Union. 
         MasterHasDocBox:
           type: string
-          description: This field is a flag to indicate if the request is a master shipment. This is required for Master shipment only. If MasterHasDocBox is "0" then request is considered a master shipment.
+          description: This field indicates whether the shipment is a master shipment and specifies the document box type. This is required for Master shipment only.<br/>Valid values <br/>0 - Virtual DocBox <br/>1 - Physical DocBox.
         MasterShipmentChgType:
           type: string
           description: |
