@@ -664,8 +664,65 @@ components:
             "$ref": "#/components/schemas/Milestones"
         packageAddress:
           type: array
+          description: List of package addresses. Each item represents exactly one address type (for example ORIGIN, DESTINATION, or ORIGINAL_DESTINATION).
           items:
             "$ref": "#/components/schemas/PackageAddress"
+          example:
+            - type: ORIGIN
+              name: North Jersey Fulfillment Center
+              attentionName: Shipping Operations
+              email: shipping.ops@northjerseyfc.com
+              address:
+                addressLine1: 1200 Distribution Way
+                addressLine2: Dock 12
+                addressLine3: Building A
+                city: Harrison
+                stateProvince: NJ
+                postalCode: '07029'
+                countryCode: US
+                country: US
+            - type: DESTINATION
+              name: Midtown Consumer Electronics Store
+              attentionName: Receiving Desk
+              email: receiving@midtown-electronics.com
+              address:
+                addressLine1: 9 Hamilton Street
+                addressLine2: Floor 1
+                addressLine3: Suite 105
+                city: Harrison
+                stateProvince: NJ
+                postalCode: '07029'
+                countryCode: US
+                country: US
+            - type: ORIGINAL_DESTINATION
+              name: Zachary Perez
+              attentionName: Front Office
+              email: originalReceiving.ops@northjerseyfc.com
+              address:
+                addressLine1: 12911 Fork Road
+                addressLine2: ''
+                addressLine3: ''
+                city: Baldwin
+                stateProvince: MD
+                postalCode: '21013'
+                countryCode: US
+                country: US
+        isHealthCarePackage:
+            type: boolean
+            description: 'Indicator of whether the package is a HealthCare package'
+        isInsureShieldProtected:
+            type: boolean
+            description: 'Indicator of whether the package is a HealthCare package'
+        numberOfPallets:
+          type: integer
+          description: The number of pallets in the shipment. This helps determine the shipment handling and transportation requirements.
+          format: int32
+          example: 4
+        numberOfPieces:
+          type: integer
+          description: The number of pieces in the shipment. This helps to accurately track shipment contents and handling requirements.
+          format: int32
+          example: 10
         packageCount:
           type: integer
           description: The total number of packages in the shipment. Note that this
@@ -708,9 +765,8 @@ components:
     PackageAddress:
       title: PackageAddress
       type: object
-      description: The container array that has all the addresses associated with
-        the package, such as the ship from (shipper), ship to (consignee), and delivery
-        addresses
+      description: Address entry associated with the package. Each object contains one address type and one address value.
+
       properties:
         address:
           "$ref": "#/components/schemas/Address"
@@ -718,14 +774,38 @@ components:
           type: string
           description: The specific name of an individual associated with the address
             segment.
+          example: Receiving Desk
         name:
           type: string
           description: Ship-to name.
-          example: Sears
+          example:  Midtown Consumer Electronics Store
         type:
           type: string
           description: The type of address.
-          example: ORIGIN/DESTINATION
+          enum:
+            - ORIGIN
+            - DESTINATION
+            - ORIGINAL_DESTINATION
+          example: ORIGIN/DESTINATION/ORIGINAL_DESTINATION
+        email:
+          type: string
+          description: Specifies the email address of the shipper and receiver,This field is only returned when the shipper and receiver have email addresses on file and the request contains the appropriate permissions to return this information.
+              Note:This is considered sensitive data and may only be returned for a user that has rights to the package.
+          example: shipping.ops@northjerseyfc.com
+      example:
+        type: ORIGIN
+        name: North Jersey Fulfillment Center
+        attentionName: Shipping Operations
+        email: shipping.ops@northjerseyfc.com
+        address:
+          addressLine1: 1200 Distribution Way
+          addressLine2: Dock 12
+          addressLine3: Building A
+          city: Harrison
+          stateProvince: NJ
+          postalCode: '07029'
+          countryCode: US
+          country: US
     PaymentInformation:
       title: PaymentInformation
       type: object
