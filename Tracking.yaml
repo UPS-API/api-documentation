@@ -715,12 +715,16 @@ components:
             description: 'Indicator of whether the package is a HealthCare package'
         numberOfPallets:
           type: integer
-          description: The number of pallets in the shipment. This helps determine the shipment handling and transportation requirements.
+          description: |
+            The number of pallets in the shipment. This helps determine the shipment handling and transportation requirements. 
+            *Note:* This field is only applicable for Flex Global View (FGV)/ SCS Freight Shipments.
           format: int32
           example: 4
         numberOfPieces:
           type: integer
-          description: The number of pieces in the shipment. This helps to accurately track shipment contents and handling requirements.
+          description: |
+            The number of pieces in the shipment. This helps to accurately track shipment contents and handling requirements.
+            *Note:* This field is only applicable for Flex Global View (FGV)/ SCS Freight Shipments.
           format: int32
           example: 10
         packageCount:
