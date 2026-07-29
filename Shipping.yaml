@@ -4781,8 +4781,8 @@ components:
             or territories are not in the European Union or the ShipFrom and ShipTo
             countries or territories are both in the European Union and the shipments
             service type is not UPS Standard. \n\nThe Description of Goods field is required 
-			      for all UAE shipments, including Import, Export, and Domestic shipments. 
-      			This requirement applies to both Document and Non‑Document shipments."
+            for all UAE shipments, including Import, Export, and Domestic shipments. 
+            This requirement applies to both Document and Non‑Document shipments."
           maximum: 1
           type: string
           minLength: 1
@@ -9286,7 +9286,7 @@ components:
 
             Valid values are:
             
-            - Imperial	= This system of measurement uses units such as pounds (lbs) for weight and inches (in) for length.
+            - Imperial = This system of measurement uses units such as pounds (lbs) for weight and inches (in) for length.
             
             - Metric = This system of measurement uses units such as kilograms (kgs) for weight and centimeters (cm) for length.
 
@@ -9457,21 +9457,21 @@ components:
             
              Valid values:
              
-            - CFR =	Cost and Freight
-            - CIF =	Cost Insurance and Freight
-            - CIP =	Carriage and Insurance Paid
-            - CPT =	Carriage Paid To
-            - DAF =	Delivered at Frontier
-            - DAP =	Delivered at Place
-            - DAT =	Delivered at Terminal
-            - DDP =	Delivery Duty Paid
-            - DDU =	Delivery Duty Unpaid
-            - DEQ =	Delivered Ex Quay
-            - DES =	Delivered Ex Ship
-            - EXW =	Ex Works
-            - FAS =	Free Alongside Ship
-            - FCA =	Free Carrier
-            - FOB =	Free On Board  
+            - CFR = Cost and Freight
+            - CIF = Cost Insurance and Freight
+            - CIP = Carriage and Insurance Paid
+            - CPT = Carriage Paid To
+            - DAF = Delivered at Frontier
+            - DAP = Delivered at Place
+            - DAT = Delivered at Terminal
+            - DDP = Delivery Duty Paid
+            - DDU = Delivery Duty Unpaid
+            - DEQ = Delivered Ex Quay
+            - DES = Delivered Ex Ship
+            - EXW = Ex Works
+            - FAS = Free Alongside Ship
+            - FCA = Free Carrier
+            - FOB = Free On Board  
             
           type: string
           enum: ["CFR","CIF","CIP","CPT","DAF","DAP","DAT","DDP","DDU","DEQ","DES","EXW","FAS","FCA","FOB",]
@@ -9490,8 +9490,8 @@ components:
             
              Valid values:
              
-            - Invoice =	Invoice declaration
-            - USMCA = USMCA declaration	
+            - Invoice = Invoice declaration
+            - USMCA = USMCA declaration 
             
           type: string
           enum: ["Invoice", "USMCA"]  
@@ -9580,28 +9580,28 @@ components:
              - BA = Barrel
              - BE = Bundle
              - BG = Bag
-             - BH =	Bunch
+             - BH = Bunch
              - BOX = Box
              - BT = Bolt
-             - LB =	Pound
+             - LB = Pound
              - LBS = Pounds
              - L = Liter
              - M = Meter
              - NMB = Number
              - PA = Packet
              - BU = Butt
-             - CI =	Canister
-             - CM =	Centimeter
+             - CI = Canister
+             - CM = Centimeter
              - CON = Container
              - CR = Crate
-             - CS =	Case
-             - CT =	Carton
-             - CY =	Cylinder
+             - CS = Case
+             - CT = Carton
+             - CY = Cylinder
              - DOZ = Dozen
              - EA = Each
-             - EN =	Envelope
-             - FT =	Feet
-             - KG =	Kilogram
+             - EN = Envelope
+             - FT = Feet
+             - KG = Kilogram
              - KGS = Kilograms
              - PAL = Pallet
              - PC = Piece
@@ -9615,8 +9615,8 @@ components:
              - SET = Set
              - SME = Square Meters
              - SYD = Square Yards
-             - TU =	Tube
-             - YD =	Yard
+             - TU = Tube
+             - YD = Yard
             
           type: string
           enum: [ "BA", "BE", "BG", "BH", "BOX", "BT", "LB", "LBS", "L", "M", "NMB", "PA", "BU", "CI", "CM", "CON", "CR", "CS", "CT", "CY", "DOZ", "EA", "EN", "FT", "KG", "KGS", "PAL", "PC", "PCS", "PF", "OTH", "PKG", "PR", "PRS", "RL", "SET", "SME", "SYD", "TU", "YD" ]
@@ -9794,18 +9794,18 @@ components:
             - 65 = 22.5-30 pounds - Car accessories & car parts, bottled beverages, books in boxes
             - 70 = 15 to 22.5 pounds - Car accessories & car parts, food items, automobile engines
             - 77.5 = 13.5 to 15 pounds - Tires, bathroom fixtures
-            - 85 =	12-13.5 pounds - Crated machinery, cast iron stoves
+            - 85 = 12-13.5 pounds - Crated machinery, cast iron stoves
             - 92.5 = 10.5-12 pounds - Computers, monitors, refrigerators
-            - 100 =	9-10.5 pounds - Boat covers, car covers, canvas, wine cases, caskets
-            - 110 =	8-9 pounds - Cabinets, framed artwork, table saw
-            - 125 =	7-8 pounds - Small Household appliances
-            - 150 =	6-7 pounds - Auto sheet metal parts, bookcases
-            - 175 =	5-6 pounds - Clothing, couches stuffed furniture
-            - 200 =	4-5 pounds - Auto sheet metal parts, aircraft parts, aluminum table, packaged mattresses
-            - 250 =	3-4 pounds - Bamboo furniture, mattress and box spring, plasma TV
-            - 300 =	2-3 pounds - Wood cabinets, tables, chairs setup, model boats
-            - 400 =	1-2 pounds - Deer antlers
-            - 500 =	Less than 1 lbs - Bags of gold dust, ping pong balls
+            - 100 = 9-10.5 pounds - Boat covers, car covers, canvas, wine cases, caskets
+            - 110 = 8-9 pounds - Cabinets, framed artwork, table saw
+            - 125 = 7-8 pounds - Small Household appliances
+            - 150 = 6-7 pounds - Auto sheet metal parts, bookcases
+            - 175 = 5-6 pounds - Clothing, couches stuffed furniture
+            - 200 = 4-5 pounds - Auto sheet metal parts, aircraft parts, aluminum table, packaged mattresses
+            - 250 = 3-4 pounds - Bamboo furniture, mattress and box spring, plasma TV
+            - 300 = 2-3 pounds - Wood cabinets, tables, chairs setup, model boats
+            - 400 = 1-2 pounds - Deer antlers
+            - 500 = Less than 1 lbs - Bags of gold dust, ping pong balls
             
           type: string
           example: 150
@@ -9831,7 +9831,7 @@ components:
             Valid values are:
             
             - PO = Purchase Order Number
-            - REF =	Reference Number
+            - REF = Reference Number
             - INV = Invoice Number
             
           type: string
@@ -9905,7 +9905,7 @@ components:
             Valid values are:
             
             - KGS = Kilograms
-            - LBS =	Pounds
+            - LBS = Pounds
           type: string
           example: KGS
           enum: [ "KGS", "LBS" ]
@@ -13616,7 +13616,7 @@ components:
         name: UPSPremiumCareForm
       description: "UPS Premium Care Form container.  Default is PDF when container
         is not provided. \n  Valid only for Canada to Canada movements. UPS Premium
-        Care Form will be returned in  both US English and Canadian French language."		
+        Care Form will be returned in  both US English and Canadian French language."  
     LabelRecoveryResponse:
       type: object
       required:
