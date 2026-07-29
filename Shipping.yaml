@@ -4312,7 +4312,7 @@ paths:
                       InformationSourceCode: ''
                       ShipmentValueThresholdCode: '01'
               '13':
-                summary: Shipping with Carbon Neutral
+                summary: Shipping with Carbon Offset
                 value:
                   ShipmentRequest:
                     Shipment:
@@ -6724,8 +6724,8 @@ components:
           maximum: 1
           type: string
         UPScarbonneutralIndicator:
-          description: UPS carbon neutral indicator presence at shipment level is
-            required to create carbon neutral Shipments.
+          description: UPS carbon offset indicator presence at shipment level is
+            required to create carbon offset Shipments.
           maximum: 1
           type: string
         PreAlertNotification:
@@ -6936,12 +6936,12 @@ components:
       properties:
         EMailAddress:
           description: Email address where the notification is sent.  Up to five email addresses are allowed for each type of Quantum View TM shipment notification. Up to two email address for return notification.
-          type: array
           maximum: 5
+          type: array
           items:
             type: string
-            minLength: 1
-            maxLength: 50
+          minLength: 1
+          maxLength: 50
         UndeliverableEMailAddress:
           description: The address where an undeliverable eMail message is sent if the eMail with the notification is undeliverable.  There can be only one UndeliverableEMailAddress for each shipment with Quantum View Shipment Notifications.
           maximum: 1
