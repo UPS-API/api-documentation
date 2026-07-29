@@ -44,13 +44,6 @@ paths:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
         - $ref: "#/components/parameters/Content-Type"
-        - name: registrationId
-          in: header
-          required: false
-          schema:
-            type: string
-            description: this field is required for ews/fws/worldship
-            example: 3DA124234342
         - in: path
           name: version
           required: true
