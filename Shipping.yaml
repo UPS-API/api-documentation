@@ -1737,7 +1737,7 @@ paths:
                       InformationSourceCode: ''
                       ShipmentValueThresholdCode: '01'
               '13':
-                summary: Shipping with Carbon Neutral
+                summary: Shipping with Carbon Offset
                 value:
                   ShipmentRequest:
                     Shipment:
