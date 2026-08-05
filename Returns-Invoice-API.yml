@@ -4,95 +4,10 @@ info:
   title: Invoice Management API v1
   version: '1.0'
   description: |
- 
-   # Product Info
-
-    The **Invoice Managment API** empowers retailers to generate invoices for e-commerce orders dispatched outside the API platform. It captures essential data such as customer information, delivery addresses, and order details to enable seamless tracking and efficient returns processing. By utilizing this API, retailers can enhance operational efficiency and improve the customer experience.
-
-    # Business Values
-
-    - **Intelligent Invoice Grouping**:  - Streamline returns management by leveraging the `groupId` field in the Order Model
-      to intelligently group multiple invoices associated with a single e-commerce order.
-      This feature simplifies the processing of complex orders and improves organizational workflows. 
-    
-    - **Flexible Invoice Management**:  - Modify invoices effortlessly using the Update Invoice API, enabling seamless updates
-      when item details are unavailable during the initial Create Invoice call.
-
-    - **Efficient Product Returns**: - Facilitate a seamless and customer-friendly returns process with real-time tracking
-      and updates. The platform ensures accurate handling of return requests, reducing processing
-      time and enhancing overall customer satisfaction.
-
-
-    # How does it work once I am setup as a user?
-    Once set up as a user, you can leverage the Invoice Management API to ingest order information for e-commerce orders dispatched outside the API platform. By integrating this functionality, you can intelligently group multiple invoices for streamlined returns management and seamlessly update invoices as new details become available. This ensures accurate tracking and efficient processing.
-
-    # FAQs    
-
-    - **What information is required to create an invoice?**
-      - groupId: The e-commerce order ID mapped to the invoice for efficient tracking and returns management.
-      - orderExternalId: The retailer-specific order reference.
-      - customer object: Includes customer information.
-      - orderInfo object: Subset of the order data, including deliveryAddress.
-      - brandExternalId: Identifies the brand associated with the invoice.
-      - createdDate: The date the original order was created (in int64 format).
-      - timeZone: Timezone of the order creation date."
-      - storeExternalId: The ID of the store from which the order was dispatched.
-
-    - **When should I use the Update Invoice API?**
-    > The Update Invoice API is used to modify an existing invoice when new details, such as item specifics, become available or corrections are needed. For example, you can update the itemList to include SKU details, dimensions, or images after the initial invoice creation.
-
-    - **What is the role of the customer object in the API?**
-    > The customer object provides critical customer details, including delivery address and order information. This data ensures that invoices are correctly associated with the right customer and facilitates efficient returns management.
-
-    - **Can I update the delivery address for an existing invoice?**
-    > Yes, the Update Invoice API allows you to modify the deliveryAddress object if changes to the customer's address or return location are required.
-
-    - **Does the API support batch updates for invoices?**
-    > Currently, the API supports updating invoices individually using the Update Invoice API. For batch updates, separate calls for each invoice are required.
-    
-    # Error Codes
-
-    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
-
-    Successful response may or may not include warnings.
-
-    1. **Without warnings** - Indicates the request has been processed as anticipated.
-    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
-
-    The severity of an error may be transient or hard.
-      
-    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
-    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
-
-    ---
-
-    ## /invoices
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invoice already Exists |
-    |  INVALID_DATA          |    400    |  Hard    | Invalid data: Please enter the phone number in E.164 format" or other invalid values in the request  |
-    |  GEOCODING_FAILED      |    422    |  Hard    | Geocoding Service for the given address failed.                            |
-    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
-
-    ### /invoices/{invoice_id}
-
-    ### PUT
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND             |    404    |  Hard    | Not Found: Invoice not found |
-    |  INVALID_DATA          |    400    |  Hard    | Invalid data: Please enter the phone number in E.164 format" or other invalid values in the request  |
-    |  GEOCODING_FAILED      |    422    | Hard     | Geocoding Service for the given address failed.                            |
-    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
-
-    
+   An Invoice allows Delivery Solutions to ingest information for e-commerce orders dispatched outside of its platform, enabling tracking and returns functionality.     
+   - Our returns platform can intelligently group multiple invoices associated with a single e-commerce order by utilizing the GroupId field on the Order Model.
+   
+   - Invoices can be modified using the Update Invoice API, which are particularly useful if you are unable to provide item details during the Create Invoice call.
 servers:
   - url: https://api.lynkup.com/returns/{version}
     description: Integration hub Production OAuth.
@@ -101,16 +16,9 @@ servers:
        default: v1
        enum:
          - v1
-  - url: 'https://sanbox.api.lynkup.com/returns/{version}'
-    description: Integration hub Sandbox Production OAuth.
-    variables:
-      version:
-       default: v1
-       enum:
-          - v1
 
 tags: 
-  - name: Invoice Management
+  - name: Invoice
     description: |
       Operations related to creating and updating invoice records within Delivery Solutions' system.
 
@@ -122,22 +30,10 @@ paths:
     post:
       summary: Create Invoice
       tags: 
-        -  Invoice Management
+        -  Invoice
       description: |
         Use this endpoint to create an Invoice for any e-commerce order. This is essential for enabling returns management through Delivery Solutions when the order was not initially dispatched using Delivery Solutions' platform.
       operationId: createInvoice
-      security:
-        - OAuth2ClientCredentials: []
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
       requestBody:
         content:
           application/json:
@@ -399,20 +295,9 @@ paths:
       description: |
         Use this API to update an Invoice by specifying the Invoice ID.
       tags: 
-        -  Invoice Management
+        -  Invoice
       operationId: updateInvoice
-      security:
-        - OAuth2ClientCredentials: []
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: invoice_id
           in: path
           description: Invoice Id (_id) created during the Create Invoice API
@@ -819,7 +704,7 @@ components:
       properties:
         sku:
           type: string
-          description: "An ID that identify the product/variant from the brand's catalog."
+          description: "An ID that identify the product/variant from the brand�s catalog."
           maxLength: 100
         upc:
           type: string
@@ -859,7 +744,7 @@ components:
         description:
           type: string
           description: "Description of the item."
-          maxLength: 10000
+          maxLength: 1000
         itemAttributes:
           type: object
           description: "Custom item attributes."

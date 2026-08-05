@@ -1,62 +1,29 @@
 openapi: 3.1.0
 
 info:
-  title: LynkUp Workflow API v1
+  title: Lynkup Workflow API v1
   version: '1.0'
   description: |
-    
-    # Product Info
-
-    The **LynkUp Workflow API** enables seamless execution of solutions built in our intuitive low-code Workflow Builder. Designed for developers and businesses, it serves as a powerful integration hub for automating complex business processes and workflows across multiple systems and providers.
-
-    # Business Values
-
-    - **Dynamic Solution Execution**: Execute any workflow solution with fully dynamic request and response structures, providing maximum flexibility for diverse business requirements and use cases.
-
-    - **Low-Code Integration**: Seamlessly integrate with solutions built using our visual Workflow Builder, enabling rapid deployment of complex business logic without extensive coding requirements.
-
-    - **Scalable Automation**: Process workflows asynchronously with enterprise-grade reliability, supporting high-volume operations and complex multi-step business processes.
-
-    - **Universal Connectivity**: Connect and orchestrate across various systems, APIs, and services through a unified interface, simplifying complex integration scenarios.
-
-    # How does it work once I am setup as a user?
-    Once configured as a user, you submit solution-specific payload data to execute pre-built workflows from our Workflow Builder. Each solution has its own input requirements and output format, allowing for highly customized business process automation. The API handles the complexity of multi-system orchestration while providing simple HTTP-based integration.
-
-    # FAQs    
-    - **What information does a Solution contain?**
-    >  A **Solution** contains all the logic, integrations, and processing rules defined in the Workflow Builder, including input validation, business logic execution, and output formatting specifications.
-
-    - **What happens when a solution is executed?**
-    >  When a solution execution request is submitted, the platform processes the input according to the pre-defined workflow logic, potentially interacting with multiple systems, and returns the processed results in the format specified by the solution design.
-
-    - **What makes request/response structures dynamic?**
-    > Each solution defines its own input and output schema based on the specific workflow requirements, allowing for maximum flexibility while maintaining type safety and validation at the solution level.
+    The Lynkup Workflow API lets you execute solutions built in low-code Workflow Builder.
 
 servers:
   - url: https://api.lynkup.com/workflow/v1
-    description: LynkUp Workflow API
-
-security:
-  - OAuth2: [ ]
+    description: Lynkup Workflow API
 
 tags:
-  - name: LynkUp Workflow
+  - name: Workflow
     description: Endpoints for executing Workflow Builder solutions.
 
 paths:
   /solutions/{solution_id}:
     post:
-      summary: "Trigger a Workflow"
+      summary: "Run a Solution"
       description: |
-        Trigger a workflow from a solution created via LynkUp’s low-code Workflow Builder.  
+        Executes a solution created via Lynkup’s low-code Workflow Builder.  
         Both the **request and response bodies are fully dynamic**, defined by the solution’s inputs and outputs.
-
-        **Key Features:**
-        - **Dynamic Structure**: Both request and response bodies are fully dynamic, defined by the solution's configuration
-        - **Flexible Integration**: Supports any business logic created in the Workflow Builder
-      operationId: triggerSolution
+      operationId: runSolution
       tags:
-        - LynkUp Workflow
+        - Workflow
       parameters:
         - $ref: "#/components/parameters/Content-Type"
         - $ref: "#/components/parameters/solutionId"
@@ -68,7 +35,7 @@ paths:
             schema:
               $ref: "#/components/schemas/WorkflowRequest"
             examples:
-              OrderTriggerExample:
+              OrderRunExample:
                 summary: "DoorDash Pickup order payload"
                 value:
                   storeExternalId: "DoorDash-Pickup"
@@ -131,7 +98,7 @@ paths:
                   summary: "Missing or invalid values in request body"
                   value:
                     message: "Failed to process request"
-                    type: "VALIDATION_ERROR"
+                    type: "2_ERROR"
                     errors:
                       - type: "INVALID_DATA"
                         message: "locationExternalId is a required field. The field is missing."
@@ -162,7 +129,7 @@ paths:
                   value:
                     type: "NOT_FOUND"
                     message: "Solution with id 21ef43f66e521ab8 is not found"
-                    errors: [ ]
+                    errors: []
         '422':
           description: "Processing failed as request contains invalid operation"
           headers:
@@ -210,18 +177,9 @@ paths:
                     errors:
                       - type: "SERVER_ERROR"
                         message: "An unexpected error occurred while processing the request."
-        "401":
-          description: Unauthorized
+        '401':
+          description: "Unauthorized"
           headers:
-            bkndtransid:
-              required: true
-              description: The backend transaction id.
-              schema:
-                type: string
-            transId:
-              description: The transaction id received from client
-              schema:
-                type: string
             Content-Type:
               $ref: "#/components/headers/Content-Type"
             APIErrorCode:
@@ -352,4 +310,4 @@ components:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
           tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
-          scopes: { }
+          scopes: {}

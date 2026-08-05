@@ -3,51 +3,12 @@ info:
   title: Tracker API v2
   version: '1.0'
   description: |
-    # Product Info
-
-    The **Tracker API** allows businesses to create trackers for orders **not** dispatched through our API Solutions, enabling use of post-purchase and returns features. 
+    The **Tracker API** allows businesses to create trackers for orders **not** dispatched through our API Solutions, enabling use
+    of post-purchase and returns features. 
     
-    # Business Values
-
-    - **Post-Purchase Management**:  - The post-purchase experience encompasses timely alerts, notifications, and user-friendly tracking pages, helping customers stay informed about their order's journey.
-
-    - **Returns Module**: - Streamline the process for customers to initiate returns and exchanges efficiently.
-
-    # How does it work once I am setup as a user?
-    Once you are set up as a user, you can submit existing order details, including the carrier's tracking number, to facilitate a seamless post-purchase and returns experience based on the portal's configuration. The API will then respond with the appropriate links for customers to access these features.
-
-    # FAQs    
-    - **What is required for the difference between an order and a tracker?**
-    >  A **Delivery Order** contains all the critical details needed to execute a delivery, such as pickup and delivery addresses, contact information, and scheduling preferences. 
-    
-    # Error Codes
-
-    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
-
-    Successful response may or may not include warnings.
-
-    1. **Without warnings** - Indicates the request has been processed as anticipated.
-    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
-
-    The severity of an error may be transient or hard.
-      
-    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
-    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
-
-
-    ---
-
-    ## /trackers:
-
-    ### POST
-
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_TRACKER_DATA  |    422    |  Hard    | Invalid data: This provider is not configured in corporate or other invalid values in the request |
-    |  MISSING_TRACKER_DATA  |    400    |  Hard    | Invalid data: Delivery Address not provided  or other invalid values in the request  |
-
+    **Key Business Values**
+    - **Post-Purchase Experience**:  Timely alerts, notifications, and tracking pages, help inform customers about their order's journey.
+    - **Returns Module**: Streamlines the process for customers to initiate returns and exchanges efficiently.
 servers:
   - url: https://api.lynkup.com/tracker/{version}
     description: Integration hub Production OAuth.
@@ -55,21 +16,14 @@ servers:
       version:
         default: v2
         enum:
-         - v2 
-  - url: 'https://sanbox.api.lynkup.com/tracker/{version}'
-    description: Integration hub Sandbox Production OAuth.
-    variables:
-      version:
-       default: v2
-       enum:
-          - v2         
+         - v2  
 tags: 
   - name: Tracker
     description: Endpoints for creating and managing trackers to enable post-purchase tracking and notifications.
 paths:
   /trackers:
     post:
-      summary: Create Tracker
+      summary: Create a tracker for orders dispatched through anywhere apart from our system.
       description: |
         This endpoint allows businesses to create a tracker using the tracking number provided by the carrier. 
         Trackers enable a unified post-purchase experience for all orders, including alerts, notifications, and tracking pages. 
@@ -79,16 +33,6 @@ paths:
         - OAuth2ClientCredentials: []
       tags: 
         -  Tracker
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v2
-            enum:
-                - v2
       requestBody:
         required: true
         content:
@@ -106,7 +50,40 @@ paths:
                     - "12312351"
                     - "77091078"
                   type: delivery
-                  orderAttributes: {}
+                  orderValue: 100
+                  currencyCode: "USD"
+                  orderAttributes: {
+                    payment: "POS",
+                    signature: false,
+                    minimumAge: 20,
+                    deliveryNotes: ["fragile", "COD"],
+                    tempReadings: [3.4, 4.2, 5.1]
+                  }
+                  pickupTime:
+                    startsAt: 1649253600000
+                  deliveryTime:
+                    endsAt: 1649268000000
+                  deliveryContact:
+                    name: Mein Wan
+                    phone: "+12322322323"
+                    email: nycustomer@email.com
+                  deliveryAddress:
+                    street1: 8849 North Sam Houston Parkway West
+                    street2: Suite 200
+                    city: Houston
+                    state: TX
+                    countryCode: US
+                    postalCode: "77064"
+                    latitude: 29.9259823
+                    longitude: -95.5523879
+                    apartmentNumber: ""
+              Wrong Name In Provider:
+                value:
+                  provider: DoorDash_123
+                  locationExternalId: Postmates_Store
+                  trackerExternalId: tracker001
+                  trackingId: del_004
+                  type: delivery
                   orderValue: 100
                   pickupTime:
                     startsAt: 1649253600000
@@ -126,7 +103,7 @@ paths:
                     latitude: 29.9259823
                     longitude: -95.5523879
                     apartmentNumber: ""
-              Wrong Name In Provider:
+              Wrong CurrencyCode In Provider:
                 value:
                   provider: DoorDash_123
                   locationExternalId: Postmates_Store
@@ -134,6 +111,7 @@ paths:
                   trackingId: del_004
                   type: delivery
                   orderValue: 100
+                  currencyCode: ABC
                   pickupTime:
                     startsAt: 1649253600000
                   deliveryTime:
@@ -381,15 +359,6 @@ paths:
       tags: 
         -  Tracker
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v2
-            enum:
-                - v2
         - name: tracker_id
           in: path
           description: The unique tracker id generated by the system after creating tracker
@@ -407,7 +376,13 @@ paths:
                 value:
                   provider: Self Delivery
                   trackingId: del_004
-                  orderAttributes: {}
+                  orderAttributes: {
+                    payment: "POS",
+                    signature: false,
+                    minimumAge: 20,
+                    deliveryNotes: ["fragile", "COD"],
+                    tempReadings: [3.4, 4.2, 5.1]
+                  }
                   orderValue: 100
                   pickupTime:
                     startsAt: 1649253600000
@@ -437,7 +412,8 @@ paths:
               Tracker With Item List:
                 value:
                   itemList: 
-                    - sku: sku 1
+                    - sku: "TS-RN-RED-S"
+                      upc: "036000291452"
                       quantity: 1
                       size:
                         length: 3
@@ -586,25 +562,15 @@ paths:
         - **Time Filters**: Filter trackers based on their `createdAt` or `lastUpdatedAt`.
         - **Identifiers**: Search by `orderExternalIds` or `locationExternalIds`.
         - **Statuses**: Retrieve trackers based on their current status (e.g., `ORDER_DISPATCHED`, `ORDER_DELIVERED`, `ORDER_CANCELLED`).
-        - **Pagination**: Use the `pagination` field to retrieve subsequent sets of results when dealing with large datasets.
+        - **Pagination**: Use the `paginationToken` field to retrieve subsequent sets of results when dealing with large datasets.
 
         The request body allows flexible and precise filtering, making it easy to tailor the response to your specific needs. 
-        The response will contain the requested trackers data, and if applicable, use `pagination` field to fetch additional results.
+        The response will contain the requested trackers data, and if applicable, a `paginationToken` to fetch additional results.
       operationId: listTrackers
       security:
         - OAuth2ClientCredentials: []
       tags: 
         -  Tracker
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v2
-            enum:
-                - v2
       requestBody:
         required: true
         content:
@@ -664,12 +630,18 @@ paths:
                   value:
                     data:                       
                       - locationExternalId: Postmates_Store
-                        trackingId : del_004
+                        trackingId: del_004
                         brandExternalId: trackers_business
                         orderExternalId: tracker001
                         packages: []
                         type: delivery
-                        orderAttributes: {}
+                        orderAttributes: {
+                          payment: "POS",
+                          signature: false,
+                          minimumAge: 20,
+                          deliveryNotes: ["fragile", "COD"],
+                          tempReadings: [3.4, 4.2, 5.1]
+                        }
                         orderValue: 100
                         status: ORDER_DISPATCHED
                         pickupTime:
@@ -846,13 +818,19 @@ components:
     TrackerExample:
       value:
         locationExternalId: Postmates_Store
-        trackingId : del_004
+        trackingId: del_004
         brandExternalId: trackers_business
         orderExternalId: tracker001
         packages: []
         type: delivery
-        orderAttributes: {}
         orderValue: 100
+        orderAttributes: {
+          payment: "POS",
+          signature: false,
+          minimumAge: 20,
+          deliveryNotes: ["fragile", "COD"],
+          tempReadings: [3.4, 4.2, 5.1]
+        }
         status: ORDER_DISPATCHED
         pickupTime:
           startsAt: 1649253600000
@@ -940,6 +918,13 @@ components:
               type: array 
               items:
                 $ref: "#/components/schemas/Item"
+            currencyCode:
+              type: string
+              description: ISO 4217 three-letter currency code (e.g, USD, EUR) representing the 
+                currency associated with the tracker. Must be exactly 3 uppercase characters.
+              minLength: 3
+              maxLength: 3
+              example: "USD"
             locale:
               type: string
               description: |
@@ -965,16 +950,8 @@ components:
                   maxLength: 100
                   description: Brand under which the pickup location will be created. Defaults to default brand.
                   example: trackers_business
-                locationExternalId:
-                  type: string
-                  maxLength: 100
-                  description: Unique ID of the pickup location generated in your system and configured in our system.
                 address:
                   $ref: "#/components/schemas/Address"
-                pickupInstructions:
-                  type: string
-                  maxLength: 10000
-                  description: Pickup instructions for the pickup location.
                 providers:
                   type: array
                   description: List of providers configured for the pickup location.
@@ -998,6 +975,10 @@ components:
               description: Name of the provider configured in business
               maxLength: 100
               example: Self Delivery
+            content:
+              $ref: '#/components/schemas/Content'
+            temperatureControl:
+              $ref: '#/components/schemas/TemperatureControl'
     TrackerResponse:
       allOf:
         - $ref: "#/components/schemas/SharedRequestResponse"
@@ -1241,7 +1222,7 @@ components:
                   maxLength: 100
                   description: URL for returns
                   example: https://example.com/returns
-              required: []
+              required: []                
             feedback:
               type:
                 - 'null'
@@ -1311,7 +1292,6 @@ components:
           $ref: "#/components/schemas/TimeWindow"
         statuses:
           type: array
-          maxItems: 10
           description: Get all orders having the provided statuses.
           items:
             type: string
@@ -1348,10 +1328,16 @@ components:
           type: string
           maxLength: 100
           description: Group ID allows you to group a number of orders and trackers together. It further helps in providing a combined post-purchase experience for them.
+        orderValue:
+          type: number
+          description: Value of the order in major units as decimals. e.g., 10.00 or 116.50.
+          format: double
+          minimum: 0
         orderAttributes:
             type: object
+            maxItems: 100
             additionalProperties:
-              oneOf:
+              anyOf:
                 - type: string
                   maxLength: 500
                 - type: number
@@ -1368,12 +1354,7 @@ components:
                   items:
                     type: boolean
                   maxItems: 100
-            description: "Custom key-value pairs for configurable order attributes."       
-        orderValue:
-          type: number
-          description: Value of the order in major units as decimals. e.g., 10.00 or 116.50.
-          format: double
-          minimum: 0
+            description: "Custom key-value pairs for configurable order attributes." 
         pickupTime:
           oneOf: 
             - $ref: "#/components/schemas/TimeWindow"
@@ -1493,6 +1474,20 @@ components:
           description: Email address of the Contact
           maxLength: 100
           example: nycustomer@email.com
+    Content:
+      type: array
+      description: |
+        List of content types present in the order. Allowed values: alcohol, tobacco, fragile, rx, perishable, spirit.
+      items:
+        type: string
+        enum:
+          - alcohol
+          - tobacco
+          - fragile
+          - rx
+          - perishable
+          - spirit
+      example: ["alcohol", "fragile"]
     Customer:
       allOf:
         - $ref: '#/components/schemas/Contact'
@@ -1551,11 +1546,12 @@ components:
           type: string
           description: An ID that identify the product/variant from the brand's catalog.
           maxLength: 100
-          example: sku 1
+          example: "TS-RN-RED-S"
         upc:
           type: string
           description: Universal Product Code for the item
           maxLength: 100
+          example: "036000291452"
         category:
             type: string
             description: Universal Product Code for the item
@@ -1648,26 +1644,9 @@ components:
             $ref: '#/components/schemas/Item'
           maxItems: 1000
         temperatureControl:
-          type: string
-          description: Temperature information of the package
-          enum:
-            - frozen
-            - refrigerated
-            - cool
-            - ambient
-            - warm
-            - none
+          $ref: '#/components/schemas/TemperatureControl'
         content:
-          type: array
-          description: Content information of the package
-          items:
-            type: string
-            enum:
-              - alcohol
-              - fragile
-              - tobacco
-              - rx
-              - perishable
+          $ref: '#/components/schemas/Content'
         barcode:
           type: string
           description: Barcode sent to the provider for scanning the packages
@@ -1716,8 +1695,9 @@ components:
             a combined post-purchase experience for them.
         orderAttributes:
             type: object
+            maxItems: 100
             additionalProperties:
-              oneOf:
+              anyOf:
                 - type: string
                   maxLength: 500
                 - type: number
@@ -1734,7 +1714,7 @@ components:
                   items:
                     type: boolean
                   maxItems: 100
-            description: "Custom key-value pairs for configurable order attributes."            
+            description: "Custom key-value pairs for configurable order attributes."
         orderValue:
           type: number
           description: Value of the order in major units as decimals. e.g., 10.00 or 116.50.
@@ -1808,6 +1788,17 @@ components:
           enum: 
             - cm
             - in
+    TemperatureControl:
+      type: string
+      description: |
+        Temperature control requirement for the order. Allowed values: frozen, refrigerated, warm, ambient, cool, none.
+      enum:
+        - frozen
+        - refrigerated
+        - warm
+        - ambient
+        - cool
+        - none
     TimeWindow:
       type: object
       properties:
@@ -1865,5 +1856,3 @@ components:
           enum: 
             - kg
             - lb
-
-              

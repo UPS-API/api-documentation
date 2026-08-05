@@ -1,216 +1,31 @@
 openapi: 3.1.0
 
 info:
-  title: Location Management
+  title: Location Management API v1
   version: '1.0'
   description: |
-    # Product Info
+    The **Location Management API** provides a centralized system for managing operational locations and their associated configurations.
 
-    The **Location Management API** sprovides a centralized system for managing operational locations and their associated configurations. Designed to handle stores, warehouses, and distribution centers, it enables businesses to define, update, and customize location attributes to align with their logistics and delivery workflows.
-    
-
-    # Business Values
-
-    - **Streamlined Location Data Management**:  - Improve operational efficiency by managing structured location data, ensuring seamless integration with delivery workflows.
-
-    - **Flexible Timing Configurations**: - Enable accurate timing configurations for operations, ensuring alignment with customer expectations and logistical requirements.
-
-    - **Advanced Location Features**: - Support capabilities such as alternate drop-off locations, service boundaries, and configurable provider attributes, enhancing flexibility.
-
-
-    # How does it work once I am setup as a user?
-    Once set up as a user, you can submit relevant order details to asynchronously place an order from the selected pickup location to the delivery address. By integrating this API into your eCommerce platform, you gain access to a global multi-carrier ecosystem. This enables you to offer flexible, reliable delivery options while maintaining control over your brand’s delivery experience.
-
-    # FAQs    
-    - **How do I update an existing location?**
-    >  Use the Edit Location API to update fields dynamically. You can edit using the
-      storeExternalId or Delivery Solutions _id. Provide only the fields you wish to update
-      in the request body.
-
-    - **What is the significance of the storeExternalId?**
-    >  The storeExternalId is a unique identifier for the location. It is required during creation and is used by other APIs to associate operations with the specific location. 
-
-    - **Can I retrieve all my business locations?**
-    >  Yes, use the List Locations API to retrieve all locations associated with your
-      business. Each location includes details such as name, address, currency code,
-      pickup instructions, and configured providers.P
     It enables businesses to define, update, and customize key attributes of their locations which may include stores, warehouses, or distribution centers, depending on the business model. This ensures seamless integration with logistics and delivery workflows. 
-    
-    # Error Codes
 
-    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
+    integration with logistics and delivery workflows.
 
-    Successful response may or may not include warnings.
+    This API is designed to:
 
-    1. **Without warnings** - Indicates the request has been processed as anticipated.
-    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
+    - Improve operational efficiency through structured location data management.
 
-    The severity of an error may be transient or hard.
-      
-    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
-    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
+    - Enable accurate and flexible timing configurations for operations.
 
-    ---
+    - Support advanced location features, such as alternate drop-off locations and service boundaries.
 
-    ## /locations
+    - Enhance customer experiences by aligning physical location capabilities with logistics services.
 
-    ### POST
-    |           Type        | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  INVALID_DATA          |    400    |  Hard    | Bad Request: Missing required fields (e.g., `locationExternalId`) |
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  DUPLICATE_ID          |    422    |  Hard    | Bad Request: Duplicate location ID  |
-    |  NOT_FOUND             |    422    |  Hard    | Bad Request: provider is not configure in system |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    Built for scalability and integration, the API empowers businesses to adapt their location management to changing operational
 
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-
-    ---
-
-    ## /locations/{location_external_id}
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Location not found |
-
-    ### PUT
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Location not found |
-
-    ---
-
-    ## /timings/{type}
-
-    ## POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
-
-    ### DELETE
-
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Timing not configured for given input|
-
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
-    |  NOT_FOUND             |    404    |  Hard    | Not Found: Timing not configured for given input|
-
-    ---
-
-    ## /timings/{type}/overrides
-
-    ### POST
-
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    |  Invalid data: Invalid `locationExternalId` or other invalid values in the request |
-    |  INVALID_DATA          |    400    |  Hard    |  Invalid data: Invalid Base Timing. Base timings cannot be blank for the mentioned type or other invalid values in the request |
-
-    ### DELETE
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
-    |  NOT_FOUND             |    404    |  Hard    | Not Found: Timing Override not configured for given input. |
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid `locationExternalId` or other invalid values in the request |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Timing Override not configured for given input. |
-
-    ---
-
-    ### /alternate-locations
-
-    ### POST
-
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NO_PROVIDER_MATCHED   |    422    |  Hard    | No provider Found: No Provider supporting Alternate Locations was found. |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Alternate location is not found |
-    |  INVALID_DATA          |    400    |  Hard    | Invalid Data: locationExternalId or providers field is missing  or other invalid values in the request  |
-
-    ---
-
-    ### /boundaries/{boundary_id}
-
-    ### GET
-
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid boundaryId |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Boundary not found |
-
-    ### PUT
-
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  VALIDATION_ERROR      |    400    |  Hard    | Invalid request data: Missing required fields or invalid values. |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Boundary not found |
-
-    ## DELETE
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid boundaryId |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Boundary not found |
-
-    ---
-
-    ## /boundaries
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-
-    ### POST
-
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-       VALIDATION_ERROR      |    400    |  Hard    | Bad Request: Invalid request data, e.g., invalid field shape or other invalid values in the request |
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid boundaryId invalid locationExternalId|
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
+    and customer needs.
 
 tags:
-  - name: "Location Management"
+  - name: "Locations"
     description: "A pickup location denotes an operational unit of a business with a physical address from which a delivery partner or a customer can pick up the order"
   - name: "Timings"
     description: "Time is a critical factor for operations and customer experience. In-store, pick-up and delivery experience revolve around proper expectation setting of time - both for the store operations team, and the customer."
@@ -228,13 +43,6 @@ servers:
         default: v1
         enum:
          - v1
-  - url: 'https://sanbox.api.lynkup.com/location/{version}'
-    description: Integration hub Sandbox Production OAuth.
-    variables:
-      version:
-       default: v1
-       enum:
-          - v1
 
 security:
   - OAuth2ClientCredentials: []
@@ -242,26 +50,14 @@ security:
 paths:
   /locations:
     post:
-      summary: Create Locations
+      summary: Create a new pickup location with a unique identifier to specify the physical address for order pickups.
       description: | 
          A Pickup Location represents a physical place within a business, such as a store, warehouse, or distribution center, where a delivery partner or customer can collect an order. Each pickup location is assigned a unique `locationExternalId` used across the system to identify and manage specific locations in various API operations. During creation, you can assign multiple providers to a pickup location, allowing flexibility in managing delivery options.
 
          Use this API to create, update, retrieve, or delete pickup locations as needed, ensuring that each location is uniquely identifiable and accurately represented for operational purposes.
       operationId: createLocation
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
+        - Locations
       requestBody:
         content:
           application/json:
@@ -306,6 +102,11 @@ paths:
                     FedEx:
                       accountNumber: test-account-number
                       returnStoreService: FEDEX_GROUND
+                  additionalContacts:
+                    - name: Location Manager 1
+                      phone: '+12142342232'
+                    - name: Location Manager 2
+                      phone: '+13144345232'                      
       responses:
         '201':
           description: Successful operation
@@ -360,6 +161,11 @@ paths:
                      FedEx:
                       accountNumber: test-account-number
                       returnStoreService: FEDEX_GROUND
+                    additionalContacts:
+                      - name: Location Manager 1
+                        phone: '+12142342232'
+                      - name: Location Manager 2
+                        phone: '+13144345232'                      
                     timeZone: "America/Chicago"
                     createdAt: "2022-04-26T03:03:30.559Z"
                     lastUpdatedAt: "2022-04-26T03:03:30.559Z"
@@ -492,19 +298,7 @@ paths:
       description: "Use this API to list all the locations that have been created for the business."
       operationId: "listLocations"
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
+        - Locations
       responses:
         '200':
           description: "Successful response with a list of locations."
@@ -549,6 +343,11 @@ paths:
                       active: true
                       tags: 
                         - "big&bulky"
+                      additionalContacts:
+                        - name: Location Manager 1
+                          phone: '+12142342232'
+                        - name: Location Manager 2
+                          phone: '+13144345232'                        
         '500':
           description: "Internal server error"
           headers: 
@@ -613,19 +412,8 @@ paths:
       description: "Use this API to get the details of a location using the user-specified locationExternalId which is associated with a location."
       operationId: "getLocationById"
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Locations
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "location_external_id"
           in: "path"
           description: "location_external_id of the Location. A unique id that you have used for the Create Location."
@@ -672,6 +460,11 @@ paths:
                       isCorporateAtRisk: true
                     tags:
                       - "big&bulky"
+                    additionalContacts:
+                      - name: Location Manager 1
+                        phone: '+12142342232'
+                      - name: Location Manager 2
+                        phone: '+13144345232'                      
         "404":
           description: "Location not found"
           headers: 
@@ -761,24 +554,13 @@ paths:
     put:
       summary: Edit Location
       tags:
-        - Location Management
+        - Locations
       description: |
            Use this API to edit a location using the location external ID.
 
            Edits a location using the location external ID assigned to a location.
       operationId: editLocationUsingLocationExternalId
-      security:
-        - OAuth2ClientCredentials: []
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "location_external_id"
           in: path
           description: locationExternalId of the Location. A unique id which you used during the creation of Location.
@@ -835,6 +617,11 @@ paths:
                         FedEx:
                           accountNumber: "test-account-number"
                           returnStoreService: "FEDEX_GROUND"
+                      additionalContacts:
+                        - name: Location Manager 1
+                          phone: "+12142342232"
+                        - name: Location Manager 2
+                          phone: "+13144345232"                          
                       timeZone: "America/Chicago"
                       lastUpdatedAt: "2022-04-26T04:38:55.794Z"
                       isDeleted: false
@@ -927,26 +714,15 @@ paths:
 
   /timings/{type}:
     post:
-      summary: Create Timing
+      summary: Define operational hours and create time windows with capacity and fee settings for a pickup location.
       description: | 
          Efficient time management is essential for both operations and customer experience in pickup and delivery. 
          
          Use this API to set a location's operational hours and create specific time windows for various service categories. Each time window can include its own capacity and fee, allowing for effective scheduling and resource management.
       operationId: createTiming
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Timings
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: type
           in: path
           description: Type of timings. Options are `location`, `pickup`, `delivery`, or `return`.
@@ -1276,19 +1052,8 @@ paths:
       description: "Use this API to remove the timings created for a location for the given category."
       operationId: "deleteTiming"
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Timings
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: type
           in: path
           description: Type of timings. Options are `location`, `pickup`, `delivery`, or `return`.
@@ -1443,19 +1208,8 @@ paths:
       description: "Use this API to retrieve all the timings/time windows configured for the given location and type."
       operationId: "getTiming"
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Timings
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: type
           in: path
           description: Type of timings. Options are `location`, `pickup`, `delivery`, or `return`.
@@ -1706,19 +1460,8 @@ paths:
       description: "Use this API to create an exception for the time window for a location. Timing Overrides are used when a location wants to operate during special hours or it is closed for a particular day. For example, consider if a location is not operational on Thanksgiving day, they can create an override for that day. A particular override is valid for the mentioned dates."
       operationId: "createTimingOverride"
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Timings-Override
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "type"
           in: "path"
           description: "Type of timings. Options are `location`, `pickup`, `delivery`, or `return`."
@@ -1945,19 +1688,8 @@ paths:
       description: "Use this API to remove configured overrides for a given location, category, and dates."
       operationId: "deleteTimingOverride"
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Timings-Override
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "type"
           in: "path"
           description: "Type of timings. Options are `location`, `pickup`, `delivery`, or `return`."
@@ -2114,19 +1846,8 @@ paths:
       description: "Use this API to retrieve all the overrides configured for a given type and location."
       operationId: "getTimingOverride"
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Timings-Override
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "type"
           in: "path"
           description: "Type of timings. Options are `location`, `pickup`, `delivery`, or `return`."
@@ -2340,19 +2061,7 @@ paths:
       description: "Use this API to get the list of nearby locations. Customers can use these to hold the packages in case they are unavailable at the delivery address or don't want to have home deliveries. These locations can be access points, lockers, grocery stores etc."
       operationId: "getAlternateLocations"
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
+        - Alternate-Location
       requestBody:
         content:
           application/json:
@@ -2554,7 +2263,7 @@ paths:
 
   /boundaries/{boundary_id}:
     get:
-      summary: Get Boundary Details
+      summary: Retrieve details of a boundary defined for a pickup location’s service coverage area
       operationId: getBoundaryById
       description: |
          A boundary defines the service coverage area for a pickup location, illustrating the in-service and out-of-service zones for deliveries. The hierarchy is structured as follows: Account -> Business -> Brand -> Pickup Location -> Order.
@@ -2562,19 +2271,8 @@ paths:
 
          Each boundary can include a coverage map represented by polygons, radius, postal codes, or specific addresses. Multiple boundaries can be added to a single location. Optional tags can also be added to a boundary to assist with order orchestration. Boundaries are used in Delivery Availability (DA) checks and order creation to verify service coverage for a given location.
       tags: 
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Boundary
       parameters: 
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: boundary_id
           in: path
           required: true
@@ -2830,20 +2528,9 @@ paths:
       summary: Edit Boundary
       description: Use this API to edit a boundary defined for a pickup location.
       tags: 
-        -  Location Management
+        -  Boundary
       operationId: editBoundaryUsingBoundaryId
-      security:
-        - OAuth2ClientCredentials: []
       parameters: 
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: boundary_id
           in: path
           required: true
@@ -3036,20 +2723,9 @@ paths:
       summary: Delete Boundary
       description: Use this API to remove a boundary associated with a pickup location.
       tags: 
-        -  Location Management
+        -  Boundary
       operationId: deleteBoundaryUsingBoundaryId
-      security:
-        - OAuth2ClientCredentials: []
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: boundary_id
           in: path
           required: true
@@ -3187,19 +2863,8 @@ paths:
         Use this API to list all the boundaries that are defined for the provided pickup locations.
       operationId: getListOfBoundaries
       tags: 
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
+        - Boundary
       parameters: 
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: location_external_ids
           in: query
           required: false
@@ -3354,7 +3019,7 @@ paths:
                     message: Invalid token or token is not present.
     
     post:
-      summary: Create Boundaries
+      summary: Create Boundary
       description: |
           Use this API to include an In-Service or an Out-of-Service coverage area for a location
 
@@ -3367,19 +3032,7 @@ paths:
           e. driving distance - provide a driving distance in miles
       operationId: createBoundary
       tags:
-        - Location Management
-      security:
-        - OAuth2ClientCredentials: []
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
+        - Boundary
       requestBody:
         required: true
         content:
@@ -3771,7 +3424,7 @@ components:
         description:
           type: string
           description: description for location
-          maxLength: 10000
+          maxLength: 1000
         locationExternalId:
           type: string
           maxLength: 100
@@ -3818,6 +3471,11 @@ components:
           description: Identifiers that can be used for finding and sorting relevant information.
           items:
             type: string
+        additionalContacts:
+          type: array
+          description: Additional contact details for a location
+          items:
+            $ref: '#/components/schemas/Contact'                      
 
     LocationPutRequest:
       type: object
@@ -3876,6 +3534,11 @@ components:
           description: Identifiers that can be used for finding and sorting relevant information.
           items:
             type: string
+        additionalContacts:
+          type: array
+          description: Additional contact details for a location
+          items:
+            $ref: '#/components/schemas/Contact'                   
         
     Address:
       type: object
@@ -4050,6 +3713,11 @@ components:
           items:
             type: string
             example: "big&bulky"
+        additionalContacts:
+          type: array
+          description: Additional contact details for a location
+          items:
+            $ref: '#/components/schemas/Contact'                     
 
     Boundary:
       type: object 

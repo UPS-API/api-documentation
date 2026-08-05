@@ -1,126 +1,27 @@
 openapi: 3.1.0
 
 info:
-  title: Eligibility API
-  version: '1.0'
+  title: Eligibility API v1
+  version: '1.1'
   description: |
+    The Eligibility API provides tools to enhance logistics operations, including delivery coverage checks,
+    smart window configurations, and address confidence scoring. It is designed to integrate seamlessly
+    with various provider services and supports customizable orchestration rules for tailored responses.
 
-
-
-    # Product Info
-
-    The Eligibility API provides tools to enhance logistics operations, including delivery coverage checks, smart window configurations, and address confidence scoring. It is designed to integrate seamlessly with various provider services and supports customizable orchestration rules for tailored responses.
-    
-
-    # Business Values
-
-    - **Delivery Assurance**:  - determines if a customer's address is covered by any locations as well as provides available fulfillment methods that the customer is eligible for.
-    - **Smart Windows**:  - returns available windows that take into account store timings as well as pick and pack time so that a customer can select their preferred window.
-    - **Address Confidence**:  - This provides a confidence score for a specified drop-off address in the ability to deliver an order. This allows a business to determine if they will deliver there or may need to require insurance for the order.
-
-    # FAQs   
-
-    - **Should I use the customers full address or can I just use the zip code in the Delivery Coverage request?**
-    >  The more address information you provide, the more accurate the response is — so the full address will be the most accurate.
-    
-    > If you are using the full address, you can turn on caching in the business settings.
-    
-     - **What if I use only the zip code in the Delivery Coverage request?**
-    >  For a zip code only request, we find an address around the center of the zip code to use for the request. If the customers final address is on the far end of the zip code from the store, there is the potential the added distance means they are no longer in a serviceable boundary once the order is placed and dispatched.
-
-    - **How is the delivery coverage determined?**
-    >  The delivery coverage can be requested at the store boundary, DSP, or store boundary + DSP level.
-    
-    - **Can I retrieve the providers windows instead of the store windows with the Smart Windows call?**
-    >  Yes, you can use the "provider" option in the call to return the providers available windows.
-
-    - **How many days of windows can I retrieve?**
-    >  The API provides up to 7 days of time windows
-
-    - **Where can I configure my businesses windows?**
-    >  Time windows can be configured at the Business, Brand, or Location level.
-
-    - **Is a higher or lower confidence score better?**
-    >  The higher the confidence score, the more confidence we have in the delivery of the order. So the higher the score the better.
-    
-    # Error Codes
-
-    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
-
-    Successful response may or may not include warnings.
-
-    1. **Without warnings** - Indicates the request has been processed as anticipated.
-    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
-
-    The severity of an error may be transient or hard.
-      
-    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
-    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
-
-    ---
-
-    ## /smart-windows
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: No such locationExternalId exist or other invalid values in the request |
-    |  NOT_FOUND             |    404    |  Hard    | Resource Not Found: Location Timings Not found  |
-    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
-
-    ---
-
-    ### /coverage/{services}
-
-    ### POST
-    | Type                      | HTTP Code | Severity   | Description                                                                 |
-    |---------------------------|-----------|------------|-----------------------------------------------------------------------------|
-    | UNAUTHORIZED              |    401    |  Hard      | Unauthorized: Invalid or missing authentication token                      |
-    | INTERNAL_SERVER_ERROR     |    500    | Transient  | Internal Server Error: An unexpected error occurred while processing the request |
-    | INVALID_DATA              |    400    |  Hard      | Invalid Data: Delivery Address Not Provided or other invalid values in the request |
-    | VALIDATION_ERROR          |    400    |  Hard      | Field validation failed as per the expected input.                         |
-    | NO_PROVIDER_ASSIGNED      |    422    |  Hard      | No Provider has been assigned to the mentioned location.                   |
-    | NO_PROVIDER_MATCHED       |    422    |  Hard      | No Provider matched the criteria for the requested delivery.               |
-    | GEOCODING_FAILED          |    422    |  Hard      | Geocoding Service for the given address failed.                            |
-    | TOO_MANY_REQUESTS         |    429    | Transient  | Too many requests received per second.                                     |
-    | UNMAPPED_ERROR            |    422    | Transient  | Request received unidentifiable error response.                            |
-
-    ---
-
-    ### /confidence-score/{logistics_type}
-
-    ### POST
-    | Type                      | HTTP Code | Severity   | Description                                                                 |
-    |---------------------------|-----------|------------|-----------------------------------------------------------------------------|
-    | UNAUTHORIZED              |    401    |  Hard      | Unauthorized: Invalid or missing authentication token                      |
-    | INTERNAL_SERVER_ERROR     |    500    | Transient  | Internal Server Error: An unexpected error occurred while processing the request |
-    | INVALID_DATA              |    400    |  Hard      | Invalid Data: Delivery Address Not Provided or other invalid values in the request |
-    | VALIDATION_ERROR          |    400    |  Hard      | Field validation failed as per the expected input.                         |
-    | NO_PROVIDER_ASSIGNED      |    422    |  Hard      | No Provider has been assigned to the mentioned location.                   |
-    | NO_PROVIDER_MATCHED       |    422    |  Hard      | No Provider matched the criteria for the requested delivery.               |
-    | GEOCODING_FAILED          |    422    |  Hard      | Geocoding Service for the given address failed.                            |
-    | TOO_MANY_REQUESTS         |    429    | Transient  | Too many requests received per second.                                     |
-    | UNMAPPED_ERROR            |    422    | Transient  | Request received unidentifiable error response.                            |
-
+    **Key Business Values**
+    - Enables accurate delivery coverage checks across locations and providers.
+    - Supports flexible scheduling through smart window configuration for pickup, delivery, and returns.
+    - Improves address quality and fulfillment confidence with address confidence scoring.
+    - Helps businesses optimize logistics workflows through configurable orchestration and provider integrations.
 
 servers:
-  - url: https://api.lynkup.com/eligibility/{version}
+  - url: https://api.lynkup.com/api/eligibility/{version}
     description: Integration hub Production OAuth.
     variables:
       version:
        default: v1
        enum:
          - v1
-  - url: 'https://sanbox.api.lynkup.com/eligibility/{version}'
-    description: Integration hub Sandbox Production OAuth.
-    variables:
-      version:
-       default: v1
-       enum:
-          - v1
 
 tags:
   - name: "Delivery-Coverage"
@@ -135,7 +36,7 @@ security:
 paths:
   /smart-windows: 
     post:
-      summary: Retrieve Available Time Windows
+      summary: Retrieve available pick-up or delivery time windows for a specific location, with optional filtering by provider.
       description: |
         The Smart Windows API allows customers to view configurable time windows for pick-up or delivery based on the specified category, date, and location. This API supports configurations for pick-and-pack lead times, packing times, and associated capacities and costs.
         Time windows can be configured at the Business, Brand, or Location level, and the API provides up to 7 days of time windows. Optionally, the request can include a provider name to retrieve provider-specific time windows. Note that location timings must be configured before retrieving provider-specific windows.
@@ -149,19 +50,7 @@ paths:
 
       operationId: getSmartWindows
       tags:
-        - Eligibility
-      security:
-        - OAuth2ClientCredentials: []
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
+        - Smart-Windows
       requestBody:
         content:
           application/json:
@@ -617,7 +506,7 @@ paths:
                 $ref: '#/components/schemas/UPSErrorResponse'
               example:
                 response:
-                  errors:
+                 errors:
                   - code: UJ0001
                     message: Invalid token or token is not present.
       deprecated: false
@@ -626,27 +515,16 @@ paths:
     post:
       summary: "Check Coverage Eligibility"
       tags:
-        - Eligibility
+        - Delivery-Coverage
       description: |
         This endpoint verifies delivery coverage for the requested services. The available services include:
-          - **Location Coverage**: Determines if the delivery address falls within the coverage area of any location and returns a list of locations that can service the address.
+         - **Location Coverage**: Determines if the delivery address falls within the coverage area of any location and returns a list of locations that can service the address.
 
-          - **Provider Coverage**: Checks if at least one provider associated with a location offers delivery coverage.
+         - **Provider Coverage**: Checks if at least one provider associated with a location offers delivery coverage.
 
-          - **Location + Provider Coverage**: Provides a combined check for both location and provider coverage.
+         - **Location + Provider Coverage**: Provides a combined check for both location and provider coverage.
       operationId: "checkCoverage"
-      security:
-        - OAuth2ClientCredentials: []
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: services
           in: path
           required: true
@@ -657,7 +535,6 @@ paths:
               - provider-coverage
               - location-coverage
               - location-provider-coverage
-
       requestBody:
         required: true
         content:
@@ -740,6 +617,17 @@ paths:
                     countryCode: "US"
                   matchLocationTags:
                     - "heavy"
+              ShowFulfillmentOptionsAndBoundaries:
+                summary: "Location coverage with fulfillment options and boundaries"
+                value:
+                  deliveryAddress:
+                    street1: "5718 Ellsworth Ave"
+                    city: "Dallas"
+                    state: "Texas"
+                    postalCode: "75206"
+                    countryCode: "US"
+                  showFulfillmentOptions: true
+                  showBoundaries: true
       responses:
         '200':
           description: "Request was successful"
@@ -842,6 +730,22 @@ paths:
                       locations:
                         - "LTAGS"
                       errors: []
+                ShowFulfillmentOptionsAndBoundaries:
+                  summary: "Location coverage with fulfillment options and boundaries"
+                  value:
+                    locationCoverage:
+                      locations:
+                        - "100983"
+                      fulfillments:
+                        - locationExternalId: "100983"
+                          provider: "DoorDash"
+                          serviceType: "same_day"
+                      boundaries:
+                        - locationExternalId: "100983"
+                          name: "75206"
+                          tags:
+                            - "75206"
+                          selected: true
         '400':
           description: "Bad Request"
           headers: 
@@ -932,22 +836,11 @@ paths:
     post:
       summary: "Check Confidence Score"
       tags:
-        - Eligibility
+        - Address-Confidence
       description: |
         This endpoint provides a confidence score for a specified drop-off address. The `logistics_type` parameter specifies the type of logistics (e.g., forward).
       operationId: "checkConfidenceScore"
-      security:
-        - OAuth2ClientCredentials: []
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: logistics_type
           in: path
           required: true
@@ -993,8 +886,8 @@ paths:
                       isResidential: true
         '204':
           description: |
-              No confidence score is available. The request was processed successfully, 
-              but no content is available to return due to insufficient historical data.
+             No confidence score is available. The request was processed successfully, 
+             but no content is available to return due to insufficient historical data.
           content:
             application/json:
               schema:
@@ -1150,13 +1043,33 @@ components:
             - AU
             - IE
         latitude:
+          description: The angular distance of a place north (+) or south (-) of the earth's equator as per ISO 6709 standards.
           anyOf: 
-            -  type: 'number'
-            -  type: 'null'
+            - type: number
+              format: double
+              minLength: 1
+              maxLength: 10
+              minimum: -90.000000
+              maximum: 90.000000
+              example: 33.943497
+            - type: 'null'
         longitude:
           type: number
           format: double
-          description: Longitude coordinates of the address
+          description: The angular distance of a place east (+) or west (-) of the Greenwich (prime) meridian as per ISO 6709 standards.
+          minLength: 1
+          maxLength: 12
+          minimum: -180.0000000
+          maximum: 180.0000000
+          example: -84.3595029
+      example:
+        street1: "5718 Ellsworth Ave"
+        city: "Dallas"
+        state: "Texas"
+        postalCode: "75206"
+        countryCode: "US"
+        latitude: 32.714354
+        longitude: -96.715788
     ConfidenceScoreAddress:
       type: object
       description: Address of the location
@@ -1201,14 +1114,89 @@ components:
             - AU
             - IE
         latitude:
+          description: The angular distance of a place north (+) or south (-) of the earth's equator as per ISO 6709 standards.
           anyOf: 
-            -  type: 'number'
+            -  type: number
+               format: double
+               minLength: 1
+               maxLength: 10
+               minimum: -90.000000
+               maximum: 90.000000
+               example: 33.943497
             -  type: 'null'
         longitude:
           type: number
           format: double
-          description: Longitude coordinates of the address
+          description: The angular distance of a place east (+) or west (-) of the Greenwich (prime) meridian as per ISO 6709 standards.
+          minLength: 1
+          maxLength: 12
+          minimum: -180.0000000
+          maximum: 180.0000000
+          example: -84.3595029
+      example:
+        street1: "37124 PARKWAY DR"
+        city: "BEAUMONT"
+        state: "CA"
+        postalCode: "92223"
+        countryCode: "US"
+        latitude: 33.943497
+        longitude: -84.359503
+    
+    FulfillmentOption:
+      type: object
+      description: "Fulfillment option supported by a location. Present only when showFulfillmentOptions is true."
+      properties:
+        locationExternalId:
+          type: string
+          example: "100983"
+        provider:
+          type: string
+          example: "DoorDash"
+        serviceType:
+          type: string
+          example: "same_day"
+      example:
+        locationExternalId: "100983"
+        provider: "DoorDash"
+        serviceType: "same_day"
 
+    Boundary:
+      type: object
+      description: "Store boundary polygon for a location. Present only when showBoundaries is true."
+      properties:
+        locationExternalId:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[a-zA-Z0-9_-]{1,100}$
+          example: "100983"
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[a-zA-Z0-9_-]{1,100}$
+          example: "75206"
+        tags:
+          type: array
+          minItems: 0
+          maxItems: 20
+          items:
+            type: string
+            minLength: 1
+            maxLength: 100
+            pattern: ^[a-zA-Z0-9_-]{1,100}$
+          example:
+            - "75206"
+        selected:
+          type: boolean
+          example: true
+      example:
+        locationExternalId: "100983"
+        name: "75206"
+        tags:
+          - "75206"
+        selected: true
+    
     DeliveryAssuranceRequest:
       type: object
       required:
@@ -1231,16 +1219,14 @@ components:
           items:
             type: string
         pickupTime:
-          oneOf: 
-            - type: object
+          oneOf:         
+            - $ref: "#/components/schemas/TimingWindow"
               description: "Check provider availability based on pickup time. If not provided, the system will use the appropriate time window. If pickupTime is *null* then it means that the package needs to be picked as soon as possible."
-              $ref: "#/components/schemas/TimingWindow"
-            - type: 'null'        
+            -  type: 'null'        
         deliveryTime:
-          oneOf: 
-            - type: object
+          oneOf:                           
+            - $ref: "#/components/schemas/TimingWindow"
               description: "Check provider availability based on drop-off time. If not provided, the system will use the appropriate time window. If delivery time is *null* then it means that the package needs to be dropped off as soon as possible after the pickup."
-              $ref: "#/components/schemas/TimingWindow"
             - type: 'null'         
         sortByDistance:
           type: boolean
@@ -1262,6 +1248,9 @@ components:
         showFulfillmentOptions:
           type: boolean
           description: "When true, it returns the order type and provider services supported by the location."
+        showBoundaries:
+          type: boolean
+          description: "When true, it returns the store boundary polygons for the matching locations."
         bypassCache:
           type: boolean
           description: "If caching is enabled in the business profile to reduce latency, customers can bypass the cache for this API by including bypassCache set to true in their request"
@@ -1270,7 +1259,17 @@ components:
           description: "All the locations matching at least one tag are returned. This is only available for the location-coverage and location-provider-coverage services."
           items:
             type: string
-
+      example:
+        locationExternalId: "100940"
+        deliveryAddress:
+          street1: "5718 Ellsworth Ave"
+          city: "Dallas"
+          state: "Texas"
+          postalCode: "75206"
+          countryCode: "US"
+        showFulfillmentOptions: true
+        showBoundaries: true
+ 
     DeliveryAssuranceConfidenceScoreRequest:
       type: object
       required:
@@ -1281,7 +1280,15 @@ components:
         bypassCache:
           type: boolean
           description: "If caching is enabled in the business profile to reduce latency, customers can bypass the cache for this API by including bypassCache set to true in their request"
-  
+      example:
+        deliveryAddress:
+          street1: "37124 PARKWAY DR"
+          city: "BEAUMONT"
+          state: "CA"
+          postalCode: "92223"
+          countryCode: "US"
+        bypassCache: false
+
     DeliveryAssuranceServiceResponse:
       type: object
       properties:
@@ -1297,6 +1304,16 @@ components:
               type: array
               items: 
                 $ref: "#/components/schemas/ErrorDetail"    
+            fulfillments:
+              type: array
+              description: "Returned only when showFulfillmentOptions is true in the request."
+              items:
+                $ref: "#/components/schemas/FulfillmentOption"
+            boundaries:
+              type: array
+              description: "Returned only when showBoundaries is true in the request."
+              items:
+                $ref: "#/components/schemas/Boundary"
         locationCoverage:
           type: object
           properties:
@@ -1320,6 +1337,20 @@ components:
                   unit:
                     type: string
                     example: "miles"    
+            errors:
+              type: array
+              items:
+                $ref: "#/components/schemas/ErrorDetail"
+            fulfillments:
+              type: array
+              description: "Returned only when showFulfillmentOptions is true in the request."
+              items:
+                $ref: "#/components/schemas/FulfillmentOption"
+            boundaries:
+              type: array
+              description: "Returned only when showBoundaries is true in the request."
+              items:
+                $ref: "#/components/schemas/Boundary"
         locationProviderCoverage:
           type: object
           properties:
@@ -1332,7 +1363,31 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ErrorDetail'
-
+            fulfillments:
+              type: array
+              description: "Returned only when showFulfillmentOptions is true in the request."
+              items:
+                $ref: "#/components/schemas/FulfillmentOption"
+            boundaries:
+              type: array
+              description: "Returned only when showBoundaries is true in the request."
+              items:
+                $ref: "#/components/schemas/Boundary"
+      example:
+        locationCoverage:
+          locations:
+            - "100983"
+          fulfillments:
+            - locationExternalId: "100983"
+              provider: "DoorDash"
+              serviceType: "same_day"
+          boundaries:
+            - locationExternalId: "100983"
+              name: "75206"
+              tags:
+                - "75206"
+              selected: true
+   
     DeliveryAssuranceConfidenceScoreResponse:
       type: object
       properties:
@@ -1360,6 +1415,17 @@ components:
                   type: array
                   items: 
                     $ref: "#/components/schemas/ErrorDetail"
+      example:
+        confidenceScore:
+          score:
+            addressScore: "972"
+          scoredAddress:
+            street1: "37124 PARKWAY DR"
+            city: "BEAUMONT"
+            state: "CA"
+            postalCode: "92223"
+            countryCode: "US"
+          isResidential: true
               
     TimingWindow:
       type: object
@@ -1376,6 +1442,9 @@ components:
               description: "End of the window. Unix time in milliseconds. (conditional)"
               format: int64
             - type: "null"
+      example:
+        startsAt: 1651277722000
+        endsAt: 1651288522000
 
     SmartWindowRequest:
       type: object
@@ -1394,11 +1463,15 @@ components:
             type: string
         startDate:
           type: string
-          format: date
           description: |
             Baseline date from which numberOfDays to be calculated. 
             [ISO 8601 Calendar Date](https://en.wikipedia.org/wiki/ISO_8601) 
-            (YYYY-MM-DD) as per location’s timezone. Defaults to current date.
+            (YYYY-MM-DD) as per location's timezone. Defaults to current date.
+          format: full-date
+          minLength: 10
+          maxLength: 10
+          pattern: ^(20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$
+          example: 2025-01-01
         numberOfDays:
           type: integer
           format: int32
@@ -1422,6 +1495,16 @@ components:
           description: Windows will be retrieved from the requested provider instead of matching windows configured at our end.
         options:
           $ref: '#/components/schemas/Options'
+      example:
+        locationExternalIds:
+          - "100983"
+        startDate: "2025-01-01"
+        numberOfDays: 2
+        types:
+          - delivery
+        categories:
+          - Prime
+        providerCheck: false
 
     Options:
       type: object
@@ -1431,6 +1514,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ItemForSmartWindows'
+      example:
+        itemList:
+          - quantity: 1
+            weight:
+              value: 1.5
+              unit: lb
     
     ItemForSmartWindows:
       type: object
@@ -1448,6 +1537,16 @@ components:
           $ref: '#/components/schemas/Size'
         weight:
           $ref: '#/components/schemas/Weight'
+      example:
+        quantity: 1
+        size:
+          height: 10
+          width: 8
+          length: 6
+          unit: in
+        weight:
+          value: 2.5
+          unit: lb
     
     Weight:
       type: object
@@ -1467,6 +1566,9 @@ components:
           enum: 
             - kg
             - lb
+      example:
+        value: 2.5
+        unit: lb
   
     Size:
       type: object
@@ -1498,8 +1600,13 @@ components:
           enum: 
             - cm
             - in
+      example:
+        height: 10
+        width: 8
+        length: 6
+        unit: in
             
-    
+   
     ErrorDetail:
       type: object
       required: 
@@ -1522,6 +1629,12 @@ components:
           type: 
             - string
             - 'null'
+      example:
+        type: "INVALID_DATA"
+        message: "Delivery Address not provided."
+        parameter: "deliveryAddress"
+        entityId: null
+        entity: null
 
     InvalidRequest:
       type: object
@@ -1536,12 +1649,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ErrorDetail'
+      example:
+        type: "INVALID_DATA"
+        message: "Delivery Address not provided."
+        errors:
+          - type: "INVALID_DATA"
+            message: "Delivery Address not provided."
+            parameter: "deliveryAddress"
+            entityId: null
+            entity: null
 
     UPSErrorResponse:
       type: object
       properties:
         response:
             $ref: '#/components/schemas/Response'
+      example:
+        response:
+          errors:
+            - code: "UJ0001"
+              message: "Invalid token or token is not present."
             
     Response:
       type: object
@@ -1551,6 +1678,10 @@ components:
             description: The error response containing any errors that occurred.
             items:
                 $ref: '#/components/schemas/ErrorMessage'
+      example:
+        errors:
+          - code: "UJ0001"
+            message: "Invalid token or token is not present."
     
     ErrorMessage:
       type: object
@@ -1564,4 +1695,6 @@ components:
           description: The error message.
           example: Locale is required. The Subscription request has been rejected.
       description: The error response containing any errors that occurred
-  
+      example:
+        code: "VSS300"
+        message: "Locale is required. The Subscription request has been rejected."
