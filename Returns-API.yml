@@ -3,75 +3,10 @@ openapi: 3.1.0
 info:
   title: Returns API v1
   version: '1.0'
-  description: | 
-    # Product Info
-
-    The **Returns API** enables customers to retrieve details of an existing return order. Designed to streamline the returns process, it allows businesses to access essential return order data seamlessly. 
+  description: |
+    The Returns API enables customers to retrieve details of an existing return order. 
     
-
-    # Business Values
-
-    - **Efficient Returns Retrieval**:  - Access comprehensive return order details in real-time, enabling seamless tracking and management of the returns process.
-
-    - **Integration Flexibility**: - Enhance operational workflows by integrating return order retrieval functionality directly into your platform, ensuring consistency and ease of access.
-
-
-    # How does it work once I am setup as a user?
-    Once set up as a user, you can retrieve details of an existing return order via the Returns API.
-    Simply use the `Get Return Request by ID` endpoint to fetch information for a specific return
-    request initiated through the returns portal.
-
-    # FAQs    
-    - **How are return orders initiated?**
-    > Return orders are initiated through our returns portal based on an existing order.
-      They cannot be created directly via the API.  
-
-    - **What details can I retrieve using the Returns API?**
-    >  The API provides comprehensive details about an existing return order, including
-      return status, associated order information, and customer details.
-
-    - **How is the returnRequestId generated?**
-    > The `returnRequestId` is generated during the creation of a return request in the returns
-      portal and shared via a webhook. It serves as the unique identifier for the return order in subsequent API calls.
-      
-    # Error Codes
-
-    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
-
-    Successful response may or may not include warnings.
-
-    1. **Without warnings** - Indicates the request has been processed as anticipated.
-    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
-
-    The severity of an error may be transient or hard.
-      
-    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
-    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
-
-    ---
-
-    ## /requests/{return_request_id}
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Bad Request: brandExternalId is invalid |
-    |  NOT_FOUND             |    404    |  Hard    | Not Found: Return request not found  |
-
-
-    ---
-
-    ## /requests/list
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Bad Request: brandExternalId is invalid |
-    
+    - Please note that return orders are initiated through our returns portal based on an existing order and cannot be initiated via API.
 servers:
   - url: https://api.lynkup.com/returns/{version}
     description: Integration hub Production OAuth.
@@ -80,16 +15,9 @@ servers:
        default: v1
        enum:
          - v1
-  - url: 'https://sanbox.api.lynkup.com/returns/{version}'
-    description: Integration hub Sandbox Production OAuth.
-    variables:
-      version:
-       default: v1
-       enum:
-          - v1
 
 tags: 
-  - name: Returns
+  - name: Return-Request
     description: |
        Endpoint for retrieving customer return requests.
 security:
@@ -103,19 +31,8 @@ paths:
           Retrieve the details of a specific return by its unique identifier.
       operationId: "getReturnRequestById"
       tags: 
-        -  Returns
-      security:
-        - OAuth2ClientCredentials: []
+        -  Return-Request
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "return_request_id"
           in: "path"
           description: "The unique identifier of the return, provided at the time of its creation"
@@ -659,7 +576,7 @@ components:
           type: "string"
           example: "Sunglasses"
           description: "Description of the item."
-          maxLength : 10000
+          maxLength : 1000
         itemAttributes:
           type: "object"
           description: "Custom item attributes."
@@ -783,7 +700,7 @@ components:
                 format: uri
                 example: "https://qa.files.deliverysolutions.co/dhavalbusiness/delivery-qrcode/UPS/2024-10/1ZXXXXXXXXXXXXXXXX-b2f9377e-847b-11ef-9234-9ff61e6f0a5e.png"
                 description: "Link to the QR code for the specific shipment."
-      
+    
     TimeWindow:
       type: object
       description: Delivery / Pickup Time of return request
@@ -798,7 +715,7 @@ components:
           format: double
           description: endsAt
           minimum: 0
- 
+            
     Weight:
       type: object
       description: Weight of an item

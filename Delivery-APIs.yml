@@ -1,9 +1,7 @@
 openapi: 3.1.0
-
 info:
   title: Delivery Order API v1
   version: '1.0'
-  
   description: |
     The **Delivery Order API** simplifies the creation and management of delivery orders across
      a wide network of providers. Tailored for retailers and businesses, this API provides a
@@ -16,7 +14,7 @@ info:
     and applies configurable orchestration rules to select the most appropriate provider, ensuring
     efficiency and a high level of customer satisfaction.
     
-    #Key Features:
+    **Key Features:**
     1. **Order Lifecycle Management**:  - Create and manage delivery orders with real-time order edits.
        Supports management across the orders' lifecycle, including pre-dispatched and dispatched statuses,
        to adapt to various workflows.
@@ -35,135 +33,10 @@ info:
     cutting-edge tools for enabling exceptional delivery experiences. By integrating this API into your
     eCommerce platform, you gain access to a global multi-carrier ecosystem, empowering you to offer
     flexible delivery options and maintain control over your brand experience.
-    
 
-																																																											 
-
-
-    # How does it work once I am setup as a user?
-    Once set up as a user, you can submit relevant order details to asynchronously place an order from the selected pickup location to the delivery address. By integrating this API into your eCommerce platform, you gain access to a global multi-carrier ecosystem. This enables you to offer flexible, reliable delivery options while maintaining control over your brand’s delivery experience.
-    
-    # FAQs   
-    - **What information does a Delivery Order contain?**
-    >  A **Delivery Order** contains all the critical details needed to execute a delivery, such as pickup and delivery addresses, contact information, and scheduling preferences. 
-
-    - **What happens when an order is submitted?**
-    >  When a delivery order request is submitted, the platform fetches delivery estimates from integrated providers and applies configurable orchestration rules to select the most appropriate provider, ensuring efficiency and a high level of customer satisfaction.
-
-    - **Pre-Dispatched vs Dispatched Status**
-    > Pre-Dispatched orders are present on the platform but have not yet been shared with a provider.  Dispatched orders have been assigned to a provider for fulfillment.
-    
-    # Error Codes
-
-    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
-
-    Successful response may or may not include warnings.
-
-    1. **Without warnings** - Indicates the request has been processed as anticipated.
-    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
-
-    The severity of an error may be transient or hard.
-      
-    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
-    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
-
-    ---
-
-    ## /deliveries
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  VALIDATION_ERROR      |    400    |  Hard    | Field validation failed locationExternalId is a required field or Delivery Address not provided or other invalid values in the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid Data: No such locationExternalId exists in our system. Please provide a valid locationExternalId. |
-    |  DUPLICATE_ID          |    422    |  Hard    | Resource with provided id already exists.                                  |
-    |  DUPLICATE_NAME        |    422    |  Hard    | Resource with provided name already exists.                                |
-    |  DUPLICATE_RESOURCE    |    422    |  Hard    | Resource already exists.                                                   |
-    |  NO_PROVIDER_ASSIGNED  |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
-    |  NO_PROVIDER_MATCHED   |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
-    |  PLACE_ORDER_FAILED    |    422    | Transient| Failed to place the requested order with the configured providers.         |
-    |  GEOCODING_FAILED      |    422    |  Hard    | Geocoding Service for the given address failed.                            |
-    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
-
-    ---
-
-    ### /deliveries/list
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    400    |  Hard    | Invalid Data: lastUpdatedAt date range cannot be greater than 30 days |
-
-    ---
-
-    ### /deliveries/{delivery_external_id}
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid Order Id |
-    |  NOT_FOUND             |    404    |  Hard    | Resource not found : Order with id, 1908241-0061, is not found. |
-
-
-    ### DELETE
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND                |    404    |  Hard    | Resource not found: Order with id, 19345234, is not found. |
-    |  CANCELLATION_NOT_ALLOWED |    403    | Hard     | Provider does not allow cancellation of orders.                            |
-    |  ORDER_CANCELLATION_FAILED|    422    |  Hard    | Provider failed to cancel order |
-    |  ORDER_ALREADY_CANCELED   |    409    |  Hard    | Requested order is already in Cancelled state.|
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
-
-
-    ### PUT
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA             |    400    |  Hard    | Invalid data: The value for the orderValue field is invalid or any other invalid value|
-    |  VALIDATION_ERROR         |    400    |  Hard    | Field validation failed: packages parameter cannot be changed post order dispatch or any other invalid value |
-    |  NOT_FOUND                |    404    |  Hard    | Resource not found: Order with id, 19345234, is not found |
-    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.  |
-    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery. |
-    |  GEOCODING_FAILED         |    422    |  Hard    | Geocoding Service for the given address failed.                            |
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
-
-
-    ### /deliveries/{delivery_external_id}/status-history
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-
-
-    ### /deliveries/{delivery_external_id}/retry
-
-    ### POST
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND                |    404    |  Hard    | Resource not found:  Order with id, 19345234, is not found. |
-    |  INVALID_DATA             |    422    |  Hard    | Order Id value is invalid |
-    |  INVALID_OPERATION        |    409    |  Hard    | The Order can no longer be retried |
-    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
-    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
-    |  PLACE_ORDER_FAILED       |    422    | Transient| Failed to place the requested order with the configured providers.         |
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                        
+    **Key Business Values**
+    -
+    -
 servers:
   - url: https://api.lynkup.com/delivery/{version}
     description: URL for OAuth based authentication that can be used for any environment (production, staging, product test) via hosts file.
@@ -173,23 +46,14 @@ servers:
         default: v1
         enum:
          - v1
-  - url: 'https://sandbox.api.lynkup.com/delivery/{version}'
-    description: Integration hub Sandbox Production OAuth.
-    variables:
-      version:
-       default: v1
-       enum:
-          - v1
-
 tags: 
-  - name: Delivery Order
+  - name: Delivery Management
     description:  |
       Endpoints for managing the lifecycle of delivery orders, including creation, updates, and
       cancellation. These APIs enable seamless integration with multiple delivery providers to
       streamline order orchestration.
 security:
   - OAuth2ClientCredentials: []
-
 paths:          
   /deliveries:
      post:
@@ -202,19 +66,7 @@ paths:
         are sent through Webhooks configured by the client.
       operationId: createDelivery
       tags: 
-        - Delivery Order
-			   
-									 
-				 
-					   
-				  
-							  
-						
-				 
-						
-					   
-				 
-					
+        - Delivery Management
       requestBody:
         required: true
         content:
@@ -226,6 +78,7 @@ paths:
                 value:
                   locationExternalId: "7709"
                   orderExternalId: 7709-001
+                  brandExternalId: "dummyaccount1"
                   orderValue: 10
                   tips: 2
                   deliveryContact:
@@ -272,6 +125,10 @@ paths:
                       title: Watch
                   pickupTime: null
                   deliveryTime: null
+                  dispatch: 
+                    type: "immediate"
+                    time: 1729027600000
+                    basedOn: "pickupTimeStartsAt"
       responses:
         "201":
           description: Resource Created
@@ -281,171 +138,13 @@ paths:
                 $ref: '#/components/schemas/LynkupDeliveryResponseV1'
               examples:
                 DeliveryResource:
-						 
-											  
-											   
-								  
-									
-								 
-											  
-							   
-									
-												  
-								 
-										 
-									
-								 
-										 
-									   
-										  
-										   
-							 
-									 
-									   
-							 
-									
-								   
-									
-									
-							   
-								   
-									
-													
-												  
-												   
-							 
-									
-								   
-							 
-								   
-								  
-								   
-									
-								
-								   
-									
-								
-									
-																																																															
-									  
-							   
-											 
-								 
-										   
-									   
-											 
-													
-								 
-									   
-								  
-								 
-											  
-								  
-													
-								 
-									
-										 
-									   
-								 
-										  
-											
-											  
-								   
-									
-													 
-							  
-							  
-							
-									 
-									   
-								  
-									 
-								
-								 
-								
-											 
-							  
-											
-										  
-							 
-									   
-										 
-									   
-								 
-									 
-													 
-							  
-												  
-								   
-										
-										   
-										 
-								   
-												   
-											  
-							  
-										  
-												
-										   
-										   
-									   
-									  
-			  
-																		   
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							 
-				  
-							 
-					 
                   $ref: '#/components/examples/DeliveryExample'
-					   
-					   
-						 
-						   
-											
-																															  
-													 
-											
-										
-										
-																														  
         "400":
           $ref: '#/components/responses/BadRequest'
         "401":
           $ref: '#/components/responses/Unauthorized'
         '422':
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							 
-				  
-							 
-					 
           $ref: '#/components/responses/UnprocessableEntity'  
-					   
-					   
-						 
-						   
-										  
-																								
-													 
-									  
-									
-										  
-															
         '500':
           $ref: '#/components/responses/ServerError'
       deprecated: false
@@ -461,7 +160,7 @@ paths:
         metadata in the response, without relying on webhooks for initial feedback.
       operationId: createDeliverySync
       tags: 
-        - Delivery Order
+        - Delivery Management
       requestBody:
         required: true
         content:
@@ -532,42 +231,13 @@ paths:
                   $ref: '#/components/examples/DeliveryExample'
         "400":
           $ref: '#/components/responses/BadRequest'
-						   
-											
-																							 
         "401":
           $ref: '#/components/responses/Unauthorized'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
         '500':
-													  
-					  
-							
-					
-																  
-					  
-							
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
           $ref: '#/components/responses/ServerError'
-					  
-						 
-						 
-								
-																   
       deprecated: false
-
   /deliveries/list:
     post:
       summary: List Deliveries
@@ -577,34 +247,17 @@ paths:
         last 24 hours will be returned.
 
         This API supports advanced filtering options such as:
-
         - **Time Filters**: Filter deliveries based on their `createdAt`, `pickupTime`, `deliveryTime`, or `lastUpdatedAt`.
-
         - **Identifiers**: Search by `orderExternalIds` or `locationExternalIds`.
-
         - **Statuses**: Retrieve deliveries based on their current status (e.g., `ORDER_DISPATCHED`, `ORDER_DELIVERED`, `ORDER_CANCELLED`).
         - **Pagination**: Use the `pagination` object to retrieve subsequent sets of results when dealing with large datasets.
-
-																																  
 
         The request body allows flexible and precise filtering, making it easy to tailor
         the response to your specific needs. The response will contain the requested delivery
         data, and if applicable, a `pagination` object to fetch additional results.
       operationId: listDeliveries
       tags: 
-        - Delivery Order
-			   
-									 
-				 
-					   
-				  
-							  
-						
-				 
-						
-					   
-				 
-					
+        - Delivery Management
       requestBody:
         required: true
         content:
@@ -643,34 +296,6 @@ paths:
                   pagination:
                     currentToken: NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA==
       responses:
-			  
-									
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							 
-				  
-							 
-					 
-														   
-					   
-												
-						 
-						   
-											
-																						  
-												
-									  
-									
-										
-																					  
         "200":
           description: Success
           content:
@@ -1348,63 +973,8 @@ paths:
         "401":
           $ref: '#/components/responses/Unauthorized'
         '500':
-											  
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
           $ref: '#/components/responses/ServerError'
-					   
-									  
-						
-																					
-												 
-						   
-											
-																							 
-			  
-								   
-				   
-						
-							
-													  
-					  
-							
-					
-																  
-					  
-							
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
-															 
-					  
-						 
-						 
-								
-																   
       deprecated: false
-  
   /deliveries/{delivery_id}:
     get:
       summary: Get Delivery
@@ -1415,33 +985,10 @@ paths:
         directly from the delivery provider and bypass the cache, set the `force_update` query parameter to `true`.
       operationId: getDeliveryByExternalid
       tags:
-        - Delivery Order
-			   
-									 
+        - Delivery Management
       parameters:
         - $ref: "#/components/parameters/DeliveryId"
         - $ref: "#/components/parameters/ForceUpdate"        
-							  
-						
-				 
-						
-					   
-				 
-					
-							 
-					
-																						 
-				 
-						  
-										
-											   
-						
-							  
-					 
-																																		  
-				 
-						   
-
       responses:
         "200":
           description: Success
@@ -1456,214 +1003,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/ResourceNotFound'
-									 
-								  
-						   
-								
-							   
-											 
-										   
-								 
-											 
-										   
-									
-										
-										 
-												   
-									
-															  
-								 
-									   
-								 
-										 
-									   
-							 
-									  
-							 
-								   
-								  
-								   
-									
-								
-								  
-									
-									   
-												   
-														  
-											
-									 
-									   
-							 
-								   
-								  
-								   
-									
-								
-								  
-									
-												  
-									 
-									   
-							 
-								   
-								  
-								   
-									
-								
-								  
-									
-												  
-																			   
-									
-									 
-										   
-											 
-								  
-										 
-											 
-								  
-								
-													
-								   
-																																																					
-																				  
-							  
-										  
-										 
-										   
-												 
-								
-								
-									   
-								  
-										 
-										   
-								  
-															  
-								 
-									   
-								 
-										 
-									   
-														   
-											 
-								   
-															 
-														 
         "422":
-																		   
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							 
-				  
-							 
-					   
-					   
-						 
-						  
-										   
-												  
-									  
-										
-									
-									   
-											  
-					 
           $ref: '#/components/responses/UnprocessableOrderId'
-			  
-											   
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							 
-				  
-							 
-					   
-					   
-						 
-						   
-										 
-																			
-									   
-									  
-									
-									 
-																		
-					 
-														   
         '500':
-											  
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
           $ref: '#/components/responses/ServerError'
-					   
-									  
-						
-																					
-												 
-						   
-											
-																							 
-			  
-								   
-				   
-						
-							
-													  
-					  
-							
-					
-																  
-					  
-							
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
-															 
-					  
-						 
-						 
-								
-																   
       deprecated: false
-	
     delete:
       summary: Cancel Delivery
       description: |
@@ -1672,31 +1016,11 @@ paths:
          the provider's system; however, the ability to cancel depends on the provider's
          stipulations. Ensure that the provided `delivery_id` matches the ID returned during
          order creation to successfully process the cancellation and update all relevant systems.   
-   
       operationId: cancelDeliveryByDeliveryId
       tags: 
-        -  Delivery Order
-			   
-									 
+        -  Delivery Management
       parameters:
         - $ref: "#/components/parameters/DeliveryId"
-				  
-							  
-						
-				 
-						
-					   
-				 
-					
-							 
-					
-																						 
-				 
-						  
-										
-											   
-						
-
       responses:
         "200":
           description: Success
@@ -1711,100 +1035,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/ResourceNotFound'
-										 
-									
-								   
-								   
-									   
-																																																										
-																																																																  
-									  
-							  
-							  
-									 
-									 
-										
-							
-								
-												
-											   
-								 
-									 
-						   
-									
-											
-											  
-							   
-									
-													 
-								 
-									
-								 
-									   
-										 
-										  
-											
-										 
-									  
-										
-								 
-										  
-											 
-							 
-									 
-									   
-							 
-								   
-								  
-								   
-									
-								
-								   
-									
-									   
-												  
-												   
-								
-																													 
-																							  
-							   
-											 
-								 
-										   
-									   
-											
-									   
-								  
-											
-											  
-								  
-										  
-								 
-									
-										 
-									   
-								 
-										 
-												   
-														 
-											 
-											 
-															 
-									   
-									  
         "422":
           description: "Processing failed as request contains invalid data"
           headers: 
             apierrorcode:
               $ref: "#/components/headers/apierrorcode"
-											   
-					  
-							 
             apierrormsg:
               $ref: "#/components/headers/apierrormsg"
-												   
-					  
-							 
           content:
             application/json:
               examples:
@@ -1820,47 +1057,13 @@ paths:
                         message: No delivery found within the allowed void period
               schema:
                 $ref: "#/components/schemas/InvalidRequest"
-			  
-											   
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							 
-				  
-							 
-					   
-					   
-						
-																				 
-									 
-						   
-										 
-																					 
-									   
-									  
-									
-					 
-														   
         "409":
           description: Conflict between the request and the current state of the resource
           headers: 
             apierrorcode:
               $ref: "#/components/headers/apierrorcode"
-											   
-					  
-							 
             apierrormsg:
               $ref: "#/components/headers/apierrormsg"
-												   
-					  
-							 
           content:
             application/json:
               examples:
@@ -1877,95 +1080,17 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidRequest"
         '500':
-											  
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
           $ref: '#/components/responses/ServerError'
-					   
-									  
-						
-																					
-												 
-						   
-											
-																							 
-			  
-								   
-				   
-						
-							
-													  
-					  
-							
-					
-																  
-					  
-							
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
-															 
-					  
-						 
-						 
-								
-																   
       deprecated: false
-
     put:
       summary: Edit Delivery
       description: Use this API to modify the details of the delivery after it has been placed in our system.
       operationId: editDeliveryByDeliveryId
       tags: 
-        -  Delivery Order
-			   
-									 
+        -  Delivery Management
       parameters:
         - $ref: "#/components/parameters/DeliveryId"
         - $ref: "#/components/parameters/ForceUpdate"
-							  
-						
-				 
-						
-					   
-				 
-					
-							 
-					
-																						 
-				 
-						  
-										
-											   
-						
-							  
-					 
-																												   
-				 
-						   
-
       requestBody:
         required: true
         content:
@@ -2005,6 +1130,10 @@ paths:
                       description: Package Description
                   orderExternalId: "19082413"
                   orderValue: 160.99
+                  dispatch: 
+                    type: "immediate"
+                    time: 1729027600000
+                    basedOn: "pickupTimeStartsAt"
       responses:
         "200":
           description: Success
@@ -2015,102 +1144,6 @@ paths:
               examples:
                 DeliveryResource:
                   $ref: '#/components/examples/DeliveryExample'
-													  
-													
-									
-															
-												 
-										 
-									  
-							   
-								   
-												 
-											   
-									 
-												 
-											   
-										
-											
-											 
-													   
-										
-																  
-									 
-										   
-									 
-											 
-										   
-								 
-										  
-								 
-									   
-									  
-									   
-										
-									
-									  
-										
-										   
-													   
-															  
-												
-										 
-										   
-								 
-									   
-									  
-									   
-										
-									
-									  
-										
-													  
-										 
-										   
-								 
-									   
-									  
-									   
-										
-									
-									  
-										
-													  
-																				   
-										
-										 
-											   
-												 
-											 
-												 
-									
-									   
-																																																						  
-																					   
-														
-								  
-											  
-											 
-											   
-													 
-								   
-									
-										   
-									  
-											 
-											   
-									  
-																  
-									 
-										   
-									 
-											 
-										   
-															   
-												 
-									   
-																 
-															 
         "400":
           description: Bad Request
           headers: 
@@ -2119,34 +1152,12 @@ paths:
             apierrormsg:
               $ref: "#/components/headers/apierrormsg"
           content:
-							
-							  
-													 
-						
-							   
-					
             application/json:
               schema:
                 $ref: "#/components/schemas/InvalidRequest"
               examples:
                 Value of the field passed in the request is invalid:
-						  
-							 
-											  
-																				   
-										  
-																				
-				
-											  
-					
-							   
-					   
-															 
-						 
-						 
                   value:
-										
-																	   
                     errors:
                       - type: INVALID_DATA
                         message: The value for the orderValue field is invalid.
@@ -2154,106 +1165,13 @@ paths:
                     message: The value for the orderValue field is invalid.
         "401":
           $ref: '#/components/responses/Unauthorized'
-						  
-							 
-												   
-																					
-											
-										
-									  
-												   
-																					
-											   
-										
-									  
-											  
-															
         "404":
-												 
-					 
-							 
-							  
-												 
-						
-							   
-							
-							  
-													 
-						
-							   
-					
-							   
-					   
           $ref: '#/components/responses/ResourceNotFound'
-						 
-						 
-						  
-																	  
-									   
-							 
-										   
-																			
-										 
-										
-									  
         '422':
-												
-					 
-							 
-							  
-												 
-						
-							   
-							
-							  
-													 
-						
-							  
-					
-							   
-					   
           $ref: '#/components/responses/UnprocessableEntity'
         '500':
-										
-						  
-																					  
-												   
-							 
-											  
-																							   
-				
-									 
-					 
-						  
-							  
-														
-						
-							  
-					  
-																	
-						
-							  
-							 
-							  
-												 
-						
-							   
-							
-							  
-													 
-						
-							  
-					
-							   
-					   
           $ref: '#/components/responses/ServerError'
-						
-						   
-						   
-								  
-																	   
       deprecated: false
-
   /deliveries/{delivery_id}/status-history:
     get:
       summary: Get Delivery Status
@@ -2263,32 +1181,13 @@ paths:
           The status history provides a detailed chronological log of all status changes throughout the delivery lifecycle. Optionally, you can use the `is_unique` query parameter to retrieve only unique statuses.
       operationId: getDeliveryStatusByExternalId
       tags: 
-        -  Delivery Order
-			   
-									 
+        -  Delivery Management
       parameters:
         - $ref: "#/components/parameters/DeliveryId"
         - name: is_unique
           in: query
           description: Return only unique delivery status progressions (true or false).
-						
           schema:
-						
-					   
-				 
-					
-							 
-					
-																						 
-				 
-						  
-										
-											   
-						
-						   
-					 
-																						 
-				 
             type: boolean
             example: false
       responses:
@@ -2331,63 +1230,8 @@ paths:
         "401":
           $ref: '#/components/responses/Unauthorized'
         '500':
-											  
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
           $ref: '#/components/responses/ServerError'
-					   
-									  
-						
-																					
-												 
-						   
-											
-																							 
-			  
-								   
-				   
-						
-							
-													  
-					  
-							
-					
-																  
-					  
-							
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
-															 
-					  
-						 
-						 
-								
-																	   
       deprecated: false
-
   /deliveries/{delivery_id}/retry:
     post:
       summary: Retry Delivery
@@ -2398,27 +1242,9 @@ paths:
         corrections have been made, you can use this API to initiate the dispatch process again.
       operationId: retryDeliveryByDeliveryId
       tags:
-        - Delivery Order
-			   
-									 
+        - Delivery Management
       parameters:
         - $ref: "#/components/parameters/DeliveryId"
-				  
-							  
-						
-				 
-						
-					   
-				 
-					
-							 
-					
-						
-																						 
-				 
-						  
-										
-											   
       responses:
         "201":
           description: Success
@@ -2433,153 +1259,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/ResourceNotFound'
-										 
-										   
-								
-											
-										 
-											 
-								  
-										  
-									 
-										   
-								
-								 
-							  
-									 
-											
-									
-																						   
-																																																																
-																	  
-												  
-											  
-											   
-												
-										   
-									   
-									 
-								
-								 
-								
-																							
-									
-									  
-											  
-							 
-									
-							 
-								   
-								  
-								   
-									
-								
-								  
-									
-									   
-														
-												
-												 
-								  
-									   
-								 
-								  
-										 
-									 
-							   
-										 
-												   
-									
-												   
-								 
-								  
-							   
-										 
-									 
-										  
-											
-							  
-										 
-								 
-							   
-											 
-								  
-								 
-										   
-									
-									   
-									  
-															 
-														 
         "422":
-																		   
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							 
-				  
-							 
-					   
-					   
-						
-						   
-										  
-														  
-									   
-										  
-									 
-									  
-													  
-					 
           $ref: '#/components/responses/UnprocessableOrderId'
-			  
-											   
-				   
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							 
-				  
-							 
-					   
-					   
-						
-																   
-								   
-						   
-									   
-																	   
-									   
-									  
-									
-					 
-														   
         "409":
           description: Conflict between the request and the current state of the resource
           headers: 
             apierrorcode:
               $ref: "#/components/headers/apierrorcode"
-											   
-					  
-							 
             apierrormsg:
               $ref: "#/components/headers/apierrormsg"
-												   
-					  
-							 
           content:
             application/json:
               examples:
@@ -2602,7 +1290,7 @@ paths:
     put:
       summary: Update Delivery Status
       tags: 
-        -  Delivery Order
+        -  Delivery Management
       description: |
          Refine and manage the status of a delivery order manually, ensuring smooth workflow transitions
          and providing real-time updates to reflect the most current order status.
@@ -2627,44 +1315,13 @@ paths:
               examples:
                 DeliveryResource:
                   $ref: '#/components/examples/DeliveryExample'
-																					
-												 
-						   
-											
-																							 
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
           $ref: '#/components/responses/ResourceNotFound'
         '500':
-													  
-					  
-							
-					
-																  
-					  
-							
-						   
-							
-											   
-					  
-							 
-						  
-							
-												   
-					  
-							
-				  
-							 
-					 
           $ref: '#/components/responses/ServerError'
-					  
-						 
-						 
-								
-																   
       deprecated: false
-	  
 components:
   securitySchemes:
     OAuth2ClientCredentials:
@@ -2916,9 +1573,14 @@ components:
             salePrice: 3
             image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
             title: Watch
-        orderAttributes: {}
+        orderAttributes:
+          payment: 'Cash'
         tenantId: dummyaccount1
         currencyCode: USD
+        dispatch: 
+          type: "immediate"
+          time: 1729027600000
+          basedOn: "pickupTimeStartsAt"
         pickupContact:
           name: asd
           phone: +1 234-567-8900
@@ -2951,9 +1613,7 @@ components:
         pickupTime:
           startsAt: 1609513200000
           endsAt: 1609516800000
-        deliveryTime:
-          startsAt: 1609520400000
-          endsAt: 1609527600000
+        deliveryTime: null
         actualDeliveryTime: null
         actualPickupTime: null
         fee: null
@@ -2983,670 +1643,11 @@ components:
     #/deliveries
     #/deliveries-synchronous
     LynkupDeliveryRequestV1:
-			   
-				 
-					
-				 
-				
-					  
-																	 
-						
-				
-					  
-																			  
-						
-						
-					  
-										  
-					   
-			 
-					  
-						   
-						
-			  
-					  
-							
-						
-				   
-					  
-										  
-					   
-					
-					  
-																											
-					 
-				
-				
-				
-				
-				
-				
-				 
-					  
-						
-														  
-				  
-					  
-						
-														   
-
-			
-				  
-			   
-			  
-			   
-									   
-				 
-			 
-					  
-											
-			  
-					  
-												  
-			  
-					  
-												   
-  
-								
-				  
-				 
-							
-			   
-					
-					
-						 
-					 
-												  
-														  
-				  
-			   
-					
-					
-						 
-															  
-											  
-					
-			   
-					
-					
-						 
-																
-												
-				   
-			   
-					
-					
-						 
-																
-											   
-					
-			   
-					
-					
-						
-					 
-													  
-												 
-						  
-			   
-					
-					
-						
-					 
-												
-														
-						  
-			   
-					
-					
-						
-					 
-												
-												 
-				   
-			   
-					
-					
-						
-					 
-										
-												
-				  
-
-			 
-				  
-				 
-			 
-					  
-						
-										   
-			  
-					  
-						
-													
-			  
-					  
-					   
-												   
-					   
-					  
-						
-													   
-			   
-			  
-			   
-		  
-				
-				  
-				
-			   
-				  
-				 
-			 
-					  
-				
-					  
-				  
-				
-					
-					
-				 
-				
-					
-					
-			   
-				
-					
-					
-
-				   
-				  
-				 
-			 
-					  
-							   
-				
-					  
-									   
-			   
-					 
-				
-													
-
-		   
-				  
-									
-			   
-			   
-			  
-				 
-			  
-					  
-						
-							 
-					
-			  
-					  
-														 
-				
-				
-				
-
-		 
-				  
-										  
-			   
-				
-			   
-				
-			  
-				 
-			   
-					  
-						
-							 
-					
-			  
-					  
-						
-							
-					
-			   
-					  
-						
-							 
-					
-			  
-					  
-													   
-				
-				
-				
-			
-				 
-				  
-				 
-		   
-				
-							
-						  
-						
-														   
-			 
-				
-							
-						  
-						
-											 
-					
-				
-							
-						  
-						
-													 
-					
-				
-							
-						  
-						
-												 
-				  
-				
-							
-						  
-						
-														  
-			   
-			
-			  
-					 
-					 
-
-			   
       type: object
       properties:
-				 
-				
-						   
-																						  
-						   
-						  
-			   
-				
-						   
-																						
-						   
-						  
-
-			   
-				  
-				 
-			 
-					  
-						
-											   
-			
-					  
-					 
-											  
-			   
-			  
-			 
-	 
-		   
-				  
-				 
-			 
-					  
-						
-										   
-			  
-					  
-						 
-												  
-					
-					  
-					   
-												   
-						 
-					  
-						
-														   
-				 
-					  
-						
-														 
-			   
-			  
-	 
-			
-				  
-				 
-			 
-					  
-						
-											
-			  
-					  
-						
-											 
-			   
-					  
-						
-															
-			 
-					  
-						
-											
-					
-					  
-						 
-															  
-					
-					  
-						
-															  
-						  
-					  
-						
-															
-				  
-					  
-						
-														  
-	
-				  
-				  
-				 
-				 
-					  
-						
-													  
-					  
-					  
-						
-																	
-				 
-					  
-						   
-																					
-	
-					 
-				  
-				 
-			 
-					  
-						 
-													  
-				 
-					 
-				
-																
-																	  
-			   
-			  
-	
-							
-				  
-				 
-		   
-					  
-																			
-
-									 
-				  
-				 
-			 
-					  
-						
-													
-				
-											 
-				
-											  
-
-					  
-				  
-				 
-				
-					  
-						
-														
-				
-					  
-						
-													   
-					   
-					  
-						
-													  
-				  
-					  
-					
-																						  
-				  
-
-		  
-				  
-				 
-				   
-					  
-						
-															  
-			 
-					  
-						 
-													   
-				 
-					  
-						
-																   
-			
-					  
-						 
-																
-			 
-					  
-						
-													   
-					
-					  
-						 
-															   
-					 
-					  
-						 
-															   
-				  
-	
-				 
-				  
-				 
-				  
-						
-							 
-																		
-				 
-				
-							
-						  
-					  
-					 
-																		  
-				  
-				
-							
-						  
-					   
-					  
-																			
-				 
-				
-							 
-						  
-																			
-
-			   
-				   
-				  
-				   
-	
-		 
-				  
-														
-			   
-			 
-				 
-			
-					  
-																						  
-						
-			
-					  
-															
-						
-				 
-					  
-										 
-						
-				 
-					   
-					   
-												   
-					
-			 
-										   
-			   
-											 
-			  
-					  
-						
-												  
-					
-				  
-					  
-						
-												
-					
-			  
-					  
-															
-						
-			  
-					  
-										   
-						
-					
-					  
-												 
-						  
-					   
-					  
-												
-			 
-					 
-																	
-				
-						
-					 
-					  
-	
-			
-				  
-									
-			   
-			  
-				 
-			 
-					  
-																						   
-						   
-						
-					
-					  
-																		
-						  
-			 
-										   
-			   
-											 
-				 
-					   
-					   
-										   
-					
-					 
-					   
-					   
-															 
-					
-				 
-					 
-													   
-				
-											 
-						
-						   
-					  
-															   
-			   
-					
-						  
-				  
-					 
-				  
-				  
-				
-					 
-														   
-				
-						 
-				 
-					 
-					 
-					 
-				
-						
-				
-					  
-																			   
-						 
-						
-
-	
-				  
-				  
-				 
-			  
-					  
-						
-																  
         orderExternalId:
           type: string
           maxLength: 100
-															
-						   
-					  
-						
-														   
-						 
-					  
-						
-														  
-			
-					  
-						
-					  
-					
-															   
-				  
-	
-					
-				  
-				 
-						
-					  
-						
           description: "Identifier for the order generated in the client system"
         groupId:
           type: string
@@ -3654,14 +1655,14 @@ components:
           description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
         pickupTime:
           oneOf: 
-            - $ref: '#/components/schemas/TimeWindow' 
+            - $ref: '#/components/schemas/PickupTimeWindow' 
             - type: "null"
-          description: "Time window during which the package will be ready for pickup."
+          description: "Time window during which the package will be ready for pickup. startsAt is mandatory, endsAt is optional."
         deliveryTime:
           oneOf: 
-            - $ref: '#/components/schemas/TimeWindow' 
+            - $ref: '#/components/schemas/DeliveryTimeWindow' 
             - type: "null"
-          description: "Time window during which the package must be delivered."
+          description: "Time window during which the package must be delivered. endsAt is mandatory, startsAt is optional."
         locationExternalId:
           type: string
           maxLength: 100
@@ -3751,6 +1752,8 @@ components:
           minLength: 3
           maxLength: 3
           example: "USD"
+        dispatch:
+          $ref: '#/components/schemas/Dispatch'
         content:
           $ref: '#/components/schemas/Content'
         temperatureControl:
@@ -3795,10 +1798,10 @@ components:
           maxLength: 100
           description: "Unique tracking ID for monitoring delivery progress."
         pickupTime:
-          $ref: '#/components/schemas/TimeWindow'
+          $ref: '#/components/schemas/PickupTimeWindow'
           description: "Time window indicating when the package will be ready for pickup."
         deliveryTime:
-          $ref: '#/components/schemas/TimeWindow'
+          $ref: '#/components/schemas/DeliveryTimeWindow'
           description: "Time window indicating when the package is expected to be delivered."
         actualDeliveryTime:
           oneOf:
@@ -3970,7 +1973,6 @@ components:
             - type: "null"
           description: "Array of labels associated with the delivery (e.g., fragile, perishable)."
         referenceLinks:          
-																  
           description: "Reference links for the delivery, such as tracking URLs."
           type: object
           properties:
@@ -4285,6 +2287,8 @@ components:
           type: string
           maxLength: 3
           description: "Currency code following ISO 4217 standards (e.g., USD)."
+        dispatch:
+          $ref: '#/components/schemas/Dispatch'
         locale:
           type: string
           maxLength: 5
@@ -4349,7 +2353,7 @@ components:
                 - type: "null"
         deliveryTime:
           type: "object"
-          description: "Get all orders whose deliveryTime.endsAt is greater than or equal to the provided value. Only accepts startsAt from the Time Window. If pickupTime is present, deliveryTime.endsAt is required."
+          description: "Get all orders whose deliveryTime.endsAt is lesser than or equal to the provided value. Only accepts endsAt from the Time Window. If deliveryTime is present pickupTime.startsAt is required."
           properties:
             endsAt:
               oneOf:
@@ -4467,25 +2471,6 @@ components:
      
     #/deliveries/{delivery_id}
     LynkupDeliveryPutRequestV1:
-				 
-			   
-					  
-					
-													 
-					  
-				
-					  
-						
-																	
-								   
-			   
-					  
-						
-											   
-									
-				  
-  
-					   
       type: object
       properties:
         orderExternalId:
@@ -4498,14 +2483,14 @@ components:
           description: "Group ID to group a number of orders together"
         pickupTime:
           oneOf: 
-            - $ref: '#/components/schemas/TimeWindow' 
+            - $ref: '#/components/schemas/PickupTimeWindow' 
             - type: "null"
-          description: "Scheduled date and time for the drop-off"
+          description: "Scheduled date and time for the pickup. startsAt is mandatory, endsAt is optional."
         deliveryTime:
           oneOf: 
-            - $ref: '#/components/schemas/TimeWindow' 
+            - $ref: '#/components/schemas/DeliveryTimeWindow' 
             - type: "null"
-          description: "Scheduled date and time for the pickup"
+          description: "Scheduled date and time for the drop-off. endsAt is mandatory, startsAt is optional."
         locationExternalId:
           type: string
           maxLength: 100
@@ -4585,6 +2570,8 @@ components:
           $ref: '#/components/schemas/Content'
         temperatureControl:
           $ref: '#/components/schemas/TemperatureControl'
+        dispatch:
+          $ref: '#/components/schemas/Dispatch'
     
     #/deliveries/{delivery_id}/status
     LynkupDeliveryStatusRequestV1:
@@ -4753,7 +2740,43 @@ components:
             - type: integer
               description: "End of the window. Unix time in milliseconds. (conditional)"
               format: int64
-            - type: "null"    
+            - type: "null"
+    DeliveryTimeWindow:
+      type: object
+      description: Time window for delivery with mandatory endsAt
+      required:
+        - endsAt
+      properties:
+        startsAt:
+          type: 
+            - integer
+            - "null"
+          description: Start of the delivery window. Unix time in milliseconds.
+          format: int64
+          example: 1649253600000
+        endsAt:
+          type: integer
+          description: End of the delivery window. Unix time in milliseconds.
+          format: int64
+          example: 1649268000000
+    PickupTimeWindow:
+      type: object
+      description: Time window for pickup with mandatory startsAt
+      required:
+        - startsAt
+      properties:
+        startsAt:
+          type: integer
+          description: Start of the pickup window. Unix time in milliseconds.
+          format: int64
+          example: 1649253600000
+        endsAt:
+          type: 
+            - integer
+            - "null"
+          description: End of the pickup window. Unix time in milliseconds.
+          format: int64
+          example: 1649268000000
     ProposedProvider:
       type: object
       properties:
@@ -4940,6 +2963,30 @@ components:
         - tobacco
         - rx
         - perishable
+    Dispatch:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 100
+          description: "Type of dispatch"
+          enum:
+            - immediate
+            - scheduled
+            - manual
+          example: "immediate"
+        time:
+          type: number
+          minimum: 0
+          maximum: 8640000000000000
+          description: "Time for the dispatch in milliseconds"
+          example: 100
+        basedOn:
+          type: string
+          maxLength: 100
+          description: "Basis for the dispatch time"
+          example: "pickupTimeStartsAt"
+      required: []
     TemperatureControl:
       type: string
       enum:
@@ -4990,7 +3037,6 @@ components:
       properties:
         response:
             $ref: '#/components/schemas/Response'
-	
     Response:
       type: object
       properties:
@@ -4999,7 +3045,6 @@ components:
             description: The error response containing any errors that occurred.
             items:
                 $ref: '#/components/schemas/ErrorMessage'
-	
     ErrorMessage:
       type: object
       properties:

@@ -6,136 +6,6 @@ info:
     Allows businesses to easily create shipments from their preferred location to the customer's address. 
     It helps streamline the order fulfillment process and keeps everyone informed with real-time Webhooks, 
     ensuring a smooth and reliable delivery experience.
-    
-    # Business Values
-
-    - **Order Lifecycle Management**:  - Effortlessly create and manage shipping orders with real-time editing capabilities. This API supports the complete order lifecycle, offering flexibility and adaptability to accommodate diverse workflows.
-
-    - **Multi-Provider Integration**: - Efficiently retrieve and evaluate shipping estimates from a global network of providers, dynamically selecting the best-fit provider through customizable orchestration rules to optimize efficiency and elevate customer satisfaction.
-
-    - **Tracking and Status Updates**: - Track shipping orders throughout their entire lifecycle with real-time visibility. Receive instant updates through configurable webhooks and alerts, ensuring transparency and proactive monitoring.
-
-
-    # How does it work once I am setup as a user?
-    After onboarding as a user, seamlessly integrate this API into your eCommerce or operations platform. Simply submit order details to asynchronously create a shipping order, generate a shipping label via the API, and initiate the delivery process. This integration connects you to a global network of delivery providers, offering flexible, reliable, and efficient shipping solutions customized to align with your brand’s unique requirements.
-
-    # FAQs    
-    - **What information does a Shipping Order contain?**
-    >  A **Shipping Order** encompasses all the essential details required to facilitate shipment, including the shipping origin and destination addresses, recipient contact information, and shipping schedules or preferences. 
-
-    - **What happens when an order is submitted?**
-    >  When a shipping order request is submitted, the platform retrieves shipping estimates from integrated providers and leverages customizable orchestration rules to select the most suitable provider, optimizing efficiency and enhancing customer satisfaction.
-
-    # Error Codes
-
-    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
-
-    Successful response may or may not include warnings.
-
-    1. **Without warnings** - Indicates the request has been processed as anticipated.
-    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
-
-    The severity of an error may be transient or hard.
-      
-    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
-    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
-
-    ---
-
-    ## /shipments
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  VALIDATION_ERROR      |    400    |  Hard    | Invalid Data: locationExternalId is a required field or Delivery Address not provided or other invalid values in the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid Data: No such locationExternalId exists in our system. Please provide a valid locationExternalId. |
-    |  DUPLICATE_ID          |    422    |  Hard    | Resource with provided id already exists.                                  |
-    |  DUPLICATE_NAME        |    422    |  Hard    | Resource with provided name already exists.                                |
-    |  DUPLICATE_RESOURCE    |    422    |  Hard    | Resource already exists.                                                   |
-    |  NO_PROVIDER_ASSIGNED  |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
-    |  NO_PROVIDER_MATCHED   |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
-    |  PLACE_ORDER_FAILED    |    422    | Transient| Failed to place the requested order with the configured providers.         |
-    |  GEOCODING_FAILED      |    422    |  Hard    | Geocoding Service for the given address failed.                            |
-    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
-    ---
-
-    ### /shipments/list
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    400    |  Hard    | Invalid Data: lastUpdatedAt date range cannot be greater than 30 days |
-
-    ---
-
-    ### /shipments/{shipment_external_id}
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid Order Id |
-    |  NOT_FOUND             |    404    |  Hard    | Not Found: Order with id, 1908241-0061, is not found |
-
-
-    ### DELETE
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
-    |  CANCELLATION_NOT_ALLOWED |    403    |  Hard    | Provider does not allow cancellation of orders.                            |
-    |  ORDER_CANCELLATION_FAILED|    422    |  Hard    | Provider failed to cancel order |
-    |  ORDER_ALREADY_CANCELED   |    409    |  Hard    | Requested order is already in Cancelled state.|
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
-
-    ### PUT
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA             |    400    |  Hard    | Invalid data: The value for the orderValue field is invalid or any other invalid value|
-    |  VALIDATION_ERROR         |    400    |  Hard    | packages parameter cannot be changed post order dispatch or any other invalid value |
-    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
-    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
-    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
-    |  PLACE_ORDER_FAILED       |    422    | Transient| Failed to place the requested order with the configured providers.         |
-    |  GEOCODING_FAILED         |    422    |  Hard    | Geocoding Service for the given address failed.                            |
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
-
-    ### /shipments/{shipment_external_id}/status-history
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-
-
-    ### /shipments/{shipment_external_id}/retry
-
-    ### POST
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
-    |  INVALID_DATA             |    422    |  Hard    | Order Id value is invalid |
-    |  INVALID_OPERATION        |    409    |  Hard    | The Order can no longer be retried |
-    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
-    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
-    |  PLACE_ORDER_FAILED       |    422    | Transient| Failed to place the requested order with the configured providers.         |
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
-
 servers:
   - url: https://api.lynkup.com/shipping/{version}
     description: URL for OAuth based authentication that can be used for any environment (production, staging, product test) via hosts file.
@@ -145,15 +15,8 @@ servers:
         default: v1
         enum:
          - v1
-  - url: 'https://sanbox.api.lynkup.com/shipping/{version}'
-    description: Integration hub Sandbox Production OAuth.
-    variables:
-      version:
-       default: v1
-       enum:
-          - v1
 tags: 
-  - name: Shipping Order
+  - name: Shipping Management
     description: Operations related to Shippment management.
 security:
   - OAuth2ClientCredentials: []
@@ -169,7 +32,7 @@ paths:
       security: 
         - OAuth2ClientCredentials: []
       tags: 
-        - Shipping Order
+        - Shipping Management
       requestBody:
         content:
           application/json:
@@ -177,115 +40,11 @@ paths:
               $ref: '#/components/schemas/ShipmentRequestV1'
             examples:
               Complete request with locationExternalId:
-                value:
-                  locationExternalId: "7709"
-                  orderExternalId: 7709-001
-                  orderValue: 10
-                  deliveryContact:
-                    name: asd
-                    phone: +1 234-567-8900
-                    email: ""
-                  deliveryAddress:
-                    street1: 725 Albany Street
-                    street2: ""
-                    city: Boston
-                    state: MA
-                    countryCode: US
-                    postalCode: "02118"
-                    latitude: 42.3346944
-                    longitude: -71.071818
-                    apartmentNumber: ""
-                  package:
-                    name: Solid
-                    size:
-                      length: 10
-                      width: 10
-                      height: 10
-                      unit: in
-                    weight: 
-                      value: 10
-                      unit: lb
-                    itemQuantity: 1
-                    description: bungii pack 1
-                  itemList:
-                    - sku: sku 1
-                      quantity: 1
-                      size:
-                        length: 3
-                        width: 2
-                        height: 2
-                        unit: in
-                      weight: 
-                        value: 10
-                        unit: lb
-                      price: 3
-                      salePrice: 3
-                      image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
-                      title: Watch
-                  pickupTime: null
-                  deliveryTime: null
+                $ref: '#/components/examples/ShipmentRequestExample1'
               Complete request with pickup:
-                value:
-                  orderExternalId: 7709-001
-                  orderValue: 10
-                  deliveryContact:
-                    name: asd
-                    phone: +1 234-567-8900
-                    email: ""
-                  deliveryAddress:
-                    street1: 725 Albany Street
-                    street2: ""
-                    city: Boston
-                    state: MA
-                    countryCode: US
-                    postalCode: "02118"
-                    latitude: 42.3346944
-                    longitude: -71.071818
-                    apartmentNumber: ""
-                  pickup:
-                    name: location 1
-                    address:
-                      street1: 11111 Research Blvd
-                      street2: ""
-                      city: Austin
-                      state: TX
-                      countryCode: US
-                      postalCode: "78759"
-                      latitude: 42.3346944
-                      longitude: -71.071818
-                      apartmentNumber: ""
-                    contact:
-                      name: John
-                      phone: "+12015557898"
-                  package:
-                    name: Solid
-                    size:
-                      length: 10
-                      width: 10
-                      height: 10
-                      unit: in
-                    weight: 
-                      value: 10
-                      unit: lb
-                    itemQuantity: 1
-                    description: bungii pack 1
-                  itemList:
-                    - sku: sku 1
-                      quantity: 1
-                      size:
-                        length: 3
-                        width: 2
-                        height: 2
-                        unit: in
-                      weight: 
-                        value: 10
-                        unit: lb
-                      price: 3
-                      salePrice: 3
-                      image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
-                      title: Watch
-                  pickupTime: null
-                  deliveryTime: null
+                $ref: '#/components/examples/ShipmentRequestExample2'
+              Complete request with brandExternalId:
+                $ref: '#/components/examples/ShipmentRequestExample3'
       responses:
         "201":
           description: "Resource is successfully created"
@@ -294,8 +53,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ShipmentResponseV1'
               examples:
-                DeliveryResource:
-                  $ref: '#/components/examples/DeliveryExample'
+                Result:
+                  $ref: '#/components/examples/ShipmentResponseExample'
         "400":
           $ref: '#/components/responses/BadRequest'  
         "401":
@@ -314,7 +73,7 @@ paths:
         User to rely on the Webhooks for status updates of a Shipment.
       operationId: createShipmentSync
       tags: 
-        - Shipping Order
+        - Shipping Management
       security: 
         - OAuth2ClientCredentials: []
       requestBody:
@@ -324,164 +83,11 @@ paths:
               $ref: '#/components/schemas/ShipmentRequestV1'
             examples:
               Complete request with locationExternalId:
-                value:
-                  locationExternalId: "7709"
-                  orderExternalId: 7709-001
-                  orderValue: 10
-                  deliveryContact:
-                    name: asd
-                    phone: +1 234-567-8900
-                    email: ""
-                  deliveryAddress:
-                    street1: 725 Albany Street
-                    street2: ""
-                    city: Boston
-                    state: MA
-                    countryCode: US
-                    postalCode: "02118"
-                    latitude: 42.3346944
-                    longitude: -71.071818
-                    apartmentNumber: ""
-                  package:
-                    name: Solid
-                    size:
-                      length: 10
-                      width: 10
-                      height: 10
-                      unit: in
-                    weight: 
-                      value: 10
-                      unit: lb
-                    itemQuantity: 1
-                    description: bungii pack 1
-                  itemList:
-                    - sku: sku 1
-                      quantity: 1
-                      size:
-                        length: 3
-                        width: 2
-                        height: 2
-                        unit: in
-                      weight: 
-                        value: 10
-                        unit: lb
-                      price: 3
-                      salePrice: 3
-                      image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
-                      title: Watch
-                  pickupTime: null
-                  deliveryTime: null
+                $ref: '#/components/examples/ShipmentRequestExample1'
               Complete request with pickup:
-                value:
-                  orderExternalId: 7709-001
-                  orderValue: 10
-                  deliveryContact:
-                    name: asd
-                    phone: +1 234-567-8900
-                    email: ""
-                  deliveryAddress:
-                    street1: 725 Albany Street
-                    street2: ""
-                    city: Boston
-                    state: MA
-                    countryCode: US
-                    postalCode: "02118"
-                    latitude: 42.3346944
-                    longitude: -71.071818
-                    apartmentNumber: ""
-                  pickup:
-                    name: location 1
-                    address:
-                      street1: 11111 Research Blvd
-                      street2: ""
-                      city: Austin
-                      state: TX
-                      countryCode: US
-                      postalCode: "78759"
-                      latitude: 42.3346944
-                      longitude: -71.071818
-                      apartmentNumber: ""
-                    contact:
-                      name: John
-                      phone: "+12015557898"
-                  package:
-                    name: Solid
-                    size:
-                      length: 10
-                      width: 10
-                      height: 10
-                      unit: in
-                    weight: 
-                      value: 10
-                      unit: lb
-                    itemQuantity: 1
-                    description: bungii pack 1
-                  itemList:
-                    - sku: sku 1
-                      quantity: 1
-                      size:
-                        length: 3
-                        width: 2
-                        height: 2
-                        unit: in
-                      weight: 
-                        value: 10
-                        unit: lb
-                      price: 3
-                      salePrice: 3
-                      image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
-                      title: Watch
-                  pickupTime: null
-                  deliveryTime: null
+                $ref: '#/components/examples/ShipmentRequestExample2'
               Complete request with brandExternalId:
-                value:
-                  locationExternalId: "7709"
-                  brandExternalId: dummyaccount1
-                  orderExternalId: 7709-001
-                  orderValue: 10
-                  deliveryContact:
-                    name: asd
-                    phone: +1 234-567-8900
-                    email: ""
-                  deliveryAddress:
-                    street1: 725 Albany Street
-                    street2: ""
-                    city: Boston
-                    state: MA
-                    countryCode: US
-                    postalCode: "02118"
-                    latitude: 42.3346944
-                    longitude: -71.071818
-                    apartmentNumber: ""
-                  package:
-                    name: Solid
-                    size:
-                      length: 10
-                      width: 10
-                      height: 10
-                      unit: in
-                    weight: 
-                      value: 10
-                      unit: lb
-                    itemQuantity: 1
-                    description: bungii pack 1
-                  itemList:
-                    - sku: sku 1
-                      quantity: 1
-                      size:
-                        length: 3
-                        width: 2
-                        height: 2
-                        unit: in
-                      weight: 
-                        value: 10
-                        unit: lb
-                      price: 3
-                      salePrice: 3
-                      image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
-                      title: Watch
-                  pickupTime: null
-                  deliveryTime: null
+                $ref: '#/components/examples/ShipmentRequestExample3'
       responses:
         "201":
           description: "Resource is successfully created"
@@ -490,8 +96,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ShipmentResponseV1'
               examples:
-                DeliveryResource:
-                  $ref: '#/components/examples/DeliveryExample'
+                Result:
+                  $ref: '#/components/examples/ShipmentResponseExample'
         "400":
           $ref: '#/components/responses/BadRequest'
         "401":
@@ -509,7 +115,7 @@ paths:
         within the last 24 hours will be retrieved.
       operationId: listShipments
       tags: 
-        - Shipping Order
+        - Shipping Management
       security: 
         - OAuth2ClientCredentials: []
       requestBody:
@@ -1207,7 +813,7 @@ paths:
         in [Create Shipment](doc:create-shipment).
       operationId: getShipmentByExternalid
       tags:
-        - Shipping Order
+        - Shipping Management
       security: 
         - OAuth2ClientCredentials: []
       parameters:
@@ -1221,8 +827,8 @@ paths:
               schema:
                   $ref: "#/components/schemas/ShipmentResponseV1" 
               examples:
-                DeliveryResource:
-                  $ref: '#/components/examples/DeliveryExample'
+                Result:
+                  $ref: '#/components/examples/ShipmentResponseExample'
         "400":
           $ref: '#/components/responses/BadRequest'
         "401":
@@ -1237,7 +843,7 @@ paths:
       description: Use this API to cancel a shipment at both DS and at the Providers system using the shipment_id.
       operationId: cancelShipmentByShipmentexternalid
       tags: 
-        - Shipping Order
+        - Shipping Management
       security: 
         - OAuth2ClientCredentials: []
       parameters:
@@ -1250,8 +856,90 @@ paths:
               schema: 
                 $ref: "#/components/schemas/ShipmentResponseV1"
               examples:
-                DeliveryResource:
-                  $ref: '#/components/examples/DeliveryExample'
+                Successfully cancel an order:
+                  value:
+                    id: "62a9e3ce87f3c9df15080f00"
+                    estimatedDeliveryTime: 
+                      startsAt: null
+                      endsAt: null
+                    estimatedPickupTime: 
+                      startsAt: null
+                      endsAt : null
+                    referenceLinks:
+                      trackingUrl: null
+                      barcodeLink: "https://cdn.domain.com/dummyaccount1/barcodes/2022-6/165530107010862a9e3ce87f3c9df15080f00.png"
+                      labelLink: "https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=<ORDER_ID>&token=NjJhOWUzY2U4N2YzYzlkZjE1MDgwZjAw"
+                      qrcodeLink: null
+                    provider: 
+                      name: ""
+                      displayName: ""
+                      serviceId: null
+                      serviceType : null
+                      id: ""
+                    amount: null
+                    locationExternalId: "100983"
+                    orderExternalId: "15June11"
+                    groupId: null
+                    orderValue: 78.65
+                    deliveryContact:
+                      name: "Charlize Brian"
+                      phone: "+1 201-555-5555"
+                      email: ""
+                    deliveryAddress:
+                      street1: "5411 Mercedes Avenue"
+                      street2: ""
+                      city: "Dallas"
+                      state: "TX"
+                      countryCode: "US"
+                      postalCode: "75206"
+                      latitude: 32.8284237
+                      longitude: -96.7768713
+                      apartmentNumber: ""
+                    proposedProviders:
+                      - name: "DoorDash"
+                        services:
+                          - id: "delivery"
+                    signature: "not_required"
+                    package:
+                      name: "small"
+                      itemQuantity: 1
+                      size:
+                        length: 6
+                        width: 6
+                        height: 6
+                        unit: 'in'
+                      weight: 
+                        value: 10
+                        unit: 'lb'
+                      description: ""
+                      temperatureControl: "none"
+                      barcode: "1YT4V90308440011"
+                    itemList: []
+                    deliveryInstructions: "The dog may be playing in the yard. Please close the gate once you enter."
+                    pickupInstructions: "Enter from the staff entrance to pick up the package"
+                    pickupTime:
+                      startsAt: 1655301130075
+                    deliveryTime:
+                      endsAt: 1655301190075
+                    orderAttributes: {}
+                    brandExternalId: "devon"
+                    currencyCode: "USD"
+                    pickupContact:
+                      name: "Michele Parker"
+                      phone: "+1 201-555-0123"
+                    pickupAddress:
+                      street1: " The Mall"
+                      street2: ""
+                      city: "Dallas"
+                      postalCode: "75219"
+                      countryCode: "US"
+                      state: "TX"
+                      latitude: 32.814645
+                      longitude: -96.81982339999999
+                    createdAt: "2022-06-15T13:51:10.096Z"
+                    status: "ORDER_CANCELLED"
+                    tenantId: "dummyaccount1"
+                    lastUpdatedAt: "2022-06-15T13:52:03.524Z"
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -1306,7 +994,7 @@ paths:
       description: Use this API to modify the details of the Shipment after it has been placed in our system.
       operationId: editShipmentByShipmentexternalId
       tags:  
-        - Shipping Order
+        - Shipping Management
       security: 
         - OAuth2ClientCredentials: []
       parameters:
@@ -1357,8 +1045,81 @@ paths:
               schema: 
                 $ref: "#/components/schemas/ShipmentResponseV1"
               examples:
-                DeliveryResource:
-                  $ref: '#/components/examples/DeliveryExample'
+                Successful Edit responses:
+                     value:
+                        id: '5e1f1ef5167ab20010a74b94'
+                        brandExternalId: "Demobrand"
+                        itemList: []
+                        locationExternalId: 'NYClocation101'
+                        orderExternalId: '876581'
+                        groupId: 'group1'
+                        orderValue: 11
+                        pickupTime:
+                          startsAt: 1609513200000
+                          endsAt: 1609516800000
+                        deliveryTime:
+                          startsAt: 1609520400000
+                          endsAt: 1609527600000
+                        deliveryContact:
+                          name: 'Robert Wan'
+                          phone: '4344344344'
+                          email: 'nycustomer@email.com'
+                        deliveryAddress:
+                          street1: '8th 62nd Avenue, Times Square'
+                          street2: ''
+                          city: 'Manhattan'
+                          state: 'NY'
+                          postalCode: '10039'
+                          countryCode: 'US'
+                        package:
+                          name: 'custom'
+                          size:
+                            length: 2
+                            width: 2
+                            height: 2
+                            unit: 'in'
+                          weight: 
+                            value: 2
+                            unit: 'lb'
+                          itemQuantity: 1
+                          barcode: '1YT4V90308440011'
+                          temperatureControl: 'refrigerated'
+                          content: ['alcohol']
+                        deliveryInstructions: 'Some text for delivery instructions'
+                        orderAttributes:
+                          payment: 'Cash'
+                        estimatedDeliveryTime: 
+                          startsAt: 1598421638000
+                        estimatedPickupTime: 
+                          startsAt: 1598421538000
+                        label: null
+                        referenceLinks:
+                          labelLink: 'https://sandbox.api.deliverysolutions.co/api/v2/label?orderId=628f3ddf0a0a428480e89c80&token=NjI4ZjNkZGYwYTBhNDI4NDgwZTg5Yzgw'
+                          trackingUrl: 'https://postmates.com/track/del_MoMtkAakB1LDVk'
+                        trackingId: 'del_MoMtkAakB1LDVk'
+                        provider: 
+                          name: 'Point Pickup'
+                          serviceId: delivery
+                          serviceType: Delivery
+                          displayName: 'Point Pickup'
+                          id: '232'
+                        amount: 6.00
+                        currencyCode: 'USD'
+                        pickupContact:
+                          name: 'Peter Brown'
+                          phone: '432-234-2232'
+                        pickupAddress:
+                          street1: '7th 42nd Avenue, Times Square'
+                          street2: ''
+                          city: 'Manhattan'
+                          state: 'NY'
+                          postalCode: '10036'
+                          countryCode: 'US'
+                        pickupInstructions: 'Always be smiling'
+                        status: 'ORDER_CANCELLED'
+                        tenantId: 'NYC'
+                        lastUpdatedAt: '2020-01-15T14:17:26.099Z'
+                        createdAt: '2020-01-15T14:17:25.984Z'
         "400":
           $ref: '#/components/responses/BadRequest'
         "401":
@@ -1376,7 +1137,7 @@ paths:
       description: Use this API to retrieve the shipment status history with timestamp using the Shipment External Id.
       operationId: getShipmentStatusByExternalId
       tags: 
-        - Shipping Order
+        - Shipping Management
       security: 
         - OAuth2ClientCredentials: []
       parameters:
@@ -1433,7 +1194,7 @@ paths:
       description: Use this API to manually retry the place Shipment process again. This API is useful in a scenario where a Shipment fails with a provider due to some parameter value. This field can then be edited and Shipment dispatch can be retried.
       operationId: retryShipmentByShipmentExternalId
       tags:
-        - Shipping Order
+        - Shipping Management
       security: 
         - OAuth2ClientCredentials: []
       parameters:
@@ -1446,8 +1207,8 @@ paths:
               schema: 
                 $ref: "#/components/schemas/ShipmentResponseV1"
               examples:
-               DeliveryResource:
-                  $ref: '#/components/examples/DeliveryExample'
+                Result:
+                  $ref: '#/components/examples/ShipmentResponseExample'
         "400":
           $ref: '#/components/responses/BadRequest'
         "401":
@@ -1485,7 +1246,7 @@ paths:
          and providing real-time updates to reflect the most current order status.
       operationId: updateShippingStatus
       tags: 
-        - Shipping Order
+        - Shipping Management
       security: 
         - OAuth2ClientCredentials: []
       parameters:
@@ -1509,7 +1270,7 @@ paths:
                 $ref: "#/components/schemas/ShipmentResponseV1"
               examples:
                 DeliveryResource:
-                  $ref: '#/components/examples/DeliveryExample'
+                  $ref: '#/components/examples/ShipmentResponseExample'
         "401":
           $ref: '#/components/responses/Unauthorized'
         "404":
@@ -1695,8 +1456,8 @@ components:
                   - type: SERVER_ERROR
                     message: An unexpected error occurred while processing the request.
   examples:
-    DeliveryExample:
-      summary: Common example for synchronous and asynchronous delivery creation
+    ShipmentResponseExample:
+      summary: Consolidated response example for shipment operations
       value: 
         locationExternalId: "7709"
         orderExternalId: "7709-001"
@@ -1804,6 +1565,169 @@ components:
             phone: "+1 201-555-0123"
           name: "WareHouse 301"
         returnLocationId: "301"        
+    ShipmentRequestExample1:
+      summary: Complete request with locationExternalId
+      value:
+        locationExternalId: "7709"
+        orderExternalId: 7709-001
+        orderValue: 10
+        deliveryContact:
+          name: asd
+          phone: +1 234-567-8900
+          email: ""
+        deliveryAddress:
+          street1: 725 Albany Street
+          street2: ""
+          city: Boston
+          state: MA
+          countryCode: US
+          postalCode: "02118"
+          latitude: 42.3346944
+          longitude: -71.071818
+          apartmentNumber: ""
+        package:
+          name: Solid
+          size:
+            length: 10
+            width: 10
+            height: 10
+            unit: in
+          weight: 
+            value: 10
+            unit: lb
+          itemQuantity: 1
+          description: bungii pack 1
+        itemList:
+          - sku: sku 1
+            quantity: 1
+            size:
+              length: 3
+              width: 2
+              height: 2
+              unit: in
+            weight: 
+              value: 10
+              unit: lb
+            price: 3
+            salePrice: 3
+            image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
+            title: Watch
+        pickupTime: null
+        deliveryTime: null
+    ShipmentRequestExample2:
+      summary: Complete request with pickup
+      value:
+        orderExternalId: 7709-001
+        orderValue: 10
+        deliveryContact:
+          name: asd
+          phone: +1 234-567-8900
+          email: ""
+        deliveryAddress:
+          street1: 725 Albany Street
+          street2: ""
+          city: Boston
+          state: MA
+          countryCode: US
+          postalCode: "02118"
+          latitude: 42.3346944
+          longitude: -71.071818
+          apartmentNumber: ""
+        pickup:
+          name: location 1
+          address:
+            street1: 11111 Research Blvd
+            street2: ""
+            city: Austin
+            state: TX
+            countryCode: US
+            postalCode: "78759"
+            latitude: 42.3346944
+            longitude: -71.071818
+            apartmentNumber: ""
+          contact:
+            name: John
+            phone: "+12015557898"
+        package:
+          name: Solid
+          size:
+            length: 10
+            width: 10
+            height: 10
+            unit: in
+          weight: 
+            value: 10
+            unit: lb
+          itemQuantity: 1
+          description: bungii pack 1
+        itemList:
+          - sku: sku 1
+            quantity: 1
+            size:
+              length: 3
+              width: 2
+              height: 2
+              unit: in
+            weight: 
+              value: 10
+              unit: lb
+            price: 3
+            salePrice: 3
+            image: https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png
+            title: Watch
+        pickupTime: null
+        deliveryTime: null
+    ShipmentRequestExample3:
+      summary: Complete request with brandExternalId
+      value:
+        locationExternalId: "7709"
+        brandExternalId: "dummyaccount1"
+        orderExternalId: "7709-001"
+        orderValue: 10
+        deliveryContact:
+          name: "asd"
+          phone: "+1 234-567-8900"
+          email: ""
+        deliveryAddress:
+          street1: "725 Albany Street"
+          street2: ""
+          city: "Boston"
+          state: "MA"
+          countryCode: "US"
+          postalCode: "02118"
+          latitude: 42.3346944
+          longitude: -71.071818
+          apartmentNumber: ""
+        package:
+          name: "Solid"
+          size:
+            length: 10
+            width: 10
+            height: 10
+            unit: 'in'
+          weight: 
+            value: 10
+            unit: 'lb'
+          itemQuantity: 1
+          description: "bungii pack 1"
+        itemList:
+          - sku: "sku 1"
+            quantity: 1
+            size:
+              length: 3
+              width: 2
+              height: 2
+              unit: 'in'
+            weight: 
+              value: 10
+              unit: 'lb'
+            price: 3
+            salePrice: 3
+            image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png"
+            title: "Watch"
+        pickupTime: null
+        deliveryTime: null
+
   schemas:
     #/shipments/list
     ListShipmentsRequestV1:
@@ -1992,12 +1916,12 @@ components:
           description: "Group ID to group a number of orders together"
         pickupTime:
           oneOf: 
-            - $ref: '#/components/schemas/TimeWindow' 
+            - $ref: '#/components/schemas/PickupTimeWindow' 
             - type: "null"
           description: "Scheduled date and time for the drop-off"
         deliveryTime:
           oneOf: 
-            - $ref: '#/components/schemas/TimeWindow' 
+            - $ref: '#/components/schemas/DeliveryTimeWindow' 
             - type: "null"
           description: "Scheduled date and time for the pickup"
         locationExternalId:
@@ -2078,18 +2002,22 @@ components:
           type: string
           maxLength: 100
           description: "Identifier for the order generated in the client system"
+        brandExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the brand associated with the order."
         groupId:
           type: string
           maxLength: 100
           description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
         pickupTime:
           oneOf: 
-            - $ref: '#/components/schemas/TimeWindow' 
+            - $ref: '#/components/schemas/PickupTimeWindow' 
             - type: "null"
           description: "Time window during which the package will be ready for pickup."
         deliveryTime:
           oneOf: 
-            - $ref: '#/components/schemas/TimeWindow' 
+            - $ref: '#/components/schemas/DeliveryTimeWindow' 
             - type: "null"
           description: "Time window during which the package must be delivered."
         locationExternalId:
@@ -2168,48 +2096,7 @@ components:
             $ref: '#/components/schemas/ProposedProvider'
           description: "Overrides orchestration and places the order with specified providers."
         pickup:
-          type: object
-          required: 
-            -  name
-            -  address
-            -  contact
-          properties:
-            name:
-              type: string
-              maxLength: 100
-              description: "Name of the location"
-            locationExternalId:
-              type: string
-              maxLength: 100
-              description: "Unique external identifier for the location."
-            brandExternalId:
-              type: string
-              maxLength: 100
-              description: "Unique identifier for the brand associated with the order."
-            address:
-              $ref: '#/components/schemas/Address'
-              description: "Address where the package will be picked up."
-            pickupInstructions:
-              type: string
-              maxLength: 10000
-              description: "Pickup instructions for the location."
-            contact:
-              $ref: '#/components/schemas/Contact'
-              description: "Details of the contact person at the pickup location."
-            providers:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: "name of the provider"
-            providerAttributes:
-              type: object
-              additionalProperties:
-                oneOf: 
-                  -  type: string
-                  -  type: number
+          $ref: '#/components/schemas/Pickup'
           description: 'Details of the location to be specified in case locationExternalId is not provided in the request.'
       required:
         - orderExternalId
@@ -2699,6 +2586,49 @@ components:
         - lastUpdatedAt
 
     #COMMON
+    Pickup:
+      type: object
+      required: 
+        -  name
+        -  address
+        -  contact
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: "Name of the location"
+        locationExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique external identifier for the location."
+        brandExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the brand associated with the order."
+        address:
+          $ref: '#/components/schemas/Address'
+          description: "Address where the package will be picked up."
+        pickupInstructions:
+          type: string
+          maxLength: 10000
+          description: "Pickup instructions for the location."
+        contact:
+          $ref: '#/components/schemas/Contact'
+          description: "Details of the contact person at the pickup location."
+        providers:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: "name of the provider"
+        providerAttributes:
+          type: object
+          additionalProperties:
+            oneOf: 
+              -  type: string
+              -  type: number
     Address:
       type: object
       description: Address of the location
@@ -2849,6 +2779,42 @@ components:
               description: "End of the window. Unix time in milliseconds. (conditional)"
               format: int64
             - type: "null"
+    DeliveryTimeWindow:
+      type: object
+      description: Time window for delivery with mandatory endsAt
+      required:
+        - endsAt
+      properties:
+        startsAt:
+          type: 
+            - integer
+            - "null"
+          description: Start of the delivery window. Unix time in milliseconds.
+          format: int64
+          example: 1649253600000
+        endsAt:
+          type: integer
+          description: End of the delivery window. Unix time in milliseconds.
+          format: int64
+          example: 1649268000000
+    PickupTimeWindow:
+      type: object
+      description: Time window for pickup with mandatory startsAt
+      required:
+        - startsAt
+      properties:
+        startsAt:
+          type: integer
+          description: Start of the pickup window. Unix time in milliseconds.
+          format: int64
+          example: 1649253600000
+        endsAt:
+          type: 
+            - integer
+            - "null"
+          description: End of the pickup window. Unix time in milliseconds.
+          format: int64
+          example: 1649268000000
     ProposedProvider:
       type: object
       properties:

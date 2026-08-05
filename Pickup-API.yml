@@ -2,145 +2,14 @@ openapi: 3.1.0
 
 info:
   title: Pickup Order API v1
-  version: '1.0'
+  version: '1.1'
   description: |
-
-   # Product Info
-
-    The **Pickup Order API** simplifies the creation and management of in-store pickup orders, providing a centralized platform to handle every step of the pickup process, from initiation to completion. Designed for retailers and businesses, this API ensures a seamless experience by supporting real-time order modifications and lifecycle management.
+   The **Pickup Order API** simplifies the creation and management of in store pickup orders providing a centralized platform to handle every step of the pickup process, from initiation to completion.
     
+    **Key Features:**
+    1. **Order Lifecycle Management**:  - Facilitate the creation and management of pick-up orders, including real-time order modifications. Offers comprehensive lifecycle support to accommodate diverse workflows.
 
-    # Business Values
-
-    - **Order Lifecycle Management**:  - Facilitate the creation and management of pickup orders, including real-time modifications. The API supports the full order lifecycle, from initiation to completion, accommodating diverse workflows. 
-
-    - **Status Updates**: - Monitor pickup orders across their lifecycle using configurable status updates via webhooks and alerts. This ensures transparency, proactive monitoring, and improved customer satisfaction. 
-
-
-    # How does it work once I am setup as a user?
-   Once set up as a user, the Pickup Order API allows you to asynchronously place in-store pickup orders for specific locations. By seamlessly submitting order details, such as pickup location and customer information, you can integrate this API into your system to streamline the management of pickup orders while maintaining a centralized platform for tracking and updates.
-
-    # FAQs    
-    - **How do I manage order modifications?**
-    >  Real-time order modifications can be performed through the API, allowing updates to details such as customer contact, pickup time, or item details. 
-    
-    # Error Codes
-
-    When the system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
-
-    Successful response may or may not include warnings.
-
-    1. **Without warnings** - Indicates the request has been processed as anticipated.
-    2. **With warnings** - Indicates the request has been processed with potentially unanticipated results. The warning contains information in the response that should be passed to the end user.
-
-    The severity of an error may be transient or hard.
-      
-    - **Transient error** - Indicates an error that is temporary in nature. Such errors may be caused by response timeouts due to high server loads or scheduled maintenance in progress. The request may be issued successfully at a later time.
-    - **Hard error** - Indicates the request has a problem that the system is not able to resolve. These errors are critical and prevent requests from processing.
-
-    ---
-
-    ## /pickups
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  VALIDATION_ERROR      |    400    |  Hard    | Invalid Data: locationExternalId is a required field or other invalid values in the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid Data: No such locationExternalId exists in our system. Please provide a valid locationExternalId. |
-    |  DUPLICATE_ID          |    422    |  Hard    | Resource with provided id already exists.                                  |
-    |  DUPLICATE_NAME        |    422    |  Hard    | Resource with provided name already exists.                                |
-    |  DUPLICATE_RESOURCE    |    422    |  Hard    | Resource already exists.                                                   |
-    |  NO_PROVIDER_ASSIGNED  |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
-    |  NO_PROVIDER_MATCHED   |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
-    |  PLACE_ORDER_FAILED    |    422    | Transient| Failed to place the requested order with the configured providers.         |
-    |  GEOCODING_FAILED      |    422    |  Hard    | Geocoding Service for the given address failed.                            |
-    |  TOO_MANY_REQUESTS     |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR        |    422    | Transient| Request received unidentifiable error response.                            |
-    ---
-
-    ### /pickups/list
-
-    ### POST
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    400    |  Hard    | Invalid Data: lastUpdatedAt date range cannot be greater than 30 days |
-
-    ---
-
-    ### /pickups/{pickup_external_id}
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA          |    422    |  Hard    | Invalid data: Invalid Order Id |
-    |  NOT_FOUND             |    404    |  Hard    | Not Found: Order with id, 1908241-0061, is not found |
-
-
-    ### DELETE
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
-    |  ORDER_ALREADY_CANCELED   |    409    |  Hard    | Requested order is already in Cancelled state.|
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
-
-    ### PUT
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  INVALID_DATA             |    400    |  Hard    | Invalid data: The value for the orderValue field is invalid or any other invalid value|
-    |  VALIDATION_ERROR         |    400    |  Hard    | packages parameter cannot be changed post order dispatch or any other invalid value |
-    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
-    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
-    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
-    |  PLACE_ORDER_FAILED       |    422    | Transient| Failed to place the requested order with the configured providers.         |
-    |  GEOCODING_FAILED         |    422    |  Hard    | Geocoding Service for the given address failed.                            |
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
-
-    ### /pickups/{pickup_external_id}/status-history
-
-    ### GET
-    |           Type         | HTTP Code | Severity | Description |
-    |------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED          |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-
-
-    ### /pickups/{pickup_external_id}/retry
-
-    ### POST
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
-    |  INVALID_DATA             |    422    |  Hard    | Order Id value is invalid |
-    |  INVALID_OPERATION        |    409    |  Hard    | The Order can no longer be retried |
-    |  NO_PROVIDER_ASSIGNED     |    422    |  Hard    | No Provider has been assigned to the mentioned location.                   |
-    |  NO_PROVIDER_MATCHED      |    422    |  Hard    | No Provider matched the criteria for the requested delivery.               |
-    |  PLACE_ORDER_FAILED       |    422    | Transient| Failed to place the requested order with the configured providers.         |
-    |  TOO_MANY_REQUESTS        |    429    | Transient| Too many requests received per second.                                     |
-    |  UNMAPPED_ERROR           |    422    | Transient| Request received unidentifiable error response.                            |
-
-    ### /pickups/{pickup_external_id}/status
-
-    ### PUT
-    |           Type            | HTTP Code | Severity | Description |
-    |---------------------------|-----------|----------|-------------|
-    |  UNAUTHORIZED             |    401    |  Hard    | Unauthorized: Invalid or missing authentication token |
-    |  INTERNAL_SERVER_ERROR    |    500    | Transient| Internal Server Error: An unexpected error occurred while processing the request |
-    |  NOT_FOUND                |    404    |  Hard    | Order with id, 19345234, is not found |
-        
+    2. **Status Updates**: - Monitor pickup orders across their lifecycle with configurable status updates via webhooks and alerts.
 servers:
   - url: https://api.lynkup.com/pickup/{version}
     description: Integration hub Production OAuth.
@@ -149,16 +18,9 @@ servers:
         default: v1
         enum:
          - v1
-  - url: 'https://sanbox.api.lynkup.com/pickup/{version}'
-    description: Integration hub Sandbox Production OAuth.
-    variables:
-      version:
-       default: v1
-       enum:
-          - v1
 
 tags: 
-  - name: Pickup Order
+  - name: Pickup Management
     description:  |
       Endpoints for managing the lifecycle of pickup orders, including creation, updates, and cancellation.
       
@@ -176,29 +38,18 @@ paths:
        - Real-time status updates for the Pickup order are available through the platform's Webhooks.
       operationId: createPickup
       tags: 
-        -  Pickup Order
-      security:
-        - OAuth2ClientCredentials: []
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
+        -  Pickup Management
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PickupRequest'
+              $ref: '#/components/schemas/LynkupPickupRequestV1'
             examples:
               Complete request:
                 value:
                   locationExternalId: "7709"
                   orderExternalId: "7709-001"
+                  brandExternalId: "dummyaccount1"
                   orderValue: 10
                   customer:
                     name: "asd"
@@ -217,7 +68,8 @@ paths:
                       itemQuantity: 1
                       description: "bungii pack 1"
                   itemList:
-                    - sku: "sku 1"
+                    - sku: "TS-RN-RED-S"
+                      upc: "036000291452"
                       quantity: 1
                       size:
                         length: 3
@@ -232,13 +84,17 @@ paths:
                       image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png"
                       title: "Watch"
                   pickupTime: null
+                  dispatch: 
+                    type: "immediate"
+                    time: 1729027600000
+                    basedOn: "pickupTimeStartsAt"
       responses:
         "201":
           description: "Resource is successfully created"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PickupResponse'
+                $ref: '#/components/schemas/LynkupPickupResponseV1'
               examples:
                 Result:
                   value: 
@@ -264,7 +120,252 @@ paths:
                         temperatureControl: "none"
                         barcode: "1YT4V90308440011"
                     itemList:
-                      - sku: "sku 1"
+                      - sku: "TS-RN-RED-S"
+                        upc: "036000291452"
+                        quantity: 1
+                        size:
+                          length: 3
+                          width: 2
+                          height: 2
+                          unit: 'in'
+                        weight: 
+                          value: 10
+                          unit: 'lb'
+                        price: 3
+                        salePrice: 3
+                        image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png"
+                        title: "Watch"
+                    pickupTime:
+                      startsAt: 1679592688115
+                    orderAttributes: {}
+                    tenantId: "dummyaccount1"
+                    brandExternalId: "dummyaccount1"
+                    groupId: null
+                    currencyCode: "USD"
+                    dispatch: 
+                      type: "immediate"
+                      time: 1729027600000
+                      basedOn: "pickupTimeStartsAt"
+                    pickupAddress:
+                      street1: "345 Harrison Avenue"
+                      street2: ""
+                      city: "Boston"
+                      postalCode: "02118"
+                      countryCode: "US"
+                      state: "MA"
+                      latitude: 42.3452369
+                      longitude: -71.0639399
+                    status: "REQUEST_RECEIVED"
+                    driver: null
+                    vehicle: null
+                    actualPickupTime: 1782726937000
+                    createdAt: "2026-06-16T10:35:03.100Z"
+                    lastUpdatedAt: "2026-06-16T10:35:03.100Z"
+        "422":
+          description: "Processing failed as request contains invalid data"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "No such locationExternalId exists in our system. Please provide a valid locationExternalId."
+                        parameter: locationExternalId
+                        entityId: location-1
+                        entity: location
+                    type: "INVALID_DATA"
+                    message: "No such locationExternalId exists in our system. Please provide a valid locationExternalId."
+        "400":
+          description: "Bad Request"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Result:
+                  value: 
+                    errors:
+                      - type: INVALID_DATA
+                        message: "locationExternalId is a required field. The field is missing."
+                        parameter: locationExternalId
+                        entityId: null
+                        entity: null
+                    type: VALIDATION_ERROR
+                    message: "Failed to process request"    
+        '500':
+          description: "Internal server error"
+          headers: 
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                Internal Server Error:
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        "401":
+          description: Unauthorized
+          headers: 
+            bkndtransid:
+              required: true
+              description: The backend transaction id.
+              schema: 
+                type: string
+            transId:
+              description: The transaction id received from client
+              schema: 
+                type: string
+            apierrorcode:  
+              required: true
+              description: 'The API error code'
+              schema: 
+                type: string 
+            apierrormsg:  
+              required: true
+              description: 'The API error message.'
+              schema: 
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                  - code: UJ0001
+                    message: Invalid token or token is not present.
+      deprecated: false
+
+  /pickups-synchronous:
+     post:
+      summary: Create Pickup Order (Synchronous)
+      description: |
+        This endpoint enables clients to create a pickup order by submitting the required details. The request is processed synchronously, meaning the API completes the operation and returns a full response in real time.
+
+        - Upon successful processing, the response includes the complete pickup order information along with its initial status.
+
+        - Real-time status updates for the Pickup order are available through the platform's Webhooks.
+      operationId: createPickupSync
+      tags: 
+        - Pickup Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LynkupPickupRequestV1'
+            examples:
+              Complete request:
+                value:
+                  locationExternalId: "7709"
+                  orderExternalId: "7709-001"
+                  brandExternalId: "dummyaccount1"
+                  orderValue: 10
+                  customer:
+                    name: "asd"
+                    phone: "+1 234-567-8900"
+                    email: ""
+                  packages:
+                    - name: "Solid"
+                      size:
+                        length: 10
+                        width: 10
+                        height: 10
+                        unit: 'in'
+                      weight: 
+                        value: 10
+                        unit: 'lb'
+                      itemQuantity: 1
+                      description: "bungii pack 1"
+                  itemList:
+                    - sku: TS-RN-RED-S
+                      upc: "036000291452"
+                      quantity: 1
+                      size:
+                        length: 3
+                        width: 2
+                        height: 2
+                        unit: 'in'
+                      weight: 
+                        value: 10
+                        unit: 'lb'
+                      price: 3
+                      salePrice: 3
+                      image: "https://qa.files.deliverysolutions.co/zebra/items/%5Bdeliverysolutions123456%5D/zebra/sku_1_1639056868709.png"
+                      title: "Watch"
+                  pickupTime: null
+      responses:
+        "201":
+          description: "Resource is successfully created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LynkupPickupResponseV1'
+              examples:
+                Result:
+                  value: 
+                    locationExternalId: "7709"
+                    orderExternalId: "7709-001"
+                    orderValue: 10
+                    customer:
+                      name: "asd"
+                      phone: "+1 234-567-8900"
+                      email: ""
+                    packages:
+                      - name: "Solid"
+                        itemQuantity: 1
+                        size:
+                          length: 10
+                          width: 10
+                          height: 10
+                          unit: 'in'
+                        weight:
+                          value: 10
+                          unit: 'lb'
+                        description: "bungii pack 1"
+                        temperatureControl: "none"
+                        barcode: "1YT4V90308440011"
+                    itemList:
+                      - sku: TS-RN-RED-S
+                        upc: "036000291452"
                         quantity: 1
                         size:
                           length: 3
@@ -297,9 +398,9 @@ paths:
                     status: "REQUEST_RECEIVED"
                     driver: null
                     vehicle: null
-                    actualPickupTime: null
-                    createdAt: ""
-                    lastUpdatedAt: ""
+                    actualPickupTime: 1782726937000
+                    createdAt: "2026-06-16T10:35:03.100Z"
+                    lastUpdatedAt: "2026-06-16T10:35:03.100Z"
         "422":
           description: "Processing failed as request contains invalid data"
           headers: 
@@ -429,24 +530,12 @@ paths:
 
         - **Statuses**: Retrieve pickups based on their current status (e.g., `PICKUP_STARTED`, `ORDER_DELIVERED`, `PICKUP_AT_LOCATION`).
 
-        - **Pagination**: Use the `paginationToken` field to retrieve subsequent sets of results when dealing with large datasets.
+        - **Pagination**: Use the `pagination` object to retrieve subsequent sets of results when dealing with large datasets.
 
-        The request body allows flexible and precise filtering, making it easy to tailor the response to your specific needs. The response will contain the requested pickup data, and if applicable, a `paginationToken` to fetch additional results.
+        The request body allows flexible and precise filtering, making it easy to tailor the response to your specific needs. The response will contain the requested delivery data, and if applicable, a `pagination` object to fetch additional results.
       operationId: "listPickups"
       tags: 
-        -  Pickup Order
-      security:
-        - OAuth2ClientCredentials: []
-      parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
+        -  Pickup Management
       requestBody:
         content:
           application/json:
@@ -470,17 +559,19 @@ paths:
                   createdAt:
                     startsAt: 1651402682000
                     endsAt: 1652266731000
-                  status:
+                  statuses:
                     - "ORDER_DISPATCHED"
                     - "ORDER_DELIVERED"
                     - "ORDER_CANCELLED"
                     - "PICKUP_STARTED"
                     - "PICKUP_COMPLETED"
-                  paginationToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+                  pagination:
+                    currentToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
               Pagination token to get next set of results:
                 value:
                   limit: 100
-                  paginationToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+                  pagination:
+                    currentToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
       responses:
         "400":
           description: "Bad Request"
@@ -517,21 +608,21 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  paginationToken:
+                  pagination:
                     type: "object"
                     properties:
-                       next:
+                       nextToken:
                          type: 
                            - 'string'
                            - 'null'
-                       previous:
+                       previousToken:
                          type: 
                            - 'string'
                            - 'null'
                   data:
                     type: "array"
                     items:
-                      $ref: "#/components/schemas/PickupResponse"
+                      $ref: "#/components/schemas/LynkupPickupResponseV1"
               examples:
                 Default response, last 24, no request body:
                   value:
@@ -582,7 +673,7 @@ paths:
                         lastUpdatedAt: "2022-05-03T10:35:38.656Z"
                         referenceLinks:
                           hostedTrackingUrl: "https://s.dl-s.co/j_xSuvK3krj"
-                        actualPickupTime: null
+                        actualPickupTime: 1782726937000
                       - id: "6267cad7627f5f658c8b9c51"
                         estimatedPickupTime: 
                           startsAt: 1651574198000
@@ -628,7 +719,7 @@ paths:
                         lastUpdatedAt: "2022-05-03T11:08:56.086Z"
                         referenceLinks:
                           hostedTrackingUrl: "https://s.dl-s.co/Y2J1rSOBwOs"
-                        actualPickupTime: null
+                        actualPickupTime: 1782726937000
                       - id: "6267c9ab03ab64947cafbbc1"
                         estimatedPickupTime: 
                           startsAt: 1651573897000
@@ -675,7 +766,7 @@ paths:
                         lastUpdatedAt: "2022-05-03T10:30:37.251Z"
                         referenceLinks:
                           hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
-                        actualPickupTime: null
+                        actualPickupTime: 1782726937000
                       - id: "62668e6f44504ce0b5c3fde7"
                         estimatedPickupTime: 
                           startsAt: 1651493199000
@@ -722,7 +813,7 @@ paths:
                         lastUpdatedAt: "2022-05-03T12:30:37.251Z"
                         referenceLinks:
                           hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
-                        actualPickupTime: null
+                        actualPickupTime: 1782726937000
                 Pagination Token, both next and previous present:
                   value: 
                     data:
@@ -772,10 +863,10 @@ paths:
                         lastUpdatedAt: "2022-05-03T10:30:37.251Z"
                         referenceLinks:
                           hostedTrackingUrl: "https://s.dl-s.co/3nJ6P-i66FW"
-                        actualPickupTime: null
-                    paginationToken:
-                      next: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
-                      previous: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1MV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM="
+                        actualPickupTime: 1782726937000
+                    pagination:
+                      nextToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+                      previousToken: "NjI2N2M5YWIwM2FiNjQ5NDdjYWZiYmMxXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1MV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM="
                 Limit 1, Pagination Token Example:
                   value: 
                     data:
@@ -825,10 +916,10 @@ paths:
                         lastUpdatedAt: "2022-05-03T10:35:38.656Z"
                         referenceLinks:
                           hostedTrackingUrl: "https://s.dl-s.co/j_xSuvK3krj"
-                        actualPickupTime: null
-                    paginationToken:
-                      next: "NjI2N2NhZDc2MjdmNWY2NThjOGI5YzUzXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1M182MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
-                      previous: null
+                        actualPickupTime: 1782726937000
+                    pagination:
+                      nextToken: "NjI2N2NhZDc2MjdmNWY2NThjOGI5YzUzXzYyNjdjYWQ3NjI3ZjVmNjU4YzhiOWM1M182MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfbmV4dA=="
+                      previousToken: null
                 End of results, only previous pagination token present:
                   value: 
                     data:
@@ -878,16 +969,16 @@ paths:
                         lastUpdatedAt: "2022-05-02T12:05:39.742Z"
                         referenceLinks:
                           hostedTrackingUrl: "https://s.dl-s.co/aIEuY-nPcj4"
-                        actualPickupTime: null
-                    paginationToken:
-                      next: null
-                      previous: "NjI2NjhlNmY0NDUwNGNlMGI1YzNmZGU3XzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM="
+                        actualPickupTime: 1782726937000
+                    pagination:
+                      nextToken: null
+                      previousToken: "NjI2NjhlNmY0NDUwNGNlMGI1YzNmZGU3XzYyNjdjOWFiMDNhYjY0OTQ3Y2FmYmJjMV82MjY3Y2FkNzYyN2Y1ZjY1OGM4YjljNTNfcHJldmlvdXM="
                 No results:
                   value:
                     data: []
-                    paginationToken:
-                      next: null
-                      previous: null
+                    pagination:
+                      nextToken: null
+                      previousToken: null
         '500':
           description: "Internal server error"
           headers: 
@@ -957,19 +1048,8 @@ paths:
         - To fetch the latest information set the `force_update` query parameter to `true`.
       operationId: "getPickupByExternalid"
       tags:
-        - Pickup Order
-      security:
-        - OAuth2ClientCredentials: []
+        - Pickup Management
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "pickup_id"
           in: "path"
           description: "The unique order Id generated by the system after creating order"
@@ -989,7 +1069,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/PickupResponse" 
+                  $ref: "#/components/schemas/LynkupPickupResponseV1" 
               examples:
                 Result:
                   value:
@@ -1183,19 +1263,8 @@ paths:
         - Ensure that the provided `pickup_id` matches the ID returned during order creation to successfully process the cancellation and update all relevant systems.
       operationId: "cancelPickupByPickupexternalid"
       tags: 
-        -  Pickup Order
-      security:
-        - OAuth2ClientCredentials: []
+        -  Pickup Management
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "pickup_id"
           in: "path"
           description: "The unique order Id generated by the system after creating order"
@@ -1210,7 +1279,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: "#/components/schemas/PickupResponse"
+                $ref: "#/components/schemas/LynkupPickupResponseV1"
               examples:
                 Successfully cancel an order:
                   value:
@@ -1379,19 +1448,8 @@ paths:
       description: "Use this API to update or adjust the details of a pickup order after it has been created in the system. This allows for real-time corrections and updates to ensure accuracy and alignment with current requirements."
       operationId: "editPickupByPickupexternalId"
       tags: 
-        -  Pickup Order
-      security:
-        - OAuth2ClientCredentials: []
+        -  Pickup Management
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "pickup_id"
           in: "path"
           description: "The unique order Id generated by the system after creating order"
@@ -1409,7 +1467,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PickupPutRequest"
+              $ref: "#/components/schemas/LynkupPickupPutRequestV1"
             examples:
               Edit Request:
                 value:
@@ -1433,14 +1491,18 @@ paths:
                       itemQuantity: 2
                       description: "Package Description"
                   orderExternalId: "19082413"
-                  orderValue: 160.99 
+                  orderValue: 160.99
+                  dispatch: 
+                    type: "immediate"
+                    time: 1729027600000
+                    basedOn: "pickupTimeStartsAt"
       responses:
           "200":
             description: "Request was successful"
             content:
               application/json:
                 schema: 
-                  $ref: "#/components/schemas/PickupResponse"
+                  $ref: "#/components/schemas/LynkupPickupResponseV1"
                 examples:
                   Successful Edit responses:
                      value:
@@ -1499,6 +1561,10 @@ paths:
                         estimatedPickupTime: 
                           startsAt: 1598421538000
                         currencyCode: 'USD'
+                        dispatch: 
+                          type: "immediate"
+                          time: 1729027600000
+                          basedOn: "pickupTimeStartsAt"
                         pickupAddress:
                           street1: '7th 42nd Avenue, Times Square'
                           street2: ''
@@ -1665,19 +1731,8 @@ paths:
         - Optionally, you can use the `is_unique` query parameter to retrieve only unique statuses.
       operationId: "getPickupStatusByExternalId"
       tags: 
-        -  Pickup Order
-      security:
-        - OAuth2ClientCredentials: []
+        -  Pickup Management
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "pickup_id"
           in: "path"
           description: "The unique order Id generated by the system after creating order"
@@ -1793,19 +1848,8 @@ paths:
 
       operationId: "retryPickupByPickupExternalId"
       tags:
-        - Pickup Order
-      security:
-        - OAuth2ClientCredentials: []
+        - Pickup Management
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: "pickup_id"
           in: "path"
           description: "The unique order Id generated by the system after creating order"
@@ -1820,7 +1864,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: "#/components/schemas/PickupResponse"
+                $ref: "#/components/schemas/LynkupPickupResponseV1"
               examples:
                 Result:
                   value:
@@ -2019,22 +2063,11 @@ paths:
     put:
       summary: Update Pickup Status
       tags: 
-        -  Pickup Order
+        -  Pickup Management
       description: |
          Refine and manage the status of a pickup order manually, ensuring smooth workflow transitions and providing real-time updates to reflect the most current order status.
       operationId: updatePickupStatus
-      security:
-        - OAuth2ClientCredentials: []
       parameters:
-        - name: version
-          in: path
-          description: version
-          required: true
-          schema:
-            type: string
-            default: v1
-            enum:
-                - v1
         - name: pickup_id
           in: path
           description: "The unique order Id generated by the system after creating order"
@@ -2068,7 +2101,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: "#/components/schemas/PickupResponse"
+                $ref: "#/components/schemas/LynkupPickupResponseV1"
               examples:
                 Result:
                   value:
@@ -2375,6 +2408,25 @@ components:
               description: "End of the window. Unix time in milliseconds. (conditional)"
               format: int64
             - type: "null"
+    
+    PickupTimeWindow:
+      type: object
+      description: Time window for pickup with mandatory startsAt
+      required:
+        - startsAt
+      properties:
+        startsAt:
+          type: integer
+          description: Start of the pickup window. Unix time in milliseconds.
+          format: int64
+          example: 1649253600000
+        endsAt:
+          type: 
+            - integer
+            - "null"
+          description: End of the pickup window. Unix time in milliseconds.
+          format: int64
+          example: 1649268000000
 
     Driver:
       type: object
@@ -2447,10 +2499,12 @@ components:
           type: string
           description: "An ID that identify the product/variant from the brand's catalog."
           maxLength: 100
+          example: "TS-RN-RED-S"
         upc:
           type: string
           description: "Universal Product Code for the item"
           maxLength: 100
+          example: "036000291452"
         category:
           type: string
           description: "Category of Item"
@@ -2549,6 +2603,7 @@ components:
             type : string
             enum:
             - alcohol
+            - spirit
             - fragile
             - tobacco
             - rx
@@ -2556,7 +2611,6 @@ components:
         barcode:
           type: string
           description: "Barcode sent to the provider for scanning the packages"
-          default: "null"
           maxLength: 500
 
     Customer:
@@ -2643,7 +2697,7 @@ components:
           example: "https://feedback.example.com"
       required: []
             
-    PickupRequest:
+    LynkupPickupRequestV1:
       type: object
       properties:
         orderExternalId:
@@ -2658,13 +2712,17 @@ components:
           description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
         pickupTime:
           oneOf:
-            - $ref: '#/components/schemas/TimeWindow'
+            - $ref: '#/components/schemas/PickupTimeWindow'
             - type: "null"
           description: "Time window during which the package will be ready for pickup."
         locationExternalId:
           type: string
           maxLength: 100
           description: "Unique identifier for the pickup location (see Create Location API)."
+        brandExternalId:
+          type: string
+          maxLength: 100
+          description: "Unique identifier for the brand associated with the order."
         customer:
           $ref: '#/components/schemas/Customer'
           description: "Customer details associated with the pickup."
@@ -2720,11 +2778,49 @@ components:
                     - type: number
                     - type: boolean
           description: "Configurable key-value pairs of custom order attributes."
+        currencyCode:
+          $ref: '#/components/schemas/CurrencyCode'
+        dispatch:
+          $ref: '#/components/schemas/Dispatch'
       required:
         - orderExternalId
         - locationExternalId
         - customer
-
+        - orderValue
+    CurrencyCode:
+      type: 
+        - string
+        - "null"
+      description: |
+        The <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO 4217</a> 
+        currency code associated with the tracker.
+      minLength: 3
+      maxLength: 3
+      example: USD
+    Dispatch:
+      type: object
+      properties:
+        type:
+          type: string
+          maxLength: 100
+          description: "Type of dispatch"
+          enum:
+            - immediate
+            - scheduled
+            - manual
+          example: "immediate"
+        time:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 8640000000000000
+          description: "Time for the dispatch in milliseconds"
+          example: 100
+        basedOn:
+          type: string
+          maxLength: 100
+          description: "Basis for the dispatch time"
+          example: "pickupTimeStartsAt"
     Feedback:
       type: object
       properties:
@@ -2745,7 +2841,7 @@ components:
           example: "Customer survey"
       required: []
 
-    PickupResponse:
+    LynkupPickupResponseV1:
       type: object
       properties:
         id: 
@@ -2763,7 +2859,7 @@ components:
           description: "Unique identifier for the tenant making the pickup request."
         groupId:
           oneOf:
-            - type: "string"
+            - type: string
             - type: "null"
           maxLength: 100
           description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
@@ -2775,7 +2871,7 @@ components:
             - number
             - 'null'
           minimum: 0
-          description: "Actual timestamp in milliseconds for when the package was picked up."
+          description: "Actual timestamp in milliseconds (UNIX timestamp) for when the package was picked up."
         estimatedPickupTime:
           $ref: '#/components/schemas/TimeWindow'
           description: "Estimated time window for picking up the package."
@@ -2882,11 +2978,9 @@ components:
                     - type: boolean
           description: Configurable key-value pairs of custom order attributes
         currencyCode:
-          type: 
-            - string
-            - "null"
-          maxLength: 3
-          description: "Currency code following ISO 4217 standards (e.g., USD)."
+          $ref: '#/components/schemas/CurrencyCode'
+        dispatch:
+          $ref: '#/components/schemas/Dispatch'
         locale:
           type: string
           maxLength: 5
@@ -2894,12 +2988,22 @@ components:
         createdDate:
           type: integer
           format: int64
-          description: Unix Timestamp in milliseconds representing the creation date
+          description: Unix Timestamp in milliseconds representing the date at which original order was created
         createdAt:
           type: string
+          format: date-time
+          minLength: 19
+          maxLength: 29
+          pattern: ^(20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])(T|t| )([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(\.\d{3})?((Z|z)|((\+|-)(0[0-9]|1[0-4]):(00|15|30|45)))$
+          example: 2025-01-01T10:00:10Z
           description: Creation timestamp in ISO 8601 format
         lastUpdatedAt:
           type: string
+          format: date-time
+          minLength: 19
+          maxLength: 29
+          pattern: ^(20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])(T|t| )([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(\.\d{3})?((Z|z)|((\+|-)(0[0-9]|1[0-4]):(00|15|30|45)))$
+          example: 2025-01-01T10:00:10Z
           description: Last update timestamp in ISO 8601 format
       required:
         - orderExternalId
@@ -2975,15 +3079,25 @@ components:
               type: "integer"
               description: "End of the window. Unix time in milliseconds. (conditional)"
               format: "int64"
-        status:
+        statuses:
           type: "array"
           description: "Get all orders having the provided statuses."
           items:
             type: "string"
-        paginationToken:
-          type: "string"
-          description: "Returns the previous or next set of orders based on the paginationToken provided"
-    
+        pagination:
+          type: "object"
+          description: |
+            The API has a limit of retrieving 1000 orders per call. If limit value is specified in the request, the number of orders are retrieved as per the value indicated in the limit (limit cannot be more than 1000). Use the pagination.nextToken to navigate to the next set or pagination.previousToken to navigate to the previous set of orders.
+
+            pagination returns an object of next and previous tokens:
+            If there are no results for the next page, the nextToken value would be null.
+            If there are no results for the previous page, the previousToken value would be null.
+            To navigate to the next set of page results, use the nextToken value from the pagination response and set it as the pagination.currentToken value.
+            To navigate to the previous set of page results, use the previousToken value from the pagination response and set it as the pagination.currentToken value.
+          properties:
+            currentToken:
+              type: "string"
+              description: "Token representing the current page."
     OrderStatus:
       type: object
       properties:
@@ -3051,7 +3165,7 @@ components:
                     type: "string"
                     description: "Detailed note, e.g., RT-001 - Customer rejected (missing item or quality issue)"
           
-    PickupPutRequest:
+    LynkupPickupPutRequestV1:
       type: object
       properties:
         orderExternalId:
@@ -3064,7 +3178,7 @@ components:
           description: "Group ID used to group multiple orders together, providing a combined post-purchase experience."
         pickupTime:
             oneOf: 
-              - $ref: '#/components/schemas/TimeWindow' 
+              - $ref: '#/components/schemas/PickupTimeWindow' 
               - type: "null"
             description: "Time window during which the package will be ready for pickup."
         locationExternalId:
@@ -3110,6 +3224,8 @@ components:
           type: string
           maxLength: 5
           description: Locale of the pickup request, in IETF BCP 47 format (e.g., 'en-US' for English - United States).
+        dispatch:
+          $ref: '#/components/schemas/Dispatch'
         orderAttributes:
           type: object
           additionalProperties:
@@ -3126,7 +3242,7 @@ components:
                     - type: number
                     - type: boolean
           description: Configurable key-value pairs of custom order attributes
-          
+    
     UPSErrorResponse:
       type: object
       properties:
@@ -3154,4 +3270,3 @@ components:
           description: The error message.
           example: Locale is required. The Subscription request has been rejected.
       description: The error response containing any errors that occurred
-          
