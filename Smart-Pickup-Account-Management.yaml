@@ -1,0 +1,1063 @@
+openapi: 3.1.0
+info:
+  title: Smart Pickup Account Management v1
+  description: |
+    Creating new capabilities for customers to easily and consistently trigger Smart Pickups. 
+
+    ## Key Features
+    - Independent of Business Platform
+    - Reduce costs by switching Daily Pickup customers to Smart Pickup
+    - Reduces Zero-Piece Pickups
+     # Reference
+    - <a href="https://developer.ups.com/api/reference/smartpickup/error-codes" target="_blank" rel="noopener">Errors</a>
+   
+  version: '1.0'
+servers:
+  - url: https://onlinetools.ups.com/api/account/pickup-info/{version}
+    description: Production
+    variables:
+      version:
+        default: v1
+        enum:
+          - v1
+  - url: https://wwwcie.ups.com/api/account/pickup-info/{version}
+    description: Customer Integration Environment 
+    variables:
+      version:
+        description: Denotes which version of the API to be called as new features are released.
+        default: v1
+        enum:
+          - v1
+tags:
+  - name: Smart Pickup Account Management
+    description: Operations related to Smart Pickups
+paths:
+  /smart-trigger:
+    post:
+      summary: Manage account SmartPickupTrigger and NotificationIndicator
+      description: Inquire/Add/Update DAP accounts for SmartPickupTrigger and NotificationIndicator details.
+      operationId: smartTrigger
+      security:
+        - oauth2: []
+      tags:
+        - Smart Pickup Account Management
+      parameters:
+        - $ref: '#/components/parameters/transId'
+        - $ref: '#/components/parameters/transactionSrc'
+        - $ref: '#/components/parameters/Content-Type'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmartPickupRequestV1'
+            example:
+              SmartPickupRequest: 
+                Action: A
+                AccountInfo: 
+                  AccountNumber: 3308FF
+                  CountryCode: US
+                SmartPickupTrigger: "01"
+                NotificationIndicator: "01"
+      responses:
+        '200':
+          description: Success
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmartPickupResponseV1'
+              example:
+                SmartPickupResponse: 
+                  Response:
+                    ResponseStatus:
+                      Code: '1'
+                      Description: Success
+                    Alert:
+                      Code: '20000'
+                      Description: Warning description returned by the system
+                  SmartPickupTrigger: '01'
+                  NotificationIndicator: '01'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /view:
+    post:
+      summary: View Pickup Related Details
+      description: View the pickup details and address related informtion for the provided account.
+      operationId: viewPickupInfo
+      security:
+        - oauth2: []
+      tags:
+        - Smart Pickup Account Management
+      parameters:
+        - $ref: '#/components/parameters/transId'
+        - $ref: '#/components/parameters/transactionSrc'
+        - $ref: '#/components/parameters/Content-Type'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ViewPickupInfoRequestV1'
+            example:
+              ViewPickupInfoRequest: 
+                Locale: 
+                  LanguageCode: 'EN'
+                  CountryCode: 'US'
+                AccountInfo: 
+                  AccountNumber: '3678FF'
+                  CountryCode: 'US'
+      responses:
+        '200':
+          description: Success
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewPickupInfoResponseV1'
+              example:
+                ViewPickupInfoResponse:
+                  Response:
+                    ResponseStatus:
+                      Code: '1'
+                      Description: Success
+                    Alert:
+                      Code: '20000'
+                      Description: Warning description returned by the system
+                  AccountNumber: 3308FF
+                  PickUpInfo: 
+                    PickupPoint: '001'
+                    PickUpTime: 
+                      EarliestTime: '120000'
+                      LatestTime: '180000'
+                      PreferredTime: '140000'
+                    PickUpDate: 
+                      PickUpDay: '05' 
+                    WeekendServiceTerritoryIndicator: "N"
+                    WeekendPickupInformation: 
+                      PickUpDate: 
+                        - WeekEndPickUpDay: '01'
+                      PickupPoint: '001'
+                      PickUpTime: 
+                        EarliestTime: '110000'
+                        LatestTime: '180000'
+                        PreferredTime: '140000'
+                      DeliveryOptions: '01'
+                  PickUpTypeCode: '02'
+                  PickUpNotifyTime: '130000'
+                  WeekEndPickUpNotifyTime: '130000'
+                  SundayPickUpNotifyTime: '130000'
+                  ContactInfo: 
+                    Address: 
+                      CompanyName: PICKUP COMPANY NAME
+                      StreetName: 12380 MORRIS RD
+                      StreetNumber: '12380'
+                      StreetType: RD
+                      StreetPrefix: E
+                      StreetSuffix: RD
+                      City: ALPHARETTA
+                      State: GA
+                      CountryCode: US
+                      PostalCode: '30005'
+                      PostalCodeExtension: '46'
+                      RoomSuite: S318B
+                      AddressLine2: Tech Park Phase 2
+                      AddressLine3: Building B
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /update:
+    servers:
+      - url: https://wwwcie.ups.com/api/account/pickup-info/{version}
+        description: |
+          UPS OAuth Production Customer Integration Environment that allows clients to test request
+          acceptance and response receipt/parsing without manifesting on any actual data.
+        variables:
+          version:
+            description: Denotes which version of the API to be called as new features are released.
+            default: v1
+            enum:
+              - v1
+    post:
+      summary: Update Account Pickup Details
+      description: Update the pickup details and address related information for the provided account.
+      operationId: updatePickupInfo
+      security:
+        - oauth2: []
+        - oauth2Cie: []
+      tags:
+        - Smart Pickup Account Management
+      parameters:
+        - $ref: '#/components/parameters/transId'
+        - $ref: '#/components/parameters/transactionSrc'
+        - $ref: '#/components/parameters/Content-Type'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePickupInfoRequestV1'
+            example:
+              UpdatePickupInfoRequest: 
+                Locale: 
+                  LanguageCode: EN
+                  CountryCode: US
+                AccountInfo: 
+                  AccountNumber: 3308FF
+                  CountryCode: US
+                PickUpTypeCode: '02'
+                PickUpInfo: 
+                  PickupPoint: '001'
+                  PickUpTime: 
+                    EarliestTime: '120000'
+                    LatestTime: '180000'
+                    PreferredTime: '140000'
+                  WeekendServiceTerritoryIndicator: 'Y'
+                  WeekendPickupInformation: 
+                    PickUpDate: 
+                      - WeekEndPickUpDay: '01'
+                    PickupPoint: '001'
+                    PickUpTime: 
+                      EarliestTime: '110000'
+                      LatestTime: '180000'
+                      PreferredTime: '140000'
+                    DeliveryOptions: '01'                
+                Address:
+                  CompanyName: PICKUP COMPANY NAME
+                  StreetName: 12380 MORRIS RD
+                  StreetNumber: '12380'
+                  StreetType: RD
+                  StreetPrefix: E
+                  StreetSuffix: RD
+                  City: ALPHARETTA
+                  State: GA
+                  CountryCode: US
+                  PostalCode: '30005'
+                  PostalCodeExtension: '46'
+                  RoomSuite: S318B
+                  AddressLine2: Tech Park Phase 2
+                  AddressLine3: Building B
+      responses:
+        '200':
+          description: >-
+            Successful response returned after updating pickup and address related information
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatePickupInfoResponseV1'
+              example:
+                UpdatePickupInfoResponse: 
+                  Response: 
+                    ResponseStatus: 
+                      Code: '1'
+                      Description: 'Success'
+                    Alert: 
+                      Code: '9491006'
+                      Description: 'If you need a package pickup from your home or office prior to your new Pickup Start Date, please schedule a one-time pickup online.'
+                  AccountNumber: '3308FF'
+                  PickUpNotifyTime: '130000'
+                  WeekEndPickUpNotifyTime: '130000'
+                  SundayPickUpNotifyTime: '130000'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page.
+          1. Select "Try It"
+          2. In the Security section enter your Client ID and Secret
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: "https://onlinetools.ups.com/security/v1/oauth/token"
+          scopes: {}
+    oauth2Cie:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page.
+          1. Select "Try It"
+          2. In the Security section enter your Client ID and Secret
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: "https://wwwcie.ups.com/security/v1/oauth/token"
+          scopes: {}
+  headers:
+    BkndTransId:
+      description: The backend transaction id.
+      schema:
+        type: string
+        example: 383f7d397a48
+    transId:
+      description: An identifier unique to the request.
+      schema:
+        type: string
+        example: 0a1b9c2d8e3f7g4h6i5
+    transactionSrc:
+      description: Identifies the client/source application that is calling.
+      schema:
+        type: string
+        example: UPS.com
+    Content-Type:
+      description: The Content-Type header provides the client with the actual content/media type of the returned content.
+      schema:
+        type: string
+        example: application/json
+    APIErrorCode:
+      description: The API error code.
+      schema:
+        type: string
+        example: UJ0001
+    APIErrorMsg:
+      description: The API error message.
+      schema:
+        type: string
+        example: Invalid token or token is not present.
+  parameters:
+    transId:
+      name: transId
+      in: header
+      description: An identifier unique to the request.
+      required: true
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9-]{3,36}$'
+        minLength: 3
+        maxLength: 36
+        example: XZ345445668
+    transactionSrc:
+      name: transactionSrc
+      in: header
+      description: Identifies the client/source application that is calling.
+      required: false
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9-_]{3,30}$'
+        minLength: 3
+        maxLength: 30
+        example: XOLT
+    Content-Type:
+      name: Content-Type
+      in: header
+      required: true
+      description: Content-Type
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9-_/]{3,30}$'
+        minLength: 3
+        maxLength: 30
+        example: application/json
+  responses:
+    BadRequest:
+      description: Bad Request
+      headers:
+        BkndTransId:
+          $ref: "#/components/headers/BkndTransId"
+        transId:
+          $ref: "#/components/headers/transId"
+        transactionSrc:
+          $ref: "#/components/headers/transactionSrc"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+        APIErrorCode:
+          $ref: "#/components/headers/APIErrorCode"
+        APIErrorMessage:
+          $ref: "#/components/headers/APIErrorMsg"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SmartPickupErrorResponseV1'
+          example:
+            response:
+              errors:
+                - code: "4"
+                  message: Malformed JSON request.
+                - code: "9491109"
+                  message: Missing or invalid account number
+    Unauthorized:
+      description: Unauthorized
+      headers:
+        BkndTransId:
+          $ref: "#/components/headers/BkndTransId"
+        TransId:
+          $ref: "#/components/headers/transId"
+        transactionSrc:
+          $ref: "#/components/headers/transactionSrc"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+        APIErrorCode:
+          $ref: "#/components/headers/APIErrorCode"
+        APIErrorMessage:
+          $ref: "#/components/headers/APIErrorMsg"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SmartPickupErrorResponseV1'
+          example:
+            response:
+              errors:
+                - code: "250002"
+                  message: Invalid Authentication Information
+    ServerError:
+      description: Transient
+      headers:
+        BkndTransId:
+          $ref: "#/components/headers/BkndTransId"
+        TransId:
+          $ref: "#/components/headers/transId"
+        transactionSrc:
+          $ref: "#/components/headers/transactionSrc"
+        Content-Type:
+          $ref: "#/components/headers/Content-Type"
+        APIErrorCode:
+          $ref: "#/components/headers/APIErrorCode"
+        APIErrorMessage:
+          $ref: "#/components/headers/APIErrorMsg"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SmartPickupErrorResponseV1'
+          example:
+            response:
+              errors:
+              - code: "9490000"
+                message: Account Maintenance Web Service is temporarily unavailable    
+  schemas:
+    #/smart-trigger
+    SmartPickupRequestV1:
+      type: object
+      description: The SmartPickup request container
+      properties:
+        SmartPickupRequest:
+          type: object
+          description: The SmartPickup request container
+          properties:
+            Action:
+              type: string
+              description: Action indicator to decide the flow.
+              oneOf:
+                - const: I
+                  description: Inquire
+                - const: A
+                  description: Add
+                - const: U
+                  description: Update
+            AccountInfo:
+              $ref: '#/components/schemas/SmartPickupAccountInfoV1'
+            SmartPickupTrigger:
+              $ref: '#/components/schemas/SmartPickupTriggerV1'
+            NotificationIndicator:
+             $ref: '#/components/schemas/SmartPickupNotificationIndicatorV1'
+          additionalProperties: false
+          required:
+            - Action
+            - AccountInfo
+      additionalProperties: false
+      required:
+        - SmartPickupRequest
+    SmartPickupResponseV1:
+      type: object
+      description: The SmartPickup response for a successful SmartPickupTrigger and NotificationIndicator request
+      properties:
+        SmartPickupResponse:
+          type: object
+          description: The SmartPickup response for a successful request.
+          properties:
+            Response:
+              $ref: '#/components/schemas/SmartPickupCommonResponseV1'
+            SmartPickupTrigger:
+              $ref: '#/components/schemas/SmartPickupTriggerV1'
+            NotificationIndicator:
+              $ref: '#/components/schemas/SmartPickupNotificationIndicatorV1'
+          additionalProperties: false
+          required:
+            - Response
+            - SmartPickupTrigger
+            - NotificationIndicator
+      additionalProperties: false
+      required:
+        - SmartPickupResponse
+
+    #/view
+    ViewPickupInfoRequestV1:
+      type: object
+      description: The View Pickup Info request container.
+      properties:
+        ViewPickupInfoRequest:
+          type: object
+          description: The View Pickup Info request container.
+          properties:
+            Locale:
+              $ref: '#/components/schemas/SmartPickupLocaleV1'
+            AccountInfo:
+             $ref: '#/components/schemas/SmartPickupAccountInfoV1'
+          additionalProperties: false
+          required:
+            - Locale
+            - AccountInfo
+      additionalProperties: false
+      required:
+        - ViewPickupInfoRequest
+    ViewPickupInfoResponseV1:
+      type: object
+      description: The View Pickup Info response for a successful request.
+      properties:
+        ViewPickupInfoResponse:
+          allOf:
+            - $ref: '#/components/schemas/SmartPickupPickupInfoResponseV1'
+            - type: object
+              description: The View Pickup Info response for a successful request.
+              properties:
+                PickUpInfo:
+                  allOf:
+                    - $ref: '#/components/schemas/SmartPickupPickupInfoV1'
+                    - type: object
+                      properties:
+                        PickUpDate:
+                          type: object
+                          description: Shipment Pickup Date. Available when PickupTypeCode is **03,04,05,06**.
+                          properties:
+                            PickUpDay:
+                              type: string
+                              description: Specific day pickup, maximum days are 4.
+                              oneOf:
+                                - const: "01"
+                                  description: Monday
+                                - const: "02"
+                                  description: Tuesday
+                                - const: "03"
+                                  description: Wednesday
+                                - const: "04"
+                                  description: Thursday
+                                - const: "05"
+                                  description: Friday
+                          additionalProperties: false
+                          required:
+                            - PickUpDay
+                      additionalProperties: true
+                      unevaluatedProperties: false
+                      required:
+                        - PickUpDate
+                ContactInfo:
+                  $ref: '#/components/schemas/SmartPickupAddressV1'
+                PickUpTypeCode:
+                  type: string
+                  description: "Type of Pickup. Note: Pickup changes are not allowed when PickupType code is 97."
+                  oneOf:
+                    - const: "02"
+                      description: Smart Pickup
+                    - const: "08"
+                      description: No pickup plan
+              additionalProperties: true
+              unevaluatedProperties: false
+              required:
+                - ContactInfo
+      additionalProperties: false
+      required:
+        - ViewPickupInfoResponse
+
+    #/update            
+    UpdatePickupInfoRequestV1:
+      type: object
+      description: The Updated Pickup Info request enable user to update the Pickup information and Pick Address details.
+      properties:
+        UpdatePickupInfoRequest:
+          allOf:
+            - $ref: '#/components/schemas/SmartPickupAddressV1'
+            - type: object
+              description: The Updated Pickup Info request enable user to update the Pickup information and Pick Address details.
+              properties:
+                Locale:
+                  $ref: '#/components/schemas/SmartPickupLocaleV1'
+                AccountInfo:
+                  $ref: '#/components/schemas/SmartPickupAccountInfoV1'
+                PickUpTypeCode:
+                  description: "Type of Pickup. Note: Pickup changes are not allowed when PickupType code is 97."
+                  oneOf:
+                    - const: "02"
+                      description: Smart Pickup
+                    - const: "08"
+                      description: No pickup plan
+                PickUpInfo:
+                  $ref: '#/components/schemas/SmartPickupPickupInfoV1'                
+              additionalProperties: true
+              unevaluatedProperties: false
+              required:
+                - 'Locale'
+                - 'AccountInfo'
+                - 'PickUpTypeCode'
+      additionalProperties: false
+      required:
+        - UpdatePickupInfoRequest
+    UpdatePickupInfoResponseV1:
+      type: object
+      description: The Update Pickup Info response for a successful request.      
+      properties:
+        UpdatePickupInfoResponse:
+          description: The Update Pickup Info response for a successful request.
+          $ref: '#/components/schemas/SmartPickupPickupInfoResponseV1'
+      additionalProperties: false
+      required:
+        - UpdatePickupInfoResponse
+    
+    #COMMON
+    SmartPickupAccountInfoV1:
+      type: object
+      description: The UPS account information that you want to use for SmartPickupTrigger and NotificationIndicator
+      properties:
+        AccountNmber:
+          $ref: '#/components/schemas/SmartPickupAccountNumberV1'
+        CountryCode:
+          $ref: '#/components/schemas/SmartPickupCountryCodeV1'
+      additionalProperties: true
+      unevaluatedProperties: false
+    SmartPickupAccountNumberV1:
+      type: string
+      description: The existing UPS account number.
+      minLength: 1
+      maxLength: 6
+      example: 1234YY
+    SmartPickupAddressV1:
+      type: object
+      description: To obtain the pickup Address details
+      properties:
+        Address:
+          type: object
+          description: To obtain the pickup address.
+          properties:
+            CompanyName:
+              type: string
+              description: Company name for pickup address.
+              minLength: 1
+              maxLength: 30
+              example: Acme Corp
+            StreetName:
+              type: string
+              description: Street name for pickup location.
+              minLength: 1
+              maxLength: 30
+              example: 123 Main St
+            StreetNumber:
+              type: string
+              description: Street number for pickup location.
+              minLength: 1
+              maxLength: 11
+              example: "123"
+            StreetType:
+              type: string
+              description: Street type for pickup location.
+              minLength: 1
+              maxLength: 4
+              example: Main
+            StreetPrefix:
+              type: string
+              description: Street Prefix for pickup location.
+              minLength: 1
+              maxLength: 2
+              example: "N"
+            StreetSuffix:
+              type: string
+              description: Street Suffix for pickup location.
+              minLength: 1
+              maxLength: 2
+              example: ST
+            City:
+              type: string
+              description: City Name.
+              minLength: 1
+              maxLength: 30
+              example: Atlanta
+            State:
+              type: string
+              description: The <a href="https://en.wikipedia.org/wiki/ISO_3166-2:US" target="_blank">ISO 3166-2</a> state code.
+              minLength: 2
+              maxLength: 2
+              pattern: ^[A-Z]{2}
+              example: NJ
+            CountryCode:
+              description: Country code for pickup address.
+              $ref: '#/components/schemas/SmartPickupCountryCodeV1'
+            PostalCode:
+              type: string
+              description: Postal code or equivalent for postal countries.
+              minLength: 1
+              maxLength: 8
+              example: "30301"
+            PostalCodeExtension:
+              type: string
+              description: Postal Code Extension.
+              minLength: 1
+              maxLength: 2
+              example: "01"
+            RoomSuite:
+              type: string
+              description: Room or Suite Number. Only for US, CA, and PR.              
+              minLength: 1
+              maxLength: 8
+              example: Suite200
+            AddressLine2:
+              type: string
+              description: Additional address information. Not applicable for US, CA, and PR.
+              minLength: 1
+              maxLength: 30
+              example: Tech Park Phase 2
+            AddressLine3:
+              type: string
+              description: Additional address information. Not applicable for US, CA, and PR.
+              minLength: 1
+              maxLength: 30
+              example: Building B
+          additionalProperties: false
+          required:
+            - StreetName
+      additionalProperties: true
+      unevaluatedProperties: false
+      required:
+        - Address
+    SmartPickupCountryCodeV1:
+      type: string
+      description: The <a href="https://www.iso.org/iso-3166-country-codes.html" target="_blank">ISO 3166</a> country or territory code
+      minLength: 2
+      maxLength: 2
+      pattern: ^[A-Z]{2}
+      example: US
+    SmartPickupLocaleV1:
+      type: object
+      description: To set locale information
+      properties:
+        LanguageCode:
+          type: string
+          description: The <a href="https://www.iso.org/iso-639-language-code.html" target="_blank">ISO 639</a> language codes
+          minLength: 2
+          maxLength: 2
+          pattern: ^[A-Z]{2}
+          example: EN
+        CountryCode:
+          description: Country or Territory code associated with the locale.
+          $ref: '#/components/schemas/SmartPickupCountryCodeV1'
+      additionalProperties: false
+      required:
+        - LanguageCode
+        - CountryCode
+    SmartPickupNotificationIndicatorV1:
+      type: string
+      description: |         
+        Notification opt-out - a CTA/link on the transactional PU alert that takes the User to a unique landing page
+        (determined by whether the User/Email combo have a ups.com User ID or not) so that they can opt-out of receiving
+        these transactional alerts for this account. Required when Action is Add or Update.
+      oneOf:
+        - const: "01"
+          description: Opt-in
+        - const: "02"
+          description: Opt-out
+    SmartPickupPendingStatusIndicatorV1:
+      type: string
+      description: Available when existing PickupTypeCode changes are pending.    
+    SmartPickupPickupInfoV1:
+      type: object
+      description: PickUpInfo Contains PickUp Location information.  Available when PickupTypeCode is **02**.
+      properties:  
+        PickupPoint:
+          $ref: '#/components/schemas/SmartPickupPickupPointV1'
+        PickUpTime:
+          description: Shipment Pickup Time. Available when PickupTypeCode is **02**. 
+          $ref: '#/components/schemas/SmartPickupPickupTimeV1'
+        WeekendServiceTerritoryIndicator:
+          type: string
+          description: |
+            Indicates if the pickup address qualifies for WST (Weekend Service Territory) pickup. 
+            Available when PickupTypeCode is **02** and pickup address is WST area. 
+          enum:
+            - "N"
+            - "Y"
+        WeekendPickupInformation:
+          type: object
+          description: Weekend pickup Information. Available when WeekendServiceTerritoryIndicator is populated and PickupTypeCode is **02**.
+          properties:
+            DeliveryOptions:
+              description: Weekend delivery options. Valid only for US. 
+              type: string
+              oneOf:
+                - const: "01"
+                  description: Saturday Eligible Commercial (SEC).
+                - const: "02"
+                  description: Sunday Eligible Commcercial (SUEC)
+            PickUpDate:
+              type: array
+              description: Unbounded container for weekend pickup dates
+              minItems: 1
+              items:
+                type: object
+                description:  Weekend Shipment Pickup Date. Available when PickupTypeCode is 02 and WeekendServiceTerritoryIndicator is populated.
+                properties:
+                  WeekEndPickUpDay:
+                    type: string
+                    description: ""
+                    oneOf:
+                      - const: "01"
+                        description: Saturday
+                      - const: "02"
+                        description: Sunday
+                    additionalProperties: false
+                additionalProperties: false
+                required:
+                  - WeekEndPickUpDay
+            PickupPoint:
+              $ref: '#/components/schemas/SmartPickupPickupPointV1'
+            PickUpTime:
+              description: Weekend shipment Pickup Time. Available when PickupTypeCode is 02 and WeekendServiceTerritoryIndicator is populated.
+              $ref: '#/components/schemas/SmartPickupPickupTimeV1'
+          additionalProperties: false
+          required:
+            - PickUpDate
+            - PickupPoint
+            - PickUpTime
+      additionalProperties: true
+      unevaluatedProperties: false
+      required:
+        - PickupPoint
+        - PickUpTime
+    SmartPickupPickupInfoResponseV1:
+      type: object
+      properties:
+        Response:
+          $ref: '#/components/schemas/SmartPickupCommonResponseV1'
+        AccountNumber:
+          type: string
+          description: UPS Account Number. Must be an existing UPS account number
+          minLength: 1
+          maxLength: 10
+          example: 1234YY
+        PickUpNotifyTime:
+          description: |
+            PickUpNotifyTime is based on Pickup Location. UPS retains the right to change this time. NotifyTime
+            would be available when user selects pickup type 02 - Smart Pickup. Format:HHMMSS
+          $ref: '#/components/schemas/SmartPickupTimeV1'
+        WeekEndPickUpNotifyTime:
+          description: |
+            Weekend PickUp Notify Time is based on Pickup Location. UPS retains the right to change this time.WeekEndPickUpNotifyTime
+            would be available when user selects the pickup type  02- Smart Pickup and WeekendServiceTerritoryIndicator is available
+          $ref: '#/components/schemas/SmartPickupTimeV1'
+        SundayPickUpNotifyTime:
+          description: |
+            Sunday PickUp Notify Time is based on Pickup Location. UPS retains the right to change this time.WeekEndPickUpNotifyTime
+            would be available when user selects the pickup type  02- Smart Pickup and WeekendServiceTerritoryIndicator is available
+          $ref: '#/components/schemas/SmartPickupTimeV1'
+        PickUpPendingStatusIndicator:
+          $ref: '#/components/schemas/SmartPickupPendingStatusIndicatorV1'
+      additionalProperties: true
+      unevaluatedProperties: false
+      required:
+        - Response
+    SmartPickupPickupPointV1:
+      type: string
+      description: Location of shipment pickup.
+      oneOf:
+        - const: "001"
+          description: Front Door
+        - const: "002"
+          description: Mail Room
+        - const: "003"
+          description: ThirdParty
+        - const: "004"
+          description: Garage
+        - const: "005"
+          description: Office
+        - const: "006"
+          description: Reception
+        - const: "007"
+          description: Upstairs
+        - const: "008"
+          description: Guard Room
+        - const: "009"
+          description: Shipping
+        - const: "010"
+          description: Receiving
+        - const: "011"
+          description: Back Door
+        - const: "012"
+          description: Side Door
+        - const: "013"
+          description: Downstairs
+        - const: "014"
+          description: Warehouse
+    SmartPickupPickupTimeV1:
+      type: object
+      properties:
+        EarliestTime:
+          description: Earliest time that your shipment will be ready for pickup.
+          $ref: '#/components/schemas/SmartPickupTimeV1'
+        LatestTime:
+          description: Latest time that UPS will be able to gain access to your shipment.
+          $ref: '#/components/schemas/SmartPickupTimeV1'
+        PreferredTime:
+          description: Preferred time from user profile that UPS will be able to gain access to your shipment.
+          $ref: '#/components/schemas/SmartPickupTimeV1'
+      additionalProperties: false
+      required:
+        - EarliestTime
+        - LatestTime
+        - PreferredTime
+    SmartPickupCommonResponseV1:
+      type: object
+      description: The generic response container
+      properties:
+        ResponseStatus:
+          type: object
+          description: The Response status container
+          properties:
+            Code:
+              type: string
+              description: Identifies the success of the transaction.
+              oneOf:
+                - const: "1"
+                  description: Success
+            Description:
+              type: string
+              description: Describes Response Status Code. Such as Success
+              minLength: 1
+              maxLength: 35
+              example: Success
+          additionalProperties: false
+          required:
+            - Code
+            - Description
+        Alert:
+          type: object
+          description: Alert Container.
+          properties:
+            Code:
+              description: Warning code returned by the system
+              type: string
+              minLength: 1
+              maxLength: 10
+              example: '20000'
+            Description:
+              description: Warning description returned by the system
+              type: string
+              minLength: 1
+              maxLength: 150
+              example: Request to Message Consolidator failed
+          additionalProperties: false
+          required:
+            - Code
+            - Description
+        TransactionReference:
+          type: object
+          description: Transaction Reference Container
+          properties:
+            CustomerContext:
+              type: string
+              description: The CustomerContext Information which will be echoed during response.
+              minLength: 1
+              maxLength: 512
+              example: Request to smart pickup trigger
+            TransactionIdentifier:
+              type: string
+              description: The Unique TransactionIdentifier Information for that transaction.
+              minLength: 11
+              maxLength: 21
+              example: "12345678901"
+          additionalProperties: false
+          required:
+            - CustomerContext
+            - TransactionIdentifier
+      additionalProperties: false
+      required:
+        - ResponseStatus
+        - Alert
+    SmartPickupTimeV1:
+      type: string
+      format: HHMMSS
+      minLength: 6
+      maxLength: 6
+      pattern: ^([01]\d|2[0-3])(00|15|30|45)(00)$
+      example: "130000"
+    SmartPickupTriggerV1:
+      type: string
+      description: >-        
+        Smart pickup trigger when the PU event (PRN) for the Smart PU is moved from pending to scheduled. Required when Action is Add or Updtae.
+      oneOf:
+        - const: "01"
+          description: PLD Trigger
+        - const: "02"
+          description: Manual Trigger
+    
+    #ERROR HANDLING
+    SmartPickupErrorResponseV1:
+      type: object
+      description: Response object for errors
+      properties:
+        response:
+          description: Response container to store errors
+          type: object
+          properties: 
+            errors:
+              type: array
+              description: Unbounded array containing one or more errors
+              items: 
+                type: object
+                description: Error entity
+                properties: 
+                  code:
+                    type: string
+                    description: error code
+                    minLength: 1
+                  message:
+                    type: string
+                    description: error message
+                    minLength: 1
+                required: 
+                  -  code
+                  -  message
+                additionalProperties: false
+          required: 
+            -  errors
+          additionalProperties: false
+      required: 
+        - response
+      additionalProperties: false

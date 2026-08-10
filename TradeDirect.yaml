@@ -9,7 +9,6 @@ info:
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
     <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
-
     # Key Benefits Value
       - Streamlined External Trade Management: Simplify the process of creating and managing international and domestic shipments with a unified API.
       - Secure Access: OAuth2 and JWT-based authentication ensure secure and reliable API usage for global trade operations.
@@ -20,7 +19,10 @@ info:
     
     
 servers:
+  - url: Not Available
+    description: Customer Integration Environment
   - url: "https://onlinetools.ups.com/api/ship/tradedirect/{version}"
+    description: Production
     variables:
       version:
         description: "Initial version for TradeDirect Shipment"

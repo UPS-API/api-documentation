@@ -23,9 +23,9 @@ tags:
   - name: Delivery Defense
 servers:
   - url: https://wwwcie.ups.com/api/deliverydefense/external/v1.0
-    description: DeliveryDefense Customer Integration Environment
+    description: Customer Integration Environment
   - url: https://onlinetools.ups.com/api/deliverydefense/external/v1.0
-    description: DeliveryDefense Production Environment
+    description: Production Environment
 paths:
   /address/score:
     post:

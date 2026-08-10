@@ -1,0 +1,827 @@
+openapi: 3.1.0
+info:
+  title: Ingest Inventory API v1
+  version: 1.0.0
+  description: >
+    This API allows UPS customers to seamlessly synchronize their Warehouse
+    Management System (WMS) orders and updates with the UPS Supply Chain
+    Symphony datastore in near real time. By doing so, it provides end‑to‑end
+    visibility of all orders and inventory across the digital platform for both
+    UPS partners and customers.
+
+
+    Designed as part of the UPS Inventory API suite, it offers plug‑and‑play
+    integrations that enable efficient capture and transmission of key inventory
+    updates from the UPS SCS network.
+servers:
+  - url: https://onlinetools.ups.com/inventory/v1
+    description: Production
+  - url: https://wwwcie.ups.com/inventory/v1
+    description: Customer Integration Environment
+tags:
+  - name: inventory
+    description: Inventory ingestion operations
+paths:
+  /inventory:
+    post:
+      summary: Ingest inventory data
+      description: >
+        Synchronizes Warehouse Management System (WMS) inventory data with the
+        UPS Supply Chain Symphony datastore.
+
+        Enables real-time visibility of inventory across the digital platform
+        for UPS partners and customers.
+      operationId: ingestInventory
+      tags:
+        - inventory
+      parameters:
+        - $ref: '#/components/parameters/transId'
+        - $ref: '#/components/parameters/transactionSrc'
+        - $ref: '#/components/parameters/Content-Type'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestInventoryRequest'
+            examples:
+              inventorySnapshot:
+                summary: Complete inventory snapshot example
+                value:
+                  apiVersion: '1.0'
+                  request:
+                    sourceSystem: wmsinventory
+                    partnerId: '1052'
+                    sbMessageId: d54c6ecf-7446-4451-9a9e-e8a413a32388
+                    docFlow: Inventory
+                    docId: NGiD
+                    docDateTime: '2024-01-18 14:26:15-05:00'
+                    docType: Inventory
+                    transactionType: WMS
+                    docVer: '1.0'
+                    inventorySnapshotId: 1052-MULT01-20240118192615
+                    inventorySnapshotDate: '2024-01-18 19:26:15-05:00'
+                    inventoryInformation:
+                      - customerAccountNumber: MULT01
+                        warehouseInformation:
+                          warehouseCode: GAATL
+                          warehouseName: GAATL
+                          warehouseTimeZone: America/New_York
+                          address:
+                            city: Atlanta
+                            stateProvince: GA
+                            postalCode: '30313'
+                            country: US
+                        availableQuantity: '178'
+                        nonAvailableQuantity: '0'
+                        qcHoldQuantity: '1'
+                        inTransitQuantity: '161'
+                        reservedQuantity: '2'
+                        references:
+                          - referenceCode: '1234'
+                            referenceType: Order
+                            referenceValue: PARTNER - MULT01-INV-20240118192615
+                          - referenceCode: '2345'
+                            referenceType: ModelType
+                            referenceValue: Big
+                        batchStatus: Held
+                        batchHoldReason: Others
+                        dispositionCode: Good
+                        palletId: '105716'
+                        itemNumber: BP1910G10
+                        itemDescription: KNOB;1 1/4";BP1910-G10;ALLISON;SATIN NIC
+                        itemWeight: '2.0'
+                        itemWeightUOM: LBS
+                        itemDimensions:
+                          height: '11.0'
+                          length: '6.0'
+                          width: '4.0'
+                          dimensionUOM: IN
+                        hazardClass: '1'
+                        hazmatClass: '1'
+      responses:
+        '200':
+          description: Inventory data successfully ingested
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestInventorySuccessResponse'
+              examples:
+                successfulIngest:
+                  summary: Successful inventory ingestion
+                  value:
+                    isCompleted: true
+                    isFaulted: false
+                    errors: []
+                    result:
+                      - messageId: c1234567-e89b-12d3-a456-426614174000
+                        orderNumber: ORD-10001
+                        shipmentNumber: SHP-90001
+                        shipmentUniquekey: UNIQUE-KEY-12345
+                        docId: DOC-10001
+                        docType: Order
+                        isCompleted: true
+        '400':
+          description: Bad Request - Invalid input data
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            APIErrorCode:
+              $ref: '#/components/headers/APIErrorCode'
+            APIErrorMsg:
+              $ref: '#/components/headers/APIErrorMsg'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestInventoryErrorResponse'
+              examples:
+                validationError:
+                  summary: Validation error example
+                  value:
+                    isCompleted: false
+                    isFaulted: true
+                    errors:
+                      - code: '400'
+                        message: Invalid request input.
+                        source: ValidationError
+                    result: Bad Request
+                missingRequiredField:
+                  summary: Missing required field example
+                  value:
+                    isCompleted: false
+                    isFaulted: true
+                    errors:
+                      - code: '400'
+                        message: Required field 'partnerId' is missing.
+                        source: ValidationError
+                    result: Bad Request
+                invalidDateFormat:
+                  summary: Invalid date format example
+                  value:
+                    isCompleted: false
+                    isFaulted: true
+                    errors:
+                      - code: '400'
+                        message: Invalid date format for 'docDateTime'.
+                        source: ValidationError
+                    result: Bad Request
+        '401':
+          description: Unauthorized - Authentication failed or missing
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            APIErrorCode:
+              $ref: '#/components/headers/APIErrorCode'
+            APIErrorMsg:
+              $ref: '#/components/headers/APIErrorMsg'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+              examples:
+                authenticationError:
+                  summary: Authentication error example
+                  value:
+                    apiName: IngestInventoryAPI
+                    faultName: Unauthorized
+                    errorCode: '401'
+                    errorDate: '2026-02-10'
+                    errorTime: 20:33:41Z
+                    errorDescription: Authorization failed. Token missing or invalid.
+                expiredToken:
+                  summary: Expired token example
+                  value:
+                    apiName: IngestInventoryAPI
+                    faultName: Unauthorized
+                    errorCode: '401'
+                    errorDate: '2026-02-10'
+                    errorTime: 20:35:12Z
+                    errorDescription: Token has expired. Please request a new token.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          description: Internal Server Error - Unexpected system error
+          headers:
+            BkndTransId:
+              $ref: '#/components/headers/BkndTransId'
+            transactionSrc:
+              $ref: '#/components/headers/transactionSrc'
+            APIErrorCode:
+              $ref: '#/components/headers/APIErrorCode'
+            APIErrorMsg:
+              $ref: '#/components/headers/APIErrorMsg'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestInventoryErrorResponse'
+              examples:
+                systemException:
+                  summary: System exception example
+                  value:
+                    isCompleted: false
+                    isFaulted: true
+                    errors:
+                      - code: '500'
+                        message: An unexpected server error occurred.
+                        source: SystemException
+                    result: Internal Server Error
+                databaseConnectionError:
+                  summary: Database connection error example
+                  value:
+                    isCompleted: false
+                    isFaulted: true
+                    errors:
+                      - code: '500'
+                        message: Database connection failed. Please try again later.
+                        source: DatabaseException
+                    result: Internal Server Error
+                serviceUnavailable:
+                  summary: Service unavailable example
+                  value:
+                    isCompleted: false
+                    isFaulted: true
+                    errors:
+                      - code: '500'
+                        message: >-
+                          Service temporarily unavailable. Please retry after
+                          some time.
+                        source: ServiceException
+                    result: Internal Server Error
+components:
+  schemas:
+    Error:
+      description: Error entity
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          description: error code
+          type: string
+          pattern: ^[a-zA-Z0-9\-_]+$
+          minLength: 3
+          example: VALIDATION_ERROR
+        message:
+          description: error message
+          type: string
+          minLength: 3
+          pattern: ^[a-zA-Z0-9\-_\s:]+$
+          example: Invalid input data provided
+    ResponseErrorsArr:
+      description: Error response entity
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          description: error payload - array containing one or more Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          minItems: 1
+    ErrorResponse:
+      description: Response Object for error condition
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ResponseErrorsArr'
+    IngestInventoryRequest:
+      description: Request payload for ingesting inventory data
+      type: object
+      required:
+        - apiVersion
+        - request
+      properties:
+        apiVersion:
+          type: string
+          description: API version
+          example: '1.0'
+        request:
+          $ref: '#/components/schemas/InventoryRequestData'
+    InventoryRequestData:
+      description: Inventory request data
+      type: object
+      required:
+        - sourceSystem
+        - partnerId
+        - docFlow
+        - docType
+        - inventoryInformation
+      properties:
+        sourceSystem:
+          type: string
+          description: Source system identifier
+          example: wmsinventory
+        partnerId:
+          type: string
+          description: Partner identifier
+          example: '1052'
+        sbMessageId:
+          type: string
+          format: uuid
+          description: Service bus message identifier
+          example: d54c6ecf-7446-4451-9a9e-e8a413a32388
+        docFlow:
+          type: string
+          description: Document flow type
+          example: Inventory
+        docId:
+          type: string
+          description: Document identifier
+          example: NGiD
+        docDateTime:
+          type: string
+          description: Document date and time
+          example: '2024-01-18 14:26:15-05:00'
+        docType:
+          type: string
+          description: Document type
+          example: Inventory
+        transactionType:
+          type: string
+          description: Transaction type
+          example: WMS
+        docVer:
+          type: string
+          description: Document version
+          example: '1.0'
+        inventorySnapshotId:
+          type: string
+          description: Unique inventory snapshot identifier
+          example: 1052-MULT01-20240118192615
+        inventorySnapshotDate:
+          type: string
+          description: Inventory snapshot date and time
+          example: '2024-01-18 19:26:15-05:00'
+        inventoryInformation:
+          type: array
+          description: Array of inventory information records
+          items:
+            $ref: '#/components/schemas/InventoryInformation'
+          minItems: 1
+    InventoryInformation:
+      description: Detailed inventory information for a specific item
+      type: object
+      required:
+        - customerAccountNumber
+        - itemNumber
+      properties:
+        customerAccountNumber:
+          type: string
+          description: Customer account number
+          example: MULT01
+        warehouseInformation:
+          $ref: '#/components/schemas/WarehouseInformation'
+        availableQuantity:
+          type: string
+          description: Available quantity
+          example: '178'
+        nonAvailableQuantity:
+          type: string
+          description: Non-available quantity
+          example: '0'
+        qcHoldQuantity:
+          type: string
+          description: Quality control hold quantity
+          example: '1'
+        inTransitQuantity:
+          type: string
+          description: In-transit quantity
+          example: '161'
+        reservedQuantity:
+          type: string
+          description: Reserved quantity
+          example: '2'
+        references:
+          type: array
+          description: Reference information
+          items:
+            $ref: '#/components/schemas/ReferenceInformation'
+        dpOrgEntityKey:
+          type:
+            - string
+            - "null"
+          description: DP organization entity key
+        lpnNumber:
+          type:
+            - string
+            - "null"
+          description: License plate number
+        designator:
+          type:
+            - string
+            - "null"
+          description: Item designator
+        vendorSerialNumber:
+          type:
+            - string
+            - "null"
+          description: Vendor serial number
+        vendorLotNumber:
+          type:
+            - string
+            - "null"
+          description: Vendor lot number
+        batchStatus:
+          type: string
+          description: Batch status
+          example: Held
+        expirationDate:
+          type:
+            - string
+            - "null"
+          description: Expiration date
+        batchHoldReason:
+          type: string
+          description: Reason for batch hold
+          example: Others
+        holdDescription:
+          type:
+            - string
+            - "null"
+          description: Description of hold
+        businessUnit:
+          type:
+            - string
+            - "null"
+          description: Business unit
+        dispositionCode:
+          type: string
+          description: Disposition code
+          example: Good
+        palletId:
+          type: string
+          description: Pallet identifier
+          example: '105716'
+        itemNumber:
+          type: string
+          description: Item number
+          example: BP1910G10
+        itemDescription:
+          type: string
+          description: Item description
+          example: KNOB;1 1/4";BP1910-G10;ALLISON;SATIN NIC
+        itemWeight:
+          type: string
+          description: Item weight
+          example: '2.0'
+        itemWeightUOM:
+          type: string
+          description: Item weight unit of measure
+          example: LBS
+        itemDimensions:
+          $ref: '#/components/schemas/ItemDimensions'
+        hazardClass:
+          type: string
+          description: Hazard class
+          example: '1'
+        hazmatClass:
+          type: string
+          description: Hazmat class
+          example: '1'
+        strategicGoodsFlag:
+          type: string
+          description: Strategic goods flag
+        unCode:
+          type: string
+          description: UN code
+        category:
+          type: string
+          description: Item category
+    WarehouseInformation:
+      description: Warehouse location and address information
+      type: object
+      properties:
+        warehouseCode:
+          type: string
+          description: Warehouse code
+          example: GAATL
+        warehouseName:
+          type: string
+          description: Warehouse name
+          example: GAATL
+        warehouseTimeZone:
+          type: string
+          description: Warehouse time zone
+          example: America/New_York
+        address:
+          $ref: '#/components/schemas/WarehouseAddress'
+    WarehouseAddress:
+      description: Warehouse physical address
+      type: object
+      properties:
+        city:
+          type: string
+          description: City name
+          example: Atlanta
+        stateProvince:
+          type: string
+          description: State or province code
+          example: GA
+        postalCode:
+          type: string
+          description: Postal code
+          example: '30313'
+        country:
+          type: string
+          description: Country code
+          example: US
+    ReferenceInformation:
+      description: Reference information for inventory items
+      type: object
+      properties:
+        referenceCode:
+          type: string
+          description: Reference code
+          example: '1234'
+        referenceType:
+          type: string
+          description: Reference type
+          example: Order
+        referenceValue:
+          type: string
+          description: Reference value
+          example: PARTNER - MULT01-INV-20240118192615
+    ItemDimensions:
+      description: Item dimensional information
+      type: object
+      properties:
+        height:
+          type: string
+          description: Item height
+          example: '11.0'
+        length:
+          type: string
+          description: Item length
+          example: '6.0'
+        width:
+          type: string
+          description: Item width
+          example: '4.0'
+        dimensionUOM:
+          type: string
+          description: Dimension unit of measure
+          example: IN
+    IngestInventorySuccessResponse:
+      description: Successful response for inventory ingestion
+      type: object
+      required:
+        - isCompleted
+        - isFaulted
+        - errors
+        - result
+      properties:
+        isCompleted:
+          type: boolean
+          description: Indicates if the operation completed
+          example: true
+        isFaulted:
+          type: boolean
+          description: Indicates if the operation encountered a fault
+          example: false
+        errors:
+          type: array
+          description: Array of errors (empty on success)
+          items:
+            type: object
+          example: []
+        result:
+          type: array
+          description: Array of processed inventory results
+          items:
+            $ref: '#/components/schemas/InventoryResult'
+    InventoryResult:
+      description: Individual inventory processing result
+      type: object
+      properties:
+        messageId:
+          type: string
+          format: uuid
+          description: Message identifier
+          example: c1234567-e89b-12d3-a456-426614174000
+        orderNumber:
+          type: string
+          description: Order number
+          example: ORD-10001
+        shipmentNumber:
+          type: string
+          description: Shipment number
+          example: SHP-90001
+        shipmentUniquekey:
+          type: string
+          description: Unique shipment key
+          example: UNIQUE-KEY-12345
+        docId:
+          type: string
+          description: Document identifier
+          example: DOC-10001
+        docType:
+          type: string
+          description: Document type
+          example: Order
+        isCompleted:
+          type: boolean
+          description: Indicates if this item was successfully processed
+          example: true
+    IngestInventoryErrorResponse:
+      description: Error response for inventory ingestion
+      type: object
+      required:
+        - isCompleted
+        - isFaulted
+        - errors
+        - result
+      properties:
+        isCompleted:
+          type: boolean
+          description: Indicates if the operation completed
+          example: false
+        isFaulted:
+          type: boolean
+          description: Indicates if the operation encountered a fault
+          example: true
+        errors:
+          type: array
+          description: Array of errors encountered
+          items:
+            $ref: '#/components/schemas/OperationError'
+          minItems: 1
+        result:
+          type: string
+          description: Result message
+          example: Bad Request
+    OperationError:
+      description: Error details for failed operations
+      type: object
+      required:
+        - code
+        - message
+        - source
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: '400'
+        message:
+          type: string
+          description: Error message
+          example: Invalid request input.
+        source:
+          type: string
+          description: Error source
+          example: ValidationError
+    UnauthorizedResponse:
+      description: Unauthorized error response
+      type: object
+      required:
+        - apiName
+        - faultName
+        - errorCode
+        - errorDate
+        - errorTime
+        - errorDescription
+      properties:
+        apiName:
+          type: string
+          description: API name
+          example: IngestInventoryAPI
+        faultName:
+          type: string
+          description: Fault name
+          example: Unauthorized
+        errorCode:
+          type: string
+          description: Error code
+          example: '401'
+        errorDate:
+          type: string
+          description: Error date
+          example: '2026-02-10'
+        errorTime:
+          type: string
+          description: Error time in UTC
+          example: 20:33:41Z
+        errorDescription:
+          type: string
+          description: Detailed error description
+          example: Authorization failed. Token missing or invalid.
+  parameters:
+    transId:
+      name: transId
+      in: header
+      description: An identifier unique to the request.
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-.]{3,36}$
+        minLength: 3
+        maxLength: 36
+        example: 0a1b9c2d8e3f7g4h6i5
+    transactionSrc:
+      name: transactionSrc
+      in: header
+      description: Identifies the client/source application that is calling.
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-.]{1,36}$
+        minLength: 1
+        maxLength: 36
+        example: GlobalAdvisor
+    Content-Type:
+      name: Content-Type
+      in: header
+      description: >-
+        The Content-Type header indicates the media type of the associated
+        request or response payload
+      required: true
+      schema:
+        type: string
+        example: application/json
+  headers:
+    BkndTransId:
+      description: The backend uuid transaction id.
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: 550e8400-e29b-41d4-a716-446655440000
+    transactionSrc:
+      description: Identifies the client/source application that is calling.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 36
+        pattern: ^[a-zA-Z0-9-.]{1,36}$
+        example: UPS.com
+    APIErrorCode:
+      description: The API error code.
+      required: true
+      schema:
+        type: string
+        example: UJ0001
+    APIErrorMsg:
+      description: The API error message.
+      required: true
+      schema:
+        type: string
+        example: Invalid token or token is not present.
+  responses:
+    Forbidden:
+      description: Forbidden - Insufficient permissions
+      headers:
+        BkndTransId:
+          $ref: '#/components/headers/BkndTransId'
+        transactionSrc:
+          $ref: '#/components/headers/transactionSrc'
+        APIErrorCode:
+          $ref: '#/components/headers/APIErrorCode'
+        APIErrorMsg:
+          $ref: '#/components/headers/APIErrorMsg'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            insufficientPermissions:
+              summary: Insufficient permissions example
+              value:
+                response:
+                  errors:
+                    - code: AUTHORIZATION_ERROR
+                      message: Insufficient permissions to access this resource
+            accessDenied:
+              summary: Access denied example
+              value:
+                response:
+                  errors:
+                    - code: AUTHORIZATION_ERROR
+                      message: Access denied to requested resource
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page.
+        1. Select "Try It"
+        2. In the Security section enter your Client ID and Secret
+        3. Select "Request Token"
+        4. Enter any additional information in the Body and Parameters sections
+        5. Select "Send" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
+          scopes: {}
+security:
+  - OAuth2: []

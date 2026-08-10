@@ -1,12 +1,22 @@
 openapi: 3.1.0
 info:
-  title: Upps External API v1
+  title: UPS Lab Logistics Pickup Points API
   version: 1.0.0
-  description: Upps external api
-  contact:
-    name: UPS API Support Team
-    email: api.support@ups.com
+  description: |
+
+    # Product Info
+
+    UPS Lab Logistics Pickup Points is used by clinics and laboratories to schedule daily, date-specific, and smart pickups using Placard. It streamlines pickup operations through centralized platform to improve efficiency and reliability.
+
+    <a href="https://god.gw.postman.com/run-collection/29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29542085-7513df2c-af1b-4e5c-8b5d-5797d03a6a44%26entityType%3Dcollection%26workspaceId%3D7e7595f0-4829-4f9a-aee1-75c126b9d417" target="_blank" rel="noopener noreferrer">
+      <img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;"></a>
+    <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
+      <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
+    </a>
+    
 servers:
+  - url: Not Available
+    description: Customer Integration Environment 
   - url: https://onlinetools.ups.com/api/uppmanage/{version}
     description: Production server
     variables:
@@ -14,15 +24,6 @@ servers:
         default: v1
         enum:
           - v1
-tags:
-  - name: pickup-orders
-    description: Pickup order operations
-  - name: tracking
-    description: Inbound tracking operations
-  - name: sites
-    description: Site details operations
-  - name: subscriptions
-    description: Subscription operations
 paths:
   /orders:
     post:

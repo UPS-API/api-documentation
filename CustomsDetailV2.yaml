@@ -29,10 +29,11 @@ info:
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
 servers:
+  - url: https://wwwcie.ups.com/api/trade/compliance/{version}
+    description: Customer Integration Environment
   - url: https://onlinetools.ups.com/api/trade/compliance/{version}
     description: Production
-  - url: https://wwwcie.ups.com/api/trade/compliance/{version}
-    description: CIE
+
 tags:
   - name: Customs Detail
     description:  Endpoints related to the required fields

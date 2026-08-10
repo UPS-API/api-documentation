@@ -1,0 +1,852 @@
+openapi: 3.1.0
+info:
+  title: Ingest Logistics API v1
+  version: 1.0.0
+  description: >
+    This API allows UPS customers to seamlessly synchronize their Warehouse
+    Management System (WMS) orders and updates with the UPS Supply Chain
+    Symphony datastore in near real time. By doing so, it provides end‑to‑end
+    visibility of all orders and inventory across the digital platform for both
+    UPS partners and customers.
+
+    Designed as part of the UPS Logistics API suite, it offers plug‑and‑play
+    integrations that enable efficient capture and transmission of key order
+    updates from the UPS SCS network.
+servers:
+  - url: https://onlinetools.ups.com/logistics/v1
+    description: Production
+  - url: https://wwwcie.ups.com/logistics/v1
+    description: Customer Integration Environment
+tags:
+  - name: logistics
+    description: Logistics data ingestion operations
+paths:
+  /logistics-data:
+    post:
+      tags:
+        - logistics
+      summary: Ingest logistics data
+      description: >
+        Synchronizes Warehouse Management System (WMS) orders and updates with
+        the UPS Supply Chain Symphony datastore.
+
+        Accepts order details including shipment information, party details, and
+        activity tracking.
+      operationId: ingestLogisticsData
+      parameters:
+        - $ref: '#/components/parameters/transId'
+        - $ref: '#/components/parameters/transactionSrc'
+        - $ref: '#/components/parameters/Content-Type'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogisticsDataRequest'
+            examples:
+              sampleWMSOrderRequest:
+                summary: Sample WMS order request
+                value:
+                  apiVersion: '1.0'
+                  request:
+                    docDateTime: '2023-07-09T10:30:00Z'
+                    docFlow: Inbound
+                    docId: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+                    docType: Order
+                    docVer: '1.0'
+                    originalDocId: ORD-20230709-001
+                    sourceSystem: WMS_DEMO
+                    orderDetails:
+                      - customerAccountNumber: A12345
+                        orderNumber: LD123437
+                        orderPlacedDate: '2023-07-09'
+                        shipmentDetails:
+                          - shipmentNumber: SN1658566
+                            shipmentUniquekey: DEMO_SN1658566_20230709
+                            shipmentPlacedDate: '2023-07-09'
+                            shipmentDescription: Customer order shipment
+                            scheduledPickupDateTime: '2023-07-10T08:00:00Z'
+                            scheduledDeliveryDateTime: '2023-07-12T17:00:00Z'
+                            service:
+                              serviceCode: '001'
+                              serviceDescription: UPS Next Day Air
+                            partyDetails:
+                              - type: Shipper
+                                name: ABC Company
+                                addressLine1: 123 Main St
+                                city: Atlanta
+                                stateCode: GA
+                                postalCode: '30301'
+                                countryCode: US
+                                phone: '4045551234'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SC360ResponseListServiceResponse'
+              examples:
+                sampleWMSOrderSuccessResponse:
+                  value:
+                    errors: []
+                    isCompleted: true
+                    isFaulted: false
+                    result:
+                      - messageId: 27628ba3-6996-4c01-a0f5-0d4c6ac2d337
+                        orderNumber: LD123437
+                        shipmentNumber: SN1658566
+                        shipmentUniquekey: DEMO_SN1658566_20230709
+                        docId: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+                        docType: Order
+                        isCompleted: true
+        '207':
+          description: Multi-Status Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SC360ResponseListServiceResponse'
+              examples:
+                sampleWMSOrderSuccessResponse:
+                  value:
+                    errors: []
+                    isCompleted: true
+                    isFaulted: false
+                    result:
+                      - messageId: 27628ba3-6996-4c01-a0f5-0d4c6ac2d337
+                        orderNumber: LD123437
+                        shipmentNumber: SN1658566
+                        shipmentUniquekey: DEMO_SN1658566_20230709
+                        docId: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+                        docType: Order
+                        isCompleted: true
+                      - messageId: a9ea93db-1e51-492f-83c4-d864c95db056
+                        orderNumber: LD123438
+                        shipmentNumber: SN1658567
+                        shipmentUniquekey: DEMO_SN1658566_20230710
+                        docId: 62551ca8-36c8-4655-84f1-1459440ee9ee
+                        docType: Order
+                        isCompleted: false
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectServiceResponse'
+              examples:
+                sampleWMSOrderErrorResponse:
+                  value:
+                    errors:
+                      - code: '400'
+                        message: >-
+                          One or more required property is not provided value
+                          (source: shipmentUniqueKey)
+        '401':
+          description: Authorization Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectServiceResponse'
+              examples:
+                sampleWMSOrderErrorResponse:
+                  value:
+                    errors:
+                      - code: '401'
+                        message: 'Unauthorized (source: ingest-logistics-api)'
+        '500':
+          description: Internal Server Error - Unexpected system error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectServiceResponse'
+              examples:
+                sampleWMSOrderErrorResponse:
+                  value:
+                    errors:
+                      - code: '500'
+                        message: >-
+                          Unexpected server error has occurred. Please try again
+                          after some time. (source: ingest-logistics-api)
+components:
+  schemas:
+    LogisticsDataRequest:
+      description: Request for ingesting logistics data from WMS
+      type: object
+      required:
+        - apiVersion
+        - request
+      properties:
+        apiVersion:
+          type: string
+          description: API version identifier
+          example: '1.0'
+        request:
+          $ref: '#/components/schemas/RequestPayload'
+    RequestPayload:
+      description: Main request payload containing order and shipment details
+      type: object
+      required:
+        - docId
+        - docType
+        - sourceSystem
+      properties:
+        docDateTime:
+          type: string
+          format: date-time
+          description: Document creation date and time
+          example: '2023-07-09T10:30:00Z'
+        docFlow:
+          type: string
+          description: Document flow direction
+          example: Inbound
+        docId:
+          type: string
+          description: Unique document identifier
+          example: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+        docType:
+          type: string
+          description: Type of document
+          example: Order
+        docVer:
+          type: string
+          description: Document version
+          example: '1.0'
+        originalDocId:
+          type: string
+          description: Original document identifier
+          example: ORD-20230709-001
+        sourceSystem:
+          type: string
+          description: Source system identifier
+          example: WMS_DEMO
+        orderDetails:
+          type: array
+          description: Array of order details
+          items:
+            $ref: '#/components/schemas/OrderDetail'
+    OrderDetail:
+      description: Order detail information
+      type: object
+      properties:
+        customerAccountNumber:
+          type: string
+          description: Customer account number
+          example: A12345
+        orderNumber:
+          type: string
+          description: Order number
+          example: LD123437
+        orderPlacedDate:
+          type: string
+          format: date
+          description: Date when order was placed
+          example: '2023-07-09'
+        shipmentDetails:
+          type: array
+          description: Array of shipment details for the order
+          items:
+            $ref: '#/components/schemas/ShipmentDetail'
+    ShipmentDetail:
+      description: Detailed shipment information
+      type: object
+      required:
+        - shipmentNumber
+        - shipmentUniquekey
+      properties:
+        activityInformation:
+          $ref: '#/components/schemas/ActivityInformation'
+        actualPickupDateTime:
+          type: string
+          format: date-time
+          description: Actual pickup date and time
+          example: '2023-07-10T09:15:00Z'
+        billingInformation:
+          $ref: '#/components/schemas/BillingInformation'
+        carrier:
+          $ref: '#/components/schemas/Carrier'
+        carrierShipmentNumber:
+          type: array
+          description: Carrier shipment tracking numbers
+          items:
+            type: string
+          example:
+            - 1Z999AA10123456784
+        collectOnDeliveryAmount:
+          type: string
+          description: COD amount
+          example: '150.00'
+        collectOnDeliveryCurrency:
+          type: string
+          description: COD currency code
+          example: USD
+        earliestDeliveryDateTime:
+          type: string
+          format: date-time
+          description: Earliest delivery date and time
+          example: '2023-07-12T08:00:00Z'
+        internationalShipment:
+          $ref: '#/components/schemas/InternationalShipment'
+        latestDeliveryDateTime:
+          type: string
+          format: date-time
+          description: Latest delivery date and time
+          example: '2023-07-12T20:00:00Z'
+        leadShipmentNumber:
+          type: string
+          description: Lead shipment number for grouped shipments
+          example: SN1658566
+        loadId:
+          type: string
+          description: Load identifier
+          example: LOAD-12345
+        partyDetails:
+          type: array
+          description: Party information (shipper, consignee, etc.)
+          items:
+            $ref: '#/components/schemas/PartyDetail'
+        rescheduledDeliveryDateTime:
+          type: string
+          format: date-time
+          description: Rescheduled delivery date and time
+          example: '2023-07-13T14:00:00Z'
+        scheduledDeliveryDateTime:
+          type: string
+          format: date-time
+          description: Scheduled delivery date and time
+          example: '2023-07-12T17:00:00Z'
+        scheduledPickupDateTime:
+          type: string
+          format: date-time
+          description: Scheduled pickup date and time
+          example: '2023-07-10T08:00:00Z'
+        service:
+          $ref: '#/components/schemas/Service'
+        shipmentDescription:
+          type: string
+          description: Shipment description
+          example: Customer order shipment
+        shipmentNumber:
+          type: string
+          description: Shipment number
+          example: SN1658566
+        shipmentPlacedDate:
+          type: string
+          format: date
+          description: Date when shipment was placed
+          example: '2023-07-09'
+        shipmentReferences:
+          type: array
+          description: Shipment reference numbers
+          items:
+            $ref: '#/components/schemas/ShipmentReference'
+        shipmentUniquekey:
+          type: string
+          description: Unique shipment identifier
+          example: DEMO_SN1658566_20230709
+        shipUnits:
+          type: array
+          description: Shipping units/packages
+          items:
+            $ref: '#/components/schemas/ShipUnit'
+        specialInformation:
+          $ref: '#/components/schemas/SpecialInformation'
+    ActivityInformation:
+      description: Activity tracking information
+      type: object
+      properties:
+        activityID:
+          type: string
+          description: Activity identifier
+          example: ACT-12345
+        activityLocation:
+          $ref: '#/components/schemas/ActivityLocation'
+        activitySubType:
+          type: string
+          description: Activity sub-type code
+          example: PICKUP
+        activitySubTypeDescription:
+          type: string
+          description: Activity sub-type description
+          example: Package picked up
+        deliveryInformation:
+          $ref: '#/components/schemas/DeliveryInformation'
+        description:
+          type: string
+          description: Activity description
+          example: Package picked up by driver
+        exceptionInformation:
+          type: array
+          description: Exception information if any
+          items:
+            $ref: '#/components/schemas/ExceptionInformation'
+        gmtDateTime:
+          type: string
+          format: date-time
+          description: GMT date and time
+          example: '2023-07-10T13:15:00Z'
+        gmtOffset:
+          type: string
+          description: GMT offset
+          example: '-04:00'
+        localDateTime:
+          type: string
+          format: date-time
+          description: Local date and time
+          example: '2023-07-10T09:15:00'
+        sensorEvent:
+          type: boolean
+          description: Indicates if this is a sensor event
+          example: false
+        type:
+          type: string
+          description: Activity type
+          example: PICKUP
+    ActivityLocation:
+      description: Location information for activity
+      type: object
+      properties:
+        city:
+          type: string
+          description: City name
+          example: Atlanta
+        country:
+          type: string
+          description: Country name
+          example: United States
+        latitude:
+          type: string
+          description: Latitude coordinate
+          example: '33.7490'
+        longitude:
+          type: string
+          description: Longitude coordinate
+          example: '-84.3880'
+        postalCode:
+          type: string
+          description: Postal/ZIP code
+          example: '30301'
+        stateProvince:
+          type: string
+          description: State or province
+          example: GA
+    DeliveryInformation:
+      description: Delivery confirmation information
+      type: object
+      properties:
+        actualDeliveryDateTime:
+          type: string
+          format: date-time
+          description: Actual delivery date and time
+          example: '2023-07-12T14:30:00Z'
+        actualDeliveryDateTimegmtOffset:
+          type: string
+          description: GMT offset for actual delivery time
+          example: '-04:00'
+        podSignatureImage:
+          type: string
+          description: Base64 encoded signature image
+          example: iVBORw0KGgoAAAANSUhEUgAAAAUA...
+        podSignatureText:
+          type: string
+          description: Signature text/name
+          example: J. Smith
+    ExceptionInformation:
+      description: Exception details
+      type: object
+      properties:
+        exceptionCreatedDateGmt:
+          type: string
+          format: date-time
+          description: Exception creation date in GMT
+          example: '2023-07-11T10:00:00Z'
+        exceptionCreatedDateGmtOffset:
+          type: string
+          description: GMT offset for exception creation
+          example: '-04:00'
+        exceptionType:
+          type: string
+          description: Type of exception
+          example: DELAY
+        reasonCode:
+          type: string
+          description: Exception reason code
+          example: WEATHER
+        reasonDescription:
+          type: string
+          description: Exception reason description
+          example: Delayed due to weather conditions
+        resolutionCode:
+          type: string
+          description: Resolution code
+          example: RESCHEDULED
+        resolutionDescription:
+          type: string
+          description: Resolution description
+          example: Delivery rescheduled for next business day
+        statusCode:
+          type: string
+          description: Status code
+          example: PENDING
+        statusDescription:
+          type: string
+          description: Status description
+          example: Pending delivery
+    BillingInformation:
+      description: Billing information
+      type: object
+      properties:
+        billingTermCode:
+          type: string
+          description: Billing term code
+          example: PPD
+        billingTermDescription:
+          type: string
+          description: Billing term description
+          example: Prepaid
+    Carrier:
+      description: Carrier information
+      type: object
+      properties:
+        carrierCode:
+          type: string
+          description: Carrier code
+          example: UPS
+        carrierName:
+          type: string
+          description: Carrier name
+          example: United Parcel Service
+        carrierType:
+          type: string
+          description: Carrier type
+          example: PARCEL
+    InternationalShipment:
+      description: International shipment details
+      type: object
+      properties:
+        harmonizedCommodityCode:
+          type: string
+          description: Harmonized commodity code
+          example: 8517.12.00
+        shipmentExportCountryCode:
+          type: string
+          description: Export country code
+          example: US
+        specialInstructions:
+          type: string
+          description: Special handling instructions
+          example: Handle with care
+    PartyDetail:
+      description: Party information (shipper, consignee, etc.)
+      type: object
+      properties:
+        addressLine1:
+          type: string
+          description: Address line 1
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: Address line 2
+          example: Suite 100
+        addressLine3:
+          type: string
+          description: Address line 3
+          example: Building A
+        attentionName:
+          type: string
+          description: Attention name
+          example: John Doe
+        city:
+          type: string
+          description: City
+          example: Atlanta
+        country:
+          type: string
+          description: Country name
+          example: United States
+        countryCode:
+          type: string
+          description: Country code
+          example: US
+        county:
+          type: string
+          description: County
+          example: Fulton
+        email:
+          type: string
+          format: email
+          description: Email address
+          example: john.doe@example.com
+        fax:
+          type: string
+          description: Fax number
+          example: '4045555678'
+        name:
+          type: string
+          description: Party name
+          example: ABC Company
+        phone:
+          type: string
+          description: Phone number
+          example: '4045551234'
+        postalCode:
+          type: string
+          description: Postal/ZIP code
+          example: '30301'
+        stateCode:
+          type: string
+          description: State/province code
+          example: GA
+        type:
+          type: string
+          description: Party type (Shipper, Consignee, etc.)
+          example: Shipper
+    Service:
+      description: Service level information
+      type: object
+      properties:
+        carrierServiceCode:
+          type: string
+          description: Carrier-specific service code
+          example: '001'
+        carrierServiceDescription:
+          type: string
+          description: Carrier service description
+          example: UPS Next Day Air
+        handlingCode:
+          type: string
+          description: Handling code
+          example: STANDARD
+        handlingDescription:
+          type: string
+          description: Handling description
+          example: Standard handling
+        saturdayDeliveryFlag:
+          type: string
+          description: Saturday delivery flag
+          example: 'N'
+        serviceCode:
+          type: string
+          description: Service code
+          example: '001'
+        serviceDescription:
+          type: string
+          description: Service description
+          example: Next Day Air
+    ShipmentReference:
+      description: Shipment reference number
+      type: object
+      properties:
+        referenceType:
+          type: string
+          description: Reference type
+          example: PO
+        referenceValue:
+          type: string
+          description: Reference value
+          example: PO-12345
+    ShipUnit:
+      description: Shipping unit/package information
+      type: object
+      properties:
+        dimensionWeight:
+          type: string
+          description: Dimensional weight
+          example: '15.5'
+        dimensionWeightUOM:
+          type: string
+          description: Dimensional weight unit of measure
+          example: LBS
+        height:
+          type: string
+          description: Package height
+          example: '10'
+        heightUOM:
+          type: string
+          description: Height unit of measure
+          example: IN
+        itemDesciption:
+          type: string
+          description: Item description
+          example: Electronics
+        length:
+          type: string
+          description: Package length
+          example: '12'
+        lengthUOM:
+          type: string
+          description: Length unit of measure
+          example: IN
+        shipmentQuantity:
+          type: string
+          description: Shipment quantity
+          example: '1'
+        volume:
+          type: string
+          description: Package volume
+          example: '1200'
+        volumeUOM:
+          type: string
+          description: Volume unit of measure
+          example: CUBIN
+        weight:
+          type: string
+          description: Package weight
+          example: '10'
+        weightUOM:
+          type: string
+          description: Weight unit of measure
+          example: LBS
+        width:
+          type: string
+          description: Package width
+          example: '10'
+        widthUOM:
+          type: string
+          description: Width unit of measure
+          example: IN
+    SpecialInformation:
+      description: Special handling information
+      type: object
+      properties:
+        hazmatCategoryCode:
+          type: string
+          description: Hazmat category code
+          example: 'N'
+        hazmatCategoryDescription:
+          type: string
+          description: Hazmat category description
+          example: Not hazardous
+        hazmatFlag:
+          type: string
+          description: Hazmat flag
+          example: 'N'
+    SC360ResponseListServiceResponse:
+      description: Service response with list of results
+      type: object
+      properties:
+        errors:
+          type: array
+          description: Array of errors if any
+          items:
+            $ref: '#/components/schemas/ServiceError'
+        isCompleted:
+          type: boolean
+          description: Indicates if processing is completed
+          example: true
+        isFaulted:
+          type: boolean
+          description: Indicates if processing encountered faults
+          example: false
+        result:
+          type: array
+          description: Array of processing results
+          items:
+            $ref: '#/components/schemas/ProcessingResult'
+    ObjectServiceResponse:
+      description: Service response for error conditions
+      type: object
+      properties:
+        errors:
+          type: array
+          description: Array of errors
+          items:
+            $ref: '#/components/schemas/ServiceError'
+    ServiceError:
+      description: Service error details
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: '400'
+        message:
+          type: string
+          description: >-
+            Error message. Includes source context in the format
+            "(source: <origin>)" to identify where the error was thrown.
+          example: >-
+            One or more required property is not provided value
+            (source: shipmentUniqueKey)
+    ProcessingResult:
+      description: Individual processing result
+      type: object
+      properties:
+        messageId:
+          type: string
+          format: uuid
+          description: Unique message identifier
+          example: 27628ba3-6996-4c01-a0f5-0d4c6ac2d337
+        orderNumber:
+          type: string
+          description: Order number
+          example: LD123437
+        shipmentNumber:
+          type: string
+          description: Shipment number
+          example: SN1658566
+        shipmentUniquekey:
+          type: string
+          description: Unique shipment key
+          example: DEMO_SN1658566_20230709
+        docId:
+          type: string
+          description: Document identifier
+          example: ccf2f1d1-82f5-4cf5-8a73-6c9417341cdb
+        docType:
+          type: string
+          description: Document type
+          example: Order
+        isCompleted:
+          type: boolean
+          description: Indicates if this item is completed
+          example: true
+  parameters:
+    transId:
+      name: transId
+      in: header
+      description: An identifier unique to the request.
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-.]{3,36}$
+        minLength: 3
+        maxLength: 36
+        example: 0a1b9c2d8e3f7g4h6i5
+    transactionSrc:
+      name: transactionSrc
+      in: header
+      description: Identifies the client/source application that is calling.
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9-.]{1,36}$
+        minLength: 1
+        maxLength: 36
+        example: GlobalAdvisor
+    Content-Type:
+      name: Content-Type
+      in: header
+      description: >-
+        The Content-Type header indicates the media type of the associated
+        request or response payload
+      required: true
+      schema:
+        type: string
+        example: application/json
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page.
+        1. Select "Try It"
+        2. In the Security section enter your Client ID and Secret
+        3. Select "Request Token"
+        4. Enter any additional information in the Body and Parameters sections
+        5. Select "Send" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
+          scopes: {}
+security:
+  - OAuth2: []
