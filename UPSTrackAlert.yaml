@@ -135,10 +135,10 @@ info:
 
 servers:
   - url: https://wwwcie.ups.com/api/track/{version}
-    description: UPS Production CIE OAuth. This is for integration testing only and it will not create any subscription.
+    description: Customer Integration Environment
 
   - url: https://onlinetools.ups.com/api/track/{version}
-    description: UPS Production OAuth.
+    description: Production
 
 security: 
   - oauth2: [] 

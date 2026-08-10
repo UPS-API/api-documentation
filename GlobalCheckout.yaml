@@ -19,14 +19,14 @@ info:
     </a>
 servers: 
   - url: https://wwwcie.ups.com/api/brokerage/{version}
-    description: UPS Customer Integration Environment
+    description: Customer Integration Environment
     variables:
       version:
         default: v1
         enum:
         - v1
   - url: https://onlinetools.ups.com/api/brokerage/{version}
-    description: UPS Production
+    description: Production
     variables:
       version:
         default: v1

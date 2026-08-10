@@ -21,8 +21,10 @@ tags:
   - name: Shipment Modification 
     description: For endpoints that allow deletion of master and child shipments
 servers:
+  - url: Not Available
+    description: Customer Integration Environment
   - url: "https://onlinetools.ups.com/api/ship/{version}"
-    description: URL for OAuth based authentication that can be used for any environment (production, staging, product test) via hosts file.
+    description: Production
     variables:
       version: 
         description: Denotes which version of the API to be called as new features are released.

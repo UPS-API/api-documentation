@@ -21,14 +21,14 @@ info:
   version: "1.0"
 servers:
   - url: https://wwwcie.ups.com/api/export-assure/{version}
-    description: Customer Integration Environment URL
+    description: Customer Integration Environment
     variables:
       version:
         default: v1
         enum:
           - v1
   - url: https://onlinetools.ups.com/api/export-assure/{version}
-    description: Production URL
+    description: Production
     variables:
       version:
         default: v1

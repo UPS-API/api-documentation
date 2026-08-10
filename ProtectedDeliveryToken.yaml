@@ -12,8 +12,10 @@ tags:
   - name: epra
     description: "Operations related to retrieving the EPRA release code and related actions for a given tracking number"
 servers:
+  - url: Not Available
+    description: Customer Integration Environment
   - url: https://onlinetools.ups.com/api/pin-mgmt-sys/{version}
-    description: external url for PIN Management System
+    description: Production
 
 paths:
   /pins/token:

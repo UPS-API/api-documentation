@@ -62,14 +62,14 @@ security:
 
 servers:
   - url: https://wwwcie.ups.com/api/brokerage/{version}
-    description: Production CIE - External Interface
+    description: Customer Integration Environment
     variables:
       version:
         default: v1
         enum:
           - v1
   - url: https://onlinetools.ups.com/api/brokerage/{version}
-    description: Production - External Interface
+    description: Production
     variables:
       version:
         default: v1

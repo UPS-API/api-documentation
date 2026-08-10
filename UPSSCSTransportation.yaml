@@ -1,27 +1,29 @@
 openapi: 3.1.0
 info:
-    title: "UPS Partner’s Transportation Data Ingestion API"
+    title: "UPS Partner Transportation Data Ingestion API"
     description: |
         ## Purpose
         The Transportation API is used to ingest UPS SCS customer shipments data into Symphony. This data is processed and made visible on Symphony for tracking.            
-        API to post transportation order data for point to point shipments to allow for a near real time visibility. API supports only standalone transactions and does not support data aggregations or orchestration with different source systems.             
+        API to post transportation order data for point to point shipments to allow for a near real time visibility. API supports only standalone transactions and does not support data aggregations or orchestration with different source systems. 
         <p>Explore API documentation and sample applications through GitHub.</p>
   
           <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
             <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
-          </a> 
+          </a>        
     version: "1.0"  
 tags:
     - name: "UPS SCS Transportation"
       description: "Partner Publisher API"
 servers:
+  - url: Not available
+    description: Customer Integration Environment
   - url: https:onlinetools.ups.com/api/transaction-visibility-dashboard/v1
-    description: This is the Symphony server URL for partner publisher api.
+    description: Production
 
 paths:
   "/Ingest":
     post:
-      summary: Ingest partner's shipments data in bulk  
+      summary: Ingest partner shipments data in bulk  
       description: "This API is used to ingest the partner's shipments data into Symphony."   
       operationId: SC360_PublisherAPI_Ingest
       tags:
@@ -1296,16 +1298,20 @@ components:
           - F
       additionalProperties: false
   securitySchemes:        
-    OAuth2ClientCredentialsWithAssertion:
+    OAuth2:
       type: oauth2
       description: |
-        This API uses OAuth 2.0 with mutual TLS for client authentication.
-        The client must include a client assertion signed with a certificate in the token request to token endpoint
-        client_assertion_type: urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+        Find your Client ID and Secret on your app info page.
+        1. Select \"Try It\"
+        2. In the Security section enter your Client ID and Secret.
+        3. Select \"Request Token\"
+        4. Enter any additional information in the Body and Parameters sections.
+        5. Select \"Send\" to execute your API request
       flows:
         clientCredentials:
-          tokenUrl: https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
           scopes: {}
 security:
-- OAuth2ClientCredentialsWithAssertion: []
+- OAuth2: []
   
