@@ -1737,7 +1737,7 @@ paths:
                       InformationSourceCode: ''
                       ShipmentValueThresholdCode: '01'
               '13':
-                summary: Shipping with Carbon Offset
+                summary: Shipping with Carbon Offsets
                 value:
                   ShipmentRequest:
                     Shipment:
@@ -4312,7 +4312,7 @@ paths:
                       InformationSourceCode: ''
                       ShipmentValueThresholdCode: '01'
               '13':
-                summary: Shipping with Carbon Offset
+                summary: Shipping with Carbon Offsets
                 value:
                   ShipmentRequest:
                     Shipment:
@@ -6662,8 +6662,8 @@ components:
           maximum: 1
           type: string
         UPScarbonneutralIndicator:
-          description: UPS carbon offset indicator presence at shipment level is
-            required to create carbon offset Shipments.
+          description: UPS carbon offsets indicator presence at shipment level is
+            required to create carbon offsets Shipments.
           maximum: 1
           type: string
         PreAlertNotification:
