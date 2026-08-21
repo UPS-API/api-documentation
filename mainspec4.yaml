@@ -122,6 +122,8 @@ paths:
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1documents~1manifests"
   "/forwarding/{version}/quotes":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1quotes" 
+  "/forwarding/{version}/documents":
+    "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/Forwarding.yaml#/paths/~1documents"  
   "/landedcost/{version}/quotes":
     "$ref": "https://raw.githubusercontent.com/UPS-API/api-documentation/refs/heads/main/LandedCost-Ready.yaml#/paths/~1landedcost~1{version}~1quotes"
   "/locations/{version}/search/availabilities/{reqOption}":
