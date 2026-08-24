@@ -4,16 +4,16 @@ info:
   description: |
 
     # Product Info
+
     The UPS Track Alert API provides best in-class package tracking visibility with near real time event updates for an improved customer experience and stream line logistic management.
     Updates are pushed to the user as soon as available with no constant polling required, thereby improving operational efficiency. For more information on the UPS Track Alert API, please visit the <a href="https://developer.ups.com/api/reference/trackalertenhanced/product-info"
     target="_blank" rel="noopener">Product Info</a> page.
-    <br/>
     
     Simplify your workflow with the API Request Generator and create your custom request body in just seconds.
     
     <a href="https://developer.ups.com/apirequestgenerator" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/APIRequestGenerator.svg" alt="API Request Generator " style="width: 150px; height: 32px;">
-    </a>
+      
     <br/><p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
     target="_blank" rel="noopener">Postman Guide</a>. Explore API documentation and sample applications through GitHub.</p>
 
@@ -142,18 +142,10 @@ info:
 servers:
   - url: https://wwwcie.ups.com/api/track/{version}
     description: Customer Integration Environment
-    variables:
-      version:
-       default: v2
-       enum:
-          - v2
+
   - url: https://onlinetools.ups.com/api/track/{version}
     description: Production
-    variables:
-      version:
-        default: v2
-        enum:
-          - v2
+
 security: 
   - oauth2: [] 
 tags:
@@ -166,9 +158,12 @@ paths:
         This endpoint takes a list of tracking numbers and creates a subscription for each.
         Clients must provide the tracking numbers in the correct format.
         
+        **Note:** The current version of the Track Alert API is v2. While v1 remains supported, we recommend using v2 for all new integrations and future development. In v2, the destination object has been removed, and webhook credentials are now managed through [Manage Webhook Credentials](https://developer.ups.com/update-webhook).
+        
         Upon success it should return:
         - List of valid tracking number for which subscription created.
         - List of invalid tracking number for which subscription not created.
+       
       tags:
         - UPS Track Alert
       summary: API to create subscriptions by tracking numbers.
@@ -176,6 +171,19 @@ paths:
       security:
         - oauth2: []
       parameters:
+        - in: path
+          name: version
+          required: true
+          schema:
+            type: string
+            default: v2
+            enum:
+              - v2
+          description: |
+            Version
+
+            Valid values:
+            - v2
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
         - $ref: "#/components/parameters/type"
@@ -271,158 +279,7 @@ paths:
                   errors:
                     - code: "10004"
                       message: Something went wrong while processing your request, please try again later
-  /subscription/{type}/account:
-    post:
-      summary: API to create subscriptions by account number.
-      description: |
-        This endpoint takes an account number and creates a subscription.
-        Clients must provide the account number in the correct format. 
-        Please note, client needs to be party to the package for that account.
-        
-        Upon success, the API returns:
-        - A success message.
-        - Expiry date of the subscription.
-      operationId: createAccountSubscription
-      tags:
-        - UPS Track Alert
-      security:
-        - oauth2: []
-      parameters:
-        - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/type"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AccountSubscriptionRequest'
-            example:
-              locale: en_US
-              countryCode: US
-              eventPreferences:
-                - D
-                - M
-              subscriptionId: UPS_Client
-              clientSubscriptionId: UPS_Client
-              shipperAccountNumber: "123456"
-              subAccountType: 
-                - Outbound
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountSubscriptionResponse'
-              example:
-                expiryDate: 9999-12-31
-        '400':
-          description: Invalid Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-              example:
-                response:
-                  errors:
-                    - code: VSS300
-                      message: Locale is required. The Subscription request has been rejected.
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-              example:
-                response:
-                  errors:
-                    - code: "250002"
-                      message: Invalid Authentication Information
-        '404':
-          description: URL does not exist or resource not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-              example:
-                response:
-                  errors:
-                    - code: "404"
-                      message: The requested resource was not found.
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-              example:
-                response:
-                  errors:
-                    - code: "10004"
-                      message: Something went wrong while processing your request, please try again later
-    delete:
-      summary: API to unsubscribe subscriptions by account number.
-      description: |
-        This endpoint takes an account number and removes a subscription.
-        Clients must provide the account number in the correct format. 
-        Please note, client needs to be party to the package for that account.
-
-        Upon success, the API returns:
-        - A success message.
-      operationId: unsubscribeAccountSubscription
-      tags:
-        - UPS Track Alert
-      security:
-        - oauth2: [ ]
-      parameters:
-        - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/type"
-        - $ref: "#/components/parameters/shipper-account-number"
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountUnsubscribeResponse'
-              example:
-                message: "Account unsubscribed"
-        '400':
-          description: Invalid Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-              example:
-                response:
-                  errors:
-                    - code: VSS300
-                      message: Shipper Account Number is required.
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-              example:
-                response:
-                  errors:
-                    - code: "250002"
-                      message: Invalid token or token is not present.
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-              example:
-                response:
-                  errors:
-                    - code: "10004"
-                      message: Something went wrong while processing your request, please try again later
-webhooks:
+  webhooks:
   TrackingEvent:
     post:
       summary: Tracking Event
