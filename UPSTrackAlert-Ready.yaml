@@ -35,7 +35,7 @@ info:
     # Reference
     - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/trackalert/faq" target="_blank" rel="noopener">FAQ</a>
-    - <a href="https://developer.ups.com/api/reference/trackalert/V1VsV2" target="_blank" rel="noopener">Track Alert V1 vs V2</a>
+    - <a href="https://developer.ups.com/api/reference/trackalert/V1VsV2" target="_blank" rel="noopener">Track Alert v1 vs v2</a>
     
     # Overview
       When the UPS system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
