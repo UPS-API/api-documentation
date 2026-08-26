@@ -189,7 +189,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PackageSubscriptionRequest'
             examples:
-              '1':
+              'Standard Request':
                 summary: Standard Request
                 value:
                   locale: en_US
@@ -197,7 +197,7 @@ paths:
                   trackingNumberList:
                     - 1ZCIETST0111111114
                     - 1ZCIETST0422222228
-              '2':
+              'Enhanced Request':
                 summary: Enhanced Request
                 value:
                   locale: en_US
@@ -275,7 +275,7 @@ paths:
                   errors:
                     - code: "10004"
                       message: Something went wrong while processing your request, please try again later
-  webhooks:
+webhooks:
   TrackingEvent:
     post:
       summary: Tracking Event
@@ -304,7 +304,7 @@ paths:
             schema:
               $ref: '#/components/schemas/TrackingEventRequest'
             examples:
-              '1':
+              'Out for delivery message':
                 summary: Out for delivery message
                 value:
                   trackingNumber: 1Z204W4R0308071865
@@ -411,52 +411,6 @@ components:
             description: Adds additional webhook details as requested through the request 'eventPreferences' code. Currently available for package subscription request only.
             const: enhanced
   schemas:
-    #ACCOUNT
-    AccountSubscriptionRequest:
-      allOf:
-        - $ref: '#/components/schemas/CommonRequest'
-        - type: object
-          required:
-            - shipperAccountNumber
-          properties:
-            subscriptionId:
-              type: string
-              description: Required for non-XOLT clients.
-              example: UPS_Client
-            clientSubscriptionId:
-              type: string
-              description: Required for non-XOLT clients.
-              example: UPS_Client
-            shipperAccountNumber:
-              $ref: '#/components/schemas/AccountNumber'
-            subAccountType:
-              type: array
-              description: Unbounded array of the packages account types
-              uniqueItems: true
-              items:
-                type: string
-                description: The account type used for package event identification.
-                enum: 
-                  - Outbound
-          additionalProperties: true
-    AccountSubscriptionResponse:
-      type: object
-      properties:
-        expiryDate:
-          type: string
-          format: date
-          example: 9999-12-31
-          description: Represents date of expiry for the subscription.
-      additionalProperties: false
-    AccountUnsubscribeResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: "Account unsubscribed"
-          description: Represents message for the un-subscription.
-      additionalProperties: false
-
     #PACKAGE
     PackageSubscriptionRequest:
       allOf:
