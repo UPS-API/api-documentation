@@ -768,7 +768,7 @@ paths:
                                 Description: LBS
                               Weight: '5'
                             AuditRequired: ''
-              'shopTime In Transit(CIE)':
+              'shop TimeInTransit(CIE)':
                 summary: shopTime In Transit (CIE) Example
                 value:
                   RateRequest:
@@ -1621,7 +1621,7 @@ paths:
                                 Description: LBS
                               Weight: '5'
                             AuditRequired: ''
-              'shopTime In Transit(CIE) ':
+              'shop TimeInTransit(CIE) ':
                 summary: shopTime In Transit (CIE) Example
                 value:
                   {

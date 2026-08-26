@@ -360,7 +360,7 @@ paths:
                     LabelSpecification:
                       LabelImageFormat:
                         Code: GIF
-              'DryIce or Lithium Batteries':
+              'DryIce/Lithium Batteries':
                 summary: Shipping Dry Ice or Lithium Batteries
                 value:
                   ShipmentRequest:
@@ -860,7 +860,7 @@ paths:
                       LabelStockSize:
                         Height: '6'
                         Width: '4'
-              'Ship to a UPS Access Point':
+              'Ship to a UPSAccessPoint':
                 summary: Ship to a UPS Access Point
                 value:
                   ShipmentRequest:
@@ -2935,7 +2935,7 @@ paths:
                     LabelSpecification:
                       LabelImageFormat:
                         Code: GIF
-              'DryIce or Lithium Batteries':
+              'DryIce/Lithium Batteries':
                 summary: Shipping Dry Ice or Lithium Batteries
                 value:
                   ShipmentRequest:
@@ -3435,7 +3435,7 @@ paths:
                       LabelStockSize:
                         Height: '6'
                         Width: '4'
-              'Ship to a UPS Access Point':
+              'Ship to a UPSAccessPoint':
                 summary: Ship to a UPS Access Point
                 value:
                   ShipmentRequest:
