@@ -83,7 +83,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/SHIPRequestWrapper"
             examples:
-              'Shipping Request(Standard Example)':
+              'Shipping Standard Request':
                 summary: Shipping Request(Standard Example)
                 value:
                   ShipmentRequest:
@@ -166,7 +166,7 @@ paths:
                         Code: GIF
                         Description: GIF
                       HTTPUserAgent: Mozilla/4.5
-              'Shipping Request with Negotiated Rates':
+              'Shipping with Negotiated Rates':
                 summary: Shipping Request with Negotiated Rates
                 value:
                   ShipmentRequest:
@@ -243,7 +243,7 @@ paths:
                             Code: KGS
                             Description: Kilograms
                           Weight: '20.2'
-              'Shipping Request with International Forms':
+              'Shipping with International Forms':
                 summary: Shipping Request with International Forms
                 value:
                   ShipmentRequest:
@@ -360,7 +360,7 @@ paths:
                     LabelSpecification:
                       LabelImageFormat:
                         Code: GIF
-              'Shipping Dry Ice or Lithium Batteries':
+              'Shipping DryIce/Lithium Batteries':
                 summary: Shipping Dry Ice or Lithium Batteries
                 value:
                   ShipmentRequest:
@@ -2522,7 +2522,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/LABELRECOVERYRequestWrapper"
             examples:
-              'Label Recovery Request (Standard Example)':
+              'Label Recovery Standard Request':
                 summary: Label Recovery Request (Standard Example)
                 value:
                   LabelRecoveryRequest:
@@ -2546,7 +2546,7 @@ paths:
                       Code: '01'
                       DialectCode: US
                       LanguageCode: eng
-              'Label Recovery Request (Roadie)':
+              'Label Recovery Roadie Request':
                 summary: Label Recovery Request (Roadie)
                 value:
                   LabelRecoveryRequest:
@@ -2658,7 +2658,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/SHIPRequestWrapper"
             examples:
-              'Shipping Request(Standard Example)':
+              'Shipping (Standard Request)':
                 summary: Shipping Request(Standard Example)
                 value:
                   ShipmentRequest:
@@ -2741,7 +2741,7 @@ paths:
                         Code: GIF
                         Description: GIF
                       HTTPUserAgent: Mozilla/4.5
-              'Shipping Request with Negotiated Rates':
+              'Shipping with Negotiated Rates':
                 summary: Shipping Request with Negotiated Rates
                 value:
                   ShipmentRequest:
@@ -2818,7 +2818,7 @@ paths:
                             Code: KGS
                             Description: Kilograms
                           Weight: '20.2'
-              'Shipping Request with International Forms':
+              'Shipping with International Forms':
                 summary: Shipping Request with International Forms
                 value:
                   ShipmentRequest:
@@ -2935,7 +2935,7 @@ paths:
                     LabelSpecification:
                       LabelImageFormat:
                         Code: GIF
-              'Shipping Dry Ice or Lithium Batteries':
+              'Shipping DryIce/Lithium Batteries':
                 summary: Shipping Dry Ice or Lithium Batteries
                 value:
                   ShipmentRequest:
@@ -3554,7 +3554,7 @@ paths:
                       LabelStockSize:
                         Height: '6'
                         Width: '4'
-              'World Wide Economy Shipping':
+              'WorldWide Economy Shipping':
                 summary: World Wide Economy Shipping
                 value:
                   ShipmentRequest:
