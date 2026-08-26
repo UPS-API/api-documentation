@@ -96,7 +96,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/RATERequestWrapper"
             examples:
-              'Simple Rate (Standard)':
+              'Simple Rate':
                 summary: Simple Rate Example (Standard Example)
                 value:
                   RateRequest:
@@ -405,7 +405,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '2'
-              'TPFC Negotiated Rate':
+              'TPFC Negotiated':
                 summary: TPFC Negotiated Rate Example
                 value:
                   RateRequest:
@@ -566,7 +566,7 @@ paths:
                           Pickup:
                             Date: '20230101'
                             Time: '1000'
-              'Standard Account Rate':
+              'Standard Account':
                 summary: Standard Account Rate Example
                 value:
                   RateRequest:
@@ -768,7 +768,7 @@ paths:
                                 Description: LBS
                               Weight: '5'
                             AuditRequired: ''
-              'shopTime In Transit (CIE)':
+              'shopTime In Transit(CIE)':
                 summary: shopTime In Transit (CIE) Example
                 value:
                   RateRequest:
@@ -949,7 +949,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/RATERequestWrapper"
             examples:
-              'Simple Rate (Standard)':
+              'Simple Rate':
                 summary: Simple Rate Example (Standard Example)
                 value:
                   RateRequest:
@@ -1258,7 +1258,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '2'
-              'TPFC Negotiated Rate':
+              'TPFC Negotiated':
                 summary: TPFC Negotiated Rate Example
                 value:
                   RateRequest:
@@ -1621,7 +1621,7 @@ paths:
                                 Description: LBS
                               Weight: '5'
                             AuditRequired: ''
-              'shopTime In Transit (CIE) ':
+              'shopTime In Transit(CIE) ':
                 summary: shopTime In Transit (CIE) Example
                 value:
                   {
