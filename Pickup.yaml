@@ -344,7 +344,7 @@ paths:
                - $ref: "#/components/schemas/PICKUPCreationRequestWrapper"
                - $ref: "#/components/schemas/PICKUPTriggerGWNRequestWrapper"
             examples:
-              '1':
+              'A sample JSON request (Standard Example)':
                 summary: A sample JSON request (Standard Example)
                 value:
                   PickupCreationRequest:
@@ -391,7 +391,7 @@ paths:
                     PaymentMethod: '01'
                     SpecialInstruction: 'Test '
                     ReferenceNumber: CreatePickupRef
-              '2':     
+              'A sample JSON request (Smart Pickup)':     
                 summary: A sample JSON request (Smart Pickup)
                 value:
                   PickupTriggerGWNRequest:
@@ -410,7 +410,7 @@ paths:
                  - $ref: "#/components/schemas/PICKUPCreationResponseWrapper"
                  - $ref: "#/components/schemas/PICKUPTriggerGWNResponseWrapper"
               examples:
-                '1': 
+                'A sample JSON response (Standard Example)': 
                   summary:  A sample JSON response (Standard Example)
                   value:
                     PickupCreationResponse:
@@ -451,7 +451,7 @@ paths:
                         GrandTotalOfAllIncentedCharge: "string"
                         PreTaxTotalCharge: "stringst"
                         PreTaxTotalIncentedCharge: "string"
-                '2':
+                'A sample JSON response (Smart Pickup)':
                   summary:  A sample JSON response (Smart Pickup)
                   value:
                     PickupTriggerGWNResponse:

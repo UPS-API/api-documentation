@@ -35,67 +35,8 @@ info:
     # Reference
     - <a href="https://developer.ups.com/api/reference/tracking/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/trackalert/faq" target="_blank" rel="noopener">FAQ</a>
-    - <a href="https://developer.ups.com/api/reference/trackalert/V1VsV2" target="_blank" rel="noopener">V1 vs V2</a> 
+    - <a href="https://developer.ups.com/api/reference/trackalert/V1VsV2" target="_blank" rel="noopener">Track Alert V1 vs V2</a>
     
-    # FAQs
-  
-    - **How does it work once I am setup as a user?**
-    > You submit up to 100 UPS tracking numbers to the API at a time, using OAUTH in a JSON format.  Your submission needs to include the URL where Track Alert will send a message with any events that occur to your tracking number for the next 14 days.  This saves you the effort of polling UPS to determine what is the current status of your package.
-      
-    - **What type of packages does Track Alert support?
-    > Track Alert supports UPS packages that have a 1Z tracking number, as well as Roadie packages (1R tracking numbers).
-    
-    - **How do I check if a subscription to a tracking number was successful?**
-    >  Once tracking number(s) is submitted to Track Alert, you will receive a response confirming successful and unsuccessful tracking numbers.  
-
-    - **I stopped receiving event messages after 2 weeks and my package hasn’t been delivered. Why?**
-    >  Each tracking number subscription is valid for 14 days. If the package has not been delivered within 14 days, you must resubscribe to the tracking number to continue receiving updates/events.
-
-    - **How do I get events that occurred prior to subscription?**
-    >  Track Alert does not retain any history.  You should use the UPS Track API to receive history about your package.  
-
-    - **How many tracking numbers can a subscriber subscribe to in one request?**
-    >  You can subscribe to up to 100 tracking numbers in each submission to the API.  A reply message will be sent via the API with details showing successful and unsuccessful tracking numbers.
-
-    - **What types of event data does Track Alert provide?**
-    >  In addition to the expected local dates and times when the event occurred (including GMT date and time), you will receive details about the event that include status-type, status-code, status-description and status-description code.
-      Status types are:
-          M and MV = manifest information, 
-          X = exception information (something out of the normal happened to your package, but it may still be delivered on time), 
-          I = in-progress (on the way or moving normally through the UPS network), 
-          U = update (there is an update to your package, normally the scheduled delivery has been updated, but it may still be delivered on time)
-          D = delivery information (loaded on delivery vehicle, out for delivery, delivered)
-      Status codes are a 2-character code that provide details about the event.  There is a list of these codes and their translations elsewhere on this portal.
-      Status descriptions are a very brief (a few words) describing the status code.
-      Status-description code is a overly simplified description of the event.  This description is intended for those who do not understand transportation.
-
-    - **What does the message look like?**
-    >  This is what a message looks like for an event that is sent to your URL.  Not every field will have a value for every message.  We have converted the JSON format message to text format for clarity.  
-        Those fields are: 
-        tracking number 
-        scheduled delivery date (this field maybe updated, example '20240905')
-        actual delivery date (this field is blank until the delivery event occurs)
-        actual delivery time (this field is blank until the delivery event occurs)
-        activity location city
-        activity location state/province
-        activity location postal code (this field is blank until the delivery event occurs)
-        activity location country
-        activity status type
-        activity status code
-        activity status description
-        activity status description code
-        local activity date
-        local activity time
-        GMT activity date
-        GMT activity time
-        delivery start time (example '150000')
-        delivery end time (example '170000')
-        delivery time description (example 'estimated delivery window' or 'end of day')
-        delivery photo (this field is only available for enhanced users)
-
-    - **Can I test this process?**
-    >  Yes, there are two test tracking numbers that you can submit, and resubmit that will send several events spaced 1 second apart.  Those two test tracking numbers are 1ZCIETST0111111114 and 1ZCIETST0422222228.  Please ensure to use UPS Production CIE(https://wwwcie.ups.com/api/track/{version}). You can submit these tracking numbers as often as you like. (no stress testing please.) 
-
     # Overview
       When the UPS system is unable to respond to a request, be it from a malformed request, an illegal or invalid value, or other issues, the API generates an error response.
       
@@ -195,7 +136,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PackageSubscriptionRequest'
             examples:
-              '1':
+              'Standard Request':
                 summary: Standard Request
                 value:
                   locale: en_US
@@ -203,7 +144,7 @@ paths:
                   trackingNumberList:
                     - 1ZCIETST0111111114
                     - 1ZCIETST0422222228
-              '2':
+              'Enhanced Request':
                 summary: Enhanced Request
                 value:
                   locale: en_US
@@ -310,7 +251,7 @@ paths:
             schema:
               $ref: '#/components/schemas/TrackingEventRequest'
             examples:
-              '1':
+              'Out for delivery message':
                 summary: Out for delivery message
                 value:
                   trackingNumber: 1Z204W4R0308071865

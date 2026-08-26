@@ -166,7 +166,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '1'
-              '2':
+              'Negotiated Rate':
                 summary: Negotiated Rate
                 value:
                   RateRequest:
@@ -247,7 +247,7 @@ paths:
                           Weight: '0.1'
                         OversizeIndicator: X
                         MinimumBillableWeightIndicator: X
-              '3':
+              'International Rate Example':
                 summary: International Rate Example
                 value:
                   RateRequest:
@@ -318,7 +318,7 @@ paths:
                         MinimumBillableWeightIndicator: X
                       ShipmentRatingOptions:
                         NegotiatedRatesIndicator: Y
-              '4':
+              'Multi-Piece Rate Example':
                 summary: Multi-Piece Rate Example
                 value:
                   RateRequest:
@@ -405,7 +405,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '2'
-              '5':
+              'TPFC Negotiated Rate Example':
                 summary: TPFC Negotiated Rate Example
                 value:
                   RateRequest:
@@ -493,7 +493,7 @@ paths:
                           Weight: '1'
                         ShipmentRatingOptions:
                           TPFCNegotiatedRatesIndicator: Y
-              '6':
+              'Time In Transit Example':
                 summary: Time In Transit Example
                 value:
                   RateRequest:
@@ -566,7 +566,7 @@ paths:
                           Pickup:
                             Date: '20230101'
                             Time: '1000'
-              '7':
+              'Standard Account Rate Example':
                 summary: Standard Account Rate Example
                 value:
                   RateRequest:
@@ -633,7 +633,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '1'
-              '8':
+              'Published Rate Example':
                 summary: Published Rate Example
                 value:
                   RateRequest:
@@ -694,7 +694,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '1'
-              '9':
+              'Rate with Dry Ice':
                 summary: Rate with Dry Ice
                 value:
                   RateRequest:
@@ -768,7 +768,7 @@ paths:
                                 Description: LBS
                               Weight: '5'
                             AuditRequired: ''
-              '10':
+              'shopTime In Transit (CIE) Example':
                 summary: shopTime In Transit (CIE) Example
                 value:
                   RateRequest:
@@ -949,7 +949,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/RATERequestWrapper"
             examples:
-              '1':
+              'Simple Rate Example (Standard Example)':
                 summary: Simple Rate Example (Standard Example)
                 value:
                   RateRequest:
@@ -1019,7 +1019,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '1'
-              '2':
+              'Negotiated Rate':
                 summary: Negotiated Rate
                 value:
                   RateRequest:
@@ -1100,7 +1100,7 @@ paths:
                           Weight: '0.1'
                         OversizeIndicator: X
                         MinimumBillableWeightIndicator: X
-              '3':
+              'International Rate Example':
                 summary: International Rate Example
                 value:
                   RateRequest:
@@ -1171,7 +1171,7 @@ paths:
                         MinimumBillableWeightIndicator: X
                       ShipmentRatingOptions:
                         NegotiatedRatesIndicator: Y
-              '4':
+              'Multi-Piece Rate Example':
                 summary: Multi-Piece Rate Example
                 value:
                   RateRequest:
@@ -1258,7 +1258,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '2'
-              '5':
+              'TPFC Negotiated Rate Example':
                 summary: TPFC Negotiated Rate Example
                 value:
                   RateRequest:
@@ -1346,7 +1346,7 @@ paths:
                           Weight: '1'
                         ShipmentRatingOptions:
                           TPFCNegotiatedRatesIndicator: Y
-              '6':
+              'Time In Transit Example':
                 summary: Time In Transit Example
                 value:
                   RateRequest:
@@ -1419,7 +1419,7 @@ paths:
                           Pickup:
                             Date: '20230101'
                             Time: '1000'
-              '7':
+              'Standard Account Rate Example':
                 summary: Standard Account Rate Example
                 value:
                   RateRequest:
@@ -1486,7 +1486,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '1'
-              '8':
+              'Published Rate Example':
                 summary: Published Rate Example
                 value:
                   RateRequest:
@@ -1547,7 +1547,7 @@ paths:
                             Code: LBS
                             Description: Pounds
                           Weight: '1'
-              '9':
+              'Rate with Dry Ice':
                 summary: Rate with Dry Ice
                 value:
                   RateRequest:
@@ -1621,7 +1621,7 @@ paths:
                                 Description: LBS
                               Weight: '5'
                             AuditRequired: ''
-              '10':
+              'shopTime In Transit (CIE) Example':
                 summary: shopTime In Transit (CIE) Example
                 value:
                   {

@@ -1,0 +1,278 @@
+openapi: 3.1.0
+info:
+  title: Fraud Intercept functionality API v1
+  version: 1.0.0
+  description: |
+      The UPS Fraud Intercept API enables approved partners to make an intercept request for removal of suspected fraudulent shipments from the UPS network.
+      Example: Shipping Weight adjustments while package is in transit. Goal is to proactively intercept these packages before the DAP partner is charged.    
+ 
+      **Key Business Values**
+      - Prevents fraudulent fulfillment and revenue loss by stopping shipments mid-transit
+      - Improves partner experience by eliminating manual escalation and enabling automated fraud handling
+      - Ensures compliance and security through controlled, restricted access to approved partners only
+      - The API supports asynchronous processing, thereby improving operational efficiency.
+servers:
+  - url: https://onlinetools.ups.com/api/fraudintercept/{version}
+    description: |
+      Gateway URL for OAuth authenticated mobile traffic that can be used for any environment
+      (production, staging, product test) via hosts file.
+    variables:
+      version:
+        description: Denotes which version of the API to be called as new features are released.
+        default: v1
+        enum:
+          - v1
+tags:
+  - name: Fraud Intercept
+    description: API to Manage Intercept Requests
+paths:
+  /shipments:
+    post:
+      summary: Manage Intercept Requests
+      operationId: registerProvider
+      description: The API helps you create a fraud intercept request or cancel an existing fraud intercept for the associated tracking number.
+      security:
+        - OAuth2: []
+      tags:
+        - Fraud Intercept
+      parameters:
+        - $ref: '#/components/parameters/Content-Type'
+        - $ref: '#/components/parameters/TransactionSrc'
+        - $ref: '#/components/parameters/TransId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FraudInterceptPublishMessageRequestV1'
+            examples:
+              MessageRequest:
+                summary: Request Message
+                value:
+                  - trackingNumber: 1Z7226YY6600000581
+                    action: Intercept to Salvage
+                    reason: FRAUDULENT_ACTIVITY
+                  - trackingNumber: 1Z7223YY0300000123
+                    action: Cancel Intercept
+                    reason: Intercept Cancel - Error
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FraudInterceptPublishMessageResponseV1'
+              example:
+                response:
+                  message: Request Received Successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':          
+          $ref: '#/components/responses/ServerError'
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page. 
+          1. Select "Try It" 
+          2. In the Security section enter your Client ID and Secret 
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request"
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
+          scopes: {}
+  parameters:
+    Content-Type:
+      name: Content-Type
+      in: header
+      description: Media type of request/response payload
+      required: true
+      schema:
+        type: string
+        example: application/json
+    TransId:
+      name: transId
+      in: header
+      required: true
+      description: Correlation identifier for request tracing.
+      schema:
+        type: string
+        format: uuid
+        pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$'
+      example: 120e8400-e29b-41d4-a716-446655440000
+    TransactionSrc:
+      name: transactionSrc
+      in: header
+      required: true
+      description: Source system or application name for traceability.
+      schema:
+        type: string
+        minLength: 1
+      example: app-name
+  headers:
+    Content-Type:
+      description: Response media type
+      required: true
+      schema:
+        type: string
+        example: application/json
+    APIErrorCode:
+      description: The API error code.
+      required: true
+      schema:
+        type: string
+        example: "250002"
+    APIErrorMsg:
+      description: The API error message.
+      required: true
+      schema:
+        type: string
+        example: Invalid Authentication Information.
+  responses:
+    BadRequest:
+      description: Bad Request
+      headers:
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+        APIErrorCode:
+          $ref: '#/components/headers/APIErrorCode'
+        APIErrorMsg:
+          $ref: '#/components/headers/APIErrorMsg'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FraudInterceptErrorResponseV1'
+          example:
+            response:
+              errors:
+                - code: <>
+                  message: Malformed JSON request.
+                - code: PRF_GEN_006
+                  message: transId - Required field is missing
+    Unauthorized:
+      description: Unauthorized
+      headers:
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+        APIErrorCode:
+          $ref: '#/components/headers/APIErrorCode'
+        APIErrorMsg:
+          $ref: '#/components/headers/APIErrorMsg'          
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FraudInterceptErrorResponseV1'
+          example:
+            response:
+              errors:
+                - code: '250002'
+                  message: Invalid Authentication Information.
+    ServerError:
+      description: Internal Server Error
+      headers:
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+        APIErrorCode:
+          $ref: '#/components/headers/APIErrorCode'
+        APIErrorMsg:
+          $ref: '#/components/headers/APIErrorMsg'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FraudInterceptErrorResponseV1'
+          example:
+            response:
+              errors:
+                - code: <TBD>
+                  message: The requested <TBD> was not found.
+  schemas:
+    FraudInterceptPublishMessageRequestV1:
+      type: array
+      minItems: 1
+      maxItems: 500      
+      items:
+        type: object
+        properties:
+          trackingNumber:
+            type: string
+            description: The unique UPS 1Z tracking number.
+            minLength: 1
+            example: 1Z7226YY6600000581
+          action:
+            type: string
+            description: The required fraud intercept outcome for new intercepts or existing intercepts.
+            enum:
+              - Intercept to Salvage
+              - Cancel Intercept
+          reason:
+            type: string
+            description: The specific trigger for the intercept. If action is Intercept to Salvage, then the correct reason must be Fraudulent Activity. If action is Cancel Intercept, the correct reason must be Intercept Cancel - Error.
+            default: FRAUDULENT_ACTIVITY
+            enum:
+              - FRAUDULENT_ACTIVITY
+              - Intercept Cancel - Error
+        additionalProperties: false
+        required:
+          - trackingNumber
+          - action
+    FraudInterceptPublishMessageResponseV1:
+      type: object
+      description: Status of the intercept request.
+      properties:
+        response:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Confirmation of acceptance string.
+              minLength: 1
+              example: Request Received Successfully
+          additionalProperties: false
+          required:
+            - message
+      additionalProperties: false
+      required:
+        - response
+    FraudInterceptErrorResponseV1:
+      type: object
+      description: Response object for errors
+      properties:
+        response:
+            type: object
+            description: Response container
+            properties: 
+              errors:
+                type: array
+                description: Unbounded array containing one or more error objects
+                minItems: 1
+                uniqueItems: true
+                items: 
+                  type: object
+                  description: Error entity
+                  properties: 
+                    code:
+                      type: string
+                      description: error code
+                      minLength: 1
+                      example: "250002"
+                    message:
+                      type: string
+                      description: error message
+                      minLength: 1
+                      example: Invalid Authentication Information.
+                  additionalProperties: false
+                  required: 
+                    - code
+                    - message
+            additionalProperties: false
+            required: 
+              -  errors
+      additionalProperties: false
+      required:
+        - response

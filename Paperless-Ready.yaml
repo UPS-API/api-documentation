@@ -82,7 +82,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/PAPERLESSDOCUMENTUploadRequestWrapper"
             examples:
-              '1':
+              'Upload Request with document type 013':
                 summary: Upload Request with document type 013
                 value:
                   UploadRequest:
@@ -94,7 +94,7 @@ paths:
                       UserCreatedFormFileFormat: txt
                       UserCreatedFormDocumentType: '013'
                       UserCreatedFormFile: Tm90aWNlDQpJbiBhbGwgY29tbXVuaWNhdGlvbnMgd2l0aCBVUFMgY29uY2VybmluZyB0aGlzIGRvY3VtZW50LCBwbGVhc2UgcmVmZXIgdG8gdGhlIGRvY3VtZW50IGRhdGUgbG9jYXRlZCBvbiB0aGUgY292ZXIuDQpDb3B5cmlnaHQNClRoZSB1c2UsIGRpc2Nsb3N1cmUsIHJlcHJvZHVjdGlvbiwgbW9kaWZpY2F0aW9uLCB0cmFuc2Zlciwgb3IgdHJhbnNtaXR0YWwgb2YgdGhpcyB3b3JrIGZvciBhbnkgcHVycG9zZSBpbiBhbnkgZm9ybSBvciBieSBhbnkgbWVhbnMgd2l0aG91dCB0aGUgd3JpdHRlbiBwZXJtaXNzaW9uIG9mIFVuaXRlZCBQYXJjZWwgU2VydmljZSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLg0KwqkgQ29weXJpZ2h0IDIwMTYgVW5pdGVkIFBhcmNlbCBTZXJ2aWNlIG9mIEFtZXJpY2EsIEluYy4gQWxsIFJpZ2h0cyBSZXNlcnZlZC4NClRyYWRlbWFya3MNClVQUyBPbkxpbmXCriBpcyBhIHJlZ2lzdGVyZWQgdHJhZGVtYXJrIG9mIFVuaXRlZCBQYXJjZWwgU2VydmljZSBvZiBBbWVyaWNhLCBJbmMuIEFsbCBvdGhlciB0cmFkZW1hcmtzIGFyZSB0aGUgcHJvcGVydHkgb2YgdGhlaXIgcmVzcGVjdGl2ZSBvd25lcnMuDQpTb21lIG9mIHRoZSBVUFMgY29ycG9yYXRlIGFwcGxpY2F0aW9ucyB1c2UgVS5TLiBjaXR5LCBzdGF0ZSwgYW5kIHBvc3RhbCBjb2RlIGluZm9ybWF0aW9uIG9idGFpbmVkIGJ5IFVuaXRlZCBQYXJjZWwgU2VydmljZSBvZiBBbWVyaWNhLCBJbmMuIHVuZGVyIGEgbm9uLWV4Y2x1c2l2ZSBsaWNlbnNlIGZyb20gdGhlIFVuaXRlZCBTdGF0ZXMgUG9zdGFsIFNlcnZpY2UuIA0K
-              '2':
+              'Upload Request with document type 010':
                 summary: Upload Request with document type 010
                 value:
                   UploadRequest:
@@ -108,7 +108,7 @@ paths:
                       UserCreatedFormFile: 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
                       UserCreatedFormFileFormat: pdf
                       UserCreatedFormFileName: TP-0452492_PackingList.pdf
-              '3':
+              'Upload Request with document type 002':
                 summary: Upload Request with document type 002
                 value:
                   UploadRequest:
@@ -376,7 +376,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/PAPERLESSDOCUMENTUploadRequestWrapper"
             examples:
-              '1':
+              'Upload Request with document type 013':
                 summary: Upload Request with document type 013
                 value:
                   UploadRequest:
@@ -388,7 +388,7 @@ paths:
                       UserCreatedFormFileFormat: txt
                       UserCreatedFormDocumentType: '013'
                       UserCreatedFormFile: Tm90aWNlDQpJbiBhbGwgY29tbXVuaWNhdGlvbnMgd2l0aCBVUFMgY29uY2VybmluZyB0aGlzIGRvY3VtZW50LCBwbGVhc2UgcmVmZXIgdG8gdGhlIGRvY3VtZW50IGRhdGUgbG9jYXRlZCBvbiB0aGUgY292ZXIuDQpDb3B5cmlnaHQNClRoZSB1c2UsIGRpc2Nsb3N1cmUsIHJlcHJvZHVjdGlvbiwgbW9kaWZpY2F0aW9uLCB0cmFuc2Zlciwgb3IgdHJhbnNtaXR0YWwgb2YgdGhpcyB3b3JrIGZvciBhbnkgcHVycG9zZSBpbiBhbnkgZm9ybSBvciBieSBhbnkgbWVhbnMgd2l0aG91dCB0aGUgd3JpdHRlbiBwZXJtaXNzaW9uIG9mIFVuaXRlZCBQYXJjZWwgU2VydmljZSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLg0KwqkgQ29weXJpZ2h0IDIwMTYgVW5pdGVkIFBhcmNlbCBTZXJ2aWNlIG9mIEFtZXJpY2EsIEluYy4gQWxsIFJpZ2h0cyBSZXNlcnZlZC4NClRyYWRlbWFya3MNClVQUyBPbkxpbmXCriBpcyBhIHJlZ2lzdGVyZWQgdHJhZGVtYXJrIG9mIFVuaXRlZCBQYXJjZWwgU2VydmljZSBvZiBBbWVyaWNhLCBJbmMuIEFsbCBvdGhlciB0cmFkZW1hcmtzIGFyZSB0aGUgcHJvcGVydHkgb2YgdGhlaXIgcmVzcGVjdGl2ZSBvd25lcnMuDQpTb21lIG9mIHRoZSBVUFMgY29ycG9yYXRlIGFwcGxpY2F0aW9ucyB1c2UgVS5TLiBjaXR5LCBzdGF0ZSwgYW5kIHBvc3RhbCBjb2RlIGluZm9ybWF0aW9uIG9idGFpbmVkIGJ5IFVuaXRlZCBQYXJjZWwgU2VydmljZSBvZiBBbWVyaWNhLCBJbmMuIHVuZGVyIGEgbm9uLWV4Y2x1c2l2ZSBsaWNlbnNlIGZyb20gdGhlIFVuaXRlZCBTdGF0ZXMgUG9zdGFsIFNlcnZpY2UuIA0K
-              '2':
+              'Upload Request with document type 010':
                 summary: Upload Request with document type 010
                 value:
                   UploadRequest:
@@ -402,7 +402,7 @@ paths:
                       UserCreatedFormFile: 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
                       UserCreatedFormFileFormat: pdf
                       UserCreatedFormFileName: TP-0452492_PackingList.pdf
-              '3':
+              'Upload Request with document type 002':
                 summary: Upload Request with document type 002
                 value:
                   UploadRequest:
