@@ -1737,7 +1737,7 @@ paths:
                       InformationSourceCode: ''
                       ShipmentValueThresholdCode: '01'
               '13':
-                summary: Shipping with Carbon Offset
+                summary: Shipping with Carbon Offsets
                 value:
                   ShipmentRequest:
                     Shipment:
@@ -4312,7 +4312,7 @@ paths:
                       InformationSourceCode: ''
                       ShipmentValueThresholdCode: '01'
               '13':
-                summary: Shipping with Carbon Offset
+                summary: Shipping with Carbon Offsets
                 value:
                   ShipmentRequest:
                     Shipment:
@@ -6662,8 +6662,8 @@ components:
           maximum: 1
           type: string
         UPScarbonneutralIndicator:
-          description: UPS carbon offset indicator presence at shipment level is
-            required to create carbon offset Shipments.
+          description: UPS carbon offsets indicator presence at shipment level is
+            required to create carbon offsets Shipments.
           maximum: 1
           type: string
         PreAlertNotification:
@@ -6744,6 +6744,8 @@ components:
             Goods Service.
           maximum: 1
           type: string 
+        VerifiedDelivery:
+          "$ref": "#/components/schemas/ShipmentServiceOptions_VerifiedDelivery"
       xml:
         name: ShipmentServiceOptions
       description: Container for Shipment Service Options.
@@ -9144,6 +9146,42 @@ components:
       xml:
         name: RestrictedArticles
       description: Restricted Articles container.
+    ShipmentServiceOptions_VerifiedDelivery:
+      type: object
+      maximum: 1
+      required:
+        - SecurePINType
+        - TokenValue
+        - RecipientEmail
+      properties:
+        SecurePINType:
+          description: Specifies the type of Secure PIN. Valid value is 2, which represents VDS (Shipper Generated PIN). This field is required.
+          required: SecurePINType
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 1
+        TokenValue:
+          description: This field is required and must contain a 32-character hexadecimal string, using only the characters 0-9 and A-F (case-insensitive).
+          maximum: 1
+          type: string
+          minLength: 32
+          maxLength: 32
+        RecipientEmail:
+          description: Specifies the recipient's email address for delivery notifications. This field is required.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 50
+        RecipientPhone:
+          description: Recipient phone number for notifications. Valid characters are digits (0-9) only. This field is optional.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 15
+      xml:
+        name: VerifiedDelivery
+      description: Protected Delivery container required for Secure Pin Delivery. Protected Delivery will offer shippers extra security to ensure their packages are delivered to the intended recipient.
     Shipment_Package:
       type: object
       maximum: 1
