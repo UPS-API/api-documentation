@@ -3940,6 +3940,8 @@ components:
           "$ref": "#/components/schemas/ShipmentServiceOptions_ImportControl"
         ReturnService:
           "$ref": "#/components/schemas/ShipmentServiceOptions_ReturnService"
+        VerifiedDelivery:
+          "$ref": "#/components/schemas/ShipmentServiceOptions_VerifiedDelivery"
         SDLShipmentIndicator:
           description: Empty Tag means the indicator is present. This field is a flag
             to indicate if the receiver needs SDL rates in response. True if SDLShipmentIndicator
@@ -4224,6 +4226,21 @@ components:
       xml:
         name: ReturnService
       description: Container for type of Return Services.
+    ShipmentServiceOptions_VerifiedDelivery:
+      type: object
+      maximum: 1
+      required:
+      - SecurePINType
+      properties:
+        SecurePINType:
+          description: Specifies the type of Secure PIN. Valid value is 2, which represents VDS (Shipper Generated PIN). This field is required.
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 1
+      xml:
+        name: VerifiedDelivery
+      description: Protected Delivery container required for Secure Pin Delivery. Protected Delivery will offer shippers extra security to ensure their packages are delivered to the intended recipient.
     Shipment_ShipmentRatingOptions:
       type: object
       maximum: 1
