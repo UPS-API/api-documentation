@@ -4,19 +4,34 @@ info:
   version: "1.0"
   description: |
     API to verify and score risk of an order for chargeback protection.
-  
+    
     <p>Explore API documentation and sample applications through GitHub.</p>
   
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
     <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub" style="width: 128px; height: 32px;">
     </a>
+tags:
+  - name: Chargeback Risk
+    description: Endpoints related to chargeback scoring and risk analysis
 servers:
-  - url: https://wwwcie.ups.com/api
-    description: Customer Integration Environment
-  - url: https://onlinetools.ups.com/api
-    description: Production
+  - url: https://www.onlinetools.ups.com/api/commerce-guard/{version}
+    description: URL for OAuth based authentication that can be used for the UPS Production environment.
+    variables:
+      version:
+        description: Denotes which version of the API to be called as new features are released.
+        default: v1
+        enum:
+          - v1
+  - url: https://www.onlinetoolsuat.ups.com/api/commerce-guard/{version}
+    description: UPS UAT Customer Integration Environment
+    variables:
+      version:
+        description: Denotes which version of the API to be called as new features are released.
+        default: v1
+        enum:
+          - v1
 paths:
-  /commerce-guard/{version}/verify:
+  /verify:
     post:
       summary: Verify chargeback risk
       description: |
@@ -24,19 +39,10 @@ paths:
         Returns scores and decision for risk classification.
       operationId: verifyChargebackRisk
       tags:
-        - Commerce Guard
+        - Chargeback Risk
       security:
-        - OAuth2: [] 
+        - ProdOauth2: [] 
       parameters:
-        - in: path
-          name: version
-          schema:
-            type: string
-            minimum: 1
-            default: v1
-          description: |
-            Denotes which version of the API to be called as new features are released.
-            - v1
         - in: header
           name: partnerId
           schema:
@@ -272,19 +278,18 @@ paths:
                       message: system Unexpected exception while processing the request
 components:
   securitySchemes:
-    OAuth2:
+    ProdOauth2:
       type: oauth2
       description: |
-        Find your Client ID and Secret on your app info page.
-        1. Select \"Try It\"
-        2. In the Security section enter your Client ID and Secret.
-        3. Select \"Request Token\"
-        4. Enter any additional information in the Body and Parameters sections.
-        5. Select \"Send\" to execute your API request
+        Find your Client ID and Secret on your app info page. 
+          1. Select "Try It" 
+          2. In the Security section enter your Client ID and Secret 
+          3. Select "Request Token"
+          4. Enter any additional information in the Body and Parameters sections
+          5. Select "Send" to execute your API request
       flows:
         clientCredentials:
-          x-tokenEndpointAuthMethod: client_secret_basic
-          tokenUrl: https://wwwcie.ups.com/security/v1/oauth/token
+          tokenUrl: https://onlinetools.ups.com/security/v1/oauth/token
           scopes: {}
   headers:
     BkndTransId:
