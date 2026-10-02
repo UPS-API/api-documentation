@@ -7113,7 +7113,7 @@ components:
         ReasonForExport:
           description: |-
             A reason to export the current international shipment.
-            Valid values: SALE, GIFT, SAMPLE, RETURN, REPAIR, INTERCOMPANYDATA, Any other reason.  Applies to Invoice and Partial Invoice forms only. Required for Invoice forms and Optional for Partial Invoice. No validation.
+            Valid values: SALE, GIFT, SAMPLE, RETURN, REPAIR, INTERCOMPANYDATA, Any other reason.  Applies to Invoice and Partial Invoice forms only. Required for Invoice forms and Optional for Partial Invoice. Required for EU Inbound shipments.
           maximum: 1
           type: string
           minLength: 1
@@ -8370,6 +8370,16 @@ components:
         TaxesPaid:
           description: "Invoice Commodity Level Tax Collected Code for each shipment commodity line.Taxes paid Indicator is only applicable for shipments to Singapore. [TaxesPaid = 0 - No on Report], [TaxesPaid = 1 -Yes on Report], [TaxesPaid = empty - null on Report], [If TaxesPaid is not passed in input request = null on Report]"
           type: string
+        ProductIdentifierExemptIndicator:
+          description: If the exemption indicator is set to true, the Product Identifiers are optional and not required. Valid values are true/false. Conditionally Required for EU Inbound shipments.
+          type: boolean
+          default: false
+        ProductIdentifier:
+          description: The Product Identifier array contains the following pair of fields<br/>1) Product ID<br/>2) Product ID Type Code. <br/>Required if ProductIdentifierExemptIndicator is false. Conditionally Required for EU Inbound shipments.
+          type: array
+          maximum: 6
+          items:
+            "$ref": "#/components/schemas/InternationalForms_ProductIdentifier"
         ExcludeFromForm:
           "$ref": "#/components/schemas/Product_ExcludeFromForm"
         PackingListInfo:
@@ -8449,6 +8459,19 @@ components:
         name: UnitOfMeasurement
       description: Container tag for the Unit of measurement for the commodity.  Required
         for Invoice forms and optional for Partial Invoice.
+    InternationalForms_ProductIdentifier:
+      type: object
+      properties:
+        ProductID:
+          description: A generic field that can contain any type of product identifier used to specify a commodity/product. Every Product ID field must have a corresponding Product ID Type Code field to specify the type of product identifier it contains. This field can hold any one of the defined Product Identifiers - Merchant Product Identifier, Manufacturer Product Identifier and Standardized Product Identifier. Conditionally Required for EU Inbound shipments.
+          type: string
+          maxLength: 100
+        ProductIDTypeCode:
+          description: A code that specifies the type of product identifier in the Product ID field.<br/>Valid values<br/>0100 = Merchant Product Identifier<br/>0200 = Manufacturer Product Identifier<br/>0300 = Standardized Product Identifier. Conditionally Required for EU Inbound shipments.
+          type: string
+          minLength: 4
+          maxLength: 4
+      description: Container for Product Identifier information.
     Product_NetCostDateRange:
       type: object
       maximum: 1
