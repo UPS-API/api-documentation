@@ -413,14 +413,14 @@ components:
           maximum: 1
           maxLength: 40
           description: Specifies a valid HS or HTS code for the shipment's destination
-            or import country. This field is required if description is not provided.
+            or import country. HsCode is optional. So should omit “This field is required if description is not provided”
           example: '0901.90.00.10'
         description:
           type: string
           maximum: 1
           maxLength: 150
           description: This field is populated with description of the commodity.
-            This field is required if hsCode is not provided.
+            The description field is always required and should omit “if hsCode is not provided”
         originCountryCode:
           type: string
           maximum: 1
