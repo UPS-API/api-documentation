@@ -83,7 +83,7 @@ paths:
               "$ref": "#/components/schemas/PICKUPRequestWrapper"
             examples:
               json:
-                summary: A sample JSON request(Standard Example)
+                summary: Standard Example
                 value:
                   PickupRateRequest:
                     PickupAddress:
@@ -344,7 +344,7 @@ paths:
                - $ref: "#/components/schemas/PICKUPCreationRequestWrapper"
                - $ref: "#/components/schemas/PICKUPTriggerGWNRequestWrapper"
             examples:
-              '1':
+              'Standard Example':
                 summary: A sample JSON request (Standard Example)
                 value:
                   PickupCreationRequest:
@@ -387,11 +387,12 @@ paths:
                       Weight: '5.5'
                       UnitOfMeasurement: LBS
                     OverweightIndicator: N
+                    PremierIndicator: N
                     PaymentMethod: '01'
                     SpecialInstruction: 'Test '
                     ReferenceNumber: CreatePickupRef
-              '2':     
-                summary: A sample JSON request (Smart Pickup)
+              'Smart Pickup':     
+                summary: Smart Pickup
                 value:
                   PickupTriggerGWNRequest:
                     Request:
@@ -409,7 +410,7 @@ paths:
                  - $ref: "#/components/schemas/PICKUPCreationResponseWrapper"
                  - $ref: "#/components/schemas/PICKUPTriggerGWNResponseWrapper"
               examples:
-                '1': 
+                'A sample JSON response (Standard Example)': 
                   summary:  A sample JSON response (Standard Example)
                   value:
                     PickupCreationResponse:
@@ -450,7 +451,7 @@ paths:
                         GrandTotalOfAllIncentedCharge: "string"
                         PreTaxTotalCharge: "stringst"
                         PreTaxTotalIncentedCharge: "string"
-                '2':
+                'A sample JSON response (Smart Pickup)':
                   summary:  A sample JSON response (Smart Pickup)
                   value:
                     PickupTriggerGWNResponse:
@@ -612,7 +613,7 @@ paths:
               "$ref": "#/components/schemas/PICKUPServCenterRequestWrapper"
             examples:
               json:
-                summary: A sample JSON request (Standard Example)
+                summary: Standard Example
                 value:
                   PickupGetServiceCenterFacilitiesRequest:
                     PickupPiece:
@@ -789,7 +790,7 @@ paths:
               "$ref": "#/components/schemas/PICKUPCreationRequestWrapper"
             examples:
               json:
-                summary: A sample JSON request (Standard Example)
+                summary: Standard Example
                 value:
                   PickupCreationRequest:
                     RatePickupIndicator: N
@@ -1732,6 +1733,16 @@ components:
           type: string
           minLength: 1
           maxLength: 1
+        PremierIndicator:
+          description: |-
+            Indicates that the pickup includes one or more Premier service package.
+            Accepted values:
+            - Y = Includes Premier-eligible packages
+            - N = Does not include Premier-eligible packages (default)
+          maximum: 1
+          type: string
+          minLength: 1
+          maxLength: 1  
         Notification:
           "$ref": "#/components/schemas/PickupCreationRequest_Notification"
       xml:
