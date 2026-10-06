@@ -18,6 +18,7 @@ info:
     - <a href="https://developer.ups.com/api/reference/customdetails/faq" target="_blank" rel="noopener">FAQ</a>
     - <a href="https://developer.ups.com/api/reference/customs-detail/appendix" target="_blank" rel="noopener">Appendix</a>
     - <a href="https://developer.ups.com/api/reference/customsdetail/regulatory-data-guide" target="_blank" rel="noopener">Regulatory Data Guide</a>
+    - <a href="https://developer.ups.com/api/reference/customsdetail/business-rules" target="_blank" rel="noopener">Business Rules Guide</a>
     
      <br/>
     <p>Try out UPS APIs with example requests using Postman and learn more about the UPS Postman Collection by visiting our <a href="https://developer.ups.com/api/reference/postman/guide"
@@ -28,104 +29,28 @@ info:
     <a href="https://github.com/UPS-API" target="_blank" rel="noopener noreferrer">
       <img src="https://www.ups.com/assets/resources/webcontent/images/gitHubButton.svg" alt="Open in GitHub " style="width: 128px; height: 32px;">
 servers:
+  - url: https://wwwcie.ups.com/api/trade/compliance/{version}
+    description: Customer Integration Environment
   - url: https://onlinetools.ups.com/api/trade/compliance/{version}
     description: Production
-  - url: https://wwwcie.ups.com/api/trade/compliance/{version}
-    description: CIE
+
 tags:
   - name: Customs Detail
     description:  Endpoints related to the required fields
 paths:
   /content/fields/customs-detail:
-    post:
-      summary: Validate and/or submit the fields
-      description: This endpoint will provide the ability to validate and/or submit the additional field information for a shipment
-      parameters:
-        - $ref: "#/components/parameters/transId"
-        - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/Content-Type"
-        - in: path
-          name: version
-          required: true
-          schema:
-            type: string
-            default: v2
-            enum:
-              - v2
-          description: |
-            Version
-
-            Valid values:
-            - v2
-      operationId: postCustomDetailData
-      security:
-        - OAuth2: []
-      tags:
-        - Customs Detail
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CustomDetailsPostFieldsRequestv2"
-            examples:
-              "Regulatory Data Save Request Example":
-                $ref: "#/components/examples/POST_Generic"
-              "CPSC Disclaim B":
-                $ref: "#/components/examples/01_CPSC_Disclaim_B_Product_Not_Regulated"
-              "CPSC Disclaim A":
-                $ref: "#/components/examples/02_CPSC_Disclaim_A_Intended_Use_Required"
-              "CPSC REF":
-                $ref: "#/components/examples/03_CPSC_REF_Certificate_On_File_With_Product_Registry"
-              "CPSC FGC Full Scenario":
-                $ref: "#/components/examples/04_CPSC_FGC_Full_Certificate_Filing"
-              "CPSC FCP Full Scenario":
-                $ref: "#/components/examples/05_CPSC_FCP_Full_Children_Product_Certificate_Filing"
-              "FDA All Scenarios":
-                $ref: "#/components/examples/06_FDA_All_Product_Category_Filing_Scenarios"
-              "Section 232 All Scenarios":
-                $ref: "#/components/examples/07_Section_232_All_Metal_Category_Filing_Scenarios"
-              "Section 232 One Product with All Three Metals" :
-                $ref: "#/components/examples/08_Section_232_Single_Product_With_Aluminum_Steel_And_Copper"                
-      responses:
-        "204":
-          description: Success
-          headers:
-            BkndTransId:
-              $ref: "#/components/headers/BkndTransId"
-            TransId:
-              $ref: "#/components/headers/transId"
-            transactionSrc:
-              $ref: "#/components/headers/transactionSrc"
-            Content-Type:
-              $ref: "#/components/headers/Content-Type"
-        "400":
-          $ref: '#/components/responses/BadRequest'
-        "401":
-          $ref: '#/components/responses/Unauthorized'
-        "422":
-          $ref: '#/components/responses/UnprocessableEntity'
-        "500":
-          $ref: '#/components/responses/ServerError'
     get:
-      summary: Returns required Custom Details
-      description: This returns an array of fields that are required for the provided import and/or export country
+      summary: Get Customs Requirements
+      description: |
+        Retrieve the customs data requirements for a shipment based on the specified import and/or export countries. 
+        The response identifies the customs fields that may be required to support customs clearance, regulatory compliance, 
+        and government agency reporting. Use this endpoint to determine the latest required and conditional data elements before 
+        submitting customs information.
+        **Note:** Regulatory requirements change frequently. Always use the GET response as the source of truth for the 
+        most current customs field requirements.
       parameters:
         - $ref: "#/components/parameters/transId"
         - $ref: "#/components/parameters/transactionSrc"
-        - $ref: "#/components/parameters/Content-Type"
-        - in: path
-          name: version
-          required: true
-          schema:
-            type: string
-            default: v2
-            enum:
-              - v2
-          description: |
-            Version
-
-            Valid values:
-            - v2
         - name: import_country_code
           in: query
           required: false
@@ -159,9 +84,25 @@ paths:
           required: false
           schema:
             type: string
-            description: ""
+            description: |
+              Specifies the language for the request using IETF BCP 47 language tags.
+              Supported values include language-only codes (for example, 'en', 'fr', 'de'),
+              language-script codes (for example, 'zh-Hans', 'zh-Hant', 'iu-Latn'),
+              and language-region codes (for example, 'fr-CA', 'pt-PT'). The list of
+              supported values includes: af, sq, am, ar, hy, as, az, bn, ba, eu, bho,
+              brx, bs, bg, yue, ca, lzh, zh-Hans, zh-Hant, sn, hr, cs, da, prs, dv,
+              doi, nl, en, et, fo, fj, fil, fi, fr, fr-CA, gl, ka, de, el, gu, ht,
+              ha, he, hi, mww, hu, is, ig, id, ikt, iu, iu-Latn, ga, it, ja, kn, ks,
+              kk, km, rw, tlh-Latn, tlh-Piqd, gom, ko, ku, kmr, ky, lo, lv, lt, ln,
+              dsb, lug, mk, mai, mg, ms, ml, mt, mi, mr, mn-Cyrl, mn-Mong, my, ne,
+              nb, nya, or, ps, fa, pl, pt, pt-PT, pa, otq, ro, run, ru, sm, sr-Cyrl,
+              sr-Latn, st, nso, tn, sd, si, sk, sl, so, es, sw, sv, ty, ta, tt, te,
+              th, bo, ti, to, tr, tk, uk, hsb, ur, ug, uz, vi, cy, xh, yo, yua, zu.
             minLength: 5
             maxLength: 5
+            purpose: |
+              The locale parameter specifies the language in which the user wants the data returned.
+              It helps ensure that labels, tooltips, and error messages are displayed in the specified language.
             pattern: ^[a-z]{2}-[A-Z]{2}$
             default: en-US
             example: en-US
@@ -197,7 +138,7 @@ paths:
           schema:
             type: integer
             description: The total weight of the shipment.
-            example: 32456	
+            example: 32456
         - name: shipment_weight_unit
           in: query
           required: false
@@ -223,7 +164,7 @@ paths:
             description: The <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO 4217</a> currency code.
             minLength: 3
             maxLength: 3
-            pattern: ^[A-Z]{3}
+            pattern: ^[A-Z]{3}$
             example: USD
         - name: user_roles
           in: query
@@ -248,12 +189,14 @@ paths:
               - B2C
               - C2B
               - C2C
-            example: B2B			
+            example: B2B
       operationId: getCustomDetailData
       security:
-        - OAuth2: []
+        - oauth2: []
+        - oauthCie: []
+        - JWTAuth: []
       tags:
-        - Customs Detail
+        - Field Data
       responses:
           "200":
             description: Success
@@ -264,8 +207,6 @@ paths:
                 $ref: "#/components/headers/transId"
               transactionSrc:
                 $ref: "#/components/headers/transactionSrc"
-              Content-Type:
-                $ref: "#/components/headers/Content-Type"
             content:
               application/json:
                 schema:
@@ -282,13 +223,88 @@ paths:
                   "US Import FDA Compliance (US-IMP-FDA)":
                     $ref: "#/components/examples/04_US_IMP_FDA"
                   "US Import Section 232 Metals (US-IMP-232)":
-                    $ref: "#/components/examples/05_US_IMP_232"               
+                    $ref: "#/components/examples/05_US_IMP_232"
+          "400":
+            $ref: '#/components/responses/BadRequest'               
           "401":
             $ref: '#/components/responses/Unauthorized'
+          "404":
+            $ref: '#/components/responses/NotFound' 
           "422":
             $ref: '#/components/responses/UnprocessableEntity'
           "500":
             $ref: '#/components/responses/ServerError'
+    post:
+      summary: Validate and/or Submit Customs Information
+      description: |
+        Validate and submit customs information for a shipment. 
+        This endpoint allows you to verify that the provided customs data meets current regulatory and business requirements before submission. 
+        When validation is successful, the customs details can be submitted for use in customs clearance and compliance processing.
+        **Note:** The customs data requirements may vary by country and change over time. 
+        Use the **Get Customs Requirements** endpoint to retrieve the latest required and conditional fields 
+        before submitting customs information.
+      parameters:
+        - $ref: "#/components/parameters/transId"
+        - $ref: "#/components/parameters/transactionSrc"
+        - $ref: "#/components/parameters/Content-Type"
+        - name: registrationId
+          in: header
+          required: false
+          schema:
+            type: string
+            description: this field is required for ews/fws/worldship
+            example: 3DA124234342
+      operationId: postCustomDetailData
+      security:
+        - oauth2: []
+        - oauthCie: []
+        - JWTAuth: []
+      tags:
+        - Field Data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomDetailsPostFieldsRequestv2"
+            examples:
+              "Regulatory Data Save Request Example":
+                $ref: "#/components/examples/POST_Generic"
+              "CPSC Disclaim B":
+                $ref: "#/components/examples/01_CPSC_Disclaim_B_Product_Not_Regulated"
+              "CPSC Disclaim A":
+                $ref: "#/components/examples/02_CPSC_Disclaim_A_Intended_Use_Required"
+              "CPSC REF":
+                $ref: "#/components/examples/03_CPSC_REF_Certificate_On_File_With_Product_Registry"
+              "CPSC FGC Full Scenario":
+                $ref: "#/components/examples/04_CPSC_FGC_Full_Certificate_Filing"
+              "CPSC FCP Full Scenario":
+                $ref: "#/components/examples/05_CPSC_FCP_Full_Children_Product_Certificate_Filing"
+              "FDA All Scenarios":
+                $ref: "#/components/examples/06_FDA_All_Product_Category_Filing_Scenarios"
+              "Section 232 All Scenarios":
+                $ref: "#/components/examples/07_Section_232_All_Metal_Category_Filing_Scenarios"
+              "Section 232 One Product with All Three Metals" :
+                $ref: "#/components/examples/08_Section_232_Single_Product_With_Aluminum_Steel_And_Copper"                
+      responses:
+        "204":
+          description: Success
+          headers:
+            BkndTransId:
+              $ref: "#/components/headers/BkndTransId"
+            TransId:
+              $ref: "#/components/headers/transId"
+            transactionSrc:
+              $ref: "#/components/headers/transactionSrc"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "422":
+          $ref: '#/components/responses/UnprocessableEntity'
+        "500":
+          $ref: '#/components/responses/ServerError'
 components:
   securitySchemes:
     oauth2:
@@ -317,7 +333,7 @@ components:
       flows:
         clientCredentials:
           x-tokenEndpointAuthMethod: client_secret_basic
-          tokenUrl: https://wwwcie.ups.com/security/v2/oauth/token
+          tokenUrl: https://onlinetools.ups.com/security/v2/oauth/token
           scopes: {}
     JWTAuth:
       type: "http"
@@ -365,11 +381,6 @@ components:
         pattern: ^[a-zA-Z0-9-.]+$
         maxLength: 512
         example: MyShippingPortal
-    Content-Type:
-      description: The Content-Type header provides the client with the actual content/media type of the returned content.
-      schema:
-        type: string
-        example: application/json
     APIErrorCode:
       description: The API error code.
       schema:
@@ -390,8 +401,6 @@ components:
           $ref: "#/components/headers/transId"
         transactionSrc:
           $ref: "#/components/headers/transactionSrc"
-        Content-Type:
-          $ref: "#/components/headers/Content-Type"
         APIErrorCode:
           $ref: "#/components/headers/APIErrorCode"
         APIErrorMessage:
@@ -419,8 +428,6 @@ components:
           $ref: "#/components/headers/transId"
         transactionSrc:
           $ref: "#/components/headers/transactionSrc"
-        Content-Type:
-          $ref: "#/components/headers/Content-Type"
         APIErrorCode:
           $ref: "#/components/headers/APIErrorCode"
         APIErrorMessage:
@@ -436,6 +443,31 @@ components:
                   message: Invalid token or token is not present
                   description: null
                   field: null
+                  value: null
+    NotFound:
+      description: Not Found
+      headers:
+        BkndTransId:
+          $ref: "#/components/headers/BkndTransId"
+        transId:
+          $ref: "#/components/headers/transId"
+        transactionSrc:
+          $ref: "#/components/headers/transactionSrc"
+        APIErrorCode:
+          $ref: "#/components/headers/APIErrorCode"
+        APIErrorMessage:
+          $ref: "#/components/headers/APIErrorMsg"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomDetailsErrorResponsev2'
+          example:
+            response:
+              errors:
+                - code: "105.404"
+                  message: Resource not found
+                  description: RESOURCE_NOT_FOUND
+                  field: null
                   value: null    
     UnprocessableEntity:
       description: Unprocessable Entity
@@ -446,8 +478,6 @@ components:
           $ref: "#/components/headers/transId"
         transactionSrc:
           $ref: "#/components/headers/transactionSrc"
-        Content-Type:
-          $ref: "#/components/headers/Content-Type"
         APIErrorCode:
           $ref: "#/components/headers/APIErrorCode"
         APIErrorMessage:
@@ -473,8 +503,6 @@ components:
           $ref: "#/components/headers/transId"
         transactionSrc:
           $ref: "#/components/headers/transactionSrc"
-        Content-Type:
-          $ref: "#/components/headers/Content-Type"
         APIErrorCode:
           $ref: "#/components/headers/APIErrorCode"
         APIErrorMessage:
@@ -510,15 +538,20 @@ components:
             - save
         trackingNumber:
           type: string
-          description: The lead 1Z number fore the shipment. Required when actionType is save.
+          description: The lead 1Z number for the shipment. Required when actionType is save.
           minLength: 18
           maxLength: 18
           pattern: ^1Z[0-9A-Z]{16}$
           example: 1Z1234567891234560
         invoiceFormGroupId:
           type: string
-          description: The form group ID for the current generated invoice available in IFC.
-          example: 1F1234567891234560
+          description: |
+            Unique identifier returned by UPS Ship API for an invoice and international forms package.
+            Pass the FormGroupId value from the Ship API response to Customs Detail API to update the generated Commercial Invoice 
+            with details passed in Customs Detail API.
+            **Note:** This value is only available when the shipment includes international forms and the Ship API response contains a 
+            Form object with Code = "01". Pass the Ship API Form.FormGroupId value here.
+          example: 2013-12-04-00.17.38.306459
         shipmentType:
           type: string
           description: The type of shipment.
@@ -608,7 +641,7 @@ components:
                 example: PROD-001
               productDescription:
                 type: string
-                description: The description of the product
+                description: Provide a clear and accurate description of the product exactly as it appears on the Commercial Invoice and any other applicable international shipping documents. The description should clearly identify the item and, when relevant, its intended use. Avoid generic terms such as parts, samples, goods, accessories, or merchandise, as these descriptions may not provide sufficient detail for customs authorities and could result in clearance delays or requests for additional information.
                 minLength: 1
                 maxLength: 105
                 example: Sample pharma goods
@@ -877,8 +910,8 @@ components:
                     allowedValueCount:
                       type: integer
                       description: Number of occurnces allowed for this field
-                      minLength: 1
-                      maxLength: 2
+                      minimum: 1
+                      maximum: 99
                       default: 1
                       example: 1
                     validation:
@@ -1186,7 +1219,7 @@ components:
         actionType: save
         shipperNumber: 1443YY
         trackingNumber: 1Z1443YY0161231327
-        invoiceFormGroupId: 1F1443YY0161231327
+        invoiceFormGroupId: 1F1443YY0161231327 
         shipmentType: Gift
         shipmentWeight: 32456
         shipmentWeightUnit: KGS
