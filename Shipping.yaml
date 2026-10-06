@@ -83,7 +83,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/SHIPRequestWrapper"
             examples:
-              '1':
+              'Standard Example':
                 summary: Shipping Request(Standard Example)
                 value:
                   ShipmentRequest:
@@ -166,7 +166,7 @@ paths:
                         Code: GIF
                         Description: GIF
                       HTTPUserAgent: Mozilla/4.5
-              '2':
+              'Negotiated Rates':
                 summary: Shipping Request with Negotiated Rates
                 value:
                   ShipmentRequest:
@@ -243,7 +243,7 @@ paths:
                             Code: KGS
                             Description: Kilograms
                           Weight: '20.2'
-              '3':
+              'International Forms':
                 summary: Shipping Request with International Forms
                 value:
                   ShipmentRequest:
@@ -360,7 +360,7 @@ paths:
                     LabelSpecification:
                       LabelImageFormat:
                         Code: GIF
-              '4':
+              'Dry Ice or Lithium Batteries':
                 summary: Shipping Dry Ice or Lithium Batteries
                 value:
                   ShipmentRequest:
@@ -509,7 +509,7 @@ paths:
                     LabelSpecification:
                       LabelImageFormat:
                         Code: GIF
-              '5':
+              'Hazmat Goods':
                 summary: Shipping Hazmat Goods
                 value:
                   ShipmentRequest:
@@ -611,7 +611,7 @@ paths:
                         Code: GIF
                         Description: GIF
                       HTTPUserAgent: Mozilla/4.5
-              '6':
+              'Billing Third Party':
                 summary: Billing Third Party
                 value:
                   ShipmentRequest:
@@ -731,7 +731,7 @@ paths:
                       LabelImageFormat:
                         Code: GIF
                         Description: GIF
-              '7':
+              'Multi-Piece Shipping':
                 summary: Multi-Piece Shipping
                 value:
                   ShipmentRequest:
@@ -860,7 +860,7 @@ paths:
                       LabelStockSize:
                         Height: '6'
                         Width: '4'
-              '8':
+              'Ship to a UPS Access Point':
                 summary: Ship to a UPS Access Point
                 value:
                   ShipmentRequest:
@@ -979,7 +979,7 @@ paths:
                       LabelStockSize:
                         Height: '6'
                         Width: '4'
-              '9':
+              'World Wide Economy Shipping':
                 summary: World Wide Economy Shipping
                 value:
                   ShipmentRequest:
@@ -1095,7 +1095,7 @@ paths:
                         Code: GIF
                         Description: GIF
                       HTTPUserAgent: Mozilla/4.5
-              '10':
+              'Proactive Response Shipping':
                 summary: Proactive Response Shipping
                 value:
                   ShipmentRequest:
@@ -1177,7 +1177,7 @@ paths:
                     LabelSpecification:
                       LabelImageFormat:
                         Code: GIF
-              '11':
+              'Shipping with EEI Form':
                 summary: Shipping with EEI Form
                 value:
                   ShipmentRequest:
@@ -1456,7 +1456,7 @@ paths:
                       PackageID: ''
                       InformationSourceCode: ''
                       ShipmentValueThresholdCode: '01'
-              '12':
+              'Shipping with Tax ID':
                 summary: Shipping with Tax ID
                 value:
                   ShipmentRequest:
@@ -1736,7 +1736,7 @@ paths:
                       PackageID: ''
                       InformationSourceCode: ''
                       ShipmentValueThresholdCode: '01'
-              '13':
+              'Shipping with Carbon Offsets':
                 summary: Shipping with Carbon Offsets
                 value:
                   ShipmentRequest:
@@ -1835,7 +1835,7 @@ paths:
                         PackageServiceOptions:
                           PackedByStoreIndicator: ''
                           PackageIdentifier: '123'
-              '14':
+              'Trade direct - Master shipment':
                 summary: Trade direct - Master shipment 
                 description: Trade direct master shipment creation request.
                 value:
@@ -1980,7 +1980,7 @@ paths:
                           Code: GIF
                           Description: GIF
                         HTTPUserAgent: Mozilla/4.5  
-              '15':
+              'Trade direct - Child shipment ':
                 summary: Trade direct - Child shipment 
                 description: Trade direct child shipment creation request.
                 value:
@@ -2119,7 +2119,7 @@ paths:
                         LabelStockSize:
                           Height: '6'
                           Width: '4'
-              '16':
+              'Trade direct - LTL shipment':
                 summary: Trade direct - LTL shipment 
                 description: Trade direct LTL child shipment creation request.
                 value:
@@ -2274,7 +2274,7 @@ paths:
                         LabelStockSize:
                           Height: '6'
                           Width: '4'
-              '17':
+              'WorldEase Shipment':
                 summary: WorldEase Shipment
                 description: A basic WorldEase shipment request with a single package
                 value:
@@ -2522,7 +2522,7 @@ paths:
             schema:
               "$ref": "#/components/schemas/LABELRECOVERYRequestWrapper"
             examples:
-              '1':
+              'Standard Example':
                 summary: Label Recovery Request (Standard Example)
                 value:
                   LabelRecoveryRequest:
@@ -2546,7 +2546,7 @@ paths:
                       Code: '01'
                       DialectCode: US
                       LanguageCode: eng
-              '2':
+              'Label Recovery Request (Roadie)':
                 summary: Label Recovery Request (Roadie)
                 value:
                   LabelRecoveryRequest:
@@ -7113,7 +7113,7 @@ components:
         ReasonForExport:
           description: |-
             A reason to export the current international shipment.
-            Valid values: SALE, GIFT, SAMPLE, RETURN, REPAIR, INTERCOMPANYDATA, Any other reason.  Applies to Invoice and Partial Invoice forms only. Required for Invoice forms and Optional for Partial Invoice. Required for EU Inbound shipments.
+            Valid values: SALE, GIFT, SAMPLE, RETURN, REPAIR, INTERCOMPANYDATA, Any other reason.  Applies to Invoice and Partial Invoice forms only. Required for Invoice forms and Optional for Partial Invoice. No validation.
           maximum: 1
           type: string
           minLength: 1
@@ -8370,16 +8370,6 @@ components:
         TaxesPaid:
           description: "Invoice Commodity Level Tax Collected Code for each shipment commodity line.Taxes paid Indicator is only applicable for shipments to Singapore. [TaxesPaid = 0 - No on Report], [TaxesPaid = 1 -Yes on Report], [TaxesPaid = empty - null on Report], [If TaxesPaid is not passed in input request = null on Report]"
           type: string
-        ProductIdentifierExemptIndicator:
-          description: If the exemption indicator is set to true, the Product Identifiers are optional and not required. Valid values are true/false. Conditionally Required for EU Inbound shipments.
-          type: boolean
-          default: false
-        ProductIdentifier:
-          description: The Product Identifier array contains the following pair of fields<br/>1) Product ID<br/>2) Product ID Type Code. <br/>Required if ProductIdentifierExemptIndicator is false. Conditionally Required for EU Inbound shipments.
-          type: array
-          maximum: 6
-          items:
-            "$ref": "#/components/schemas/InternationalForms_ProductIdentifier"
         ExcludeFromForm:
           "$ref": "#/components/schemas/Product_ExcludeFromForm"
         PackingListInfo:
@@ -8459,19 +8449,6 @@ components:
         name: UnitOfMeasurement
       description: Container tag for the Unit of measurement for the commodity.  Required
         for Invoice forms and optional for Partial Invoice.
-    InternationalForms_ProductIdentifier:
-      type: object
-      properties:
-        ProductID:
-          description: A generic field that can contain any type of product identifier used to specify a commodity/product. Every Product ID field must have a corresponding Product ID Type Code field to specify the type of product identifier it contains. This field can hold any one of the defined Product Identifiers - Merchant Product Identifier, Manufacturer Product Identifier and Standardized Product Identifier. Conditionally Required for EU Inbound shipments.
-          type: string
-          maxLength: 100
-        ProductIDTypeCode:
-          description: A code that specifies the type of product identifier in the Product ID field. Conditionally Required for EU Inbound shipments.<br/>Valid values<br/>0100 = Merchant Product Identifier<br/>0200 = Manufacturer Product Identifier<br/>0300 = Standardized Product Identifier.
-          type: string
-          minLength: 4
-          maxLength: 4
-      description: Container for Product Identifier information.
     Product_NetCostDateRange:
       type: object
       maximum: 1
