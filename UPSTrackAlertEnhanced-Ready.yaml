@@ -136,7 +136,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PackageSubscriptionRequest'
             examples:
-              '1':
+              'Standard Request':
                 summary: Standard Request
                 value:
                   locale: en_US
@@ -144,7 +144,7 @@ paths:
                   trackingNumberList:
                     - 1ZCIETST0111111114
                     - 1ZCIETST0422222228
-              '2':
+              'Enhanced Request':
                 summary: Enhanced Request
                 value:
                   locale: en_US
@@ -222,7 +222,7 @@ paths:
                   errors:
                     - code: "10004"
                       message: Something went wrong while processing your request, please try again later
-webhooks:
+  webhooks:
   TrackingEvent:
     post:
       summary: Tracking Event
@@ -251,7 +251,7 @@ webhooks:
             schema:
               $ref: '#/components/schemas/TrackingEventRequest'
             examples:
-              '1':
+              'Out for delivery message':
                 summary: Out for delivery message
                 value:
                   trackingNumber: 1Z204W4R0308071865
