@@ -6847,7 +6847,7 @@ components:
           maximum: 1
           type: string
           minLength: 1
-          maxLength: 1
+          maxLength: 3
         EMail:
           "$ref": "#/components/schemas/Notification_EMail"
         VoiceMessage:
@@ -9178,7 +9178,7 @@ components:
         - RecipientEmail
       properties:
         SecurePINType:
-          description: Specifies the type of Secure PIN. Valid value is 2, which represents VDS (Shipper Generated PIN). This field is required.
+          description: Specifies the type of Secure PIN. This field is required. <br/>Valid values:<br/>1 - VDU(UPS Generated PIN) <br/>2 - VDS(Shipper Generated PIN)
           required: SecurePINType
           maximum: 1
           type: string
@@ -9197,7 +9197,7 @@ components:
           minLength: 1
           maxLength: 50
         RecipientPhone:
-          description: Recipient phone number for notifications. Valid characters are digits (0-9) only. This field is optional.
+          description: Recipient phone number for notifications. Valid characters are digits (0-9) only. Required when the destination country is within the Europe region, otherwise optional.
           maximum: 1
           type: string
           minLength: 1
