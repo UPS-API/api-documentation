@@ -1,0 +1,313 @@
+openapi: 3.1.0
+
+info:
+  title: Lynkup Workflow API v1
+  version: '1.0'
+  description: |
+    The Lynkup Workflow API lets you execute solutions built in low-code Workflow Builder.
+
+servers:
+  - url: https://api.lynkup.com/workflow/v1
+    description: Lynkup Workflow API
+
+tags:
+  - name: Workflow
+    description: Endpoints for executing Workflow Builder solutions.
+
+paths:
+  /solutions/{solution_id}:
+    post:
+      summary: "Run a Solution"
+      description: |
+        Executes a solution created via Lynkup’s low-code Workflow Builder.  
+        Both the **request and response bodies are fully dynamic**, defined by the solution’s inputs and outputs.
+      operationId: runSolution
+      tags:
+        - Workflow
+      parameters:
+        - $ref: "#/components/parameters/Content-Type"
+        - $ref: "#/components/parameters/solutionId"
+      requestBody:
+        description: "Solution-dependent input payload with full dynamic structure."
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkflowRequest"
+            examples:
+              OrderRunExample:
+                summary: "DoorDash Pickup order payload"
+                value:
+                  storeExternalId: "DoorDash-Pickup"
+                  orderExternalId: "ORD-16807"
+                  orderValue: 1110
+                  tips: 11.11
+                  deliveryContact:
+                    name: "John Doe"
+                    phone: "+14243545456"
+                    notifySms: true
+                    notifyEmail: true
+                  deliveryAddress:
+                    street: "1817 Mount Holly Road"
+                    city: "Burlington"
+                    state: "NJ"
+                    country: "US"
+                    zipcode: "08016"
+      responses:
+        '200':
+          description: "Solution executed successfully; response payload is dynamic per solution."
+          headers:
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowResponse"
+              examples:
+                GenericResponse:
+                  summary: "Example dynamic response"
+                  value:
+                    provider: "DoorDash"
+                    trackingNumber: 2525837936
+        '400':
+          description: "Bad Request – missing or invalid solution_id or payload"
+          headers:
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                BadInput:
+                  summary: "Missing solution_id"
+                  value:
+                    message: "solution_id is a required field. The field is missing"
+                    type: "INVALID_DATA"
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "solution_id is a required field. The field is missing"
+                        parameter: "solution_id"
+                        entityId: null
+                        entity: null
+                ValidationError:
+                  summary: "Missing or invalid values in request body"
+                  value:
+                    message: "Failed to process request"
+                    type: "2_ERROR"
+                    errors:
+                      - type: "INVALID_DATA"
+                        message: "locationExternalId is a required field. The field is missing."
+                        parameter: "locationExternalId"
+                        entityId: null
+                        entity: null
+                      - type: "INVALID_DATA"
+                        message: "Invalid deliveryAddress"
+                        parameter: "deliveryAddress"
+                        entityId: null
+                        entity: null
+        '404':
+          description: Not Found – the specified solution_id does not exist
+          headers:
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                NotFoundExample:
+                  summary: "Solution not found"
+                  value:
+                    type: "NOT_FOUND"
+                    message: "Solution with id 21ef43f66e521ab8 is not found"
+                    errors: []
+        '422':
+          description: "Processing failed as request contains invalid operation"
+          headers:
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                InvalidOperationExample:
+                  summary: "Invalid operation value"
+                  value:
+                    type: "INVALID_OPERATION"
+                    message: "INVALID_OPERATION"
+                    errors:
+                      - type: "INVALID_OPERATION"
+                        message: "The Order can no longer be retried."
+                        entity: null
+                        entityId: null
+                        parameter: null
+        '500':
+          description: "Internal server error"
+          headers:
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
+              examples:
+                InternalServerError:
+                  summary: "Unexpected server error"
+                  value:
+                    message: "An unexpected error occurred. Please try again later."
+                    type: "INTERNAL_SERVER_ERROR"
+                    errors:
+                      - type: "SERVER_ERROR"
+                        message: "An unexpected error occurred while processing the request."
+        '401':
+          description: "Unauthorized"
+          headers:
+            Content-Type:
+              $ref: "#/components/headers/Content-Type"
+            APIErrorCode:
+              $ref: "#/components/headers/APIErrorCode"
+            APIErrorMessage:
+              $ref: "#/components/headers/APIErrorMsg"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UPSErrorResponse'
+              example:
+                response:
+                  errors:
+                    - code: UJ0001
+                      message: Invalid token or token is not present.
+
+components:
+  headers:
+    Content-Type:
+      description: The Content-Type header provides the client with the actual content/media type of the returned content.
+      schema:
+        type: string
+        example: application/json
+    APIErrorCode:
+      description: The API error code.
+      schema:
+        type: string
+        example: UJ0001
+    APIErrorMsg:
+      description: The API error message.
+      schema:
+        type: string
+        example: Invalid token or token is not present.
+  parameters:
+    Content-Type:
+      name: Content-Type
+      in: header
+      description: The Content-Type header provides the client with the actual content/media type of the returned content.
+      required: true
+      schema:
+        type: string
+        example: application/json
+    solutionId:
+      name: solution_id
+      in: path
+      required: true
+      description: "The unique solution ID generated by the system."
+      schema:
+        type: string
+        pattern: '^[0-9a-f]{16}$'
+        example: "21ef43f66e521ab8"
+  schemas:
+    WorkflowRequest:
+      type: object
+      additionalProperties: true
+    WorkflowResponse:
+      type: object
+      additionalProperties: true
+    InvalidRequest:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    ErrorDetail:
+      type: object
+      required:
+        - type
+        - message
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+        parameter:
+          type:
+            - string
+            - 'null'
+        entityId:
+          type:
+            - string
+            - 'null'
+        entity:
+          type:
+            - string
+            - 'null'
+    UPSErrorResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/Response'
+    Response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorMessage'
+    ErrorMessage:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code.
+          example: VSS300
+        message:
+          type: string
+          description: The error message.
+          example: solution_id is a required field. The field is missing..
+      description: The error response containing any errors that occurred.
+
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: |
+        Find your Client ID and Secret on your app info page. <br/> 
+         1. Select \\\"Try It\\\" <br/>  
+         2. In the Security section enter your Client ID and Secret.<br/> 
+         3. Select \\\"Request Token\\\"<br/> 
+         4. Enter any additional information in the Body and Parameters sections.<br> 
+         5. Select \\\"Send\\\" to execute your API request
+      flows:
+        clientCredentials:
+          x-tokenEndpointAuthMethod: client_secret_basic
+          tokenUrl: https://api.lynkup.com/ent-services/security/v1/oauth/token
+          scopes: {}
