@@ -7401,8 +7401,8 @@ components:
             if the CN22 form container is present."
           maximum: 1
           type: string
-          minLength: 2
-          maxLength: 2
+          minLength: 1
+          maxLength: 1
         PrintsPerPage:
           description: Number of label per page. Currently 1 per page is supported.  Required
             if the CN22 form container is present.
@@ -7430,14 +7430,14 @@ components:
             is present.
           maximum: 1
           type: string
-          minLength: 20
+          minLength: 1
           maxLength: 20
         FoldHereText:
           description: String will replace default "Fold Here" text displayed on the
-            label.
+            label and its optional.
           maximum: 1
           type: string
-          minLength: 35
+          minLength: 1
           maxLength: 35
         CN22Content:
           type: array
@@ -7479,7 +7479,7 @@ components:
             if the CN22 form container is present.
           maximum: 1
           type: string
-          minLength: 9
+          minLength: 1
           maxLength: 9
         CN22ContentCurrencyCode:
           description: Currently only USD is supported.  Required if the CN22 form
