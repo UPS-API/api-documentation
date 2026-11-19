@@ -8237,8 +8237,8 @@ components:
           type: array
           items:
             type: string
-          minLength: 1
-          maxLength: 35
+            minLength: 1
+            maxLength: 35
         Unit:
           "$ref": "#/components/schemas/Product_Unit"
         CommodityCode:
@@ -8618,8 +8618,8 @@ components:
           type: array
           items:
             type: string
-          minLength: 2
-          maxLength: 2
+            minLength: 2
+            maxLength: 2
       xml:
         name: ExcludeFromForm
       description: Container tag for determining whether or not to exclude product
